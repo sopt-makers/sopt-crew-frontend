@@ -274,7 +274,7 @@ const stitches = createStitches({
       return {
         fontSize: `$${fontSize}`,
         fontWeight: `$${fontWeight}`,
-        fontHeight: `$${fontHeight}`,
+        lineHeight: `$${fontHeight}`,
       };
     },
     flexType: (value: 'center' | 'horizontalCenter' | 'verticalCenter') => {
