@@ -8,7 +8,14 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Box css={{ maxWidth: '1200px', color: theme.colors.white, mx: '$auto' }}>
+      <Box
+        css={{
+          maxWidth: '1260px',
+          color: theme.colors.white,
+          mx: '$auto',
+          px: '$30',
+        }}
+      >
         <Component {...pageProps} />
       </Box>
     </QueryClientProvider>
