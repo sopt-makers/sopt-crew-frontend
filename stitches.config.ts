@@ -105,7 +105,6 @@ const stitches = createStitches({
     fonts: {
       untitled: 'Untitled Sans, apple-system, sans-serif',
       mono: 'Söhne Mono, menlo, monospace',
-      oriya: 'Oriya MN',
     },
     fontWeights: {
       thin: 100,
