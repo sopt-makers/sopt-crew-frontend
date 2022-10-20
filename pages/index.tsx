@@ -3,14 +3,11 @@ import Tabs from '@components/tabs/Tabs';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [selectedTab, setSelectedTab] = useState('all');
   const handleChange = (text: string) => {
-    setSelectedTab(text);
-    router.push(text);
+    router.push(text === 'all' ? '/' : text);
   };
 
   return (
@@ -23,7 +20,7 @@ const Home: NextPage = () => {
 
       <main>
         main 메이지
-        <Tabs text={selectedTab} onChange={handleChange}>
+        <Tabs text={'all'} onChange={handleChange}>
           <Tab text={'all'}>모임 전체</Tab>
           <Tab text={'mine'}>내 모임</Tab>
         </Tabs>
