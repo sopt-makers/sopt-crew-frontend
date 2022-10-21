@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
-import { useTabsContext } from './Tabs';
+import { useTabsContext } from './TabsContext';
 
 export interface TabProps {
   text: string;
