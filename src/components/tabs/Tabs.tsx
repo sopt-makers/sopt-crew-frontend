@@ -48,4 +48,5 @@ export default Tabs;
 
 const STabs = styled(Box, {
   display: 'flex',
+  cursor: 'pointer',
 });
