@@ -50,12 +50,14 @@ function Detail() {
   return (
     <div>
       <Tabs text={selectedTab} size={'small'} onChange={handleChange}>
-        {detailList.map(({ title }) => (
-          <Tab text={title}>{title}</Tab>
+        {detailList.map(({ id, title }) => (
+          <Tab key={id} text={title}>
+            {title}
+          </Tab>
         ))}
       </Tabs>
       {detailList.map(({ id, title, content }) => (
-        <SDetail ref={element => (tabRef.current[id] = element)}>
+        <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
           <STitle>{title}</STitle>
           <SContent>{content}</SContent>
         </SDetail>
