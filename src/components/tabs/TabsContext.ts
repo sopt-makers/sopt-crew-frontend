@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 interface TabsContextProps {
   text: string;
@@ -13,5 +13,5 @@ export const TabsContext = createContext<TabsContextProps>({
 });
 
 export const useTabsContext = () => {
-  return React.useContext(TabsContext);
+  return useContext(TabsContext);
 };
