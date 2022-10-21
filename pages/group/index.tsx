@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        main 메이지
+        main 페이지
         <Tabs text={selectedTab} size={'big'} onChange={handleChange}>
           <Tab text={'all'}>모임 전체</Tab>
           <Tab text={'mine'}>내 모임</Tab>
