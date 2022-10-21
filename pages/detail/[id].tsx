@@ -11,7 +11,7 @@ function Detail() {
   return (
     <div>
       모임 상세 페이지
-      <Tabs text={selectedTab} onChange={handleChange}>
+      <Tabs text={selectedTab} size={'small'} onChange={handleChange}>
         <Tab text={'introduction'}>모임 소개</Tab>
         <Tab text={'period'}>모임 기간</Tab>
         <Tab text={'method'}>진행 방식</Tab>

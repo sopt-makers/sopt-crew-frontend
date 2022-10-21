@@ -8,10 +8,14 @@ export interface TabProps {
 }
 
 function Tab({ text, children }: PropsWithChildren<TabProps>) {
-  const { text: selectedTab, onChange } = useTabsContext();
+  const { text: selectedTab, size, onChange } = useTabsContext();
 
   return (
-    <STab isSelected={text === selectedTab} onClick={() => onChange(text)}>
+    <STab
+      isSelected={text === selectedTab}
+      isSmall={size === 'small'}
+      onClick={() => onChange(text)}
+    >
       {children}
     </STab>
   );
@@ -24,9 +28,22 @@ const STab = styled(Box, {
     isSelected: {
       true: {
         color: '$white',
+        borderBottom: `4px solid $white`,
       },
       false: {
         color: '$gray100',
+      },
+    },
+    isSmall: {
+      true: {
+        pb: '$24',
+        fontAg: '24_semibold_100',
+        paddingBottom: '$17',
+      },
+      false: {
+        pb: '$17',
+        fontAg: '32_bold_100',
+        paddingBottom: '$24',
       },
     },
   },
