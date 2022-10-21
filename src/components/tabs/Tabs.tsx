@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { TabProps } from './Tab';
 
 interface TabsProps {
@@ -20,8 +20,7 @@ export const useTabsContext = () => {
   return React.useContext(TabsContext);
 };
 
-function Tabs(props: TabsProps) {
-  const { text, onChange, children } = props;
+function Tabs({ text, onChange, children }: PropsWithChildren<TabsProps>) {
   return (
     <TabsContext.Provider value={{ text, onChange }}>
       {children}
