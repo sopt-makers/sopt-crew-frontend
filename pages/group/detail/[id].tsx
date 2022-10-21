@@ -49,7 +49,7 @@ function Detail() {
 
   return (
     <div>
-      <Tabs text={selectedTab} size={'small'} onChange={handleChange}>
+      <Tabs text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
           <Tab key={id} text={title}>
             {title}
