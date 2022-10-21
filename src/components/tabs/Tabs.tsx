@@ -34,7 +34,7 @@ function Tabs({
   return (
     <STabs
       css={{
-        gap: size === 'small' ? '$24' : '$32',
+        gap: size === 'small' ? '$32' : '$24',
       }}
     >
       <TabsContext.Provider value={{ text, size, onChange }}>
