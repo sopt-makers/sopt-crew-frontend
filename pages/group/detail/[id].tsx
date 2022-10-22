@@ -1,9 +1,17 @@
 import { Box } from '@components/box/Box';
+import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
+import {
+  imgExample1,
+  imgExample2,
+  imgExample3,
+  imgExample4,
+} from 'public/assets/img';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
 function Detail() {
+  const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
   const tabRef = useRef(new Array());
   const detailList = [
     {
@@ -48,6 +56,7 @@ function Detail() {
 
   return (
     <div>
+      <Carousel imageList={imageList} />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
           <TabList.Item key={id} text={title}>
