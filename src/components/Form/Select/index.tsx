@@ -2,12 +2,8 @@ import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
-import ArrowSmallDownIcon from '@assets/svg/arrow_small_down.svg';
-
-export interface Option {
-  label: string;
-  value: string;
-}
+import { Option } from './types';
+import Button from './Button';
 
 interface SelectProps {
   label?: string;
@@ -23,14 +19,7 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
       {({ open }) => (
         <>
           {label && <Label required={required}>{label}</Label>}
-          <Listbox.Button as={Fragment}>
-            <Button>
-              {value.label}
-              <ArrowSmallDownIcon
-                style={{ transform: `rotate(${open ? '180deg' : '0'})` }}
-              />
-            </Button>
-          </Listbox.Button>
+          <Button value={value} open={open} />
 
           <Listbox.Options as={Fragment}>
             <OptionList>
@@ -51,17 +40,6 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
 
 export default Select;
 
-const Button = styled('button', {
-  minWidth: '147px',
-  padding: '16px 20px 16px 16px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: 8,
-  color: '$white',
-  background: '$black40',
-  borderRadius: 10,
-});
 const OptionList = styled('ul', {
   padding: '8px 0px',
   display: 'flex',
