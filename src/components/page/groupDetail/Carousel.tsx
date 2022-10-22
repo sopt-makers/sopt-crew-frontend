@@ -14,13 +14,11 @@ function Carousel({ imageList }: CarouselProps) {
   const lastIndex = imageList.length - 1;
 
   const handleLeftClick = () => {
-    if (index > 0) setIndex(prev => prev - 1);
-    else if (index === 0) setIndex(lastIndex);
+    setIndex(prev => (index > 0 ? prev - 1 : lastIndex));
   };
 
   const handleRightClick = () => {
-    if (index < lastIndex) setIndex(prev => prev + 1);
-    else if (index === lastIndex) setIndex(0);
+    setIndex(prev => (prev === lastIndex ? 0 : prev + 1));
   };
 
   useEffect(() => {
