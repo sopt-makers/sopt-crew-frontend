@@ -16,7 +16,6 @@ const Home: NextPage = () => {
           <TabList.Item text="all">모임 전체</TabList.Item>
           <TabList.Item text="mine">내 모임</TabList.Item>
         </TabList>
-        <div style={{ height: '300px' }} />
       </main>
     </div>
   );
