@@ -1,4 +1,5 @@
-import Select, { Option } from '@components/Form/Select';
+import Select from '@components/Form/Select';
+import { Option } from '@components/Form/Select/types';
 import { TabList } from '@components/tabList/TabList';
 import type { NextPage } from 'next';
 import { useState } from 'react';

@@ -4,6 +4,7 @@ import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
 import { Option } from './types';
 import Button from './Button';
+import OptionItem from './OptionItem';
 
 interface SelectProps {
   label?: string;
@@ -24,11 +25,7 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
           <Listbox.Options as={Fragment}>
             <OptionList>
               {options.map(option => (
-                <Listbox.Option as={Fragment} key={option.label} value={option}>
-                  {({ selected }) => (
-                    <OptionItem selected={selected}>{option.label}</OptionItem>
-                  )}
-                </Listbox.Option>
+                <OptionItem key={option.value} option={option} />
               ))}
             </OptionList>
           </Listbox.Options>
@@ -47,20 +44,4 @@ const OptionList = styled('ul', {
   background: '$black40',
   border: '1px solid $black40',
   borderRadius: 10,
-});
-const OptionItem = styled('div', {
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '12px 16px',
-  background: '$black40',
-  fontAg: '18_medium_100',
-  variants: {
-    selected: {
-      true: {
-        fontAg: '18_bold_100',
-        color: '$purple100',
-      },
-    },
-  },
 });
