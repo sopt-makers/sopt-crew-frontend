@@ -1,6 +1,5 @@
 import { Box } from '@components/box/Box';
-import Tab from '@components/tabs/Tab';
-import Tabs from '@components/tabs/Tabs';
+import { TabList } from '@components/tabList/TabList';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
@@ -49,13 +48,13 @@ function Detail() {
 
   return (
     <div>
-      <Tabs text={selectedTab} size="small" onChange={handleChange}>
+      <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
-          <Tab key={id} text={title}>
+          <TabList.Item key={id} text={title}>
             {title}
-          </Tab>
+          </TabList.Item>
         ))}
-      </Tabs>
+      </TabList>
       {detailList.map(({ id, title, content }) => (
         <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
           <STitle>{title}</STitle>

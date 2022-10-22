@@ -1,5 +1,4 @@
-import Tab from '@components/tabs/Tab';
-import Tabs from '@components/tabs/Tabs';
+import { TabList } from '@components/tabList/TabList';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -20,10 +19,10 @@ const Home: NextPage = () => {
 
       <main>
         main 페이지
-        <Tabs text={selectedTab} size="big" onChange={handleChange}>
-          <Tab text="all">모임 전체</Tab>
-          <Tab text="mine">내 모임</Tab>
-        </Tabs>
+        <TabList text={selectedTab} size="big" onChange={handleChange}>
+          <TabList.Item text="all">모임 전체</TabList.Item>
+          <TabList.Item text="mine">내 모임</TabList.Item>
+        </TabList>
       </main>
     </div>
   );

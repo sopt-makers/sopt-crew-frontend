@@ -1,17 +1,17 @@
 import { createContext, useContext } from 'react';
 
-interface TabsContextProps {
+interface TabListContextProps {
   text: string;
   size: string;
   onChange: (text: string) => void;
 }
 
-export const TabsContext = createContext<TabsContextProps>({
+export const TabListContext = createContext<TabListContextProps>({
   text: '',
   size: '',
   onChange: () => {},
 });
 
-export const useTabsContext = () => {
-  return useContext(TabsContext);
+export const useTabListContext = () => {
+  return useContext(TabListContext);
 };
