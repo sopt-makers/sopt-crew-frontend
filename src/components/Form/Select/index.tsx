@@ -28,7 +28,9 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
         <OptionList>
           {options.map(option => (
             <Listbox.Option as={Fragment} key={option.label} value={option}>
-              <OptionItem>{option.label}</OptionItem>
+              {({ selected }) => (
+                <OptionItem selected={selected}>{option.label}</OptionItem>
+              )}
             </Listbox.Option>
           ))}
         </OptionList>
@@ -40,14 +42,36 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
 export default Select;
 
 const Button = styled('button', {
+  padding: '16px 20px 16px 16px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 8,
   color: '$white',
+  background: '$black40',
+  borderRadius: 10,
 });
 const OptionList = styled('ul', {
+  padding: '8px 0px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '10px',
+  background: '$black40',
+  border: '1px solid $black40',
+  borderRadius: 10,
 });
 const OptionItem = styled('div', {
-  border: '1px solid $white',
   cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '12px 16px',
+  background: '$black40',
+  fontAg: '18_medium_100',
+  variants: {
+    selected: {
+      true: {
+        fontAg: '18_bold_100',
+        color: '$purple100',
+      },
+    },
+  },
 });
