@@ -50,6 +50,9 @@ const STabList = styled(Box, {
 });
 
 const STab = styled(Box, {
+  '&:hover': {
+    color: '$white',
+  },
   variants: {
     isSelected: {
       true: {
