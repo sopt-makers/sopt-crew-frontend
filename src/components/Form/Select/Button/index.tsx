@@ -10,13 +10,13 @@ interface ButtonProps {
 }
 
 function Button({ value, open }: ButtonProps) {
+  const isNotSelected = value.value === null;
+
   return (
     <Listbox.Button as={Fragment}>
-      <SButton>
+      <SButton isNotSelected={isNotSelected}>
         {value.label}
-        <ArrowSmallDownIcon
-          style={{ transform: `rotate(${open ? '180deg' : '0'})` }}
-        />
+        <SArrowDownIcon open={open} isNotSelected={isNotSelected} />
       </SButton>
     </Listbox.Button>
   );
@@ -35,4 +35,32 @@ const SButton = styled('button', {
   color: '$white',
   background: '$black40',
   borderRadius: 10,
+  variants: {
+    isNotSelected: {
+      true: {
+        color: '$gray100',
+      },
+    },
+  },
+});
+const SArrowDownIcon = styled(ArrowSmallDownIcon, {
+  variants: {
+    open: {
+      true: {
+        transform: 'rotate(180deg)',
+      },
+    },
+    isNotSelected: {
+      true: {
+        '& path': {
+          stroke: '$gray100',
+        },
+      },
+      false: {
+        '& path': {
+          stroke: '$white',
+        },
+      },
+    },
+  },
 });

@@ -16,7 +16,7 @@ interface SelectProps {
 
 function Select({ label, value, options, required, onChange }: SelectProps) {
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox value={value} onChange={onChange} as="div">
       {({ open }) => (
         <>
           {label && <Label required={required}>{label}</Label>}
@@ -24,9 +24,12 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
 
           <Listbox.Options as={Fragment}>
             <OptionList>
-              {options.map(option => (
-                <OptionItem key={option.value} option={option} />
-              ))}
+              {options
+                // NOTE: value가 null 이면 placeholder 전용 옵션. 이는 제거하고 목록을 보여주자.
+                .filter(option => option.value)
+                .map(option => (
+                  <OptionItem key={option.value} option={option} />
+                ))}
             </OptionList>
           </Listbox.Options>
         </>

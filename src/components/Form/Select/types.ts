@@ -1,4 +1,5 @@
 export interface Option {
   label: string;
-  value: string;
+  // NOTE: null 은 placeholder
+  value: string | null;
 }
