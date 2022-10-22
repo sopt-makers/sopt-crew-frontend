@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
+import ArrowSmallDownIcon from '@assets/svg/arrow_small_down.svg';
 
 export interface Option {
   label: string;
@@ -19,22 +20,31 @@ interface SelectProps {
 function Select({ label, value, options, required, onChange }: SelectProps) {
   return (
     <Listbox value={value} onChange={onChange}>
-      {label && <Label required={required}>{label}</Label>}
-      <Listbox.Button as="div">
-        <Button>{value.label}</Button>
-      </Listbox.Button>
+      {({ open }) => (
+        <>
+          {label && <Label required={required}>{label}</Label>}
+          <Listbox.Button as={Fragment}>
+            <Button>
+              {value.label}
+              <ArrowSmallDownIcon
+                style={{ transform: `rotate(${open ? '180deg' : '0'})` }}
+              />
+            </Button>
+          </Listbox.Button>
 
-      <Listbox.Options as={Fragment}>
-        <OptionList>
-          {options.map(option => (
-            <Listbox.Option as={Fragment} key={option.label} value={option}>
-              {({ selected }) => (
-                <OptionItem selected={selected}>{option.label}</OptionItem>
-              )}
-            </Listbox.Option>
-          ))}
-        </OptionList>
-      </Listbox.Options>
+          <Listbox.Options as={Fragment}>
+            <OptionList>
+              {options.map(option => (
+                <Listbox.Option as={Fragment} key={option.label} value={option}>
+                  {({ selected }) => (
+                    <OptionItem selected={selected}>{option.label}</OptionItem>
+                  )}
+                </Listbox.Option>
+              ))}
+            </OptionList>
+          </Listbox.Options>
+        </>
+      )}
     </Listbox>
   );
 }
@@ -42,6 +52,7 @@ function Select({ label, value, options, required, onChange }: SelectProps) {
 export default Select;
 
 const Button = styled('button', {
+  minWidth: '147px',
   padding: '16px 20px 16px 16px',
   display: 'flex',
   alignItems: 'center',
