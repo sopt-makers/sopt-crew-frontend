@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled } from 'stitches.config';
 import React, { HTMLAttributes } from 'react';
 
 interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
@@ -10,10 +10,7 @@ interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, message, required, ...props }: TextInputProps, ref) => (
     <>
-      <Label>
-        {label}
-        {required ? '*' : ''}
-      </Label>
+      <Label required={required}>{label}</Label>
       {message && <Message>{message}</Message>}
       <Input type="text" ref={ref} {...props} />
     </>
@@ -24,8 +21,18 @@ const Label = styled('label', {
   marginBottom: 12,
   display: 'inline-block',
   width: '100%',
-  fontAg: '18_semibd_100',
+  fontAg: '18_semibold_100',
   color: '$white',
+  variants: {
+    required: {
+      true: {
+        '&::after': {
+          content: '*',
+          marginLeft: 1,
+        },
+      },
+    },
+  },
 });
 const Message = styled('span', {
   marginBottom: 18,
