@@ -1,21 +1,21 @@
 import { styled } from '@stitches/react';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
-type TextInputProps = {
+interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   label: string;
   message?: string;
   required?: boolean;
-};
+}
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, message, required }: TextInputProps, ref) => (
+  ({ label, message, required, ...props }: TextInputProps, ref) => (
     <>
       <Label>
         {label}
         {required ? '*' : ''}
       </Label>
       {message && <Message>{message}</Message>}
-      <Input type="text" ref={ref} />
+      <Input type="text" ref={ref} {...props} />
     </>
   )
 );
