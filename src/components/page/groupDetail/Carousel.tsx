@@ -1,79 +1,65 @@
 import { Box } from '@components/box/Box';
-import BigArrowIcon from '@components/icon/ArrowIcon';
 import Image, { StaticImageData } from 'next/image';
-import { useEffect, useState } from 'react';
+import Slider from 'react-slick';
 import { styled } from 'stitches.config';
+import NextArrow from './NextArrow';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 interface CarouselProps {
   imageList: StaticImageData[];
 }
 
-function Carousel({ imageList }: CarouselProps) {
-  const [index, setIndex] = useState(0);
-  const [image, setImage] = useState(imageList[index]);
-  const lastIndex = imageList.length - 1;
-
-  const handleLeftClick = () => {
-    setIndex(prev => (index > 0 ? prev - 1 : lastIndex));
+const Carousel = ({ imageList }: CarouselProps) => {
+  const settings = {
+    dots: false,
+    infinite: true,
+    autoplay: true,
+    speed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <NextArrow />,
+    nextArrow: <NextArrow />,
   };
-
-  const handleRightClick = () => {
-    setIndex(prev => (prev === lastIndex ? 0 : prev + 1));
-  };
-
-  useEffect(() => {
-    setImage(imageList[index]);
-  }, [index]);
 
   return (
     <SCarousel>
-      <SButton onClick={handleLeftClick}>
-        <BigArrowIcon />
-      </SButton>
-      <SImageWrapper>
-        <Image src={image} width="869" height="594" alt="" />
-      </SImageWrapper>
-      <SButton onClick={handleRightClick}>
-        <BigArrowIcon />
-      </SButton>
+      <Slider {...settings}>
+        {imageList.map((image, index) => (
+          <SImageWrapper key={index}>
+            <Image src={image} alt="" />
+          </SImageWrapper>
+        ))}
+      </Slider>
     </SCarousel>
   );
-}
+};
 
 export default Carousel;
 
 const SCarousel = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  '.slick-slider': {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '$60',
+    marginBottom: '$80',
+  },
 
-  '& button:last-child': {
+  '& > div > div:first-child': {
+    marginRight: '94px',
+  },
+
+  '& > div > div:last-child': {
     transform: 'rotate(180deg)',
-  },
-});
-
-const SButton = styled('button', {
-  width: '$72',
-  height: '$72',
-
-  '& svg': {
-    display: 'block',
-    margin: '0 auto',
-  },
-
-  '& path': {
-    stroke: '$black20',
-  },
-
-  '&:hover': {
-    path: {
-      stroke: '$white',
-    },
+    marginLeft: '93px',
   },
 });
 
 const SImageWrapper = styled(Box, {
-  marginTop: '$60',
-  marginBottom: '$80',
-  img: { borderRadius: '14px', objectFit: 'cover' },
+  img: {
+    borderRadius: '14px',
+    objectFit: 'cover',
+    width: '$869',
+    height: '$594',
+  },
 });
