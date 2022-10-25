@@ -10,7 +10,7 @@ import {
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
-function Detail() {
+const DetailPage = () => {
   const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
   const tabRef = useRef(new Array());
   const detailList = [
@@ -55,7 +55,7 @@ function Detail() {
   };
 
   return (
-    <div>
+    <SDetailPage>
       <Carousel imageList={imageList} />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
@@ -70,11 +70,15 @@ function Detail() {
           <SContent>{content}</SContent>
         </SDetail>
       ))}
-    </div>
+    </SDetailPage>
   );
-}
+};
 
-export default Detail;
+export default DetailPage;
+
+const SDetailPage = styled(Box, {
+  marginBottom: '374px',
+});
 
 const SDetail = styled(Box, {
   color: '$white',
