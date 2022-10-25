@@ -1,5 +1,6 @@
 import Card from '@components/page/groupList/Card';
 import GridLayout from '@components/page/groupList/GirdLayout';
+import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
 import type { NextPage } from 'next';
 import { useState } from 'react';
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
           <Card />
           <Card />
         </GridLayout>
+        <Pagination />
       </main>
     </div>
   );
