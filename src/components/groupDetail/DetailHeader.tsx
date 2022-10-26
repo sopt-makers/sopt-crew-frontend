@@ -12,7 +12,7 @@ const DetailHeader = () => {
   const current = 4;
   const total = 5;
   const isHost = false;
-  const [isApplied, setIsApplied] = useState(true);
+  const [isApplied, setIsApplied] = useState(false);
 
   const handleApplication = () => {
     setIsApplied(prev => !prev);
@@ -36,10 +36,10 @@ const DetailHeader = () => {
         <SProfile>
           <SProfileImage />
           <span>{hostName}</span>
-          {/* 여기 > 아이콘 추가 */}
+          <div>아이콘</div>
         </SProfile>
       </SAbout>
-      <SApplication>
+      <div>
         <SStatusButton>
           <div>
             <span>모집 현황</span>
@@ -47,7 +47,7 @@ const DetailHeader = () => {
               {current}/{total}명
             </span>
           </div>
-          {/* 여기 > 아이콘 추가 */}
+          <div>아이콘</div>
         </SStatusButton>
         {!isHost && (
           <SGuestButton isApplied={isApplied} onClick={handleApplication}>
@@ -60,7 +60,7 @@ const DetailHeader = () => {
             <button>수정</button>
           </SHostButton>
         )}
-      </SApplication>
+      </div>
     </SDetailHeader>
   );
 };
@@ -123,6 +123,10 @@ const SProfile = styled('button', {
   display: 'flex',
   alignItems: 'center',
   color: '$white',
+
+  '& > span': {
+    marginRight: '$16',
+  },
 });
 
 const SProfileImage = styled(Box, {
@@ -133,8 +137,6 @@ const SProfileImage = styled(Box, {
   marginRight: '$16',
   backgroundColor: '$black60',
 });
-
-const SApplication = styled(Box, {});
 
 const Button = styled('button', {
   width: '$300',
