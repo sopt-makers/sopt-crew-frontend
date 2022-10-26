@@ -45,6 +45,10 @@ const SCarousel = styled(Box, {
     marginBottom: '$80',
   },
 
+  '.slick-list': {
+    borderRadius: '14px',
+  },
+
   '& > div > div:first-child': {
     marginRight: '94px',
   },
@@ -57,7 +61,6 @@ const SCarousel = styled(Box, {
 
 const SImageWrapper = styled(Box, {
   img: {
-    borderRadius: '14px',
     objectFit: 'cover',
     width: '$869',
     height: '$594',
