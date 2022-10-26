@@ -10,7 +10,8 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = true;
+  const isHost = false;
+  const isApplied = true;
 
   return (
     <SDetailHeader>
@@ -41,7 +42,11 @@ const DetailHeader = () => {
           </div>
           {/* 여기 > 아이콘 추가 */}
         </SStatusButton>
-        {!isHost && <SGuestButton>신청하기</SGuestButton>}
+        {!isHost && (
+          <SGuestButton isApplied={isApplied}>
+            신청{isApplied ? ' 취소' : '하기'}
+          </SGuestButton>
+        )}
         {isHost && (
           <SHostButton>
             <button>삭제</button>
@@ -147,10 +152,20 @@ const SStatusButton = styled(Button, {
 });
 
 const SGuestButton = styled(Button, {
-  backgroundColor: '$purple100',
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
+
+  variants: {
+    isApplied: {
+      true: {
+        border: `2px solid $black40`,
+      },
+      false: {
+        backgroundColor: '$purple100',
+      },
+    },
+  },
 });
 
 const SHostButton = styled(Box, {
