@@ -10,6 +10,7 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
+  const isHost = true;
 
   return (
     <SDetailHeader>
@@ -40,7 +41,13 @@ const DetailHeader = () => {
           </div>
           {/* 여기 > 아이콘 추가 */}
         </SStatusButton>
-        <SApplicationButton>신청하기</SApplicationButton>
+        {!isHost && <SGuestButton>신청하기</SGuestButton>}
+        {isHost && (
+          <SHostButton>
+            <button>삭제</button>
+            <button>수정</button>
+          </SHostButton>
+        )}
       </SApplication>
     </SDetailHeader>
   );
@@ -58,6 +65,8 @@ const SDetailHeader = styled(Box, {
 });
 
 const SAbout = styled(Box, {
+  marginRight: '$90',
+
   '& > div': {
     display: 'flex',
     alignItems: 'center',
@@ -98,9 +107,10 @@ const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
 });
 
-const SProfile = styled(Box, {
+const SProfile = styled('button', {
   display: 'flex',
   alignItems: 'center',
+  color: '$white',
 });
 
 const SProfileImage = styled(Box, {
@@ -136,9 +146,29 @@ const SStatusButton = styled(Button, {
   },
 });
 
-const SApplicationButton = styled(Button, {
+const SGuestButton = styled(Button, {
   backgroundColor: '$purple100',
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
+});
+
+const SHostButton = styled(Box, {
+  button: {
+    width: '$144',
+    color: '$white',
+    padding: '$20 0',
+    textAlign: 'center',
+    borderRadius: '$50',
+    fontAg: '20_bold_100',
+  },
+
+  'button:first-child': {
+    border: `2px solid $black40`,
+    marginRight: '12px',
+  },
+
+  'button:last-child': {
+    backgroundColor: '$purple100',
+  },
 });
