@@ -1,17 +1,22 @@
 import { Box } from '@components/box/Box';
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'stitches.config';
 
 const DetailHeader = () => {
   const isRecruiting = true;
-  const period = '22.10.21 - 22.10.28';
+  const startDate = '22.10.21';
+  const endDate = '22.10.28';
   const category = '스터디';
   const studyName = '피그마 왕초보를 위한 스터디';
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
   const isHost = false;
-  const isApplied = true;
+  const [isApplied, setIsApplied] = useState(true);
+
+  const handleApplication = () => {
+    setIsApplied(prev => !prev);
+  };
 
   return (
     <SDetailHeader>
@@ -20,7 +25,9 @@ const DetailHeader = () => {
           <SRecruitStatus isRecruiting={isRecruiting}>
             모집{isRecruiting ? ' 중' : '마감'}
           </SRecruitStatus>
-          <SPeriod>{period}</SPeriod>
+          <SPeriod>
+            {startDate} - {endDate}
+          </SPeriod>
         </div>
         <h1>
           <span>{category}</span>
@@ -43,7 +50,7 @@ const DetailHeader = () => {
           {/* 여기 > 아이콘 추가 */}
         </SStatusButton>
         {!isHost && (
-          <SGuestButton isApplied={isApplied}>
+          <SGuestButton isApplied={isApplied} onClick={handleApplication}>
             신청{isApplied ? ' 취소' : '하기'}
           </SGuestButton>
         )}
