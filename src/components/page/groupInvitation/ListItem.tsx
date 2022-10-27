@@ -6,12 +6,10 @@ interface ListItemProps {
   name: string;
   date: string;
   status?: string;
+  isHost: boolean;
 }
 
-const ListItem = ({ name, date, status }: ListItemProps) => {
-  // 임시
-  const isHost = true;
-
+const ListItem = ({ name, date, status, isHost }: ListItemProps) => {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
