@@ -42,9 +42,13 @@ const InvitationPage = () => {
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
       <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
-      {invitationList.map(invitation => (
-        <ListItem key={invitation.id} {...invitation} isHost={isHost} />
-      ))}
+      {invitationList.length ? (
+        invitationList.map(invitation => (
+          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
+        ))
+      ) : (
+        <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+      )}
     </div>
   );
 };
@@ -55,4 +59,16 @@ const SListTitle = styled(Box, {
   marginTop: '$96',
   marginBottom: '$64',
   fontAg: '32_bold_100',
+});
+
+const SEmptyView = styled(Box, {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '$820',
+  marginBottom: '$103',
+  borderRadius: '10px',
+  border: `1px solid $black40`,
+  fontAg: '24_medium_100',
+  color: '$gray80',
 });
