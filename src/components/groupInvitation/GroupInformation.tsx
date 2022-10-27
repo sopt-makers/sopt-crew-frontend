@@ -1,6 +1,7 @@
 import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
+import ArrowSmallRightPurple from '@assets/svg/arrow_small_right_purple.svg';
 
 const GroupInformation = () => {
   const router = useRouter();
@@ -45,7 +46,8 @@ const GroupInformation = () => {
             </SDetail>
           </div>
           <button onClick={() => router.push(`/group/detail/${groupId}`)}>
-            상세 보기
+            <SButtonText>상세 보기</SButtonText>
+            <ArrowSmallRightPurple />
           </button>
         </SDetailContainer>
       </div>
@@ -113,5 +115,9 @@ const SDetail = styled(Box, {
 
 const SDetailType = styled('span', {
   color: '$gray80',
+  marginRight: '$16',
+});
+
+const SButtonText = styled('span', {
   marginRight: '$16',
 });
