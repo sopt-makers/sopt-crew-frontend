@@ -25,29 +25,29 @@ const GroupInformation = () => {
           <span>모집{isRecruiting ? ' 중 ' : '마감 '} </span>
           {studyName}
         </STitle>
-        <SDetail>
+        <SDetailContainer>
           <div>
-            <div>
-              <span>모임 생성</span>
+            <SDetail>
+              <SDetailType>모임 생성</SDetailType>
               <span>{hostName}</span>
-            </div>
-            <div>
-              <span>모집 기간</span>
+            </SDetail>
+            <SDetail>
+              <SDetailType>모집 기간</SDetailType>
               <span>
                 {startDate} - {endDate}
               </span>
-            </div>
-            <div>
-              <span>모집 현황</span>
+            </SDetail>
+            <SDetail>
+              <SDetailType>모집 현황</SDetailType>
               <span>
                 {current}/{total}명
               </span>
-            </div>
+            </SDetail>
           </div>
           <button onClick={() => router.push(`/group/detail/${groupId}`)}>
             상세 보기
           </button>
-        </SDetail>
+        </SDetailContainer>
       </div>
     </SGroupInformation>
   );
@@ -88,7 +88,7 @@ const STitle = styled(Box, {
   },
 });
 
-const SDetail = styled(Box, {
+const SDetailContainer = styled(Box, {
   fontAg: '20_medium_100',
   display: 'flex',
   alignItems: 'flex-end',
@@ -98,15 +98,6 @@ const SDetail = styled(Box, {
     marginBottom: '$24',
   },
 
-  '& > div > div': {
-    marginBottom: '$12',
-  },
-
-  '& > div > div > span:first-child': {
-    color: '$gray80',
-    marginRight: '$16',
-  },
-
   '& > button': {
     padding: '$20 $34',
     color: '$purple100',
@@ -114,4 +105,13 @@ const SDetail = styled(Box, {
     borderRadius: '10px',
     fontAg: '20_bold_100',
   },
+});
+
+const SDetail = styled(Box, {
+  marginBottom: '$12',
+});
+
+const SDetailType = styled('span', {
+  color: '$gray80',
+  marginRight: '$16',
 });
