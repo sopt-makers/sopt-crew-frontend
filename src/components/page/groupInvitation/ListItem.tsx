@@ -5,11 +5,13 @@ import ProfileDefault from '@assets/svg/profile_default.svg';
 interface ListItemProps {
   name: string;
   date: string;
-  isHost: boolean;
-  status?: 'waiting' | 'accepted' | 'rejected';
+  status?: string;
 }
 
-const ListItem = ({ name, date, isHost, status }: ListItemProps) => {
+const ListItem = ({ name, date, status }: ListItemProps) => {
+  // 임시
+  const isHost = true;
+
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
@@ -67,6 +69,7 @@ const SListItem = styled(Box, {
   borderRadius: '19.711px',
   backgroundColor: '$black80',
   padding: '$24 $32 $24 $32',
+  marginBottom: '$20',
 });
 
 const SLeft = styled(Box, {
