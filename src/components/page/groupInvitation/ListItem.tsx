@@ -3,15 +3,13 @@ import { styled } from 'stitches.config';
 import ProfileDefault from '@assets/svg/profile_default.svg';
 
 interface ListItemProps {
+  name: string;
+  date: string;
   isHost: boolean;
   status?: 'waiting' | 'accepted' | 'rejected';
 }
 
-const ListItem = ({ isHost, status }: ListItemProps) => {
-  // 임시
-  const name = '김인우';
-  const date = '22.10.04';
-
+const ListItem = ({ name, date, isHost, status }: ListItemProps) => {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
