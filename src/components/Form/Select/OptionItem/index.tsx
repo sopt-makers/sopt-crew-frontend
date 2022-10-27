@@ -1,7 +1,13 @@
 import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import { Option } from '../types';
+
+export interface Option {
+  label: string;
+  // NOTE: null 은 placeholder
+  value: string | null;
+}
+
 
 interface OptionItemProps {
   option: Option;

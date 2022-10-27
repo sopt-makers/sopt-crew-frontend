@@ -2,9 +2,8 @@ import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
-import { Option } from './types';
 import Button from './Button';
-import OptionItem from './OptionItem';
+import OptionItem, { Option } from './OptionItem';
 
 interface SelectProps {
   label?: string;
