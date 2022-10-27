@@ -12,8 +12,8 @@ const ListItem = ({ isHost, status }: ListItemProps) => {
   const name = '김인우';
   const date = '22.10.04';
 
-  const getStatusText = (statusText: string) => {
-    switch (statusText) {
+  const getStatusText = (status: string) => {
+    switch (status) {
       case 'waiting':
         return '대기';
       case 'accepted':
@@ -44,12 +44,16 @@ const ListItem = ({ isHost, status }: ListItemProps) => {
         <div>
           {status === 'waiting' && (
             <>
-              <HostPurpleButton>승인</HostPurpleButton>
-              <HostGrayButton>거절</HostGrayButton>
+              <SHostPurpleButton>승인</SHostPurpleButton>
+              <SHostGrayButton>거절</SHostGrayButton>
             </>
           )}
-          {status === 'accepted' && <HostGrayButton>승인 취소</HostGrayButton>}
-          {status === 'rejected' && <HostGrayButton>거절 취소</HostGrayButton>}
+          {status === 'accepted' && (
+            <SHostGrayButton>승인 취소</SHostGrayButton>
+          )}
+          {status === 'rejected' && (
+            <SHostGrayButton>거절 취소</SHostGrayButton>
+          )}
         </div>
       )}
     </SListItem>
@@ -118,7 +122,7 @@ const SDetail = styled('button', {
   textUnderlinePosition: 'under',
 });
 
-const HostGrayButton = styled('button', {
+const SHostGrayButton = styled('button', {
   color: '$white',
   borderRadius: '32px',
   fontAg: '16_bold_100',
@@ -126,7 +130,7 @@ const HostGrayButton = styled('button', {
   backgroundColor: '$black40',
 });
 
-const HostPurpleButton = styled(HostGrayButton, {
+const SHostPurpleButton = styled(SHostGrayButton, {
   marginRight: '8.5px',
   backgroundColor: '$purple100',
 });
