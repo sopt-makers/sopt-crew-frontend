@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import DetailHeader from '@components/groupDetail/DetailHeader';
+import DetailHeader from '@components/page/groupDetail/DetailHeader';
 import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import {
