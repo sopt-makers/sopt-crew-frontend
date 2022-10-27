@@ -14,14 +14,14 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     <>
       <Label required={required}>{label}</Label>
       {message && <HelpMessage>{message}</HelpMessage>}
-      <Input type="text" ref={ref} {...props} />
+      <SInput type="text" ref={ref} {...props} />
     </>
   )
 );
 
 export default TextInput;
 
-const Input = styled('input', {
+const SInput = styled('input', {
   padding: '18px 20px',
   display: 'flex',
   alignItems: 'center',
