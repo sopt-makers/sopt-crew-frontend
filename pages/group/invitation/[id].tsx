@@ -1,4 +1,4 @@
-import GroupInformation from '@components/groupInvitation/GroupInformation';
+import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 import { TabList } from '@components/tabList/TabList';
 import { useRouter } from 'next/router';
 
