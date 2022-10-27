@@ -6,28 +6,42 @@ const GroupInformation = () => {
   const router = useRouter();
   const groupId = router.query.id;
 
+  // 임시
+  const category = '스터디';
+  const isRecruiting = true;
+  const studyName = '피그마 왕초보를 위한 스터디! 개발자도 기획자도 오세요들';
+  const hostName = '홍길동';
+  const startDate = '22.10.21';
+  const endDate = '22.10.28';
+  const current = 4;
+  const total = 5;
+
   return (
     <SGroupInformation>
       <SImage />
       <div>
-        <SCategory>스터디</SCategory>
+        <SCategory>{category}</SCategory>
         <STitle>
-          <span>모집 중 </span>
-          피그마 왕초보를 위한 스터디! 개발자도 기획자도 오세요들
+          <span>모집{isRecruiting ? ' 중 ' : '마감 '} </span>
+          {studyName}
         </STitle>
         <SDetail>
           <div>
             <div>
               <span>모임 생성</span>
-              <span>홍길동</span>
+              <span>{hostName}</span>
             </div>
             <div>
               <span>모집 기간</span>
-              <span>22.10.21 - 22.10.28</span>
+              <span>
+                {startDate} - {endDate}
+              </span>
             </div>
             <div>
               <span>모집 현황</span>
-              <span>4/5명</span>
+              <span>
+                {current}/{total}명
+              </span>
             </div>
           </div>
           <button onClick={() => router.push(`/group/detail/${groupId}`)}>
