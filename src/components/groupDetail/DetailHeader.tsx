@@ -1,6 +1,7 @@
 import { Box } from '@components/box/Box';
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
+import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
 
 const DetailHeader = () => {
   const isRecruiting = true;
@@ -36,7 +37,7 @@ const DetailHeader = () => {
         <SProfile>
           <SProfileImage />
           <span>{hostName}</span>
-          <div>아이콘</div>
+          <ArrowSmallRight />
         </SProfile>
       </SAbout>
       <div>
@@ -47,7 +48,7 @@ const DetailHeader = () => {
               {current}/{total}명
             </span>
           </div>
-          <div>아이콘</div>
+          <ArrowSmallRight />
         </SStatusButton>
         {!isHost && (
           <SGuestButton isApplied={isApplied} onClick={handleApplication}>
