@@ -31,7 +31,11 @@ const ListItem = ({ name, date, status }: ListItemProps) => {
         <SVerticalLine />
         <SDate>
           {date} 신청
-          {isHost && status && <SStatus>{getStatusText(status)}</SStatus>}
+          {isHost && status && (
+            <SStatus isRejected={status === 'rejected'}>
+              {getStatusText(status)}
+            </SStatus>
+          )}
         </SDate>
         {isHost && (
           <>
@@ -108,8 +112,8 @@ const SStatus = styled('span', {
   backgroundColor: '$purple200',
 
   variants: {
-    status: {
-      rejected: {
+    isRejected: {
+      true: {
         backgroundColor: '$gray100',
       },
     },
