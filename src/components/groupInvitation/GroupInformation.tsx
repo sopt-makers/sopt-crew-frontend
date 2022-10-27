@@ -1,10 +1,14 @@
 import { Box } from '@components/box/Box';
+import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 
 const GroupInformation = () => {
+  const router = useRouter();
+  const groupId = router.query.id;
+
   return (
     <SGroupInformation>
-      <SImage>이미지 영역</SImage>
+      <SImage />
       <div>
         <SCategory>스터디</SCategory>
         <STitle>
@@ -26,7 +30,9 @@ const GroupInformation = () => {
               <span>4/5명</span>
             </div>
           </div>
-          <button>상세 보기</button>
+          <button onClick={() => router.push(`/group/detail/${groupId}`)}>
+            상세 보기
+          </button>
         </SDetail>
       </div>
     </SGroupInformation>
