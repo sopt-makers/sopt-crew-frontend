@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 interface CarouselProps {
   imageList: StaticImageData[];
@@ -49,11 +48,11 @@ const SCarousel = styled(Box, {
     borderRadius: '14px',
   },
 
-  '& > div > div:first-child': {
+  '.slick-prev': {
     marginRight: '94px',
   },
 
-  '& > div > div:last-child': {
+  '.slick-next': {
     transform: 'rotate(180deg)',
     marginLeft: '93px',
   },
