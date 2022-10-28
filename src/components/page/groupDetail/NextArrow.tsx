@@ -4,12 +4,13 @@ import { styled } from 'stitches.config';
 import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
 
 interface NextArrowProps {
+  className: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const NextArrow = ({ onClick }: NextArrowProps) => {
+const NextArrow = ({ className, onClick }: NextArrowProps) => {
   return (
-    <SButton onClick={onClick}>
+    <SButton className={className} onClick={onClick}>
       <ArrowBigLeftIcon />
     </SButton>
   );
@@ -17,7 +18,7 @@ const NextArrow = ({ onClick }: NextArrowProps) => {
 
 export default NextArrow;
 
-const SButton = styled(Box, {
+const SButton = styled('button', {
   width: '$72',
   height: '$72',
   cursor: 'pointer',

@@ -17,8 +17,8 @@ const Carousel = ({ imageList }: CarouselProps) => {
     speed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <NextArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: <NextArrow className="prev" />,
+    nextArrow: <NextArrow className="next" />,
   };
 
   return (
