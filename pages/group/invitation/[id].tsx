@@ -7,6 +7,7 @@ import GroupInformation from '@components/page/groupInvitation/GroupInformation'
 
 type invitationItem = {
   id: number;
+  profileImage?: string;
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
@@ -44,7 +45,7 @@ const InvitationPage = () => {
   ];
 
   return (
-    <div>
+    <SInvitationPage>
       <TabList text="mine" size="big" onChange={handleChange}>
         <TabList.Item text="all">모임 전체</TabList.Item>
         <TabList.Item text="mine">내 모임</TabList.Item>
@@ -58,11 +59,16 @@ const InvitationPage = () => {
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-    </div>
+    </SInvitationPage>
   );
 };
 
 export default InvitationPage;
+
+const SInvitationPage = styled(Box, {
+  mt: '$100',
+  mb: '$180',
+});
 
 const SListTitle = styled(Box, {
   mt: '$96',
@@ -73,7 +79,6 @@ const SListTitle = styled(Box, {
 const SEmptyView = styled(Box, {
   flexType: 'center',
   height: '$820',
-  mb: '$103',
   borderRadius: '10px',
   border: `1px solid $black40`,
   fontAg: '24_medium_100',

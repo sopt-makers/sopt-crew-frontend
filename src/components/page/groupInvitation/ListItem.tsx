@@ -1,15 +1,23 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ProfileDefault from '@assets/svg/profile_default.svg';
+import Image from 'next/image';
 
 interface ListItemProps {
+  profileImage?: string;
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
   isHost: boolean;
 }
 
-const ListItem = ({ name, date, status, isHost }: ListItemProps) => {
+const ListItem = ({
+  profileImage,
+  name,
+  date,
+  status,
+  isHost,
+}: ListItemProps) => {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
@@ -24,7 +32,11 @@ const ListItem = ({ name, date, status, isHost }: ListItemProps) => {
   return (
     <SListItem>
       <SLeft>
-        <ProfileDefault />
+        {profileImage ? (
+          <Image src={profileImage} width="32" height="32" />
+        ) : (
+          <ProfileDefault />
+        )}
         <SName>{name}</SName>
         <SVerticalLine />
         <SDate>
@@ -75,6 +87,10 @@ const SListItem = styled(Box, {
 
 const SLeft = styled(Box, {
   flexType: 'verticalCenter',
+
+  '& img': {
+    borderRadius: '$round',
+  },
 });
 
 const SVerticalLine = styled(Box, {
@@ -128,6 +144,7 @@ const SHostGrayButton = styled('button', {
   fontAg: '16_bold_100',
   padding: '$12 $20',
   backgroundColor: '$black40',
+  lineHeight: '$16',
 });
 
 const SHostPurpleButton = styled(SHostGrayButton, {
