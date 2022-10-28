@@ -1,4 +1,5 @@
 import { Box } from '@components/box/Box';
+import DetailHeader from '@components/page/groupDetail/DetailHeader';
 import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import {
@@ -57,6 +58,7 @@ const DetailPage = () => {
   return (
     <SDetailPage>
       <Carousel imageList={imageList} />
+      <DetailHeader />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
           <TabList.Item key={id} text={title}>
@@ -77,20 +79,20 @@ const DetailPage = () => {
 export default DetailPage;
 
 const SDetailPage = styled(Box, {
-  marginBottom: '374px',
+  mb: '$374',
 });
 
 const SDetail = styled(Box, {
   color: '$white',
-  marginTop: '$120',
+  mt: '$120',
 });
 
 const STitle = styled(Box, {
   fontAg: '24_bold_100',
-  marginBottom: '$24',
+  mb: '$24',
 });
 
-const SContent = styled(Box, {
+const SContent = styled('p', {
   fontSize: '$22',
   lineHeight: '37.4px',
 });

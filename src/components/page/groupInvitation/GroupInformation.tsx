@@ -58,8 +58,7 @@ const GroupInformation = () => {
 export default GroupInformation;
 
 const SGroupInformation = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   marginTop: '$70',
   paddingBottom: '$64',
   borderBottom: `2px solid $black40`,
@@ -78,12 +77,12 @@ const SImage = styled(Box, {
 const SCategory = styled(Box, {
   color: '$gray80',
   fontAg: '24_semibold_100',
-  marginBottom: '$12',
+  mb: '$12',
 });
 
 const STitle = styled('p', {
   fontAg: '34_bold_140',
-  marginBottom: '$40',
+  mb: '$40',
 
   '& > span': {
     color: '$purple100',
@@ -97,10 +96,11 @@ const SDetailContainer = styled(Box, {
   justifyContent: 'space-between',
 
   '& > div': {
-    marginBottom: '$24',
+    mb: '$24',
   },
 
   '& > button': {
+    minWidth: 'fit-content',
     padding: '$20 $34',
     color: '$purple100',
     border: `2px solid $purple100`,
@@ -110,14 +110,14 @@ const SDetailContainer = styled(Box, {
 });
 
 const SDetail = styled(Box, {
-  marginBottom: '$12',
+  mb: '$12',
 });
 
 const SDetailType = styled('span', {
   color: '$gray80',
-  marginRight: '$16',
+  mr: '$16',
 });
 
 const SButtonText = styled('span', {
-  marginRight: '$16',
+  mr: '$16',
 });
