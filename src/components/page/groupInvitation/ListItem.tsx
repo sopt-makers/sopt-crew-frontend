@@ -69,7 +69,7 @@ const SListItem = styled(Box, {
   justifyContent: 'space-between',
   borderRadius: '19.711px',
   backgroundColor: '$black80',
-  padding: '$24 $32 $24 $32',
+  padding: '$24 $32 $24 $24',
   mb: '$20',
 });
 
