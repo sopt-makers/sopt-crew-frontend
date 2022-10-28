@@ -18,7 +18,7 @@ const NextArrow = ({ className, onClick }: NextArrowProps) => {
 
 export default NextArrow;
 
-const SButton = styled(Box, {
+const SButton = styled('button', {
   width: '$72',
   height: '$72',
   cursor: 'pointer',
