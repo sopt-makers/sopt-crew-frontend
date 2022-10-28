@@ -3,6 +3,7 @@ import ListItem from '@components/page/groupInvitation/ListItem';
 import { TabList } from '@components/tabList/TabList';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
+import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 
 const InvitationPage = () => {
   const router = useRouter();
@@ -41,6 +42,7 @@ const InvitationPage = () => {
         <TabList.Item text="all">모임 전체</TabList.Item>
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
+      <GroupInformation />
       <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
       {invitationList.length ? (
         invitationList.map(invitation => (

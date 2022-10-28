@@ -17,8 +17,8 @@ const Carousel = ({ imageList }: CarouselProps) => {
     speed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <NextArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: <NextArrow className="prev" />,
+    nextArrow: <NextArrow className="next" />,
   };
 
   return (
@@ -38,10 +38,9 @@ export default Carousel;
 
 const SCarousel = styled(Box, {
   '.slick-slider': {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: '$60',
-    marginBottom: '$80',
+    flexType: 'verticalCenter',
+    mt: '$60',
+    mb: '$80',
   },
 
   '.slick-list': {
@@ -49,12 +48,12 @@ const SCarousel = styled(Box, {
   },
 
   '.slick-prev': {
-    marginRight: '94px',
+    mr: '94px',
   },
 
   '.slick-next': {
     transform: 'rotate(180deg)',
-    marginLeft: '93px',
+    ml: '93px',
   },
 });
 
