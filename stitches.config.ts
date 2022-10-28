@@ -82,6 +82,7 @@ const stitches = createStitches({
       150: '150px',
       200: '200px',
       320: '320px',
+      374: '374px',
       520: '520px',
     },
     fontSizes: {

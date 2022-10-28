@@ -79,20 +79,20 @@ const DetailPage = () => {
 export default DetailPage;
 
 const SDetailPage = styled(Box, {
-  marginBottom: '374px',
+  mb: '$374',
 });
 
 const SDetail = styled(Box, {
   color: '$white',
-  marginTop: '$120',
+  mt: '$120',
 });
 
 const STitle = styled(Box, {
   fontAg: '24_bold_100',
-  marginBottom: '$24',
+  mb: '$24',
 });
 
-const SContent = styled(Box, {
+const SContent = styled('p', {
   fontSize: '$22',
   lineHeight: '37.4px',
 });

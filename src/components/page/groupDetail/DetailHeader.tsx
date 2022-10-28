@@ -74,7 +74,7 @@ const SDetailHeader = styled(Box, {
   justifyContent: 'space-between',
   paddingBottom: '$120',
   borderBottom: `2px solid $black60`,
-  marginBottom: '$40',
+  mb: '$40',
 });
 
 const SAbout = styled(Box, {
@@ -83,7 +83,7 @@ const SAbout = styled(Box, {
   '& > div': {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: '$12',
+    mb: '$12',
   },
 
   '& > h1': {
@@ -93,14 +93,14 @@ const SAbout = styled(Box, {
     },
 
     fontAg: '34_bold_140',
-    marginBottom: '$20',
+    mb: '$20',
   },
 });
 
 const SRecruitStatus = styled(Box, {
   width: 'fit-content',
   padding: '$7 $8',
-  marginRight: '$12',
+  mr: '$12',
   borderRadius: '6px',
   fontAg: '16_bold_100',
 
@@ -126,7 +126,7 @@ const SProfile = styled('button', {
   color: '$white',
 
   '& > span': {
-    marginRight: '$16',
+    mr: '$16',
   },
 });
 
@@ -135,7 +135,7 @@ const SProfileImage = styled(Box, {
   height: '$60',
   borderRadius: '50%',
   objectFit: 'cover',
-  marginRight: '$16',
+  mr: '$16',
   backgroundColor: '$black60',
 });
 
@@ -151,12 +151,12 @@ const SStatusButton = styled(Button, {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '$21 $20',
-  marginBottom: '$16',
+  mb: '$16',
   backgroundColor: '$black80',
   fontAg: '18_semibold_100',
 
   'span:first-child': {
-    marginRight: '$12',
+    mr: '$12',
     color: '$gray80',
   },
 });
@@ -190,7 +190,7 @@ const SHostButton = styled(Box, {
 
   'button:first-child': {
     border: `2px solid $black40`,
-    marginRight: '12px',
+    mr: '12px',
   },
 
   'button:last-child': {
