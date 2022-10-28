@@ -69,8 +69,7 @@ const DetailHeader = () => {
 export default DetailHeader;
 
 const SDetailHeader = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   justifyContent: 'space-between',
   paddingBottom: '$120',
   borderBottom: `2px solid $black60`,
@@ -81,8 +80,7 @@ const SAbout = styled(Box, {
   marginRight: '$90',
 
   '& > div': {
-    display: 'flex',
-    alignItems: 'center',
+    flexType: 'verticalCenter',
     mb: '$12',
   },
 
@@ -121,8 +119,7 @@ const SPeriod = styled(Box, {
 });
 
 const SProfile = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   color: '$white',
 
   '& > span': {
@@ -147,8 +144,7 @@ const Button = styled('button', {
 });
 
 const SStatusButton = styled(Button, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   justifyContent: 'space-between',
   padding: '$21 $20',
   mb: '$16',
