@@ -5,6 +5,13 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 
+type invitationItem = {
+  id: number;
+  name: string;
+  date: string;
+  status?: 'waiting' | 'accepted' | 'rejected';
+};
+
 const InvitationPage = () => {
   const router = useRouter();
   const handleChange = (text: string) => {
@@ -15,21 +22,21 @@ const InvitationPage = () => {
 
   // 임시
   const isHost = true;
-  const invitationList = [
+  const invitationList: invitationItem[] = [
     {
-      id: '1',
+      id: 1,
       name: '백지연',
       date: '22.10.02',
       status: 'rejected',
     },
     {
-      id: '2',
+      id: 2,
       name: '이재훈',
       date: '22.10.02',
       status: 'accepted',
     },
     {
-      id: '3',
+      id: 3,
       name: '김은수',
       date: '22.10.02',
       status: 'waiting',

@@ -5,7 +5,7 @@ import ProfileDefault from '@assets/svg/profile_default.svg';
 interface ListItemProps {
   name: string;
   date: string;
-  status?: string;
+  status?: 'waiting' | 'accepted' | 'rejected';
   isHost: boolean;
 }
 
