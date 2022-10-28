@@ -58,17 +58,15 @@ const InvitationPage = () => {
 export default InvitationPage;
 
 const SListTitle = styled(Box, {
-  marginTop: '$96',
-  marginBottom: '$64',
+  mt: '$96',
+  mb: '$64',
   fontAg: '32_bold_100',
 });
 
 const SEmptyView = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  flexType: 'center',
   height: '$820',
-  marginBottom: '$103',
+  mb: '$103',
   borderRadius: '10px',
   border: `1px solid $black40`,
   fontAg: '24_medium_100',

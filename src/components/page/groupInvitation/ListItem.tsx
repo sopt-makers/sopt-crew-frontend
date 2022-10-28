@@ -65,18 +65,16 @@ const ListItem = ({ name, date, status, isHost }: ListItemProps) => {
 export default ListItem;
 
 const SListItem = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   justifyContent: 'space-between',
   borderRadius: '19.711px',
   backgroundColor: '$black80',
   padding: '$24 $32 $24 $32',
-  marginBottom: '$20',
+  mb: '$20',
 });
 
 const SLeft = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
 });
 
 const SVerticalLine = styled(Box, {
@@ -86,8 +84,8 @@ const SVerticalLine = styled(Box, {
 });
 
 const SName = styled('button', {
-  marginLeft: '$24',
-  marginRight: '$34',
+  ml: '$24',
+  mr: '$34',
   color: '$white',
   fontWeight: '$bold',
   textDecoration: 'underline',
@@ -95,15 +93,14 @@ const SName = styled('button', {
 });
 
 const SDate = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
-  marginLeft: '$32',
+  flexType: 'verticalCenter',
+  ml: '$32',
   fontAg: '18_medium_100',
 });
 
 const SStatus = styled('span', {
-  marginLeft: '$8',
-  marginRight: '$28',
+  ml: '$8',
+  mr: '$28',
   padding: '$4',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
@@ -120,7 +117,7 @@ const SStatus = styled('span', {
 
 const SDetail = styled('button', {
   color: '$white',
-  marginLeft: '$32',
+  ml: '$32',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
 });
