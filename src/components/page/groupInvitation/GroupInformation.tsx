@@ -58,8 +58,7 @@ const GroupInformation = () => {
 export default GroupInformation;
 
 const SGroupInformation = styled(Box, {
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   marginTop: '$70',
   paddingBottom: '$64',
   borderBottom: `2px solid $black40`,
