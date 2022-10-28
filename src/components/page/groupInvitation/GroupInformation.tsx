@@ -81,7 +81,7 @@ const SCategory = styled(Box, {
   marginBottom: '$12',
 });
 
-const STitle = styled(Box, {
+const STitle = styled('p', {
   fontAg: '34_bold_140',
   marginBottom: '$40',
 
