@@ -19,4 +19,5 @@ export type FontAg =
   | '14_bold_100'
   | '14_medium_100'
   | '16_semibold_100'
-  | '12_medium_100';
+  | '12_medium_100'
+  | '12_semibold_100';
