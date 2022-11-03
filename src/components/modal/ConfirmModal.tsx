@@ -1,27 +1,31 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
-interface ConfirmProps {
+interface ConfirmModalProps {
   message: string;
   cancelButton: string;
   confirmButton: string;
 }
 
-const Confirm = ({ message, cancelButton, confirmButton }: ConfirmProps) => {
+const ConfirmModal = ({
+  message,
+  cancelButton,
+  confirmButton,
+}: ConfirmModalProps) => {
   return (
-    <SConfirm>
+    <SConfirmModal>
       <p>{message}</p>
       <div>
         <button>{cancelButton}</button>
         <button>{confirmButton}</button>
       </div>
-    </SConfirm>
+    </SConfirmModal>
   );
 };
 
-export default Confirm;
+export default ConfirmModal;
 
-const SConfirm = styled(Box, {
+const SConfirmModal = styled(Box, {
   width: '$508',
   height: '$298',
   padding: '$48 $69',

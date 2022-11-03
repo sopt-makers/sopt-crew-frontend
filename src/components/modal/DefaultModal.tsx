@@ -3,13 +3,13 @@ import { PropsWithChildren } from 'react';
 import XBigIcon from '@assets/svg/x_big.svg';
 import { styled } from 'stitches.config';
 
-interface ModalProps {
+interface DefaultModalProps {
   title?: string;
 }
 
-const Modal = ({ title, children }: PropsWithChildren<ModalProps>) => {
+const DefaultModal = ({ title, children }: PropsWithChildren<DefaultModalProps>) => {
   return (
-    <SModal>
+    <SDefaultModal>
       {title && (
         <SHeader>
           <STitle>{title}</STitle>
@@ -17,13 +17,13 @@ const Modal = ({ title, children }: PropsWithChildren<ModalProps>) => {
         </SHeader>
       )}
       <div>{children}</div>
-    </SModal>
+    </SDefaultModal>
   );
 };
 
-export default Modal;
+export default DefaultModal;
 
-const SModal = styled(Box, {
+const SDefaultModal = styled(Box, {
   borderRadius: '20px',
   backgroundColor: '$black90',
 });
