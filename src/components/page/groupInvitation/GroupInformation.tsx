@@ -23,7 +23,9 @@ const GroupInformation = () => {
       <div>
         <SCategory>{category}</SCategory>
         <STitle>
-          <span>모집{isRecruiting ? ' 중 ' : '마감 '} </span>
+          <SRecruitingStatus isRecruiting={isRecruiting}>
+            모집{isRecruiting ? ' 중 ' : '마감 '}
+          </SRecruitingStatus>
           {studyName}
         </STitle>
         <SDetailContainer>
@@ -83,9 +85,18 @@ const SCategory = styled(Box, {
 const STitle = styled('p', {
   fontAg: '34_bold_140',
   mb: '$40',
+});
 
-  '& > span': {
-    color: '$purple100',
+const SRecruitingStatus = styled('span', {
+  variants: {
+    isRecruiting: {
+      true: {
+        color: '$purple100',
+      },
+      false: {
+        color: '$gray80',
+      },
+    },
   },
 });
 
