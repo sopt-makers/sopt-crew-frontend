@@ -1,5 +1,6 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
+import ModalBackground from './ModalBackground';
 
 interface ConfirmModalProps {
   message: string;
@@ -15,19 +16,27 @@ const ConfirmModal = ({
   handleCloseModal,
 }: ConfirmModalProps) => {
   return (
-    <SConfirmModal>
-      <p>{message}</p>
-      <div>
-        <button onClick={handleCloseModal}>{cancelButton}</button>
-        <button onClick={handleCloseModal}>{confirmButton}</button>
-      </div>
-    </SConfirmModal>
+    <>
+      <ModalBackground />
+      <SConfirmModal>
+        <p>{message}</p>
+        <div>
+          <button onClick={handleCloseModal}>{cancelButton}</button>
+          <button onClick={handleCloseModal}>{confirmButton}</button>
+        </div>
+      </SConfirmModal>
+    </>
   );
 };
 
 export default ConfirmModal;
 
 const SConfirmModal = styled(Box, {
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: '2',
   width: '$508',
   height: '$298',
   padding: '$48 $69',

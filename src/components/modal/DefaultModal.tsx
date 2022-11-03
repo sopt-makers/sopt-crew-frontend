@@ -2,28 +2,39 @@ import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
 import XBigIcon from '@assets/svg/x_big.svg';
 import { styled } from 'stitches.config';
+import ModalBackground from './ModalBackground';
 
 interface DefaultModalProps {
   title?: string;
 }
 
-const DefaultModal = ({ title, children }: PropsWithChildren<DefaultModalProps>) => {
+const DefaultModal = ({
+  title,
+  children,
+}: PropsWithChildren<DefaultModalProps>) => {
   return (
-    <SDefaultModal>
-      {title && (
-        <SHeader>
-          <STitle>{title}</STitle>
-          <SXBigIcon as="button" />
-        </SHeader>
-      )}
-      <div>{children}</div>
-    </SDefaultModal>
+    <>
+      <ModalBackground />
+      <SDefaultModal>
+        {title && (
+          <SHeader>
+            <STitle>{title}</STitle>
+            <SXBigIcon as="button" />
+          </SHeader>
+        )}
+        <div>{children}</div>
+      </SDefaultModal>
+    </>
   );
 };
 
 export default DefaultModal;
 
 const SDefaultModal = styled(Box, {
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   borderRadius: '20px',
   backgroundColor: '$black90',
 });
