@@ -9,6 +9,7 @@ interface ListItemProps {
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
   isHost: boolean;
+  handleOpenModal: () => void;
 }
 
 const ListItem = ({
@@ -17,6 +18,7 @@ const ListItem = ({
   date,
   status,
   isHost,
+  handleOpenModal,
 }: ListItemProps) => {
   const getStatusText = (status: string) => {
     switch (status) {
@@ -27,10 +29,6 @@ const ListItem = ({
       case 'rejected':
         return '거절';
     }
-  };
-
-  const handleDetailModal = () => {
-    console.log('신청내역 상세 보기 모달');
   };
 
   return (
@@ -54,7 +52,7 @@ const ListItem = ({
         {isHost && (
           <>
             <SVerticalLine />
-            <SDetail onClick={handleDetailModal}>신청내역 상세</SDetail>
+            <SDetail onClick={handleOpenModal}>신청내역 상세</SDetail>
           </>
         )}
       </SLeft>

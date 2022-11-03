@@ -4,6 +4,8 @@ import { TabList } from '@components/tabList/TabList';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
+import useModal from '@hooks/useModal';
+import DefaultModal from '@components/modal/DefaultModal';
 
 type invitationItem = {
   id: number;
@@ -14,6 +16,7 @@ type invitationItem = {
 };
 
 const InvitationPage = () => {
+  const { isModalOpened, handleOpenModal, handleCloseModal } = useModal();
   const router = useRouter();
   const handleChange = (text: string) => {
     if (text === 'all') {
@@ -45,21 +48,30 @@ const InvitationPage = () => {
   ];
 
   return (
-    <SInvitationPage>
-      <TabList text="mine" size="big" onChange={handleChange}>
-        <TabList.Item text="all">모임 전체</TabList.Item>
-        <TabList.Item text="mine">내 모임</TabList.Item>
-      </TabList>
-      <GroupInformation />
-      <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
-      {invitationList.length ? (
-        invitationList.map(invitation => (
-          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
-        ))
-      ) : (
-        <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+    <>
+      <SInvitationPage>
+        <TabList text="mine" size="big" onChange={handleChange}>
+          <TabList.Item text="all">모임 전체</TabList.Item>
+          <TabList.Item text="mine">내 모임</TabList.Item>
+        </TabList>
+        <GroupInformation />
+        <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
+        {invitationList.length ? (
+          invitationList.map(invitation => (
+            <ListItem key={invitation.id} {...invitation} isHost={isHost} handleOpenModal={handleOpenModal} />
+          ))
+        ) : (
+          <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+        )}
+      </SInvitationPage>
+      {isModalOpened && (
+        <DefaultModal
+          width="641px"
+          title="신청내역 상세 보기"
+          handleCloseModal={handleCloseModal}
+        />
       )}
-    </SInvitationPage>
+    </>
   );
 };
 

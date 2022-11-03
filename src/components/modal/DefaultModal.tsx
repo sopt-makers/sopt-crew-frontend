@@ -5,21 +5,29 @@ import { styled } from 'stitches.config';
 import ModalBackground from './ModalBackground';
 
 interface DefaultModalProps {
+  width: string;
   title?: string;
+  handleCloseModal: () => void;
 }
 
 const DefaultModal = ({
+  width,
   title,
+  handleCloseModal,
   children,
 }: PropsWithChildren<DefaultModalProps>) => {
   return (
     <>
       <ModalBackground />
-      <SDefaultModal>
+      <SDefaultModal
+        css={{
+          $$width: width,
+        }}
+      >
         {title && (
           <SHeader>
             <STitle>{title}</STitle>
-            <SXBigIcon as="button" />
+            <SXBigIcon onClick={handleCloseModal} />
           </SHeader>
         )}
         <div>{children}</div>
@@ -35,8 +43,10 @@ const SDefaultModal = styled(Box, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  zIndex: '2',
   borderRadius: '20px',
   backgroundColor: '$black90',
+  width: '$$width',
 });
 
 const SHeader = styled(Box, {
