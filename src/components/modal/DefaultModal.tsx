@@ -44,7 +44,8 @@ const SDefaultModal = styled(Box, {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: '2',
-  borderRadius: '20px',
+  borderTopLeftRadius: '20px',
+  borderTopRightRadius: '20px',
   backgroundColor: '$black90',
   width: '$$width',
 });

@@ -10,16 +10,8 @@ import {
 } from 'public/assets/img';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
-import useModal from '@hooks/useModal';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import DefaultModal from '@components/modal/DefaultModal';
 
 const DetailPage = () => {
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const [modalWidth, setModalWidth] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalType, setModalType] = useState('');
-
   const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
   const tabRef = useRef(new Array());
   const detailList = [
@@ -64,45 +56,23 @@ const DetailPage = () => {
   };
 
   return (
-    <>
-      <SDetailPage>
-        <Carousel imageList={imageList} />
-        <DetailHeader
-          handleModalOpen={handleModalOpen}
-          setModalWidth={setModalWidth}
-          setModalTitle={setModalTitle}
-          setModalType={setModalType}
-        />
-        <TabList text={selectedTab} size="small" onChange={handleChange}>
-          {detailList.map(({ id, title }) => (
-            <TabList.Item key={id} text={title}>
-              {title}
-            </TabList.Item>
-          ))}
-        </TabList>
-        {detailList.map(({ id, title, content }) => (
-          <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
-            <STitle>{title}</STitle>
-            <SContent>{content}</SContent>
-          </SDetail>
+    <SDetailPage>
+      <Carousel imageList={imageList} />
+      <DetailHeader />
+      <TabList text={selectedTab} size="small" onChange={handleChange}>
+        {detailList.map(({ id, title }) => (
+          <TabList.Item key={id} text={title}>
+            {title}
+          </TabList.Item>
         ))}
-      </SDetailPage>
-      {isModalOpened && modalType !== 'default' && (
-        <ConfirmModal
-          message="모임을 삭제하시겠습니까?"
-          cancelButton="돌아가기"
-          confirmButton="삭제하기"
-          handleModalClose={handleModalClose}
-        />
-      )}
-      {isModalOpened && modalType === 'default' && (
-        <DefaultModal
-          width={modalWidth}
-          title={modalTitle}
-          handleModalClose={handleModalClose}
-        />
-      )}
-    </>
+      </TabList>
+      {detailList.map(({ id, title, content }) => (
+        <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
+          <STitle>{title}</STitle>
+          <SContent>{content}</SContent>
+        </SDetail>
+      ))}
+    </SDetailPage>
   );
 };
 

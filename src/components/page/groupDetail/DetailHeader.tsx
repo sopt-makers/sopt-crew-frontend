@@ -2,20 +2,11 @@ import { Box } from '@components/box/Box';
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import useModal from '@hooks/useModal';
+import DefaultModal from '@components/modal/DefaultModal';
+import ConfirmModal from '@components/modal/ConfirmModal';
 
-interface DetailHeaderProps {
-  handleModalOpen: () => void;
-  setModalWidth: (width: string) => void;
-  setModalTitle: (title: string) => void;
-  setModalType: (type: string) => void;
-}
-
-const DetailHeader = ({
-  handleModalOpen,
-  setModalWidth,
-  setModalTitle,
-  setModalType,
-}: DetailHeaderProps) => {
+const DetailHeader = () => {
   const isRecruiting = true;
   const startDate = '22.10.21';
   const endDate = '22.10.28';
@@ -24,8 +15,12 @@ const DetailHeader = ({
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = true;
+  const isHost = false;
   const [isApplied, setIsApplied] = useState(false);
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+  const [modalWidth, setModalWidth] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -45,8 +40,8 @@ const DetailHeader = ({
   };
 
   const handleGroupDelete = () => {
-    handleModalOpen();
     setModalType('confirm');
+    handleModalOpen();
   };
 
   return (
@@ -97,6 +92,21 @@ const DetailHeader = ({
           )}
         </div>
       </SDetailHeader>
+      {isModalOpened && modalType !== 'default' && (
+        <ConfirmModal
+          message="모임을 삭제하시겠습니까?"
+          cancelButton="돌아가기"
+          confirmButton="삭제하기"
+          handleModalClose={handleModalClose}
+        />
+      )}
+      {isModalOpened && modalType === 'default' && (
+        <DefaultModal
+          width={modalWidth}
+          title={modalTitle}
+          handleModalClose={handleModalClose}
+        />
+      )}
     </>
   );
 };
