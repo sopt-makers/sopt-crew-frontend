@@ -6,8 +6,12 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import XBigIcon from '@assets/svg/x_big.svg';
+import { useRouter } from 'next/router';
+import ApplicantList from './ApplicantList';
 
 const DetailHeader = () => {
+  const router = useRouter();
+  const groupId = router.query.id;
   const isRecruiting = true;
   const startDate = '22.10.21';
   const endDate = '22.10.28';
@@ -108,7 +112,18 @@ const DetailHeader = () => {
             width={modalWidth}
             title={modalTitle}
             handleModalClose={handleModalClose}
-          ></DefaultModal>
+          >
+            <SApplicantList>
+              <ApplicantList />
+              {(isHost || isApplied) && (
+                <button
+                  onClick={() => router.push(`/group/invitation/${groupId}`)}
+                >
+                  리스트 상세보기
+                </button>
+              )}
+            </SApplicantList>
+          </DefaultModal>
         ) : (
           <DefaultModal width={modalWidth}>
             <SApplicationForm>
@@ -248,6 +263,23 @@ const SHostButton = styled(Box, {
   },
 
   'button:last-child': {
+    backgroundColor: '$purple100',
+  },
+});
+
+const SApplicantList = styled(Box, {
+  padding: '$36 $44 $48 $40',
+
+  button: {
+    display: 'block',
+    margin: '0 auto',
+    mt: '$36',
+    padding: '$20 0',
+    width: '$300',
+    borderRadius: '12px',
+    textAlign: 'center',
+    fongAg: '20_bold_100',
+    color: '$white',
     backgroundColor: '$purple100',
   },
 });
