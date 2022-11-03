@@ -7,13 +7,13 @@ import ModalBackground from './ModalBackground';
 interface DefaultModalProps {
   width: string;
   title?: string;
-  handleCloseModal: () => void;
+  handleModalClose: () => void;
 }
 
 const DefaultModal = ({
   width,
   title,
-  handleCloseModal,
+  handleModalClose,
   children,
 }: PropsWithChildren<DefaultModalProps>) => {
   return (
@@ -27,7 +27,7 @@ const DefaultModal = ({
         {title && (
           <SHeader>
             <STitle>{title}</STitle>
-            <SXBigIcon onClick={handleCloseModal} />
+            <SXBigIcon onClick={handleModalClose} />
           </SHeader>
         )}
         <div>{children}</div>

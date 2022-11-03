@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 const useModal = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const handleOpenModal = () => {
+  const handleModalOpen = () => {
     setIsModalOpened(true);
   };
 
-  const handleCloseModal = () => {
+  const handleModalClose = () => {
     setIsModalOpened(false);
   };
 
@@ -26,8 +26,8 @@ const useModal = () => {
 
   return {
     isModalOpened,
-    handleOpenModal,
-    handleCloseModal,
+    handleModalOpen,
+    handleModalClose,
   };
 };
 

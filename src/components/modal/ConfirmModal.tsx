@@ -6,14 +6,14 @@ interface ConfirmModalProps {
   message: string;
   cancelButton: string;
   confirmButton: string;
-  handleCloseModal: () => void;
+  handleModalClose: () => void;
 }
 
 const ConfirmModal = ({
   message,
   cancelButton,
   confirmButton,
-  handleCloseModal,
+  handleModalClose,
 }: ConfirmModalProps) => {
   return (
     <>
@@ -21,8 +21,8 @@ const ConfirmModal = ({
       <SConfirmModal>
         <p>{message}</p>
         <div>
-          <button onClick={handleCloseModal}>{cancelButton}</button>
-          <button onClick={handleCloseModal}>{confirmButton}</button>
+          <button onClick={handleModalClose}>{cancelButton}</button>
+          <button onClick={handleModalClose}>{confirmButton}</button>
         </div>
       </SConfirmModal>
     </>

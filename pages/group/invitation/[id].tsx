@@ -16,7 +16,7 @@ type invitationItem = {
 };
 
 const InvitationPage = () => {
-  const { isModalOpened, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const router = useRouter();
   const handleChange = (text: string) => {
     if (text === 'all') {
@@ -58,7 +58,12 @@ const InvitationPage = () => {
         <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
         {invitationList.length ? (
           invitationList.map(invitation => (
-            <ListItem key={invitation.id} {...invitation} isHost={isHost} handleOpenModal={handleOpenModal} />
+            <ListItem
+              key={invitation.id}
+              {...invitation}
+              isHost={isHost}
+              handleModalOpen={handleModalOpen}
+            />
           ))
         ) : (
           <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
@@ -68,7 +73,7 @@ const InvitationPage = () => {
         <DefaultModal
           width="641px"
           title="신청내역 상세 보기"
-          handleCloseModal={handleCloseModal}
+          handleModalClose={handleModalClose}
         />
       )}
     </>
