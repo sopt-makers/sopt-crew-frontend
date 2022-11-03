@@ -4,10 +4,18 @@ import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
 interface DetailHeaderProps {
-  handleOpenModal: () => void;
+  handleModalOpen: () => void;
+  setModalWidth: (width: string) => void;
+  setModalTitle: (title: string) => void;
+  setModalType: (type: string) => void;
 }
 
-const DetailHeader = ({ handleOpenModal }: DetailHeaderProps) => {
+const DetailHeader = ({
+  handleModalOpen,
+  setModalWidth,
+  setModalTitle,
+  setModalType,
+}: DetailHeaderProps) => {
   const isRecruiting = true;
   const startDate = '22.10.21';
   const endDate = '22.10.28';
@@ -20,12 +28,25 @@ const DetailHeader = ({ handleOpenModal }: DetailHeaderProps) => {
   const [isApplied, setIsApplied] = useState(false);
 
   const handleApplicantListModal = () => {
-    console.log('신청자 리스트 모달');
+    handleModalOpen();
+    setModalWidth('582px');
+    setModalTitle('신청자 리스트');
+    setModalType('default');
   };
 
   const handleApplicationModal = () => {
-    if (!isApplied) console.log('모임 신청하기 모달');
+    if (!isApplied) {
+      handleModalOpen();
+      setModalWidth('646px');
+      setModalTitle('모임 신청하기');
+      setModalType('default');
+    }
     setIsApplied(prev => !prev);
+  };
+
+  const handleGroupDelete = () => {
+    handleModalOpen();
+    setModalType('confirm');
   };
 
   return (
@@ -70,7 +91,7 @@ const DetailHeader = ({ handleOpenModal }: DetailHeaderProps) => {
           )}
           {isHost && (
             <SHostButton>
-              <button onClick={handleOpenModal}>삭제</button>
+              <button onClick={handleGroupDelete}>삭제</button>
               <button>수정</button>
             </SHostButton>
           )}
