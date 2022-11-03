@@ -2,14 +2,16 @@ import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
+import DefaultModal from '@components/modal/DefaultModal';
+import useModal from '@hooks/useModal';
 
 interface ListItemProps {
   profileImage?: string;
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
+  detail?: string;
   isHost: boolean;
-  handleModalOpen: () => void;
 }
 
 const ListItem = ({
@@ -17,9 +19,10 @@ const ListItem = ({
   name,
   date,
   status,
+  detail,
   isHost,
-  handleModalOpen,
 }: ListItemProps) => {
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
@@ -32,47 +35,58 @@ const ListItem = ({
   };
 
   return (
-    <SListItem>
-      <SLeft>
-        {profileImage ? (
-          <Image src={profileImage} width="32" height="32" />
-        ) : (
-          <ProfileDefaultIcon />
-        )}
-        <SName>{name}</SName>
-        <SVerticalLine />
-        <SDate>
-          {date} 신청
-          {isHost && status && (
-            <SStatus isRejected={status === 'rejected'}>
-              {getStatusText(status)}
-            </SStatus>
+    <>
+      <SListItem>
+        <SLeft>
+          {profileImage ? (
+            <Image src={profileImage} width="32" height="32" />
+          ) : (
+            <ProfileDefaultIcon />
           )}
-        </SDate>
-        {isHost && (
-          <>
-            <SVerticalLine />
-            <SDetail onClick={handleModalOpen}>신청내역 상세</SDetail>
-          </>
-        )}
-      </SLeft>
-      {isHost && (
-        <div>
-          {status === 'waiting' && (
+          <SName>{name}</SName>
+          <SVerticalLine />
+          <SDate>
+            {date} 신청
+            {isHost && status && (
+              <SStatus isRejected={status === 'rejected'}>
+                {getStatusText(status)}
+              </SStatus>
+            )}
+          </SDate>
+          {isHost && (
             <>
-              <SHostPurpleButton>승인</SHostPurpleButton>
-              <SHostGrayButton>거절</SHostGrayButton>
+              <SVerticalLine />
+              <SDetail onClick={handleModalOpen}>신청내역 상세</SDetail>
             </>
           )}
-          {status === 'accepted' && (
-            <SHostGrayButton>승인 취소</SHostGrayButton>
-          )}
-          {status === 'rejected' && (
-            <SHostGrayButton>거절 취소</SHostGrayButton>
-          )}
-        </div>
+        </SLeft>
+        {isHost && (
+          <div>
+            {status === 'waiting' && (
+              <>
+                <SHostPurpleButton>승인</SHostPurpleButton>
+                <SHostGrayButton>거절</SHostGrayButton>
+              </>
+            )}
+            {status === 'accepted' && (
+              <SHostGrayButton>승인 취소</SHostGrayButton>
+            )}
+            {status === 'rejected' && (
+              <SHostGrayButton>거절 취소</SHostGrayButton>
+            )}
+          </div>
+        )}
+      </SListItem>
+      {isModalOpened && (
+        <DefaultModal
+          width="641px"
+          title="신청내역 상세 보기"
+          handleModalClose={handleModalClose}
+        >
+          <SDetailText>{detail}</SDetailText>
+        </DefaultModal>
       )}
-    </SListItem>
+    </>
   );
 };
 
@@ -152,4 +166,13 @@ const SHostGrayButton = styled('button', {
 const SHostPurpleButton = styled(SHostGrayButton, {
   marginRight: '8.5px',
   backgroundColor: '$purple100',
+});
+
+const SDetailText = styled('p', {
+  backgroundColor: '$black60',
+  margin: '$36 $40 $48 $40',
+  padding: '$20 $24 $24 $24',
+  borderRadius: '19.711px',
+  minHeight: '$139',
+  fontAg: '16_medium_150',
 });

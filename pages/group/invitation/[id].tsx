@@ -4,8 +4,6 @@ import { TabList } from '@components/tabList/TabList';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
-import useModal from '@hooks/useModal';
-import DefaultModal from '@components/modal/DefaultModal';
 
 type invitationItem = {
   id: number;
@@ -13,10 +11,10 @@ type invitationItem = {
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
+  detail?: string;
 };
 
 const InvitationPage = () => {
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const router = useRouter();
   const handleChange = (text: string) => {
     if (text === 'all') {
@@ -32,51 +30,40 @@ const InvitationPage = () => {
       name: '백지연',
       date: '22.10.02',
       status: 'rejected',
+      detail: '열심히 하겠습니다!',
     },
     {
       id: 2,
       name: '이재훈',
       date: '22.10.02',
       status: 'accepted',
+      detail: '신청내역 상세',
     },
     {
       id: 3,
       name: '김은수',
       date: '22.10.02',
       status: 'waiting',
+      detail: '모임에 임할 각오 작성',
     },
   ];
 
   return (
-    <>
-      <SInvitationPage>
-        <TabList text="mine" size="big" onChange={handleChange}>
-          <TabList.Item text="all">모임 전체</TabList.Item>
-          <TabList.Item text="mine">내 모임</TabList.Item>
-        </TabList>
-        <GroupInformation />
-        <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
-        {invitationList.length ? (
-          invitationList.map(invitation => (
-            <ListItem
-              key={invitation.id}
-              {...invitation}
-              isHost={isHost}
-              handleModalOpen={handleModalOpen}
-            />
-          ))
-        ) : (
-          <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
-        )}
-      </SInvitationPage>
-      {isModalOpened && (
-        <DefaultModal
-          width="641px"
-          title="신청내역 상세 보기"
-          handleModalClose={handleModalClose}
-        />
+    <SInvitationPage>
+      <TabList text="mine" size="big" onChange={handleChange}>
+        <TabList.Item text="all">모임 전체</TabList.Item>
+        <TabList.Item text="mine">내 모임</TabList.Item>
+      </TabList>
+      <GroupInformation />
+      <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
+      {invitationList.length ? (
+        invitationList.map(invitation => (
+          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
+        ))
+      ) : (
+        <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-    </>
+    </SInvitationPage>
   );
 };
 
