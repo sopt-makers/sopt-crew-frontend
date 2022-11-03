@@ -5,6 +5,7 @@ import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
+import XBigIcon from '@assets/svg/x_big.svg';
 
 const DetailHeader = () => {
   const isRecruiting = true;
@@ -33,7 +34,7 @@ const DetailHeader = () => {
     if (!isApplied) {
       handleModalOpen();
       setModalWidth('646px');
-      setModalTitle('모임 신청하기');
+      setModalTitle('');
       setModalType('default');
     }
     setIsApplied(prev => !prev);
@@ -92,7 +93,7 @@ const DetailHeader = () => {
           )}
         </div>
       </SDetailHeader>
-      {isModalOpened && modalType !== 'default' && (
+      {isModalOpened && modalType === 'confirm' && (
         <ConfirmModal
           message="모임을 삭제하시겠습니까?"
           cancelButton="돌아가기"
@@ -100,13 +101,25 @@ const DetailHeader = () => {
           handleModalClose={handleModalClose}
         />
       )}
-      {isModalOpened && modalType === 'default' && (
-        <DefaultModal
-          width={modalWidth}
-          title={modalTitle}
-          handleModalClose={handleModalClose}
-        />
-      )}
+      {isModalOpened &&
+        modalType === 'default' &&
+        (modalTitle ? (
+          <DefaultModal
+            width={modalWidth}
+            title={modalTitle}
+            handleModalClose={handleModalClose}
+          ></DefaultModal>
+        ) : (
+          <DefaultModal width={modalWidth}>
+            <SApplicationForm>
+              <SXBigIcon onClick={handleModalClose} />
+              <p>모임 신청하기</p>
+              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
+              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
+              <button onClick={handleModalClose}>신청하기</button>
+            </SApplicationForm>
+          </DefaultModal>
+        ))}
     </>
   );
 };
@@ -237,4 +250,47 @@ const SHostButton = styled(Box, {
   'button:last-child': {
     backgroundColor: '$purple100',
   },
+});
+
+const SApplicationForm = styled(Box, {
+  padding: '$32 $24 $48 $24',
+  borderRadius: '16px',
+  backgroundColor: '$black80',
+  height: '$546',
+
+  '& > p': {
+    fontAg: '32_bold_100',
+    textAlign: 'center',
+    mt: '$32',
+    mb: '$48',
+  },
+
+  // 임시
+  textarea: {
+    width: '100%',
+    height: '254px',
+    fontAg: '22_regular_170',
+    color: '$gray80',
+    backgroundColor: '$black60',
+    outline: 'none',
+    borderRadius: '10px',
+  },
+
+  button: {
+    mt: '$40',
+    padding: '$20 0',
+    width: '$180',
+    borderRadius: '12px',
+    textAlign: 'center',
+    fongAg: '20_bold_100',
+    color: '$white',
+    backgroundColor: '$purple100',
+    float: 'right',
+  },
+});
+
+const SXBigIcon = styled(XBigIcon, {
+  float: 'right',
+  cursor: 'pointer',
+  mr: '$8',
 });

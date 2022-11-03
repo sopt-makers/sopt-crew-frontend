@@ -7,7 +7,7 @@ import ModalBackground from './ModalBackground';
 interface DefaultModalProps {
   width: string;
   title?: string;
-  handleModalClose: () => void;
+  handleModalClose?: () => void;
 }
 
 const DefaultModal = ({
