@@ -56,7 +56,9 @@ const ListItem = ({
           {isHost && (
             <>
               <SVerticalLine />
-              <SDetail onClick={handleModalOpen}>신청내역 상세</SDetail>
+              <SDetailButton onClick={handleModalOpen}>
+                신청내역 상세
+              </SDetailButton>
             </>
           )}
         </SLeft>
@@ -147,7 +149,7 @@ const SStatus = styled('span', {
   },
 });
 
-const SDetail = styled('button', {
+const SDetailButton = styled('button', {
   color: '$white',
   ml: '$32',
   textDecoration: 'underline',
