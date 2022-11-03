@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import ProfileDefault from '@assets/svg/profile_default.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
 
 interface ListItemProps {
@@ -29,13 +29,17 @@ const ListItem = ({
     }
   };
 
+  const handleDetailModal = () => {
+    console.log('신청내역 상세 보기 모달');
+  };
+
   return (
     <SListItem>
       <SLeft>
         {profileImage ? (
           <Image src={profileImage} width="32" height="32" />
         ) : (
-          <ProfileDefault />
+          <ProfileDefaultIcon />
         )}
         <SName>{name}</SName>
         <SVerticalLine />
@@ -50,7 +54,7 @@ const ListItem = ({
         {isHost && (
           <>
             <SVerticalLine />
-            <SDetail>신청내역 상세</SDetail>
+            <SDetail onClick={handleDetailModal}>신청내역 상세</SDetail>
           </>
         )}
       </SLeft>

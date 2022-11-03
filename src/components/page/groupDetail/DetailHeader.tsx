@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
-import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
 const DetailHeader = () => {
   const isRecruiting = true;
@@ -15,8 +15,17 @@ const DetailHeader = () => {
   const isHost = false;
   const [isApplied, setIsApplied] = useState(false);
 
-  const handleApplication = () => {
+  const handleApplicantListModal = () => {
+    console.log('신청자 리스트 모달');
+  };
+
+  const handleApplicationModal = () => {
+    if (!isApplied) console.log('모임 신청하기 모달');
     setIsApplied(prev => !prev);
+  };
+
+  const handleDeleteConfirm = () => {
+    console.log('삭제 컨펌');
   };
 
   return (
@@ -37,27 +46,27 @@ const DetailHeader = () => {
         <SProfile>
           <SProfileImage />
           <span>{hostName}</span>
-          <ArrowSmallRight />
+          <ArrowSmallRightIcon />
         </SProfile>
       </SAbout>
       <div>
-        <SStatusButton>
+        <SStatusButton onClick={handleApplicantListModal}>
           <div>
             <span>모집 현황</span>
             <span>
               {current}/{total}명
             </span>
           </div>
-          <ArrowSmallRight />
+          <ArrowSmallRightIcon />
         </SStatusButton>
         {!isHost && (
-          <SGuestButton isApplied={isApplied} onClick={handleApplication}>
+          <SGuestButton isApplied={isApplied} onClick={handleApplicationModal}>
             신청{isApplied ? ' 취소' : '하기'}
           </SGuestButton>
         )}
         {isHost && (
           <SHostButton>
-            <button>삭제</button>
+            <button onClick={handleDeleteConfirm}>삭제</button>
             <button>수정</button>
           </SHostButton>
         )}
