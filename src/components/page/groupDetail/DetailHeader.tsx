@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
-const DetailHeader = () => {
+interface DetailHeaderProps {
+  handleOpenModal: () => void;
+}
+
+const DetailHeader = ({ handleOpenModal }: DetailHeaderProps) => {
   const isRecruiting = true;
   const startDate = '22.10.21';
   const endDate = '22.10.28';
@@ -12,7 +16,7 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = false;
+  const isHost = true;
   const [isApplied, setIsApplied] = useState(false);
 
   const handleApplicantListModal = () => {
@@ -24,54 +28,55 @@ const DetailHeader = () => {
     setIsApplied(prev => !prev);
   };
 
-  const handleDeleteConfirm = () => {
-    console.log('삭제 컨펌');
-  };
-
   return (
-    <SDetailHeader>
-      <SAbout>
-        <div>
-          <SRecruitStatus isRecruiting={isRecruiting}>
-            모집{isRecruiting ? ' 중' : '마감'}
-          </SRecruitStatus>
-          <SPeriod>
-            {startDate} - {endDate}
-          </SPeriod>
-        </div>
-        <h1>
-          <span>{category}</span>
-          {studyName}
-        </h1>
-        <SProfile>
-          <SProfileImage />
-          <span>{hostName}</span>
-          <ArrowSmallRightIcon />
-        </SProfile>
-      </SAbout>
-      <div>
-        <SStatusButton onClick={handleApplicantListModal}>
+    <>
+      <SDetailHeader>
+        <SAbout>
           <div>
-            <span>모집 현황</span>
-            <span>
-              {current}/{total}명
-            </span>
+            <SRecruitStatus isRecruiting={isRecruiting}>
+              모집{isRecruiting ? ' 중' : '마감'}
+            </SRecruitStatus>
+            <SPeriod>
+              {startDate} - {endDate}
+            </SPeriod>
           </div>
-          <ArrowSmallRightIcon />
-        </SStatusButton>
-        {!isHost && (
-          <SGuestButton isApplied={isApplied} onClick={handleApplicationModal}>
-            신청{isApplied ? ' 취소' : '하기'}
-          </SGuestButton>
-        )}
-        {isHost && (
-          <SHostButton>
-            <button onClick={handleDeleteConfirm}>삭제</button>
-            <button>수정</button>
-          </SHostButton>
-        )}
-      </div>
-    </SDetailHeader>
+          <h1>
+            <span>{category}</span>
+            {studyName}
+          </h1>
+          <SProfile>
+            <SProfileImage />
+            <span>{hostName}</span>
+            <ArrowSmallRightIcon />
+          </SProfile>
+        </SAbout>
+        <div>
+          <SStatusButton onClick={handleApplicantListModal}>
+            <div>
+              <span>모집 현황</span>
+              <span>
+                {current}/{total}명
+              </span>
+            </div>
+            <ArrowSmallRightIcon />
+          </SStatusButton>
+          {!isHost && (
+            <SGuestButton
+              isApplied={isApplied}
+              onClick={handleApplicationModal}
+            >
+              신청{isApplied ? ' 취소' : '하기'}
+            </SGuestButton>
+          )}
+          {isHost && (
+            <SHostButton>
+              <button onClick={handleOpenModal}>삭제</button>
+              <button>수정</button>
+            </SHostButton>
+          )}
+        </div>
+      </SDetailHeader>
+    </>
   );
 };
 

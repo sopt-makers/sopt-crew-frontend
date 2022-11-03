@@ -10,8 +10,11 @@ import {
 } from 'public/assets/img';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
+import useModal from '@hooks/useModal';
+import ConfirmModal from '@components/modal/ConfirmModal';
 
 const DetailPage = () => {
+  const { isModalOpened, handleOpenModal, handleCloseModal } = useModal();
   const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
   const tabRef = useRef(new Array());
   const detailList = [
@@ -56,23 +59,33 @@ const DetailPage = () => {
   };
 
   return (
-    <SDetailPage>
-      <Carousel imageList={imageList} />
-      <DetailHeader />
-      <TabList text={selectedTab} size="small" onChange={handleChange}>
-        {detailList.map(({ id, title }) => (
-          <TabList.Item key={id} text={title}>
-            {title}
-          </TabList.Item>
+    <>
+      <SDetailPage>
+        <Carousel imageList={imageList} />
+        <DetailHeader handleOpenModal={handleOpenModal} />
+        <TabList text={selectedTab} size="small" onChange={handleChange}>
+          {detailList.map(({ id, title }) => (
+            <TabList.Item key={id} text={title}>
+              {title}
+            </TabList.Item>
+          ))}
+        </TabList>
+        {detailList.map(({ id, title, content }) => (
+          <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
+            <STitle>{title}</STitle>
+            <SContent>{content}</SContent>
+          </SDetail>
         ))}
-      </TabList>
-      {detailList.map(({ id, title, content }) => (
-        <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
-          <STitle>{title}</STitle>
-          <SContent>{content}</SContent>
-        </SDetail>
-      ))}
-    </SDetailPage>
+      </SDetailPage>
+      {isModalOpened && (
+        <ConfirmModal
+          message="모임을 삭제하시겠습니까?"
+          cancelButton="돌아가기"
+          confirmButton="삭제하기"
+          handleCloseModal={handleCloseModal}
+        />
+      )}
+    </>
   );
 };
 

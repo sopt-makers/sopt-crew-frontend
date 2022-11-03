@@ -5,19 +5,21 @@ interface ConfirmModalProps {
   message: string;
   cancelButton: string;
   confirmButton: string;
+  handleCloseModal: () => void;
 }
 
 const ConfirmModal = ({
   message,
   cancelButton,
   confirmButton,
+  handleCloseModal,
 }: ConfirmModalProps) => {
   return (
     <SConfirmModal>
       <p>{message}</p>
       <div>
-        <button>{cancelButton}</button>
-        <button>{confirmButton}</button>
+        <button onClick={handleCloseModal}>{cancelButton}</button>
+        <button onClick={handleCloseModal}>{confirmButton}</button>
       </div>
     </SConfirmModal>
   );
