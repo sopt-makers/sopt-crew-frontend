@@ -30,12 +30,9 @@ const SConfirm = styled(Box, {
 
   '& > p': {
     mt: '$59',
+    mb: '$63',
     fontAg: '24_bold_100',
     textAlign: 'center',
-  },
-
-  div: {
-    mt: '$63',
   },
 
   button: {
