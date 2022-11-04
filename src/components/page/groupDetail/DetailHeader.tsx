@@ -113,7 +113,7 @@ const DetailHeader = () => {
             title={modalTitle}
             handleModalClose={handleModalClose}
           >
-            <SApplicantList>
+            <SApplicantListWrapper>
               <ApplicantList />
               {(isHost || isApplied) && (
                 <button
@@ -122,7 +122,7 @@ const DetailHeader = () => {
                   리스트 상세보기
                 </button>
               )}
-            </SApplicantList>
+            </SApplicantListWrapper>
           </DefaultModal>
         ) : (
           <DefaultModal width={modalWidth}>
@@ -267,7 +267,7 @@ const SHostButton = styled(Box, {
   },
 });
 
-const SApplicantList = styled(Box, {
+const SApplicantListWrapper = styled(Box, {
   padding: '$36 $44 $48 $40',
 
   button: {
