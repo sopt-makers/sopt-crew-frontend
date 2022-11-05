@@ -75,8 +75,8 @@ const SInvitationPage = styled(Box, {
 });
 
 const SListTitle = styled(Box, {
-  mt: '$96',
-  mb: '$64',
+  mt: '$64',
+  mb: '$48',
   fontAg: '32_bold_100',
 });
 

@@ -62,7 +62,7 @@ export default GroupInformation;
 const SGroupInformation = styled(Box, {
   flexType: 'verticalCenter',
   marginTop: '$70',
-  paddingBottom: '$64',
+  paddingBottom: '$80',
   borderBottom: `2px solid $black40`,
 });
 
