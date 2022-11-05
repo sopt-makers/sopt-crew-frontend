@@ -55,7 +55,7 @@ const InvitationPage = () => {
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
       <GroupInformation />
-      <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
+      <SListTitle>모임 {isHost ? '신청자' : '참여자'}</SListTitle>
       {invitationList.length ? (
         invitationList.map(invitation => (
           <ListItem key={invitation.id} {...invitation} isHost={isHost} />

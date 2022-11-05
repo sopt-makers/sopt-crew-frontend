@@ -44,23 +44,19 @@ const ListItem = ({
             <ProfileDefaultIcon />
           )}
           <SName>{name}</SName>
-          <SVerticalLine />
-          <SDate>
-            {date} 신청
-            {isHost && status && (
-              <SStatus isRejected={status === 'rejected'}>
-                {getStatusText(status)}
-              </SStatus>
-            )}
-          </SDate>
+          {isHost && status && (
+            <SStatus isAccepted={status === 'accepted'}>
+              {getStatusText(status)}
+            </SStatus>
+          )}
           {isHost && (
             <>
               <SVerticalLine />
-              <SDetailButton onClick={handleModalOpen}>
-                신청내역 상세
-              </SDetailButton>
+              <SDetailButton onClick={handleModalOpen}>신청내역</SDetailButton>
             </>
           )}
+          <SVerticalLine />
+          <SDate>{date}</SDate>
         </SLeft>
         {isHost && (
           <div>
@@ -80,11 +76,7 @@ const ListItem = ({
         )}
       </SListItem>
       {isModalOpened && (
-        <DefaultModal
-          width="641px"
-          title="신청내역 상세 보기"
-          handleModalClose={handleModalClose}
-        >
+        <DefaultModal title="신청내역" handleModalClose={handleModalClose}>
           <SDetailText>{detail}</SDetailText>
         </DefaultModal>
       )}
@@ -114,12 +106,13 @@ const SLeft = styled(Box, {
 const SVerticalLine = styled(Box, {
   width: '$1',
   height: '$12',
+  ml: '$30',
+  mr: '$30',
   backgroundColor: '$gray100',
 });
 
 const SName = styled('button', {
   ml: '$24',
-  mr: '$34',
   color: '$white',
   fontWeight: '$bold',
   textDecoration: 'underline',
@@ -128,22 +121,20 @@ const SName = styled('button', {
 
 const SDate = styled(Box, {
   flexType: 'verticalCenter',
-  ml: '$32',
   fontAg: '18_medium_100',
 });
 
 const SStatus = styled('span', {
-  ml: '$8',
-  mr: '$28',
   padding: '$4',
+  mr: '$4',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
-  backgroundColor: '$purple200',
+  backgroundColor: '$gray100',
 
   variants: {
-    isRejected: {
+    isAccepted: {
       true: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$purple200',
       },
     },
   },
@@ -151,7 +142,7 @@ const SStatus = styled('span', {
 
 const SDetailButton = styled('button', {
   color: '$white',
-  ml: '$32',
+  margin: '0 $40',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
 });
