@@ -1,5 +1,6 @@
 import { Box } from '@components/box/Box';
 import Card from '@components/page/groupList/Card';
+import Filter from '@components/page/groupList/filter/Filter';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
@@ -20,6 +21,9 @@ const Home: NextPage = () => {
           <TabList.Item text="all">모임 전체</TabList.Item>
           <TabList.Item text="mine">내 모임</TabList.Item>
         </TabList>
+        <Box css={{ mt: '$120', mb: '$64' }}>
+          <Filter />
+        </Box>
         <GridLayout>
           <Card />
           <Card />
