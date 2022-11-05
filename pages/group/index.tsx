@@ -1,3 +1,4 @@
+import { Box } from '@components/box/Box';
 import Card from '@components/page/groupList/Card';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import Pagination from '@components/page/groupList/Pagination';
@@ -25,7 +26,9 @@ const Home: NextPage = () => {
           <Card />
           <Card />
         </GridLayout>
-        <Pagination />
+        <Box css={{ my: '$80' }}>
+          <Pagination />
+        </Box>
       </main>
     </div>
   );
