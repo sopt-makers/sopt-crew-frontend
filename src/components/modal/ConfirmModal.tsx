@@ -1,8 +1,10 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import ModalBackground from './ModalBackground';
+import { Dialog } from '@headlessui/react';
+import ModalBackground from '@components/modal/ModalBackground';
 
 interface ConfirmModalProps {
+  isModalOpened: boolean;
   message: string;
   cancelButton: string;
   confirmButton: string;
@@ -10,28 +12,31 @@ interface ConfirmModalProps {
 }
 
 const ConfirmModal = ({
+  isModalOpened,
   message,
   cancelButton,
   confirmButton,
   handleModalClose,
 }: ConfirmModalProps) => {
   return (
-    <>
+    <Dialog open={isModalOpened} onClose={handleModalClose}>
       <ModalBackground />
-      <SConfirmModal>
-        <p>{message}</p>
-        <div>
-          <button onClick={handleModalClose}>{cancelButton}</button>
-          <button onClick={handleModalClose}>{confirmButton}</button>
-        </div>
-      </SConfirmModal>
-    </>
+      <Dialog.Panel>
+        <SDialogWrapper>
+          <Dialog.Title className="title">{message}</Dialog.Title>
+          <div>
+            <button onClick={handleModalClose}>{cancelButton}</button>
+            <button onClick={handleModalClose}>{confirmButton}</button>
+          </div>
+        </SDialogWrapper>
+      </Dialog.Panel>
+    </Dialog>
   );
 };
 
 export default ConfirmModal;
 
-const SConfirmModal = styled(Box, {
+const SDialogWrapper = styled(Box, {
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -44,11 +49,12 @@ const SConfirmModal = styled(Box, {
   backgroundColor: '$black80',
   boxShadow: '4px 4px 40px #181818',
 
-  '& > p': {
+  '.title': {
     mt: '$59',
     mb: '$63',
     fontAg: '24_bold_100',
     textAlign: 'center',
+    color: '$white',
   },
 
   button: {

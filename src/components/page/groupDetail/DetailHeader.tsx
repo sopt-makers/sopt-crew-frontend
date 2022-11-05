@@ -107,6 +107,7 @@ const DetailHeader = () => {
       </SDetailHeader>
       {isConfirmModalOpened && (
         <ConfirmModal
+          isModalOpened={isModalOpened}
           message={modalMessage}
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
