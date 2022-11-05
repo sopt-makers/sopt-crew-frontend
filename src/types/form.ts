@@ -11,4 +11,5 @@ export interface FormData {
   endAt: string;
   detailCreator: string;
   detailTargetMember: string;
+  notice: string;
 }
