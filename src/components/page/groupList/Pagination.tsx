@@ -11,7 +11,7 @@ function Pagination() {
     <Flex align="center" justify="center">
       <Flex>
         {pagesChunk[pagesIndex]?.map((item, idx) => (
-          <PageLink key={idx} isCurrent={true}>
+          <PageLink key={idx} isCurrent={false}>
             {item}
           </PageLink>
         ))}
@@ -27,6 +27,7 @@ const PageLink = styled('li', {
   width: '40px',
   height: '40px',
   fontAg: '18_bold_100',
+  cursor: 'pointer',
   variants: {
     isCurrent: {
       true: {
