@@ -2,7 +2,6 @@ import { Flex } from '@components/util/layout/Flex';
 import { paginationDivision } from '@utils/paginationDivision';
 import { useState } from 'react';
 import { CSSType, styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import React from 'react';
 import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
 
