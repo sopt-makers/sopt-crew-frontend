@@ -239,16 +239,19 @@ const SDateField = styled(SApplicationField);
 const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',
+  alignSelf: 'flex-end',
 });
-const CancelButton = styled('button', {});
-const SubmitButton = styled('button', {
+const Button = styled('button', {
   padding: '16px 20px',
   display: 'flex',
   alignItems: 'center',
-  alignSelf: 'flex-end',
   gap: '12px',
-  background: '$purple100',
-  borderRadius: '12px',
+  background: '$black40',
+  borderRadius: '10px',
   fontAg: '18_bold_100',
   color: '$white',
+});
+const CancelButton = styled(Button, {});
+const SubmitButton = styled(Button, {
+  background: '$purple100',
 });
