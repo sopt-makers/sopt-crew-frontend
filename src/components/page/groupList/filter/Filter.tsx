@@ -9,14 +9,14 @@ export interface OptionType {
 }
 
 export interface FilterType {
-  displayName: string;
+  label: string;
   category: string;
   options: OptionType[];
 }
 
 const FILTERS: FilterType[] = [
   {
-    displayName: '카테고리',
+    label: '카테고리',
     category: 'category',
     options: [
       { name: '스터디', value: 'study' },
@@ -25,7 +25,7 @@ const FILTERS: FilterType[] = [
     ],
   },
   {
-    displayName: '모집 상태',
+    label: '모집 상태',
     category: 'status',
     options: [
       { name: '모집 중', value: 'ing' },
@@ -39,7 +39,7 @@ function Filter() {
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <Select key={filter.displayName} filter={filter} />
+            <Select key={filter.label} filter={filter} />
           ))}
         </Flex>
         <Search />

@@ -10,7 +10,7 @@ function Pagination() {
 
   return (
     <Flex align="center" justify="center">
-      <Flex>
+      <Flex align="center">
         <ArrowButton direction="left" disabled={true} />
         <Flex css={{ mx: '$24' }}>
           {pagesChunk[pagesIndex]?.map((item, idx) => (

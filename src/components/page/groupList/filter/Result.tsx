@@ -1,10 +1,14 @@
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
+import ResetIcon from '@assets/svg/reset.svg';
 function Result() {
   return (
-    <SResultWrapper align="center">
-      <ResultItem />
+    <SResultWrapper align="center" justify="between">
+      <Flex align="center">
+        <ResultItem />
+      </Flex>
+      <InitializationButton />
     </SResultWrapper>
   );
 }
@@ -22,7 +26,7 @@ const SResultWrapper = styled(Flex, {
 function ResultItem() {
   return (
     <SResultItemWrapper align="center" justify="between">
-      <FilterItemName>스터디</FilterItemName>
+      <SFilterItemName>스터디</SFilterItemName>
       <SCancelButton>
         <XSmallIcon />
       </SCancelButton>
@@ -39,9 +43,26 @@ const SResultItemWrapper = styled(Flex, {
     marginLeft: '8px',
   },
 });
-const FilterItemName = styled('p', {
+const SFilterItemName = styled('p', {
   marginRight: '$8',
 });
 const SCancelButton = styled('button', {
   flexType: 'center',
+});
+
+function InitializationButton() {
+  return (
+    <Flex as="button">
+      <ResetIcon />
+      <InitializationText>초기화</InitializationText>
+    </Flex>
+  );
+}
+
+const InitializationText = styled('span', {
+  //   fontAg: '18_medium_100',
+  color: '$white',
+  fontSize: '18px',
+  fontWeight: '$medium',
+  marginLeft: '6px',
 });

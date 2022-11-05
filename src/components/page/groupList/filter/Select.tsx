@@ -19,7 +19,7 @@ function Select({ filter }: { filter: FilterType }) {
       }}
     >
       <SSelectDisplay align="center" justify="between" onClick={toggle}>
-        <SCategory>{filter.displayName}</SCategory>
+        <SCategory>{filter.label}</SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
       {isVisibleList && (
