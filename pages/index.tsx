@@ -16,7 +16,6 @@ const Home: NextPage = () => {
   return (
     <div>
       <main>
-        main 페이지
         <TabList text={selectedTab} size="big" onChange={handleChange}>
           <TabList.Item text="all">모임 전체</TabList.Item>
           <TabList.Item text="mine">내 모임</TabList.Item>
