@@ -107,7 +107,7 @@ const DetailHeader = () => {
       </SDetailHeader>
       {isConfirmModalOpened && (
         <ConfirmModal
-          isModalOpened={isModalOpened}
+          isModalOpened={isConfirmModalOpened}
           message={modalMessage}
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
@@ -115,7 +115,11 @@ const DetailHeader = () => {
         />
       )}
       {isDefaultModalOpened && (
-        <DefaultModal title={modalTitle} handleModalClose={handleModalClose}>
+        <DefaultModal
+          isModalOpened={isDefaultModalOpened}
+          title={modalTitle}
+          handleModalClose={handleModalClose}
+        >
           {modalTitle === '모임 신청하기' ? (
             <SApplicationForm>
               {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}

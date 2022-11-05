@@ -85,6 +85,7 @@ const SApplicantListItem = styled(Box, {
   padding: '$17 $20 $16 $20',
   borderRadius: '12px',
   backgroundColor: '$black60',
+  color: '$white',
   fontAg: '16_bold_100',
   mb: '$12',
 

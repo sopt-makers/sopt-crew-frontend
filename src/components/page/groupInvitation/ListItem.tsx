@@ -3,9 +3,7 @@ import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
 import useModal from '@hooks/useModal';
-import { Dialog } from '@headlessui/react';
-import XBigIcon from '@assets/svg/x_big.svg';
-import ModalBackground from '@components/modal/ModalBackground';
+import DefaultModal from '@components/modal/DefaultModal';
 
 interface ListItemProps {
   profileImage?: string;
@@ -78,20 +76,13 @@ const ListItem = ({
         )}
       </SListItem>
       {isModalOpened && (
-        <Dialog open={isModalOpened} onClose={handleModalClose}>
-          <ModalBackground />
-          <Dialog.Panel>
-            <SDialogWrapper>
-              <SHeader>
-                <Dialog.Title className="title">신청내역</Dialog.Title>
-                <button onClick={handleModalClose}>
-                  <SXBigIcon />
-                </button>
-              </SHeader>
-              <SDetailText>{detail}</SDetailText>
-            </SDialogWrapper>
-          </Dialog.Panel>
-        </Dialog>
+        <DefaultModal
+          isModalOpened={isModalOpened}
+          title="신청내역"
+          handleModalClose={handleModalClose}
+        >
+          <SDetailText>{detail}</SDetailText>
+        </DefaultModal>
       )}
     </>
   );
@@ -171,37 +162,6 @@ const SHostGrayButton = styled('button', {
 const SHostPurpleButton = styled(SHostGrayButton, {
   marginRight: '8.5px',
   backgroundColor: '$purple100',
-});
-
-const SDialogWrapper = styled(Box, {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: '2',
-  width: '$646',
-  borderRadius: '20px',
-  boxShadow: '4px 4px 40px #181818',
-  background: '$black80',
-});
-
-const SHeader = styled(Box, {
-  flexType: 'verticalCenter',
-  justifyContent: 'space-between',
-  height: '$100',
-  padding: '$40 $40 $36 $40',
-  borderBottom: `1px solid $black40`,
-
-  '.title': {
-    width: '100%',
-    fontAg: '24_bold_100',
-    textAlign: 'center',
-    color: '$white',
-  },
-});
-
-const SXBigIcon = styled(XBigIcon, {
-  cursor: 'pointer',
 });
 
 const SDetailText = styled('p', {
