@@ -8,20 +8,32 @@ interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   value: string;
   message?: string;
   required?: boolean;
+  maxLength?: number;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, message, required, ...props }: TextareaProps, ref) => (
-    <>
-      <Label required={required}>{label}</Label>
-      {message && <HelpMessage>{message}</HelpMessage>}
-      <STextarea ref={ref} {...props} />
-    </>
-  )
+  ({ label, message, required, ...props }: TextareaProps, ref) => {
+    return (
+      <SContainer>
+        <Label required={required}>{label}</Label>
+        {message && <HelpMessage>{message}</HelpMessage>}
+        <STextarea ref={ref} {...props} />
+        {props.maxLength && (
+          <STextCount overflow={props.value.length > props.maxLength}>
+            {props.value.length} / {props.maxLength}
+          </STextCount>
+        )}
+      </SContainer>
+    );
+  }
 );
 
 export default Textarea;
 
+const SContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+});
 const STextarea = styled('textarea', {
   boxSizing: 'border-box',
   width: '100%',
@@ -35,5 +47,18 @@ const STextarea = styled('textarea', {
   borderRadius: 10,
   '&::placeholder': {
     color: '$gray100',
+  },
+});
+const STextCount = styled('span', {
+  marginTop: '12px',
+  alignSelf: 'flex-end',
+  fontAg: '12_medium_100',
+  color: '$gray60',
+  variants: {
+    overflow: {
+      true: {
+        color: '$red100',
+      },
+    },
   },
 });
