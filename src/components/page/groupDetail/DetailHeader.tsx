@@ -26,6 +26,8 @@ const DetailHeader = () => {
   const [modalWidth, setModalWidth] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
+  const isDefaultModalOpened = isModalOpened && modalType === 'default';
+  const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -97,7 +99,7 @@ const DetailHeader = () => {
           )}
         </div>
       </SDetailHeader>
-      {isModalOpened && modalType === 'confirm' && (
+      {isConfirmModalOpened && (
         <ConfirmModal
           message="모임을 삭제하시겠습니까?"
           cancelButton="돌아가기"
@@ -105,8 +107,7 @@ const DetailHeader = () => {
           handleModalClose={handleModalClose}
         />
       )}
-      {isModalOpened &&
-        modalType === 'default' &&
+      {isDefaultModalOpened &&
         (modalTitle ? (
           <DefaultModal
             width={modalWidth}
