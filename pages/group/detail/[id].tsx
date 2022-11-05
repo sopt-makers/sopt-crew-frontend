@@ -1,9 +1,18 @@
 import { Box } from '@components/box/Box';
+import DetailHeader from '@components/page/groupDetail/DetailHeader';
+import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
+import {
+  imgExample1,
+  imgExample2,
+  imgExample3,
+  imgExample4,
+} from 'public/assets/img';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
-function Detail() {
+const DetailPage = () => {
+  const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
   const tabRef = useRef(new Array());
   const detailList = [
     {
@@ -47,7 +56,9 @@ function Detail() {
   };
 
   return (
-    <div>
+    <SDetailPage>
+      <Carousel imageList={imageList} />
+      <DetailHeader />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(({ id, title }) => (
           <TabList.Item key={id} text={title}>
@@ -61,23 +72,27 @@ function Detail() {
           <SContent>{content}</SContent>
         </SDetail>
       ))}
-    </div>
+    </SDetailPage>
   );
-}
+};
 
-export default Detail;
+export default DetailPage;
+
+const SDetailPage = styled(Box, {
+  mb: '$374',
+});
 
 const SDetail = styled(Box, {
   color: '$white',
-  marginTop: '$120',
+  mt: '$120',
 });
 
 const STitle = styled(Box, {
   fontAg: '24_bold_100',
-  marginBottom: '$24',
+  mb: '$24',
 });
 
-const SContent = styled(Box, {
+const SContent = styled('p', {
   fontSize: '$22',
   lineHeight: '37.4px',
 });
