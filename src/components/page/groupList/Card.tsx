@@ -14,7 +14,12 @@ function Card({ bottom }: CardProps) {
       <Box css={{ position: 'relative' }}>
         <Status isRecruiting={true}>모집중</Status>
         <ImageWrapper>
-          <Image width="380px" height="260px" src="" />
+          <Image
+            width="380px"
+            height="260px"
+            src="/assets/img/img_example_1.jpg"
+            layout="responsive"
+          />
         </ImageWrapper>
       </Box>
       <TitleSection>
