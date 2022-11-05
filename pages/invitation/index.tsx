@@ -18,7 +18,7 @@ const InvitationPage = () => {
   const router = useRouter();
   const handleChange = (text: string) => {
     if (text === 'all') {
-      router.push('/group');
+      router.push('/');
     }
   };
 

@@ -125,13 +125,17 @@ const DetailHeader = () => {
             <SApplicantListWrapper>
               <ApplicantList />
               {isHost && (
-                <button onClick={() => router.push(`/invitation/${groupId}`)}>
+                <button
+                  onClick={() => router.push(`/invitation?id=${groupId}`)}
+                >
                   참여자 리스트
                   <ArrowSmallRightIcon />
                 </button>
               )}
               {isApplied && (
-                <button onClick={() => router.push(`/invitation/${groupId}`)}>
+                <button
+                  onClick={() => router.push(`/invitation?id=${groupId}`)}
+                >
                   신청자 리스트
                   <ArrowSmallRightIcon />
                 </button>

@@ -47,7 +47,7 @@ const GroupInformation = () => {
               </span>
             </SDetail>
           </div>
-          <button onClick={() => router.push(`/detail/${groupId}`)}>
+          <button onClick={() => router.push(`/detail?id=${groupId}`)}>
             <SButtonText>상세 보기</SButtonText>
             <ArrowSmallRightPurpleIcon />
           </button>
