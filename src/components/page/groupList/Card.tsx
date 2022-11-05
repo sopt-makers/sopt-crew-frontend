@@ -12,33 +12,33 @@ function Card({ bottom }: CardProps) {
   return (
     <Box as="li">
       <Box css={{ position: 'relative' }}>
-        <Status isRecruiting={true}>모집중</Status>
-        <ImageWrapper>
+        <SStatus isRecruiting={true}>모집중</SStatus>
+        <SImageWrapper>
           <Image
             width="380px"
             height="260px"
             src="/assets/img/img_example_1.jpg"
             layout="responsive"
           />
-        </ImageWrapper>
+        </SImageWrapper>
       </Box>
-      <TitleSection>
-        <Category>카테고리</Category>
-        <Title>제목이 들어가게 됩니다</Title>
-      </TitleSection>
+      <STitleSection>
+        <SCategory>카테고리</SCategory>
+        <STitle>제목이 들어가게 됩니다</STitle>
+      </STitleSection>
       <Box>
-        <InfoRow>
-          <Key>모집 기간</Key>
-          <Value>22.10.21 - 22.10.28</Value>
-        </InfoRow>
-        <InfoRow>
-          <Key>모집 인원</Key>
-          <Value>4/5명</Value>
-        </InfoRow>
-        <InfoRow>
-          <Key>모임 생성자</Key>
-          <Value>홍길동</Value>
-        </InfoRow>
+        <SInfoRow>
+          <SKey>모집 기간</SKey>
+          <SValue>22.10.21 - 22.10.28</SValue>
+        </SInfoRow>
+        <SInfoRow>
+          <SKey>모집 인원</SKey>
+          <SValue>4/5명</SValue>
+        </SInfoRow>
+        <SInfoRow>
+          <SKey>모임 생성자</SKey>
+          <SValue>홍길동</SValue>
+        </SInfoRow>
       </Box>
       {bottom}
     </Box>
@@ -47,13 +47,13 @@ function Card({ bottom }: CardProps) {
 
 export default Card;
 
-const ImageWrapper = styled('div', {
+const SImageWrapper = styled('div', {
   backgroundColor: '$black80',
   borderRadius: '$10',
   overflow: 'hidden',
 });
 
-const Status = styled(Box, {
+const SStatus = styled(Box, {
   position: 'absolute',
   top: '16px',
   left: '16px',
@@ -73,32 +73,32 @@ const Status = styled(Box, {
   },
 });
 
-const TitleSection = styled(Box, {
+const STitleSection = styled(Box, {
   my: '$22',
 });
 
-const Category = styled('p', {
+const SCategory = styled('p', {
   fontAg: '16_bold_100',
   color: '$gray80',
 });
 
-const Title = styled('p', {
+const STitle = styled('p', {
   fontAg: '22_bold_140',
   mt: '$8',
 });
-const InfoRow = styled(Flex, {
+const SInfoRow = styled(Flex, {
   '& + &': {
     mt: '$8',
   },
 });
-const Info = styled('p', {
+const SInfo = styled('p', {
   fontAg: '16_medium_100',
 });
-const Key = styled(Info, {
+const SKey = styled(SInfo, {
   width: '74px',
   color: '$gray80',
   mr: '$16',
 });
-const Value = styled(Info, {
+const SValue = styled(SInfo, {
   color: '$gray60',
 });
