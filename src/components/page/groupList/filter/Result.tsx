@@ -35,6 +35,9 @@ const SResultItemWrapper = styled(Flex, {
   border: '1px solid $black40',
   borderRadius: '44px',
   padding: '10px 16px',
+  '& + &': {
+    marginLeft: '8px',
+  },
 });
 const FilterItemName = styled('p', {
   marginRight: '$8',
