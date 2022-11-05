@@ -68,27 +68,23 @@ const SApplicantList = styled(Box, {
   overflowY: 'scroll',
 
   '&::-webkit-scrollbar': {
-    width: '$5',
+    width: '$6',
   },
 
   '&::-webkit-scrollbar-thumb': {
-    height: '$90',
+    height: '$125',
     background: '$gray40',
-    borderRadius: '5px',
-  },
-
-  '&::-webkit-scrollbar-track': {
-    background: '$black80',
+    borderRadius: '6px',
   },
 });
 
 const SApplicantListItem = styled(Box, {
   flexType: 'verticalCenter',
-  width: '$232',
+  width: '$280',
   height: '$65',
   padding: '$17 $20 $16 $20',
   borderRadius: '12px',
-  backgroundColor: '$black80',
+  backgroundColor: '$black60',
   fontAg: '16_bold_100',
   mb: '$12',
 

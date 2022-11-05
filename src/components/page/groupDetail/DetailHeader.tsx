@@ -5,7 +5,6 @@ import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import XBigIcon from '@assets/svg/x_big.svg';
 import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
 
@@ -20,10 +19,9 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = true;
+  const isHost = false;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const [modalWidth, setModalWidth] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
   const isDefaultModalOpened = isModalOpened && modalType === 'default';
@@ -35,16 +33,14 @@ const DetailHeader = () => {
 
   const handleApplicantListModal = () => {
     handleModalOpen();
-    setModalWidth('582px');
-    setModalTitle('신청자 리스트');
+    setModalTitle('모집 현황');
     setModalType('default');
   };
 
   const handleApplicationModal = () => {
     if (!isApplied) {
       handleModalOpen();
-      setModalWidth('646px');
-      setModalTitle('');
+      setModalTitle('모임 신청하기');
       setModalType('default');
       // TODO : 신청하기 눌렀을 때
       setIsApplied(prev => !prev);
@@ -117,13 +113,15 @@ const DetailHeader = () => {
           handleModalClose={handleModalClose}
         />
       )}
-      {isDefaultModalOpened &&
-        (modalTitle ? (
-          <DefaultModal
-            width={modalWidth}
-            title={modalTitle}
-            handleModalClose={handleModalClose}
-          >
+      {isDefaultModalOpened && (
+        <DefaultModal title={modalTitle} handleModalClose={handleModalClose}>
+          {modalTitle === '모임 신청하기' ? (
+            <SApplicationForm>
+              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
+              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
+              <button onClick={handleModalClose}>신청하기</button>
+            </SApplicationForm>
+          ) : (
             <SApplicantListWrapper>
               <ApplicantList />
               {(isHost || isApplied) && (
@@ -134,18 +132,9 @@ const DetailHeader = () => {
                 </button>
               )}
             </SApplicantListWrapper>
-          </DefaultModal>
-        ) : (
-          <DefaultModal width={modalWidth}>
-            <SApplicationForm>
-              <SXBigIcon onClick={handleModalClose} />
-              <p>모임 신청하기</p>
-              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
-              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
-              <button onClick={handleModalClose}>신청하기</button>
-            </SApplicationForm>
-          </DefaultModal>
-        ))}
+          )}
+        </DefaultModal>
+      )}
     </>
   );
 };
@@ -279,7 +268,7 @@ const SHostButton = styled(Box, {
 });
 
 const SApplicantListWrapper = styled(Box, {
-  padding: '$36 $44 $48 $40',
+  padding: '$28 $28 $88 $28',
 
   button: {
     display: 'block',
@@ -296,10 +285,10 @@ const SApplicantListWrapper = styled(Box, {
 });
 
 const SApplicationForm = styled(Box, {
-  padding: '$32 $24 $48 $24',
-  borderRadius: '16px',
-  backgroundColor: '$black80',
-  height: '$546',
+  padding: '$24 $24 $48 $24',
+  borderBottomLeftRadius: '16px',
+  borderBottomRightRadius: '16px',
+  height: '$356',
 
   '& > p': {
     fontAg: '32_bold_100',
@@ -311,7 +300,7 @@ const SApplicationForm = styled(Box, {
   // 임시
   textarea: {
     width: '100%',
-    height: '254px',
+    height: '$200',
     fontAg: '22_regular_170',
     color: '$gray80',
     backgroundColor: '$black60',
@@ -320,20 +309,15 @@ const SApplicationForm = styled(Box, {
   },
 
   button: {
-    mt: '$40',
-    padding: '$20 0',
+    display: 'block',
+    margin: '0 auto',
+    mt: '$28',
+    padding: '$19 0',
     width: '$180',
     borderRadius: '12px',
     textAlign: 'center',
-    fongAg: '20_bold_100',
+    fongAg: '18_bold_100',
     color: '$white',
     backgroundColor: '$purple100',
-    float: 'right',
   },
-});
-
-const SXBigIcon = styled(XBigIcon, {
-  float: 'right',
-  cursor: 'pointer',
-  mr: '$8',
 });
