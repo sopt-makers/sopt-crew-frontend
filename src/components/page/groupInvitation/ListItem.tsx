@@ -175,7 +175,8 @@ const SDetailText = styled('p', {
   margin: '$24',
   padding: '$16',
   borderRadius: '19.711px',
-  minHeight: '$200',
+  height: '$200',
   fontAg: '16_medium_150',
   color: '$white',
+  boxSizing: 'border-box',
 });
