@@ -41,7 +41,8 @@ const SConfirmModal = styled(Box, {
   height: '$298',
   padding: '$48 $69',
   borderRadius: '20px',
-  backgroundColor: '$black80_trans',
+  backgroundColor: '$black80',
+  boxShadow: '4px 4px 40px #181818',
 
   '& > p': {
     mt: '$59',
@@ -60,7 +61,7 @@ const SConfirmModal = styled(Box, {
   },
 
   'button:first-child': {
-    backgroundColor: '$gray100',
+    backgroundColor: '$black20',
     mr: '$20',
   },
 

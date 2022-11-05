@@ -124,11 +124,18 @@ const DetailHeader = () => {
           ) : (
             <SApplicantListWrapper>
               <ApplicantList />
-              {(isHost || isApplied) && (
+              {isHost && (
                 <button
                   onClick={() => router.push(`/group/invitation/${groupId}`)}
                 >
-                  리스트 상세보기
+                  참여자 리스트
+                </button>
+              )}
+              {isApplied && (
+                <button
+                  onClick={() => router.push(`/group/invitation/${groupId}`)}
+                >
+                  신청자 리스트
                 </button>
               )}
             </SApplicantListWrapper>
@@ -271,16 +278,10 @@ const SApplicantListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
 
   button: {
-    display: 'block',
-    margin: '0 auto',
-    mt: '$36',
-    padding: '$20 0',
-    width: '$300',
-    borderRadius: '12px',
-    textAlign: 'center',
-    fongAg: '20_bold_100',
+    mt: '$24',
+    fontAg: '16_semibold_100',
     color: '$white',
-    backgroundColor: '$purple100',
+    float: 'right',
   },
 });
 
@@ -316,7 +317,7 @@ const SApplicationForm = styled(Box, {
     width: '$180',
     borderRadius: '12px',
     textAlign: 'center',
-    fongAg: '18_bold_100',
+    fontAg: '18_bold_100',
     color: '$white',
     backgroundColor: '$purple100',
   },
