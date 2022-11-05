@@ -126,7 +126,7 @@ const SDate = styled(Box, {
 
 const SStatus = styled('span', {
   padding: '$4',
-  mr: '$4',
+  ml: '$8',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
   backgroundColor: '$gray100',
@@ -142,7 +142,6 @@ const SStatus = styled('span', {
 
 const SDetailButton = styled('button', {
   color: '$white',
-  margin: '0 $40',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
 });

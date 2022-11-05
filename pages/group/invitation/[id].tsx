@@ -47,6 +47,7 @@ const InvitationPage = () => {
       detail: '모임에 임할 각오 작성',
     },
   ];
+  const total = invitationList.length;
 
   return (
     <SInvitationPage>
@@ -55,7 +56,10 @@ const InvitationPage = () => {
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
       <GroupInformation />
-      <SListTitle>모임 {isHost ? '신청자' : '참여자'}</SListTitle>
+      <SListTitle>
+        모임 {isHost ? '신청자' : '참여자'}
+        {total > 0 && <span> ({total})</span>}
+      </SListTitle>
       {invitationList.length ? (
         invitationList.map(invitation => (
           <ListItem key={invitation.id} {...invitation} isHost={isHost} />
