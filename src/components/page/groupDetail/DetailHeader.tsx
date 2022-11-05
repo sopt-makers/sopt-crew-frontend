@@ -33,7 +33,7 @@ const DetailHeader = () => {
 
   const handleApplicantListModal = () => {
     handleModalOpen();
-    setModalTitle('모집 현황');
+    setModalTitle(`모집 현황 (${current}/${total}명)`);
     setModalType('default');
   };
 
@@ -127,11 +127,13 @@ const DetailHeader = () => {
               {isHost && (
                 <button onClick={() => router.push(`/invitation/${groupId}`)}>
                   참여자 리스트
+                  <ArrowSmallRightIcon />
                 </button>
               )}
               {isApplied && (
                 <button onClick={() => router.push(`/invitation/${groupId}`)}>
                   신청자 리스트
+                  <ArrowSmallRightIcon />
                 </button>
               )}
             </SApplicantListWrapper>
@@ -278,6 +280,11 @@ const SApplicantListWrapper = styled(Box, {
     fontAg: '16_semibold_100',
     color: '$white',
     float: 'right',
+    flexType: 'verticalCenter',
+
+    svg: {
+      ml: '$8',
+    },
   },
 });
 

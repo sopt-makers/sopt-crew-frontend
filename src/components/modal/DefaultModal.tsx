@@ -41,6 +41,7 @@ const SDefaultModal = styled(Box, {
   borderRadius: '20px',
   backgroundColor: '$black80',
   width: '$646',
+  boxShadow: '4px 4px 40px #181818',
 });
 
 const SHeader = styled(Box, {
