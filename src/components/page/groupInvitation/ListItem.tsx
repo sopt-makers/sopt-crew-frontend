@@ -2,8 +2,10 @@ import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
-import DefaultModal from '@components/modal/DefaultModal';
 import useModal from '@hooks/useModal';
+import { Dialog } from '@headlessui/react';
+import XBigIcon from '@assets/svg/x_big.svg';
+import ModalBackground from '@components/modal/ModalBackground';
 
 interface ListItemProps {
   profileImage?: string;
@@ -76,9 +78,20 @@ const ListItem = ({
         )}
       </SListItem>
       {isModalOpened && (
-        <DefaultModal title="신청내역" handleModalClose={handleModalClose}>
-          <SDetailText>{detail}</SDetailText>
-        </DefaultModal>
+        <Dialog open={isModalOpened} onClose={handleModalClose}>
+          <ModalBackground />
+          <Dialog.Panel>
+            <SDialogWrapper>
+              <SHeader>
+                <Dialog.Title className="title">신청내역</Dialog.Title>
+                <button onClick={handleModalClose}>
+                  <SXBigIcon />
+                </button>
+              </SHeader>
+              <SDetailText>{detail}</SDetailText>
+            </SDialogWrapper>
+          </Dialog.Panel>
+        </Dialog>
       )}
     </>
   );
@@ -160,6 +173,37 @@ const SHostPurpleButton = styled(SHostGrayButton, {
   backgroundColor: '$purple100',
 });
 
+const SDialogWrapper = styled(Box, {
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: '2',
+  width: '$646',
+  borderRadius: '20px',
+  boxShadow: '4px 4px 40px #181818',
+  background: '$black80',
+});
+
+const SHeader = styled(Box, {
+  flexType: 'verticalCenter',
+  justifyContent: 'space-between',
+  height: '$100',
+  padding: '$40 $40 $36 $40',
+  borderBottom: `1px solid $black40`,
+
+  '.title': {
+    width: '100%',
+    fontAg: '24_bold_100',
+    textAlign: 'center',
+    color: '$white',
+  },
+});
+
+const SXBigIcon = styled(XBigIcon, {
+  cursor: 'pointer',
+});
+
 const SDetailText = styled('p', {
   backgroundColor: '$black60',
   margin: '$24',
@@ -167,4 +211,5 @@ const SDetailText = styled('p', {
   borderRadius: '19.711px',
   minHeight: '$200',
   fontAg: '16_medium_150',
+  color: '$white',
 });
