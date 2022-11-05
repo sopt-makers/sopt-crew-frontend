@@ -162,9 +162,9 @@ const SHostPurpleButton = styled(SHostGrayButton, {
 
 const SDetailText = styled('p', {
   backgroundColor: '$black60',
-  margin: '$36 $40 $48 $40',
-  padding: '$20 $24 $24 $24',
+  margin: '$24',
+  padding: '$16',
   borderRadius: '19.711px',
-  minHeight: '$139',
+  minHeight: '$200',
   fontAg: '16_medium_150',
 });
