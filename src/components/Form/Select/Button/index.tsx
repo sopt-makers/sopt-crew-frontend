@@ -6,16 +6,16 @@ import { Option } from '@components/Form/Select/OptionItem';
 
 interface ButtonProps {
   open?: boolean;
-  value: Option;
+  value?: Option;
 }
 
 function Button({ value, open }: ButtonProps) {
-  const isNotSelected = value.value === null;
+  const isNotSelected = value?.value === null;
 
   return (
     <Listbox.Button as={Fragment}>
       <SButton isNotSelected={isNotSelected}>
-        {value.label}
+        {value?.label}
         <SArrowDownIcon open={open} isNotSelected={isNotSelected} />
       </SButton>
     </Listbox.Button>
