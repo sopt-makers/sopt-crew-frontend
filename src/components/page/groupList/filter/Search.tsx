@@ -25,6 +25,11 @@ const SearchWrapper = styled(Flex, {
 const SearchInput = styled('input', {
   width: '200px',
   color: '$white',
+  fontAg: '18_medium_100',
+
+  '&::placeholder': {
+    fontAg: '18_medium_100',
+  },
 });
 
 const SearchButton = styled('button', {

@@ -1,4 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
+import Result from './Result';
 import Search from './Search';
 import Select from './Select';
 
@@ -34,14 +35,17 @@ const FILTERS: FilterType[] = [
 ];
 function Filter() {
   return (
-    <Flex align="center" justify="between">
-      <Flex>
-        {FILTERS.map(filter => (
-          <Select key={filter.displayName} filter={filter} />
-        ))}
+    <>
+      <Flex align="center" justify="between">
+        <Flex>
+          {FILTERS.map(filter => (
+            <Select key={filter.displayName} filter={filter} />
+          ))}
+        </Flex>
+        <Search />
       </Flex>
-      <Search />
-    </Flex>
+      <Result />
+    </>
   );
 }
 
