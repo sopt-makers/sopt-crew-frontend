@@ -1,9 +1,14 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import Image from 'next/image';
+import { ReactNode } from 'react';
 import { styled } from 'stitches.config';
 
-function Card() {
+interface CardProps {
+  bottom?: ReactNode;
+}
+
+function Card({ bottom }: CardProps) {
   return (
     <Box as="li">
       <Box css={{ position: 'relative' }}>
@@ -30,6 +35,7 @@ function Card() {
           <Value>홍길동</Value>
         </InfoRow>
       </Box>
+      {bottom}
     </Box>
   );
 }
