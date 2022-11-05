@@ -95,7 +95,8 @@ const SListItem = styled(Box, {
   justifyContent: 'space-between',
   borderRadius: '19.711px',
   backgroundColor: '$black80',
-  padding: '$24 $32 $24 $24',
+  padding: '$20',
+  height: '$80',
   mb: '$20',
 });
 
@@ -104,6 +105,11 @@ const SLeft = styled(Box, {
 
   '& img': {
     borderRadius: '$round',
+    ml: '$4',
+  },
+
+  '& svg': {
+    ml: '$4',
   },
 });
 

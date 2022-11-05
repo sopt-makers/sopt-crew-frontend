@@ -81,7 +81,7 @@ const SApplicantList = styled(Box, {
 const SApplicantListItem = styled(Box, {
   flexType: 'verticalCenter',
   width: '$280',
-  height: '$65',
+  height: '$64',
   padding: '$17 $20 $16 $20',
   borderRadius: '12px',
   backgroundColor: '$black60',
