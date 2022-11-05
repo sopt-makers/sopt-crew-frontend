@@ -1,5 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
-import { paginationDivision } from '@utils/paginationDivision';
+import { bindThePages } from '@utils/bindThePages';
 import { useState } from 'react';
 import { CSSType, styled } from 'stitches.config';
 import React from 'react';
@@ -7,7 +7,7 @@ import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
 
 function Pagination() {
   const [pagesIndex, setPagesIndex] = useState(0);
-  const pagesChunk = paginationDivision(20);
+  const pagesChunk = bindThePages(20);
 
   return (
     <Flex align="center" justify="center">
