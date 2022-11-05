@@ -20,7 +20,7 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = false;
+  const isHost = true;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalWidth, setModalWidth] = useState('');
@@ -28,6 +28,10 @@ const DetailHeader = () => {
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
   const isDefaultModalOpened = isModalOpened && modalType === 'default';
   const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
+  const modalMessage = isHost
+    ? '모임을 삭제하시겠습니까?'
+    : '신청을 취소하시겠습니까?';
+  const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -42,8 +46,14 @@ const DetailHeader = () => {
       setModalWidth('646px');
       setModalTitle('');
       setModalType('default');
+      // TODO : 신청하기 눌렀을 때
+      setIsApplied(prev => !prev);
+    } else {
+      setModalType('confirm');
+      handleModalOpen();
+      // TODO: 취소하기 눌렀을 때
+      setIsApplied(prev => !prev);
     }
-    setIsApplied(prev => !prev);
   };
 
   const handleGroupDelete = () => {
@@ -101,9 +111,9 @@ const DetailHeader = () => {
       </SDetailHeader>
       {isConfirmModalOpened && (
         <ConfirmModal
-          message="모임을 삭제하시겠습니까?"
+          message={modalMessage}
           cancelButton="돌아가기"
-          confirmButton="삭제하기"
+          confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
         />
       )}
