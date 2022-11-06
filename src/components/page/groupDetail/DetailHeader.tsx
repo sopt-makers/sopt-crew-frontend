@@ -7,6 +7,8 @@ import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
+import Textarea from '@components/Form/Textarea';
+import FormController from '@components/Form/FormController';
 
 const DetailHeader = () => {
   const router = useRouter();
@@ -20,7 +22,7 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = true;
+  const isHost = false;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
@@ -31,6 +33,7 @@ const DetailHeader = () => {
     ? '모임을 삭제하시겠습니까?'
     : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
+  const [textareaValue, setTextareaValue] = useState('');
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -131,8 +134,14 @@ const DetailHeader = () => {
         >
           {modalTitle === '모임 신청하기' ? (
             <SApplicationForm>
-              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
-              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
+              <Textarea
+                value={textareaValue}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setTextareaValue(e.target.value)
+                }
+                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
+                maxLength={150}
+              />
               <button onClick={handleModalClose}>신청하기</button>
             </SApplicationForm>
           ) : (
@@ -307,7 +316,7 @@ const SApplicantListWrapper = styled(Box, {
 });
 
 const SApplicationForm = styled(Box, {
-  padding: '$24 $24 $48 $24',
+  padding: '$24 $24 $132 $24',
   borderBottomLeftRadius: '16px',
   borderBottomRightRadius: '16px',
   height: '$356',
@@ -319,21 +328,26 @@ const SApplicationForm = styled(Box, {
     mb: '$48',
   },
 
-  // 임시
   textarea: {
     width: '100%',
     height: '$200',
-    fontAg: '22_regular_170',
-    color: '$gray80',
+    fontAg: '16_medium_150',
+    fontFamily: 'SUIT',
+    color: '$white',
     backgroundColor: '$black60',
     outline: 'none',
     borderRadius: '10px',
   },
 
+  'textarea:focus': {
+    boxShadow: `0 0 0 1px #8040ff`,
+  },
+
   button: {
     display: 'block',
     margin: '0 auto',
-    mt: '$28',
+    mt: '$4',
+    mb: '$48',
     padding: '$19 0',
     width: '$180',
     borderRadius: '12px',
