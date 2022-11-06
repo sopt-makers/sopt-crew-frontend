@@ -1,15 +1,15 @@
 import SearchIcon from '@assets/svg/search.svg';
 import { Flex } from '@components/util/layout/Flex';
-import { useFilterContext } from '@providers/groupList/FilterProvider';
+import useSearchParams from '@hooks/queryString/useSearchParams';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
 function Search() {
-  const { handleSearch } = useFilterContext();
   const { register, handleSubmit } = useForm();
+  const { setSearch } = useSearchParams();
   const onSubmit = (value: FieldValues) => {
-    handleSearch(value.search);
+    setSearch(value.search);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

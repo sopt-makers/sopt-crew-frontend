@@ -7,25 +7,13 @@ import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
 
 import type { NextPage } from 'next';
-import {
-  FilterProvider,
-  useFilterContext,
-} from '@providers/groupList/FilterProvider';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
+import usePageParams from '@hooks/queryString/usePageParams';
 import { styled } from 'stitches.config';
 
-const HomePage = () => {
-  return (
-    <FilterProvider>
-      <Home />
-    </FilterProvider>
-  );
-};
-
 const Home: NextPage = () => {
-  const { currentPageIndex, changeCurrentPage } = useFilterContext();
-
+  const { page, setPage } = usePageParams();
   return (
     <div>
       <main>
@@ -80,8 +68,8 @@ const Home: NextPage = () => {
         <Box css={{ my: '$80' }}>
           <Pagination
             totalPagesLength={20}
-            currentPageIndex={currentPageIndex}
-            changeCurrentPage={changeCurrentPage}
+            currentPageIndex={page}
+            changeCurrentPage={setPage}
           />
         </Box>
       </main>
@@ -89,7 +77,7 @@ const Home: NextPage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
 
 const SGroupCount = styled('p', {
   fontAg: '18_semibold_100',

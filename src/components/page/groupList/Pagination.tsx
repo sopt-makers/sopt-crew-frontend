@@ -1,6 +1,6 @@
 import { Flex } from '@components/util/layout/Flex';
 import { bindThePages } from '@utils/bindThePages';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowButton from '@components/button/Arrow';
 interface PaginationProps {
@@ -13,17 +13,22 @@ function Pagination({
   currentPageIndex,
   changeCurrentPage,
 }: PaginationProps) {
-  const [pagesIndex, setPagesIndex] = useState(0);
   const BUNDLE_SIZE = 5;
+
+  const [pagesIndex, setPagesIndex] = useState(0);
+
   const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
   const prevBundle = () => {
-    setPagesIndex(index => index - 1);
     changeCurrentPage(currentPageIndex - BUNDLE_SIZE);
   };
   const nextBundle = () => {
-    setPagesIndex(index => index + 1);
     changeCurrentPage(currentPageIndex + BUNDLE_SIZE);
   };
+
+  useEffect(() => {
+    setPagesIndex(Math.floor((currentPageIndex - 1) / BUNDLE_SIZE));
+  }, [currentPageIndex]);
+
   return (
     <Flex align="center" justify="center">
       <Flex align="center">

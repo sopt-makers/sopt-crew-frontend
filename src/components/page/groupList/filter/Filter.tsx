@@ -1,6 +1,7 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { useFilterContext } from '@providers/groupList/FilterProvider';
+import useFilterParams from '@hooks/groupList/useFilterParams';
+import useSearchParams from '@hooks/queryString/useSearchParams';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Result from './Result';
 import Search from './Search';
@@ -37,14 +38,19 @@ const FILTERS: FilterType[] = [
   },
 ];
 function Filter() {
-  const { search } = useFilterContext();
-
+  const { addFilterOptions, deleteFilterOptions } = useFilterParams();
+  const { search } = useSearchParams();
   return (
     <SelectListVisionProvider>
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <Select key={filter.label} filter={filter} />
+            <Select
+              key={filter.label}
+              filter={filter}
+              addFilterOptions={addFilterOptions(filter.category)}
+              deleteFilterOptions={deleteFilterOptions(filter.category)}
+            />
           ))}
         </Flex>
         <Search />

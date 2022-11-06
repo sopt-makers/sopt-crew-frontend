@@ -4,26 +4,28 @@ import { Box } from '@components/box/Box';
 import ArrowButton from '@components/button/Arrow';
 import { FilterType, OptionType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
-import { useFilterContext } from '@providers/groupList/FilterProvider';
 import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
+import { useRouter } from 'next/router';
 
 interface HandleOptionFunctions {
   addFilterOptions: (value: string) => void;
   deleteFilterOptions: (value: string) => void;
 }
-interface SelectProps {
+interface SelectProps extends HandleOptionFunctions {
   filter: FilterType;
 }
 
 function Select({
-  // isSelectListVisible,
-
   filter,
+  addFilterOptions,
+  deleteFilterOptions,
 }: SelectProps) {
-  const { selectedFilterOptions, addFilterOptions, deleteFilterOptions } =
-    useFilterContext();
+  const router = useRouter();
+  const selectedFilterOptions = router.query[filter.category] as string;
+
   const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
     useSelectListVisionContext();
+
   return (
     <Box
       css={{
@@ -37,11 +39,9 @@ function Select({
         align="center"
         justify="between"
         onClick={() => toggleSelectList(filter.category)}
-        isSelected={selectedFilterOptions[filter.category].length !== 0}
+        isSelected={!!selectedFilterOptions}
       >
-        <SCategory
-          isSelected={selectedFilterOptions[filter.category].length !== 0}
-        >
+        <SCategory isSelected={!!selectedFilterOptions}>
           {filter.label}
         </SCategory>
         <ArrowButton size="small" direction="bottom" />
@@ -53,9 +53,9 @@ function Select({
               <SelectListItem
                 key={option.value}
                 option={option}
-                selectedFilterOptions={selectedFilterOptions[filter.category]}
-                addFilterOptions={addFilterOptions(filter.category)}
-                deleteFilterOptions={deleteFilterOptions(filter.category)}
+                selectedFilterOptions={selectedFilterOptions?.split(',') || []}
+                addFilterOptions={addFilterOptions}
+                deleteFilterOptions={deleteFilterOptions}
               />
             ))}
           </SSelectBoxList>
@@ -115,7 +115,7 @@ function SelectListItem({
   deleteFilterOptions,
 }: SelectListItemProps) {
   const isCheckedOption =
-    selectedFilterOptions.filter(
+    selectedFilterOptions?.filter(
       selectedOption => selectedOption === option.name
     ).length > 0;
   const handleCheckOption = () => {
@@ -155,7 +155,8 @@ const SCheckbox = styled('input', {
   variants: {
     checked: {
       true: {
-        background: 'url(/assets/img/checkBox/selected.png) left top no-repeat',
+        background:
+          'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
         border: '0',
       },
     },

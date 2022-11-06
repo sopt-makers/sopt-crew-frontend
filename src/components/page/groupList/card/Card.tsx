@@ -22,7 +22,7 @@ function Card({ bottom, id }: CardProps) {
                 <Image
                   width="380px"
                   height="260px"
-                  src=""
+                  src="/group/assets/img/img_example_1.jpg"
                   layout="responsive"
                 />
               </SImageWrapper>
@@ -41,7 +41,7 @@ function Card({ bottom, id }: CardProps) {
                 <SValue>4/5명</SValue>
               </SInfoRow>
               <SInfoRow>
-                <SKey>모임 생성자</SKey>
+                <SKey>모임 개설</SKey>
                 <SValue>홍길동</SValue>
               </SInfoRow>
             </Box>
