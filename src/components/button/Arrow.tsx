@@ -18,6 +18,7 @@ const ArrowButton = ({
   direction = 'left',
   disabled = false,
   size = 'big',
+  ...props
 }: ArrowButtonProps) => {
   return (
     <SButton
@@ -25,6 +26,7 @@ const ArrowButton = ({
       disabled={disabled}
       onClick={onClick}
       direction={direction}
+      {...props}
     >
       {size === 'big' && <ArrowBigRight />}
       {size === 'small' && <ArrowSmallRight />}
