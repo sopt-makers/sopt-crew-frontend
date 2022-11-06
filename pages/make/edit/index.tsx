@@ -1,34 +1,43 @@
 import Presentation from '@components/Form/Presentation';
+import TableOfContents from '@components/Form/TableOfContents';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormData } from 'src/types/form';
+import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 
 const EditPage = () => {
   // TODO: query param으로 부터 id를 가져와서 해당 id에 맞는 폼을 채워넣어야 함
   // TODO: integrate API and fill default values
-  const methods = useForm<FormData>();
+  const methods = useForm<FormType>({
+    mode: 'onChange',
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<FormData> = data => {
+  const onSubmit: SubmitHandler<FormType> = data => {
     console.log(data);
   };
-
   return (
     <FormProvider {...methods}>
-      <SFormContainer>
-        <SFormName>모임 수정하기</SFormName>
-        <Presentation
-          onSubmit={methods.handleSubmit(onSubmit)}
-          submitButtonLabel="수정 완료하기"
-          cancelButtonLabel="수정 취소하기"
-        />
-      </SFormContainer>
-      {/* TODO: 플로팅 Table of Content 추가 */}
+      <SContainer>
+        <SFormContainer>
+          <SFormName>모임 수정하기</SFormName>
+          <Presentation
+            onSubmit={methods.handleSubmit(onSubmit)}
+            submitButtonLabel="수정 완료하기"
+            cancelButtonLabel="수정 취소하기"
+          />
+        </SFormContainer>
+        <TableOfContents label="모임 수정" />
+      </SContainer>
     </FormProvider>
   );
 };
 
 export default EditPage;
 
+const SContainer = styled('div', {
+  display: 'flex',
+});
 const SFormContainer = styled('div', {
   margin: '80px 0',
   padding: '44px 40px 56px',

@@ -1,33 +1,45 @@
 import Presentation from '@components/Form/Presentation';
+import TableOfContents from '@components/Form/TableOfContents';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormData } from 'src/types/form';
+import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const MakePage = () => {
-  const methods = useForm<FormData>();
+  const methods = useForm<FormType>({
+    mode: 'onChange',
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<FormData> = data => {
+  const onSubmit: SubmitHandler<FormType> = data => {
     console.log(data);
   };
 
   return (
     <FormProvider {...methods}>
-      <SFormContainer>
-        <SFormName>모임 생성하기</SFormName>
-        <Presentation
-          onSubmit={methods.handleSubmit(onSubmit)}
-          submitButtonLabel="모임 생성하기"
-        />
-      </SFormContainer>
-      {/* TODO: 플로팅 Table of Content 추가 */}
+      <SContainer>
+        <SFormContainer>
+          <SFormName>모임 생성하기</SFormName>
+          <Presentation
+            onSubmit={methods.handleSubmit(onSubmit)}
+            submitButtonLabel="모임 생성하기"
+          />
+        </SFormContainer>
+        <TableOfContents label="모임 생성" />
+      </SContainer>
     </FormProvider>
   );
 };
 
 export default MakePage;
 
-const SFormContainer = styled('div', {
+const SContainer = styled('div', {
   margin: '80px 0',
+  display: 'flex',
+  gap: '30px',
+});
+const SFormContainer = styled('div', {
+  width: '100%',
   padding: '44px 40px 56px',
   background: '$black80',
   borderRadius: '15px',
