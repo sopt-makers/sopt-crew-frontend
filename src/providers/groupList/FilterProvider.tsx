@@ -8,7 +8,6 @@ import {
 } from 'react';
 import { OptionType } from '@components/page/groupList/filter/Filter';
 import { useEffect } from 'react';
-import { NextRouter } from 'next/router';
 import useLocalStorage from '@hooks/useLocalStorage';
 import { useRouter } from 'next/router';
 
@@ -152,10 +151,10 @@ export function FilterProvider({ children }: PropsWithChildren) {
     const queryParams = {
       page: currentPageIndex,
       ...(categoryOptions.length !== 0 && {
-        categoryOptions: categoryOptions,
+        category: categoryOptions.join(','),
       }),
       ...(statusOptions.length !== 0 && {
-        statusOptions: statusOptions,
+        status: statusOptions.join(','),
       }),
       ...(!!search && {
         search: search,
