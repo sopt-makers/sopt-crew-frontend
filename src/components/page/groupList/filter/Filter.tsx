@@ -1,8 +1,8 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import useGroupListFilter from '@hooks/groupList/useGroupListFilter';
+import useFilterParams from '@hooks/groupList/useFilterParams';
+import useSearchParams from '@hooks/queryString/useSearchParams';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
-import { useRouter } from 'next/router';
 import Result from './Result';
 import Search from './Search';
 import Select from './Select';
@@ -38,9 +38,8 @@ const FILTERS: FilterType[] = [
   },
 ];
 function Filter() {
-  const { search, addFilterOptions, deleteFilterOptions } =
-    useGroupListFilter();
-
+  const { addFilterOptions, deleteFilterOptions } = useFilterParams();
+  const { search } = useSearchParams();
   return (
     <SelectListVisionProvider>
       <Flex align="center" justify="between">

@@ -1,16 +1,14 @@
 import { useRouter } from 'next/router';
 import { ParsedUrlQueryInput } from 'querystring';
 
-export interface QueryProps {
-  page?: string;
+export interface FilterQueryString {
   category?: string;
   status?: string;
-  search?: string;
 }
 
-const useGroupListFilter = () => {
+const useFilterParams = () => {
   const router = useRouter();
-  const query: QueryProps = router?.query;
+  const query: FilterQueryString = router?.query;
   const categoryQuery = query['category'];
   const categoryQuerySplit = categoryQuery?.split(',') || [];
   const statusQuery = query['status'];
@@ -33,7 +31,7 @@ const useGroupListFilter = () => {
     const categoryParams = categoryQuerySplit
       .filter((option: string) => option !== value)
       .join(',');
-    const query: QueryProps = {
+    const query: FilterQueryString = {
       ...router.query,
       category: categoryParams,
     };
@@ -66,7 +64,7 @@ const useGroupListFilter = () => {
     const statusParams = statusQuerySplit
       .filter((option: string) => option !== value)
       .join(',');
-    const query: QueryProps = {
+    const query: FilterQueryString = {
       ...router.query,
       status: statusParams,
     };
@@ -91,7 +89,7 @@ const useGroupListFilter = () => {
     if (category === 'status') deleteStatusOptions(value);
   };
   const resetFilterOptions = () => {
-    const query: QueryProps = {
+    const query: FilterQueryString = {
       ...router.query,
     };
 
@@ -121,15 +119,12 @@ const useGroupListFilter = () => {
   };
 
   return {
-    page: Number(query?.page) || 1,
     category: categoryQuerySplit,
     status: statusQuerySplit,
-    search: query?.search || '',
     addFilterOptions,
     deleteFilterOptions,
     resetFilterOptions,
-    setPage,
   };
 };
 
-export default useGroupListFilter;
+export default useFilterParams;

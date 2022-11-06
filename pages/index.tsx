@@ -9,12 +9,10 @@ import PlusIcon from '@assets/svg/plus.svg';
 import type { NextPage } from 'next';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
-import useGroupListFilter from '@hooks/groupList/useGroupListFilter';
+import usePageParams from '@hooks/queryString/usePageParams';
 
 const Home: NextPage = () => {
-  // const { listType, changeListType, currentPageIndex, changeCurrentPage } =
-  //   useFilterContext();
-  const { page, setPage } = useGroupListFilter();
+  const { page, setPage } = usePageParams();
   return (
     <div>
       <main>

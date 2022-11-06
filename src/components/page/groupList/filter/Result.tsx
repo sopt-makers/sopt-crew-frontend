@@ -2,9 +2,9 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
 import ResetIcon from '@assets/svg/reset.svg';
-import useGroupListFilter from '@hooks/groupList/useGroupListFilter';
+import useFilterParams from '@hooks/groupList/useFilterParams';
 function Result() {
-  const { category, status } = useGroupListFilter();
+  const { category, status } = useFilterParams();
 
   return category.length === 0 && status.length === 0 ? (
     <div></div>
@@ -48,14 +48,12 @@ function ResultItem({
   category: string;
   selectedOption: string;
 }) {
-  const { deleteFilterOptions } = useGroupListFilter();
-
+  const { deleteFilterOptions } = useFilterParams();
+  const deleteOptionInCategory = deleteFilterOptions(category);
   return (
     <SResultItemWrapper align="center" justify="between">
       <SFilterItemName>{selectedOption}</SFilterItemName>
-      <SCancelButton
-        onClick={() => deleteFilterOptions(category)(selectedOption)}
-      >
+      <SCancelButton onClick={() => deleteOptionInCategory(selectedOption)}>
         <XSmallIcon />
       </SCancelButton>
     </SResultItemWrapper>
@@ -79,7 +77,7 @@ const SCancelButton = styled('button', {
 });
 
 function InitializationButton() {
-  const { resetFilterOptions } = useGroupListFilter();
+  const { resetFilterOptions } = useFilterParams();
 
   return (
     <Flex as="button" onClick={resetFilterOptions}>

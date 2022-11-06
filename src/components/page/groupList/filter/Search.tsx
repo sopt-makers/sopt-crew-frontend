@@ -1,31 +1,15 @@
 import SearchIcon from '@assets/svg/search.svg';
 import { Flex } from '@components/util/layout/Flex';
-import { QueryProps } from '@hooks/groupList/useGroupListFilter';
-import { useRouter } from 'next/router';
-import { ParsedUrlQueryInput } from 'querystring';
+import useSearchParams from '@hooks/queryString/useSearchParams';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
 function Search() {
-  const router = useRouter();
-
   const { register, handleSubmit } = useForm();
+  const { setSearch } = useSearchParams();
   const onSubmit = (value: FieldValues) => {
-    const query: QueryProps = {
-      ...router.query,
-      search: value.search,
-    };
-    if (!value.search) {
-      delete query.search;
-    }
-    router.push(
-      {
-        query: query as ParsedUrlQueryInput,
-      },
-      undefined,
-      { shallow: true }
-    );
+    setSearch(value.search);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
