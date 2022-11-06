@@ -4,6 +4,7 @@ import { TabList } from '@components/tabList/TabList';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
+import Pagination from '@components/page/groupList/Pagination';
 
 type invitationItem = {
   id: number;
@@ -67,6 +68,9 @@ const InvitationPage = () => {
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
+      <SPaginationWrapper>
+        <Pagination />
+      </SPaginationWrapper>
     </SInvitationPage>
   );
 };
@@ -91,4 +95,8 @@ const SEmptyView = styled(Box, {
   border: `1px solid $black40`,
   fontAg: '24_medium_100',
   color: '$gray80',
+});
+
+const SPaginationWrapper = styled(Box, {
+  mt: '$80',
 });
