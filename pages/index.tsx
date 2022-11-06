@@ -1,3 +1,7 @@
+import { Box } from '@components/box/Box';
+import Card from '@components/page/groupList/Card';
+import GridLayout from '@components/page/groupList/GirdLayout';
+import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
 import type { NextPage } from 'next';
 import { useState } from 'react';
@@ -16,6 +20,15 @@ const Home: NextPage = () => {
           <TabList.Item text="all">모임 전체</TabList.Item>
           <TabList.Item text="mine">내 모임</TabList.Item>
         </TabList>
+        <GridLayout>
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </GridLayout>
+        <Box css={{ my: '$80' }}>
+          <Pagination />
+        </Box>
       </main>
     </div>
   );
