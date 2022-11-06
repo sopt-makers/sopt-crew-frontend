@@ -5,6 +5,7 @@ import ArrowButton from '@components/button/Arrow';
 import { FilterType, OptionType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
 import { useFilterContext } from '@providers/groupList/FilterProvider';
+import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
 
 interface HandleOptionFunctions {
   addFilterOptions: (value: string) => void;
@@ -12,20 +13,17 @@ interface HandleOptionFunctions {
 }
 interface SelectProps {
   filter: FilterType;
-  setFalseSelectList: (category: string) => void;
-  isSelectListVisible: boolean;
-  toggleSelectList: (category: string) => void;
 }
 
 function Select({
-  isSelectListVisible,
-  setFalseSelectList,
-  toggleSelectList,
+  // isSelectListVisible,
+
   filter,
 }: SelectProps) {
-  // const { bool: isVisibleList, setFalse, toggle } = useBooleanState();
   const { selectedFilterOptions, addFilterOptions, deleteFilterOptions } =
     useFilterContext();
+  const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
+    useSelectListVisionContext();
   return (
     <Box
       css={{
@@ -39,39 +37,29 @@ function Select({
         align="center"
         justify="between"
         onClick={() => toggleSelectList(filter.category)}
-        isSelected={
-          selectedFilterOptions[filter.category as 'category' | 'status']
-            .length !== 0
-        }
+        isSelected={selectedFilterOptions[filter.category].length !== 0}
       >
         <SCategory
-          isSelected={
-            selectedFilterOptions[filter.category as 'category' | 'status']
-              .length !== 0
-          }
+          isSelected={selectedFilterOptions[filter.category].length !== 0}
         >
           {filter.label}
         </SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
-      {isSelectListVisible && (
+      {isSelectListVisible[filter.category] && (
         <>
           <SSelectBoxList as="ul">
             {filter.options.map(option => (
               <SelectListItem
                 key={option.value}
                 option={option}
-                selectedFilterOptions={
-                  selectedFilterOptions[
-                    filter.category as 'category' | 'status'
-                  ]
-                }
+                selectedFilterOptions={selectedFilterOptions[filter.category]}
                 addFilterOptions={addFilterOptions(filter.category)}
                 deleteFilterOptions={deleteFilterOptions(filter.category)}
               />
             ))}
           </SSelectBoxList>
-          <SelectOverlay onClick={() => setFalseSelectList(filter.category)} />
+          <SelectOverlay onClick={() => onDismissSelectList(filter.category)} />
         </>
       )}
     </Box>

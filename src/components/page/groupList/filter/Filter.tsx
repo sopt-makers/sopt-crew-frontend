@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import useBooleanState from '@hooks/useBooleanState';
 import { useFilterContext } from '@providers/groupList/FilterProvider';
+import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Result from './Result';
 import Search from './Search';
 import Select from './Select';
@@ -10,10 +10,10 @@ export interface OptionType {
   name: string;
   value: string;
 }
-
+export type CategoryType = 'category' | 'status';
 export interface FilterType {
   label: string;
-  category: string;
+  category: CategoryType;
   options: OptionType[];
 }
 
@@ -38,44 +38,13 @@ const FILTERS: FilterType[] = [
 ];
 function Filter() {
   const { search } = useFilterContext();
-  const {
-    bool: isCategoryListVisible,
-    setFalse: categoryListSetFalse,
-    toggle: categoryListToggle,
-  } = useBooleanState();
 
-  const {
-    bool: isStatusListVisible,
-    setFalse: statusSetFalse,
-    toggle: statusListToggle,
-  } = useBooleanState();
-
-  const isSelectListVisible = {
-    category: isCategoryListVisible,
-    status: isStatusListVisible,
-  };
-  const setFalseSelectList = (category: string) => {
-    if (category === 'category') categoryListSetFalse();
-    if (category === 'status') statusSetFalse();
-  };
-  const toggleSelectList = (category: string) => {
-    if (category === 'category') categoryListToggle();
-    if (category === 'status') statusListToggle();
-  };
   return (
-    <>
+    <SelectListVisionProvider>
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <Select
-              key={filter.label}
-              isSelectListVisible={
-                isSelectListVisible[filter.category as 'category' | 'status']
-              }
-              setFalseSelectList={setFalseSelectList}
-              toggleSelectList={toggleSelectList}
-              filter={filter}
-            />
+            <Select key={filter.label} filter={filter} />
           ))}
         </Flex>
         <Search />
@@ -87,7 +56,7 @@ function Filter() {
       )}
 
       <Result />
-    </>
+    </SelectListVisionProvider>
   );
 }
 
