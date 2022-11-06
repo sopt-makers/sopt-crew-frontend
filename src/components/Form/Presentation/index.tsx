@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
 import FormController from '../FormController';
@@ -97,6 +97,9 @@ function Presentation({
                 <span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>
               }
               {...field}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                field.onChange(+e.target.value)
+              }
             />
           )}
         ></FormController>
@@ -109,7 +112,7 @@ function Presentation({
           모임 소개
         </Label>
         <FormController
-          name="detailIntro"
+          name="detail.intro"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="모임 소개" maxLength={500} {...field} />
@@ -123,7 +126,7 @@ function Presentation({
           진행 방식 소개
         </Label>
         <FormController
-          name="detailFlow"
+          name="detail.flow"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="진행 방식 소개" maxLength={500} {...field} />
@@ -139,7 +142,7 @@ function Presentation({
         <SDateFieldWrapper>
           <SDateField>
             <FormController
-              name="startAt"
+              name="detail.startAt"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" required {...field} />
@@ -149,7 +152,7 @@ function Presentation({
           -
           <SDateField>
             <FormController
-              name="endAt"
+              name="detail.endAt"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" {...field} />
@@ -165,7 +168,7 @@ function Presentation({
           개설자 소개
         </Label>
         <FormController
-          name="detailCreator"
+          name="detail.creator"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="개설자 소개" maxLength={500} {...field} />
@@ -179,7 +182,7 @@ function Presentation({
           모집 대상
         </Label>
         <FormController
-          name="detailTargetMember"
+          name="detail.targetMember"
           defaultValue=""
           render={({ field }) => (
             <Textarea
@@ -193,11 +196,9 @@ function Presentation({
 
       {/* 모임 정보 - 유의사항 */}
       <div>
-        <Label required={true} size="small">
-          유의사항
-        </Label>
+        <Label size="small">유의사항</Label>
         <FormController
-          name="notice"
+          name="detail.notice"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="유의 사항 입력" maxLength={500} {...field} />

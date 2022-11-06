@@ -8,7 +8,6 @@ export interface Option {
   value: string | null;
 }
 
-
 interface OptionItemProps {
   option: Option;
 }
