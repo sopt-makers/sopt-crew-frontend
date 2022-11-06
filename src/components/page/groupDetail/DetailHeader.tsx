@@ -16,6 +16,7 @@ const DetailHeader = () => {
   const endDate = '22.10.28';
   const category = '스터디';
   const studyName = '피그마 왕초보를 위한 스터디';
+  const hostId = 1;
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
@@ -73,7 +74,13 @@ const DetailHeader = () => {
             <span>{category}</span>
             {studyName}
           </h1>
-          <SProfile>
+          <SProfile
+            onClick={() =>
+              router.push(
+                `${window.location.host}/members/detail?memberId=${hostId}`
+              )
+            }
+          >
             <SProfileImage />
             <span>{hostName}</span>
             <ArrowSmallRightIcon />
