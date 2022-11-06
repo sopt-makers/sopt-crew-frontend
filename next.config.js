@@ -9,6 +9,7 @@ const nextConfig = {
     });
     return config;
   },
+  basePath: '/group',
 };
 
 module.exports = nextConfig;
