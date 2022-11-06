@@ -149,7 +149,7 @@ const DetailHeader = () => {
             <SApplicantListWrapper>
               <ApplicantList />
               {isHost && (
-                <Link href={`/invitation?id=${groupId}`} passHref>
+                <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
                     <p>참여자 리스트</p>
                     <ArrowSmallRightIcon />
@@ -157,7 +157,7 @@ const DetailHeader = () => {
                 </Link>
               )}
               {isApplied && (
-                <Link href={`/invitation?id=${groupId}`} passHref>
+                <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
                     <p>신청자 리스트</p>
                     <ArrowSmallRightIcon />
