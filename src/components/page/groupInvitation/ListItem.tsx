@@ -4,8 +4,10 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
+import { useRouter } from 'next/router';
 
 interface ListItemProps {
+  id: number;
   profileImage?: string;
   name: string;
   date: string;
@@ -15,6 +17,7 @@ interface ListItemProps {
 }
 
 const ListItem = ({
+  id,
   profileImage,
   name,
   date,
@@ -22,6 +25,7 @@ const ListItem = ({
   detail,
   isHost,
 }: ListItemProps) => {
+  const router = useRouter();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
@@ -43,7 +47,15 @@ const ListItem = ({
           ) : (
             <ProfileDefaultIcon />
           )}
-          <SName>{name}</SName>
+          <SName
+            onClick={() =>
+              router.push(
+                `${window.location.host}/members/detail?memberId=${id}`
+              )
+            }
+          >
+            {name}
+          </SName>
           {isHost && status && (
             <SStatus isAccepted={status === 'accepted'}>
               {getStatusText(status)}
