@@ -3,24 +3,52 @@ import { bindThePages } from '@utils/bindThePages';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowButton from '@components/button/Arrow';
-
-function Pagination() {
+interface PaginationProps {
+  totalPagesLength: number;
+  currentPageIndex: number;
+  changeCurrentPage: (index: number) => void;
+}
+function Pagination({
+  totalPagesLength,
+  currentPageIndex,
+  changeCurrentPage,
+}: PaginationProps) {
   const [pagesIndex, setPagesIndex] = useState(0);
-  const pagesChunk = bindThePages(20);
-
+  const BUNDLE_SIZE = 5;
+  const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
+  const prevBundle = () => {
+    setPagesIndex(index => index - 1);
+    changeCurrentPage(currentPageIndex - BUNDLE_SIZE);
+  };
+  const nextBundle = () => {
+    setPagesIndex(index => index + 1);
+    changeCurrentPage(currentPageIndex + BUNDLE_SIZE);
+  };
   return (
     <Flex align="center" justify="center">
       <Flex align="center">
-        <ArrowButton direction="left" disabled={true} />
+        <ArrowButton
+          direction="left"
+          disabled={pagesIndex === 0}
+          onClick={pagesIndex === 0 ? () => {} : prevBundle}
+        />
         <Flex css={{ mx: '$24' }}>
-          {pagesChunk[pagesIndex]?.map((item, idx) => (
-            <SPageLink key={idx} isCurrent={false}>
+          {pagesBundle[pagesIndex]?.map((item, idx) => (
+            <SPageLink
+              key={idx}
+              isCurrent={currentPageIndex === item}
+              onClick={() => changeCurrentPage(item)}
+            >
               {item}
             </SPageLink>
           ))}
         </Flex>
 
-        <ArrowButton direction="right" />
+        <ArrowButton
+          direction="right"
+          disabled={pagesBundle.length - 1 <= pagesIndex}
+          onClick={pagesBundle.length - 1 <= pagesIndex ? () => {} : nextBundle}
+        />
       </Flex>
     </Flex>
   );

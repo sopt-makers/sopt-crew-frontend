@@ -4,20 +4,24 @@
  * ex)
  *
  * pageLength = 10;
+ * bundleSize = 5;
  *
  * returns [ [1,2,3,4,5], [6,7,8,9,10] ]
  * @param pageLength
+ * @param bundleSize
  * @returns number[][]
  *
  */
 
-export function bindThePages(pageLength: number): number[][] {
+export function bindThePages(
+  pageLength: number,
+  bundleSize: number
+): number[][] {
   const listAllPages = Array.from({ length: pageLength }, (v, i) => i + 1);
   let i, j;
   const bundleOfPages = [];
-  const chunkSize = 5;
-  for (i = 0, j = pageLength; i < j; i += chunkSize) {
-    bundleOfPages.push(listAllPages.slice(i, i + chunkSize));
+  for (i = 0, j = pageLength; i < j; i += bundleSize) {
+    bundleOfPages.push(listAllPages.slice(i, i + bundleSize));
   }
   return bundleOfPages;
 }

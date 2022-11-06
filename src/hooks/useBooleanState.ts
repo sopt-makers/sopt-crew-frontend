@@ -15,5 +15,5 @@ export default function useBooleanState(defaultValue = false) {
     setBool(b => !b);
   }, []);
 
-  return { bool, setTrue, setFalse, toggle } as const;
+  return { bool, setTrue, setFalse, toggle };
 }

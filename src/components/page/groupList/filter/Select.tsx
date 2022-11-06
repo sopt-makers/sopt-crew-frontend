@@ -1,14 +1,31 @@
-import useBooleanState from '@hooks/useBooleanState';
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import ArrowButton from '@components/button/Arrow';
 import { FilterType, OptionType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
+import { useFilterContext } from '@providers/groupList/FilterProvider';
 
-function Select({ filter }: { filter: FilterType }) {
-  const { bool: isVisibleList, setFalse, toggle } = useBooleanState();
+interface HandleOptionFunctions {
+  addFilterOptions: (value: string) => void;
+  deleteFilterOptions: (value: string) => void;
+}
+interface SelectProps {
+  filter: FilterType;
+  setFalseSelectList: (category: string) => void;
+  isSelectListVisible: boolean;
+  toggleSelectList: (category: string) => void;
+}
 
+function Select({
+  isSelectListVisible,
+  setFalseSelectList,
+  toggleSelectList,
+  filter,
+}: SelectProps) {
+  // const { bool: isVisibleList, setFalse, toggle } = useBooleanState();
+  const { selectedFilterOptions, addFilterOptions, deleteFilterOptions } =
+    useFilterContext();
   return (
     <Box
       css={{
@@ -18,18 +35,32 @@ function Select({ filter }: { filter: FilterType }) {
         },
       }}
     >
-      <SSelectDisplay align="center" justify="between" onClick={toggle}>
+      <SSelectDisplay
+        align="center"
+        justify="between"
+        onClick={() => toggleSelectList(filter.category)}
+      >
         <SCategory>{filter.label}</SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
-      {isVisibleList && (
+      {isSelectListVisible && (
         <>
           <SSelectBoxList as="ul">
             {filter.options.map(option => (
-              <SelectListItem option={option} />
+              <SelectListItem
+                key={option.value}
+                option={option}
+                selectedFilterOptions={
+                  selectedFilterOptions[
+                    filter.category as 'category' | 'status'
+                  ]
+                }
+                addFilterOptions={addFilterOptions(filter.category)}
+                deleteFilterOptions={deleteFilterOptions(filter.category)}
+              />
             ))}
           </SSelectBoxList>
-          <SelectOverlay onClick={setFalse} />
+          <SelectOverlay onClick={() => setFalseSelectList(filter.category)} />
         </>
       )}
     </Box>
@@ -59,13 +90,30 @@ const SSelectBoxList = styled(Box, {
   backgroundColor: '$black100',
   zIndex: '$2',
 });
+interface SelectListItemProps extends HandleOptionFunctions {
+  option: OptionType;
+  selectedFilterOptions: string[];
+}
 
-function SelectListItem({ option }: { option: OptionType }) {
-  const { bool, toggle } = useBooleanState();
+function SelectListItem({
+  option,
+  selectedFilterOptions,
+  addFilterOptions,
+  deleteFilterOptions,
+}: SelectListItemProps) {
+  const isCheckedOption =
+    selectedFilterOptions.filter(
+      selectedOption => selectedOption === option.name
+    ).length > 0;
+  const handleCheckOption = () => {
+    if (!isCheckedOption) addFilterOptions(option.name);
+    if (isCheckedOption) deleteFilterOptions(option.name);
+  };
+
   return (
     <Flex
       as="li"
-      onClick={toggle}
+      onClick={handleCheckOption}
       align="center"
       css={{
         height: '44px',
@@ -73,7 +121,7 @@ function SelectListItem({ option }: { option: OptionType }) {
     >
       <SCheckbox
         type="checkbox"
-        checked={bool}
+        checked={isCheckedOption}
         id={option.name}
         name={option.name}
       />

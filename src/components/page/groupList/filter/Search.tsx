@@ -1,20 +1,34 @@
 import SearchIcon from '@assets/svg/search.svg';
 import { Flex } from '@components/util/layout/Flex';
+import { useFilterContext } from '@providers/groupList/FilterProvider';
+
+import { FieldValues, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
 function Search() {
+  const { handleSearch } = useFilterContext();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (value: FieldValues) => {
+    handleSearch(value.search);
+  };
   return (
-    <SearchWrapper align="center" justify="between">
-      <SearchInput type="text" placeholder="모임 검색" />
-      <SearchButton>
-        <SearchIcon />
-      </SearchButton>
-    </SearchWrapper>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <SSearchWrapper align="center" justify="between">
+        <SSearchInput
+          type="text"
+          placeholder="모임 검색"
+          {...register('search')}
+        />
+        <SSearchButton>
+          <SearchIcon />
+        </SSearchButton>
+      </SSearchWrapper>
+    </form>
   );
 }
 
 export default Search;
-const SearchWrapper = styled(Flex, {
+const SSearchWrapper = styled(Flex, {
   width: '242px',
   py: '$13',
   px: '$24',
@@ -22,7 +36,7 @@ const SearchWrapper = styled(Flex, {
   borderRadius: '59px',
 });
 
-const SearchInput = styled('input', {
+const SSearchInput = styled('input', {
   width: '200px',
   color: '$white',
   fontAg: '18_medium_100',
@@ -32,6 +46,6 @@ const SearchInput = styled('input', {
   },
 });
 
-const SearchButton = styled('button', {
+const SSearchButton = styled('button', {
   flexType: 'center',
 });

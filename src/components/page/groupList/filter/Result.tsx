@@ -2,11 +2,29 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
 import ResetIcon from '@assets/svg/reset.svg';
+import { useFilterContext } from '@providers/groupList/FilterProvider';
 function Result() {
-  return (
+  const { selectedFilterOptions } = useFilterContext();
+  return selectedFilterOptions.category.length === 0 &&
+    selectedFilterOptions.status.length === 0 ? (
+    <div></div>
+  ) : (
     <SResultWrapper align="center" justify="between">
       <Flex align="center">
-        <ResultItem />
+        {selectedFilterOptions.category.map(selectedOption => (
+          <ResultItem
+            key={selectedOption}
+            category="category"
+            selectedOption={selectedOption}
+          />
+        ))}
+        {selectedFilterOptions.status.map(selectedOption => (
+          <ResultItem
+            key={selectedOption}
+            category="status"
+            selectedOption={selectedOption}
+          />
+        ))}
       </Flex>
       <InitializationButton />
     </SResultWrapper>
@@ -23,11 +41,21 @@ const SResultWrapper = styled(Flex, {
   borderRadius: '10px',
 });
 
-function ResultItem() {
+function ResultItem({
+  category,
+  selectedOption,
+}: {
+  category: string;
+  selectedOption: string;
+}) {
+  const { deleteFilterOptions } = useFilterContext();
+
   return (
     <SResultItemWrapper align="center" justify="between">
-      <SFilterItemName>스터디</SFilterItemName>
-      <SCancelButton>
+      <SFilterItemName>{selectedOption}</SFilterItemName>
+      <SCancelButton
+        onClick={() => deleteFilterOptions(category)(selectedOption)}
+      >
         <XSmallIcon />
       </SCancelButton>
     </SResultItemWrapper>
@@ -51,8 +79,10 @@ const SCancelButton = styled('button', {
 });
 
 function InitializationButton() {
+  const { resetFilterOption } = useFilterContext();
+
   return (
-    <Flex as="button">
+    <Flex as="button" onClick={resetFilterOption}>
       <ResetIcon />
       <InitializationText>초기화</InitializationText>
     </Flex>
