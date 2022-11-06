@@ -9,7 +9,7 @@ interface TabListContextProps {
 export const TabListContext = createContext<TabListContextProps>({
   text: '',
   size: '',
-  onChange: () => {},
+  onChange: () => ({}),
 });
 
 export const useTabListContext = () => {
