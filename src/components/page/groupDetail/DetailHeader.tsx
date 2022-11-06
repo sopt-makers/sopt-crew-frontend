@@ -20,7 +20,7 @@ const DetailHeader = () => {
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = false;
+  const isHost = true;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
@@ -107,7 +107,9 @@ const DetailHeader = () => {
           {isHost && (
             <SHostButton>
               <button onClick={handleGroupDelete}>삭제</button>
-              <button>수정</button>
+              <button onClick={() => router.push(`/make?id=${groupId}/edit`)}>
+                수정
+              </button>
             </SHostButton>
           )}
         </div>
