@@ -13,7 +13,7 @@ const useSearchParams = () => {
       ...router.query,
       search: value,
     };
-    if (!value.search) {
+    if (!value) {
       delete query.search;
     }
     router.push(
