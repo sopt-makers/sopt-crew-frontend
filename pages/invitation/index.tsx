@@ -11,13 +11,14 @@ type invitationItem = {
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
+  detail?: string;
 };
 
 const InvitationPage = () => {
   const router = useRouter();
   const handleChange = (text: string) => {
     if (text === 'all') {
-      router.push('/group');
+      router.push('/');
     }
   };
 
@@ -29,20 +30,24 @@ const InvitationPage = () => {
       name: '백지연',
       date: '22.10.02',
       status: 'rejected',
+      detail: '열심히 하겠습니다!',
     },
     {
       id: 2,
       name: '이재훈',
       date: '22.10.02',
       status: 'accepted',
+      detail: '신청내역 상세',
     },
     {
       id: 3,
       name: '김은수',
       date: '22.10.02',
       status: 'waiting',
+      detail: '모임에 임할 각오 작성',
     },
   ];
+  const total = invitationList.length;
 
   return (
     <SInvitationPage>
@@ -51,7 +56,10 @@ const InvitationPage = () => {
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
       <GroupInformation />
-      <SListTitle>모임 {isHost ? '신청자' : '참여자'} 리스트</SListTitle>
+      <SListTitle>
+        모임 {isHost ? '신청자' : '참여자'}
+        {total > 0 && <span> ({total})</span>}
+      </SListTitle>
       {invitationList.length ? (
         invitationList.map(invitation => (
           <ListItem key={invitation.id} {...invitation} isHost={isHost} />
@@ -71,8 +79,8 @@ const SInvitationPage = styled(Box, {
 });
 
 const SListTitle = styled(Box, {
-  mt: '$96',
-  mb: '$64',
+  mt: '$64',
+  mb: '$48',
   fontAg: '32_bold_100',
 });
 

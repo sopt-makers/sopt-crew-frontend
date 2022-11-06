@@ -1,9 +1,16 @@
 import { Box } from '@components/box/Box';
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
-import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import useModal from '@hooks/useModal';
+import DefaultModal from '@components/modal/DefaultModal';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import { useRouter } from 'next/router';
+import ApplicantList from './ApplicantList';
 
 const DetailHeader = () => {
+  const router = useRouter();
+  const groupId = router.query.id;
   const isRecruiting = true;
   const startDate = '22.10.21';
   const endDate = '22.10.28';
@@ -14,55 +21,135 @@ const DetailHeader = () => {
   const total = 5;
   const isHost = false;
   const [isApplied, setIsApplied] = useState(false);
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
+  const isDefaultModalOpened = isModalOpened && modalType === 'default';
+  const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
+  const modalMessage = isHost
+    ? '모임을 삭제하시겠습니까?'
+    : '신청을 취소하시겠습니까?';
+  const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
 
-  const handleApplication = () => {
-    setIsApplied(prev => !prev);
+  const handleApplicantListModal = () => {
+    handleModalOpen();
+    setModalTitle(`모집 현황 (${current}/${total}명)`);
+    setModalType('default');
+  };
+
+  const handleApplicationModal = () => {
+    if (!isApplied) {
+      handleModalOpen();
+      setModalTitle('모임 신청하기');
+      setModalType('default');
+      // TODO : 신청하기 눌렀을 때
+      setIsApplied(prev => !prev);
+    } else {
+      setModalType('confirm');
+      handleModalOpen();
+      // TODO: 취소하기 눌렀을 때
+      setIsApplied(prev => !prev);
+    }
+  };
+
+  const handleGroupDelete = () => {
+    setModalType('confirm');
+    handleModalOpen();
   };
 
   return (
-    <SDetailHeader>
-      <SAbout>
-        <div>
-          <SRecruitStatus isRecruiting={isRecruiting}>
-            모집{isRecruiting ? ' 중' : '마감'}
-          </SRecruitStatus>
-          <SPeriod>
-            {startDate} - {endDate}
-          </SPeriod>
-        </div>
-        <h1>
-          <span>{category}</span>
-          {studyName}
-        </h1>
-        <SProfile>
-          <SProfileImage />
-          <span>{hostName}</span>
-          <ArrowSmallRight />
-        </SProfile>
-      </SAbout>
-      <div>
-        <SStatusButton>
+    <>
+      <SDetailHeader>
+        <SAbout>
           <div>
-            <span>모집 현황</span>
-            <span>
-              {current}/{total}명
-            </span>
+            <SRecruitStatus isRecruiting={isRecruiting}>
+              모집{isRecruiting ? ' 중' : '마감'}
+            </SRecruitStatus>
+            <SPeriod>
+              {startDate} - {endDate}
+            </SPeriod>
           </div>
-          <ArrowSmallRight />
-        </SStatusButton>
-        {!isHost && (
-          <SGuestButton isApplied={isApplied} onClick={handleApplication}>
-            신청{isApplied ? ' 취소' : '하기'}
-          </SGuestButton>
-        )}
-        {isHost && (
-          <SHostButton>
-            <button>삭제</button>
-            <button>수정</button>
-          </SHostButton>
-        )}
-      </div>
-    </SDetailHeader>
+          <h1>
+            <span>{category}</span>
+            {studyName}
+          </h1>
+          <SProfile>
+            <SProfileImage />
+            <span>{hostName}</span>
+            <ArrowSmallRightIcon />
+          </SProfile>
+        </SAbout>
+        <div>
+          <SStatusButton onClick={handleApplicantListModal}>
+            <div>
+              <span>모집 현황</span>
+              <span>
+                {current}/{total}명
+              </span>
+            </div>
+            <ArrowSmallRightIcon />
+          </SStatusButton>
+          {!isHost && (
+            <SGuestButton
+              isApplied={isApplied}
+              onClick={handleApplicationModal}
+            >
+              신청{isApplied ? ' 취소' : '하기'}
+            </SGuestButton>
+          )}
+          {isHost && (
+            <SHostButton>
+              <button onClick={handleGroupDelete}>삭제</button>
+              <button>수정</button>
+            </SHostButton>
+          )}
+        </div>
+      </SDetailHeader>
+      {isConfirmModalOpened && (
+        <ConfirmModal
+          isModalOpened={isConfirmModalOpened}
+          message={modalMessage}
+          cancelButton="돌아가기"
+          confirmButton={modalConfirmButton}
+          handleModalClose={handleModalClose}
+        />
+      )}
+      {isDefaultModalOpened && (
+        <DefaultModal
+          isModalOpened={isDefaultModalOpened}
+          title={modalTitle}
+          handleModalClose={handleModalClose}
+        >
+          {modalTitle === '모임 신청하기' ? (
+            <SApplicationForm>
+              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
+              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
+              <button onClick={handleModalClose}>신청하기</button>
+            </SApplicationForm>
+          ) : (
+            <SApplicantListWrapper>
+              <ApplicantList />
+              {isHost && (
+                <button
+                  onClick={() => router.push(`/invitation?id=${groupId}`)}
+                >
+                  참여자 리스트
+                  <ArrowSmallRightIcon />
+                </button>
+              )}
+              {isApplied && (
+                <button
+                  onClick={() => router.push(`/invitation?id=${groupId}`)}
+                >
+                  신청자 리스트
+                  <ArrowSmallRightIcon />
+                </button>
+              )}
+            </SApplicantListWrapper>
+          )}
+        </DefaultModal>
+      )}
+    </>
   );
 };
 
@@ -190,6 +277,60 @@ const SHostButton = styled(Box, {
   },
 
   'button:last-child': {
+    backgroundColor: '$purple100',
+  },
+});
+
+const SApplicantListWrapper = styled(Box, {
+  padding: '$28 $28 $88 $28',
+
+  button: {
+    mt: '$24',
+    fontAg: '16_semibold_100',
+    color: '$white',
+    float: 'right',
+    flexType: 'verticalCenter',
+
+    svg: {
+      ml: '$8',
+    },
+  },
+});
+
+const SApplicationForm = styled(Box, {
+  padding: '$24 $24 $48 $24',
+  borderBottomLeftRadius: '16px',
+  borderBottomRightRadius: '16px',
+  height: '$356',
+
+  '& > p': {
+    fontAg: '32_bold_100',
+    textAlign: 'center',
+    mt: '$32',
+    mb: '$48',
+  },
+
+  // 임시
+  textarea: {
+    width: '100%',
+    height: '$200',
+    fontAg: '22_regular_170',
+    color: '$gray80',
+    backgroundColor: '$black60',
+    outline: 'none',
+    borderRadius: '10px',
+  },
+
+  button: {
+    display: 'block',
+    margin: '0 auto',
+    mt: '$28',
+    padding: '$19 0',
+    width: '$180',
+    borderRadius: '12px',
+    textAlign: 'center',
+    fontAg: '18_bold_100',
+    color: '$white',
     backgroundColor: '$purple100',
   },
 });
