@@ -4,7 +4,8 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface ListItemProps {
   id: number;
@@ -25,7 +26,7 @@ const ListItem = ({
   detail,
   isHost,
 }: ListItemProps) => {
-  const router = useRouter();
+  const [host, setHost] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
@@ -38,6 +39,10 @@ const ListItem = ({
     }
   };
 
+  useEffect(() => {
+    setHost(window.location.host);
+  }, []);
+
   return (
     <>
       <SListItem>
@@ -47,15 +52,9 @@ const ListItem = ({
           ) : (
             <ProfileDefaultIcon />
           )}
-          <SName
-            onClick={() =>
-              router.push(
-                `${window.location.host}/members/detail?memberId=${id}`
-              )
-            }
-          >
-            {name}
-          </SName>
+          <Link href={`${host}/members/detail?memberId=${id}`} passHref>
+            <SName>{name}</SName>
+          </Link>
           {isHost && status && (
             <SStatus isAccepted={status === 'accepted'}>
               {getStatusText(status)}
@@ -133,7 +132,7 @@ const SVerticalLine = styled(Box, {
   backgroundColor: '$gray100',
 });
 
-const SName = styled('button', {
+const SName = styled('a', {
   ml: '$24',
   color: '$white',
   fontWeight: '$bold',
