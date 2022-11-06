@@ -4,6 +4,7 @@ import { FormData } from 'src/types/form';
 import { styled } from 'stitches.config';
 
 const EditPage = () => {
+  // TODO: query param으로 부터 id를 가져와서 해당 id에 맞는 폼을 채워넣어야 함
   // TODO: integrate API and fill default values
   const methods = useForm<FormData>();
 
