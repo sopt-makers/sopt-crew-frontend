@@ -39,8 +39,19 @@ function Select({
         align="center"
         justify="between"
         onClick={() => toggleSelectList(filter.category)}
+        isSelected={
+          selectedFilterOptions[filter.category as 'category' | 'status']
+            .length !== 0
+        }
       >
-        <SCategory>{filter.label}</SCategory>
+        <SCategory
+          isSelected={
+            selectedFilterOptions[filter.category as 'category' | 'status']
+              .length !== 0
+          }
+        >
+          {filter.label}
+        </SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
       {isSelectListVisible && (
@@ -74,11 +85,25 @@ const SSelectDisplay = styled(Flex, {
   borderRadius: '$10',
   padding: '$16 $20 $16 $16',
   cursor: 'pointer',
+  variants: {
+    isSelected: {
+      true: {
+        border: '1px solid $white',
+      },
+    },
+  },
 });
 
 const SCategory = styled('span', {
   fontAg: '18_medium_100',
   color: '$gray60',
+  variants: {
+    isSelected: {
+      true: {
+        color: '1px solid $white',
+      },
+    },
+  },
 });
 const SSelectBoxList = styled(Box, {
   width: '100%',
