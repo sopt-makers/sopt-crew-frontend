@@ -2,23 +2,23 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
 import ResetIcon from '@assets/svg/reset.svg';
-import { useFilterContext } from '@providers/groupList/FilterProvider';
+import useGroupListFilter from '@hooks/groupList/useGroupListFilter';
 function Result() {
-  const { selectedFilterOptions } = useFilterContext();
-  return selectedFilterOptions.category.length === 0 &&
-    selectedFilterOptions.status.length === 0 ? (
+  const { category, status } = useGroupListFilter();
+
+  return category.length === 0 && status.length === 0 ? (
     <div></div>
   ) : (
     <SResultWrapper align="center" justify="between">
       <Flex align="center">
-        {selectedFilterOptions.category.map(selectedOption => (
+        {category.map(selectedOption => (
           <ResultItem
             key={selectedOption}
             category="category"
             selectedOption={selectedOption}
           />
         ))}
-        {selectedFilterOptions.status.map(selectedOption => (
+        {status.map(selectedOption => (
           <ResultItem
             key={selectedOption}
             category="status"
@@ -48,7 +48,7 @@ function ResultItem({
   category: string;
   selectedOption: string;
 }) {
-  const { deleteFilterOptions } = useFilterContext();
+  const { deleteFilterOptions } = useGroupListFilter();
 
   return (
     <SResultItemWrapper align="center" justify="between">
@@ -79,10 +79,10 @@ const SCancelButton = styled('button', {
 });
 
 function InitializationButton() {
-  const { resetFilterOption } = useFilterContext();
+  const { resetFilterOptions } = useGroupListFilter();
 
   return (
-    <Flex as="button" onClick={resetFilterOption}>
+    <Flex as="button" onClick={resetFilterOptions}>
       <ResetIcon />
       <InitializationText>초기화</InitializationText>
     </Flex>

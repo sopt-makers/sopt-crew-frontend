@@ -7,56 +7,44 @@ import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
 
 import type { NextPage } from 'next';
-import {
-  FilterProvider,
-  useFilterContext,
-} from '@providers/groupList/FilterProvider';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
-
-const HomePage = () => {
-  return (
-    <FilterProvider>
-      <Home />
-    </FilterProvider>
-  );
-};
+import useGroupListFilter from '@hooks/groupList/useGroupListFilter';
 
 const Home: NextPage = () => {
-  const { listType, changeListType, currentPageIndex, changeCurrentPage } =
-    useFilterContext();
+  // const { listType, changeListType, currentPageIndex, changeCurrentPage } =
+  //   useFilterContext();
+  const { page, setPage } = useGroupListFilter();
   return (
     <div>
       <main>
         <Flex align="center" justify="between">
-          <TabList text={listType} size="big" onChange={changeListType}>
+          <TabList text={'all'} size="big" onChange={() => {}}>
             <TabList.Item text="all">모임 전체</TabList.Item>
             <TabList.Item text="mine">내 모임</TabList.Item>
           </TabList>
-          {listType === 'all' && (
-            <Link href="/make" passHref>
-              <Flex
-                as="a"
-                align="center"
-                justify="center"
-                css={{
-                  width: '132px',
-                  height: '50px',
-                  background: '$purple100',
-                  borderRadius: '12px',
-                  '& > span': {
-                    ml: '$12',
-                    fontAg: '18_bold_100',
+          <Link href="/make" passHref>
+            <Flex
+              as="a"
+              align="center"
+              justify="center"
+              css={{
+                width: '132px',
+                height: '50px',
+                background: '$purple100',
+                borderRadius: '12px',
+                '& > span': {
+                  ml: '$12',
+                  fontAg: '18_bold_100',
 
-                    color: '$white',
-                  },
-                }}
-              >
-                <PlusIcon />
-                <span>모임생성</span>
-              </Flex>
-            </Link>
-          )}
+                  color: '$white',
+                },
+              }}
+            >
+              <PlusIcon />
+              <span>모임생성</span>
+            </Flex>
+          </Link>
         </Flex>
 
         <Box css={{ mt: '$120', mb: '$64' }}>
@@ -72,8 +60,8 @@ const Home: NextPage = () => {
         <Box css={{ my: '$80' }}>
           <Pagination
             totalPagesLength={20}
-            currentPageIndex={currentPageIndex}
-            changeCurrentPage={changeCurrentPage}
+            currentPageIndex={page}
+            changeCurrentPage={setPage}
           />
         </Box>
       </main>
@@ -81,4 +69,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
