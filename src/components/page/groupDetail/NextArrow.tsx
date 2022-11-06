@@ -1,11 +1,10 @@
-import { Box } from '@components/box/Box';
 import React from 'react';
 import { styled } from 'stitches.config';
 import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
 
 interface NextArrowProps {
   className: string;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const NextArrow = ({ className, onClick }: NextArrowProps) => {
