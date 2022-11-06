@@ -13,7 +13,7 @@ import { styled } from 'stitches.config';
 
 const DetailPage = () => {
   const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
-  const tabRef = useRef(new Array());
+  const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
       id: 0,
@@ -67,7 +67,8 @@ const DetailPage = () => {
         ))}
       </TabList>
       {detailList.map(({ id, title, content }) => (
-        <SDetail key={id} ref={element => (tabRef.current[id] = element)}>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
           <STitle>{title}</STitle>
           <SContent>{content}</SContent>
         </SDetail>
