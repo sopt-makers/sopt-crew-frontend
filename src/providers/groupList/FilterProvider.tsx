@@ -18,13 +18,11 @@ interface FilterContextProps {
     status: string[];
   };
   search: string;
-  listType: string;
   changeCurrentPage: (index: number) => void;
   addFilterOptions: (category: string) => (value: string) => void;
   deleteFilterOptions: (category: string) => (value: string) => void;
   resetFilterOption: () => void;
   handleSearch: (word: string) => void;
-  changeListType: (listType: string) => void;
 }
 
 export interface OptionStateType extends OptionType {
@@ -38,7 +36,6 @@ const FilterContext = createContext({
     status: [] as string[],
   },
   search: '',
-  listType: 'all',
   changeCurrentPage: (index: number) => {
     console.log(index);
   },
@@ -52,9 +49,6 @@ const FilterContext = createContext({
   handleSearch: (word: string) => {
     console.log(word);
   },
-  changeListType: (listType: string) => {
-    console.log(listType);
-  },
 });
 
 export function FilterProvider({ children }: PropsWithChildren) {
@@ -66,7 +60,6 @@ export function FilterProvider({ children }: PropsWithChildren) {
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
   const [statusOptions, setStatusOptions] = useState<string[]>([]);
   const [search, setSearch] = useState<string>('');
-  const [listType, setListType] = useState<string>('all');
 
   const changeCurrentPage = useCallback((index: number) => {
     setCurrentPageIndex(index);
@@ -118,10 +111,6 @@ export function FilterProvider({ children }: PropsWithChildren) {
     setSearch(word);
   }, []);
 
-  const changeListType = useCallback((listType: string) => {
-    setListType(listType);
-  }, []);
-
   // TODO: queryString으로 기본값을 잡을 수 있게 셋팅
   //   useEffect(() => {
   //     if (Object.keys(router.query).length === 0) {
@@ -168,7 +157,7 @@ export function FilterProvider({ children }: PropsWithChildren) {
       undefined,
       { shallow: true }
     );
-  }, [currentPageIndex, categoryOptions, statusOptions, search, listType]);
+  }, [currentPageIndex, categoryOptions, statusOptions, search]);
 
   const value = useMemo(
     () => ({
@@ -178,15 +167,13 @@ export function FilterProvider({ children }: PropsWithChildren) {
         status: statusOptions,
       },
       search,
-      listType,
       changeCurrentPage,
       addFilterOptions,
       deleteFilterOptions,
       resetFilterOption,
       handleSearch,
-      changeListType,
     }),
-    [currentPageIndex, categoryOptions, statusOptions, search, listType]
+    [currentPageIndex, categoryOptions, statusOptions, search]
   );
 
   return (
