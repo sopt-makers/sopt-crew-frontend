@@ -13,7 +13,6 @@ import {
 } from '@providers/groupList/FilterProvider';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
 import { styled } from 'stitches.config';
 
 const HomePage = () => {
@@ -44,26 +43,27 @@ const Home: NextPage = () => {
             </Link>
           </TabList>
           <Link href="/make" passHref>
-            <Flex
-              as="a"
-              align="center"
-              justify="center"
-              css={{
-                width: '132px',
-                height: '50px',
-                background: '$purple100',
-                borderRadius: '12px',
-                '& > span': {
-                  ml: '$12',
-                  fontAg: '18_bold_100',
+            <a>
+              <Flex
+                align="center"
+                justify="center"
+                css={{
+                  width: '132px',
+                  height: '50px',
+                  background: '$purple100',
+                  borderRadius: '12px',
+                  '& > span': {
+                    ml: '$12',
+                    fontAg: '18_bold_100',
 
-                  color: '$white',
-                },
-              }}
-            >
-              <PlusIcon />
-              <span>모임생성</span>
-            </Flex>
+                    color: '$white',
+                  },
+                }}
+              >
+                <PlusIcon />
+                <span>모임생성</span>
+              </Flex>
+            </a>
           </Link>
         </Flex>
 

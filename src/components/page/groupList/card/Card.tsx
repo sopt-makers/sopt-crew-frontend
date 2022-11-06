@@ -22,7 +22,7 @@ function Card({ bottom, id }: CardProps) {
                 <Image
                   width="380px"
                   height="260px"
-                  src="/assets/img/img_example_1.jpg"
+                  src=""
                   layout="responsive"
                 />
               </SImageWrapper>

@@ -11,7 +11,8 @@ import { Tab } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { useState } from 'react';
 import { Fragment } from 'react';
-import InvitationButton from '@components/page/groupList/card/invitationButton';
+import InvitationButton from '@components/page/groupList/card/InvitationButton';
+import Status from '@components/page/groupList/card/Status';
 
 const MinePage: NextPage = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -47,10 +48,10 @@ const MinePage: NextPage = () => {
             <Tab.Panel>
               <SGroupCount>4개의 모임</SGroupCount>
               <GridLayout>
-                <Card id={0} bottom={<InvitationButton />} />
-                <Card id={1} />
-                <Card id={2} />
-                <Card id={3} />
+                <Card id={0} bottom={<InvitationButton id={0} />} />
+                <Card id={1} bottom={<InvitationButton id={1} />} />
+                <Card id={2} bottom={<InvitationButton id={2} />} />
+                <Card id={3} bottom={<InvitationButton id={3} />} />
               </GridLayout>
             </Tab.Panel>
 
@@ -58,11 +59,11 @@ const MinePage: NextPage = () => {
               <SGroupCount>5개의 모임</SGroupCount>
 
               <GridLayout>
-                <Card id={0} />
-                <Card id={1} />
-                <Card id={2} />
-                <Card id={3} />
-                <Card id={4} />
+                <Card id={0} bottom={<Status status="승인" />} />
+                <Card id={1} bottom={<Status status="대기" />} />
+                <Card id={2} bottom={<Status status="대기" />} />
+                <Card id={3} bottom={<Status status="거절" />} />
+                <Card id={4} bottom={<Status status="승이" />} />
               </GridLayout>
             </Tab.Panel>
           </Tab.Panels>
