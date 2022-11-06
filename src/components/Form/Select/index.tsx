@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { FocusEventHandler, Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
@@ -7,15 +7,23 @@ import OptionItem, { Option } from './OptionItem';
 
 interface SelectProps {
   label?: string;
-  value: Option;
+  value?: Option;
   options: Option[];
   required?: boolean;
   onChange: (value: Option) => void;
+  onBlur: FocusEventHandler<HTMLDivElement>;
 }
 
-function Select({ label, value, options, required, onChange }: SelectProps) {
+function Select({
+  label,
+  value,
+  options,
+  required,
+  onChange,
+  onBlur,
+}: SelectProps) {
   return (
-    <Listbox value={value} onChange={onChange} as="div">
+    <Listbox value={value} onChange={onChange} onBlur={onBlur} as="div">
       {({ open }) => (
         <>
           {label && <Label required={required}>{label}</Label>}

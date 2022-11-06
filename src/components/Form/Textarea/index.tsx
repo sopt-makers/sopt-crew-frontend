@@ -4,7 +4,7 @@ import Label from '@components/Form/Label';
 import HelpMessage from '@components/Form/HelpMessage';
 
 interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   value: string;
   message?: string;
   required?: boolean;
