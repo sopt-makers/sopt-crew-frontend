@@ -243,8 +243,7 @@ const ButtonContainer = styled('div', {
 });
 const Button = styled('button', {
   padding: '16px 20px',
-  display: 'flex',
-  alignItems: 'center',
+  flexType: 'verticalCenter',
   gap: '12px',
   background: '$black40',
   borderRadius: '10px',
