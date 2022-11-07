@@ -9,11 +9,11 @@ import PlusIcon from '@assets/svg/plus.svg';
 import type { NextPage } from 'next';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
-import usePageParams from '@hooks/queryString/usePageParams';
 import { styled } from 'stitches.config';
+import { usePageParams } from '@hooks/queryString/custom';
 
 const Home: NextPage = () => {
-  const { page, setPage } = usePageParams();
+  const { value: page, setValue: setPage } = usePageParams();
   return (
     <div>
       <main>
@@ -68,7 +68,7 @@ const Home: NextPage = () => {
         <Box css={{ my: '$80' }}>
           <Pagination
             totalPagesLength={20}
-            currentPageIndex={page}
+            currentPageIndex={Number(page)}
             changeCurrentPage={setPage}
           />
         </Box>

@@ -2,10 +2,11 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
 import ResetIcon from '@assets/svg/reset.svg';
-import useFilterParams from '@hooks/groupList/useFilterParams';
+import { useCategoryParams, useStatusParams } from '@hooks/queryString/custom';
 function Result() {
-  const { category, status } = useFilterParams();
-
+  const { value: category, deleteValue: deleteCategoryValue } =
+    useCategoryParams();
+  const { value: status, deleteValue: deleteStatusValue } = useStatusParams();
   return category.length === 0 && status.length === 0 ? (
     <div></div>
   ) : (
@@ -14,15 +15,15 @@ function Result() {
         {category.map(selectedOption => (
           <ResultItem
             key={selectedOption}
-            category="category"
             selectedOption={selectedOption}
+            deleteValue={deleteCategoryValue}
           />
         ))}
         {status.map(selectedOption => (
           <ResultItem
             key={selectedOption}
-            category="status"
             selectedOption={selectedOption}
+            deleteValue={deleteStatusValue}
           />
         ))}
       </Flex>
@@ -42,18 +43,17 @@ const SResultWrapper = styled(Flex, {
 });
 
 function ResultItem({
-  category,
   selectedOption,
+  deleteValue,
 }: {
-  category: string;
   selectedOption: string;
+  deleteValue: (value: string) => void;
 }) {
-  const { deleteFilterOptions } = useFilterParams();
-  const deleteOptionInCategory = deleteFilterOptions(category);
+  console.log(selectedOption);
   return (
     <SResultItemWrapper align="center" justify="between">
       <SFilterItemName>{selectedOption}</SFilterItemName>
-      <SCancelButton onClick={() => deleteOptionInCategory(selectedOption)}>
+      <SCancelButton onClick={() => deleteValue(selectedOption)}>
         <XSmallIcon />
       </SCancelButton>
     </SResultItemWrapper>
@@ -77,10 +77,15 @@ const SCancelButton = styled('button', {
 });
 
 function InitializationButton() {
-  const { resetFilterOptions } = useFilterParams();
-
+  const { deleteKey: resetCategory } = useCategoryParams();
+  const { deleteKey: resetStatus } = useStatusParams();
   return (
-    <Flex as="button" onClick={resetFilterOptions}>
+    <Flex
+      as="button"
+      onClick={() => {
+        resetCategory(), resetStatus();
+      }}
+    >
       <ResetIcon />
       <InitializationText>초기화</InitializationText>
     </Flex>

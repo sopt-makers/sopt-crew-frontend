@@ -6,7 +6,7 @@ import ArrowButton from '@components/button/Arrow';
 interface PaginationProps {
   totalPagesLength: number;
   currentPageIndex: number;
-  changeCurrentPage: (index: number) => void;
+  changeCurrentPage: (value: number) => void;
 }
 function Pagination({
   totalPagesLength,

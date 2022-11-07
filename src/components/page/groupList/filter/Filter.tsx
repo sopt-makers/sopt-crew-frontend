@@ -1,45 +1,46 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import useFilterParams from '@hooks/groupList/useFilterParams';
-import useSearchParams from '@hooks/queryString/useSearchParams';
+import {
+  useCategoryParams,
+  useSearchParams,
+  useStatusParams,
+} from '@hooks/queryString/custom';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Result from './Result';
 import Search from './Search';
 import Select from './Select';
 
-export interface OptionType {
-  name: string;
-  value: string;
-}
-export type CategoryType = 'category' | 'status';
+export type SubjectType = 'category' | 'status';
 export interface FilterType {
   label: string;
-  category: CategoryType;
-  options: OptionType[];
+  subject: SubjectType;
+  options: string[];
 }
 
 const FILTERS: FilterType[] = [
   {
     label: '카테고리',
-    category: 'category',
-    options: [
-      { name: '스터디', value: 'study' },
-      { name: '번개', value: 'lightning' },
-      { name: '강연', value: 'riverKite' },
-    ],
+    subject: 'category',
+    options: ['스터디', '번개', '강연'],
   },
   {
     label: '모집 상태',
-    category: 'status',
-    options: [
-      { name: '모집 중', value: 'ing' },
-      { name: '모집 마감', value: 'end' },
-    ],
+    subject: 'status',
+    options: ['모집 중', '모집 마감'],
   },
 ];
+
 function Filter() {
-  const { addFilterOptions, deleteFilterOptions } = useFilterParams();
-  const { search } = useSearchParams();
+  const { value: search } = useSearchParams();
+
+  const selectFilterHook = (filterSubject: SubjectType) => {
+    switch (filterSubject) {
+      case 'category':
+        return useCategoryParams;
+      case 'status':
+        return useStatusParams;
+    }
+  };
   return (
     <SelectListVisionProvider>
       <Flex align="center" justify="between">
@@ -48,8 +49,7 @@ function Filter() {
             <Select
               key={filter.label}
               filter={filter}
-              addFilterOptions={addFilterOptions(filter.category)}
-              deleteFilterOptions={deleteFilterOptions(filter.category)}
+              useFilterParams={selectFilterHook(filter.subject)}
             />
           ))}
         </Flex>

@@ -2,30 +2,24 @@ import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import ArrowButton from '@components/button/Arrow';
-import { FilterType, OptionType } from './Filter';
+import { FilterType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
 import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
-import { useRouter } from 'next/router';
+import { useCategoryParams } from '@hooks/queryString/custom';
 
-interface HandleOptionFunctions {
-  addFilterOptions: (value: string) => void;
-  deleteFilterOptions: (value: string) => void;
-}
-interface SelectProps extends HandleOptionFunctions {
+interface SelectProps {
   filter: FilterType;
+  useFilterParams: typeof useCategoryParams;
 }
 
-function Select({
-  filter,
-  addFilterOptions,
-  deleteFilterOptions,
-}: SelectProps) {
-  const router = useRouter();
-  const selectedFilterOptions = router.query[filter.category] as string;
-
+function Select({ filter, useFilterParams }: SelectProps) {
   const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
     useSelectListVisionContext();
-
+  const {
+    value: selectedFilterValue,
+    addValue: addFilterOptions,
+    deleteValue: deleteFilterOptions,
+  } = useFilterParams();
   return (
     <Box
       css={{
@@ -38,28 +32,28 @@ function Select({
       <SSelectDisplay
         align="center"
         justify="between"
-        onClick={() => toggleSelectList(filter.category)}
-        isSelected={!!selectedFilterOptions}
+        onClick={() => toggleSelectList(filter.subject)}
+        isSelected={selectedFilterValue.length !== 0}
       >
-        <SCategory isSelected={!!selectedFilterOptions}>
+        <SCategory isSelected={selectedFilterValue.length !== 0}>
           {filter.label}
         </SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
-      {isSelectListVisible[filter.category] && (
+      {isSelectListVisible[filter.subject] && (
         <>
           <SSelectBoxList as="ul">
             {filter.options.map(option => (
               <SelectListItem
-                key={option.value}
+                key={option}
                 option={option}
-                selectedFilterOptions={selectedFilterOptions?.split(',') || []}
+                selectedFilterOptions={selectedFilterValue || []}
                 addFilterOptions={addFilterOptions}
                 deleteFilterOptions={deleteFilterOptions}
               />
             ))}
           </SSelectBoxList>
-          <SelectOverlay onClick={() => onDismissSelectList(filter.category)} />
+          <SelectOverlay onClick={() => onDismissSelectList(filter.subject)} />
         </>
       )}
     </Box>
@@ -103,8 +97,13 @@ const SSelectBoxList = styled(Box, {
   backgroundColor: '$black100',
   zIndex: '$2',
 });
+
+interface HandleOptionFunctions {
+  addFilterOptions: (value: string) => void;
+  deleteFilterOptions: (value: string) => void;
+}
 interface SelectListItemProps extends HandleOptionFunctions {
-  option: OptionType;
+  option: string;
   selectedFilterOptions: string[];
 }
 
@@ -115,12 +114,11 @@ function SelectListItem({
   deleteFilterOptions,
 }: SelectListItemProps) {
   const isCheckedOption =
-    selectedFilterOptions?.filter(
-      selectedOption => selectedOption === option.name
-    ).length > 0;
+    selectedFilterOptions?.filter(selectedOption => selectedOption === option)
+      .length > 0;
   const handleCheckOption = () => {
-    if (!isCheckedOption) addFilterOptions(option.name);
-    if (isCheckedOption) deleteFilterOptions(option.name);
+    if (!isCheckedOption) addFilterOptions(option);
+    if (isCheckedOption) deleteFilterOptions(option);
   };
 
   return (
@@ -135,10 +133,10 @@ function SelectListItem({
       <SCheckbox
         type="checkbox"
         checked={isCheckedOption}
-        id={option.name}
-        name={option.name}
+        id={option}
+        name={option}
       />
-      <label htmlFor={option.name}>{option.name}</label>
+      <label htmlFor={option}>{option}</label>
     </Flex>
   );
 }
