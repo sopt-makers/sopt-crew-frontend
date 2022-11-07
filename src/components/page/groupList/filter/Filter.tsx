@@ -1,10 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import {
-  useCategoryParams,
-  useSearchParams,
-  useStatusParams,
-} from '@hooks/queryString/custom';
+import { useSearchParams } from '@hooks/queryString/custom';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Result from './Result';
 import Search from './Search';
@@ -33,26 +29,15 @@ const FILTERS: FilterType[] = [
 function Filter() {
   const { value: search } = useSearchParams();
 
-  const selectFilterHook = (filterSubject: SubjectType) => {
-    switch (filterSubject) {
-      case 'category':
-        return useCategoryParams;
-      case 'status':
-        return useStatusParams;
-    }
-  };
   return (
     <SelectListVisionProvider>
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <Select
-              key={filter.label}
-              filter={filter}
-              useFilterParams={selectFilterHook(filter.subject)}
-            />
+            <Select key={filter.label} filter={filter} />
           ))}
         </Flex>
+
         <Search />
       </Flex>
       {!!search && (

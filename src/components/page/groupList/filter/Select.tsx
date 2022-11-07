@@ -5,21 +5,21 @@ import ArrowButton from '@components/button/Arrow';
 import { FilterType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
 import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
-import { useCategoryParams } from '@hooks/queryString/custom';
+import { useMultiQueryString } from '@hooks/queryString';
 
 interface SelectProps {
   filter: FilterType;
-  useFilterParams: typeof useCategoryParams;
 }
 
-function Select({ filter, useFilterParams }: SelectProps) {
+function Select({ filter }: SelectProps) {
   const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
     useSelectListVisionContext();
   const {
     value: selectedFilterValue,
-    addValue: addFilterOptions,
-    deleteValue: deleteFilterOptions,
-  } = useFilterParams();
+    addValue: addFilterOption,
+    deleteValue: deleteFilterOption,
+  } = useMultiQueryString(filter.subject);
+
   return (
     <Box
       css={{
@@ -48,8 +48,8 @@ function Select({ filter, useFilterParams }: SelectProps) {
                 key={option}
                 option={option}
                 selectedFilterOptions={selectedFilterValue}
-                addFilterOptions={addFilterOptions}
-                deleteFilterOptions={deleteFilterOptions}
+                addFilterOption={addFilterOption}
+                deleteFilterOption={deleteFilterOption}
               />
             ))}
           </SSelectBoxList>
@@ -99,8 +99,8 @@ const SSelectBoxList = styled(Box, {
 });
 
 interface HandleOptionFunctions {
-  addFilterOptions: (value: string) => void;
-  deleteFilterOptions: (value: string) => void;
+  addFilterOption: (value: string) => void;
+  deleteFilterOption: (value: string) => void;
 }
 interface SelectListItemProps extends HandleOptionFunctions {
   option: string;
@@ -110,15 +110,15 @@ interface SelectListItemProps extends HandleOptionFunctions {
 function SelectListItem({
   option,
   selectedFilterOptions,
-  addFilterOptions,
-  deleteFilterOptions,
+  addFilterOption,
+  deleteFilterOption,
 }: SelectListItemProps) {
   const isCheckedOption =
     selectedFilterOptions?.filter(selectedOption => selectedOption === option)
       .length > 0;
   const handleCheckOption = () => {
-    if (!isCheckedOption) addFilterOptions(option);
-    if (isCheckedOption) deleteFilterOptions(option);
+    if (!isCheckedOption) addFilterOption(option);
+    if (isCheckedOption) deleteFilterOption(option);
   };
 
   return (
