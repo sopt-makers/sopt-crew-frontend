@@ -47,7 +47,7 @@ function Select({ filter, useFilterParams }: SelectProps) {
               <SelectListItem
                 key={option}
                 option={option}
-                selectedFilterOptions={selectedFilterValue || []}
+                selectedFilterOptions={selectedFilterValue}
                 addFilterOptions={addFilterOptions}
                 deleteFilterOptions={deleteFilterOptions}
               />
