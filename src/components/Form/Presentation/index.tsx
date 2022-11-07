@@ -63,7 +63,7 @@ function Presentation({
         <SApplicationFieldWrapper>
           <SApplicationField>
             <FormController
-              name="applicationStartAt"
+              name="startDate"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" required {...field} />
@@ -73,7 +73,7 @@ function Presentation({
           -
           <SApplicationField>
             <FormController
-              name="applicationEndAt"
+              name="endDate"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" {...field} />
@@ -86,7 +86,7 @@ function Presentation({
       {/* 모집 인원 */}
       <SMemberCountField>
         <FormController
-          name="memberCount"
+          name="capacity"
           defaultValue=""
           render={({ field }) => (
             <TextInput
@@ -112,7 +112,7 @@ function Presentation({
           모임 소개
         </Label>
         <FormController
-          name="detail.intro"
+          name="detail.desc"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="모임 소개" maxLength={500} {...field} />
@@ -126,7 +126,7 @@ function Presentation({
           진행 방식 소개
         </Label>
         <FormController
-          name="detail.flow"
+          name="detail.processDesc"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="진행 방식 소개" maxLength={500} {...field} />
@@ -142,7 +142,7 @@ function Presentation({
         <SDateFieldWrapper>
           <SDateField>
             <FormController
-              name="detail.startAt"
+              name="detail.mStartDate"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" required {...field} />
@@ -152,7 +152,7 @@ function Presentation({
           -
           <SDateField>
             <FormController
-              name="detail.endAt"
+              name="detail.mEndDate"
               defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" {...field} />
@@ -168,7 +168,7 @@ function Presentation({
           개설자 소개
         </Label>
         <FormController
-          name="detail.creator"
+          name="detail.leaderDesc"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="개설자 소개" maxLength={500} {...field} />
@@ -182,7 +182,7 @@ function Presentation({
           모집 대상
         </Label>
         <FormController
-          name="detail.targetMember"
+          name="detail.targetDesc"
           defaultValue=""
           render={({ field }) => (
             <Textarea
@@ -198,7 +198,7 @@ function Presentation({
       <div>
         <Label size="small">유의사항</Label>
         <FormController
-          name="detail.notice"
+          name="detail.note"
           defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="유의 사항 입력" maxLength={500} {...field} />

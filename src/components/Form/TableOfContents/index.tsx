@@ -18,19 +18,16 @@ function TableOfContents({ label }: TableOfContentsProps) {
   const isTitleValid = form.title && !errors.title;
   const isCategoryValid = form.category?.value && !errors.category;
   const isApplicationDateValid =
-    form.applicationStartAt &&
-    form.applicationEndAt &&
-    !errors.applicationStartAt &&
-    !errors.applicationEndAt;
-  const isMemberCountValid = form.memberCount && !errors.memberCount;
+    form.startDate && form.endDate && !errors.startDate && !errors.endDate;
+  const isMemberCountValid = form.capacity && !errors.capacity;
   const isDetailValid =
     form.detail &&
-    form.detail.intro &&
-    form.detail.flow &&
-    form.detail.startAt &&
-    form.detail.endAt &&
-    form.detail.creator &&
-    form.detail.targetMember &&
+    form.detail.desc &&
+    form.detail.processDesc &&
+    form.detail.mStartDate &&
+    form.detail.mEndDate &&
+    form.detail.leaderDesc &&
+    form.detail.targetDesc &&
     !errors.detail;
 
   return (
