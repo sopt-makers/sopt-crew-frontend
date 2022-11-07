@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import Card from '@components/page/groupList/card/Card';
+import Card from '@components/page/groupList/Card';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import { TabList } from '@components/tabList/TabList';
 
@@ -11,8 +11,8 @@ import { Tab } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { useState } from 'react';
 import { Fragment } from 'react';
-import InvitationButton from '@components/page/groupList/card/InvitationButton';
-import Status from '@components/page/groupList/card/Status';
+import InvitationButton from '@components/page/groupList/Card/InvitationButton';
+import Status from '@components/page/groupList/Card/Status';
 
 const enum GroupType {
   MADE,

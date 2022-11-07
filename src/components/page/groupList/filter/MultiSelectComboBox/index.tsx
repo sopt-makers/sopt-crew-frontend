@@ -2,10 +2,11 @@ import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import ArrowButton from '@components/button/Arrow';
-import { FilterType } from './Filter';
 import { Flex } from '@components/util/layout/Flex';
 import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
 import { useMultiQueryString } from '@hooks/queryString';
+import SelectComboBoxItem from './SelectComboBoxItem';
+import { FilterType } from '..';
 
 interface SelectProps {
   filter: FilterType;
@@ -14,6 +15,7 @@ interface SelectProps {
 function MultiSelectComboBox({ filter }: SelectProps) {
   const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
     useSelectListVisionContext();
+
   const {
     value: selectedFilterValue,
     addValue: addFilterOption,
@@ -21,14 +23,7 @@ function MultiSelectComboBox({ filter }: SelectProps) {
   } = useMultiQueryString(filter.subject);
 
   return (
-    <Box
-      css={{
-        position: 'relative',
-        '& + &': {
-          ml: '$12',
-        },
-      }}
-    >
+    <SSelectWrapper>
       <SSelectDisplay
         align="center"
         justify="between"
@@ -44,22 +39,33 @@ function MultiSelectComboBox({ filter }: SelectProps) {
         <>
           <SSelectBoxList as="ul">
             {filter.options.map(option => (
-              <SelectListItem
+              <SelectComboBoxItem
                 key={option}
-                option={option}
-                selectedFilterOptions={selectedFilterValue}
-                addFilterOption={addFilterOption}
-                deleteFilterOption={deleteFilterOption}
+                value={option}
+                isChecked={
+                  selectedFilterValue?.filter(
+                    selectedValue => selectedValue === option
+                  ).length > 0
+                }
+                onCheck={addFilterOption}
+                onRemove={deleteFilterOption}
               />
             ))}
           </SSelectBoxList>
           <SelectOverlay onClick={() => onDismissSelectList(filter.subject)} />
         </>
       )}
-    </Box>
+    </SSelectWrapper>
   );
 }
 export default MultiSelectComboBox;
+
+const SSelectWrapper = styled(Box, {
+  position: 'relative',
+  '& + &': {
+    ml: '$12',
+  },
+});
 
 const SSelectDisplay = styled(Flex, {
   width: '147px',
@@ -96,69 +102,6 @@ const SSelectBoxList = styled(Box, {
   top: '58px',
   backgroundColor: '$black100',
   zIndex: '$2',
-});
-
-interface HandleOptionFunctions {
-  addFilterOption: (value: string) => void;
-  deleteFilterOption: (value: string) => void;
-}
-interface SelectListItemProps extends HandleOptionFunctions {
-  option: string;
-  selectedFilterOptions: string[];
-}
-
-function SelectListItem({
-  option,
-  selectedFilterOptions,
-  addFilterOption,
-  deleteFilterOption,
-}: SelectListItemProps) {
-  const isCheckedOption =
-    selectedFilterOptions?.filter(selectedOption => selectedOption === option)
-      .length > 0;
-  const handleCheckOption = () => {
-    if (!isCheckedOption) addFilterOption(option);
-    if (isCheckedOption) deleteFilterOption(option);
-  };
-
-  return (
-    <Flex
-      as="li"
-      onClick={handleCheckOption}
-      align="center"
-      css={{
-        height: '44px',
-      }}
-    >
-      <SCheckbox
-        type="checkbox"
-        checked={isCheckedOption}
-        id={option}
-        name={option}
-      />
-      <label htmlFor={option}>{option}</label>
-    </Flex>
-  );
-}
-
-const SCheckbox = styled('input', {
-  width: '20px',
-  height: '20px',
-  border: '1px solid $white',
-  borderRadius: '4px',
-  mr: '$8',
-  '& + label': {
-    cursor: 'pointer',
-  },
-  variants: {
-    checked: {
-      true: {
-        background:
-          'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
-        border: '0',
-      },
-    },
-  },
 });
 
 interface OverlayProps {

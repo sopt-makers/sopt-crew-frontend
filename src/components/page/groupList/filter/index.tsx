@@ -2,9 +2,9 @@ import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
-import Result from './Result';
 import Search from './Search';
 import MultiSelectComboBox from './MultiSelectComboBox';
+import Result from './Result';
 
 export type SubjectType = 'category' | 'status';
 export interface FilterType {

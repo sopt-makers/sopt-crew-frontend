@@ -1,6 +1,4 @@
 import { Box } from '@components/box/Box';
-import Card from '@components/page/groupList/card/Card';
-import Filter from '@components/page/groupList/filter/Filter';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
@@ -11,6 +9,8 @@ import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { usePageParams } from '@hooks/queryString/custom';
+import Card from '@components/page/groupList/Card';
+import Filter from '@components/page/groupList/Filter';
 
 const Home: NextPage = () => {
   const { value: page, setValue: setPage } = usePageParams();
@@ -32,25 +32,10 @@ const Home: NextPage = () => {
           </TabList>
           <Link href="/make" passHref>
             <a>
-              <Flex
-                align="center"
-                justify="center"
-                css={{
-                  width: '132px',
-                  height: '50px',
-                  background: '$purple100',
-                  borderRadius: '12px',
-                  '& > span': {
-                    ml: '$12',
-                    fontAg: '18_bold_100',
-
-                    color: '$white',
-                  },
-                }}
-              >
+              <SMakeGroup align="center" justify="center">
                 <PlusIcon />
                 <span>모임생성</span>
-              </Flex>
+              </SMakeGroup>
             </a>
           </Link>
         </Flex>
@@ -78,6 +63,19 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+const SMakeGroup = styled(Flex, {
+  width: '132px',
+  height: '50px',
+  background: '$purple100',
+  borderRadius: '12px',
+  '& > span': {
+    ml: '$12',
+    fontAg: '18_bold_100',
+
+    color: '$white',
+  },
+});
 
 const SGroupCount = styled('p', {
   fontAg: '18_semibold_100',
