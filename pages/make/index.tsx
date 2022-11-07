@@ -4,6 +4,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { createGroup } from 'src/api/group';
 
 const MakePage = () => {
   const methods = useForm<FormType>({
@@ -11,8 +12,16 @@ const MakePage = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormType> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormType> = async formData => {
+    try {
+      await createGroup(formData);
+
+      // TODO: handle success
+      alert('모임을 생성했습니다.');
+    } catch (error) {
+      // TODO: handle error
+      alert('모임을 생성하지 못했습니다.');
+    }
   };
 
   return (
