@@ -49,7 +49,6 @@ function ResultItem({
   selectedOption: string;
   deleteValue: (value: string) => void;
 }) {
-  console.log(selectedOption);
   return (
     <SResultItemWrapper align="center" justify="between">
       <SFilterItemName>{selectedOption}</SFilterItemName>
