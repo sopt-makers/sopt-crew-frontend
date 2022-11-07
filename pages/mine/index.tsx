@@ -14,8 +14,13 @@ import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/card/InvitationButton';
 import Status from '@components/page/groupList/card/Status';
 
+const enum GroupType {
+  MADE,
+  APPLIED,
+}
+
 const MinePage: NextPage = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedGroupType, setSelectedGroupType] = useState(GroupType.MADE);
 
   return (
     <div>
@@ -34,13 +39,20 @@ const MinePage: NextPage = () => {
             </Link>
           </TabList>
         </Flex>
-        <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+        <Tab.Group
+          selectedIndex={selectedGroupType}
+          onChange={setSelectedGroupType}
+        >
           <STabList>
             <Tab as={Fragment}>
-              <STab isSelected={selectedIndex === 0}>내가 만든 모임</STab>
+              <STab isSelected={selectedGroupType === GroupType.MADE}>
+                내가 만든 모임
+              </STab>
             </Tab>
             <Tab as={Fragment}>
-              <STab isSelected={selectedIndex === 1}>내가 신청한 모임</STab>
+              <STab isSelected={selectedGroupType === GroupType.APPLIED}>
+                내가 신청한 모임
+              </STab>
             </Tab>
           </STabList>
 
