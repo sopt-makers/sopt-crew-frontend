@@ -40,13 +40,14 @@ function Filter() {
 
         <Search />
       </Flex>
+
+      <Result />
+
       {!!search && (
-        <Box as="p" css={{ fontAg: '24_medium_100', mt: '$24' }}>
+        <Box as="p" css={{ fontAg: '24_medium_100', mt: '$80' }}>
           "{search}"에 대한 검색결과입니다.
         </Box>
       )}
-
-      <Result />
     </SelectListVisionProvider>
   );
 }

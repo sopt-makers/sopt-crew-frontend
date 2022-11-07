@@ -3,6 +3,7 @@ import { styled } from '@stitches/react';
 import XSmallIcon from '@assets/svg/x_small.svg';
 import ResetIcon from '@assets/svg/reset.svg';
 import { useCategoryParams, useStatusParams } from '@hooks/queryString/custom';
+import { Box } from '@components/box/Box';
 function Result() {
   const { value: category, deleteValue: deleteCategoryValue } =
     useCategoryParams();
