@@ -4,7 +4,7 @@ import { useSearchParams } from '@hooks/queryString/custom';
 import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Result from './Result';
 import Search from './Search';
-import Select from './Select';
+import MultiSelectComboBox from './MultiSelectComboBox';
 
 export type SubjectType = 'category' | 'status';
 export interface FilterType {
@@ -34,7 +34,7 @@ function Filter() {
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <Select key={filter.label} filter={filter} />
+            <MultiSelectComboBox key={filter.label} filter={filter} />
           ))}
         </Flex>
 

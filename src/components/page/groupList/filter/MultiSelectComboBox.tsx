@@ -11,7 +11,7 @@ interface SelectProps {
   filter: FilterType;
 }
 
-function Select({ filter }: SelectProps) {
+function MultiSelectComboBox({ filter }: SelectProps) {
   const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
     useSelectListVisionContext();
   const {
@@ -59,7 +59,7 @@ function Select({ filter }: SelectProps) {
     </Box>
   );
 }
-export default Select;
+export default MultiSelectComboBox;
 
 const SSelectDisplay = styled(Flex, {
   width: '147px',
