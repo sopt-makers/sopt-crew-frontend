@@ -5,17 +5,17 @@ import { Option } from '../Select/OptionItem';
 interface FormControllerProps {
   name: string;
   render: ControllerProps['render'];
-  defaultValue?: string | Option;
+  defaultValue?: string | number | Option;
 }
 
 function FormController({ name, render, defaultValue }: FormControllerProps) {
-  const { control } = useFormContext();
+  const { control, formState } = useFormContext();
 
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={formState.defaultValues?.[name] || defaultValue || ''}
       render={({ field, fieldState, formState }) =>
         render({ field, fieldState, formState })
       }
