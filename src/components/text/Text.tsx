@@ -119,6 +119,7 @@ const Text = ({
       weight={weight}
       align={align}
       variant={variant}
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       {...(props as any)}
     />
   );

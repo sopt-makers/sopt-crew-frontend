@@ -1,40 +1,53 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ReactNode } from 'react';
 import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
+  id: number;
 }
 
-function Card({ bottom }: CardProps) {
+function Card({ bottom, id }: CardProps) {
   return (
     <Box as="li">
-      <Box css={{ position: 'relative' }}>
-        <SStatus isRecruiting={true}>모집중</SStatus>
-        <SImageWrapper>
-          <Image width="380px" height="260px" src="" />
-        </SImageWrapper>
-      </Box>
-      <STitleSection>
-        <SCategory>카테고리</SCategory>
-        <STitle>제목이 들어가게 됩니다</STitle>
-      </STitleSection>
-      <Box>
-        <SInfoRow>
-          <SKey>모집 기간</SKey>
-          <SValue>22.10.21 - 22.10.28</SValue>
-        </SInfoRow>
-        <SInfoRow>
-          <SKey>모집 인원</SKey>
-          <SValue>4/5명</SValue>
-        </SInfoRow>
-        <SInfoRow>
-          <SKey>모임 생성자</SKey>
-          <SValue>홍길동</SValue>
-        </SInfoRow>
-      </Box>
+      <Link href={`/detail?id=${id}`} passHref>
+        <a>
+          <>
+            <Box css={{ position: 'relative' }}>
+              <SStatus isRecruiting={true}>모집중</SStatus>
+              <SImageWrapper>
+                <Image
+                  width="380px"
+                  height="260px"
+                  src="/group/assets/img/img_example_1.jpg"
+                  layout="responsive"
+                />
+              </SImageWrapper>
+            </Box>
+            <STitleSection>
+              <SCategory>카테고리</SCategory>
+              <STitle>제목이 들어가게 됩니다</STitle>
+            </STitleSection>
+            <Box>
+              <SInfoRow>
+                <SKey>모집 기간</SKey>
+                <SValue>22.10.21 - 22.10.28</SValue>
+              </SInfoRow>
+              <SInfoRow>
+                <SKey>모집 인원</SKey>
+                <SValue>4/5명</SValue>
+              </SInfoRow>
+              <SInfoRow>
+                <SKey>모임 개설</SKey>
+                <SValue>홍길동</SValue>
+              </SInfoRow>
+            </Box>
+          </>
+        </a>
+      </Link>
       {bottom}
     </Box>
   );
@@ -56,6 +69,7 @@ const SStatus = styled(Box, {
   px: '$8',
   py: '$4',
   fontAg: '16_bold_100',
+  zIndex: '2',
   variants: {
     isRecruiting: {
       true: {
