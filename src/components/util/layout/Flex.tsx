@@ -106,6 +106,7 @@ export const Flex = <E extends keyof JSX.IntrinsicElements>({
       justify: 'start',
       wrap: 'noWrap',
     },
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   }) as any;
   return (
     <SFlex align={align} direction={direction} justify={justify} {...props} />

@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import Card from '@components/page/groupList/Card';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import { TabList } from '@components/tabList/TabList';

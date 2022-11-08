@@ -1,4 +1,10 @@
-import { createContext, PropsWithChildren, useContext, useMemo } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 
 import useBooleanState from '@hooks/useBooleanState';
 
@@ -37,25 +43,36 @@ export function SelectListVisionProvider({ children }: PropsWithChildren) {
     toggle: statusListToggle,
   } = useBooleanState();
 
-  const isSelectListVisible = {
-    category: isCategoryListVisible,
-    status: isStatusListVisible,
-  };
-  const onDismissSelectList = (category: string) => {
-    if (category === 'category') categoryListSetFalse();
-    if (category === 'status') statusSetFalse();
-  };
-  const toggleSelectList = (category: string) => {
-    if (category === 'category') categoryListToggle();
-    if (category === 'status') statusListToggle();
-  };
+  const isSelectListVisible = useMemo(() => {
+    return {
+      category: isCategoryListVisible,
+      status: isStatusListVisible,
+    };
+  }, [isCategoryListVisible, isStatusListVisible]);
+
+  const onDismissSelectList = useCallback(
+    (category: string) => {
+      if (category === 'category') categoryListSetFalse();
+      if (category === 'status') statusSetFalse();
+    },
+    [categoryListSetFalse, statusSetFalse]
+  );
+
+  const toggleSelectList = useCallback(
+    (category: string) => {
+      if (category === 'category') categoryListToggle();
+      if (category === 'status') statusListToggle();
+    },
+    [categoryListToggle, statusListToggle]
+  );
+
   const value = useMemo(
     () => ({
       isSelectListVisible,
       onDismissSelectList,
       toggleSelectList,
     }),
-    [isSelectListVisible]
+    [isSelectListVisible, onDismissSelectList, toggleSelectList]
   );
 
   return (
