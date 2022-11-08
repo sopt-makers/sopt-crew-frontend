@@ -8,7 +8,6 @@ import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { Tab } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import { useState } from 'react';
 import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
