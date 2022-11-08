@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
+import { useQueryString } from '@hooks/queryString';
 
 const enum GroupType {
   MADE,
@@ -19,8 +20,8 @@ const enum GroupType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedGroupType, setSelectedGroupType] = useState(GroupType.MADE);
-
+  const { value: selectedGroupType, setValue: setSelectedGroupType } =
+    useQueryString('groupType', String(GroupType.MADE));
   return (
     <div>
       <main>
@@ -39,17 +40,19 @@ const MinePage: NextPage = () => {
           </TabList>
         </Flex>
         <Tab.Group
-          selectedIndex={selectedGroupType}
+          selectedIndex={Number(selectedGroupType)}
           onChange={setSelectedGroupType}
         >
           <STabList>
             <Tab as={Fragment}>
-              <STab isSelected={selectedGroupType === GroupType.MADE}>
+              <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>
                 내가 만든 모임
               </STab>
             </Tab>
             <Tab as={Fragment}>
-              <STab isSelected={selectedGroupType === GroupType.APPLIED}>
+              <STab
+                isSelected={Number(selectedGroupType) === GroupType.APPLIED}
+              >
                 내가 신청한 모임
               </STab>
             </Tab>
