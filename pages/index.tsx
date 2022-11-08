@@ -9,8 +9,8 @@ import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { usePageParams } from '@hooks/queryString/custom';
-import Card from '@components/page/groupList/Filtering/Card';
-import Filter from '@components/page/groupList/Filtering/Filter';
+import Card from '@components/page/groupList/Card';
+import Filter from '@components/page/groupList/Filter';
 
 const Home: NextPage = () => {
   const { value: page, setValue: setPage } = usePageParams();

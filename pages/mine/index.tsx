@@ -1,4 +1,4 @@
-import Card from '@components/page/groupList/Filtering/Card';
+import Card from '@components/page/groupList/Card';
 import GridLayout from '@components/page/groupList/GirdLayout';
 import { TabList } from '@components/tabList/TabList';
 
@@ -9,8 +9,8 @@ import Link from 'next/link';
 import { Tab } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { Fragment } from 'react';
-import InvitationButton from '@components/page/groupList/Filtering/Card/InvitationButton';
-import Status from '@components/page/groupList/Filtering/Card/Status';
+import InvitationButton from '@components/page/groupList/Card/InvitationButton';
+import Status from '@components/page/groupList/Card/Status';
 import { useQueryString } from '@hooks/queryString';
 
 const enum GroupType {
