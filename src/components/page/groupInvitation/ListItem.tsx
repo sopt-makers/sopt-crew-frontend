@@ -1,13 +1,16 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import ProfileDefault from '@assets/svg/profile_default.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import Image from 'next/image';
+import useModal from '@hooks/useModal';
+import DefaultModal from '@components/modal/DefaultModal';
 
 interface ListItemProps {
   profileImage?: string;
   name: string;
   date: string;
   status?: 'waiting' | 'accepted' | 'rejected';
+  detail?: string;
   isHost: boolean;
 }
 
@@ -16,8 +19,10 @@ const ListItem = ({
   name,
   date,
   status,
+  detail,
   isHost,
 }: ListItemProps) => {
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
       case 'waiting':
@@ -30,47 +35,56 @@ const ListItem = ({
   };
 
   return (
-    <SListItem>
-      <SLeft>
-        {profileImage ? (
-          <Image src={profileImage} width="32" height="32" />
-        ) : (
-          <ProfileDefault />
-        )}
-        <SName>{name}</SName>
-        <SVerticalLine />
-        <SDate>
-          {date} 신청
+    <>
+      <SListItem>
+        <SLeft>
+          {profileImage ? (
+            <Image src={profileImage} width="32" height="32" />
+          ) : (
+            <ProfileDefaultIcon />
+          )}
+          <SName>{name}</SName>
           {isHost && status && (
-            <SStatus isRejected={status === 'rejected'}>
+            <SStatus isAccepted={status === 'accepted'}>
               {getStatusText(status)}
             </SStatus>
           )}
-        </SDate>
-        {isHost && (
-          <>
-            <SVerticalLine />
-            <SDetail>신청내역 상세</SDetail>
-          </>
-        )}
-      </SLeft>
-      {isHost && (
-        <div>
-          {status === 'waiting' && (
+          {isHost && (
             <>
-              <SHostPurpleButton>승인</SHostPurpleButton>
-              <SHostGrayButton>거절</SHostGrayButton>
+              <SVerticalLine />
+              <SDetailButton onClick={handleModalOpen}>신청내역</SDetailButton>
             </>
           )}
-          {status === 'accepted' && (
-            <SHostGrayButton>승인 취소</SHostGrayButton>
-          )}
-          {status === 'rejected' && (
-            <SHostGrayButton>거절 취소</SHostGrayButton>
-          )}
-        </div>
+          <SVerticalLine />
+          <SDate>{date}</SDate>
+        </SLeft>
+        {isHost && (
+          <div>
+            {status === 'waiting' && (
+              <>
+                <SHostPurpleButton>승인</SHostPurpleButton>
+                <SHostGrayButton>거절</SHostGrayButton>
+              </>
+            )}
+            {status === 'accepted' && (
+              <SHostGrayButton>승인 취소</SHostGrayButton>
+            )}
+            {status === 'rejected' && (
+              <SHostGrayButton>거절 취소</SHostGrayButton>
+            )}
+          </div>
+        )}
+      </SListItem>
+      {isModalOpened && (
+        <DefaultModal
+          isModalOpened={isModalOpened}
+          title="신청내역"
+          handleModalClose={handleModalClose}
+        >
+          <SDetailText>{detail}</SDetailText>
+        </DefaultModal>
       )}
-    </SListItem>
+    </>
   );
 };
 
@@ -81,7 +95,8 @@ const SListItem = styled(Box, {
   justifyContent: 'space-between',
   borderRadius: '19.711px',
   backgroundColor: '$black80',
-  padding: '$24 $32 $24 $24',
+  padding: '$20',
+  height: '$80',
   mb: '$20',
 });
 
@@ -90,18 +105,24 @@ const SLeft = styled(Box, {
 
   '& img': {
     borderRadius: '$round',
+    ml: '$4',
+  },
+
+  '& svg': {
+    ml: '$4',
   },
 });
 
 const SVerticalLine = styled(Box, {
   width: '$1',
   height: '$12',
+  ml: '$30',
+  mr: '$30',
   backgroundColor: '$gray100',
 });
 
 const SName = styled('button', {
   ml: '$24',
-  mr: '$34',
   color: '$white',
   fontWeight: '$bold',
   textDecoration: 'underline',
@@ -110,30 +131,27 @@ const SName = styled('button', {
 
 const SDate = styled(Box, {
   flexType: 'verticalCenter',
-  ml: '$32',
   fontAg: '18_medium_100',
 });
 
 const SStatus = styled('span', {
-  ml: '$8',
-  mr: '$28',
   padding: '$4',
+  ml: '$8',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
-  backgroundColor: '$purple200',
+  backgroundColor: '$gray100',
 
   variants: {
-    isRejected: {
+    isAccepted: {
       true: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$purple200',
       },
     },
   },
 });
 
-const SDetail = styled('button', {
+const SDetailButton = styled('button', {
   color: '$white',
-  ml: '$32',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
 });
@@ -150,4 +168,15 @@ const SHostGrayButton = styled('button', {
 const SHostPurpleButton = styled(SHostGrayButton, {
   marginRight: '8.5px',
   backgroundColor: '$purple100',
+});
+
+const SDetailText = styled('p', {
+  backgroundColor: '$black60',
+  margin: '$24',
+  padding: '$16',
+  borderRadius: '19.711px',
+  height: '$200',
+  fontAg: '16_medium_150',
+  color: '$white',
+  boxSizing: 'border-box',
 });
