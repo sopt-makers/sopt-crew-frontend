@@ -197,7 +197,9 @@ function Presentation({
 
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
-        {cancelButtonLabel && <CancelButton>{cancelButtonLabel}</CancelButton>}
+        {cancelButtonLabel && (
+          <CancelButton type="button">{cancelButtonLabel}</CancelButton>
+        )}
         <SubmitButton type="submit">{submitButtonLabel}</SubmitButton>
       </ButtonContainer>
     </SForm>
