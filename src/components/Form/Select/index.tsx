@@ -64,6 +64,7 @@ const SOptionList = styled('ul', {
         background: '$black100',
         position: 'absolute',
         top: '$50',
+        width: '$147',
       },
       make: {
         background: '$black40',

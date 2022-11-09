@@ -50,7 +50,7 @@ const InvitationPage = () => {
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
 
   // 임시
-  const isHost = false;
+  const isHost = true;
   const invitationList: invitationItem[] = [
     {
       id: 1,
@@ -83,10 +83,20 @@ const InvitationPage = () => {
         <TabList.Item text="mine">내 모임</TabList.Item>
       </TabList>
       <GroupInformation />
-      <SListTitle>
-        모임 {isHost ? '신청자' : '참여자'}
-        {total > 0 && <span> ({total})</span>}
-      </SListTitle>
+      <SListHeader>
+        <SListTitle>
+          모임 {isHost ? '신청자' : '참여자'}
+          {total > 0 && <span> ({total})</span>}
+        </SListTitle>
+        {!isHost && (
+          <Select
+            value={selectedNumber}
+            options={numberOptionList}
+            onChange={value => setSelectedNumber(value)}
+            type="invitation"
+          />
+        )}
+      </SListHeader>
       {isHost && (
         <SSelectContainer>
           <Select
@@ -136,9 +146,15 @@ const SInvitationPage = styled(Box, {
   mb: '$180',
 });
 
-const SListTitle = styled(Box, {
+const SListHeader = styled(Box, {
+  flexType: 'verticalCenter',
+  justifyContent: 'space-between',
   mt: '$64',
   mb: '$48',
+  position: 'relative',
+});
+
+const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
 });
 
