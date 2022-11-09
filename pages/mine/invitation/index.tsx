@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 import Pagination from '@components/page/groupList/Pagination';
+import { usePageParams } from '@hooks/queryString/custom';
 
 type invitationItem = {
   id: number;
@@ -22,6 +23,7 @@ const InvitationPage = () => {
       router.push('/');
     }
   };
+  const { value: page, setValue: setPage } = usePageParams();
 
   // 임시
   const isHost = true;
@@ -69,7 +71,11 @@ const InvitationPage = () => {
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
       <SPaginationWrapper>
-        <Pagination />
+        <Pagination
+          totalPagesLength={20}
+          currentPageIndex={Number(page)}
+          changeCurrentPage={setPage}
+        />
       </SPaginationWrapper>
     </SInvitationPage>
   );
