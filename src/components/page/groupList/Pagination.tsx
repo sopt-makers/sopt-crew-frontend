@@ -1,27 +1,59 @@
 import { Flex } from '@components/util/layout/Flex';
 import { bindThePages } from '@utils/bindThePages';
-import { useState } from 'react';
-import { CSSType, styled } from 'stitches.config';
-import React from 'react';
-import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
+import { useEffect, useState } from 'react';
+import { styled } from 'stitches.config';
+import ArrowButton from '@components/button/Arrow';
+interface PaginationProps {
+  totalPagesLength: number;
+  currentPageIndex: number;
+  changeCurrentPage: (value: number) => void;
+}
+function Pagination({
+  totalPagesLength,
+  currentPageIndex,
+  changeCurrentPage,
+}: PaginationProps) {
+  const BUNDLE_SIZE = 5;
 
-function Pagination() {
   const [pagesIndex, setPagesIndex] = useState(0);
-  const pagesChunk = bindThePages(20);
+
+  const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
+  const prevBundle = () => {
+    changeCurrentPage(currentPageIndex - BUNDLE_SIZE);
+  };
+  const nextBundle = () => {
+    changeCurrentPage(currentPageIndex + BUNDLE_SIZE);
+  };
+
+  useEffect(() => {
+    setPagesIndex(Math.floor((currentPageIndex - 1) / BUNDLE_SIZE));
+  }, [currentPageIndex]);
 
   return (
     <Flex align="center" justify="center">
-      <Flex>
-        <ArrowButton direction="left" disabled={true} />
+      <Flex align="center">
+        <ArrowButton
+          direction="left"
+          disabled={pagesIndex === 0}
+          onClick={pagesIndex === 0 ? () => {} : prevBundle}
+        />
         <Flex css={{ mx: '$24' }}>
-          {pagesChunk[pagesIndex]?.map((item, idx) => (
-            <SPageLink key={idx} isCurrent={false}>
+          {pagesBundle[pagesIndex]?.map((item, idx) => (
+            <SPageLink
+              key={idx}
+              isCurrent={currentPageIndex === item}
+              onClick={() => changeCurrentPage(item)}
+            >
               {item}
             </SPageLink>
           ))}
         </Flex>
 
-        <ArrowButton direction="right" />
+        <ArrowButton
+          direction="right"
+          disabled={pagesBundle.length - 1 <= pagesIndex}
+          onClick={pagesBundle.length - 1 <= pagesIndex ? () => {} : nextBundle}
+        />
       </Flex>
     </Flex>
   );
@@ -45,68 +77,5 @@ const SPageLink = styled('li', {
   },
   '& + &': {
     ml: '$12',
-  },
-});
-
-interface ArrowButtonProps {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  css?: CSSType;
-  direction: 'right' | 'top' | 'left' | 'bottom';
-  disabled?: boolean;
-}
-
-export const ArrowButton = ({
-  css,
-  onClick,
-  direction = 'left',
-  disabled = false,
-}: ArrowButtonProps) => {
-  return (
-    <SButton
-      css={{ ...css }}
-      disabled={disabled}
-      onClick={onClick}
-      direction={direction}
-    >
-      <ArrowBigLeftIcon />
-    </SButton>
-  );
-};
-
-const SButton = styled('button', {
-  width: '$40',
-  height: '$40',
-  p: '$8',
-  '& svg': {
-    display: 'block',
-    margin: '0 auto',
-  },
-
-  variants: {
-    direction: {
-      right: {
-        transform: 'rotate(180deg)',
-      },
-      top: {
-        transform: 'rotate(90deg)',
-      },
-      left: {},
-      bottom: {
-        transform: 'rotate(270deg)',
-      },
-    },
-    disabled: {
-      true: {
-        path: {
-          stroke: '$black20',
-        },
-        cursor: 'not-allowed',
-      },
-      false: {
-        path: {
-          stroke: '$white',
-        },
-      },
-    },
   },
 });
