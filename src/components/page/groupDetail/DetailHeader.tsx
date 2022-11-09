@@ -111,7 +111,7 @@ const DetailHeader = () => {
           {isHost && (
             <SHostButtonContainer>
               <button onClick={handleGroupDelete}>삭제</button>
-              <Link href={`/make?id=${groupId}/edit`} passHref>
+              <Link href={`/edit?id=${groupId}`} passHref>
                 <a>수정</a>
               </Link>
             </SHostButtonContainer>
