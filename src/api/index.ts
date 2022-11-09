@@ -5,5 +5,5 @@ const baseURL = 'https://makers-web.herokuapp.com';
 
 export const api = axios.create({
   baseURL,
-  withCredentials: true,
+  // withCredentials: true,
 });

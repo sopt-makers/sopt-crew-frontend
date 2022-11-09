@@ -29,7 +29,6 @@ const EditPage = () => {
     },
   });
 
-  // TODO: integrate API and fill default values
   const methods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
