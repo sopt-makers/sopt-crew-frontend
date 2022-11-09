@@ -6,6 +6,9 @@ import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
+import Select from '@components/Form/Select';
+import { useState } from 'react';
+import { Option } from '@components/Form/Select/OptionItem';
 
 type invitationItem = {
   id: number;
@@ -24,9 +27,30 @@ const InvitationPage = () => {
     }
   };
   const { value: page, setValue: setPage } = usePageParams();
+  const numberOptionList = [
+    { label: '10명씩 보기', value: '10명씩 보기' },
+    { label: '30명씩 보기', value: '30명씩 보기' },
+    { label: '50명씩 보기', value: '50명씩 보기' },
+  ];
+  const applicantOptionList = [
+    { label: '전체 신청자', value: '전체 신청자' },
+    { label: '승인한 신청자', value: '승인한 신청자' },
+    { label: '거절한 신청자', value: '거절한 신청자' },
+  ];
+  const sortOptionList = [
+    { label: '최근 신청순', value: '최근 신청순' },
+    { label: '오래된 신청순', value: '오래된 신청순' },
+  ];
+  const [selectedNumber, setSelectedNumber] = useState<Option>(
+    numberOptionList[0]
+  );
+  const [selectedApplicant, setSelectedApplicant] = useState<Option>(
+    applicantOptionList[0]
+  );
+  const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
 
   // 임시
-  const isHost = true;
+  const isHost = false;
   const invitationList: invitationItem[] = [
     {
       id: 1,
@@ -63,6 +87,30 @@ const InvitationPage = () => {
         모임 {isHost ? '신청자' : '참여자'}
         {total > 0 && <span> ({total})</span>}
       </SListTitle>
+      {isHost && (
+        <SSelectContainer>
+          <Select
+            value={selectedNumber}
+            options={numberOptionList}
+            onChange={value => setSelectedNumber(value)}
+            type="invitation"
+          />
+          <div>
+            <Select
+              value={selectedApplicant}
+              options={applicantOptionList}
+              onChange={value => setSelectedApplicant(value)}
+              type="invitation"
+            />
+            <Select
+              value={selectedSort}
+              options={sortOptionList}
+              onChange={value => setSelectedSort(value)}
+              type="invitation"
+            />
+          </div>
+        </SSelectContainer>
+      )}
       {invitationList.length ? (
         invitationList.map(invitation => (
           <ListItem key={invitation.id} {...invitation} isHost={isHost} />
@@ -92,6 +140,18 @@ const SListTitle = styled(Box, {
   mt: '$64',
   mb: '$48',
   fontAg: '32_bold_100',
+});
+
+const SSelectContainer = styled(Box, {
+  flexType: 'verticalCenter',
+  justifyContent: 'space-between',
+  mb: '$16',
+  position: 'relative',
+
+  '& > div': {
+    flexType: 'verticalCenter',
+    gap: '$12',
+  },
 });
 
 const SEmptyView = styled(Box, {

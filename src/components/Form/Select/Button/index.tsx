@@ -7,14 +7,15 @@ import { Option } from '@components/Form/Select/OptionItem';
 interface ButtonProps {
   open?: boolean;
   value?: Option;
+  type: 'invitation' | 'make';
 }
 
-function Button({ value, open }: ButtonProps) {
+function Button({ value, open, type }: ButtonProps) {
   const isNotSelected = value?.value === null;
 
   return (
     <Listbox.Button as={Fragment}>
-      <SButton isNotSelected={isNotSelected}>
+      <SButton isNotSelected={isNotSelected} viewType={type}>
         {value?.label}
         <SArrowDownIcon open={open} isNotSelected={isNotSelected} />
       </SButton>
@@ -33,13 +34,19 @@ const SButton = styled('button', {
   gap: 8,
   fontAg: '16_medium_100',
   color: '$white',
-  background: '$black60',
   borderRadius: 10,
   variants: {
     isNotSelected: {
       true: {
         color: '$gray100',
       },
+    },
+    viewType: {
+      invitation: {
+        border: '1px solid $black40',
+        backgroundColor: '$black100',
+      },
+      make: { backgroundColor: '$black60' },
     },
   },
 });

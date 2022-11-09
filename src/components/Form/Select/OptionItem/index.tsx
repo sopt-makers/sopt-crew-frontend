@@ -10,13 +10,16 @@ export interface Option {
 
 interface OptionItemProps {
   option: Option;
+  type: 'invitation' | 'make';
 }
 
-function OptionItem({ option }: OptionItemProps) {
+function OptionItem({ option, type }: OptionItemProps) {
   return (
     <Listbox.Option as={Fragment} key={option.label} value={option}>
       {({ selected }) => (
-        <SOptionItem selected={selected}>{option.label}</SOptionItem>
+        <SOptionItem selected={selected} type={type}>
+          {option.label}
+        </SOptionItem>
       )}
     </Listbox.Option>
   );
@@ -29,13 +32,20 @@ const SOptionItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   padding: '12px 16px',
-  background: '$black40',
   fontAg: '18_medium_100',
   variants: {
     selected: {
       true: {
         fontAg: '18_bold_100',
         color: '$purple100',
+      },
+    },
+    type: {
+      invitation: {
+        background: '$black100',
+      },
+      make: {
+        background: '$black40',
       },
     },
   },
