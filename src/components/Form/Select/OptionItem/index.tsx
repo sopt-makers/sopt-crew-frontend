@@ -29,8 +29,8 @@ const SOptionItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   padding: '12px 16px',
-  fontAg: '18_medium_100',
   background: '$black40',
+  fontAg: '18_medium_100',
   variants: {
     selected: {
       true: {
