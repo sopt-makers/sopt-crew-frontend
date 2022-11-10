@@ -1,6 +1,7 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
+import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
@@ -19,6 +20,8 @@ function Presentation({
   submitButtonLabel,
   cancelButtonLabel,
 }: PresentationProps) {
+  const [files, setFiles] = useState<string>('');
+
   return (
     <SForm onSubmit={onSubmit}>
       {/* 모임 제목 */}
@@ -53,7 +56,23 @@ function Presentation({
         )}
       ></FormController>
 
-      {/* TODO: 이미지 */}
+      {/* 이미지 */}
+      <FormController
+        name="files"
+        render={({ field: { onChange, onBlur } }) => (
+          <FileInput
+            label="이미지"
+            message="최대 6개까지 첨부 가능, 이미지 사이즈 제약"
+            required
+            value={files}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setFiles(e.target.value);
+              onChange(e.target.files);
+            }}
+            onBlur={onBlur}
+          />
+        )}
+      />
 
       {/* 모집 기간 */}
       <div>
