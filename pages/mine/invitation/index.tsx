@@ -95,31 +95,33 @@ const InvitationPage = () => {
             value={selectedNumber}
             options={numberOptionList}
             onChange={value => setSelectedNumber(value)}
-            type="invitation"
           />
         )}
       </SListHeader>
       {isHost && (
         <SSelectContainer>
-          <Select
-            value={selectedNumber}
-            options={numberOptionList}
-            onChange={value => setSelectedNumber(value)}
-            type="invitation"
-          />
+          <SSelectWrapper>
+            <Select
+              value={selectedNumber}
+              options={numberOptionList}
+              onChange={value => setSelectedNumber(value)}
+            />
+          </SSelectWrapper>
           <div>
-            <Select
-              value={selectedApplicant}
-              options={applicantOptionList}
-              onChange={value => setSelectedApplicant(value)}
-              type="invitation"
-            />
-            <Select
-              value={selectedSort}
-              options={sortOptionList}
-              onChange={value => setSelectedSort(value)}
-              type="invitation"
-            />
+            <SSelectWrapper>
+              <Select
+                value={selectedApplicant}
+                options={applicantOptionList}
+                onChange={value => setSelectedApplicant(value)}
+              />
+            </SSelectWrapper>
+            <SSelectWrapper>
+              <Select
+                value={selectedSort}
+                options={sortOptionList}
+                onChange={value => setSelectedSort(value)}
+              />
+            </SSelectWrapper>
           </div>
         </SSelectContainer>
       )}
@@ -169,6 +171,24 @@ const SSelectContainer = styled(Box, {
   '& > div': {
     flexType: 'verticalCenter',
     gap: '$12',
+  },
+});
+
+const SSelectWrapper = styled(Box, {
+  '& button': {
+    border: '1px solid $black40',
+    backgroundColor: '$black100',
+  },
+
+  '& ul': {
+    background: '$black100',
+    position: 'absolute',
+    top: '$50',
+    minWidth: '$147',
+  },
+
+  '& div': {
+    background: '$black100',
   },
 });
 

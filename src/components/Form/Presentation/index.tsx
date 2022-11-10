@@ -50,7 +50,6 @@ function Presentation({
             value={value}
             onChange={onChange}
             onBlur={onBlur}
-            type="make"
           />
         )}
       ></FormController>
