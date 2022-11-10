@@ -3,17 +3,18 @@ import { Flex } from '@components/util/layout/Flex';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { GroupResponse } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
-  id: number;
+  groupData: GroupResponse;
 }
 
-function Card({ bottom, id }: CardProps) {
+function Card({ bottom, groupData }: CardProps) {
   return (
     <Box as="li">
-      <Link href={`/detail?id=${id}`} passHref>
+      <Link href={`/detail?id=${groupData.id}`} passHref>
         <a>
           <>
             <Box css={{ position: 'relative' }}>
@@ -28,8 +29,8 @@ function Card({ bottom, id }: CardProps) {
               </SImageWrapper>
             </Box>
             <STitleSection>
-              <SCategory>카테고리</SCategory>
-              <STitle>제목이 들어가게 됩니다</STitle>
+              <SCategory>{groupData.category}</SCategory>
+              <STitle>{groupData.title}</STitle>
             </STitleSection>
             <Box>
               <SInfoRow>
@@ -38,7 +39,7 @@ function Card({ bottom, id }: CardProps) {
               </SInfoRow>
               <SInfoRow>
                 <SKey>모집 인원</SKey>
-                <SValue>4/5명</SValue>
+                <SValue>4/{groupData.capacity}명</SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모임 개설</SKey>
