@@ -1,7 +1,6 @@
 import { Box } from '@components/box/Box';
 import ListItem from '@components/page/groupInvitation/ListItem';
 import { TabList } from '@components/tabList/TabList';
-import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import GroupInformation from '@components/page/groupInvitation/GroupInformation';
 import Pagination from '@components/page/groupList/Pagination';
@@ -9,6 +8,7 @@ import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
 import { useState } from 'react';
 import { Option } from '@components/Form/Select/OptionItem';
+import Link from 'next/link';
 
 type invitationItem = {
   id: number;
@@ -20,12 +20,6 @@ type invitationItem = {
 };
 
 const InvitationPage = () => {
-  const router = useRouter();
-  const handleChange = (text: string) => {
-    if (text === 'all') {
-      router.push('/');
-    }
-  };
   const { value: page, setValue: setPage } = usePageParams();
   const numberOptionList = [
     { label: '10명씩 보기', value: '10명씩 보기' },
@@ -78,9 +72,17 @@ const InvitationPage = () => {
 
   return (
     <SInvitationPage>
-      <TabList text="mine" size="big" onChange={handleChange}>
-        <TabList.Item text="all">모임 전체</TabList.Item>
-        <TabList.Item text="mine">내 모임</TabList.Item>
+      <TabList text="mine" size="big" onChange={() => {}}>
+        <Link href="/" passHref>
+          <a>
+            <TabList.Item text="all">모임 전체</TabList.Item>
+          </a>
+        </Link>
+        <Link href="/mine" passHref>
+          <a>
+            <TabList.Item text="mine">내 모임</TabList.Item>
+          </a>
+        </Link>
       </TabList>
       <GroupInformation />
       <SListHeader>
