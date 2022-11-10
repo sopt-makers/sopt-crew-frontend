@@ -12,6 +12,7 @@ import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
+import { useGroupListOfApplied, useGroupListOMine } from 'src/api/user/hooks';
 
 const enum GroupType {
   MADE,
@@ -23,67 +24,71 @@ const MinePage: NextPage = () => {
     'groupType',
     GroupType.MADE
   );
+
+  const { data: applyData } = useGroupListOfApplied();
+  const { data: mineData } = useGroupListOMine();
   return (
     <div>
-      <main>
-        <Flex align="center" justify="between">
-          <TabList text={'mine'} size="big" onChange={() => {}}>
-            <Link href="/" passHref>
-              <a>
-                <TabList.Item text="all">모임 전체</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/mine" passHref>
-              <a>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
-            </Link>
-          </TabList>
-        </Flex>
-        <Tab.Group
-          selectedIndex={Number(selectedGroupType)}
-          onChange={setSelectedGroupType}
-        >
-          <STabList>
-            <Tab as={Fragment}>
-              <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>
-                내가 만든 모임
-              </STab>
-            </Tab>
-            <Tab as={Fragment}>
-              <STab
-                isSelected={Number(selectedGroupType) === GroupType.APPLIED}
-              >
-                내가 신청한 모임
-              </STab>
-            </Tab>
-          </STabList>
+      <Flex align="center" justify="between">
+        <TabList text={'mine'} size="big" onChange={() => {}}>
+          <Link href="/" passHref>
+            <a>
+              <TabList.Item text="all">모임 전체</TabList.Item>
+            </a>
+          </Link>
+          <Link href="/mine" passHref>
+            <a>
+              <TabList.Item text="mine">내 모임</TabList.Item>
+            </a>
+          </Link>
+        </TabList>
+      </Flex>
+      <Tab.Group
+        selectedIndex={Number(selectedGroupType)}
+        onChange={setSelectedGroupType}
+      >
+        <STabList>
+          <Tab as={Fragment}>
+            <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>
+              내가 만든 모임
+            </STab>
+          </Tab>
+          <Tab as={Fragment}>
+            <STab isSelected={Number(selectedGroupType) === GroupType.APPLIED}>
+              내가 신청한 모임
+            </STab>
+          </Tab>
+        </STabList>
 
-          <Tab.Panels>
-            <Tab.Panel>
-              <SGroupCount>4개의 모임</SGroupCount>
-              <GridLayout>
-                <Card id={0} bottom={<InvitationButton id={0} />} />
-                <Card id={1} bottom={<InvitationButton id={1} />} />
-                <Card id={2} bottom={<InvitationButton id={2} />} />
-                <Card id={3} bottom={<InvitationButton id={3} />} />
-              </GridLayout>
-            </Tab.Panel>
+        <Tab.Panels>
+          <Tab.Panel as="main">
+            <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
 
-            <Tab.Panel>
-              <SGroupCount>5개의 모임</SGroupCount>
+            <GridLayout>
+              {mineData?.meetings.map(groupData => (
+                <Card
+                  key={groupData.id}
+                  groupData={groupData}
+                  bottom={<Status status="승인" />}
+                />
+              ))}
+            </GridLayout>
+          </Tab.Panel>
 
-              <GridLayout>
-                <Card id={0} bottom={<Status status="승인" />} />
-                <Card id={1} bottom={<Status status="대기" />} />
-                <Card id={2} bottom={<Status status="대기" />} />
-                <Card id={3} bottom={<Status status="거절" />} />
-                <Card id={4} bottom={<Status status="승이" />} />
-              </GridLayout>
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
-      </main>
+          <Tab.Panel as="main">
+            <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
+            <GridLayout>
+              {applyData?.apply.map(applyData => (
+                <Card
+                  key={applyData.id}
+                  groupData={applyData.meeting}
+                  bottom={<InvitationButton id={0} />}
+                />
+              ))}
+            </GridLayout>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   );
 };

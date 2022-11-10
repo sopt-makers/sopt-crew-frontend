@@ -11,44 +11,47 @@ import { styled } from 'stitches.config';
 import { usePageParams } from '@hooks/queryString/custom';
 import Card from '@components/page/groupList/Card';
 import Filter from '@components/page/groupList/Filter';
+import { useGroupListOfAll } from 'src/api/meeting/hooks';
 
 const Home: NextPage = () => {
   const { value: page, setValue: setPage } = usePageParams();
+  const { data: groupListData } = useGroupListOfAll();
+
+  if (!groupListData) return <div> loading...</div>;
   return (
     <div>
-      <main>
-        <Flex align="center" justify="between">
-          <TabList text={'all'} size="big" onChange={() => {}}>
-            <Link href="/" passHref>
-              <a>
-                <TabList.Item text="all">모임 전체</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/mine" passHref>
-              <a>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
-            </Link>
-          </TabList>
-          <Link href="/make" passHref>
+      <Flex align="center" justify="between">
+        <TabList text={'all'} size="big" onChange={() => {}}>
+          <Link href="/" passHref>
             <a>
-              <SMakeGroup align="center" justify="center">
-                <PlusIcon />
-                <span>모임생성</span>
-              </SMakeGroup>
+              <TabList.Item text="all">모임 전체</TabList.Item>
             </a>
           </Link>
-        </Flex>
+          <Link href="/mine" passHref>
+            <a>
+              <TabList.Item text="mine">내 모임</TabList.Item>
+            </a>
+          </Link>
+        </TabList>
+        <Link href="/make" passHref>
+          <a>
+            <SMakeGroup align="center" justify="center">
+              <PlusIcon />
+              <span>모임생성</span>
+            </SMakeGroup>
+          </a>
+        </Link>
+      </Flex>
 
-        <Box css={{ mt: '$120', mb: '$64' }}>
-          <Filter />
-        </Box>
-        <SGroupCount>4개의 모임</SGroupCount>
+      <Box css={{ mt: '$120', mb: '$64' }}>
+        <Filter />
+      </Box>
+      <main>
+        <SGroupCount>{groupListData.length}개의 모임</SGroupCount>
         <GridLayout>
-          <Card id={0} />
-          <Card id={1} />
-          <Card id={2} />
-          <Card id={3} />
+          {groupListData.map(groupData => (
+            <Card key={groupData.id} groupData={groupData} />
+          ))}
         </GridLayout>
         <Box css={{ my: '$80' }}>
           <Pagination

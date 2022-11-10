@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { ParsedUrlQueryInput } from 'querystring';
 
 export interface QueryStringType {
   [key: string]: string | string[] | undefined;
@@ -36,7 +35,7 @@ export function useQueryString(
   };
 
   return {
-    value: query[key] || initValue,
+    value: (query[key] as string) || initValue,
     setValue,
     deleteKey,
   };
