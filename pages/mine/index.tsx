@@ -11,7 +11,7 @@ import { styled } from 'stitches.config';
 import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
-import { useQueryString } from '@hooks/queryString';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 const enum GroupType {
   MADE,
@@ -19,8 +19,10 @@ const enum GroupType {
 }
 
 const MinePage: NextPage = () => {
-  const { value: selectedGroupType, setValue: setSelectedGroupType } =
-    useQueryString('groupType', String(GroupType.MADE));
+  const [selectedGroupType, setSelectedGroupType] = useSessionStorage(
+    'groupType',
+    GroupType.MADE
+  );
   return (
     <div>
       <main>
