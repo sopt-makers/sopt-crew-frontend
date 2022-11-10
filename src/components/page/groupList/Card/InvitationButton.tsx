@@ -9,7 +9,7 @@ interface InvitationButtonProps {
 
 function InvitationButton({ id }: InvitationButtonProps) {
   return (
-    <Link href={`/invitation?id=${id}`} passHref>
+    <Link href={`/mine/invitation?id=${id}`} passHref>
       <SAnchor>
         <SButton align="center" justify="between">
           <p>신청자 리스트</p>
