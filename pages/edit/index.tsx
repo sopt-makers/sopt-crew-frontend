@@ -32,7 +32,7 @@ const EditPage = () => {
     },
   });
 
-  const methods = useForm<FormType>({
+  const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
@@ -51,7 +51,7 @@ const EditPage = () => {
 
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
-    methods.reset({
+    formMethods.reset({
       ...formData,
       category: { label: formData?.category, value: formData?.category },
       // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
@@ -65,7 +65,7 @@ const EditPage = () => {
         note: formData?.note ?? '',
       },
     });
-  }, [methods, formData]);
+  }, [formMethods, formData]);
 
   // TODO: add loading UI
   if (!formData) {
@@ -73,12 +73,12 @@ const EditPage = () => {
   }
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
           <SFormName>모임 수정하기</SFormName>
           <Presentation
-            onSubmit={methods.handleSubmit(onSubmit)}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
             submitButtonLabel="수정 완료하기"
             cancelButtonLabel="수정 취소하기"
           />
