@@ -18,8 +18,11 @@ const EditPage = () => {
     queryKey: ['group', id],
     queryFn: () => getGroupById(id),
     enabled: !!id,
+    select(data) {
+      return data.data;
+    },
   });
-  const formData = query.data?.data;
+  const { data: formData } = query;
 
   const { mutateAsync } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormType }) =>
