@@ -17,6 +17,10 @@ export const createGroup = async (formData: FormType) => {
           form.append(detailKey, value);
         }
       }
+    } else if (key === 'files') {
+      for (const file of formData[key] as FileList) {
+        form.append('files', file);
+      }
     }
     // NOTE: 다른 필드들은 그대로 주입
     else {
@@ -35,7 +39,7 @@ interface GetGroupByIdResponse {
     id: number;
     title: string;
     category: string;
-    imageURL: string[];
+    imageURL: string[]; // NOTE: id, url 필드가 담긴 stringified JSON
     startDate: string;
     endDate: string;
     capacity: number;
