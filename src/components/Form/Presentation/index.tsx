@@ -25,7 +25,6 @@ function Presentation({
       <STitleField>
         <FormController
           name="title"
-          defaultValue=""
           render={({ field }) => (
             <TextInput
               label="모임 제목"
@@ -64,7 +63,6 @@ function Presentation({
           <SApplicationField>
             <FormController
               name="startDate"
-              defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" required {...field} />
               )}
@@ -74,7 +72,6 @@ function Presentation({
           <SApplicationField>
             <FormController
               name="endDate"
-              defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" {...field} />
               )}
@@ -87,7 +84,6 @@ function Presentation({
       <SMemberCountField>
         <FormController
           name="capacity"
-          defaultValue=""
           render={({ field }) => (
             <TextInput
               type="number"
@@ -113,7 +109,6 @@ function Presentation({
         </Label>
         <FormController
           name="detail.desc"
-          defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="모임 소개" maxLength={500} {...field} />
           )}
@@ -127,7 +122,6 @@ function Presentation({
         </Label>
         <FormController
           name="detail.processDesc"
-          defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="진행 방식 소개" maxLength={500} {...field} />
           )}
@@ -143,7 +137,6 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mStartDate"
-              defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" required {...field} />
               )}
@@ -153,7 +146,6 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mEndDate"
-              defaultValue=""
               render={({ field }) => (
                 <TextInput placeholder="YYYY.MM.DD" {...field} />
               )}
@@ -169,7 +161,6 @@ function Presentation({
         </Label>
         <FormController
           name="detail.leaderDesc"
-          defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="개설자 소개" maxLength={500} {...field} />
           )}
@@ -183,7 +174,6 @@ function Presentation({
         </Label>
         <FormController
           name="detail.targetDesc"
-          defaultValue=""
           render={({ field }) => (
             <Textarea
               placeholder="이런 분을 찾습니다."
@@ -199,7 +189,6 @@ function Presentation({
         <Label size="small">유의사항</Label>
         <FormController
           name="detail.note"
-          defaultValue=""
           render={({ field }) => (
             <Textarea placeholder="유의 사항 입력" maxLength={500} {...field} />
           )}
@@ -208,7 +197,9 @@ function Presentation({
 
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
-        {cancelButtonLabel && <CancelButton>{cancelButtonLabel}</CancelButton>}
+        {cancelButtonLabel && (
+          <CancelButton type="button">{cancelButtonLabel}</CancelButton>
+        )}
         <SubmitButton type="submit">{submitButtonLabel}</SubmitButton>
       </ButtonContainer>
     </SForm>
