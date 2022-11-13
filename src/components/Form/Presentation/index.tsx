@@ -20,7 +20,8 @@ function Presentation({
   submitButtonLabel,
   cancelButtonLabel,
 }: PresentationProps) {
-  const [files, setFiles] = useState<string>('');
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [filename, setFilename] = useState<string>('');
 
   return (
     <SForm onSubmit={onSubmit}>
@@ -57,22 +58,42 @@ function Presentation({
       ></FormController>
 
       {/* 이미지 */}
-      <FormController
-        name="files"
-        render={({ field: { onChange, onBlur } }) => (
-          <FileInput
-            label="이미지"
-            message="최대 6개까지 첨부 가능, 이미지 사이즈 제약"
-            required
-            value={files}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setFiles(e.target.value);
-              onChange(e.target.files);
-            }}
-            onBlur={onBlur}
-          />
-        )}
-      />
+      <div>
+        <Label required={true}>이미지</Label>
+        <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
+        <SFileInputWrapper>
+          {previewImages.length > 0 &&
+            previewImages.map((image, idx) => (
+              <SPreviewImage key={`${image}-${idx}`} src={image} />
+            ))}
+          {previewImages.length < 6 && (
+            <FormController
+              name="files"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <FileInput
+                  value={filename}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    if (!e.target.files) {
+                      return;
+                    }
+                    const previousFiles = [...value];
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const currentFiles = [...e.target.files!];
+                    const previews = [];
+                    for (const file of [...previousFiles, ...currentFiles]) {
+                      previews.push(URL.createObjectURL(file));
+                    }
+                    setFilename(e.target.value);
+                    setPreviewImages(previews);
+                    onChange([...previousFiles, ...currentFiles]);
+                  }}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          )}
+        </SFileInputWrapper>
+      </div>
 
       {/* 모집 기간 */}
       <div>
@@ -235,6 +256,18 @@ const SForm = styled('form', {
 const STitleField = styled('div', {
   width: '369px',
 });
+const SFileInputWrapper = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '16px',
+});
+const SPreviewImage = styled('img', {
+  width: '100%',
+  height: '176px',
+  objectFit: 'cover',
+  borderRadius: '10px',
+});
+
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',

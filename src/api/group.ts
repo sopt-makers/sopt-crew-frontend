@@ -18,7 +18,7 @@ export const createGroup = async (formData: FormType) => {
         }
       }
     } else if (key === 'files') {
-      for (const file of formData[key] as FileList) {
+      for (const file of formData[key] as File[]) {
         form.append('files', file);
       }
     }
