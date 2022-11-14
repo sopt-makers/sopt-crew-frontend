@@ -1,11 +1,13 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
-import Image from 'next/image';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface ListItemProps {
+  id: number;
   profileImage?: string;
   name: string;
   date: string;
@@ -15,6 +17,7 @@ interface ListItemProps {
 }
 
 const ListItem = ({
+  id,
   profileImage,
   name,
   date,
@@ -22,6 +25,7 @@ const ListItem = ({
   detail,
   isHost,
 }: ListItemProps) => {
+  const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
@@ -34,16 +38,18 @@ const ListItem = ({
     }
   };
 
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   return (
     <>
       <SListItem>
         <SLeft>
-          {profileImage ? (
-            <Image src={profileImage} width="32" height="32" />
-          ) : (
-            <ProfileDefaultIcon />
-          )}
-          <SName>{name}</SName>
+          {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
+          <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
+            <SName>{name}</SName>
+          </Link>
           {isHost && status && (
             <SStatus isAccepted={status === 'accepted'}>
               {getStatusText(status)}
@@ -104,6 +110,8 @@ const SLeft = styled(Box, {
   flexType: 'verticalCenter',
 
   '& img': {
+    width: '$32',
+    height: '$32',
     borderRadius: '$round',
     ml: '$4',
   },
@@ -121,7 +129,7 @@ const SVerticalLine = styled(Box, {
   backgroundColor: '$gray100',
 });
 
-const SName = styled('button', {
+const SName = styled('a', {
   ml: '$24',
   color: '$white',
   fontWeight: '$bold',

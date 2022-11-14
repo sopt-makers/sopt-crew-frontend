@@ -1,5 +1,4 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
-import Image from 'next/image';
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
@@ -47,11 +46,7 @@ const ApplicantList = () => {
     <SApplicantList>
       {applicantList.map(({ id, profileImage, name }) => (
         <SApplicantListItem key={id}>
-          {profileImage ? (
-            <Image src={profileImage} width="32" height="32" />
-          ) : (
-            <ProfileDefaultIcon />
-          )}
+          {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <span>{name}</span>
         </SApplicantListItem>
       ))}
@@ -88,6 +83,13 @@ const SApplicantListItem = styled(Box, {
   color: '$white',
   fontAg: '16_bold_100',
   mb: '$12',
+
+  img: {
+    width: '$32',
+    height: '$32',
+    borderRadius: '$round',
+    objectFit: 'cover',
+  },
 
   span: {
     ml: '$10',

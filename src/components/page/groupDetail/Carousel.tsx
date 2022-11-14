@@ -1,12 +1,11 @@
 import { Box } from '@components/box/Box';
-import Image, { StaticImageData } from 'next/image';
 import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
 import 'slick-carousel/slick/slick.css';
 
 interface CarouselProps {
-  imageList: StaticImageData[];
+  imageList: string[];
 }
 
 const Carousel = ({ imageList }: CarouselProps) => {
@@ -26,7 +25,7 @@ const Carousel = ({ imageList }: CarouselProps) => {
       <Slider {...settings}>
         {imageList.map((image, index) => (
           <SImageWrapper key={index}>
-            <Image src={image} alt="" />
+            <img src={image} />
           </SImageWrapper>
         ))}
       </Slider>
@@ -62,5 +61,6 @@ const SImageWrapper = styled(Box, {
     objectFit: 'cover',
     width: '$869',
     height: '$594',
+    margin: '0 auto',
   },
 });

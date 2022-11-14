@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import useModal from '@hooks/useModal';
@@ -7,6 +7,8 @@ import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
+import Textarea from '@components/Form/Textarea';
+import Link from 'next/link';
 
 const DetailHeader = () => {
   const router = useRouter();
@@ -16,10 +18,11 @@ const DetailHeader = () => {
   const endDate = '22.10.28';
   const category = '스터디';
   const studyName = '피그마 왕초보를 위한 스터디';
+  const hostId = 1;
   const hostName = '홍길동';
   const current = 4;
   const total = 5;
-  const isHost = false;
+  const isHost = true;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
@@ -30,6 +33,8 @@ const DetailHeader = () => {
     ? '모임을 삭제하시겠습니까?'
     : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
+  const [textareaValue, setTextareaValue] = useState('');
+  const [origin, setOrigin] = useState('');
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -57,6 +62,10 @@ const DetailHeader = () => {
     handleModalOpen();
   };
 
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   return (
     <>
       <SDetailHeader>
@@ -73,11 +82,13 @@ const DetailHeader = () => {
             <span>{category}</span>
             {studyName}
           </h1>
-          <SProfile>
-            <SProfileImage />
-            <span>{hostName}</span>
-            <ArrowSmallRightIcon />
-          </SProfile>
+          <Link href={`${origin}/members/detail?memberId=${hostId}`} passHref>
+            <SProfileAnchor>
+              <SProfileImage />
+              <span>{hostName}</span>
+              <ArrowSmallRightIcon />
+            </SProfileAnchor>
+          </Link>
         </SAbout>
         <div>
           <SStatusButton onClick={handleApplicantListModal}>
@@ -98,10 +109,12 @@ const DetailHeader = () => {
             </SGuestButton>
           )}
           {isHost && (
-            <SHostButton>
+            <SHostButtonContainer>
               <button onClick={handleGroupDelete}>삭제</button>
-              <button>수정</button>
-            </SHostButton>
+              <Link href={`/edit?id=${groupId}`} passHref>
+                <a>수정</a>
+              </Link>
+            </SHostButtonContainer>
           )}
         </div>
       </SDetailHeader>
@@ -122,28 +135,34 @@ const DetailHeader = () => {
         >
           {modalTitle === '모임 신청하기' ? (
             <SApplicationForm>
-              {/* TODO : Textarea 컴포넌트 추가되면 수정할 예정 */}
-              <textarea placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!" />
+              <Textarea
+                value={textareaValue}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setTextareaValue(e.target.value)
+                }
+                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
+                maxLength={150}
+              />
               <button onClick={handleModalClose}>신청하기</button>
             </SApplicationForm>
           ) : (
             <SApplicantListWrapper>
               <ApplicantList />
               {isHost && (
-                <button
-                  onClick={() => router.push(`/invitation?id=${groupId}`)}
-                >
-                  참여자 리스트
-                  <ArrowSmallRightIcon />
-                </button>
+                <Link href={`/mine/invitation?id=${groupId}`} passHref>
+                  <SApplicantAnchor>
+                    <p>참여자 리스트</p>
+                    <ArrowSmallRightIcon />
+                  </SApplicantAnchor>
+                </Link>
               )}
               {isApplied && (
-                <button
-                  onClick={() => router.push(`/invitation?id=${groupId}`)}
-                >
-                  신청자 리스트
-                  <ArrowSmallRightIcon />
-                </button>
+                <Link href={`/mine/invitation?id=${groupId}`} passHref>
+                  <SApplicantAnchor>
+                    <p>신청자 리스트</p>
+                    <ArrowSmallRightIcon />
+                  </SApplicantAnchor>
+                </Link>
               )}
             </SApplicantListWrapper>
           )}
@@ -205,9 +224,10 @@ const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
 });
 
-const SProfile = styled('button', {
+const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
   color: '$white',
+  width: 'fit-content',
 
   '& > span': {
     mr: '$16',
@@ -261,7 +281,7 @@ const SGuestButton = styled(Button, {
   },
 });
 
-const SHostButton = styled(Box, {
+const SHostButtonContainer = styled(Box, {
   button: {
     width: '$144',
     color: '$white',
@@ -269,36 +289,40 @@ const SHostButton = styled(Box, {
     textAlign: 'center',
     borderRadius: '$50',
     fontAg: '20_bold_100',
-  },
-
-  'button:first-child': {
     border: `2px solid $black40`,
     mr: '12px',
   },
 
-  'button:last-child': {
+  a: {
+    display: 'inline-block',
+    width: '$144',
+    color: '$white',
+    padding: '$20 0',
+    textAlign: 'center',
+    borderRadius: '$50',
+    fontAg: '20_bold_100',
     backgroundColor: '$purple100',
   },
 });
 
 const SApplicantListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
+});
 
-  button: {
-    mt: '$24',
-    fontAg: '16_semibold_100',
-    color: '$white',
-    float: 'right',
-    flexType: 'verticalCenter',
+const SApplicantAnchor = styled('a', {
+  mt: '$24',
+  fontAg: '16_semibold_100',
+  color: '$white',
+  float: 'right',
+  flexType: 'verticalCenter',
 
-    svg: {
-      ml: '$8',
-    },
+  svg: {
+    ml: '$8',
   },
 });
 
 const SApplicationForm = styled(Box, {
-  padding: '$24 $24 $48 $24',
+  padding: '$24 $24 $132 $24',
   borderBottomLeftRadius: '16px',
   borderBottomRightRadius: '16px',
   height: '$356',
@@ -310,21 +334,26 @@ const SApplicationForm = styled(Box, {
     mb: '$48',
   },
 
-  // 임시
   textarea: {
     width: '100%',
     height: '$200',
-    fontAg: '22_regular_170',
-    color: '$gray80',
+    fontAg: '16_medium_150',
+    fontFamily: 'SUIT',
+    color: '$white',
     backgroundColor: '$black60',
     outline: 'none',
     borderRadius: '10px',
   },
 
+  'textarea:focus': {
+    boxShadow: `0 0 0 1px #8040ff`,
+  },
+
   button: {
     display: 'block',
     margin: '0 auto',
-    mt: '$28',
+    mt: '$4',
+    mb: '$48',
     padding: '$19 0',
     width: '$180',
     borderRadius: '12px',
