@@ -34,7 +34,7 @@ const DetailHeader = () => {
     : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
-  const [host, setHost] = useState('');
+  const [origin, setOrigin] = useState('');
 
   const handleApplicantListModal = () => {
     handleModalOpen();
@@ -63,7 +63,7 @@ const DetailHeader = () => {
   };
 
   useEffect(() => {
-    setHost(window.location.host);
+    setOrigin(window.location.origin);
   }, []);
 
   return (
@@ -82,7 +82,7 @@ const DetailHeader = () => {
             <span>{category}</span>
             {studyName}
           </h1>
-          <Link href={`${host}/members/detail?memberId=${hostId}`} passHref>
+          <Link href={`${origin}/members/detail?memberId=${hostId}`} passHref>
             <SProfileAnchor>
               <SProfileImage />
               <span>{hostName}</span>

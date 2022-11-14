@@ -26,7 +26,7 @@ const ListItem = ({
   detail,
   isHost,
 }: ListItemProps) => {
-  const [host, setHost] = useState('');
+  const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const getStatusText = (status: string) => {
     switch (status) {
@@ -40,7 +40,7 @@ const ListItem = ({
   };
 
   useEffect(() => {
-    setHost(window.location.host);
+    setOrigin(window.location.origin);
   }, []);
 
   return (
@@ -52,7 +52,7 @@ const ListItem = ({
           ) : (
             <ProfileDefaultIcon />
           )}
-          <Link href={`${host}/members/detail?memberId=${id}`} passHref>
+          <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
             <SName>{name}</SName>
           </Link>
           {isHost && status && (
