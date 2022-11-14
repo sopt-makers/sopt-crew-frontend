@@ -1,4 +1,4 @@
-import { FocusEventHandler, Fragment } from 'react';
+import { FocusEventHandler, Fragment, useMemo } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
@@ -22,8 +22,21 @@ function Select({
   onChange,
   onBlur,
 }: SelectProps) {
+  const stringifiedSelectedValue = useMemo(
+    () => JSON.stringify(value),
+    [value]
+  );
+  const handleChange = (stringifiedValue: string) => {
+    onChange(JSON.parse(stringifiedValue));
+  };
+
   return (
-    <Listbox value={value} onChange={onChange} onBlur={onBlur} as="div">
+    <Listbox
+      value={stringifiedSelectedValue}
+      onChange={handleChange}
+      onBlur={onBlur}
+      as="div"
+    >
       {({ open }) => (
         <>
           {label && <Label required={required}>{label}</Label>}
