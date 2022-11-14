@@ -1,7 +1,6 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
-import Image from 'next/image';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
@@ -47,11 +46,7 @@ const ListItem = ({
     <>
       <SListItem>
         <SLeft>
-          {profileImage ? (
-            <Image src={profileImage} width="32" height="32" />
-          ) : (
-            <ProfileDefaultIcon />
-          )}
+          {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
             <SName>{name}</SName>
           </Link>
@@ -115,6 +110,8 @@ const SLeft = styled(Box, {
   flexType: 'verticalCenter',
 
   '& img': {
+    width: '$32',
+    height: '$32',
     borderRadius: '$round',
     ml: '$4',
   },
