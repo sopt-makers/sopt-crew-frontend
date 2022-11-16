@@ -14,10 +14,56 @@ import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
 import { useGroupListOfApplied, useGroupListOMine } from 'src/api/user/hooks';
 import EmptyView from '@components/page/groupList/EmptyView';
+import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
 const enum GroupType {
   MADE,
   APPLIED,
+}
+function GroupListOfMine() {
+  const { data: mineData } = useGroupListOMine();
+  return (
+    <main>
+      <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
+      {mineData?.meetings.length ? (
+        <GridLayout>
+          {mineData?.meetings.map(groupData => (
+            <Card
+              key={groupData.id}
+              groupData={groupData}
+              bottom={<InvitationButton id={groupData.id} />}
+            />
+          ))}
+        </GridLayout>
+      ) : (
+        <EmptyView message="모임이 없습니다." />
+      )}
+    </main>
+  );
+}
+
+function GroupListOfApplied() {
+  const { data: applyData } = useGroupListOfApplied();
+  return (
+    <main>
+      <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
+      <GridLayout>
+        {applyData?.apply.length ? (
+          <GridLayout>
+            {/* {applyData?.apply.map(groupData => (
+            <Card
+              key={groupData.id}
+              groupData={groupData}
+              bottom={<Status status={groupData.status} />}
+            />
+          ))} */}
+          </GridLayout>
+        ) : (
+          <EmptyView message="모임이 없습니다." />
+        )}
+      </GridLayout>
+    </main>
+  );
 }
 
 const MinePage: NextPage = () => {
@@ -27,8 +73,7 @@ const MinePage: NextPage = () => {
   );
 
   const { data: mineData } = useGroupListOMine();
-  const { data: applyData } = useGroupListOfApplied();
-  if (!applyData && !mineData) return <div> loading...</div>;
+  if (!mineData) return <div> loading...</div>;
 
   return (
     <div>
@@ -64,40 +109,16 @@ const MinePage: NextPage = () => {
         </STabList>
 
         <Tab.Panels>
-          <Tab.Panel as="main">
-            <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
-            {mineData?.meetings.length ? (
-              <GridLayout>
-                {mineData?.meetings.map(groupData => (
-                  <Card
-                    key={groupData.id}
-                    groupData={groupData}
-                    bottom={<InvitationButton id={groupData.id} />}
-                  />
-                ))}
-              </GridLayout>
-            ) : (
-              <EmptyView message="모임이 없습니다." />
-            )}
+          <Tab.Panel>
+            <SSRSafeSuspense fallback={<p>loading...</p>}>
+              <GroupListOfMine />
+            </SSRSafeSuspense>
           </Tab.Panel>
 
-          <Tab.Panel as="main">
-            <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
-            <GridLayout>
-              {applyData?.apply.length ? (
-                <GridLayout>
-                  {/* {applyData?.apply.map(groupData => (
-                    <Card
-                      key={groupData.id}
-                      groupData={groupData}
-                      bottom={<InvitationButton id={groupData.id} />}
-                    />
-                  ))} */}
-                </GridLayout>
-              ) : (
-                <EmptyView message="모임이 없습니다." />
-              )}
-            </GridLayout>
+          <Tab.Panel>
+            <SSRSafeSuspense fallback={<p>loading...</p>}>
+              <GroupListOfApplied />
+            </SSRSafeSuspense>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

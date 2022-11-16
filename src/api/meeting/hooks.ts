@@ -15,6 +15,7 @@ export const useGroupListOfAll = () => {
     () => fetchGroupListOfAll({ category, status, search: search as string }),
     {
       select: response => response.data.data,
+      suspense: true,
     }
   );
 };
