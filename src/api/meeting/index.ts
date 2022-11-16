@@ -1,4 +1,5 @@
 import { api, PromiseResponse } from '..';
+import { ApplyResponse, UserResponse } from '../user';
 
 interface filterData {
   category: string[];
@@ -21,6 +22,13 @@ export interface GroupResponse {
   leaderDesc: string;
   targetDesc: string;
   note: string | null;
+  appliedInfo: ApplyResponse[];
+  user: UserResponse;
+}
+
+interface GroupListOfFilterResponse {
+  count: number;
+  meetings: GroupResponse[];
 }
 
 function parseStatusArrayToNumber(status: string[]) {
@@ -38,9 +46,9 @@ export const fetchGroupListOfAll = async ({
   status,
   search,
 }: filterData) => {
-  return api.post<PromiseResponse<GroupResponse[]>>('/meeting/search', {
-    status: parseStatusArrayToNumber(status),
-    ...(category?.length && { category: category }),
-    ...(search && { query: search }),
-  });
+  return api.get<PromiseResponse<GroupListOfFilterResponse>>(
+    `/meeting?status=${parseStatusArrayToNumber(status)}${
+      category?.length ? `&category=${category.join(',')}` : ''
+    }${search ? `&query=${search}` : ''}`
+  );
 };

@@ -1,12 +1,12 @@
 import { apiWithAuth, PromiseResponse } from '..';
 import { GroupResponse } from '../meeting';
 
-interface UserResponse {
+export interface UserResponse {
   id: number;
   name: string;
   originId: string;
 }
-interface ApplyResponse {
+export interface ApplyResponse {
   id: number;
   content: string;
   status: number;

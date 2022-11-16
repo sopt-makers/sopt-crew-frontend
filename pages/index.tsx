@@ -12,6 +12,7 @@ import { usePageParams } from '@hooks/queryString/custom';
 import Card from '@components/page/groupList/Card';
 import Filter from '@components/page/groupList/Filter';
 import { useGroupListOfAll } from 'src/api/meeting/hooks';
+import EmptyView from '@components/page/groupList/EmptyView';
 
 const Home: NextPage = () => {
   const { value: page, setValue: setPage } = usePageParams();
@@ -47,19 +48,26 @@ const Home: NextPage = () => {
         <Filter />
       </Box>
       <main>
-        <SGroupCount>{groupListData.length}개의 모임</SGroupCount>
-        <GridLayout>
-          {groupListData.map(groupData => (
-            <Card key={groupData.id} groupData={groupData} />
-          ))}
-        </GridLayout>
-        <Box css={{ my: '$80' }}>
-          <Pagination
-            totalPagesLength={20}
-            currentPageIndex={Number(page)}
-            changeCurrentPage={setPage}
-          />
-        </Box>
+        <SGroupCount>{groupListData.meetings.length}개의 모임</SGroupCount>
+        {groupListData.meetings.length ? (
+          <>
+            <GridLayout>
+              {groupListData.meetings.map(groupData => (
+                <Card key={groupData.id} groupData={groupData} />
+              ))}
+            </GridLayout>
+
+            <Box css={{ my: '$80' }}>
+              <Pagination
+                totalPagesLength={groupListData.count}
+                currentPageIndex={Number(page)}
+                changeCurrentPage={setPage}
+              />
+            </Box>
+          </>
+        ) : (
+          <EmptyView message="검색 결과가 없습니다." />
+        )}
       </main>
     </div>
   );

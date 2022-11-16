@@ -13,6 +13,7 @@ import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
 import { useGroupListOfApplied, useGroupListOMine } from 'src/api/user/hooks';
+import EmptyView from '@components/page/groupList/EmptyView';
 
 const enum GroupType {
   MADE,
@@ -25,8 +26,10 @@ const MinePage: NextPage = () => {
     GroupType.MADE
   );
 
-  const { data: applyData } = useGroupListOfApplied();
   const { data: mineData } = useGroupListOMine();
+  const { data: applyData } = useGroupListOfApplied();
+  if (!applyData && !mineData) return <div> loading...</div>;
+
   return (
     <div>
       <Flex align="center" justify="between">
@@ -63,28 +66,37 @@ const MinePage: NextPage = () => {
         <Tab.Panels>
           <Tab.Panel as="main">
             <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
-
-            <GridLayout>
-              {mineData?.meetings.map(groupData => (
-                <Card
-                  key={groupData.id}
-                  groupData={groupData}
-                  bottom={<Status status="승인" />}
-                />
-              ))}
-            </GridLayout>
+            {mineData?.meetings.length ? (
+              <GridLayout>
+                {mineData?.meetings.map(groupData => (
+                  <Card
+                    key={groupData.id}
+                    groupData={groupData}
+                    bottom={<InvitationButton id={groupData.id} />}
+                  />
+                ))}
+              </GridLayout>
+            ) : (
+              <EmptyView message="모임이 없습니다." />
+            )}
           </Tab.Panel>
 
           <Tab.Panel as="main">
             <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
             <GridLayout>
-              {applyData?.apply.map(applyData => (
-                <Card
-                  key={applyData.id}
-                  groupData={applyData.meeting}
-                  bottom={<InvitationButton id={0} />}
-                />
-              ))}
+              {applyData?.apply.length ? (
+                <GridLayout>
+                  {/* {applyData?.apply.map(groupData => (
+                    <Card
+                      key={groupData.id}
+                      groupData={groupData}
+                      bottom={<InvitationButton id={groupData.id} />}
+                    />
+                  ))} */}
+                </GridLayout>
+              ) : (
+                <EmptyView message="모임이 없습니다." />
+              )}
             </GridLayout>
           </Tab.Panel>
         </Tab.Panels>

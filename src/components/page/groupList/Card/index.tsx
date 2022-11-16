@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import Image from 'next/image';
+import { dateFormat } from '@utils/date';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { GroupResponse } from 'src/api/meeting';
@@ -20,11 +20,11 @@ function Card({ bottom, groupData }: CardProps) {
             <Box css={{ position: 'relative' }}>
               <SStatus isRecruiting={true}>모집중</SStatus>
               <SImageWrapper>
-                <Image
+                {/* 전략에 따라 image 태그 스타일링 필요 */}
+                <img
                   width="380px"
                   height="260px"
-                  src="/group/assets/img/img_example_1.jpg"
-                  layout="responsive"
+                  src={JSON.parse(groupData.imageURL[0]).url}
                 />
               </SImageWrapper>
             </Box>
@@ -35,15 +35,24 @@ function Card({ bottom, groupData }: CardProps) {
             <Box>
               <SInfoRow>
                 <SKey>모집 기간</SKey>
-                <SValue>22.10.21 - 22.10.28</SValue>
+                <SValue>
+                  {dateFormat(groupData.mStartDate)['YY.MM.DD']} -
+                  {dateFormat(groupData.mEndDate)['YY.MM.DD']}
+                </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모집 인원</SKey>
-                <SValue>4/{groupData.capacity}명</SValue>
+                <SValue>
+                  {
+                    groupData.appliedInfo.filter(info => info.status === 1)
+                      .length
+                  }
+                  /{groupData.capacity}명
+                </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모임 개설</SKey>
-                <SValue>홍길동</SValue>
+                <SValue>{groupData.user.name}</SValue>
               </SInfoRow>
             </Box>
           </>
