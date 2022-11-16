@@ -24,7 +24,7 @@ const enum GroupType {
 const MinePage: NextPage = () => {
   const [selectedGroupType, setSelectedGroupType] = useSessionStorage(
     'groupType',
-    GroupType.MADE
+    GroupType.MADE as number
   );
 
   return (
