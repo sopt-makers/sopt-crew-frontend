@@ -1,5 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
+import { APPLY_STATUS } from '@constants/status';
 import { StatusType } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 
@@ -7,22 +8,11 @@ interface StatusProps {
   status: StatusType;
 }
 
-function parseStatusToString(status: StatusType) {
-  switch (status) {
-    case 0:
-      return '대기';
-    case 1:
-      return '승인';
-    case 2:
-      return '거절';
-  }
-}
-
 function Status({ status }: StatusProps) {
   return (
     <Flex align="center" css={{ fontAg: '16_bold_100', marginTop: '24px' }}>
       <SLabel>신청현황</SLabel>
-      <span>{parseStatusToString(status)}</span>
+      <span>{APPLY_STATUS[status]}</span>
     </Flex>
   );
 }

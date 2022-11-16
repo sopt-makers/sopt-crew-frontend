@@ -50,13 +50,13 @@ function GroupListOfApplied() {
       <GridLayout>
         {applyData?.apply.length ? (
           <GridLayout>
-            {/* {applyData?.apply.map(groupData => (
-            <Card
-              key={groupData.id}
-              groupData={groupData}
-              bottom={<Status status={groupData.status} />}
-            />
-          ))} */}
+            {/* {applyData?.apply.map(applyData => (
+              <Card
+                key={applyData.id}
+                groupData={applyData.meeting}
+                bottom={<Status status={applyData.meeting.status} />}
+              />
+            ))} */}
           </GridLayout>
         ) : (
           <EmptyView message="모임이 없습니다." />
