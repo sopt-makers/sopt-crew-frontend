@@ -1,16 +1,31 @@
 import Presentation from '@components/Form/Presentation';
 import TableOfContents from '@components/Form/TableOfContents';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  FormProvider,
+  SubmitHandler,
+  useForm,
+  useWatch,
+} from 'react-hook-form';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createGroup } from 'src/api/group';
+import { useMemo } from 'react';
 
 const MakePage = () => {
-  const methods = useForm<FormType>({
+  const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
+
+  const files = useWatch({
+    control: formMethods.control,
+    name: 'files',
+  }) as File[] | undefined;
+
+  const imagesFromFiles = useMemo(() => {
+    return files ? files.map(file => URL.createObjectURL(file)) : [];
+  }, [files]);
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
@@ -25,13 +40,14 @@ const MakePage = () => {
   };
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
           <SFormName>모임 생성하기</SFormName>
           <Presentation
-            onSubmit={methods.handleSubmit(onSubmit)}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
             submitButtonLabel="모임 생성하기"
+            imageUrls={imagesFromFiles}
           />
         </SFormContainer>
         <TableOfContents label="모임 생성" />
