@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 
@@ -13,8 +13,9 @@ interface OptionItemProps {
 }
 
 function OptionItem({ option }: OptionItemProps) {
+  const stringifiedValue = useMemo(() => JSON.stringify(option), [option]);
   return (
-    <Listbox.Option as={Fragment} key={option.label} value={option}>
+    <Listbox.Option as={Fragment} key={option.label} value={stringifiedValue}>
       {({ selected }) => (
         <SOptionItem selected={selected}>{option.label}</SOptionItem>
       )}

@@ -2,17 +2,15 @@ import { Box } from '@components/box/Box';
 import DetailHeader from '@components/page/groupDetail/DetailHeader';
 import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
-import {
-  imgExample1,
-  imgExample2,
-  imgExample3,
-  imgExample4,
-} from 'public/assets/img';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
 const DetailPage = () => {
-  const imageList = [imgExample1, imgExample2, imgExample3, imgExample4];
+  // 임시
+  const imageList = [
+    'https://user-images.githubusercontent.com/58380158/200900425-4cc7c6e9-a806-4889-9eb8-a52289ac49e2.png',
+    'https://user-images.githubusercontent.com/58380158/200899757-f10fea55-300a-4990-ba9c-050afc8a6432.png',
+  ];
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
