@@ -13,6 +13,7 @@ interface CardProps {
 }
 
 function Card({ bottom, groupData }: CardProps) {
+  const thumbnailImage = JSON.parse(groupData.imageURL[0]).url;
   return (
     <Box as="li">
       <Link href={`/detail?id=${groupData.id}`} passHref>
@@ -22,13 +23,19 @@ function Card({ bottom, groupData }: CardProps) {
               <SStatus recruitingStatus={groupData.status}>
                 {RECRUITMENT_STATUS[groupData.status]}
               </SStatus>
-              <SImageWrapper>
+              <SImageWrapper
+                css={{
+                  backgroundImage: `url(${thumbnailImage})`,
+                }}
+              >
                 {/* 전략에 따라 image 태그 스타일링 필요 */}
-                <img
-                  width="380px"
-                  height="260px"
-                  src={JSON.parse(groupData.imageURL[0]).url}
-                />
+                <div>
+                  <SThumbnailImage
+                    width="380px"
+                    height="260px"
+                    src={thumbnailImage}
+                  />
+                </div>
               </SImageWrapper>
             </Box>
             <STitleSection>
@@ -72,6 +79,14 @@ const SImageWrapper = styled('div', {
   backgroundColor: '$black80',
   borderRadius: '$10',
   overflow: 'hidden',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+});
+
+const SThumbnailImage = styled('img', {
+  display: 'block',
+  objectFit: 'contain',
+  backdropFilter: 'blur(5px)',
 });
 
 const SStatus = styled(Box, {

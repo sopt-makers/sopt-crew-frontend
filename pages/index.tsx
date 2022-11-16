@@ -15,35 +15,6 @@ import { useGroupListOfAll } from 'src/api/meeting/hooks';
 import EmptyView from '@components/page/groupList/EmptyView';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
-function GroupListSection() {
-  const { value: page, setValue: setPage } = usePageParams();
-  const { data: groupListData } = useGroupListOfAll();
-  return (
-    <main>
-      <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>
-      {groupListData?.meetings.length ? (
-        <>
-          <GridLayout>
-            {groupListData?.meetings.map(groupData => (
-              <Card key={groupData.id} groupData={groupData} />
-            ))}
-          </GridLayout>
-
-          <Box css={{ my: '$80' }}>
-            <Pagination
-              totalPagesLength={groupListData?.count}
-              currentPageIndex={Number(page)}
-              changeCurrentPage={setPage}
-            />
-          </Box>
-        </>
-      ) : (
-        <EmptyView message="검색 결과가 없습니다." />
-      )}
-    </main>
-  );
-}
-
 const Home: NextPage = () => {
   return (
     <div>
@@ -93,6 +64,35 @@ const SMakeGroup = styled(Flex, {
     color: '$white',
   },
 });
+
+function GroupListSection() {
+  const { value: page, setValue: setPage } = usePageParams();
+  const { data: groupListData } = useGroupListOfAll();
+  return (
+    <main>
+      <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>
+      {groupListData?.meetings.length ? (
+        <>
+          <GridLayout>
+            {groupListData?.meetings.map(groupData => (
+              <Card key={groupData.id} groupData={groupData} />
+            ))}
+          </GridLayout>
+
+          <Box css={{ my: '$80' }}>
+            <Pagination
+              totalPagesLength={groupListData?.count}
+              currentPageIndex={Number(page)}
+              changeCurrentPage={setPage}
+            />
+          </Box>
+        </>
+      ) : (
+        <EmptyView message="검색 결과가 없습니다." />
+      )}
+    </main>
+  );
+}
 
 const SGroupCount = styled('p', {
   fontAg: '18_semibold_100',

@@ -20,60 +20,12 @@ const enum GroupType {
   MADE,
   APPLIED,
 }
-function GroupListOfMine() {
-  const { data: mineData } = useGroupListOMine();
-  return (
-    <main>
-      <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
-      {mineData?.meetings.length ? (
-        <GridLayout>
-          {mineData?.meetings.map(groupData => (
-            <Card
-              key={groupData.id}
-              groupData={groupData}
-              bottom={<InvitationButton id={groupData.id} />}
-            />
-          ))}
-        </GridLayout>
-      ) : (
-        <EmptyView message="모임이 없습니다." />
-      )}
-    </main>
-  );
-}
-
-function GroupListOfApplied() {
-  const { data: applyData } = useGroupListOfApplied();
-  return (
-    <main>
-      <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
-      <GridLayout>
-        {applyData?.apply.length ? (
-          <GridLayout>
-            {/* {applyData?.apply.map(applyData => (
-              <Card
-                key={applyData.id}
-                groupData={applyData.meeting}
-                bottom={<Status status={applyData.meeting.status} />}
-              />
-            ))} */}
-          </GridLayout>
-        ) : (
-          <EmptyView message="모임이 없습니다." />
-        )}
-      </GridLayout>
-    </main>
-  );
-}
 
 const MinePage: NextPage = () => {
   const [selectedGroupType, setSelectedGroupType] = useSessionStorage(
     'groupType',
     GroupType.MADE
   );
-
-  const { data: mineData } = useGroupListOMine();
-  if (!mineData) return <div> loading...</div>;
 
   return (
     <div>
@@ -150,6 +102,51 @@ const STab = styled('button', {
   },
 });
 
+function GroupListOfMine() {
+  const { data: mineData } = useGroupListOMine();
+  return (
+    <main>
+      <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
+      {mineData?.meetings.length ? (
+        <GridLayout>
+          {mineData?.meetings.map(groupData => (
+            <Card
+              key={groupData.id}
+              groupData={groupData}
+              bottom={<InvitationButton id={groupData.id} />}
+            />
+          ))}
+        </GridLayout>
+      ) : (
+        <EmptyView message="모임이 없습니다." />
+      )}
+    </main>
+  );
+}
+
+function GroupListOfApplied() {
+  const { data: applyData } = useGroupListOfApplied();
+  return (
+    <main>
+      <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
+      <GridLayout>
+        {applyData?.apply.length ? (
+          <GridLayout>
+            {applyData?.apply.map(applyData => (
+              <Card
+                key={applyData.id}
+                groupData={applyData.meeting}
+                bottom={<Status status={applyData.meeting.status} />}
+              />
+            ))}
+          </GridLayout>
+        ) : (
+          <EmptyView message="모임이 없습니다." />
+        )}
+      </GridLayout>
+    </main>
+  );
+}
 const SGroupCount = styled('p', {
   fontAg: '18_semibold_100',
 });

@@ -3,7 +3,7 @@ import { styled } from 'stitches.config';
 
 function EmptyView({ message }: { message: string }) {
   return (
-    <Wrapper css={{ minHeight: '820px' }}>
+    <Wrapper>
       <Message>{message}</Message>
     </Wrapper>
   );
@@ -12,7 +12,7 @@ function EmptyView({ message }: { message: string }) {
 export default EmptyView;
 
 const Wrapper = styled(Flex.Center, {
-  minHeight: '820px',
+  height: '820px',
   border: '1px solid $black40',
   borderRadius: '10px',
   my: '$24',
