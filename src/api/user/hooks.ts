@@ -4,9 +4,11 @@ import { fetchGroupListOfApplied, fetchGroupListOfMine } from '.';
 export const useGroupListOfApplied = () =>
   useQuery(['fetchGroupListOfApplied'], fetchGroupListOfApplied, {
     select: response => response.data.data,
+    suspense: true,
   });
 
 export const useGroupListOMine = () =>
   useQuery(['fetchGroupListOfMine'], fetchGroupListOfMine, {
     select: response => response.data.data,
+    suspense: true,
   });

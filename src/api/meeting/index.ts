@@ -6,11 +6,12 @@ interface filterData {
   status: string[];
   search?: string;
 }
-
+export type StatusType = 0 | 1 | 2;
 export interface GroupResponse {
   id: number;
   title: string;
   category: string;
+  status: StatusType;
   imageURL: string[];
   startDate: string;
   endDate: string;

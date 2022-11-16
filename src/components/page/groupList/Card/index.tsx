@@ -3,14 +3,23 @@ import { Flex } from '@components/util/layout/Flex';
 import { dateFormat } from '@utils/date';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { GroupResponse } from 'src/api/meeting';
+import { GroupResponse, StatusType } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
   groupData: GroupResponse;
 }
-
+function parseStatusToString(status: StatusType) {
+  switch (status) {
+    case 0:
+      return '모집 예정';
+    case 1:
+      return '모집 중';
+    case 2:
+      return '모집 마감';
+  }
+}
 function Card({ bottom, groupData }: CardProps) {
   return (
     <Box as="li">
@@ -18,7 +27,9 @@ function Card({ bottom, groupData }: CardProps) {
         <a>
           <>
             <Box css={{ position: 'relative' }}>
-              <SStatus isRecruiting={true}>모집중</SStatus>
+              <SStatus recruitingStatus={groupData.status}>
+                {parseStatusToString(groupData.status)}
+              </SStatus>
               <SImageWrapper>
                 {/* 전략에 따라 image 태그 스타일링 필요 */}
                 <img
@@ -81,11 +92,14 @@ const SStatus = styled(Box, {
   fontAg: '16_bold_100',
   zIndex: '2',
   variants: {
-    isRecruiting: {
-      true: {
+    recruitingStatus: {
+      0: {
         backgroundColor: '$purple200',
       },
-      false: {
+      1: {
+        backgroundColor: '$purple200',
+      },
+      2: {
         backgroundColor: '$gray80',
       },
     },
