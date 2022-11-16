@@ -8,20 +8,46 @@ import Label from '../Label';
 import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
+import ImagePreview from './ImagePreview';
 
 interface PresentationProps {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
+  imageUrls: string[];
+  handleDeleteImage?: (index: number) => void;
+}
+interface FileChangeHandler {
+  value: File[];
+  onChange: (...event: unknown[]) => void;
 }
 
 function Presentation({
   onSubmit,
   submitButtonLabel,
   cancelButtonLabel,
+  imageUrls,
+  handleDeleteImage,
 }: PresentationProps) {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [filename, setFilename] = useState<string>('');
+
+  const handleEditImage = () => {};
+
+  const handleChangeFiles =
+    ({ value, onChange }: FileChangeHandler) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        return;
+      }
+      const newFiles = [...value, ...e.target.files];
+      if (newFiles.length > 6) {
+        // TODO: file 개수 validation
+        alert('이미지는 최대 6개까지 업로드 가능합니다.');
+        return;
+      }
+      setFilename(e.target.value);
+      onChange(newFiles);
+    };
 
   return (
     <SForm onSubmit={onSubmit}>
@@ -62,36 +88,29 @@ function Presentation({
         <Label required={true}>이미지</Label>
         <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
         <SFileInputWrapper>
-          {previewImages.length > 0 &&
-            previewImages.map((image, idx) => (
-              <SPreviewImage key={`${image}-${idx}`} src={image} />
+          {imageUrls.length > 0 &&
+            imageUrls.map((url, idx) => (
+              <ImagePreview
+                key={`${url}-${idx}`}
+                url={url}
+                onEdit={handleEditImage}
+                onDelete={() => handleDeleteImage?.(idx)}
+              />
             ))}
-          {previewImages.length < 6 && (
+          {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
+          <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
             <FormController
               name="files"
               render={({ field: { value, onChange, onBlur } }) => (
                 <FileInput
+                  // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
                   value={filename}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    if (!e.target.files) {
-                      return;
-                    }
-                    const previousFiles = [...value];
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    const currentFiles = [...e.target.files!];
-                    const previews = [];
-                    for (const file of [...previousFiles, ...currentFiles]) {
-                      previews.push(URL.createObjectURL(file));
-                    }
-                    setFilename(e.target.value);
-                    setPreviewImages(previews);
-                    onChange([...previousFiles, ...currentFiles]);
-                  }}
+                  onChange={handleChangeFiles({ value, onChange })}
                   onBlur={onBlur}
                 />
               )}
             />
-          )}
+          </div>
         </SFileInputWrapper>
       </div>
 
@@ -261,13 +280,6 @@ const SFileInputWrapper = styled('div', {
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '16px',
 });
-const SPreviewImage = styled('img', {
-  width: '100%',
-  height: '176px',
-  objectFit: 'cover',
-  borderRadius: '10px',
-});
-
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
