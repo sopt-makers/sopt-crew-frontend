@@ -16,15 +16,6 @@ import { getGroupById, updateGroup } from 'src/api/group';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 
-// TODO: replace with real images based on API response
-const initialImageUrls = [
-  'https://dummyjson.com/image/i/products/1/1.jpg',
-  'https://dummyjson.com/image/i/products/1/2.jpg',
-  'https://dummyjson.com/image/i/products/1/3.jpg',
-  'https://dummyjson.com/image/i/products/1/4.jpg',
-  'https://dummyjson.com/image/i/products/1/thumbnail.jpg',
-];
-
 const EditPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -86,9 +77,13 @@ const EditPage = () => {
 
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
+    if (!formData) {
+      return;
+    }
     async function fillForm() {
-      // TODO: replace with real images from API response
-      const filePromises = initialImageUrls.map(async (url, index) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const filePromises = formData!.imageURL.map(async (obj, index) => {
+        const url = JSON.parse(obj).url;
         return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
       });
       const files = await Promise.all(filePromises);
