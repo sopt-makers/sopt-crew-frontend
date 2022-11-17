@@ -72,6 +72,12 @@ const EditPage = () => {
     }
   };
 
+  const handleChangeFile = (index: number, file: File) => {
+    const files = (formMethods.getValues().files as File[]).slice();
+    files.splice(index, 1, file);
+    formMethods.setValue('files', files);
+  };
+
   const handleDeleteImage = (index: number) => {
     const files = (formMethods.getValues().files as File[]).slice();
     files.splice(index, 1);
@@ -118,11 +124,12 @@ const EditPage = () => {
         <SFormContainer>
           <SFormName>모임 수정하기</SFormName>
           <Presentation
-            onSubmit={formMethods.handleSubmit(onSubmit)}
             submitButtonLabel="수정 완료하기"
             cancelButtonLabel="수정 취소하기"
             imageUrls={imagesFromFiles}
+            handleChangeImage={handleChangeFile}
             handleDeleteImage={handleDeleteImage}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
           />
         </SFormContainer>
         <TableOfContents label="모임 수정" />

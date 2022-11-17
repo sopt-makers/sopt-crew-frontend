@@ -27,6 +27,18 @@ const MakePage = () => {
     return files ? files.map(file => URL.createObjectURL(file)) : [];
   }, [files]);
 
+  const handleChangeImage = (index: number, file: File) => {
+    const files = (formMethods.getValues().files as File[]).slice();
+    files.splice(index, 1, file);
+    formMethods.setValue('files', files);
+  };
+
+  const handleDeleteImage = (index: number) => {
+    const files = (formMethods.getValues().files as File[]).slice();
+    files.splice(index, 1);
+    formMethods.setValue('files', files);
+  };
+
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
       await createGroup(formData);
@@ -45,9 +57,11 @@ const MakePage = () => {
         <SFormContainer>
           <SFormName>모임 생성하기</SFormName>
           <Presentation
-            onSubmit={formMethods.handleSubmit(onSubmit)}
             submitButtonLabel="모임 생성하기"
             imageUrls={imagesFromFiles}
+            handleChangeImage={handleChangeImage}
+            handleDeleteImage={handleDeleteImage}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
           />
         </SFormContainer>
         <TableOfContents label="모임 생성" />
