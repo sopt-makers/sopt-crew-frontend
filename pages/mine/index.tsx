@@ -103,7 +103,7 @@ const STab = styled('button', {
 });
 
 function GroupListOfMine() {
-  const { data: mineData } = useGroupListOMine();
+  const { data: mineData } = useGroupListOfMine();
   return (
     <main>
       <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
