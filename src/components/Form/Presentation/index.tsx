@@ -11,11 +11,12 @@ import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 
 interface PresentationProps {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
   imageUrls: string[];
-  handleDeleteImage?: (index: number) => void;
+  handleChangeImage: (index: number, file: File) => void;
+  handleDeleteImage: (index: number) => void;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 interface FileChangeHandler {
   value: File[];
@@ -23,17 +24,31 @@ interface FileChangeHandler {
 }
 
 function Presentation({
-  onSubmit,
   submitButtonLabel,
   cancelButtonLabel,
   imageUrls,
+  handleChangeImage,
   handleDeleteImage,
+  onSubmit,
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
 
-  const handleEditImage = () => {};
+  const onChangeFile =
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        setFilename('');
+        return;
+      }
+      const [file] = [...e.target.files];
+      handleChangeImage(index, file);
+    };
 
-  const handleChangeFiles =
+  const onDeleteFile = (index: number) => () => {
+    handleDeleteImage(index);
+    setFilename('');
+  };
+
+  const handleAddFiles =
     ({ value, onChange }: FileChangeHandler) =>
     (e: ChangeEvent<HTMLInputElement>) => {
       if (!e.target.files) {
@@ -93,8 +108,8 @@ function Presentation({
               <ImagePreview
                 key={`${url}-${idx}`}
                 url={url}
-                onEdit={handleEditImage}
-                onDelete={() => handleDeleteImage?.(idx)}
+                onChange={onChangeFile(idx)}
+                onDelete={onDeleteFile(idx)}
               />
             ))}
           {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
@@ -105,7 +120,7 @@ function Presentation({
                 <FileInput
                   // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
                   value={filename}
-                  onChange={handleChangeFiles({ value, onChange })}
+                  onChange={handleAddFiles({ value, onChange })}
                   onBlur={onBlur}
                 />
               )}
