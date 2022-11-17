@@ -12,7 +12,7 @@ import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
-import { useGroupListOfApplied, useGroupListOMine } from 'src/api/user/hooks';
+import { useGroupListOfApplied, useGroupListOfMine } from 'src/api/user/hooks';
 import EmptyView from '@components/page/groupList/EmptyView';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
@@ -22,10 +22,8 @@ const enum GroupType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedGroupType, setSelectedGroupType] = useSessionStorage<GroupType>(
-    'groupType',
-    GroupType.MADE
-  );
+  const [selectedGroupType, setSelectedGroupType] =
+    useSessionStorage<GroupType>('groupType', GroupType.MADE);
 
   return (
     <div>

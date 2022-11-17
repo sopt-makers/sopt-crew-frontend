@@ -1,5 +1,5 @@
 import { apiWithAuth, PromiseResponse } from '..';
-import { GroupResponse } from '../meeting';
+import { GroupResponse, StatusType } from '../meeting';
 
 export interface UserResponse {
   id: number;
@@ -9,7 +9,7 @@ export interface UserResponse {
 export interface ApplyResponse {
   id: number;
   content: string;
-  status: number;
+  status: StatusType;
   meeting: GroupResponse;
 }
 
