@@ -7,7 +7,7 @@ export const useGroupListOfApplied = () =>
     suspense: true,
   });
 
-export const useGroupListOMine = () =>
+export const useGroupListOfMine = () =>
   useQuery(['fetchGroupListOfMine'], fetchGroupListOfMine, {
     select: response => response.data.data,
     suspense: true,
