@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { nanoid } from 'nanoid';
+import React, { useMemo, useState } from 'react';
+import { ACCEPTED_IMAGE_TYPES } from 'src/types/form';
 import { styled } from 'stitches.config';
 
 interface ImagePreviewProps {
   url: string;
-  onEdit: () => void;
-  onDelete: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function ImagePreview({
   url,
-  onEdit,
+  onChange,
   onDelete,
 }: ImagePreviewProps) {
+  const id = useMemo(() => nanoid(), []);
   const [showControl, setShowControl] = useState(false);
 
   return (
@@ -21,15 +24,19 @@ export default function ImagePreview({
     >
       {showControl && (
         <SBackdrop>
-          <SEditButton type="button" onClick={onEdit}>
-            수정
-          </SEditButton>
+          <SEditButton htmlFor={id}>수정</SEditButton>
           <SDeleteButton type="button" onClick={onDelete}>
             삭제
           </SDeleteButton>
         </SBackdrop>
       )}
       <SImage src={url} alt="" />
+      <SInput
+        id={id}
+        type="file"
+        accept={ACCEPTED_IMAGE_TYPES.join(', ')}
+        onChange={onChange}
+      />
     </SContainer>
   );
 }
@@ -58,7 +65,7 @@ const SBackdrop = styled('div', {
   gap: '8px',
   zIndex: 1,
 });
-const SEditButton = styled('button', {
+const SEditButton = styled('label', {
   padding: '8px 10px',
   display: 'flex',
   jusifyContent: 'center',
@@ -67,6 +74,17 @@ const SEditButton = styled('button', {
   borderRadius: '6px',
   fontAg: '16_bold_100',
   color: '$white',
+  cursor: 'pointer',
+});
+const SInput = styled('input', {
+  position: 'absolute',
+  margin: '-1px',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  border: 0,
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
 });
 const SDeleteButton = styled('button', {
   padding: '8px 10px',
