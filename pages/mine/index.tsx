@@ -22,9 +22,9 @@ const enum GroupType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedGroupType, setSelectedGroupType] = useSessionStorage(
+  const [selectedGroupType, setSelectedGroupType] = useSessionStorage<GroupType>(
     'groupType',
-    GroupType.MADE as number
+    GroupType.MADE
   );
 
   return (
