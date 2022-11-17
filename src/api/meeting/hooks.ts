@@ -6,7 +6,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { fetchGroupListOfAll } from '.';
 
-export const useGroupListOfAll = () => {
+export const useQueryGroupListOfAll = () => {
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();

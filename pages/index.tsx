@@ -11,7 +11,7 @@ import { styled } from 'stitches.config';
 import { usePageParams } from '@hooks/queryString/custom';
 import Card from '@components/page/groupList/Card';
 import Filter from '@components/page/groupList/Filter';
-import { useGroupListOfAll } from 'src/api/meeting/hooks';
+import { useQueryGroupListOfAll } from 'src/api/meeting/hooks';
 import EmptyView from '@components/page/groupList/EmptyView';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
@@ -67,7 +67,7 @@ const SMakeGroup = styled(Flex, {
 
 function GroupListSection() {
   const { value: page, setValue: setPage } = usePageParams();
-  const { data: groupListData } = useGroupListOfAll();
+  const { data: groupListData } = useQueryGroupListOfAll();
   return (
     <main>
       <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>

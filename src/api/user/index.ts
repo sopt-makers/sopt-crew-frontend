@@ -1,15 +1,18 @@
 import { apiWithAuth, PromiseResponse } from '..';
-import { GroupResponse, StatusType } from '../meeting';
+import { GroupResponse } from '../meeting';
 
 export interface UserResponse {
   id: number;
   name: string;
   originId: string;
 }
+
+export type ApplicationStatusType = 0 | 1 | 2;
+
 export interface ApplyResponse {
   id: number;
   content: string;
-  status: StatusType;
+  status: ApplicationStatusType;
   meeting: GroupResponse;
 }
 

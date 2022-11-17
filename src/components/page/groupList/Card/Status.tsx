@@ -1,11 +1,11 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { APPLY_STATUS } from '@constants/status';
-import { StatusType } from 'src/api/meeting';
+import { ApplicationStatusType } from 'src/api/user';
 import { styled } from 'stitches.config';
 
 interface StatusProps {
-  status: StatusType;
+  status: ApplicationStatusType;
 }
 
 function Status({ status }: StatusProps) {

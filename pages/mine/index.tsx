@@ -12,7 +12,10 @@ import { Fragment } from 'react';
 import InvitationButton from '@components/page/groupList/Card/InvitationButton';
 import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
-import { useGroupListOfApplied, useGroupListOfMine } from 'src/api/user/hooks';
+import {
+  useQueryGroupListOfApplied,
+  useQueryGroupListOfMine,
+} from 'src/api/user/hooks';
 import EmptyView from '@components/page/groupList/EmptyView';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
@@ -101,7 +104,7 @@ const STab = styled('button', {
 });
 
 function GroupListOfMine() {
-  const { data: mineData } = useGroupListOfMine();
+  const { data: mineData } = useQueryGroupListOfMine();
   return (
     <main>
       <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
@@ -123,7 +126,7 @@ function GroupListOfMine() {
 }
 
 function GroupListOfApplied() {
-  const { data: applyData } = useGroupListOfApplied();
+  const { data: applyData } = useQueryGroupListOfApplied();
   return (
     <main>
       <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
