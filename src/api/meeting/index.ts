@@ -14,6 +14,7 @@ export interface ImageURLType {
 export type RecruitmentStatusType = 1 | 2 | 3;
 export interface GroupResponse {
   id: number;
+  userId: number;
   title: string;
   category: string;
   status: RecruitmentStatusType;

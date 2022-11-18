@@ -20,6 +20,7 @@ interface DetailHeaderProps {
 const DetailHeader = ({ detailData }: DetailHeaderProps) => {
   const {
     status,
+    userId,
     startDate,
     endDate,
     category,
@@ -34,7 +35,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
   const hostId = user.id;
   const hostName = user.name;
   const current = appliedInfo.length;
-  const isHost = true;
+  const isHost = userId === hostId;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
