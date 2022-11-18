@@ -17,7 +17,7 @@ const DetailPage = () => {
     {
       id: 0,
       title: '모임 소개',
-      content: detailData?.title,
+      content: detailData?.desc,
     },
     {
       id: 1,
