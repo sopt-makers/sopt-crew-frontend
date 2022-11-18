@@ -9,19 +9,22 @@ import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
+import { GroupResponse } from 'src/api/meeting';
+import { dateFormat } from '@utils/date';
 
-const DetailHeader = () => {
+interface DetailHeaderProps {
+  detail: GroupResponse;
+}
+
+const DetailHeader = ({ detail }: DetailHeaderProps) => {
+  const { startDate, endDate, category, title, user, appliedInfo, capacity } =
+    detail;
   const router = useRouter();
   const groupId = router.query.id;
   const isRecruiting = true;
-  const startDate = '22.10.21';
-  const endDate = '22.10.28';
-  const category = '스터디';
-  const studyName = '피그마 왕초보를 위한 스터디';
-  const hostId = 1;
-  const hostName = '홍길동';
-  const current = 4;
-  const total = 5;
+  const hostId = user.id;
+  const hostName = user.name;
+  const current = appliedInfo.length;
   const isHost = true;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
@@ -38,7 +41,7 @@ const DetailHeader = () => {
 
   const handleApplicantListModal = () => {
     handleModalOpen();
-    setModalTitle(`모집 현황 (${current}/${total}명)`);
+    setModalTitle(`모집 현황 (${current}/${capacity}명)`);
     setModalType('default');
   };
 
@@ -75,12 +78,13 @@ const DetailHeader = () => {
               모집{isRecruiting ? ' 중' : '마감'}
             </SRecruitStatus>
             <SPeriod>
-              {startDate} - {endDate}
+              {dateFormat(startDate)['YY.MM.DD']} -{' '}
+              {dateFormat(endDate)['YY.MM.DD']}
             </SPeriod>
           </div>
           <h1>
             <span>{category}</span>
-            {studyName}
+            {title}
           </h1>
           <Link href={`${origin}/members/detail?memberId=${hostId}`} passHref>
             <SProfileAnchor>
@@ -95,7 +99,7 @@ const DetailHeader = () => {
             <div>
               <span>모집 현황</span>
               <span>
-                {current}/{total}명
+                {current}/{capacity}명
               </span>
             </div>
             <ArrowSmallRightIcon />

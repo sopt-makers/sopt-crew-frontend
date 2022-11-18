@@ -3,8 +3,12 @@ import {
   useSearchParams,
   useStatusParams,
 } from '@hooks/queryString/custom';
-import { useQuery } from '@tanstack/react-query';
-import { fetchGroupListOfAll } from '.';
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { fetchGroupListOfAll, getGroup, GroupResponse } from '.';
 
 export const useQueryGroupListOfAll = () => {
   const { value: category } = useCategoryParams();
@@ -18,4 +22,26 @@ export const useQueryGroupListOfAll = () => {
       suspense: true,
     }
   );
+};
+
+export interface UseQueryGetGroupParams {
+  params: {
+    id: string;
+  };
+  useQueryOptions?: UseQueryOptions<GroupResponse>;
+}
+
+export const useQueryGetGroup = ({
+  params,
+  useQueryOptions,
+}: UseQueryGetGroupParams): UseQueryResult<GroupResponse> => {
+  const { id } = params;
+
+  return useQuery<GroupResponse>({
+    queryKey: ['getGroup', id],
+    queryFn: () => {
+      return getGroup(id);
+    },
+    ...useQueryOptions,
+  });
 };

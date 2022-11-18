@@ -7,12 +7,16 @@ interface filterData {
   search?: string;
 }
 export type RecruitmentStatusType = 0 | 1 | 2;
+export interface ImageURLType {
+  id: string;
+  url: string;
+}
 export interface GroupResponse {
   id: number;
   title: string;
   category: string;
   status: RecruitmentStatusType;
-  imageURL: string[];
+  imageURL: ImageURLType[];
   startDate: string;
   endDate: string;
   capacity: number;
@@ -52,4 +56,9 @@ export const fetchGroupListOfAll = async ({
       category?.length ? `&category=${category.join(',')}` : ''
     }${search ? `&query=${search}` : ''}`
   );
+};
+
+export const getGroup = async (id: string): Promise<GroupResponse> => {
+  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
+    .data;
 };
