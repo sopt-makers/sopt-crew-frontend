@@ -61,19 +61,25 @@ const DetailPage = () => {
       <Carousel imageList={data?.imageURL ?? []} />
       {data && <DetailHeader detail={data} />}
       <TabList text={selectedTab} size="small" onChange={handleChange}>
-        {detailList.map(({ id, title }) => (
-          <TabList.Item key={id} text={title}>
-            {title}
-          </TabList.Item>
-        ))}
+        {detailList.map(
+          ({ id, title, content }) =>
+            content && (
+              <TabList.Item key={id} text={title}>
+                {title}
+              </TabList.Item>
+            )
+        )}
       </TabList>
-      {detailList.map(({ id, title, content }) => (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
-          <STitle>{title}</STitle>
-          <SContent>{content}</SContent>
-        </SDetail>
-      ))}
+      {detailList.map(
+        ({ id, title, content }) =>
+          content && (
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
+              <STitle>{title}</STitle>
+              <SContent>{content}</SContent>
+            </SDetail>
+          )
+      )}
     </SDetailPage>
   );
 };
