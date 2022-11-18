@@ -7,29 +7,24 @@ import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
 import { useState } from 'react';
-import { Option } from '@components/Form/Select/OptionItem';
 import Link from 'next/link';
 import {
   applicantOptionList,
   numberOptionList,
   sortOptionList,
 } from 'src/data/options';
-import { useQueryGetGroup } from 'src/api/meeting/hooks';
+import {
+  useQueryGetGroup,
+  useQueryGetGroupPeopleList,
+} from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
-
-type invitationItem = {
-  id: number;
-  profileImage?: string;
-  name: string;
-  date: string;
-  status?: 'waiting' | 'accepted' | 'rejected';
-  detail?: string;
-};
+import { Option } from '@components/Form/Select/OptionItem';
 
 const InvitationPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: groupData } = useQueryGetGroup({ params: { id } });
+
   const { value: page, setValue: setPage } = usePageParams();
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
@@ -38,33 +33,17 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
+  const { data: invitationList } = useQueryGetGroupPeopleList({
+    params: {
+      id,
+      limit: numberOptionList[0].value,
+      status: applicantOptionList[0].value - 1,
+      date: sortOptionList[0].value,
+    },
+  });
 
   // 임시
   const isHost = true;
-  const invitationList: invitationItem[] = [
-    {
-      id: 1,
-      name: '백지연',
-      date: '22.10.02',
-      status: 'rejected',
-      detail: '열심히 하겠습니다!',
-    },
-    {
-      id: 2,
-      name: '이재훈',
-      date: '22.10.02',
-      status: 'accepted',
-      detail: '신청내역 상세',
-    },
-    {
-      id: 3,
-      name: '김은수',
-      date: '22.10.02',
-      status: 'waiting',
-      detail: '모임에 임할 각오 작성',
-    },
-  ];
-  const total = invitationList.length;
 
   return (
     <SInvitationPage>
@@ -84,7 +63,7 @@ const InvitationPage = () => {
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
-          {total > 0 && <span> ({total})</span>}
+          {invitationList && <span> ({invitationList.length})</span>}
         </SListTitle>
         {!isHost && (
           <Select
@@ -121,9 +100,13 @@ const InvitationPage = () => {
           </div>
         </SSelectContainer>
       )}
-      {invitationList.length ? (
-        invitationList.map(invitation => (
-          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
+      {invitationList && invitationList?.length > 0 ? (
+        invitationList?.map(invitation => (
+          <ListItem
+            key={invitation.id}
+            invitation={invitation}
+            isHost={isHost}
+          />
         ))
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>

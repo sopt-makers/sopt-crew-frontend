@@ -5,38 +5,30 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { GroupPersonResponse } from 'src/api/meeting';
+import { dateFormat } from '@utils/date';
 
 interface ListItemProps {
-  id: number;
-  profileImage?: string;
-  name: string;
-  date: string;
-  status?: 'waiting' | 'accepted' | 'rejected';
-  detail?: string;
+  invitation: GroupPersonResponse;
   isHost: boolean;
 }
 
-const ListItem = ({
-  id,
-  profileImage,
-  name,
-  date,
-  status,
-  detail,
-  isHost,
-}: ListItemProps) => {
+const ListItem = ({ invitation, isHost }: ListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const getStatusText = (status: string) => {
+  const { id, appliedDate, content, status, user } = invitation;
+  const getStatusText = (status: number) => {
     switch (status) {
-      case 'waiting':
+      case 0:
         return '대기';
-      case 'accepted':
+      case 1:
         return '승인';
-      case 'rejected':
+      case 2:
         return '거절';
     }
   };
+  // TODO
+  const profileImage = '';
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -48,12 +40,10 @@ const ListItem = ({
         <SLeft>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
-            <SName>{name}</SName>
+            <SName>{user.name}</SName>
           </Link>
-          {isHost && status && (
-            <SStatus isAccepted={status === 'accepted'}>
-              {getStatusText(status)}
-            </SStatus>
+          {isHost && status >= 0 && (
+            <SStatus isAccepted={status === 1}>{getStatusText(status)}</SStatus>
           )}
           {isHost && (
             <>
@@ -62,22 +52,18 @@ const ListItem = ({
             </>
           )}
           <SVerticalLine />
-          <SDate>{date}</SDate>
+          <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
         </SLeft>
         {isHost && (
           <div>
-            {status === 'waiting' && (
+            {status === 0 && (
               <>
                 <SHostPurpleButton>승인</SHostPurpleButton>
                 <SHostGrayButton>거절</SHostGrayButton>
               </>
             )}
-            {status === 'accepted' && (
-              <SHostGrayButton>승인 취소</SHostGrayButton>
-            )}
-            {status === 'rejected' && (
-              <SHostGrayButton>거절 취소</SHostGrayButton>
-            )}
+            {status === 1 && <SHostGrayButton>승인 취소</SHostGrayButton>}
+            {status === 2 && <SHostGrayButton>거절 취소</SHostGrayButton>}
           </div>
         )}
       </SListItem>
@@ -87,7 +73,7 @@ const ListItem = ({
           title="신청내역"
           handleModalClose={handleModalClose}
         >
-          <SDetailText>{detail}</SDetailText>
+          <SDetailText>{content}</SDetailText>
         </DefaultModal>
       )}
     </>

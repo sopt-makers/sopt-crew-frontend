@@ -1,6 +1,6 @@
 import { RECRUITMENT_STATUS } from '@constants/status';
-import { api, PromiseResponse } from '..';
-import { ApplyResponse, UserResponse } from '../user';
+import { api, apiWithAuth, PromiseResponse } from '..';
+import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 interface filterData {
   category: string[];
@@ -38,6 +38,21 @@ interface GroupListOfFilterResponse {
   meetings: GroupResponse[];
 }
 
+interface OptionData {
+  id: string;
+  limit: number;
+  status: number;
+  date: string;
+}
+
+export interface GroupPersonResponse {
+  id: number;
+  appliedDate: string;
+  content: string;
+  status: ApplicationStatusType;
+  user: UserResponse;
+}
+
 function parseStatusToNumber(status: string) {
   const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
   if (statusIdx > 0) return statusIdx;
@@ -66,4 +81,17 @@ export const fetchGroupListOfAll = async ({
 export const getGroup = async (id: string): Promise<GroupResponse> => {
   return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
     .data;
+};
+
+export const getGroupPeopleList = async ({
+  id,
+  limit,
+  status,
+  date,
+}: OptionData): Promise<GroupPersonResponse[]> => {
+  return (
+    await apiWithAuth.get<PromiseResponse<GroupPersonResponse[]>>(
+      `/meeting/${id}/list?limit=${limit}&status=${status}&date=${date}`
+    )
+  ).data.data;
 };

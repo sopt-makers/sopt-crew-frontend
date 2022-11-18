@@ -8,7 +8,13 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { fetchGroupListOfAll, getGroup, GroupResponse } from '.';
+import {
+  fetchGroupListOfAll,
+  getGroup,
+  getGroupPeopleList,
+  GroupPersonResponse,
+  GroupResponse,
+} from '.';
 
 export const useQueryGroupListOfAll = () => {
   const { value: category } = useCategoryParams();
@@ -24,7 +30,7 @@ export const useQueryGroupListOfAll = () => {
   );
 };
 
-export interface UseQueryGetGroupParams {
+interface UseQueryGetGroupParams {
   params: {
     id: string;
   };
@@ -41,6 +47,32 @@ export const useQueryGetGroup = ({
     queryKey: ['getGroup', id],
     queryFn: () => {
       return getGroup(id);
+    },
+    enabled: !!id,
+    ...useQueryOptions,
+  });
+};
+
+interface UseQueryGetGroupPeopleListParams {
+  params: {
+    id: string;
+    limit?: number;
+    status?: number;
+    date?: string;
+  };
+  useQueryOptions?: UseQueryOptions<GroupPersonResponse[]>;
+}
+
+export const useQueryGetGroupPeopleList = ({
+  params,
+  useQueryOptions,
+}: UseQueryGetGroupPeopleListParams): UseQueryResult<GroupPersonResponse[]> => {
+  const { id, limit, status, date } = params;
+
+  return useQuery<GroupPersonResponse[]>({
+    queryKey: ['getGroupPeopleList', id, limit, status, date],
+    queryFn: () => {
+      return getGroupPeopleList({ id, limit, status, date });
     },
     enabled: !!id,
     ...useQueryOptions,
