@@ -56,9 +56,9 @@ export const useQueryGetGroup = ({
 interface UseQueryGetGroupPeopleListParams {
   params: {
     id: string;
-    limit?: number;
-    status?: number;
-    date?: string;
+    limit: number;
+    status: number;
+    date: string;
   };
   useQueryOptions?: UseQueryOptions<GroupPersonResponse[]>;
 }
