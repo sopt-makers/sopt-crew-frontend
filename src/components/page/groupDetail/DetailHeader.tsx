@@ -11,17 +11,26 @@ import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
 import { GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
+import { RECRUITMENT_STATUS } from '@constants/status';
 
 interface DetailHeaderProps {
   detail: GroupResponse;
 }
 
 const DetailHeader = ({ detail }: DetailHeaderProps) => {
-  const { startDate, endDate, category, title, user, appliedInfo, capacity } =
-    detail;
+  const {
+    status,
+    startDate,
+    endDate,
+    category,
+    title,
+    user,
+    appliedInfo,
+    capacity,
+  } = detail;
   const router = useRouter();
   const groupId = router.query.id;
-  const isRecruiting = true;
+  const isRecruiting = status === 2 ? true : false;
   const hostId = user.id;
   const hostName = user.name;
   const current = appliedInfo.length;
@@ -75,7 +84,7 @@ const DetailHeader = ({ detail }: DetailHeaderProps) => {
         <SAbout>
           <div>
             <SRecruitStatus isRecruiting={isRecruiting}>
-              모집{isRecruiting ? ' 중' : '마감'}
+              {RECRUITMENT_STATUS[status]}
             </SRecruitStatus>
             <SPeriod>
               {dateFormat(startDate)['YY.MM.DD']} -{' '}
