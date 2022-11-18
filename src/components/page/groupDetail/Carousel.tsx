@@ -24,9 +24,9 @@ const Carousel = ({ imageList }: CarouselProps) => {
   return (
     <SCarousel>
       <Slider {...settings}>
-        {imageList.map(image => (
-          <SImageWrapper key={image.id}>
-            <img src={image.url} />
+        {imageList.map(({ id, url }) => (
+          <SImageWrapper key={id}>
+            <img src={url} />
           </SImageWrapper>
         ))}
       </Slider>
