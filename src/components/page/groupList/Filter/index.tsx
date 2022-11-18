@@ -22,7 +22,7 @@ const FILTERS: FilterType[] = [
   {
     label: '모집 상태',
     subject: 'status',
-    options: ['모집 중', '모집 마감'],
+    options: ['모집 전', '모집 중', '모집 마감'],
   },
 ];
 
