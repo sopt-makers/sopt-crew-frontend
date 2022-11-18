@@ -11,40 +11,40 @@ import { dateFormat } from '@utils/date';
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { data } = useQueryGetGroup({ params: { id } });
+  const { data: detailData } = useQueryGetGroup({ params: { id } });
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
       id: 0,
       title: '모임 소개',
-      content: data?.title,
+      content: detailData?.title,
     },
     {
       id: 1,
       title: '모임 기간',
-      content: `${dateFormat(data?.mStartDate ?? '')['YYYY.MM.DD']} - ${
-        dateFormat(data?.mEndDate ?? '')['YYYY.MM.DD']
+      content: `${dateFormat(detailData?.mStartDate ?? '')['YYYY.MM.DD']} - ${
+        dateFormat(detailData?.mEndDate ?? '')['YYYY.MM.DD']
       }`,
     },
     {
       id: 2,
       title: '진행 방식',
-      content: data?.processDesc,
+      content: detailData?.processDesc,
     },
     {
       id: 3,
       title: '개설자 소개',
-      content: data?.leaderDesc,
+      content: detailData?.leaderDesc,
     },
     {
       id: 4,
       title: '모집 대상',
-      content: data?.targetDesc,
+      content: detailData?.targetDesc,
     },
     {
       id: 5,
       title: '유의사항',
-      content: data?.note,
+      content: detailData?.note,
     },
   ];
   const [selectedTab, setSelectedTab] = useState(detailList[0].title);
@@ -56,10 +56,14 @@ const DetailPage = () => {
     ].scrollIntoView({ behavior: 'smooth' });
   };
 
+  if (!detailData) {
+    return <div>loading...</div>;
+  }
+
   return (
     <SDetailPage>
-      <Carousel imageList={data?.imageURL ?? []} />
-      {data && <DetailHeader detail={data} />}
+      <Carousel imageList={detailData?.imageURL} />
+      <DetailHeader detailData={detailData} />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(
           ({ id, title, content }) =>

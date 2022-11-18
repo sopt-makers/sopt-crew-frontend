@@ -39,6 +39,7 @@ export default Carousel;
 const SCarousel = styled(Box, {
   '.slick-slider': {
     flexType: 'verticalCenter',
+    justifyContent: 'center',
     mt: '$60',
     mb: '$80',
   },

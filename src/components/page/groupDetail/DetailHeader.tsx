@@ -14,10 +14,10 @@ import { dateFormat } from '@utils/date';
 import { RECRUITMENT_STATUS } from '@constants/status';
 
 interface DetailHeaderProps {
-  detail: GroupResponse;
+  detailData: GroupResponse;
 }
 
-const DetailHeader = ({ detail }: DetailHeaderProps) => {
+const DetailHeader = ({ detailData }: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -27,7 +27,7 @@ const DetailHeader = ({ detail }: DetailHeaderProps) => {
     user,
     appliedInfo,
     capacity,
-  } = detail;
+  } = detailData;
   const router = useRouter();
   const groupId = router.query.id;
   const isRecruiting = status === 2 ? true : false;
