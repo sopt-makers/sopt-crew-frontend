@@ -1,24 +1,69 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
+import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
+import ImagePreview from './ImagePreview';
 
 interface PresentationProps {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
+  imageUrls: string[];
+  handleChangeImage: (index: number, file: File) => void;
+  handleDeleteImage: (index: number) => void;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+}
+interface FileChangeHandler {
+  value: File[];
+  onChange: (...event: unknown[]) => void;
 }
 
 function Presentation({
-  onSubmit,
   submitButtonLabel,
   cancelButtonLabel,
+  imageUrls,
+  handleChangeImage,
+  handleDeleteImage,
+  onSubmit,
 }: PresentationProps) {
+  const [filename, setFilename] = useState<string>('');
+
+  const onChangeFile =
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        setFilename('');
+        return;
+      }
+      const [file] = [...e.target.files];
+      handleChangeImage(index, file);
+    };
+
+  const onDeleteFile = (index: number) => () => {
+    handleDeleteImage(index);
+    setFilename('');
+  };
+
+  const handleAddFiles =
+    ({ value, onChange }: FileChangeHandler) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        return;
+      }
+      const newFiles = [...value, ...e.target.files];
+      if (newFiles.length > 6) {
+        // TODO: file 개수 validation
+        alert('이미지는 최대 6개까지 업로드 가능합니다.');
+        return;
+      }
+      setFilename(e.target.value);
+      onChange(newFiles);
+    };
+
   return (
     <SForm onSubmit={onSubmit}>
       {/* 모임 제목 */}
@@ -53,7 +98,36 @@ function Presentation({
         )}
       ></FormController>
 
-      {/* TODO: 이미지 */}
+      {/* 이미지 */}
+      <div>
+        <Label required={true}>이미지</Label>
+        <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
+        <SFileInputWrapper>
+          {imageUrls.length > 0 &&
+            imageUrls.map((url, idx) => (
+              <ImagePreview
+                key={`${url}-${idx}`}
+                url={url}
+                onChange={onChangeFile(idx)}
+                onDelete={onDeleteFile(idx)}
+              />
+            ))}
+          {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
+          <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
+            <FormController
+              name="files"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <FileInput
+                  // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
+                  value={filename}
+                  onChange={handleAddFiles({ value, onChange })}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          </div>
+        </SFileInputWrapper>
+      </div>
 
       {/* 모집 기간 */}
       <div>
@@ -215,6 +289,11 @@ const SForm = styled('form', {
 });
 const STitleField = styled('div', {
   width: '369px',
+});
+const SFileInputWrapper = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '16px',
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
