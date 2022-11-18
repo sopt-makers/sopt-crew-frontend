@@ -66,11 +66,13 @@ const InvitationPage = () => {
           {invitationList && <span> ({invitationList.length})</span>}
         </SListTitle>
         {!isHost && (
-          <Select
-            value={selectedNumber}
-            options={numberOptionList}
-            onChange={value => setSelectedNumber(value)}
-          />
+          <SSelectWrapper>
+            <Select
+              value={selectedNumber}
+              options={numberOptionList}
+              onChange={value => setSelectedNumber(value)}
+            />
+          </SSelectWrapper>
         )}
       </SListHeader>
       {isHost && (
