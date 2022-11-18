@@ -161,7 +161,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
             </SApplicationForm>
           ) : (
             <SApplicantListWrapper>
-              <ApplicantList />
+              <ApplicantList applicantList={appliedInfo} />
               {isHost && (
                 <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>

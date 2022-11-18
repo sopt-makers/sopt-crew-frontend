@@ -14,6 +14,7 @@ export interface ApplyResponse {
   content: string;
   status: ApplicationStatusType;
   meeting: GroupResponse;
+  user: UserResponse;
 }
 
 interface GroupListOfAppliedResponse {
