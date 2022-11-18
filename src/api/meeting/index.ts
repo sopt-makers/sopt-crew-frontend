@@ -40,6 +40,7 @@ interface GroupListOfFilterResponse {
 function parseStatusToNumber(status: string) {
   const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
   if (statusIdx > 0) return statusIdx;
+  return null;
 }
 
 export const fetchGroupListOfAll = async ({
@@ -50,7 +51,10 @@ export const fetchGroupListOfAll = async ({
   return api.get<PromiseResponse<GroupListOfFilterResponse>>(
     `/meeting?${
       status?.length
-        ? `&status=${status.map(item => parseStatusToNumber(item)).join(',')}`
+        ? `&status=${status
+            .map(item => parseStatusToNumber(item))
+            .filter(item => item !== null)
+            .join(',')}`
         : ''
     }${category?.length ? `&category=${category.join(',')}` : ''}${
       search ? `&query=${search}` : ''
