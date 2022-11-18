@@ -13,7 +13,6 @@ interface CardProps {
 }
 
 function Card({ bottom, groupData }: CardProps) {
-  const thumbnailImage = JSON.parse(groupData.imageURL[0]).url;
   return (
     <Box as="li">
       <Link href={`/detail?id=${groupData.id}`} passHref>
@@ -25,7 +24,7 @@ function Card({ bottom, groupData }: CardProps) {
               </SStatus>
               <SImageWrapper
                 css={{
-                  backgroundImage: `url(${thumbnailImage})`,
+                  backgroundImage: `url(${groupData.imageURL[0].url})`,
                 }}
               >
                 {/* 전략에 따라 image 태그 스타일링 필요 */}
@@ -33,7 +32,8 @@ function Card({ bottom, groupData }: CardProps) {
                   <SThumbnailImage
                     width="380px"
                     height="260px"
-                    src={thumbnailImage}
+                    src={groupData.imageURL[0].url}
+                    alt=""
                   />
                 </div>
               </SImageWrapper>
