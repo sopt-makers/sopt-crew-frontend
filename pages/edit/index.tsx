@@ -63,7 +63,7 @@ const EditPage = () => {
     }
   };
 
-  const handleChangeFile = (index: number, file: File) => {
+  const handleChangeImage = (index: number, file: File) => {
     const files = (formMethods.getValues().files as File[]).slice();
     files.splice(index, 1, file);
     formMethods.setValue('files', files);
@@ -122,7 +122,7 @@ const EditPage = () => {
             submitButtonLabel="수정 완료하기"
             cancelButtonLabel="수정 취소하기"
             imageUrls={imagesFromFiles}
-            handleChangeImage={handleChangeFile}
+            handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
           />
