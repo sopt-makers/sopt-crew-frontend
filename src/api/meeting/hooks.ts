@@ -42,6 +42,7 @@ export const useQueryGetGroup = ({
     queryFn: () => {
       return getGroup(id);
     },
+    enabled: !!id,
     ...useQueryOptions,
   });
 };
