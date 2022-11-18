@@ -14,6 +14,8 @@ import {
   numberOptionList,
   sortOptionList,
 } from 'src/data/options';
+import { useQueryGetGroup } from 'src/api/meeting/hooks';
+import { useRouter } from 'next/router';
 
 type invitationItem = {
   id: number;
@@ -25,6 +27,9 @@ type invitationItem = {
 };
 
 const InvitationPage = () => {
+  const router = useRouter();
+  const id = router.query.id as string;
+  const { data: groupData } = useQueryGetGroup({ params: { id } });
   const { value: page, setValue: setPage } = usePageParams();
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
@@ -75,7 +80,7 @@ const InvitationPage = () => {
           </a>
         </Link>
       </TabList>
-      <GroupInformation />
+      {groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
