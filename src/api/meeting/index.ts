@@ -1,16 +1,17 @@
+import { RECRUITMENT_STATUS } from '@constants/status';
 import { api, PromiseResponse } from '..';
 import { ApplyResponse, UserResponse } from '../user';
 
 interface filterData {
   category: string[];
-  status: string[];
+  status?: string[];
   search?: string;
 }
-export type RecruitmentStatusType = 0 | 1 | 2;
 export interface ImageURLType {
-  id: string;
+  id: number;
   url: string;
 }
+export type RecruitmentStatusType = 1 | 2 | 3;
 export interface GroupResponse {
   id: number;
   title: string;
@@ -36,14 +37,10 @@ interface GroupListOfFilterResponse {
   meetings: GroupResponse[];
 }
 
-function parseStatusArrayToNumber(status: string[]) {
-  if (
-    (status.includes('모집 중') && status.includes('모집 마감')) ||
-    !status.length
-  )
-    return 0;
-  if (status.includes('모집 중')) return 1;
-  if (status.includes('모집 마감')) return 2;
+function parseStatusToNumber(status: string) {
+  const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
+  if (statusIdx > 0) return statusIdx;
+  return null;
 }
 
 export const fetchGroupListOfAll = async ({
@@ -52,9 +49,16 @@ export const fetchGroupListOfAll = async ({
   search,
 }: filterData) => {
   return api.get<PromiseResponse<GroupListOfFilterResponse>>(
-    `/meeting?status=${parseStatusArrayToNumber(status)}${
-      category?.length ? `&category=${category.join(',')}` : ''
-    }${search ? `&query=${search}` : ''}`
+    `/meeting?${
+      status?.length
+        ? `&status=${status
+            .map(item => parseStatusToNumber(item))
+            .filter(item => item !== null)
+            .join(',')}`
+        : ''
+    }${category?.length ? `&category=${category.join(',')}` : ''}${
+      search ? `&query=${search}` : ''
+    }`
   );
 };
 

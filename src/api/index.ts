@@ -15,6 +15,6 @@ export const apiWithAuth = axios.create({
   baseURL,
   headers: {
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibGVlIiwiaWQiOjIsImlhdCI6MTY2Nzc0MTgxNywiZXhwIjoxNzAzNzQxODE3fQ.itd4icu8KBGjjkIL4RgcDZFFykUo66pxWjrKGUB3ZOE',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibGVlIiwidXNlcklkIjoxLCJpYXQiOjE2Njg0MzM0MTMsImV4cCI6MTcwNDQzMzQxM30.NGbf96zcykC0QQERvSe5F5S2uZO8Tuc13mkpb73y2Bo',
   },
 });

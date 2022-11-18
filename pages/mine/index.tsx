@@ -130,21 +130,19 @@ function GroupListOfApplied() {
   return (
     <main>
       <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
-      <GridLayout>
-        {applyData?.apply.length ? (
-          <GridLayout>
-            {applyData?.apply.map(applyData => (
-              <Card
-                key={applyData.id}
-                groupData={applyData.meeting}
-                bottom={<Status status={applyData.meeting.status} />}
-              />
-            ))}
-          </GridLayout>
-        ) : (
-          <EmptyView message="모임이 없습니다." />
-        )}
-      </GridLayout>
+      {applyData?.apply.length ? (
+        <GridLayout>
+          {applyData?.apply.map(applyData => (
+            <Card
+              key={applyData.id}
+              groupData={applyData.meeting}
+              bottom={<Status status={applyData.status} />}
+            />
+          ))}
+        </GridLayout>
+      ) : (
+        <EmptyView message="모임이 없습니다." />
+      )}
     </main>
   );
 }
