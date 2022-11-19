@@ -6,7 +6,7 @@ import GroupInformation from '@components/page/groupInvitation/GroupInformation'
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   applicantOptionList,
@@ -33,17 +33,21 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
-  const { data: invitationList } = useQueryGetGroupPeopleList({
+  const { data: invitationList, refetch } = useQueryGetGroupPeopleList({
     params: {
       id,
-      limit: numberOptionList[0].value,
-      status: applicantOptionList[0].value - 1,
-      date: sortOptionList[0].value,
+      limit: selectedNumber.value as number,
+      status: (selectedApplicant.value as number) - 1,
+      date: selectedSort.value as string,
     },
   });
 
   // 임시
   const isHost = true;
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
   return (
     <SInvitationPage>
