@@ -6,11 +6,12 @@ import {
 import {
   useMutation,
   UseMutationOptions,
+  UseMutationResult,
   useQuery,
-  useQueryClient,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import {
   deleteGroup,
   fetchGroupListOfAll,
@@ -84,26 +85,23 @@ export const useQueryGetGroupPeopleList = ({
 };
 
 interface UseMutationDeleteGroupParams {
-  params: {
-    id: string;
-  };
-  useMutationOptions?: UseMutationOptions<{ statusCode: number }>;
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    number
+  >;
 }
 
 export const useMutationDeleteGroup = ({
-  params,
   useMutationOptions,
-}: UseMutationDeleteGroupParams) => {
-  const { id } = params;
-  const queryClient = useQueryClient();
-
-  return useMutation<{ statusCode: number }>({
-    mutationFn: () => {
-      return deleteGroup(id);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
-    },
+}: UseMutationDeleteGroupParams): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  number
+> => {
+  return useMutation<{ statusCode: number }, AxiosError, number>({
     ...useMutationOptions,
+    mutationKey: ['deleteGroup'],
+    mutationFn: deleteGroup,
   });
 };

@@ -12,10 +12,18 @@ import Link from 'next/link';
 import { GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
 import { RECRUITMENT_STATUS } from '@constants/status';
+import { AxiosError } from 'axios';
+import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
 interface DetailHeaderProps {
   detailData: GroupResponse;
-  mutateGroup: () => void;
+  mutateGroup: UseMutateFunction<
+    {
+      statusCode: number;
+    },
+    AxiosError,
+    number
+  >;
 }
 
 const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
@@ -76,10 +84,15 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
     handleModalOpen();
   };
 
+  const queryClient = useQueryClient();
   const handleConfirm = () => {
-    mutateGroup();
+    mutateGroup(Number(groupId), {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
+        await router.push('/');
+      },
+    });
     handleModalClose();
-    router.push(`/`);
   };
 
   useEffect(() => {

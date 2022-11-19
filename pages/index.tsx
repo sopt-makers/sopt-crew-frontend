@@ -67,7 +67,16 @@ const SMakeGroup = styled(Flex, {
 
 function GroupListSection() {
   const { value: page, setValue: setPage } = usePageParams();
-  const { data: groupListData } = useQueryGroupListOfAll();
+  const {
+    isLoading,
+    isFetching,
+    data: groupListData,
+  } = useQueryGroupListOfAll();
+
+  if (isLoading || isFetching) {
+    return <div>loading...</div>;
+  }
+
   return (
     <main>
       <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>

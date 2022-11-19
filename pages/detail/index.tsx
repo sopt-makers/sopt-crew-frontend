@@ -15,7 +15,7 @@ const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: detailData } = useQueryGetGroup({ params: { id } });
-  const { mutate: mutateGroup } = useMutationDeleteGroup({ params: { id } });
+  const { mutate: mutateGroup } = useMutationDeleteGroup({});
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {

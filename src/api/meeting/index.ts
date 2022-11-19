@@ -96,7 +96,9 @@ export const getGroupPeopleList = async ({
   ).data.data;
 };
 
-export const deleteGroup = async (id: string) => {
+export const deleteGroup = async (
+  id: number
+): Promise<{ statusCode: number }> => {
   return (await apiWithAuth.delete<{ statusCode: number }>(`/meeting/${id}`))
     .data;
 };
