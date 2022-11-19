@@ -161,7 +161,13 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
             </SApplicationForm>
           ) : (
             <SApplicantListWrapper>
-              <ApplicantList applicantList={appliedInfo} />
+              {appliedInfo.length > 0 ? (
+                <ApplicantList applicantList={appliedInfo} />
+              ) : (
+                <SEmptyText>
+                  {isHost ? '참여자' : '신청자'}가 없습니다.
+                </SEmptyText>
+              )}
               {isHost && (
                 <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
@@ -333,6 +339,15 @@ const SApplicantAnchor = styled('a', {
   svg: {
     ml: '$8',
   },
+});
+
+const SEmptyText = styled('p', {
+  flexType: 'verticalCenter',
+  justifyContent: 'center',
+  width: '100%',
+  padding: '$125 0',
+  color: '$gray80',
+  fontAg: '18_semibold_100',
 });
 
 const SApplicationForm = styled(Box, {
