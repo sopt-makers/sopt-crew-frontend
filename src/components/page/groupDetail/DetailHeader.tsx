@@ -85,7 +85,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
         <SAbout>
           <div>
             <SRecruitStatus isRecruiting={isRecruiting}>
-              {RECRUITMENT_STATUS[status]}
+              {RECRUITMENT_STATUS[status + 1]}
             </SRecruitStatus>
             <SPeriod>
               {dateFormat(startDate)['YY.MM.DD']} -{' '}
