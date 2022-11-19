@@ -32,7 +32,7 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
   } = detailData;
   const router = useRouter();
   const groupId = router.query.id;
-  const isRecruiting = status === 2 ? true : false;
+  const isRecruiting = status === 1 ? true : false;
   const hostId = user.id;
   const hostName = user.name;
   const current = appliedInfo.length;
@@ -92,7 +92,7 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
         <SAbout>
           <div>
             <SRecruitStatus isRecruiting={isRecruiting}>
-              {RECRUITMENT_STATUS[status + 1]}
+              {RECRUITMENT_STATUS[status]}
             </SRecruitStatus>
             <SPeriod>
               {dateFormat(startDate)['YY.MM.DD']} -{' '}
