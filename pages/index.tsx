@@ -90,7 +90,11 @@ function GroupListSection() {
 
           <Box css={{ my: '$80' }}>
             <Pagination
-              totalPagesLength={groupListData?.count}
+              totalPagesLength={
+                groupListData?.count
+                  ? Math.ceil((groupListData.count - 1) / 12)
+                  : 1
+              }
               currentPageIndex={Number(page)}
               changeCurrentPage={setPage}
             />
