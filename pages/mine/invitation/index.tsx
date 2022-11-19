@@ -17,15 +17,16 @@ import {
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
+import { useQueryGroupListOfMine } from 'src/api/user/hooks';
 import { useRouter } from 'next/router';
 import { Option } from '@components/Form/Select/OptionItem';
 
 const InvitationPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { data: groupData } = useQueryGetGroup({ params: { id } });
-
   const { value: page, setValue: setPage } = usePageParams();
+
+  const { data: groupData } = useQueryGetGroup({ params: { id } });
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
   );
@@ -42,8 +43,9 @@ const InvitationPage = () => {
     },
   });
 
-  // 임시
-  const isHost = true;
+  const { data: madeGroupData } = useQueryGroupListOfMine();
+  const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
+  const isHost = madeGroupIdList?.includes(Number(id));
 
   useEffect(() => {
     refetch();
