@@ -2,13 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchGroupListOfApplied, fetchGroupListOfMine } from '.';
 
 export const useQueryGroupListOfApplied = () =>
-  useQuery(['fetchGroupListOfApplied'], fetchGroupListOfApplied, {
+  useQuery(['fetchGroupList', 'apply'], fetchGroupListOfApplied, {
     select: response => response.data.data,
     suspense: true,
   });
 
 export const useQueryGroupListOfMine = () =>
-  useQuery(['fetchGroupListOfMine'], fetchGroupListOfMine, {
+  useQuery(['fetchGroupList', 'mine'], fetchGroupListOfMine, {
     select: response => response.data.data,
     suspense: true,
   });

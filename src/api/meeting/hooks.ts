@@ -25,7 +25,7 @@ export const useQueryGroupListOfAll = () => {
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
   return useQuery(
-    ['fetchGroupList', category, status, search],
+    ['fetchGroupList', 'all', category, status, search],
     () => fetchGroupListOfAll({ category, status, search: search as string }),
     {
       select: response => response.data.data,
