@@ -11,7 +11,7 @@ interface ImageURLType {
   id: number;
   url: string;
 }
-export type RecruitmentStatusType = 1 | 2 | 3;
+export type RecruitmentStatusType = 0 | 1 | 2;
 export interface GroupResponse {
   id: number;
   title: string;
@@ -39,7 +39,7 @@ interface GroupListOfFilterResponse {
 
 function parseStatusToNumber(status: string) {
   const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
-  if (statusIdx > 0) return statusIdx;
+  if (statusIdx >= 0) return statusIdx;
   return null;
 }
 

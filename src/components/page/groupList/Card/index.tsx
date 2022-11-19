@@ -95,13 +95,13 @@ const SStatus = styled(Box, {
   zIndex: '2',
   variants: {
     recruitingStatus: {
+      0: {
+        backgroundColor: '$purple200',
+      },
       1: {
         backgroundColor: '$purple200',
       },
       2: {
-        backgroundColor: '$purple200',
-      },
-      3: {
         backgroundColor: '$gray80',
       },
     },
