@@ -15,9 +15,10 @@ import { RECRUITMENT_STATUS } from '@constants/status';
 
 interface DetailHeaderProps {
   detailData: GroupResponse;
+  mutateGroup: () => void;
 }
 
-const DetailHeader = ({ detailData }: DetailHeaderProps) => {
+const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
   const {
     status,
     userId,
@@ -70,9 +71,15 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
     }
   };
 
-  const handleGroupDelete = () => {
+  const handleGroupDeletionModal = () => {
     setModalType('confirm');
     handleModalOpen();
+  };
+
+  const handleConfirm = () => {
+    mutateGroup();
+    handleModalClose();
+    router.push(`/`);
   };
 
   useEffect(() => {
@@ -124,7 +131,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
           )}
           {isHost && (
             <SHostButtonContainer>
-              <button onClick={handleGroupDelete}>삭제</button>
+              <button onClick={handleGroupDeletionModal}>삭제</button>
               <Link href={`/edit?id=${groupId}`} passHref>
                 <a>수정</a>
               </Link>
@@ -139,6 +146,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
+          handleConfirm={handleConfirm}
         />
       )}
       {isDefaultModalOpened && (

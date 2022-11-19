@@ -4,7 +4,10 @@ import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
-import { useQueryGetGroup } from 'src/api/meeting/hooks';
+import {
+  useMutationDeleteGroup,
+  useQueryGetGroup,
+} from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
 import { dateFormat } from '@utils/date';
 
@@ -12,6 +15,7 @@ const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: detailData } = useQueryGetGroup({ params: { id } });
+  const { mutate: mutateGroup } = useMutationDeleteGroup({ params: { id } });
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
@@ -63,7 +67,7 @@ const DetailPage = () => {
   return (
     <SDetailPage>
       <Carousel imageList={detailData?.imageURL} />
-      <DetailHeader detailData={detailData} />
+      <DetailHeader detailData={detailData} mutateGroup={mutateGroup} />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(
           ({ id, title, content }) =>

@@ -95,3 +95,8 @@ export const getGroupPeopleList = async ({
     )
   ).data.data;
 };
+
+export const deleteGroup = async (id: string) => {
+  return (await apiWithAuth.delete<{ statusCode: number }>(`/meeting/${id}`))
+    .data;
+};

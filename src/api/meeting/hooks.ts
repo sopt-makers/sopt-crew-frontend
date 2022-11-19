@@ -4,11 +4,15 @@ import {
   useStatusParams,
 } from '@hooks/queryString/custom';
 import {
+  useMutation,
+  UseMutationOptions,
   useQuery,
+  useQueryClient,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import {
+  deleteGroup,
   fetchGroupListOfAll,
   getGroup,
   getGroupPeopleList,
@@ -76,5 +80,30 @@ export const useQueryGetGroupPeopleList = ({
     },
     enabled: !!id,
     ...useQueryOptions,
+  });
+};
+
+interface UseMutationDeleteGroupParams {
+  params: {
+    id: string;
+  };
+  useMutationOptions?: UseMutationOptions<{ statusCode: number }>;
+}
+
+export const useMutationDeleteGroup = ({
+  params,
+  useMutationOptions,
+}: UseMutationDeleteGroupParams) => {
+  const { id } = params;
+  const queryClient = useQueryClient();
+
+  return useMutation<{ statusCode: number }>({
+    mutationFn: () => {
+      return deleteGroup(id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
+    },
+    ...useMutationOptions,
   });
 };
