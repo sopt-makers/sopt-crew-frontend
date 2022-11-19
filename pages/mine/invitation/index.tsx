@@ -45,7 +45,7 @@ const InvitationPage = () => {
 
   const { data: madeGroupData } = useQueryGroupListOfMine();
   const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
-  const isHost = madeGroupIdList?.includes(Number(id));
+  const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
 
   useEffect(() => {
     refetch();
