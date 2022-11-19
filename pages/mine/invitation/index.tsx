@@ -26,7 +26,9 @@ const InvitationPage = () => {
   const id = router.query.id as string;
   const { value: page, setValue: setPage } = usePageParams();
 
-  const { data: groupData } = useQueryGetGroup({ params: { id } });
+  const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
+    params: { id },
+  });
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
   );
@@ -43,13 +45,18 @@ const InvitationPage = () => {
     },
   });
 
-  const { data: madeGroupData } = useQueryGroupListOfMine();
+  const { isLoading: isMadeGroupDataLoading, data: madeGroupData } =
+    useQueryGroupListOfMine();
   const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
   const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
 
   useEffect(() => {
     refetch();
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
+
+  if (isGroupDataLoading || isMadeGroupDataLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <SInvitationPage>
