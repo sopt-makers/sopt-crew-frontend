@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
 interface DetailHeaderProps {
+  isHost: boolean;
   detailData: GroupResponse;
   mutateGroup: UseMutateFunction<
     {
@@ -26,10 +27,13 @@ interface DetailHeaderProps {
   >;
 }
 
-const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
+const DetailHeader = ({
+  isHost,
+  detailData,
+  mutateGroup,
+}: DetailHeaderProps) => {
   const {
     status,
-    userId,
     startDate,
     endDate,
     category,
@@ -44,7 +48,6 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
   const hostId = user.id;
   const hostName = user.name;
   const current = appliedInfo.length;
-  const isHost = userId === hostId;
   const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
@@ -69,14 +72,22 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
       handleModalOpen();
       setModalTitle('모임 신청하기');
       setModalType('default');
-      // TODO : 신청하기 눌렀을 때
-      setIsApplied(prev => !prev);
     } else {
       setModalType('confirm');
       handleModalOpen();
-      // TODO: 취소하기 눌렀을 때
-      setIsApplied(prev => !prev);
     }
+  };
+
+  const handleApplicationButton = () => {
+    console.log('신청하기');
+    setIsApplied(prev => !prev);
+    handleModalClose();
+  };
+
+  const handleCancel = () => {
+    console.log('취소하기');
+    setIsApplied(prev => !prev);
+    handleModalClose();
   };
 
   const handleGroupDeletionModal = () => {
@@ -85,7 +96,7 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
   };
 
   const queryClient = useQueryClient();
-  const handleConfirm = () => {
+  const handleDelete = () => {
     mutateGroup(Number(groupId), {
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
@@ -159,7 +170,7 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={handleConfirm}
+          handleConfirm={isHost ? handleDelete : handleCancel}
         />
       )}
       {isDefaultModalOpened && (
@@ -178,7 +189,7 @@ const DetailHeader = ({ detailData, mutateGroup }: DetailHeaderProps) => {
                 placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
                 maxLength={150}
               />
-              <button onClick={handleModalClose}>신청하기</button>
+              <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
           ) : (
             <SApplicantListWrapper>
