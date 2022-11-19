@@ -165,13 +165,13 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
                 <ApplicantList applicantList={appliedInfo} />
               ) : (
                 <SEmptyText>
-                  {isHost ? '참여자' : '신청자'}가 없습니다.
+                  {isHost ? '신청자' : '참여자'}가 없습니다.
                 </SEmptyText>
               )}
               {isHost && (
                 <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
-                    <p>참여자 리스트</p>
+                    <p>신청자 리스트</p>
                     <ArrowSmallRightIcon />
                   </SApplicantAnchor>
                 </Link>
@@ -179,7 +179,7 @@ const DetailHeader = ({ detailData }: DetailHeaderProps) => {
               {isApplied && (
                 <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
-                    <p>신청자 리스트</p>
+                    <p>참여자 리스트</p>
                     <ArrowSmallRightIcon />
                   </SApplicantAnchor>
                 </Link>
