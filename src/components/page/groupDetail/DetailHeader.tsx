@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
-import { GroupResponse } from 'src/api/meeting';
+import { GroupApplicationData, GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
 import { RECRUITMENT_STATUS } from '@constants/status';
 import { AxiosError } from 'axios';
@@ -25,12 +25,20 @@ interface DetailHeaderProps {
     AxiosError,
     number
   >;
+  mutateApplication: UseMutateFunction<
+    {
+      statusCode: number;
+    },
+    AxiosError,
+    GroupApplicationData
+  >;
 }
 
 const DetailHeader = ({
   isHost,
   detailData,
   mutateGroup,
+  mutateApplication,
 }: DetailHeaderProps) => {
   const {
     status,
@@ -79,15 +87,27 @@ const DetailHeader = ({
   };
 
   const handleApplicationButton = () => {
-    console.log('신청하기');
-    setIsApplied(prev => !prev);
-    handleModalClose();
+    mutateApplication(
+      { id: Number(groupId), content: textareaValue },
+      {
+        onSuccess: () => {
+          setIsApplied(prev => !prev);
+          handleModalClose();
+        },
+      }
+    );
   };
 
   const handleCancel = () => {
-    console.log('취소하기');
-    setIsApplied(prev => !prev);
-    handleModalClose();
+    mutateApplication(
+      { id: Number(groupId), content: '' },
+      {
+        onSuccess: () => {
+          setIsApplied(prev => !prev);
+          handleModalClose();
+        },
+      }
+    );
   };
 
   const handleGroupDeletionModal = () => {

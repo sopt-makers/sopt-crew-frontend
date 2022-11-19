@@ -17,8 +17,10 @@ import {
   fetchGroupListOfAll,
   getGroup,
   getGroupPeopleList,
+  GroupApplicationData,
   GroupPersonResponse,
   GroupResponse,
+  postApplication,
 } from '.';
 
 export const useQueryGroupListOfAll = () => {
@@ -103,5 +105,27 @@ export const useMutationDeleteGroup = ({
     ...useMutationOptions,
     mutationKey: ['deleteGroup'],
     mutationFn: deleteGroup,
+  });
+};
+
+interface UseMutationPostApplicationBody {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    GroupApplicationData
+  >;
+}
+
+export const useMutationPostApplication = ({
+  useMutationOptions,
+}: UseMutationPostApplicationBody): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  GroupApplicationData
+> => {
+  return useMutation<{ statusCode: number }, AxiosError, GroupApplicationData>({
+    ...useMutationOptions,
+    mutationKey: ['postApplication'],
+    mutationFn: postApplication,
   });
 };

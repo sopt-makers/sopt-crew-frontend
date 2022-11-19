@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import {
   useMutationDeleteGroup,
+  useMutationPostApplication,
   useQueryGetGroup,
 } from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
@@ -17,6 +18,7 @@ const DetailPage = () => {
   const id = router.query.id as string;
   const { data: detailData } = useQueryGetGroup({ params: { id } });
   const { mutate: mutateGroup } = useMutationDeleteGroup({});
+  const { mutate: mutateApplication } = useMutationPostApplication({});
   const { data: madeGroupData } = useQueryGroupListOfMine();
   const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
   const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
@@ -75,6 +77,7 @@ const DetailPage = () => {
         isHost={isHost}
         detailData={detailData}
         mutateGroup={mutateGroup}
+        mutateApplication={mutateApplication}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(

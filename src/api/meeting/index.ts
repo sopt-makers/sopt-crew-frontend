@@ -53,6 +53,11 @@ export interface GroupPersonResponse {
   user: UserResponse;
 }
 
+export interface GroupApplicationData {
+  id: number;
+  content?: string;
+}
+
 function parseStatusToNumber(status: string) {
   const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
   if (statusIdx >= 0) return statusIdx;
@@ -101,4 +106,12 @@ export const deleteGroup = async (
 ): Promise<{ statusCode: number }> => {
   return (await apiWithAuth.delete<{ statusCode: number }>(`/meeting/${id}`))
     .data;
+};
+
+export const postApplication = async (
+  body: GroupApplicationData
+): Promise<{ statusCode: number }> => {
+  return (
+    await apiWithAuth.post<{ statusCode: number }>(`/meeting/apply`, body)
+  ).data;
 };
