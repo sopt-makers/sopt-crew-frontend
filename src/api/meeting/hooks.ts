@@ -18,10 +18,12 @@ import {
   fetchGroupListOfAll,
   getGroup,
   getGroupPeopleList,
-  GroupApplicationData,
+  PostApplicationRequest,
   GroupPeopleResponse,
   GroupResponse,
   postApplication,
+  updateApplication,
+  UpdateApplicationRequest,
 } from '.';
 
 export const useQueryGroupListOfAll = () => {
@@ -121,7 +123,7 @@ interface UseMutationPostApplicationBody {
   useMutationOptions?: UseMutationOptions<
     { statusCode: number },
     AxiosError,
-    GroupApplicationData
+    PostApplicationRequest
   >;
 }
 
@@ -130,11 +132,41 @@ export const useMutationPostApplication = ({
 }: UseMutationPostApplicationBody): UseMutationResult<
   { statusCode: number },
   AxiosError,
-  GroupApplicationData
+  PostApplicationRequest
 > => {
-  return useMutation<{ statusCode: number }, AxiosError, GroupApplicationData>({
+  return useMutation<
+    { statusCode: number },
+    AxiosError,
+    PostApplicationRequest
+  >({
     ...useMutationOptions,
     mutationKey: ['postApplication'],
     mutationFn: postApplication,
+  });
+};
+
+interface UseMutationUpdateApplicationBody {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    UpdateApplicationRequest
+  >;
+}
+
+export const useMutationUpdateApplication = ({
+  useMutationOptions,
+}: UseMutationUpdateApplicationBody): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  UpdateApplicationRequest
+> => {
+  return useMutation<
+    { statusCode: number },
+    AxiosError,
+    UpdateApplicationRequest
+  >({
+    ...useMutationOptions,
+    mutationKey: ['updateApplication'],
+    mutationFn: updateApplication,
   });
 };

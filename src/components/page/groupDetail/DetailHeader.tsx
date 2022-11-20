@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import ApplicantList from './ApplicantList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
-import { GroupApplicationData, GroupResponse } from 'src/api/meeting';
+import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
 import { RECRUITMENT_STATUS } from '@constants/status';
 import { AxiosError } from 'axios';
@@ -30,7 +30,7 @@ interface DetailHeaderProps {
       statusCode: number;
     },
     AxiosError,
-    GroupApplicationData
+    PostApplicationRequest
   >;
 }
 

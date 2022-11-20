@@ -68,9 +68,15 @@ export interface GroupPeopleResponse {
   meta: PaginationType;
 }
 
-export interface GroupApplicationData {
+export interface PostApplicationRequest {
   id: number;
   content?: string;
+}
+
+export interface UpdateApplicationRequest {
+  id: number;
+  applyId: number;
+  status: number;
 }
 
 function parseStatusToNumber(status: string) {
@@ -126,9 +132,16 @@ export const deleteGroup = async (
 };
 
 export const postApplication = async (
-  body: GroupApplicationData
+  body: PostApplicationRequest
 ): Promise<{ statusCode: number }> => {
   return (
     await apiWithAuth.post<{ statusCode: number }>(`/meeting/apply`, body)
   ).data;
+};
+
+export const updateApplication = async ({
+  id,
+  ...rest
+}: UpdateApplicationRequest) => {
+  return (await apiWithAuth.put(`/meeting/${id}/apply/status`, rest)).data;
 };

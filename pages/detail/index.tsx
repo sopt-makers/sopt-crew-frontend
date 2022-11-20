@@ -17,11 +17,12 @@ const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: detailData } = useQueryGetGroup({ params: { id } });
-  const { mutate: mutateGroup } = useMutationDeleteGroup({});
-  const { mutate: mutateApplication } = useMutationPostApplication({});
+  const { mutate: mutateDeleteGroup } = useMutationDeleteGroup({});
+  const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { data: madeGroupData } = useQueryGroupListOfMine();
   const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
-  const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
+  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
+  const isHost = true;
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
@@ -76,8 +77,8 @@ const DetailPage = () => {
       <DetailHeader
         isHost={isHost}
         detailData={detailData}
-        mutateGroup={mutateGroup}
-        mutateApplication={mutateApplication}
+        mutateGroup={mutateDeleteGroup}
+        mutateApplication={mutatePostApplication}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(

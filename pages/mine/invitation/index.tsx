@@ -14,12 +14,14 @@ import {
   sortOptionList,
 } from 'src/data/options';
 import {
+  useMutationUpdateApplication,
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
 import { useQueryGroupListOfMine } from 'src/api/user/hooks';
 import { useRouter } from 'next/router';
 import { Option } from '@components/Form/Select/OptionItem';
+import { UpdateApplicationRequest } from 'src/api/meeting';
 
 const InvitationPage = () => {
   const router = useRouter();
@@ -49,7 +51,20 @@ const InvitationPage = () => {
   const { isLoading: isMadeGroupDataLoading, data: madeGroupData } =
     useQueryGroupListOfMine();
   const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
-  const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
+  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
+  const isHost = true;
+
+  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
+  const handleChangeApplicationStatus = (
+    request: Omit<UpdateApplicationRequest, 'id'>
+  ) => {
+    mutateUpdateApplication(
+      { id: Number(id), ...request },
+      {
+        onSuccess: () => {},
+      }
+    );
+  };
 
   useEffect(() => {
     if (id) {
@@ -120,7 +135,12 @@ const InvitationPage = () => {
       )}
       {invitation && invitation.apply?.length > 0 ? (
         invitation?.apply.map(application => (
-          <ListItem key={id} application={application} isHost={isHost} />
+          <ListItem
+            key={id}
+            application={application}
+            isHost={isHost}
+            onChangeApplicationStatus={handleChangeApplicationStatus}
+          />
         ))
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
