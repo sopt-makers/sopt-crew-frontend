@@ -38,7 +38,11 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
-  const { data: invitation, refetch } = useQueryGetGroupPeopleList({
+  const {
+    isLoading: isInvitationDataLoading,
+    data: invitation,
+    refetch,
+  } = useQueryGetGroupPeopleList({
     params: {
       id,
       page: (page || 0) as number,
@@ -61,7 +65,9 @@ const InvitationPage = () => {
     mutateUpdateApplication(
       { id: Number(id), ...request },
       {
-        onSuccess: () => {},
+        onSuccess: () => {
+          // TODO
+        },
       }
     );
   };
@@ -72,7 +78,7 @@ const InvitationPage = () => {
     }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
-  if (isGroupDataLoading || isMadeGroupDataLoading) {
+  if (isGroupDataLoading || isInvitationDataLoading || isMadeGroupDataLoading) {
     return <div>loading...</div>;
   }
 
