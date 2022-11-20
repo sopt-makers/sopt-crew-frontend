@@ -15,6 +15,7 @@ import {
 import { getGroupById, updateGroup } from 'src/api/group';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
+import dayjs from 'dayjs';
 
 const EditPage = () => {
   const queryClient = useQueryClient();
@@ -89,14 +90,16 @@ const EditPage = () => {
 
       formMethods.reset({
         ...formData,
+        startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
+        endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
         category: { label: formData?.category, value: formData?.category },
         files,
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
           processDesc: formData?.processDesc,
-          mStartDate: formData?.mStartDate,
-          mEndDate: formData?.mEndDate,
+          mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
+          mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
