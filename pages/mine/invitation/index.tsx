@@ -151,13 +151,15 @@ const InvitationPage = () => {
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-      <SPaginationWrapper>
-        <Pagination
-          totalPagesLength={invitation?.meta?.pageCount}
-          currentPageIndex={Number(page)}
-          changeCurrentPage={setPage}
-        />
-      </SPaginationWrapper>
+      {invitation && invitation.meta?.pageCount > 0 && (
+        <SPaginationWrapper>
+          <Pagination
+            totalPagesLength={invitation?.meta?.pageCount}
+            currentPageIndex={Number(page)}
+            changeCurrentPage={setPage}
+          />
+        </SPaginationWrapper>
+      )}
     </SInvitationPage>
   );
 };
