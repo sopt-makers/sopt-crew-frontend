@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import { FieldError } from 'react-hook-form';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
@@ -70,12 +71,13 @@ function Presentation({
       <STitleField>
         <FormController
           name="title"
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextInput
               label="모임 제목"
               message="최대 30자 이내로 입력"
               placeholder="제목 입력"
               required
+              error={error?.message}
               {...field}
             />
           )}
@@ -86,16 +88,22 @@ function Presentation({
       <FormController
         name="category"
         defaultValue={categories[0]}
-        render={({ field: { value, onChange, onBlur } }) => (
-          <Select
-            label="모임 카테고리"
-            options={categories}
-            required
-            value={value}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
-        )}
+        render={({ field: { value, onChange, onBlur }, fieldState }) => {
+          const error = (
+            fieldState.error as (FieldError & { value: FieldError }) | undefined
+          )?.value;
+          return (
+            <Select
+              label="모임 카테고리"
+              options={categories}
+              required
+              error={error?.message}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          );
+        }}
       ></FormController>
 
       {/* 이미지 */}
@@ -116,9 +124,13 @@ function Presentation({
           <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
             <FormController
               name="files"
-              render={({ field: { value, onChange, onBlur } }) => (
+              render={({
+                field: { value, onChange, onBlur },
+                fieldState: { error },
+              }) => (
                 <FileInput
                   // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
+                  error={error?.message}
                   value={filename}
                   onChange={handleAddFiles({ value, onChange })}
                   onBlur={onBlur}
@@ -132,17 +144,33 @@ function Presentation({
       {/* 모집 기간 */}
       <div>
         <Label required={true}>모집 기간</Label>
-        <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
+        <HelpMessage>시작 날짜와 끝 날짜 순서에 주의</HelpMessage>
         <SApplicationFieldWrapper>
           <SApplicationField>
             <FormController
               name="startDate"
-              render={({ field }) => (
-                <TextInput placeholder="YYYY.MM.DD" required {...field} />
-              )}
+              render={({ field, formState: { errors } }) => {
+                const dateError = errors as
+                  | {
+                      startDate?: FieldError;
+                      endDate?: FieldError;
+                    }
+                  | undefined;
+                return (
+                  <TextInput
+                    placeholder="YYYY.MM.DD"
+                    error={
+                      dateError?.startDate?.message ||
+                      dateError?.endDate?.message
+                    }
+                    required
+                    {...field}
+                  />
+                );
+              }}
             ></FormController>
           </SApplicationField>
-          -
+          <span style={{ marginTop: '14px' }}>-</span>
           <SApplicationField>
             <FormController
               name="endDate"
@@ -158,7 +186,7 @@ function Presentation({
       <SMemberCountField>
         <FormController
           name="capacity"
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextInput
               type="number"
               label="모집 인원"
@@ -166,6 +194,7 @@ function Presentation({
               right={
                 <span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>
               }
+              error={error?.message}
               {...field}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 field.onChange(+e.target.value)
@@ -183,8 +212,13 @@ function Presentation({
         </Label>
         <FormController
           name="detail.desc"
-          render={({ field }) => (
-            <Textarea placeholder="모임 소개" maxLength={500} {...field} />
+          render={({ field, fieldState: { error } }) => (
+            <Textarea
+              placeholder="모임 소개"
+              maxLength={300}
+              error={error?.message}
+              {...field}
+            />
           )}
         ></FormController>
       </div>
@@ -196,8 +230,13 @@ function Presentation({
         </Label>
         <FormController
           name="detail.processDesc"
-          render={({ field }) => (
-            <Textarea placeholder="진행 방식 소개" maxLength={500} {...field} />
+          render={({ field, fieldState: { error } }) => (
+            <Textarea
+              placeholder="진행 방식 소개"
+              maxLength={300}
+              error={error?.message}
+              {...field}
+            />
           )}
         ></FormController>
       </div>
@@ -211,9 +250,25 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mStartDate"
-              render={({ field }) => (
-                <TextInput placeholder="YYYY.MM.DD" required {...field} />
-              )}
+              render={({ field, formState: { errors } }) => {
+                const dateError = errors.detail as
+                  | (FieldError & {
+                      mStartDate?: FieldError;
+                      mEndDate?: FieldError;
+                    })
+                  | undefined;
+                return (
+                  <TextInput
+                    placeholder="YYYY.MM.DD"
+                    required
+                    error={
+                      dateError?.mStartDate?.message ||
+                      dateError?.mEndDate?.message
+                    }
+                    {...field}
+                  />
+                );
+              }}
             ></FormController>
           </SDateField>
           -
@@ -235,8 +290,13 @@ function Presentation({
         </Label>
         <FormController
           name="detail.leaderDesc"
-          render={({ field }) => (
-            <Textarea placeholder="개설자 소개" maxLength={500} {...field} />
+          render={({ field, fieldState: { error } }) => (
+            <Textarea
+              placeholder="개설자 소개"
+              maxLength={300}
+              error={error?.message}
+              {...field}
+            />
           )}
         ></FormController>
       </div>
@@ -248,10 +308,11 @@ function Presentation({
         </Label>
         <FormController
           name="detail.targetDesc"
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <Textarea
               placeholder="이런 분을 찾습니다."
               maxLength={300}
+              error={error?.message}
               {...field}
             />
           )}
@@ -263,8 +324,13 @@ function Presentation({
         <Label size="small">유의사항</Label>
         <FormController
           name="detail.note"
-          render={({ field }) => (
-            <Textarea placeholder="유의 사항 입력" maxLength={500} {...field} />
+          render={({ field, fieldState: { error } }) => (
+            <Textarea
+              placeholder="유의 사항 입력"
+              maxLength={300}
+              error={error?.message}
+              {...field}
+            />
           )}
         ></FormController>
       </div>
@@ -297,7 +363,6 @@ const SFileInputWrapper = styled('div', {
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
-  alignItems: 'center',
   color: '$gray100',
   gap: '12px',
 });
