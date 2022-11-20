@@ -6,7 +6,7 @@ import { TabListContext, useTabListContext } from './TabListContext';
 interface TabListProps {
   text: string;
   size: string;
-  onChange: (text: string) => void;
+  onChange?: (text: string) => void;
 }
 
 interface TabProps {
@@ -21,7 +21,9 @@ export function TabList({
 }: PropsWithChildren<TabListProps>) {
   return (
     <STabList>
-      <TabListContext.Provider value={{ text, size, onChange }}>
+      <TabListContext.Provider
+        value={{ text, size, onChange: onChange ? onChange : () => {} }}
+      >
         {children}
       </TabListContext.Provider>
     </STabList>

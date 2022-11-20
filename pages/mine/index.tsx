@@ -1,5 +1,3 @@
-import Card from '@components/page/groupList/Card';
-import GridLayout from '@components/page/groupList/GirdLayout';
 import { TabList } from '@components/tabList/TabList';
 
 import type { NextPage } from 'next';
@@ -9,15 +7,13 @@ import Link from 'next/link';
 import { Tab } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { Fragment } from 'react';
-import InvitationButton from '@components/page/groupList/Card/InvitationButton';
-import Status from '@components/page/groupList/Card/Status';
 import useSessionStorage from '@hooks/useSessionStorage';
-import {
-  useQueryGroupListOfApplied,
-  useQueryGroupListOfMine,
-} from 'src/api/user/hooks';
-import EmptyView from '@components/page/groupList/EmptyView';
+
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import {
+  GroupListOfApplied,
+  GroupListOfMine,
+} from '@components/page/groupList/Grid/List';
 
 const enum GroupType {
   MADE,
@@ -31,7 +27,7 @@ const MinePage: NextPage = () => {
   return (
     <div>
       <Flex align="center" justify="between">
-        <TabList text={'mine'} size="big" onChange={() => {}}>
+        <TabList text="mine" size="big" onChange={() => {}}>
           <Link href="/" passHref>
             <a>
               <TabList.Item text="all">모임 전체</TabList.Item>
@@ -101,51 +97,4 @@ const STab = styled('button', {
       false: { color: '$gray100' },
     },
   },
-});
-
-function GroupListOfMine() {
-  const { data: mineData } = useQueryGroupListOfMine();
-  return (
-    <main>
-      <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
-      {mineData?.meetings.length ? (
-        <GridLayout>
-          {mineData?.meetings.map(groupData => (
-            <Card
-              key={groupData.id}
-              groupData={groupData}
-              bottom={<InvitationButton id={groupData.id} />}
-            />
-          ))}
-        </GridLayout>
-      ) : (
-        <EmptyView message="모임이 없습니다." />
-      )}
-    </main>
-  );
-}
-
-function GroupListOfApplied() {
-  const { data: applyData } = useQueryGroupListOfApplied();
-  return (
-    <main>
-      <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
-      {applyData?.apply.length ? (
-        <GridLayout>
-          {applyData?.apply.map(applyData => (
-            <Card
-              key={applyData.id}
-              groupData={applyData.meeting}
-              bottom={<Status status={applyData.status} />}
-            />
-          ))}
-        </GridLayout>
-      ) : (
-        <EmptyView message="모임이 없습니다." />
-      )}
-    </main>
-  );
-}
-const SGroupCount = styled('p', {
-  fontAg: '18_semibold_100',
 });

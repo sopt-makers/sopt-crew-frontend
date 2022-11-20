@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import GridLayout from '@components/page/groupList/GirdLayout';
+import GridLayout from '@components/page/groupList/Grid/Layout';
 import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
@@ -8,18 +8,15 @@ import type { NextPage } from 'next';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { usePageParams } from '@hooks/queryString/custom';
-import Card from '@components/page/groupList/Card';
 import Filter from '@components/page/groupList/Filter';
-import { useQueryGroupListOfAll } from 'src/api/meeting/hooks';
-import EmptyView from '@components/page/groupList/EmptyView';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import { GroupListOfAll } from '@components/page/groupList/Grid/List';
 
 const Home: NextPage = () => {
   return (
     <div>
       <Flex align="center" justify="between">
-        <TabList text={'all'} size="big" onChange={() => {}}>
+        <TabList text="all" size="big" onChange={() => {}}>
           <Link href="/" passHref>
             <a>
               <TabList.Item text="all">모임 전체</TabList.Item>
@@ -44,7 +41,7 @@ const Home: NextPage = () => {
         <Filter />
       </Box>
       <SSRSafeSuspense fallback={<p>loading...</p>}>
-        <GroupListSection />
+        <GroupListOfAll />
       </SSRSafeSuspense>
     </div>
   );
@@ -63,37 +60,4 @@ const SMakeGroup = styled(Flex, {
 
     color: '$white',
   },
-});
-
-function GroupListSection() {
-  const { value: page, setValue: setPage } = usePageParams();
-  const { data: groupListData } = useQueryGroupListOfAll();
-  return (
-    <main>
-      <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>
-      {groupListData?.meetings.length ? (
-        <>
-          <GridLayout>
-            {groupListData?.meetings.map(groupData => (
-              <Card key={groupData.id} groupData={groupData} />
-            ))}
-          </GridLayout>
-
-          <Box css={{ my: '$80' }}>
-            <Pagination
-              totalPagesLength={groupListData?.meta.pageCount}
-              currentPageIndex={Number(page)}
-              changeCurrentPage={setPage}
-            />
-          </Box>
-        </>
-      ) : (
-        <EmptyView message="검색 결과가 없습니다." />
-      )}
-    </main>
-  );
-}
-
-const SGroupCount = styled('p', {
-  fontAg: '18_semibold_100',
 });
