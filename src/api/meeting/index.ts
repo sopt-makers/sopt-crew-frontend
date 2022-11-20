@@ -2,7 +2,17 @@ import { RECRUITMENT_STATUS } from '@constants/status';
 import { api, PromiseResponse } from '..';
 import { ApplyResponse, UserResponse } from '../user';
 
+interface PaginationType {
+  page: number;
+  take: number;
+  itemCount: number;
+  pageCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
+
 interface filterData {
+  page?: number;
   category: string[];
   status?: string[];
   search?: string;
@@ -31,9 +41,8 @@ export interface GroupResponse {
   appliedInfo: ApplyResponse[];
   user: UserResponse;
 }
-
 interface GroupListOfFilterResponse {
-  count: number;
+  meta: PaginationType;
   meetings: GroupResponse[];
 }
 
@@ -44,12 +53,13 @@ function parseStatusToNumber(status: string) {
 }
 
 export const fetchGroupListOfAll = async ({
+  page,
   category,
   status,
   search,
 }: filterData) => {
   return api.get<PromiseResponse<GroupListOfFilterResponse>>(
-    `/meeting?${
+    `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
         ? `&status=${status
             .map(item => parseStatusToNumber(item))
