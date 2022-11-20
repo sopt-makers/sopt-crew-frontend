@@ -1,5 +1,6 @@
 import {
   useCategoryParams,
+  usePageParams,
   useSearchParams,
   useStatusParams,
 } from '@hooks/queryString/custom';
@@ -27,9 +28,16 @@ export const useQueryGroupListOfAll = () => {
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
+  const { value: page } = usePageParams();
   return useQuery(
-    ['fetchGroupList', 'all', category, status, search],
-    () => fetchGroupListOfAll({ category, status, search: search as string }),
+    ['fetchGroupList', 'all', page, category, status, search],
+    () =>
+      fetchGroupListOfAll({
+        page: Number(page),
+        category,
+        status,
+        search: search as string,
+      }),
     {
       select: response => response.data.data,
       suspense: true,
