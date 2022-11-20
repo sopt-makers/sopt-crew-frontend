@@ -27,7 +27,7 @@ const MinePage: NextPage = () => {
   return (
     <div>
       <Flex align="center" justify="between">
-        <TabList text="mine" size="big" onChange={() => {}}>
+        <TabList text="mine" size="big">
           <Link href="/" passHref>
             <a>
               <TabList.Item text="all">모임 전체</TabList.Item>

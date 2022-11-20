@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Flex align="center" justify="between">
-        <TabList text="all" size="big" onChange={() => {}}>
+        <TabList text="all" size="big">
           <Link href="/" passHref>
             <a>
               <TabList.Item text="all">모임 전체</TabList.Item>
