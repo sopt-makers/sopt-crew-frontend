@@ -5,18 +5,18 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { GroupPersonResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
+import { ApplicationData } from 'src/api/meeting';
 
 interface ListItemProps {
-  invitation: GroupPersonResponse;
+  application: ApplicationData;
   isHost: boolean;
 }
 
-const ListItem = ({ invitation, isHost }: ListItemProps) => {
+const ListItem = ({ application, isHost }: ListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { id, appliedDate, content, status, user } = invitation;
+  const { id, appliedDate, content, status, user } = application;
   const getStatusText = (status: number) => {
     switch (status) {
       case 0:

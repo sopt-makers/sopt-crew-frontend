@@ -19,7 +19,7 @@ import {
   getGroup,
   getGroupPeopleList,
   GroupApplicationData,
-  GroupPersonResponse,
+  GroupPeopleResponse,
   GroupResponse,
   postApplication,
 } from '.';
@@ -71,23 +71,24 @@ export const useQueryGetGroup = ({
 interface UseQueryGetGroupPeopleListParams {
   params: {
     id: string;
-    limit: number;
+    page: number;
+    take: number;
     status: number;
     date: string;
   };
-  useQueryOptions?: UseQueryOptions<GroupPersonResponse[]>;
+  useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
 }
 
 export const useQueryGetGroupPeopleList = ({
   params,
   useQueryOptions,
-}: UseQueryGetGroupPeopleListParams): UseQueryResult<GroupPersonResponse[]> => {
-  const { id, limit, status, date } = params;
+}: UseQueryGetGroupPeopleListParams): UseQueryResult<GroupPeopleResponse> => {
+  const { id, page, take, status, date } = params;
 
-  return useQuery<GroupPersonResponse[]>({
-    queryKey: ['getGroupPeopleList', id, limit, status, date],
+  return useQuery<GroupPeopleResponse>({
+    queryKey: ['getGroupPeopleList', id, page, take, status, date],
     queryFn: () => {
-      return getGroupPeopleList({ id, limit, status, date });
+      return getGroupPeopleList(params);
     },
     enabled: !!id,
     ...useQueryOptions,

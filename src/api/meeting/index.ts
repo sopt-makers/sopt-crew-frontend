@@ -49,17 +49,23 @@ interface GroupListOfFilterResponse {
 
 interface OptionData {
   id: string;
-  limit: number;
+  page: number;
+  take: number;
   status: number;
   date: string;
 }
 
-export interface GroupPersonResponse {
+export interface ApplicationData {
   id: number;
   appliedDate: string;
   content: string;
   status: ApplicationStatusType;
   user: UserResponse;
+}
+
+export interface GroupPeopleResponse {
+  apply: ApplicationData[];
+  meta: PaginationType;
 }
 
 export interface GroupApplicationData {
@@ -100,13 +106,14 @@ export const getGroup = async (id: string): Promise<GroupResponse> => {
 
 export const getGroupPeopleList = async ({
   id,
-  limit,
-  status,
-  date,
-}: OptionData): Promise<GroupPersonResponse[]> => {
+  ...rest
+}: OptionData): Promise<GroupPeopleResponse> => {
   return (
-    await apiWithAuth.get<PromiseResponse<GroupPersonResponse[]>>(
-      `/meeting/${id}/list?limit=${limit}&status=${status}&date=${date}`
+    await apiWithAuth.get<PromiseResponse<GroupPeopleResponse>>(
+      `/meeting/${id}/list`,
+      {
+        params: rest,
+      }
     )
   ).data.data;
 };

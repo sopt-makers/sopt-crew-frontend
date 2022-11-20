@@ -36,10 +36,11 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
-  const { data: invitationList, refetch } = useQueryGetGroupPeopleList({
+  const { data: invitation, refetch } = useQueryGetGroupPeopleList({
     params: {
       id,
-      limit: selectedNumber.value as number,
+      page: (page || 0) as number,
+      take: selectedNumber.value as number,
       status: (selectedApplicant.value as number) - 1,
       date: selectedSort.value as string,
     },
@@ -51,7 +52,9 @@ const InvitationPage = () => {
   const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
 
   useEffect(() => {
-    refetch();
+    if (id) {
+      refetch();
+    }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
   if (isGroupDataLoading || isMadeGroupDataLoading) {
@@ -76,7 +79,7 @@ const InvitationPage = () => {
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
-          {invitationList && <span> ({invitationList.length})</span>}
+          {invitation && <span> ({invitation.meta.itemCount})</span>}
         </SListTitle>
         {!isHost && (
           <SSelectWrapper>
@@ -115,20 +118,16 @@ const InvitationPage = () => {
           </div>
         </SSelectContainer>
       )}
-      {invitationList && invitationList?.length > 0 ? (
-        invitationList?.map(invitation => (
-          <ListItem
-            key={invitation.id}
-            invitation={invitation}
-            isHost={isHost}
-          />
+      {invitation && invitation.apply?.length > 0 ? (
+        invitation?.apply.map(application => (
+          <ListItem key={id} application={application} isHost={isHost} />
         ))
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
       <SPaginationWrapper>
         <Pagination
-          totalPagesLength={20}
+          totalPagesLength={invitation?.meta?.pageCount}
           currentPageIndex={Number(page)}
           changeCurrentPage={setPage}
         />
