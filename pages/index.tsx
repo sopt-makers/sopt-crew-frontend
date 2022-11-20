@@ -1,10 +1,8 @@
+import type { NextPage } from 'next';
+
 import { Box } from '@components/box/Box';
-import GridLayout from '@components/page/groupList/Grid/Layout';
-import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
-
-import type { NextPage } from 'next';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';

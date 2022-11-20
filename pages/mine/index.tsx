@@ -1,7 +1,6 @@
-import { TabList } from '@components/tabList/TabList';
-
 import type { NextPage } from 'next';
 
+import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { Tab } from '@headlessui/react';
