@@ -20,7 +20,7 @@ function MultiSelectComboBox({ filter }: SelectProps) {
     value: selectedFilterValue,
     addValue: addFilterOption,
     deleteValue: deleteFilterOption,
-  } = useMultiQueryString(filter.subject);
+  } = useMultiQueryString(filter.subject, true);
 
   return (
     <SSelectWrapper>

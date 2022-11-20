@@ -1,16 +1,18 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
+import { APPLY_STATUS } from '@constants/status';
+import { ApplicationStatusType } from 'src/api/user';
 import { styled } from 'stitches.config';
 
 interface StatusProps {
-  status: string;
+  status: ApplicationStatusType;
 }
 
 function Status({ status }: StatusProps) {
   return (
     <Flex align="center" css={{ fontAg: '16_bold_100', marginTop: '24px' }}>
       <SLabel>신청현황</SLabel>
-      <span>{status}</span>
+      <span>{APPLY_STATUS[status]}</span>
     </Flex>
   );
 }

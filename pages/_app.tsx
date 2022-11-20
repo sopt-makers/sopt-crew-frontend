@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Box
         css={{
           maxWidth: '1260px',
+          minHeight: '100vh',
           color: theme.colors.white,
           mx: '$auto',
           px: '$30',

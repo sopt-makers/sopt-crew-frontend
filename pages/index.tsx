@@ -1,63 +1,46 @@
+import type { NextPage } from 'next';
+
 import { Box } from '@components/box/Box';
-import GridLayout from '@components/page/groupList/GirdLayout';
-import Pagination from '@components/page/groupList/Pagination';
 import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
-
-import type { NextPage } from 'next';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { usePageParams } from '@hooks/queryString/custom';
-import Card from '@components/page/groupList/Card';
 import Filter from '@components/page/groupList/Filter';
+import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import { GroupListOfAll } from '@components/page/groupList/Grid/List';
 
 const Home: NextPage = () => {
-  const { value: page, setValue: setPage } = usePageParams();
   return (
     <div>
-      <main>
-        <Flex align="center" justify="between">
-          <TabList text={'all'} size="big" onChange={() => {}}>
-            <Link href="/" passHref>
-              <a>
-                <TabList.Item text="all">모임 전체</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/mine" passHref>
-              <a>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
-            </Link>
-          </TabList>
-          <Link href="/make" passHref>
+      <Flex align="center" justify="between">
+        <TabList text="all" size="big">
+          <Link href="/" passHref>
             <a>
-              <SMakeGroup align="center" justify="center">
-                <PlusIcon />
-                <span>모임생성</span>
-              </SMakeGroup>
+              <TabList.Item text="all">모임 전체</TabList.Item>
             </a>
           </Link>
-        </Flex>
-
-        <Box css={{ mt: '$120', mb: '$64' }}>
-          <Filter />
-        </Box>
-        <SGroupCount>4개의 모임</SGroupCount>
-        <GridLayout>
-          <Card id={0} />
-          <Card id={1} />
-          <Card id={2} />
-          <Card id={3} />
-        </GridLayout>
-        <Box css={{ my: '$80' }}>
-          <Pagination
-            totalPagesLength={20}
-            currentPageIndex={Number(page)}
-            changeCurrentPage={setPage}
-          />
-        </Box>
-      </main>
+          <Link href="/mine" passHref>
+            <a>
+              <TabList.Item text="mine">내 모임</TabList.Item>
+            </a>
+          </Link>
+        </TabList>
+        <Link href="/make" passHref>
+          <a>
+            <SMakeGroup align="center" justify="center">
+              <PlusIcon />
+              <span>모임생성</span>
+            </SMakeGroup>
+          </a>
+        </Link>
+      </Flex>
+      <Box css={{ mt: '$120', mb: '$64' }}>
+        <Filter />
+      </Box>
+      <SSRSafeSuspense fallback={<p>loading...</p>}>
+        <GroupListOfAll />
+      </SSRSafeSuspense>
     </div>
   );
 };
@@ -75,8 +58,4 @@ const SMakeGroup = styled(Flex, {
 
     color: '$white',
   },
-});
-
-const SGroupCount = styled('p', {
-  fontAg: '18_semibold_100',
 });

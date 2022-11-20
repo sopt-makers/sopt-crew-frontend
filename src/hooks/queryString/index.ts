@@ -4,11 +4,17 @@ export interface QueryStringType {
   [key: string]: string | string[] | undefined;
 }
 
-export function useQueryString(key: string, initValue?: string | null) {
+export function useQueryString(
+  key: string,
+  initValue?: string | null,
+  withPage?: boolean
+) {
   const router = useRouter();
   const query: QueryStringType = router?.query;
 
   const pushQuery = (queryData: QueryStringType) => {
+    if (withPage) queryData['page'] = '1';
+
     router.push(
       {
         query: queryData,
@@ -29,19 +35,21 @@ export function useQueryString(key: string, initValue?: string | null) {
   };
 
   return {
-    value: query[key] || initValue,
+    value: (query[key] as string) || initValue,
     setValue,
     deleteKey,
   };
 }
 
-export function useMultiQueryString(key: string) {
+export function useMultiQueryString(key: string, withPage?: boolean) {
   const router = useRouter();
   const query: QueryStringType = router?.query;
   const queryOfKey = query[key] as string | undefined;
   const splitQueryOfKey = queryOfKey?.split(',') || [];
 
   const pushQuery = (queryData: QueryStringType) => {
+    if (withPage) queryData['page'] = '1';
+
     router.push(
       {
         query: queryData,

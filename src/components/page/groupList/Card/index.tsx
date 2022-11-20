@@ -1,48 +1,62 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import Image from 'next/image';
+import { RECRUITMENT_STATUS } from '@constants/status';
+import { dateFormat } from '@utils/date';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { GroupResponse } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
-  id: number;
+  groupData: GroupResponse;
 }
 
-function Card({ bottom, id }: CardProps) {
+function Card({ bottom, groupData }: CardProps) {
   return (
     <Box as="li">
-      <Link href={`/detail?id=${id}`} passHref>
+      <Link href={`/detail?id=${groupData.id}`} passHref>
         <a>
           <>
             <Box css={{ position: 'relative' }}>
-              <SStatus isRecruiting={true}>모집중</SStatus>
+              <SStatus recruitingStatus={groupData.status}>
+                {RECRUITMENT_STATUS[groupData.status]}
+              </SStatus>
               <SImageWrapper>
-                <Image
+                {/* 전략에 따라 image 태그 스타일링 필요 */}
+                <SThumbnailImage
                   width="380px"
                   height="260px"
-                  src="/group/assets/img/img_example_1.jpg"
-                  layout="responsive"
+                  src={groupData.imageURL[0].url}
+                  alt=""
                 />
               </SImageWrapper>
             </Box>
             <STitleSection>
-              <SCategory>카테고리</SCategory>
-              <STitle>제목이 들어가게 됩니다</STitle>
+              <SCategory>{groupData.category}</SCategory>
+              <STitle>{groupData.title}</STitle>
             </STitleSection>
             <Box>
               <SInfoRow>
                 <SKey>모집 기간</SKey>
-                <SValue>22.10.21 - 22.10.28</SValue>
+                <SValue>
+                  {dateFormat(groupData.mStartDate)['YY.MM.DD']} -
+                  {dateFormat(groupData.mEndDate)['YY.MM.DD']}
+                </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모집 인원</SKey>
-                <SValue>4/5명</SValue>
+                <SValue>
+                  {
+                    groupData.appliedInfo.filter(info => info.status === 1)
+                      .length
+                  }
+                  /{groupData.capacity}명
+                </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모임 개설</SKey>
-                <SValue>홍길동</SValue>
+                <SValue>{groupData.user.name}</SValue>
               </SInfoRow>
             </Box>
           </>
@@ -56,9 +70,18 @@ function Card({ bottom, id }: CardProps) {
 export default Card;
 
 const SImageWrapper = styled('div', {
+  width: '380px',
+  height: '260px',
   backgroundColor: '$black80',
   borderRadius: '$10',
   overflow: 'hidden',
+  position: 'relative',
+});
+
+const SThumbnailImage = styled('img', {
+  display: 'block',
+  position: 'absolute',
+  objectFit: 'contain',
 });
 
 const SStatus = styled(Box, {
@@ -71,11 +94,14 @@ const SStatus = styled(Box, {
   fontAg: '16_bold_100',
   zIndex: '2',
   variants: {
-    isRecruiting: {
-      true: {
+    recruitingStatus: {
+      0: {
         backgroundColor: '$purple200',
       },
-      false: {
+      1: {
+        backgroundColor: '$purple200',
+      },
+      2: {
         backgroundColor: '$gray80',
       },
     },

@@ -8,6 +8,7 @@ function Result() {
   const { value: category, deleteValue: deleteCategoryValue } =
     useCategoryParams();
   const { value: status, deleteValue: deleteStatusValue } = useStatusParams();
+
   return category.length === 0 && status.length === 0 ? (
     <div></div>
   ) : (
