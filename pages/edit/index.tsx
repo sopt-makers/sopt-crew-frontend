@@ -82,8 +82,7 @@ const EditPage = () => {
     }
     async function fillForm() {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const filePromises = formData!.imageURL.map(async (obj, index) => {
-        const url = JSON.parse(obj).url;
+      const filePromises = formData!.imageURL.map(async ({ url }, index) => {
         return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
       });
       const files = await Promise.all(filePromises);
