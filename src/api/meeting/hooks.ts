@@ -26,6 +26,48 @@ import {
   UpdateApplicationRequest,
 } from '.';
 
+interface UseQueryGetGroupParams {
+  params: {
+    id: string;
+  };
+  useQueryOptions?: UseQueryOptions<GroupResponse>;
+}
+
+interface UseQueryGetGroupPeopleListParams {
+  params: {
+    id: string;
+    page: number;
+    take: number;
+    status: number;
+    date: string;
+  };
+  useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
+}
+
+interface UseMutationDeleteGroupParams {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    number
+  >;
+}
+
+interface UseMutationPostApplicationBody {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    PostApplicationRequest
+  >;
+}
+
+interface UseMutationUpdateApplicationBody {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    UpdateApplicationRequest
+  >;
+}
+
 export const useQueryGroupListOfAll = () => {
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
@@ -47,13 +89,6 @@ export const useQueryGroupListOfAll = () => {
   );
 };
 
-interface UseQueryGetGroupParams {
-  params: {
-    id: string;
-  };
-  useQueryOptions?: UseQueryOptions<GroupResponse>;
-}
-
 export const useQueryGetGroup = ({
   params,
   useQueryOptions,
@@ -69,17 +104,6 @@ export const useQueryGetGroup = ({
     ...useQueryOptions,
   });
 };
-
-interface UseQueryGetGroupPeopleListParams {
-  params: {
-    id: string;
-    page: number;
-    take: number;
-    status: number;
-    date: string;
-  };
-  useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
-}
 
 export const useQueryGetGroupPeopleList = ({
   params,
@@ -97,14 +121,6 @@ export const useQueryGetGroupPeopleList = ({
   });
 };
 
-interface UseMutationDeleteGroupParams {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    number
-  >;
-}
-
 export const useMutationDeleteGroup = ({
   useMutationOptions,
 }: UseMutationDeleteGroupParams): UseMutationResult<
@@ -118,14 +134,6 @@ export const useMutationDeleteGroup = ({
     mutationFn: deleteGroup,
   });
 };
-
-interface UseMutationPostApplicationBody {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    PostApplicationRequest
-  >;
-}
 
 export const useMutationPostApplication = ({
   useMutationOptions,
@@ -144,14 +152,6 @@ export const useMutationPostApplication = ({
     mutationFn: postApplication,
   });
 };
-
-interface UseMutationUpdateApplicationBody {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    UpdateApplicationRequest
-  >;
-}
 
 export const useMutationUpdateApplication = ({
   useMutationOptions,
