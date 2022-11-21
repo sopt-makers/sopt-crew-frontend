@@ -22,15 +22,11 @@ function Card({ bottom, groupData }: CardProps) {
               <SStatus recruitingStatus={groupData.status}>
                 {RECRUITMENT_STATUS[groupData.status]}
               </SStatus>
-              <SImageWrapper>
-                {/* 전략에 따라 image 태그 스타일링 필요 */}
-                <SThumbnailImage
-                  width="380px"
-                  height="260px"
-                  src={groupData.imageURL[0].url}
-                  alt=""
-                />
-              </SImageWrapper>
+              <SThumbnailImage
+                css={{
+                  backgroundImage: `url(${groupData.imageURL[0].url})`,
+                }}
+              />
             </Box>
             <STitleSection>
               <SCategory>{groupData.category}</SCategory>
@@ -69,19 +65,15 @@ function Card({ bottom, groupData }: CardProps) {
 
 export default Card;
 
-const SImageWrapper = styled('div', {
+const SThumbnailImage = styled('div', {
   width: '380px',
   height: '260px',
-  backgroundColor: '$black80',
-  borderRadius: '$10',
   overflow: 'hidden',
-  position: 'relative',
-});
-
-const SThumbnailImage = styled('img', {
-  display: 'block',
-  position: 'absolute',
-  objectFit: 'contain',
+  borderRadius: '$10',
+  backgroundColor: '$black80',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
 });
 
 const SStatus = styled(Box, {
