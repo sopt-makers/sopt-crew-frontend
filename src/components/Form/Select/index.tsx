@@ -4,12 +4,14 @@ import { styled } from 'stitches.config';
 import Label from '@components/Form/Label';
 import Button from './Button';
 import OptionItem, { Option } from './OptionItem';
+import ErrorMessage from '../ErrorMessage';
 
 interface SelectProps {
   label?: string;
   value?: Option;
   options: Option[];
   required?: boolean;
+  error?: string;
   onChange: (value: Option) => void;
   onBlur?: FocusEventHandler<HTMLDivElement>;
 }
@@ -19,6 +21,7 @@ function Select({
   value,
   options,
   required,
+  error,
   onChange,
   onBlur,
 }: SelectProps) {
@@ -31,30 +34,33 @@ function Select({
   };
 
   return (
-    <Listbox
-      value={stringifiedSelectedValue}
-      onChange={handleChange}
-      onBlur={onBlur}
-      as="div"
-    >
-      {({ open }) => (
-        <>
-          {label && <Label required={required}>{label}</Label>}
-          <Button value={value} open={open} />
+    <div>
+      <Listbox
+        value={stringifiedSelectedValue}
+        onChange={handleChange}
+        onBlur={onBlur}
+        as="div"
+      >
+        {({ open }) => (
+          <>
+            {label && <Label required={required}>{label}</Label>}
+            <Button value={value} open={open} />
 
-          <Listbox.Options as={Fragment}>
-            <SOptionList>
-              {options
-                // NOTE: value가 null 이면 placeholder 전용 옵션. 이는 제거하고 목록을 보여주자.
-                .filter(option => option.value)
-                .map(option => (
-                  <OptionItem key={option.value} option={option} />
-                ))}
-            </SOptionList>
-          </Listbox.Options>
-        </>
-      )}
-    </Listbox>
+            <Listbox.Options as={Fragment}>
+              <SOptionList>
+                {options
+                  // NOTE: value가 null 이면 placeholder 전용 옵션. 이는 제거하고 목록을 보여주자.
+                  .filter(option => option.value)
+                  .map(option => (
+                    <OptionItem key={option.value} option={option} />
+                  ))}
+              </SOptionList>
+            </Listbox.Options>
+          </>
+        )}
+      </Listbox>
+      {error && <SErrorMessage>{error}</SErrorMessage>}
+    </div>
   );
 }
 
@@ -68,4 +74,7 @@ const SOptionList = styled('ul', {
   borderRadius: 10,
   mt: '$8',
   background: '$black40',
+});
+const SErrorMessage = styled(ErrorMessage, {
+  marginTop: '12px',
 });

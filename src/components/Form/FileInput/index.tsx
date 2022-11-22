@@ -4,17 +4,20 @@ import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import PictureIcon from 'public/assets/svg/picture.svg';
 import { ACCEPTED_IMAGE_TYPES } from 'src/types/form';
+import ErrorMessage from '../ErrorMessage';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
   message?: string;
+  error?: string;
   required?: boolean;
 }
 
 export default function FileInput({
   label,
   message,
+  error,
   required,
   ...props
 }: FileInputProps) {
@@ -31,6 +34,7 @@ export default function FileInput({
           {...props}
         />
       </SInputWrapper>
+      {error && <SErrorMessage>{error}</SErrorMessage>}
     </SContainer>
   );
 }
@@ -59,4 +63,7 @@ const SInput = styled('input', {
   border: 0,
   overflow: 'hidden',
   clip: 'rect(0 0 0 0)',
+});
+const SErrorMessage = styled(ErrorMessage, {
+  marginTop: '12px',
 });
