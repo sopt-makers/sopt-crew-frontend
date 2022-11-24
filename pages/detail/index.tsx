@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/router';
 import { dateFormat } from '@utils/date';
 import { useQueryGroupListOfMine } from 'src/api/user/hooks';
+import Loader from '@components/loader/Loader';
 
 const DetailPage = () => {
   const router = useRouter();
@@ -68,7 +69,7 @@ const DetailPage = () => {
   };
 
   if (!detailData) {
-    return <div>loading...</div>;
+    return <Loader />;
   }
 
   return (
