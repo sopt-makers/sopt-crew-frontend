@@ -208,6 +208,11 @@ const DetailHeader = ({
                 }
                 placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
                 maxLength={150}
+                error={
+                  textareaValue.length >= 150
+                    ? '150자 까지 입력할 수 있습니다.'
+                    : ''
+                }
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
