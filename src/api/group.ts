@@ -1,15 +1,36 @@
+import { Option } from '@components/Form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api } from '.';
 
 export const createGroup = async (formData: FormType) => {
-  const response = await api.post('/meeting', {
-    ...formData,
-    ...formData.detail,
-    category: formData.category.value,
-    detail: undefined,
-  });
+  const form = new FormData();
+  for (const [key, value] of Object.entries(formData)) {
+    // NOTE: category는 object 이므로 value만 가져온다.
+    if (key === 'category') {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      form.append(key, (value as Option).value!);
+    }
+    // NOTE: nested된 필드를 flat하게 만들어주자.
+    else if (key === 'detail') {
+      for (const [detailKey, value] of Object.entries(formData[key])) {
+        if (value) {
+          form.append(detailKey, value);
+        }
+      }
+    } else if (key === 'files') {
+      for (const file of formData[key] as File[]) {
+        form.append('files', file);
+      }
+    }
+    // NOTE: 다른 필드들은 그대로 주입
+    else {
+      form.append(key, value);
+    }
+  }
 
-  return response;
+  const { data } = await api.post('/meeting', form);
+
+  return data;
 };
 
 interface GetGroupByIdResponse {
@@ -18,7 +39,7 @@ interface GetGroupByIdResponse {
     id: number;
     title: string;
     category: string;
-    imageURL: string[];
+    imageURL: { id: number; url: string }[]; // NOTE: id, url 필드가 담긴 JSON
     startDate: string;
     endDate: string;
     capacity: number;

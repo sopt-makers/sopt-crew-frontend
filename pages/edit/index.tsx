@@ -2,12 +2,20 @@ import Presentation from '@components/Form/Presentation';
 import TableOfContents from '@components/Form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import getExtensionFromUrl from '@utils/getExtensionFromUrl';
+import urlToFile from '@utils/urlToFile';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
+import {
+  FormProvider,
+  SubmitHandler,
+  useForm,
+  useWatch,
+} from 'react-hook-form';
 import { getGroupById, updateGroup } from 'src/api/group';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
+import dayjs from 'dayjs';
 
 const EditPage = () => {
   const queryClient = useQueryClient();
@@ -36,6 +44,13 @@ const EditPage = () => {
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
+  const files = useWatch({
+    control: formMethods.control,
+    name: 'files',
+  }) as File[] | undefined;
+  const imagesFromFiles = useMemo(() => {
+    return files ? files.map(file => URL.createObjectURL(file)) : [];
+  }, [files]);
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
@@ -49,22 +64,50 @@ const EditPage = () => {
     }
   };
 
+  const handleChangeImage = (index: number, file: File) => {
+    const files = (formMethods.getValues().files as File[]).slice();
+    files.splice(index, 1, file);
+    formMethods.setValue('files', files);
+  };
+
+  const handleDeleteImage = (index: number) => {
+    const files = (formMethods.getValues().files as File[]).slice();
+    files.splice(index, 1);
+    formMethods.setValue('files', files);
+  };
+
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
-    formMethods.reset({
-      ...formData,
-      category: { label: formData?.category, value: formData?.category },
-      // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
-      detail: {
-        desc: formData?.desc,
-        processDesc: formData?.processDesc,
-        mStartDate: formData?.mStartDate,
-        mEndDate: formData?.mEndDate,
-        leaderDesc: formData?.leaderDesc,
-        targetDesc: formData?.targetDesc,
-        note: formData?.note ?? '',
-      },
-    });
+    if (!formData) {
+      return;
+    }
+    async function fillForm() {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const filePromises = formData!.imageURL.map(async ({ url }, index) => {
+        return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
+      });
+      const files = await Promise.all(filePromises);
+
+      formMethods.reset({
+        ...formData,
+        startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
+        endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
+        category: { label: formData?.category, value: formData?.category },
+        files,
+        // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
+        detail: {
+          desc: formData?.desc,
+          processDesc: formData?.processDesc,
+          mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
+          mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
+          leaderDesc: formData?.leaderDesc,
+          targetDesc: formData?.targetDesc,
+          note: formData?.note ?? '',
+        },
+      });
+    }
+
+    fillForm();
   }, [formMethods, formData]);
 
   // TODO: add loading UI
@@ -78,9 +121,12 @@ const EditPage = () => {
         <SFormContainer>
           <SFormName>모임 수정하기</SFormName>
           <Presentation
-            onSubmit={formMethods.handleSubmit(onSubmit)}
             submitButtonLabel="수정 완료하기"
             cancelButtonLabel="수정 취소하기"
+            imageUrls={imagesFromFiles}
+            handleChangeImage={handleChangeImage}
+            handleDeleteImage={handleDeleteImage}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
           />
         </SFormContainer>
         <TableOfContents label="모임 수정" />
