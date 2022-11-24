@@ -18,7 +18,7 @@ import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 interface DetailHeaderProps {
   isHost: boolean;
   detailData: GroupResponse;
-  mutateGroup: UseMutateFunction<
+  mutateGroupDeletion: UseMutateFunction<
     {
       statusCode: number;
     },
@@ -37,7 +37,7 @@ interface DetailHeaderProps {
 const DetailHeader = ({
   isHost,
   detailData,
-  mutateGroup,
+  mutateGroupDeletion,
   mutateApplication,
 }: DetailHeaderProps) => {
   const {
@@ -118,7 +118,7 @@ const DetailHeader = ({
 
   const handleDelete = () => {
     queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
-    mutateGroup(Number(groupId), {
+    mutateGroupDeletion(Number(groupId), {
       onSuccess: () => {
         router.push('/');
       },

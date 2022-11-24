@@ -77,7 +77,7 @@ const DetailPage = () => {
       <DetailHeader
         isHost={isHost}
         detailData={detailData}
-        mutateGroup={mutateDeleteGroup}
+        mutateGroupDeletion={mutateDeleteGroup}
         mutateApplication={mutatePostApplication}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
