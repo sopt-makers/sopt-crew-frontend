@@ -15,15 +15,7 @@ import GridLayout from './Layout';
 
 export function GroupListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
-  const {
-    isLoading,
-    isFetching,
-    data: groupListData,
-  } = useQueryGroupListOfAll();
-
-  if (isLoading || isFetching) {
-    return <div>loading...</div>;
-  }
+  const { data: groupListData } = useQueryGroupListOfAll();
 
   return (
     <main>
@@ -52,11 +44,7 @@ export function GroupListOfAll() {
 }
 
 export function GroupListOfMine() {
-  const { isLoading, isFetching, data: mineData } = useQueryGroupListOfMine();
-
-  if (isLoading || isFetching) {
-    return <div>loading...</div>;
-  }
+  const { data: mineData } = useQueryGroupListOfMine();
 
   return (
     <main>
@@ -79,15 +67,7 @@ export function GroupListOfMine() {
 }
 
 export function GroupListOfApplied() {
-  const {
-    isLoading,
-    isFetching,
-    data: applyData,
-  } = useQueryGroupListOfApplied();
-
-  if (isLoading || isFetching) {
-    return <div>loading...</div>;
-  }
+  const { data: applyData } = useQueryGroupListOfApplied();
 
   return (
     <main>

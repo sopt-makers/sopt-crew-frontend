@@ -50,6 +50,7 @@ const DetailHeader = ({
     appliedInfo,
     capacity,
   } = detailData;
+  const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
   const isRecruiting = status === 1 ? true : false;
@@ -115,12 +116,11 @@ const DetailHeader = ({
     handleModalOpen();
   };
 
-  const queryClient = useQueryClient();
   const handleDelete = () => {
+    queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
     mutateGroup(Number(groupId), {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
-        await router.push('/');
+      onSuccess: () => {
+        router.push('/');
       },
     });
     handleModalClose();

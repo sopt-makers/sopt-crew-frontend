@@ -26,7 +26,7 @@ const Carousel = ({ imageList }: CarouselProps) => {
       <Slider {...settings}>
         {imageList.map(({ id, url }) => (
           <SImageWrapper key={id}>
-            <img src={url} />
+            <img src={url} alt="" />
           </SImageWrapper>
         ))}
       </Slider>
@@ -38,8 +38,7 @@ export default Carousel;
 
 const SCarousel = styled(Box, {
   '.slick-slider': {
-    flexType: 'verticalCenter',
-    justifyContent: 'center',
+    flexType: 'center',
     mt: '$60',
     mb: '$80',
   },
