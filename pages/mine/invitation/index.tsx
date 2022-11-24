@@ -46,8 +46,8 @@ const InvitationPage = () => {
     params: {
       id,
       page: (page || 0) as number,
-      take: selectedNumber.value as number,
-      status: (selectedApplicant.value as number) - 1,
+      take: Number(selectedNumber.value),
+      status: Number(selectedApplicant.value) - 1,
       date: selectedSort.value as string,
     },
   });

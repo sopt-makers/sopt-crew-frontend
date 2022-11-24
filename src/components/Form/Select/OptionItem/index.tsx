@@ -5,7 +5,7 @@ import { styled } from 'stitches.config';
 export interface Option {
   label: string;
   // NOTE: null 은 placeholder
-  value: string | number | null;
+  value: string | null;
 }
 
 interface OptionItemProps {
