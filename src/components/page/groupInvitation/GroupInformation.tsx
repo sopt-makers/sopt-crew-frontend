@@ -42,7 +42,7 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
         <SDetailContainer>
           <div>
             <SDetail>
-              <SDetailType>모임 생성</SDetailType>
+              <SDetailType>모임 개설</SDetailType>
               <span>{hostName}</span>
             </SDetail>
             <SDetail>

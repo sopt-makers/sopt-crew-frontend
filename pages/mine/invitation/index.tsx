@@ -87,7 +87,7 @@ const InvitationPage = () => {
       <TabList text="mine" size="big" onChange={() => {}}>
         <Link href="/" passHref>
           <a>
-            <TabList.Item text="all">모임 전체</TabList.Item>
+            <TabList.Item text="all">전체 모임</TabList.Item>
           </a>
         </Link>
         <Link href="/mine" passHref>

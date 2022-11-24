@@ -17,10 +17,10 @@ const MakePage = () => {
       await createGroup(formData);
 
       // TODO: handle success
-      alert('모임을 생성했습니다.');
+      alert('모임을 개설했습니다.');
     } catch (error) {
       // TODO: handle error
-      alert('모임을 생성하지 못했습니다.');
+      alert('모임을 개설하지 못했습니다.');
     }
   };
 
@@ -28,13 +28,13 @@ const MakePage = () => {
     <FormProvider {...methods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 생성하기</SFormName>
+          <SFormName>모임 개설하기</SFormName>
           <Presentation
             onSubmit={methods.handleSubmit(onSubmit)}
-            submitButtonLabel="모임 생성하기"
+            submitButtonLabel="모임 개설하기"
           />
         </SFormContainer>
-        <TableOfContents label="모임 생성" />
+        <TableOfContents label="모임 개설" />
       </SContainer>
     </FormProvider>
   );
