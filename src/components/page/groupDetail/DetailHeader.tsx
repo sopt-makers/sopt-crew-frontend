@@ -53,7 +53,6 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
-  const isRecruiting = status === 1 ? true : false;
   const hostId = user.id;
   const hostName = user.name;
   const current = appliedInfo.length;
@@ -135,7 +134,7 @@ const DetailHeader = ({
       <SDetailHeader>
         <SAbout>
           <div>
-            <SRecruitStatus isRecruiting={isRecruiting}>
+            <SRecruitStatus status={status}>
               {RECRUITMENT_STATUS[status]}
             </SRecruitStatus>
             <SPeriod>
@@ -286,12 +285,15 @@ const SRecruitStatus = styled(Box, {
   fontAg: '16_bold_100',
 
   variants: {
-    isRecruiting: {
-      true: {
+    status: {
+      0: {
+        backgroundColor: '$black40',
+      },
+      1: {
         backgroundColor: '$purple100',
       },
-      false: {
-        backgroundColor: '$gray80',
+      2: {
+        backgroundColor: '$gray60',
       },
     },
   },
