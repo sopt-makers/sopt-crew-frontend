@@ -2,48 +2,60 @@ import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import ArrowSmallRightPurpleIcon from '@assets/svg/arrow_small_right_purple.svg';
+import { GroupResponse } from 'src/api/meeting';
+import { dateFormat } from '@utils/date';
+import { RECRUITMENT_STATUS } from '@constants/status';
 
-const GroupInformation = () => {
+interface GroupInformationProps {
+  groupData: GroupResponse;
+}
+
+const GroupInformation = ({ groupData }: GroupInformationProps) => {
   const router = useRouter();
   const groupId = router.query.id;
-
-  // 임시
-  const category = '스터디';
-  const isRecruiting = true;
-  const studyName = '피그마 왕초보를 위한 스터디! 개발자도 기획자도 오세요들';
-  const hostName = '홍길동';
-  const startDate = '22.10.21';
-  const endDate = '22.10.28';
-  const current = 4;
-  const total = 5;
+  const {
+    imageURL,
+    status,
+    user,
+    appliedInfo,
+    category,
+    title,
+    startDate,
+    endDate,
+    capacity,
+  } = groupData;
+  const isRecruiting = status === 2 ? true : false;
+  const hostName = user.name;
+  const current = appliedInfo.length;
 
   return (
     <SGroupInformation>
-      <SImage />
+      <SImage src={imageURL[0].url} />
       <div>
         <SCategory>{category}</SCategory>
         <STitle>
           <SRecruitingStatus isRecruiting={isRecruiting}>
-            모집{isRecruiting ? ' 중 ' : '마감 '}
+            {RECRUITMENT_STATUS[status]}
           </SRecruitingStatus>
-          {studyName}
+          {` ${title}`}
         </STitle>
         <SDetailContainer>
           <div>
             <SDetail>
-              <SDetailType>모임 생성</SDetailType>
+              <SDetailType>모임 개설</SDetailType>
               <span>{hostName}</span>
             </SDetail>
             <SDetail>
               <SDetailType>모집 기간</SDetailType>
               <span>
-                {startDate} - {endDate}
+                {dateFormat(startDate)['YY.MM.DD']} -{' '}
+                {dateFormat(endDate)['YY.MM.DD']}
               </span>
             </SDetail>
             <SDetail>
               <SDetailType>모집 현황</SDetailType>
               <span>
-                {current}/{total}명
+                {current}/{capacity}명
               </span>
             </SDetail>
           </div>
@@ -64,16 +76,19 @@ const SGroupInformation = styled(Box, {
   marginTop: '$70',
   paddingBottom: '$80',
   borderBottom: `2px solid $black40`,
+
+  '& > div': {
+    width: '100%',
+  },
 });
 
-// TODO : 이미지 넣으면 수정할 예정
-const SImage = styled(Box, {
+const SImage = styled('img', {
   width: '$478',
   minWidth: '$478',
   height: '$312',
   borderRadius: '14px',
   marginRight: '$35',
-  backgroundColor: '$black40',
+  objectFit: 'cover',
 });
 
 const SCategory = styled(Box, {
@@ -107,6 +122,7 @@ const SDetailContainer = styled(Box, {
   justifyContent: 'space-between',
 
   '& > div': {
+    minWidth: 'fit-content',
     mb: '$24',
   },
 

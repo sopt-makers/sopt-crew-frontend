@@ -16,6 +16,7 @@ import GridLayout from './Layout';
 export function GroupListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { data: groupListData } = useQueryGroupListOfAll();
+
   return (
     <main>
       <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>
@@ -44,6 +45,7 @@ export function GroupListOfAll() {
 
 export function GroupListOfMine() {
   const { data: mineData } = useQueryGroupListOfMine();
+
   return (
     <main>
       <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
@@ -66,6 +68,7 @@ export function GroupListOfMine() {
 
 export function GroupListOfApplied() {
   const { data: applyData } = useQueryGroupListOfApplied();
+
   return (
     <main>
       <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>

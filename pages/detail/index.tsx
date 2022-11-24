@@ -4,44 +4,58 @@ import Carousel from '@components/page/groupDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
+import {
+  useMutationDeleteGroup,
+  useMutationPostApplication,
+  useQueryGetGroup,
+} from 'src/api/meeting/hooks';
+import { useRouter } from 'next/router';
+import { dateFormat } from '@utils/date';
+import { useQueryGroupListOfMine } from 'src/api/user/hooks';
 
 const DetailPage = () => {
-  // 임시
-  const imageList = [
-    'https://user-images.githubusercontent.com/58380158/200900425-4cc7c6e9-a806-4889-9eb8-a52289ac49e2.png',
-    'https://user-images.githubusercontent.com/58380158/200899757-f10fea55-300a-4990-ba9c-050afc8a6432.png',
-  ];
+  const router = useRouter();
+  const id = router.query.id as string;
+  const { data: detailData } = useQueryGetGroup({ params: { id } });
+  const { mutate: mutateDeleteGroup } = useMutationDeleteGroup({});
+  const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const { data: madeGroupData } = useQueryGroupListOfMine();
+  const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
+  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
+  const isHost = true;
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
       id: 0,
       title: '모임 소개',
-      content: '내용',
+      content: detailData?.desc,
     },
     {
       id: 1,
       title: '모임 기간',
-      content: '내용',
+      content: `${dateFormat(detailData?.mStartDate ?? '')['YYYY.MM.DD']} - ${
+        dateFormat(detailData?.mEndDate ?? '')['YYYY.MM.DD']
+      }`,
     },
     {
       id: 2,
       title: '진행 방식',
-      content: '내용',
+      content: detailData?.processDesc,
     },
     {
       id: 3,
       title: '개설자 소개',
-      content: '내용',
+      content: detailData?.leaderDesc,
     },
     {
       id: 4,
       title: '모집 대상',
-      content: '내용',
+      content: detailData?.targetDesc,
     },
     {
       id: 5,
       title: '유의사항',
-      content: '내용',
+      content: detailData?.note,
     },
   ];
   const [selectedTab, setSelectedTab] = useState(detailList[0].title);
@@ -53,24 +67,39 @@ const DetailPage = () => {
     ].scrollIntoView({ behavior: 'smooth' });
   };
 
+  if (!detailData) {
+    return <div>loading...</div>;
+  }
+
   return (
     <SDetailPage>
-      <Carousel imageList={imageList} />
-      <DetailHeader />
+      <Carousel imageList={detailData?.imageURL} />
+      <DetailHeader
+        isHost={isHost}
+        detailData={detailData}
+        mutateGroupDeletion={mutateDeleteGroup}
+        mutateApplication={mutatePostApplication}
+      />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
-        {detailList.map(({ id, title }) => (
-          <TabList.Item key={id} text={title}>
-            {title}
-          </TabList.Item>
-        ))}
+        {detailList.map(
+          ({ id, title, content }) =>
+            content && (
+              <TabList.Item key={id} text={title}>
+                {title}
+              </TabList.Item>
+            )
+        )}
       </TabList>
-      {detailList.map(({ id, title, content }) => (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
-          <STitle>{title}</STitle>
-          <SContent>{content}</SContent>
-        </SDetail>
-      ))}
+      {detailList.map(
+        ({ id, title, content }) =>
+          content && (
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
+              <STitle>{title}</STitle>
+              <SContent>{content}</SContent>
+            </SDetail>
+          )
+      )}
     </SDetailPage>
   );
 };

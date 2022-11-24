@@ -5,37 +5,49 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { dateFormat } from '@utils/date';
+import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
+import { APPLY_STATUS, EApplyStatus } from '@constants/status';
 
 interface ListItemProps {
-  id: number;
-  profileImage?: string;
-  name: string;
-  date: string;
-  status?: 'waiting' | 'accepted' | 'rejected';
-  detail?: string;
+  application: ApplicationData;
   isHost: boolean;
+  onChangeApplicationStatus: (
+    request: Omit<UpdateApplicationRequest, 'id'>
+  ) => void;
 }
 
 const ListItem = ({
-  id,
-  profileImage,
-  name,
-  date,
-  status,
-  detail,
+  application,
   isHost,
+  onChangeApplicationStatus,
 }: ListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'waiting':
-        return '대기';
-      case 'accepted':
-        return '승인';
-      case 'rejected':
-        return '거절';
-    }
+  const { id, appliedDate, content, status = 0, user } = application;
+
+  // TODO
+  const profileImage = '';
+
+  const handleClickCancelButton = () => {
+    onChangeApplicationStatus({
+      applyId: application.id,
+      status: EApplyStatus.WAITING,
+    });
+  };
+
+  const handleClickApproveButton = () => {
+    onChangeApplicationStatus({
+      applyId: application.id,
+      status: EApplyStatus.APPROVE,
+    });
+  };
+
+  const handleClickRejectButton = () => {
+    onChangeApplicationStatus({
+      applyId: application.id,
+      status: EApplyStatus.REJECT,
+    });
   };
 
   useEffect(() => {
@@ -48,35 +60,41 @@ const ListItem = ({
         <SLeft>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
-            <SName>{name}</SName>
+            <SName>{user.name}</SName>
           </Link>
-          {isHost && status && (
-            <SStatus isAccepted={status === 'accepted'}>
-              {getStatusText(status)}
-            </SStatus>
-          )}
           {isHost && (
             <>
+              <SStatus isApproved={status === EApplyStatus.APPROVE}>
+                {APPLY_STATUS[status]}
+              </SStatus>
               <SVerticalLine />
               <SDetailButton onClick={handleModalOpen}>신청내역</SDetailButton>
             </>
           )}
           <SVerticalLine />
-          <SDate>{date}</SDate>
+          <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
         </SLeft>
         {isHost && (
           <div>
-            {status === 'waiting' && (
+            {status === EApplyStatus.WAITING && (
               <>
-                <SHostPurpleButton>승인</SHostPurpleButton>
-                <SHostGrayButton>거절</SHostGrayButton>
+                <SHostPurpleButton onClick={handleClickApproveButton}>
+                  승인
+                </SHostPurpleButton>
+                <SHostGrayButton onClick={handleClickRejectButton}>
+                  거절
+                </SHostGrayButton>
               </>
             )}
-            {status === 'accepted' && (
-              <SHostGrayButton>승인 취소</SHostGrayButton>
+            {status === EApplyStatus.APPROVE && (
+              <SHostGrayButton onClick={handleClickCancelButton}>
+                승인 취소
+              </SHostGrayButton>
             )}
-            {status === 'rejected' && (
-              <SHostGrayButton>거절 취소</SHostGrayButton>
+            {status === EApplyStatus.REJECT && (
+              <SHostGrayButton onClick={handleClickCancelButton}>
+                거절 취소
+              </SHostGrayButton>
             )}
           </div>
         )}
@@ -87,7 +105,7 @@ const ListItem = ({
           title="신청내역"
           handleModalClose={handleModalClose}
         >
-          <SDetailText>{detail}</SDetailText>
+          <SDetailText>{content}</SDetailText>
         </DefaultModal>
       )}
     </>
@@ -150,7 +168,7 @@ const SStatus = styled('span', {
   backgroundColor: '$gray100',
 
   variants: {
-    isAccepted: {
+    isApproved: {
       true: {
         backgroundColor: '$purple200',
       },

@@ -6,26 +6,31 @@ import GroupInformation from '@components/page/groupInvitation/GroupInformation'
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
-import { useState } from 'react';
-import { Option } from '@components/Form/Select/OptionItem';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   applicantOptionList,
   numberOptionList,
   sortOptionList,
 } from 'src/data/options';
-
-type invitationItem = {
-  id: number;
-  profileImage?: string;
-  name: string;
-  date: string;
-  status?: 'waiting' | 'accepted' | 'rejected';
-  detail?: string;
-};
+import {
+  useMutationUpdateApplication,
+  useQueryGetGroup,
+  useQueryGetGroupPeopleList,
+} from 'src/api/meeting/hooks';
+import { useQueryGroupListOfMine } from 'src/api/user/hooks';
+import { useRouter } from 'next/router';
+import { Option } from '@components/Form/Select/OptionItem';
+import { UpdateApplicationRequest } from 'src/api/meeting';
 
 const InvitationPage = () => {
+  const router = useRouter();
+  const id = router.query.id as string;
   const { value: page, setValue: setPage } = usePageParams();
+
+  const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
+    params: { id },
+  });
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
   );
@@ -33,40 +38,56 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
+  const {
+    isLoading: isInvitationDataLoading,
+    data: invitation,
+    refetch,
+  } = useQueryGetGroupPeopleList({
+    params: {
+      id,
+      page: (page || 0) as number,
+      take: Number(selectedNumber.value),
+      status: Number(selectedApplicant.value) - 1,
+      date: selectedSort.value as string,
+    },
+  });
 
-  // 임시
+  const { isLoading: isMadeGroupDataLoading, data: madeGroupData } =
+    useQueryGroupListOfMine();
+  const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
+  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
   const isHost = true;
-  const invitationList: invitationItem[] = [
-    {
-      id: 1,
-      name: '백지연',
-      date: '22.10.02',
-      status: 'rejected',
-      detail: '열심히 하겠습니다!',
-    },
-    {
-      id: 2,
-      name: '이재훈',
-      date: '22.10.02',
-      status: 'accepted',
-      detail: '신청내역 상세',
-    },
-    {
-      id: 3,
-      name: '김은수',
-      date: '22.10.02',
-      status: 'waiting',
-      detail: '모임에 임할 각오 작성',
-    },
-  ];
-  const total = invitationList.length;
+
+  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
+  const handleChangeApplicationStatus = (
+    request: Omit<UpdateApplicationRequest, 'id'>
+  ) => {
+    mutateUpdateApplication(
+      { id: Number(id), ...request },
+      {
+        onSuccess: () => {
+          // TODO
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    }
+  }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
+
+  if (isGroupDataLoading || isInvitationDataLoading || isMadeGroupDataLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <SInvitationPage>
       <TabList text="mine" size="big" onChange={() => {}}>
         <Link href="/" passHref>
           <a>
-            <TabList.Item text="all">모임 전체</TabList.Item>
+            <TabList.Item text="all">전체 모임</TabList.Item>
           </a>
         </Link>
         <Link href="/mine" passHref>
@@ -75,18 +96,20 @@ const InvitationPage = () => {
           </a>
         </Link>
       </TabList>
-      <GroupInformation />
+      {groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
-          {total > 0 && <span> ({total})</span>}
+          {invitation && <span> ({invitation.meta.itemCount})</span>}
         </SListTitle>
         {!isHost && (
-          <Select
-            value={selectedNumber}
-            options={numberOptionList}
-            onChange={value => setSelectedNumber(value)}
-          />
+          <SSelectWrapper>
+            <Select
+              value={selectedNumber}
+              options={numberOptionList}
+              onChange={value => setSelectedNumber(value)}
+            />
+          </SSelectWrapper>
         )}
       </SListHeader>
       {isHost && (
@@ -116,20 +139,27 @@ const InvitationPage = () => {
           </div>
         </SSelectContainer>
       )}
-      {invitationList.length ? (
-        invitationList.map(invitation => (
-          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
+      {invitation && invitation.apply?.length > 0 ? (
+        invitation?.apply.map(application => (
+          <ListItem
+            key={id}
+            application={application}
+            isHost={isHost}
+            onChangeApplicationStatus={handleChangeApplicationStatus}
+          />
         ))
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-      <SPaginationWrapper>
-        <Pagination
-          totalPagesLength={20}
-          currentPageIndex={Number(page)}
-          changeCurrentPage={setPage}
-        />
-      </SPaginationWrapper>
+      {invitation && invitation.meta?.pageCount > 0 && (
+        <SPaginationWrapper>
+          <Pagination
+            totalPagesLength={invitation?.meta?.pageCount}
+            currentPageIndex={Number(page)}
+            changeCurrentPage={setPage}
+          />
+        </SPaginationWrapper>
+      )}
     </SInvitationPage>
   );
 };

@@ -1,6 +1,6 @@
 import { RECRUITMENT_STATUS } from '@constants/status';
-import { api, PromiseResponse } from '..';
-import { ApplyResponse, UserResponse } from '../user';
+import { api, apiWithAuth, PromiseResponse } from '..';
+import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 interface PaginationType {
   page: number;
@@ -17,13 +17,14 @@ interface filterData {
   status?: string[];
   search?: string;
 }
-interface ImageURLType {
+export interface ImageURLType {
   id: number;
   url: string;
 }
 export type RecruitmentStatusType = 0 | 1 | 2;
 export interface GroupResponse {
   id: number;
+  userId: number;
   title: string;
   category: string;
   status: RecruitmentStatusType;
@@ -44,6 +45,38 @@ export interface GroupResponse {
 interface GroupListOfFilterResponse {
   meta: PaginationType;
   meetings: GroupResponse[];
+}
+
+interface OptionData {
+  id: string;
+  page: number;
+  take: number;
+  status: number;
+  date: string;
+}
+
+export interface ApplicationData {
+  id: number;
+  appliedDate: string;
+  content: string;
+  status: ApplicationStatusType;
+  user: UserResponse;
+}
+
+export interface GroupPeopleResponse {
+  apply: ApplicationData[];
+  meta: PaginationType;
+}
+
+export interface PostApplicationRequest {
+  id: number;
+  content?: string;
+}
+
+export interface UpdateApplicationRequest {
+  id: number;
+  applyId: number;
+  status: number;
 }
 
 function parseStatusToNumber(status: string) {
@@ -70,4 +103,45 @@ export const fetchGroupListOfAll = async ({
       search ? `&query=${search}` : ''
     }`
   );
+};
+
+export const getGroup = async (id: string): Promise<GroupResponse> => {
+  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
+    .data;
+};
+
+export const getGroupPeopleList = async ({
+  id,
+  ...rest
+}: OptionData): Promise<GroupPeopleResponse> => {
+  return (
+    await apiWithAuth.get<PromiseResponse<GroupPeopleResponse>>(
+      `/meeting/${id}/list`,
+      {
+        params: rest,
+      }
+    )
+  ).data.data;
+};
+
+export const deleteGroup = async (
+  id: number
+): Promise<{ statusCode: number }> => {
+  return (await apiWithAuth.delete<{ statusCode: number }>(`/meeting/${id}`))
+    .data;
+};
+
+export const postApplication = async (
+  body: PostApplicationRequest
+): Promise<{ statusCode: number }> => {
+  return (
+    await apiWithAuth.post<{ statusCode: number }>(`/meeting/apply`, body)
+  ).data;
+};
+
+export const updateApplication = async ({
+  id,
+  ...rest
+}: UpdateApplicationRequest) => {
+  return (await apiWithAuth.put(`/meeting/${id}/apply/status`, rest)).data;
 };
