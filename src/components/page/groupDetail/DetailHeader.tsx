@@ -233,7 +233,7 @@ const DetailHeader = ({
               {isHost && (
                 <Link href={`/mine/invitation?id=${groupId}`} passHref>
                   <SApplicantAnchor>
-                    <p>신청자 리스트</p>
+                    <p>신청자 관리</p>
                     <ArrowSmallRightIcon />
                   </SApplicantAnchor>
                 </Link>
