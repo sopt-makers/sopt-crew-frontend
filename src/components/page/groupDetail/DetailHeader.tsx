@@ -16,7 +16,6 @@ import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
 interface DetailHeaderProps {
-  isHost: boolean;
   detailData: GroupResponse;
   mutateGroupDeletion: UseMutateFunction<
     {
@@ -35,7 +34,6 @@ interface DetailHeaderProps {
 }
 
 const DetailHeader = ({
-  isHost,
   detailData,
   mutateGroupDeletion,
   mutateApplication,
@@ -49,14 +47,18 @@ const DetailHeader = ({
     user,
     appliedInfo,
     capacity,
+    host,
+    apply,
+    confirmedApply,
   } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
   const hostId = user.id;
   const hostName = user.name;
-  const current = appliedInfo.length;
-  const [isApplied, setIsApplied] = useState(false);
+  const isHost = host;
+  const isApplied = apply;
+  const current = confirmedApply.length;
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
@@ -91,7 +93,9 @@ const DetailHeader = ({
       { id: Number(groupId), content: textareaValue },
       {
         onSuccess: () => {
-          setIsApplied(prev => !prev);
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
           handleModalClose();
         },
       }
@@ -103,7 +107,9 @@ const DetailHeader = ({
       { id: Number(groupId), content: '' },
       {
         onSuccess: () => {
-          setIsApplied(prev => !prev);
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
           handleModalClose();
         },
       }

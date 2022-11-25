@@ -41,6 +41,9 @@ export interface GroupResponse {
   note: string | null;
   appliedInfo: ApplyResponse[];
   user: UserResponse;
+  confirmedApply: ApplyResponse[];
+  host: boolean;
+  apply: boolean;
 }
 interface GroupListOfFilterResponse {
   meta: PaginationType;
@@ -106,8 +109,9 @@ export const fetchGroupListOfAll = async ({
 };
 
 export const getGroup = async (id: string): Promise<GroupResponse> => {
-  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
-    .data;
+  return (
+    await apiWithAuth.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)
+  ).data.data;
 };
 
 export const getGroupPeopleList = async ({

@@ -11,7 +11,6 @@ import {
 } from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
 import { dateFormat } from '@utils/date';
-import { useQueryGroupListOfMine } from 'src/api/user/hooks';
 import Loader from '@components/loader/Loader';
 
 const DetailPage = () => {
@@ -20,10 +19,6 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetGroup({ params: { id } });
   const { mutate: mutateDeleteGroup } = useMutationDeleteGroup({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const { data: madeGroupData } = useQueryGroupListOfMine();
-  const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
-  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
-  const isHost = true;
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
@@ -76,7 +71,6 @@ const DetailPage = () => {
     <SDetailPage>
       <Carousel imageList={detailData?.imageURL} />
       <DetailHeader
-        isHost={isHost}
         detailData={detailData}
         mutateGroupDeletion={mutateDeleteGroup}
         mutateApplication={mutatePostApplication}

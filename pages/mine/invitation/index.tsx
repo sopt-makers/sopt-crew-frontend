@@ -18,7 +18,6 @@ import {
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
-import { useQueryGroupListOfMine } from 'src/api/user/hooks';
 import { useRouter } from 'next/router';
 import { Option } from '@components/Form/Select/OptionItem';
 import { UpdateApplicationRequest } from 'src/api/meeting';
@@ -31,6 +30,8 @@ const InvitationPage = () => {
   const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
     params: { id },
   });
+  const isHost = groupData?.host ?? false;
+
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
   );
@@ -52,12 +53,6 @@ const InvitationPage = () => {
     },
   });
 
-  const { isLoading: isMadeGroupDataLoading, data: madeGroupData } =
-    useQueryGroupListOfMine();
-  const madeGroupIdList = madeGroupData?.meetings.map(meeting => meeting.id);
-  // const isHost = madeGroupIdList?.includes(Number(id)) ?? false;
-  const isHost = true;
-
   const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
   const handleChangeApplicationStatus = (
     request: Omit<UpdateApplicationRequest, 'id'>
@@ -78,7 +73,7 @@ const InvitationPage = () => {
     }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
-  if (isGroupDataLoading || isInvitationDataLoading || isMadeGroupDataLoading) {
+  if (isGroupDataLoading || isInvitationDataLoading) {
     return <div>loading...</div>;
   }
 
