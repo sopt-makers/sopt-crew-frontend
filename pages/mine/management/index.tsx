@@ -1,8 +1,8 @@
 import { Box } from '@components/box/Box';
-import ListItem from '@components/page/groupInvitation/ListItem';
+import ListItem from '@components/page/groupManagement/ListItem';
 import { TabList } from '@components/tabList/TabList';
 import { styled } from 'stitches.config';
-import GroupInformation from '@components/page/groupInvitation/GroupInformation';
+import GroupInformation from '@components/page/groupManagement/GroupInformation';
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import { Option } from '@components/Form/Select/OptionItem';
 import { UpdateApplicationRequest } from 'src/api/meeting';
 
-const InvitationPage = () => {
+const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { value: page, setValue: setPage } = usePageParams();
@@ -40,8 +40,8 @@ const InvitationPage = () => {
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
   const {
-    isLoading: isInvitationDataLoading,
-    data: invitation,
+    isLoading: isManagementDataLoading,
+    data: management,
     refetch,
   } = useQueryGetGroupPeopleList({
     params: {
@@ -73,12 +73,12 @@ const InvitationPage = () => {
     }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
-  if (isGroupDataLoading || isInvitationDataLoading) {
+  if (isGroupDataLoading || isManagementDataLoading) {
     return <div>loading...</div>;
   }
 
   return (
-    <SInvitationPage>
+    <SManagementPage>
       <TabList text="mine" size="big" onChange={() => {}}>
         <Link href="/" passHref>
           <a>
@@ -95,7 +95,7 @@ const InvitationPage = () => {
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
-          {invitation && <span> ({invitation.meta.itemCount})</span>}
+          {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
         {!isHost && (
           <SSelectWrapper>
@@ -134,8 +134,8 @@ const InvitationPage = () => {
           </div>
         </SSelectContainer>
       )}
-      {invitation && invitation.apply?.length > 0 ? (
-        invitation?.apply.map(application => (
+      {management && management.apply?.length > 0 ? (
+        management?.apply.map(application => (
           <ListItem
             key={id}
             application={application}
@@ -146,22 +146,22 @@ const InvitationPage = () => {
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-      {invitation && invitation.meta?.pageCount > 0 && (
+      {management && management.meta?.pageCount > 0 && (
         <SPaginationWrapper>
           <Pagination
-            totalPagesLength={invitation?.meta?.pageCount}
+            totalPagesLength={management?.meta?.pageCount}
             currentPageIndex={Number(page)}
             changeCurrentPage={setPage}
           />
         </SPaginationWrapper>
       )}
-    </SInvitationPage>
+    </SManagementPage>
   );
 };
 
-export default InvitationPage;
+export default ManagementPage;
 
-const SInvitationPage = styled(Box, {
+const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
 });
