@@ -59,7 +59,7 @@ const ListItem = ({
       <SListItem>
         <SLeft>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
-          <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
+          <Link href={`${origin}/members?id=${id}`} passHref>
             <SName>{user.name}</SName>
           </Link>
           {isHost && (

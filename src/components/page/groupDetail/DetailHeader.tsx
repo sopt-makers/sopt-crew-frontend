@@ -152,7 +152,7 @@ const DetailHeader = ({
             <span>{category}</span>
             {title}
           </h1>
-          <Link href={`${origin}/members/detail?memberId=${hostId}`} passHref>
+          <Link href={`${origin}/members?id=${hostId}`} passHref>
             <SProfileAnchor>
               <SProfileImage />
               <span>{hostName}</span>
