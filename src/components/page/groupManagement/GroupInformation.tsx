@@ -17,7 +17,7 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
     imageURL,
     status,
     user,
-    confirmedApply,
+    appliedInfo,
     category,
     title,
     startDate,
@@ -26,7 +26,7 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
   } = groupData;
   const isRecruiting = status === 2 ? true : false;
   const hostName = user.name;
-  const current = confirmedApply.length;
+  const current = appliedInfo.length;
 
   return (
     <SGroupInformation>

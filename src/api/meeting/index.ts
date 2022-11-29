@@ -41,7 +41,6 @@ export interface GroupResponse {
   note: string | null;
   appliedInfo: ApplyResponse[];
   user: UserResponse;
-  confirmedApply: ApplyResponse[];
   host: boolean;
   apply: boolean;
 }

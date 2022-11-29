@@ -49,7 +49,6 @@ const DetailHeader = ({
     capacity,
     host,
     apply,
-    confirmedApply,
   } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -58,7 +57,7 @@ const DetailHeader = ({
   const hostName = user.name;
   const isHost = host;
   const isApplied = apply;
-  const current = confirmedApply.length;
+  const current = appliedInfo.length;
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
