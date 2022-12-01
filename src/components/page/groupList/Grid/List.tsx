@@ -7,7 +7,7 @@ import {
 } from 'src/api/user/hooks';
 import { styled } from 'stitches.config';
 import Card from '../Card';
-import InvitationButton from '../Card/InvitationButton';
+import ManagementButton from '../Card/ManagementButton';
 import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
@@ -55,7 +55,7 @@ export function GroupListOfMine() {
             <Card
               key={groupData.id}
               groupData={groupData}
-              bottom={<InvitationButton id={groupData.id} />}
+              bottom={<ManagementButton id={groupData.id} />}
             />
           ))}
         </GridLayout>
