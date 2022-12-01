@@ -16,7 +16,6 @@ import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
 interface DetailHeaderProps {
-  isHost: boolean;
   detailData: GroupResponse;
   mutateGroupDeletion: UseMutateFunction<
     {
@@ -35,7 +34,6 @@ interface DetailHeaderProps {
 }
 
 const DetailHeader = ({
-  isHost,
   detailData,
   mutateGroupDeletion,
   mutateApplication,
@@ -49,15 +47,17 @@ const DetailHeader = ({
     user,
     appliedInfo,
     capacity,
+    host,
+    apply,
   } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
-  const isRecruiting = status === 1 ? true : false;
   const hostId = user.id;
   const hostName = user.name;
+  const isHost = host;
+  const isApplied = apply;
   const current = appliedInfo.length;
-  const [isApplied, setIsApplied] = useState(false);
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
@@ -92,7 +92,9 @@ const DetailHeader = ({
       { id: Number(groupId), content: textareaValue },
       {
         onSuccess: () => {
-          setIsApplied(prev => !prev);
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
           handleModalClose();
         },
       }
@@ -104,7 +106,9 @@ const DetailHeader = ({
       { id: Number(groupId), content: '' },
       {
         onSuccess: () => {
-          setIsApplied(prev => !prev);
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
           handleModalClose();
         },
       }
@@ -135,7 +139,7 @@ const DetailHeader = ({
       <SDetailHeader>
         <SAbout>
           <div>
-            <SRecruitStatus isRecruiting={isRecruiting}>
+            <SRecruitStatus status={status}>
               {RECRUITMENT_STATUS[status]}
             </SRecruitStatus>
             <SPeriod>
@@ -147,7 +151,7 @@ const DetailHeader = ({
             <span>{category}</span>
             {title}
           </h1>
-          <Link href={`${origin}/members/detail?memberId=${hostId}`} passHref>
+          <Link href={`${origin}/members?id=${hostId}`} passHref>
             <SProfileAnchor>
               <SProfileImage />
               <span>{hostName}</span>
@@ -226,15 +230,15 @@ const DetailHeader = ({
                 </SEmptyText>
               )}
               {isHost && (
-                <Link href={`/mine/invitation?id=${groupId}`} passHref>
+                <Link href={`/mine/management?id=${groupId}`} passHref>
                   <SApplicantAnchor>
-                    <p>신청자 리스트</p>
+                    <p>신청자 관리</p>
                     <ArrowSmallRightIcon />
                   </SApplicantAnchor>
                 </Link>
               )}
               {isApplied && (
-                <Link href={`/mine/invitation?id=${groupId}`} passHref>
+                <Link href={`/mine/management?id=${groupId}`} passHref>
                   <SApplicantAnchor>
                     <p>참여자 리스트</p>
                     <ArrowSmallRightIcon />
@@ -286,12 +290,15 @@ const SRecruitStatus = styled(Box, {
   fontAg: '16_bold_100',
 
   variants: {
-    isRecruiting: {
-      true: {
+    status: {
+      0: {
+        backgroundColor: '$black40',
+      },
+      1: {
         backgroundColor: '$purple100',
       },
-      false: {
-        backgroundColor: '$gray80',
+      2: {
+        backgroundColor: '$gray60',
       },
     },
   },

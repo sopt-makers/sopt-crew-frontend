@@ -59,14 +59,12 @@ const ListItem = ({
       <SListItem>
         <SLeft>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
-          <Link href={`${origin}/members/detail?memberId=${id}`} passHref>
+          <Link href={`${origin}/members?id=${id}`} passHref>
             <SName>{user.name}</SName>
           </Link>
           {isHost && (
             <>
-              <SStatus isApproved={status === EApplyStatus.APPROVE}>
-                {APPLY_STATUS[status]}
-              </SStatus>
+              <SStatus status={status}>{APPLY_STATUS[status]}</SStatus>
               <SVerticalLine />
               <SDetailButton onClick={handleModalOpen}>신청내역</SDetailButton>
             </>
@@ -168,9 +166,15 @@ const SStatus = styled('span', {
   backgroundColor: '$gray100',
 
   variants: {
-    isApproved: {
-      true: {
-        backgroundColor: '$purple200',
+    status: {
+      0: {
+        backgroundColor: '$gray100',
+      },
+      1: {
+        backgroundColor: '$purple100',
+      },
+      2: {
+        backgroundColor: '$black20',
       },
     },
   },

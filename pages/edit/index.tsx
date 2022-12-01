@@ -16,6 +16,7 @@ import { getGroupById, updateGroup } from 'src/api/group';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
+import Loader from '@components/loader/Loader';
 
 const EditPage = () => {
   const queryClient = useQueryClient();
@@ -110,9 +111,8 @@ const EditPage = () => {
     fillForm();
   }, [formMethods, formData]);
 
-  // TODO: add loading UI
   if (!formData) {
-    return <div>loading...</div>;
+    return <Loader />;
   }
 
   return (

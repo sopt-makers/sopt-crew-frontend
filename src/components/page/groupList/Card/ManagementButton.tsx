@@ -3,16 +3,16 @@ import { styled } from 'stitches.config';
 import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
 import Link from 'next/link';
 
-interface InvitationButtonProps {
+interface ManagementButtonProps {
   id: number;
 }
 
-function InvitationButton({ id }: InvitationButtonProps) {
+function ManagementButton({ id }: ManagementButtonProps) {
   return (
-    <Link href={`/mine/invitation?id=${id}`} passHref>
+    <Link href={`/mine/management?id=${id}`} passHref>
       <SAnchor>
         <SButton align="center" justify="between">
-          <p>신청자 리스트</p>
+          <p>신청자 관리</p>
           <ArrowSmallRight />
         </SButton>
       </SAnchor>
@@ -20,7 +20,7 @@ function InvitationButton({ id }: InvitationButtonProps) {
   );
 }
 
-export default InvitationButton;
+export default ManagementButton;
 
 const SButton = styled(Flex, {
   width: '118px',
