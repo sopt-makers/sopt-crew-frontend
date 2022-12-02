@@ -21,7 +21,6 @@ export default Status;
 
 const SLabel = styled(Box, {
   flexType: 'center',
-  width: '85px',
   padding: '10px 12px',
   border: '1px solid $gray100',
   borderRadius: '71px',
