@@ -118,17 +118,17 @@ const ManagementPage = () => {
           <SSelectContainer>
             <SSelectWrapper>
               <Select
-                value={selectedNumber}
-                options={numberOptionList}
-                onChange={value => setSelectedNumber(value)}
+                value={selectedApplicant}
+                options={applicantOptionList}
+                onChange={value => setSelectedApplicant(value)}
               />
             </SSelectWrapper>
             <div>
               <SSelectWrapper>
                 <Select
-                  value={selectedApplicant}
-                  options={applicantOptionList}
-                  onChange={value => setSelectedApplicant(value)}
+                  value={selectedNumber}
+                  options={numberOptionList}
+                  onChange={value => setSelectedNumber(value)}
                 />
               </SSelectWrapper>
               <SSelectWrapper>
@@ -248,7 +248,8 @@ const SDetail = styled('span', {
 
 const SSelectWrapper = styled(Box, {
   '& button': {
-    border: '1px solid $black40',
+    borderRadius: '14px',
+    border: '1px solid $black20',
     backgroundColor: '$black100',
   },
 
