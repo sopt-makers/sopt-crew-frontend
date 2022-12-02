@@ -1,13 +1,18 @@
-import { Box } from '@components/box/Box';
-import ListItem from '@components/page/groupManagement/ListItem';
-import { TabList } from '@components/tabList/TabList';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { styled } from 'stitches.config';
+import { Box } from '@components/box/Box';
+import { TabList } from '@components/tabList/TabList';
+import ListSkeleton from '@components/page/groupManagement/ListSkeleton';
+import GroupSkeleton from '@components/page/groupManagement/GroupSkeleton';
+import ListItem from '@components/page/groupManagement/ListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
+import Select from '@components/Form/Select';
+import { Option } from '@components/Form/Select/OptionItem';
+import ItemDescriptionBox from '@components/page/groupManagement/ItemDescriptionBox';
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
-import Select from '@components/Form/Select';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import {
   applicantOptionList,
   numberOptionList,
@@ -18,8 +23,6 @@ import {
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
-import { useRouter } from 'next/router';
-import { Option } from '@components/Form/Select/OptionItem';
 import { UpdateApplicationRequest } from 'src/api/meeting';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
 
@@ -74,10 +77,6 @@ const ManagementPage = () => {
     }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
-  if (isGroupDataLoading || isManagementDataLoading) {
-    return <div>loading...</div>;
-  }
-
   return (
     <SManagementPage>
       <TabList text="mine" size="big" onChange={() => {}}>
@@ -92,38 +91,26 @@ const ManagementPage = () => {
           </a>
         </Link>
       </TabList>
-      {groupData && <GroupInformation groupData={groupData} />}
-      <SListHeader>
-        <SListTitle>
-          모임 {isHost ? '신청자' : '참여자'}
-          {management && <span> ({management.meta.itemCount})</span>}
-        </SListTitle>
-        {isHost ? (
-          <SInvitationButton>
-            <InvitationIcon />
-            초대하기
-          </SInvitationButton>
-        ) : (
-          <SSelectWrapper>
-            <Select
-              value={selectedNumber}
-              options={numberOptionList}
-              onChange={value => setSelectedNumber(value)}
-            />
-          </SSelectWrapper>
-        )}
-      </SListHeader>
-      {isHost && (
+      {isGroupDataLoading ? (
+        <GroupSkeleton />
+      ) : (
+        groupData && <GroupInformation groupData={groupData} />
+      )}
+      {isManagementDataLoading ? (
+        <ListSkeleton />
+      ) : (
         <>
-          <SSelectContainer>
-            <SSelectWrapper>
-              <Select
-                value={selectedApplicant}
-                options={applicantOptionList}
-                onChange={value => setSelectedApplicant(value)}
-              />
-            </SSelectWrapper>
-            <div>
+          <SListHeader>
+            <SListTitle>
+              모임 {isHost ? '신청자' : '참여자'}
+              {management && <span> ({management.meta.itemCount})</span>}
+            </SListTitle>
+            {isHost ? (
+              <SInvitationButton>
+                <InvitationIcon />
+                초대하기
+              </SInvitationButton>
+            ) : (
               <SSelectWrapper>
                 <Select
                   value={selectedNumber}
@@ -131,46 +118,60 @@ const ManagementPage = () => {
                   onChange={value => setSelectedNumber(value)}
                 />
               </SSelectWrapper>
-              <SSelectWrapper>
-                <Select
-                  value={selectedSort}
-                  options={sortOptionList}
-                  onChange={value => setSelectedSort(value)}
-                />
-              </SSelectWrapper>
-            </div>
-          </SSelectContainer>
-          <SDescriptionBox>
-            <div>
-              <SType>유형</SType>
-              <SProfile>프로필 (상태)</SProfile>
-              <SDetail>상세 내역</SDetail>
-              <span>신청 일자</span>
-            </div>
-            <span>관리</span>
-          </SDescriptionBox>
+            )}
+          </SListHeader>
+          {isHost && (
+            <>
+              <SSelectContainer>
+                <SSelectWrapper>
+                  <Select
+                    value={selectedApplicant}
+                    options={applicantOptionList}
+                    onChange={value => setSelectedApplicant(value)}
+                  />
+                </SSelectWrapper>
+                <div>
+                  <SSelectWrapper>
+                    <Select
+                      value={selectedNumber}
+                      options={numberOptionList}
+                      onChange={value => setSelectedNumber(value)}
+                    />
+                  </SSelectWrapper>
+                  <SSelectWrapper>
+                    <Select
+                      value={selectedSort}
+                      options={sortOptionList}
+                      onChange={value => setSelectedSort(value)}
+                    />
+                  </SSelectWrapper>
+                </div>
+              </SSelectContainer>
+              <ItemDescriptionBox />
+            </>
+          )}
+          {management && management.apply?.length > 0 ? (
+            management?.apply.map(application => (
+              <ListItem
+                key={id}
+                application={application}
+                isHost={isHost}
+                onChangeApplicationStatus={handleChangeApplicationStatus}
+              />
+            ))
+          ) : (
+            <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+          )}
+          {management && management.meta?.pageCount > 0 && (
+            <SPaginationWrapper>
+              <Pagination
+                totalPagesLength={management?.meta?.pageCount}
+                currentPageIndex={Number(page)}
+                changeCurrentPage={setPage}
+              />
+            </SPaginationWrapper>
+          )}
         </>
-      )}
-      {management && management.apply?.length > 0 ? (
-        management?.apply.map(application => (
-          <ListItem
-            key={id}
-            application={application}
-            isHost={isHost}
-            onChangeApplicationStatus={handleChangeApplicationStatus}
-          />
-        ))
-      ) : (
-        <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
-      )}
-      {management && management.meta?.pageCount > 0 && (
-        <SPaginationWrapper>
-          <Pagination
-            totalPagesLength={management?.meta?.pageCount}
-            currentPageIndex={Number(page)}
-            changeCurrentPage={setPage}
-          />
-        </SPaginationWrapper>
       )}
     </SManagementPage>
   );
@@ -218,32 +219,6 @@ const SSelectContainer = styled(Box, {
     flexType: 'verticalCenter',
     gap: '$12',
   },
-});
-
-const SDescriptionBox = styled(Box, {
-  border: '1px solid $black40',
-  borderRadius: '15px',
-  padding: '$19 $82 $19 $35',
-  mb: '$28',
-  flexType: 'verticalCenter',
-  justifyContent: 'space-between',
-
-  '& span': {
-    color: '$gray80',
-    fontAg: '16_bold_100',
-  },
-});
-
-const SType = styled('span', {
-  mr: '$68',
-});
-
-const SProfile = styled('span', {
-  mr: '$84',
-});
-
-const SDetail = styled('span', {
-  mr: '$70',
 });
 
 const SSelectWrapper = styled(Box, {
