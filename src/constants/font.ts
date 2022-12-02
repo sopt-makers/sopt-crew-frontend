@@ -1,7 +1,7 @@
 export type FontAg =
   | '34_bold_140'
   | '32_bold_100'
-  | '22_regular_170'
+  | '28_bold_140'
   | '24_bold_100'
   | '24_semibold_100'
   | '24_medium_100'
