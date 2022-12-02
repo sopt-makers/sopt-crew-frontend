@@ -23,16 +23,16 @@ function ManagementButton({ id }: ManagementButtonProps) {
 export default ManagementButton;
 
 const SButton = styled(Flex, {
-  width: '118px',
-  padding: '10px 12px 10px 14px',
+  width: '102px',
+  padding: '12px 12px 13px 14px',
   border: '1px solid $gray100',
   borderRadius: '71px',
-  fontAg: '18_bold_100',
+  fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
   background: '$black80',
 });
 
 const SAnchor = styled('a', {
   display: 'block',
-  marginTop: '24px',
+  mt: '$16',
 });
