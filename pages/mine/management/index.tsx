@@ -21,6 +21,7 @@ import {
 import { useRouter } from 'next/router';
 import { Option } from '@components/Form/Select/OptionItem';
 import { UpdateApplicationRequest } from 'src/api/meeting';
+import InvitationIcon from 'public/assets/svg/invitation.svg';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -97,7 +98,12 @@ const ManagementPage = () => {
           모임 {isHost ? '신청자' : '참여자'}
           {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
-        {!isHost && (
+        {isHost ? (
+          <SInvitationButton>
+            <InvitationIcon />
+            초대하기
+          </SInvitationButton>
+        ) : (
           <SSelectWrapper>
             <Select
               value={selectedNumber}
@@ -187,6 +193,19 @@ const SListHeader = styled(Box, {
 
 const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
+});
+
+const SInvitationButton = styled('button', {
+  color: '$white',
+  fontAg: '18_bold_100',
+  border: '1px solid $white',
+  borderRadius: '14px',
+  padding: '$18 $24 $18 $20',
+  flexType: 'verticalCenter',
+
+  '& > svg': {
+    mr: '$12',
+  },
 });
 
 const SSelectContainer = styled(Box, {
