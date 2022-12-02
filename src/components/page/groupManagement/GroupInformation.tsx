@@ -4,6 +4,7 @@ import { styled } from 'stitches.config';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
 import { GroupResponse } from 'src/api/meeting';
 import { EApplyStatus, RECRUITMENT_STATUS } from '@constants/status';
+import Link from 'next/link';
 
 interface GroupInformationProps {
   groupData: GroupResponse;
@@ -16,27 +17,28 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
   const isRecruiting = status === EApplyStatus.APPROVE ? true : false;
 
   return (
-    <SGroupInformation onClick={() => router.push(`/detail?id=${groupId}`)}>
-      <SImage src={imageURL[0].url} />
-      <div>
-        <SCategory>{category}</SCategory>
-        <STitle>
-          <SRecruitingStatus isRecruiting={isRecruiting}>
-            {RECRUITMENT_STATUS[status]}
-          </SRecruitingStatus>
-          {` ${title}`}
-        </STitle>
-      </div>
-      <ArrowMediumRightGrayIcon />
-    </SGroupInformation>
+    <Link href={`/detail?id=${groupId}`} passHref>
+      <SGroupInformation>
+        <SImage src={imageURL[0].url} />
+        <div>
+          <SCategory>{category}</SCategory>
+          <STitle>
+            <SRecruitingStatus isRecruiting={isRecruiting}>
+              {RECRUITMENT_STATUS[status]}
+            </SRecruitingStatus>
+            {` ${title}`}
+          </STitle>
+        </div>
+        <ArrowMediumRightGrayIcon />
+      </SGroupInformation>
+    </Link>
   );
 };
 
 export default GroupInformation;
 
-const SGroupInformation = styled('button', {
+const SGroupInformation = styled('a', {
   flexType: 'verticalCenter',
-  width: '100%',
   marginTop: '$64',
   background: '$black80',
   padding: '$32 $26 $32 $29',
