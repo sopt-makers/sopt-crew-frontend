@@ -1,31 +1,37 @@
 import { Box } from '@components/box/Box';
-import ListItem from '@components/page/groupInvitation/ListItem';
+import ListItem from '@components/page/groupManagement/ListItem';
 import { TabList } from '@components/tabList/TabList';
 import { styled } from 'stitches.config';
-import GroupInformation from '@components/page/groupInvitation/GroupInformation';
+import GroupInformation from '@components/page/groupManagement/GroupInformation';
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
 import Select from '@components/Form/Select';
-import { useState } from 'react';
-import { Option } from '@components/Form/Select/OptionItem';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   applicantOptionList,
   numberOptionList,
   sortOptionList,
 } from 'src/data/options';
+import {
+  useMutationUpdateApplication,
+  useQueryGetGroup,
+  useQueryGetGroupPeopleList,
+} from 'src/api/meeting/hooks';
+import { useRouter } from 'next/router';
+import { Option } from '@components/Form/Select/OptionItem';
+import { UpdateApplicationRequest } from 'src/api/meeting';
 
-type invitationItem = {
-  id: number;
-  profileImage?: string;
-  name: string;
-  date: string;
-  status?: 'waiting' | 'accepted' | 'rejected';
-  detail?: string;
-};
-
-const InvitationPage = () => {
+const ManagementPage = () => {
+  const router = useRouter();
+  const id = router.query.id as string;
   const { value: page, setValue: setPage } = usePageParams();
+
+  const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
+    params: { id },
+  });
+  const isHost = groupData?.host ?? false;
+
   const [selectedNumber, setSelectedNumber] = useState<Option>(
     numberOptionList[0]
   );
@@ -33,40 +39,50 @@ const InvitationPage = () => {
     applicantOptionList[0]
   );
   const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
+  const {
+    isLoading: isManagementDataLoading,
+    data: management,
+    refetch,
+  } = useQueryGetGroupPeopleList({
+    params: {
+      id,
+      page: (page || 0) as number,
+      take: Number(selectedNumber.value),
+      status: Number(selectedApplicant.value) - 1,
+      date: selectedSort.value as string,
+    },
+  });
 
-  // 임시
-  const isHost = true;
-  const invitationList: invitationItem[] = [
-    {
-      id: 1,
-      name: '백지연',
-      date: '22.10.02',
-      status: 'rejected',
-      detail: '열심히 하겠습니다!',
-    },
-    {
-      id: 2,
-      name: '이재훈',
-      date: '22.10.02',
-      status: 'accepted',
-      detail: '신청내역 상세',
-    },
-    {
-      id: 3,
-      name: '김은수',
-      date: '22.10.02',
-      status: 'waiting',
-      detail: '모임에 임할 각오 작성',
-    },
-  ];
-  const total = invitationList.length;
+  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
+  const handleChangeApplicationStatus = (
+    request: Omit<UpdateApplicationRequest, 'id'>
+  ) => {
+    mutateUpdateApplication(
+      { id: Number(id), ...request },
+      {
+        onSuccess: () => {
+          // TODO
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    }
+  }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
+
+  if (isGroupDataLoading || isManagementDataLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
-    <SInvitationPage>
+    <SManagementPage>
       <TabList text="mine" size="big" onChange={() => {}}>
         <Link href="/" passHref>
           <a>
-            <TabList.Item text="all">모임 전체</TabList.Item>
+            <TabList.Item text="all">전체 모임</TabList.Item>
           </a>
         </Link>
         <Link href="/mine" passHref>
@@ -75,18 +91,20 @@ const InvitationPage = () => {
           </a>
         </Link>
       </TabList>
-      <GroupInformation />
+      {groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>
         <SListTitle>
           모임 {isHost ? '신청자' : '참여자'}
-          {total > 0 && <span> ({total})</span>}
+          {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
         {!isHost && (
-          <Select
-            value={selectedNumber}
-            options={numberOptionList}
-            onChange={value => setSelectedNumber(value)}
-          />
+          <SSelectWrapper>
+            <Select
+              value={selectedNumber}
+              options={numberOptionList}
+              onChange={value => setSelectedNumber(value)}
+            />
+          </SSelectWrapper>
         )}
       </SListHeader>
       {isHost && (
@@ -116,27 +134,34 @@ const InvitationPage = () => {
           </div>
         </SSelectContainer>
       )}
-      {invitationList.length ? (
-        invitationList.map(invitation => (
-          <ListItem key={invitation.id} {...invitation} isHost={isHost} />
+      {management && management.apply?.length > 0 ? (
+        management?.apply.map(application => (
+          <ListItem
+            key={id}
+            application={application}
+            isHost={isHost}
+            onChangeApplicationStatus={handleChangeApplicationStatus}
+          />
         ))
       ) : (
         <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
       )}
-      <SPaginationWrapper>
-        <Pagination
-          totalPagesLength={20}
-          currentPageIndex={Number(page)}
-          changeCurrentPage={setPage}
-        />
-      </SPaginationWrapper>
-    </SInvitationPage>
+      {management && management.meta?.pageCount > 0 && (
+        <SPaginationWrapper>
+          <Pagination
+            totalPagesLength={management?.meta?.pageCount}
+            currentPageIndex={Number(page)}
+            changeCurrentPage={setPage}
+          />
+        </SPaginationWrapper>
+      )}
+    </SManagementPage>
   );
 };
 
-export default InvitationPage;
+export default ManagementPage;
 
-const SInvitationPage = styled(Box, {
+const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
 });

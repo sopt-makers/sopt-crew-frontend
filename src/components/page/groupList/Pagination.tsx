@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowButton from '@components/button/Arrow';
 interface PaginationProps {
-  totalPagesLength: number;
-  currentPageIndex: number;
+  totalPagesLength?: number;
+  currentPageIndex?: number;
   changeCurrentPage: (value: number) => void;
 }
 function Pagination({
-  totalPagesLength,
-  currentPageIndex,
+  totalPagesLength = 1,
+  currentPageIndex = 1,
   changeCurrentPage,
 }: PaginationProps) {
   const BUNDLE_SIZE = 5;

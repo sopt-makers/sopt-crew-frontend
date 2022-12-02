@@ -3,9 +3,10 @@ import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
 import 'slick-carousel/slick/slick.css';
+import { ImageURLType } from 'src/api/meeting';
 
 interface CarouselProps {
-  imageList: string[];
+  imageList: ImageURLType[];
 }
 
 const Carousel = ({ imageList }: CarouselProps) => {
@@ -23,9 +24,9 @@ const Carousel = ({ imageList }: CarouselProps) => {
   return (
     <SCarousel>
       <Slider {...settings}>
-        {imageList.map((image, index) => (
-          <SImageWrapper key={index}>
-            <img src={image} />
+        {imageList.map(({ id, url }) => (
+          <SImageWrapper key={id}>
+            <img src={url} alt="" />
           </SImageWrapper>
         ))}
       </Slider>
@@ -37,7 +38,7 @@ export default Carousel;
 
 const SCarousel = styled(Box, {
   '.slick-slider': {
-    flexType: 'verticalCenter',
+    flexType: 'center',
     mt: '$60',
     mb: '$80',
   },

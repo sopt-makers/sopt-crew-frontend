@@ -2,17 +2,22 @@ import { styled } from 'stitches.config';
 import React, { HTMLAttributes } from 'react';
 import Label from '@components/Form/Label';
 import HelpMessage from '@components/Form/HelpMessage';
+import ErrorMessage from '../ErrorMessage';
 
 interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   type?: string;
   label?: string;
   message?: string;
+  error?: string;
   required?: boolean;
   right?: React.ReactNode;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  ({ type, label, message, required, ...props }: TextInputProps, ref) => (
+  (
+    { type, label, message, error, required, ...props }: TextInputProps,
+    ref
+  ) => (
     <SContainer>
       {label && <Label required={required}>{label}</Label>}
       {message && <HelpMessage>{message}</HelpMessage>}
@@ -20,6 +25,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         <SInput type={type || 'text'} ref={ref} {...props} />
         {props.right}
       </SInputWrapper>
+      {error && <SErrorMessage>{error}</SErrorMessage>}
     </SContainer>
   )
 );
@@ -46,4 +52,7 @@ const SInput = styled('input', {
   '&::placeholder': {
     color: '$gray100',
   },
+});
+const SErrorMessage = styled(ErrorMessage, {
+  marginTop: '12px',
 });

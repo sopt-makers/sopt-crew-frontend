@@ -2,27 +2,32 @@ import { styled } from 'stitches.config';
 import React, { HTMLAttributes } from 'react';
 import Label from '@components/Form/Label';
 import HelpMessage from '@components/Form/HelpMessage';
+import ErrorMessage from '../ErrorMessage';
 
 interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   value: string;
   message?: string;
+  error?: string;
   required?: boolean;
   maxLength?: number;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, message, required, ...props }: TextareaProps, ref) => {
+  ({ label, message, error, required, ...props }: TextareaProps, ref) => {
     return (
       <SContainer>
         <Label required={required}>{label}</Label>
         {message && <HelpMessage>{message}</HelpMessage>}
         <STextarea ref={ref} {...props} />
-        {props.maxLength && (
-          <STextCount overflow={props.value.length > props.maxLength}>
-            {props.value.length} / {props.maxLength}
-          </STextCount>
-        )}
+        <SBottomContainer>
+          {error && <SErrorMessage>{error}</SErrorMessage>}
+          {props.maxLength && (
+            <STextCount overflow={props.value.length > props.maxLength}>
+              {props.value.length} / {props.maxLength}
+            </STextCount>
+          )}
+        </SBottomContainer>
       </SContainer>
     );
   }
@@ -49,9 +54,15 @@ const STextarea = styled('textarea', {
     color: '$gray100',
   },
 });
-const STextCount = styled('span', {
+const SBottomContainer = styled('div', {
   marginTop: '12px',
-  alignSelf: 'flex-end',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+const STextCount = styled('span', {
+  width: '100%',
+  textAlign: 'right',
   fontAg: '12_medium_100',
   color: '$gray60',
   variants: {
@@ -61,4 +72,7 @@ const STextCount = styled('span', {
       },
     },
   },
+});
+const SErrorMessage = styled(ErrorMessage, {
+  whiteSpace: 'nowrap',
 });

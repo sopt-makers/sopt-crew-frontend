@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         <TabList text="all" size="big">
           <Link href="/" passHref>
             <a>
-              <TabList.Item text="all">모임 전체</TabList.Item>
+              <TabList.Item text="all">전체 모임</TabList.Item>
             </a>
           </Link>
           <Link href="/mine" passHref>
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
           <a>
             <SMakeGroup align="center" justify="center">
               <PlusIcon />
-              <span>모임생성</span>
+              <span>모임개설</span>
             </SMakeGroup>
           </a>
         </Link>

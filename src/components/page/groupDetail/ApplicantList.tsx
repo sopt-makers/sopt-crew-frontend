@@ -1,50 +1,18 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
 import { Box } from '@components/box/Box';
+import { ApplyResponse } from 'src/api/user';
 import { styled } from 'stitches.config';
 
-const ApplicantList = () => {
-  // TODO : API 연결하고 없애기
-  const applicantList = [
-    {
-      id: 1,
-      profileImage: '',
-      name: '백지연',
-    },
-    {
-      id: 2,
-      profileImage: '',
-      name: '이재훈',
-    },
-    {
-      id: 3,
-      profileImage: '',
-      name: '김은수',
-    },
-    {
-      id: 4,
-      profileImage: '',
-      name: '김인우',
-    },
-    {
-      id: 5,
-      profileImage: '',
-      name: '김나연',
-    },
-    {
-      id: 6,
-      profileImage: '',
-      name: '이동훈',
-    },
-    {
-      id: 7,
-      profileImage: '',
-      name: '김준영',
-    },
-  ];
+interface ApplicantListProps {
+  applicantList: ApplyResponse[];
+}
+
+const ApplicantList = ({ applicantList }: ApplicantListProps) => {
+  const profileImage = '';
 
   return (
     <SApplicantList>
-      {applicantList.map(({ id, profileImage, name }) => (
+      {applicantList.map(({ user: { id, name } }) => (
         <SApplicantListItem key={id}>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <span>{name}</span>

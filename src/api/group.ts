@@ -39,7 +39,7 @@ interface GetGroupByIdResponse {
     id: number;
     title: string;
     category: string;
-    imageURL: string[]; // NOTE: id, url 필드가 담긴 stringified JSON
+    imageURL: { id: number; url: string }[]; // NOTE: id, url 필드가 담긴 JSON
     startDate: string;
     endDate: string;
     capacity: number;
