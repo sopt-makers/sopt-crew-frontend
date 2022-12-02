@@ -29,6 +29,7 @@ const SButton = styled(Flex, {
   borderRadius: '71px',
   fontAg: '18_bold_100',
   whiteSpace: 'nowrap',
+  background: '$black80',
 });
 
 const SAnchor = styled('a', {
