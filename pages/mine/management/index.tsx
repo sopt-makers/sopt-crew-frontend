@@ -108,31 +108,42 @@ const ManagementPage = () => {
         )}
       </SListHeader>
       {isHost && (
-        <SSelectContainer>
-          <SSelectWrapper>
-            <Select
-              value={selectedNumber}
-              options={numberOptionList}
-              onChange={value => setSelectedNumber(value)}
-            />
-          </SSelectWrapper>
-          <div>
+        <>
+          <SSelectContainer>
             <SSelectWrapper>
               <Select
-                value={selectedApplicant}
-                options={applicantOptionList}
-                onChange={value => setSelectedApplicant(value)}
+                value={selectedNumber}
+                options={numberOptionList}
+                onChange={value => setSelectedNumber(value)}
               />
             </SSelectWrapper>
-            <SSelectWrapper>
-              <Select
-                value={selectedSort}
-                options={sortOptionList}
-                onChange={value => setSelectedSort(value)}
-              />
-            </SSelectWrapper>
-          </div>
-        </SSelectContainer>
+            <div>
+              <SSelectWrapper>
+                <Select
+                  value={selectedApplicant}
+                  options={applicantOptionList}
+                  onChange={value => setSelectedApplicant(value)}
+                />
+              </SSelectWrapper>
+              <SSelectWrapper>
+                <Select
+                  value={selectedSort}
+                  options={sortOptionList}
+                  onChange={value => setSelectedSort(value)}
+                />
+              </SSelectWrapper>
+            </div>
+          </SSelectContainer>
+          <SDescriptionBox>
+            <div>
+              <SType>유형</SType>
+              <SProfile>프로필 (상태)</SProfile>
+              <SDetail>상세 내역</SDetail>
+              <span>신청 일자</span>
+            </div>
+            <span>관리</span>
+          </SDescriptionBox>
+        </>
       )}
       {management && management.apply?.length > 0 ? (
         management?.apply.map(application => (
@@ -181,13 +192,39 @@ const SListTitle = styled(Box, {
 const SSelectContainer = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  mb: '$16',
+  mb: '$36',
   position: 'relative',
 
   '& > div': {
     flexType: 'verticalCenter',
     gap: '$12',
   },
+});
+
+const SDescriptionBox = styled(Box, {
+  border: '1px solid $black40',
+  borderRadius: '15px',
+  padding: '$19 $82 $19 $35',
+  mb: '$28',
+  flexType: 'verticalCenter',
+  justifyContent: 'space-between',
+
+  '& span': {
+    color: '$gray80',
+    fontAg: '16_bold_100',
+  },
+});
+
+const SType = styled('span', {
+  mr: '$68',
+});
+
+const SProfile = styled('span', {
+  mr: '$84',
+});
+
+const SDetail = styled('span', {
+  mr: '$70',
 });
 
 const SSelectWrapper = styled(Box, {
