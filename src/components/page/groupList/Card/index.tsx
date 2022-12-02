@@ -88,7 +88,7 @@ const SStatus = styled(Box, {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$purple200',
+        backgroundColor: '$black40',
       },
       1: {
         backgroundColor: '$purple200',
@@ -101,12 +101,17 @@ const SStatus = styled(Box, {
 });
 
 const STitleSection = styled(Box, {
-  my: '$22',
+  my: '$16',
 });
 
 const SCategory = styled('p', {
-  fontAg: '16_bold_100',
-  color: '$gray80',
+  display: 'inline-block',
+  fontAg: '15_bold_100',
+  color: '$gray50',
+  border: '1px solid $gray50',
+  borderRadius: '37px',
+  px: '$9',
+  py: '$6',
 });
 
 const STitle = styled('p', {
