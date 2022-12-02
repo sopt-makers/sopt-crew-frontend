@@ -1,64 +1,74 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import ArrowButton from '@components/button/Arrow';
 import { Flex } from '@components/util/layout/Flex';
-import { useSelectListVisionContext } from '@providers/groupList/SelectListVisionProvider';
-import { useMultiQueryString } from '@hooks/queryString';
 import SelectComboBoxItem from './SelectComboBoxItem';
-import { FilterType } from '..';
-
-interface SelectProps {
-  filter: FilterType;
+import useSessionStorage from '@hooks/useSessionStorage';
+interface SelectListDataType {
+  label: string;
+  subject: string;
+  options: string[];
 }
 
-function MultiSelectComboBox({ filter }: SelectProps) {
-  const { isSelectListVisible, onDismissSelectList, toggleSelectList } =
-    useSelectListVisionContext();
+interface SelectProps {
+  selectListData: SelectListDataType;
+  selectedValues: any[];
+  addValue: (value: any) => void;
+  deleteValue: (value: any) => void;
+}
 
-  const {
-    value: selectedFilterValue,
-    addValue: addFilterOption,
-    deleteValue: deleteFilterOption,
-  } = useMultiQueryString(filter.subject, true);
+function MultiSelect({
+  selectListData,
+  selectedValues,
+  addValue,
+  deleteValue,
+}: SelectProps) {
+  const [isVisible, setIsVisible] = useSessionStorage(
+    selectListData.subject,
+    false
+  );
+  const onDismissSelectList = () => setIsVisible(false);
+  const toggleSelectList = () => setIsVisible(!isVisible);
 
   return (
     <SSelectWrapper>
       <SSelectDisplay
         align="center"
         justify="between"
-        onClick={() => toggleSelectList(filter.subject)}
-        isSelected={selectedFilterValue.length !== 0}
+        onClick={() => toggleSelectList()}
+        isSelected={selectedValues.length !== 0}
       >
-        <SCategory isSelected={selectedFilterValue.length !== 0}>
-          {filter.label}
+        <SCategory isSelected={selectedValues.length !== 0}>
+          {selectListData.label}
         </SCategory>
         <ArrowButton size="small" direction="bottom" />
       </SSelectDisplay>
-      {isSelectListVisible[filter.subject] && (
+      {isVisible && (
         <>
           <SSelectBoxList as="ul">
-            {filter.options.map(option => (
+            {selectListData.options.map(option => (
               <SelectComboBoxItem
                 key={option}
                 value={option}
                 isChecked={
-                  selectedFilterValue?.filter(
+                  selectedValues?.filter(
                     selectedValue => selectedValue === option
                   ).length > 0
                 }
-                onCheck={addFilterOption}
-                onRemove={deleteFilterOption}
+                onCheck={addValue}
+                onRemove={deleteValue}
               />
             ))}
           </SSelectBoxList>
-          <SelectOverlay onClick={() => onDismissSelectList(filter.subject)} />
+          <SelectOverlay onClick={() => onDismissSelectList()} />
         </>
       )}
     </SSelectWrapper>
   );
 }
-export default MultiSelectComboBox;
+export default MultiSelect;
 
 const SSelectWrapper = styled(Box, {
   position: 'relative',
