@@ -37,7 +37,7 @@ function Pagination({
           disabled={pagesIndex === 0}
           onClick={pagesIndex === 0 ? () => {} : prevBundle}
         />
-        <Flex css={{ mx: '$24' }}>
+        <Flex css={{ mx: '$24' }} as="ul">
           {pagesBundle[pagesIndex]?.map((item, idx) => (
             <SPageLink
               key={idx}
