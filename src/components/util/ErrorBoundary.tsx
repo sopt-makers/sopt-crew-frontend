@@ -1,4 +1,4 @@
-import { ReactChild, Component, ReactElement, ReactNode } from 'react';
+import { Component, ReactElement, ReactNode } from 'react';
 
 interface ErrorBoundaryState {
   hasError: boolean;
