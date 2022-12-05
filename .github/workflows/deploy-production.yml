@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -23,9 +24,9 @@ jobs:
       - name: Set .env
         run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
       - name: Build
-        run: yarn build && yarn next export
+        run: yarn build:ci
       - name: Publish
-        run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
+        run: yarn run wrangler pages publish ".vercel/output/static" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
