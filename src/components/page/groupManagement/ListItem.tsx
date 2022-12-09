@@ -58,18 +58,20 @@ const ListItem = ({
     <>
       <SListItem>
         <SLeft>
-          {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
-          <Link href={`${origin}/members?id=${id}`} passHref>
-            <SName>{user.name}</SName>
-          </Link>
-          {isHost && (
-            <>
+          {isHost && <SType>신청</SType>}
+          <SProfile>
+            {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
+            <Link href={`${origin}/members?id=${id}`} passHref>
+              <SName>{user.name}</SName>
+            </Link>
+            {isHost && (
               <SStatus status={status}>{APPLY_STATUS[status]}</SStatus>
-              <SVerticalLine />
-              <SDetailButton onClick={handleModalOpen}>신청내역</SDetailButton>
-            </>
+            )}
+          </SProfile>
+          {isHost && (
+            <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
           )}
-          <SVerticalLine />
+          {!isHost && <SVerticalLine />}
           <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
         </SLeft>
         {isHost && (
@@ -137,6 +139,16 @@ const SLeft = styled(Box, {
   },
 });
 
+const SProfile = styled(Box, {
+  flexType: 'verticalCenter',
+});
+
+const SType = styled(Box, {
+  ml: '$17',
+  mr: '$38',
+  fontAg: '16_bold_100',
+});
+
 const SVerticalLine = styled(Box, {
   width: '$1',
   height: '$12',
@@ -146,16 +158,18 @@ const SVerticalLine = styled(Box, {
 });
 
 const SName = styled('a', {
-  ml: '$24',
+  ml: '$16',
   color: '$white',
-  fontWeight: '$bold',
+  fontAg: '18_semibold_100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
+  textAlign: 'center',
+  minWidth: '$48',
 });
 
 const SDate = styled(Box, {
   flexType: 'verticalCenter',
-  fontAg: '18_medium_100',
+  fontAg: '18_semibold_100',
 });
 
 const SStatus = styled('span', {
@@ -184,6 +198,8 @@ const SDetailButton = styled('button', {
   color: '$white',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
+  margin: 'auto $60',
+  fontAg: '18_semibold_100',
 });
 
 const SHostGrayButton = styled('button', {

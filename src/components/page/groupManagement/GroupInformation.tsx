@@ -1,10 +1,10 @@
 import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
-import ArrowSmallRightPurpleIcon from '@assets/svg/arrow_small_right_purple.svg';
+import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
 import { GroupResponse } from 'src/api/meeting';
-import { dateFormat } from '@utils/date';
-import { RECRUITMENT_STATUS } from '@constants/status';
+import { EApplyStatus, RECRUITMENT_STATUS } from '@constants/status';
+import Link from 'next/link';
 
 interface GroupInformationProps {
   groupData: GroupResponse;
@@ -13,93 +13,61 @@ interface GroupInformationProps {
 const GroupInformation = ({ groupData }: GroupInformationProps) => {
   const router = useRouter();
   const groupId = router.query.id;
-  const {
-    imageURL,
-    status,
-    user,
-    appliedInfo,
-    category,
-    title,
-    startDate,
-    endDate,
-    capacity,
-  } = groupData;
-  const isRecruiting = status === 2 ? true : false;
-  const hostName = user.name;
-  const current = appliedInfo.length;
+  const { imageURL, status, category, title } = groupData;
+  const isRecruiting = status === EApplyStatus.APPROVE ? true : false;
 
   return (
-    <SGroupInformation>
-      <SImage src={imageURL[0].url} />
-      <div>
-        <SCategory>{category}</SCategory>
-        <STitle>
-          <SRecruitingStatus isRecruiting={isRecruiting}>
-            {RECRUITMENT_STATUS[status]}
-          </SRecruitingStatus>
-          {` ${title}`}
-        </STitle>
-        <SDetailContainer>
-          <div>
-            <SDetail>
-              <SDetailType>모임 개설</SDetailType>
-              <span>{hostName}</span>
-            </SDetail>
-            <SDetail>
-              <SDetailType>모집 기간</SDetailType>
-              <span>
-                {dateFormat(startDate)['YY.MM.DD']} -{' '}
-                {dateFormat(endDate)['YY.MM.DD']}
-              </span>
-            </SDetail>
-            <SDetail>
-              <SDetailType>모집 현황</SDetailType>
-              <span>
-                {current}/{capacity}명
-              </span>
-            </SDetail>
-          </div>
-          <button onClick={() => router.push(`/detail?id=${groupId}`)}>
-            <SButtonText>상세 보기</SButtonText>
-            <ArrowSmallRightPurpleIcon />
-          </button>
-        </SDetailContainer>
-      </div>
-    </SGroupInformation>
+    <Link href={`/detail?id=${groupId}`} passHref>
+      <SGroupInformation>
+        <SImage src={imageURL[0].url} />
+        <div>
+          <SCategory>{category}</SCategory>
+          <STitle>
+            <SRecruitingStatus isRecruiting={isRecruiting}>
+              {RECRUITMENT_STATUS[status]}
+            </SRecruitingStatus>
+            {` ${title}`}
+          </STitle>
+        </div>
+        <ArrowMediumRightGrayIcon />
+      </SGroupInformation>
+    </Link>
   );
 };
 
 export default GroupInformation;
 
-const SGroupInformation = styled(Box, {
+const SGroupInformation = styled('a', {
   flexType: 'verticalCenter',
-  marginTop: '$70',
-  paddingBottom: '$80',
-  borderBottom: `2px solid $black40`,
+  marginTop: '$64',
+  background: '$black80',
+  padding: '$32 $26 $32 $29',
+  border: `1px solid $black20`,
+  borderRadius: '24px',
 
   '& > div': {
-    width: '100%',
+    flex: '1',
   },
 });
 
 const SImage = styled('img', {
-  width: '$478',
-  minWidth: '$478',
-  height: '$312',
+  width: '$167',
+  minWidth: '$167',
+  height: '$109',
   borderRadius: '14px',
   marginRight: '$35',
   objectFit: 'cover',
 });
 
 const SCategory = styled(Box, {
-  color: '$gray80',
   fontAg: '24_semibold_100',
-  mb: '$12',
+  color: '$gray80',
+  mb: '$10',
 });
 
 const STitle = styled('p', {
-  fontAg: '34_bold_140',
-  mb: '$40',
+  fontAg: '28_bold_140',
+  color: '$white',
 });
 
 const SRecruitingStatus = styled('span', {
@@ -113,38 +81,4 @@ const SRecruitingStatus = styled('span', {
       },
     },
   },
-});
-
-const SDetailContainer = styled(Box, {
-  fontAg: '20_medium_100',
-  display: 'flex',
-  alignItems: 'flex-end',
-  justifyContent: 'space-between',
-
-  '& > div': {
-    minWidth: 'fit-content',
-    mb: '$24',
-  },
-
-  '& > button': {
-    minWidth: 'fit-content',
-    padding: '$20 $34',
-    color: '$purple100',
-    border: `2px solid $purple100`,
-    borderRadius: '10px',
-    fontAg: '20_bold_100',
-  },
-});
-
-const SDetail = styled(Box, {
-  mb: '$12',
-});
-
-const SDetailType = styled('span', {
-  color: '$gray80',
-  mr: '$16',
-});
-
-const SButtonText = styled('span', {
-  mr: '$16',
 });
