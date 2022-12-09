@@ -1,21 +1,21 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
-const GroupSkeleton = () => {
+const GroupInformationSkeleton = () => {
   return (
-    <SGroupSkeleton>
+    <SGroupInformationSkeleton>
       <SImage />
       <STextArea>
         <SCategory />
         <STitle />
       </STextArea>
-    </SGroupSkeleton>
+    </SGroupInformationSkeleton>
   );
 };
 
-export default GroupSkeleton;
+export default GroupInformationSkeleton;
 
-const SGroupSkeleton = styled(Box, {
+const SGroupInformationSkeleton = styled(Box, {
   background: '$black80',
   padding: '$32',
   borderRadius: '20px',

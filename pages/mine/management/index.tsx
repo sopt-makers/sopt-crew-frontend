@@ -5,7 +5,7 @@ import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
 import ListSkeleton from '@components/page/groupManagement/ListSkeleton';
-import GroupSkeleton from '@components/page/groupManagement/GroupSkeleton';
+import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
 import ListItem from '@components/page/groupManagement/ListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
 import Select from '@components/Form/Select';
@@ -92,7 +92,7 @@ const ManagementPage = () => {
         </Link>
       </TabList>
       {isGroupDataLoading ? (
-        <GroupSkeleton />
+        <GroupInformationSkeleton />
       ) : (
         groupData && <GroupInformation groupData={groupData} />
       )}
