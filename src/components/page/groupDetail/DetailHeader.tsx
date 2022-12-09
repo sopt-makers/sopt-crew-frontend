@@ -391,6 +391,10 @@ const SHostButtonContainer = styled(Box, {
 
 const SApplicantListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
+
+  '@mobile': {
+    padding: '0 $20 $56 $20',
+  },
 });
 
 const SApplicantAnchor = styled('a', {
@@ -399,6 +403,10 @@ const SApplicantAnchor = styled('a', {
   color: '$white',
   float: 'right',
   flexType: 'verticalCenter',
+
+  '@mobile': {
+    mt: '$16',
+  },
 
   svg: {
     ml: '$8',
@@ -412,19 +420,30 @@ const SEmptyText = styled('p', {
   padding: '$125 0',
   color: '$gray80',
   fontAg: '18_semibold_100',
+
+  '@mobile': {
+    padding: '$74 0 $100 0',
+  },
 });
 
 const SApplicationForm = styled(Box, {
-  padding: '$24 $24 $132 $24',
+  padding: '$24 $24 $40 $24',
   borderBottomLeftRadius: '16px',
   borderBottomRightRadius: '16px',
-  height: '$356',
+
+  '@mobile': {
+    padding: '0 $16',
+  },
 
   '& > p': {
     fontAg: '32_bold_100',
     textAlign: 'center',
     mt: '$32',
     mb: '$48',
+  },
+
+  label: {
+    margin: 0,
   },
 
   textarea: {
@@ -436,6 +455,10 @@ const SApplicationForm = styled(Box, {
     backgroundColor: '$black60',
     outline: 'none',
     borderRadius: '10px',
+
+    '@mobile': {
+      height: '$160',
+    },
   },
 
   'textarea:focus': {
@@ -446,7 +469,6 @@ const SApplicationForm = styled(Box, {
     display: 'block',
     margin: '0 auto',
     mt: '$4',
-    mb: '$48',
     padding: '$19 0',
     width: '$180',
     borderRadius: '12px',
@@ -454,5 +476,10 @@ const SApplicationForm = styled(Box, {
     fontAg: '18_bold_100',
     color: '$white',
     backgroundColor: '$purple100',
+
+    '@mobile': {
+      mt: '$8',
+      mb: '$24',
+    },
   },
 });

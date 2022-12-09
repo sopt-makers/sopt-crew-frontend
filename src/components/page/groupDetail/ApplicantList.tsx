@@ -27,8 +27,12 @@ export default ApplicantList;
 const SApplicantList = styled(Box, {
   display: 'flex',
   flexWrap: 'wrap',
-  height: '$219',
+  maxHeight: '$219',
   overflowY: 'scroll',
+
+  '@mobile': {
+    height: '$160',
+  },
 
   '&::-webkit-scrollbar': {
     width: '$6',
@@ -52,6 +56,14 @@ const SApplicantListItem = styled(Box, {
   fontAg: '16_bold_100',
   mb: '$12',
 
+  '@mobile': {
+    width: 'calc(50% - 7px)',
+    height: '$48',
+    padding: '$11 $12',
+    fontAg: '14_medium_100',
+    mb: '$8',
+  },
+
   img: {
     width: '$32',
     height: '$32',
@@ -65,5 +77,9 @@ const SApplicantListItem = styled(Box, {
 
   '&:nth-child(2n)': {
     ml: '$12',
+
+    '@mobile': {
+      ml: '$7',
+    },
   },
 });
