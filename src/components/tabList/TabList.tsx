@@ -52,6 +52,11 @@ const STabList = styled(Box, {
 
   '@mobile': {
     overflowX: 'scroll',
+    '-ms-overflow-style': 'none',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
 });
 
