@@ -3,28 +3,30 @@ import { Box } from '@components/box/Box';
 import { ApplyResponse } from 'src/api/user';
 import { styled } from 'stitches.config';
 
-interface ApplicantListProps {
-  applicantList: ApplyResponse[];
+interface RecruitmentStatusProps {
+  recruitmentStatusList: ApplyResponse[];
 }
 
-const ApplicantList = ({ applicantList }: ApplicantListProps) => {
+const RecruitmentStatusList = ({
+  recruitmentStatusList,
+}: RecruitmentStatusProps) => {
   const profileImage = '';
 
   return (
-    <SApplicantList>
-      {applicantList.map(({ user: { id, name } }) => (
-        <SApplicantListItem key={id}>
+    <SRecruitmentStatusList>
+      {recruitmentStatusList.map(({ user: { id, name } }) => (
+        <SRecruitmentStatusItem key={id}>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <span>{name}</span>
-        </SApplicantListItem>
+        </SRecruitmentStatusItem>
       ))}
-    </SApplicantList>
+    </SRecruitmentStatusList>
   );
 };
 
-export default ApplicantList;
+export default RecruitmentStatusList;
 
-const SApplicantList = styled(Box, {
+const SRecruitmentStatusList = styled(Box, {
   display: 'flex',
   flexWrap: 'wrap',
   maxHeight: '$219',
@@ -49,7 +51,7 @@ const SApplicantList = styled(Box, {
   },
 });
 
-const SApplicantListItem = styled(Box, {
+const SRecruitmentStatusItem = styled(Box, {
   flexType: 'verticalCenter',
   width: '$280',
   height: '$64',
