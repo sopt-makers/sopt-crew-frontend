@@ -96,6 +96,7 @@ const stitches = createStitches({
       103: '103px',
       115: '115px',
       120: '120px',
+      122: '122px',
       125: '125px',
       132: '132px',
       150: '150px',
