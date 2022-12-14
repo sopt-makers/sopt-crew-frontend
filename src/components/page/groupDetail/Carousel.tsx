@@ -45,11 +45,17 @@ const SCarousel = styled(Box, {
     '@mobile': {
       mt: '0',
       mb: '$32',
+      width: 'calc(100% + 40px)',
+      marginLeft: '-20px',
     },
   },
 
   '.slick-list': {
     borderRadius: '14px',
+
+    '@mobile': {
+      borderRadius: '$0',
+    },
   },
 
   '.slick-prev': {
