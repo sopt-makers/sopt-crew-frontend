@@ -424,10 +424,11 @@ const SPurpleButton = styled(SGrayButton, {
   backgroundColor: '$purple100',
 });
 
-const SMobileButton = styled('button', {
+const SCardButton = styled('button', {
   width: '50%',
   padding: '$13 0',
   textAlign: 'center',
+  fontAg: '14_semibold_100',
   color: '$gray80',
   backgroundColor: '$black80',
   borderTop: '1px solid $black40',
@@ -435,17 +436,17 @@ const SMobileButton = styled('button', {
   borderBottomRightRadius: '8px',
 });
 
-const SRejectButton = styled(SMobileButton, {
+const SRejectButton = styled(SCardButton, {
   borderBottomRightRadius: '0',
 });
 
-const SApproveButton = styled(SMobileButton, {
+const SApproveButton = styled(SCardButton, {
   color: '$white',
   backgroundColor: '$purple100',
   borderBottomLeftRadius: '0',
 });
 
-const SCancelButton = styled(SMobileButton, {
+const SCancelButton = styled(SCardButton, {
   width: '100%',
 });
 
