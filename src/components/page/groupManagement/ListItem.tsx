@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
 import { APPLY_STATUS, EApplyStatus } from '@constants/status';
+import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 
 interface ListItemProps {
   application: ApplicationData;
@@ -56,49 +57,125 @@ const ListItem = ({
 
   return (
     <>
-      <SListItem>
-        <SLeft>
-          {isHost && <SType>신청</SType>}
-          <SProfile>
-            {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
-            <Link href={`${origin}/members?id=${id}`} passHref>
-              <SName>{user.name}</SName>
-            </Link>
-            {isHost && (
-              <SStatus status={status}>{APPLY_STATUS[status]}</SStatus>
-            )}
-          </SProfile>
-          {isHost && (
-            <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
-          )}
-          {!isHost && <SVerticalLine />}
-          <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
-        </SLeft>
-        {isHost && (
-          <SButtonContainer>
-            {status === EApplyStatus.WAITING && (
-              <>
-                <SHostPurpleButton onClick={handleClickApproveButton}>
-                  승인
-                </SHostPurpleButton>
-                <SHostGrayButton onClick={handleClickRejectButton}>
-                  거절
-                </SHostGrayButton>
-              </>
-            )}
-            {status === EApplyStatus.APPROVE && (
-              <SHostGrayButton onClick={handleClickCancelButton}>
-                승인 취소
-              </SHostGrayButton>
-            )}
-            {status === EApplyStatus.REJECT && (
-              <SHostGrayButton onClick={handleClickCancelButton}>
-                거절 취소
-              </SHostGrayButton>
-            )}
-          </SButtonContainer>
-        )}
-      </SListItem>
+      {isHost && (
+        <>
+          <SDesktopListItem>
+            <SUserInformation>
+              {/* TODO: 나중에 신청/초대로 수정 예정 */}
+              <SType>신청</SType>
+              <SProfile>
+                {profileImage ? (
+                  <img src={profileImage} />
+                ) : (
+                  <ProfileDefaultIcon />
+                )}
+                <Link href={`${origin}/members?id=${id}`} passHref>
+                  <SName>{user.name}</SName>
+                </Link>
+                <SUserStatus status={status}>
+                  {APPLY_STATUS[status]}
+                </SUserStatus>
+              </SProfile>
+              {/* TODO: 나중에 신청/초대로 수정 예정 */}
+              <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
+              <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+            </SUserInformation>
+            <SButtonContainer>
+              {status === EApplyStatus.WAITING && (
+                <>
+                  <SPurpleButton onClick={handleClickApproveButton}>
+                    승인
+                  </SPurpleButton>
+                  <SGrayButton onClick={handleClickRejectButton}>
+                    거절
+                  </SGrayButton>
+                </>
+              )}
+              {status === EApplyStatus.APPROVE && (
+                <SGrayButton onClick={handleClickCancelButton}>
+                  승인 취소
+                </SGrayButton>
+              )}
+              {status === EApplyStatus.REJECT && (
+                <SGrayButton onClick={handleClickCancelButton}>
+                  거절 취소
+                </SGrayButton>
+              )}
+            </SButtonContainer>
+          </SDesktopListItem>
+          <SMobileCard>
+            <SCardContent>
+              <SCardProfileImage>
+                {profileImage ? (
+                  <img src={profileImage} />
+                ) : (
+                  <ProfileDefaultIcon />
+                )}
+              </SCardProfileImage>
+              <SCardUserInformation>
+                <div>
+                  <Link href={`${origin}/members?id=${id}`} passHref>
+                    <SMobileName>{user.name}</SMobileName>
+                  </Link>
+                  <SCardUserStatus status={status}>
+                    {APPLY_STATUS[status]}
+                  </SCardUserStatus>
+                </div>
+                <div>
+                  {/* TODO: 나중에 신청/초대로 수정 예정 */}
+                  <SCardType>신청</SCardType>
+                  <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
+                </div>
+              </SCardUserInformation>
+              <SCardDetailButton onClick={handleModalOpen}>
+                {/* TODO: 나중에 신청/초대로 수정 예정 */}
+                <span>신청 내역</span>
+                <ArrowMiniIcon />
+              </SCardDetailButton>
+            </SCardContent>
+            <SCardButtonContainer>
+              {status === EApplyStatus.WAITING && (
+                <>
+                  <SRejectButton onClick={handleClickRejectButton}>
+                    거절
+                  </SRejectButton>
+                  <SApproveButton onClick={handleClickApproveButton}>
+                    승인
+                  </SApproveButton>
+                </>
+              )}
+              {status === EApplyStatus.APPROVE && (
+                <SCancelButton onClick={handleClickCancelButton}>
+                  승인 취소
+                </SCancelButton>
+              )}
+              {status === EApplyStatus.REJECT && (
+                <SCancelButton onClick={handleClickCancelButton}>
+                  거절 취소
+                </SCancelButton>
+              )}
+            </SCardButtonContainer>
+          </SMobileCard>
+        </>
+      )}
+      {!isHost && (
+        <SListItem>
+          <SUserInformation>
+            <SProfile>
+              {profileImage ? (
+                <img src={profileImage} />
+              ) : (
+                <ProfileDefaultIcon />
+              )}
+              <Link href={`${origin}/members?id=${id}`} passHref>
+                <SName>{user.name}</SName>
+              </Link>
+            </SProfile>
+            <SVerticalLine />
+            <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+          </SUserInformation>
+        </SListItem>
+      )}
       {isModalOpened && (
         <DefaultModal
           isModalOpened={isModalOpened}
@@ -130,7 +207,55 @@ const SListItem = styled(Box, {
   },
 });
 
-const SLeft = styled(Box, {
+const SDesktopListItem = styled(SListItem, {
+  display: 'flex',
+
+  '@mobile': {
+    display: 'none',
+  },
+});
+
+const SMobileCard = styled(Box, {
+  display: 'none',
+
+  '@mobile': {
+    display: 'block',
+  },
+});
+
+const SCardContent = styled(Box, {
+  display: 'flex',
+  height: '$80',
+  padding: '$21 $16',
+  backgroundColor: '$black80',
+  borderTopLeftRadius: '8px',
+  borderTopRightRadius: '8px',
+});
+
+const SCardProfileImage = styled(Box, {
+  mr: '$10',
+
+  img: {
+    width: '$38',
+    height: '$38',
+  },
+
+  svg: {
+    transform: 'scale(1.1875)',
+  },
+});
+
+const SCardUserInformation = styled(Box, {
+  flex: 1,
+  '& > div': {
+    flexType: 'verticalCenter',
+    '& + &': {
+      mt: '$7',
+    },
+  },
+});
+
+const SUserInformation = styled(Box, {
   flexType: 'verticalCenter',
   width: '100%',
 
@@ -171,6 +296,12 @@ const SType = styled(Box, {
   fontAg: '16_bold_100',
 });
 
+const SCardType = styled(Box, {
+  mr: '$4',
+  fontAg: '12_bold_100',
+  color: '$gray60',
+});
+
 const SVerticalLine = styled(Box, {
   width: '$1',
   height: '$12',
@@ -194,9 +325,15 @@ const SName = styled('a', {
 
   '@mobile': {
     ml: '$8',
+    fontAg: '14_bold_100',
     textDecoration: 'none',
     minWidth: 'fit-content',
   },
+});
+
+const SMobileName = styled('a', {
+  fontAg: '14_bold_100',
+  mr: '$4',
 });
 
 const SDate = styled(Box, {
@@ -210,7 +347,12 @@ const SDate = styled(Box, {
   },
 });
 
-const SStatus = styled('span', {
+const SCardDate = styled(Box, {
+  fontAg: '12_medium_100',
+  color: '$gray80',
+});
+
+const SUserStatus = styled('span', {
   padding: '$4',
   ml: '$8',
   borderRadius: '4px',
@@ -232,6 +374,12 @@ const SStatus = styled('span', {
   },
 });
 
+const SCardUserStatus = styled(SUserStatus, {
+  ml: '$0',
+  padding: '$3 $5 $4 $5',
+  fontAg: '10_bold_100',
+});
+
 const SDetailButton = styled('button', {
   color: '$white',
   textDecoration: 'underline',
@@ -240,11 +388,29 @@ const SDetailButton = styled('button', {
   fontAg: '18_semibold_100',
 });
 
+const SCardDetailButton = styled('button', {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  mt: '$3',
+  height: 'fit-content',
+  fontAg: '12_medium_100',
+  color: '$gray80',
+
+  '& > span': {
+    mr: '$2',
+  },
+});
+
 const SButtonContainer = styled(Box, {
   minWidth: 'fit-content',
 });
 
-const SHostGrayButton = styled('button', {
+const SCardButtonContainer = styled(Box, {
+  flexType: 'verticalCenter',
+  mb: '$16',
+});
+
+const SGrayButton = styled('button', {
   color: '$white',
   borderRadius: '32px',
   fontAg: '16_bold_100',
@@ -253,9 +419,34 @@ const SHostGrayButton = styled('button', {
   lineHeight: '$16',
 });
 
-const SHostPurpleButton = styled(SHostGrayButton, {
+const SPurpleButton = styled(SGrayButton, {
   marginRight: '8.5px',
   backgroundColor: '$purple100',
+});
+
+const SMobileButton = styled('button', {
+  width: '50%',
+  padding: '$13 0',
+  textAlign: 'center',
+  color: '$gray80',
+  backgroundColor: '$black80',
+  borderTop: '1px solid $black40',
+  borderBottomLeftRadius: '8px',
+  borderBottomRightRadius: '8px',
+});
+
+const SRejectButton = styled(SMobileButton, {
+  borderBottomRightRadius: '0',
+});
+
+const SApproveButton = styled(SMobileButton, {
+  color: '$white',
+  backgroundColor: '$purple100',
+  borderBottomLeftRadius: '0',
+});
+
+const SCancelButton = styled(SMobileButton, {
+  width: '100%',
 });
 
 const SDetailText = styled('p', {
