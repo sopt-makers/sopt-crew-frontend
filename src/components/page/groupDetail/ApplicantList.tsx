@@ -32,6 +32,10 @@ const SApplicantList = styled(Box, {
 
   '@mobile': {
     height: '$160',
+    pl: '$20',
+    pr: '$6',
+    mr: '$8',
+    alignContent: 'flex-start',
   },
 
   '&::-webkit-scrollbar': {
@@ -57,7 +61,7 @@ const SApplicantListItem = styled(Box, {
   mb: '$12',
 
   '@mobile': {
-    width: 'calc(50% - 7px)',
+    width: 'calc(50% - 3.5px)',
     height: '$48',
     padding: '$11 $12',
     fontAg: '14_medium_100',

@@ -458,7 +458,7 @@ const SApplicantListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
 
   '@mobile': {
-    padding: '0 $20 $56 $20',
+    padding: '$0',
   },
 });
 
@@ -471,6 +471,9 @@ const SApplicantAnchor = styled('a', {
 
   '@mobile': {
     mt: '$16',
+    fontAg: '12_semibold_100',
+    pb: '$24',
+    pr: '$20',
   },
 
   svg: {
@@ -488,6 +491,7 @@ const SEmptyText = styled('p', {
 
   '@mobile': {
     padding: '$74 0 $100 0',
+    fontAg: '14_medium_100',
   },
 });
 
