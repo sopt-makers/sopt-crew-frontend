@@ -108,7 +108,7 @@ const ManagementPage = () => {
             {isHost ? (
               <SInvitationButton>
                 <InvitationIcon />
-                초대하기
+                <span>초대하기</span>
               </SInvitationButton>
             ) : (
               <SSelectNumberWrapper>
@@ -210,6 +210,22 @@ const SInvitationButton = styled('button', {
 
   '& > svg': {
     mr: '$12',
+  },
+
+  '@mobile': {
+    border: 'none',
+    padding: '$0',
+    width: '$24',
+    height: '$24',
+
+    svg: {
+      mr: '$0',
+      transform: 'scale(1.2)',
+    },
+
+    span: {
+      display: 'none',
+    },
   },
 });
 
