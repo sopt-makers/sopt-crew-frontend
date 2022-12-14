@@ -274,7 +274,7 @@ const SAbout = styled(Box, {
   marginRight: '$90',
 
   '@mobile': {
-    mr: '0',
+    mr: '$0',
   },
 
   '& > div': {
@@ -289,6 +289,7 @@ const SAbout = styled(Box, {
     },
 
     fontAg: '34_bold_140',
+    color: '$white',
     mb: '$20',
 
     '@mobile': {
