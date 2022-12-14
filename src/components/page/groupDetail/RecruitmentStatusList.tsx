@@ -29,15 +29,15 @@ export default RecruitmentStatusList;
 const SRecruitmentStatusList = styled(Box, {
   display: 'flex',
   flexWrap: 'wrap',
-  maxHeight: '$219',
+  height: '$219',
   overflowY: 'scroll',
+  alignContent: 'flex-start',
 
   '@mobile': {
     height: '$160',
     pl: '$20',
     pr: '$6',
     mr: '$8',
-    alignContent: 'flex-start',
   },
 
   '&::-webkit-scrollbar': {
