@@ -291,6 +291,11 @@ const SEmptyView = styled(Box, {
   border: `1px solid $black40`,
   fontAg: '24_medium_100',
   color: '$gray80',
+
+  '@mobile': {
+    fontAg: '16_medium_100',
+    height: '$556',
+  },
 });
 
 const SPaginationWrapper = styled(Box, {
