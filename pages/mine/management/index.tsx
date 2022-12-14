@@ -287,4 +287,8 @@ const SEmptyView = styled(Box, {
 
 const SPaginationWrapper = styled(Box, {
   mt: '$80',
+
+  '@mobile': {
+    mt: '$40',
+  },
 });
