@@ -122,25 +122,47 @@ const SListItem = styled(Box, {
   padding: '$20',
   height: '$80',
   mb: '$20',
+
+  '@mobile': {
+    borderRadius: '8px',
+    padding: '$16',
+    height: '$56',
+  },
 });
 
 const SLeft = styled(Box, {
   flexType: 'verticalCenter',
+  width: '100%',
 
   '& img': {
     width: '$32',
     height: '$32',
     borderRadius: '$round',
     ml: '$4',
+
+    '@mobile': {
+      width: '$24',
+      height: '$24',
+      ml: '$0',
+    },
   },
 
   '& svg': {
     ml: '$4',
+
+    '@mobile': {
+      transform: 'scale(0.75)',
+      ml: '$0',
+    },
   },
 });
 
 const SProfile = styled(Box, {
   flexType: 'verticalCenter',
+
+  '@mobile': {
+    flex: 1,
+  },
 });
 
 const SType = styled(Box, {
@@ -155,6 +177,10 @@ const SVerticalLine = styled(Box, {
   ml: '$30',
   mr: '$30',
   backgroundColor: '$gray100',
+
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const SName = styled('a', {
@@ -165,11 +191,23 @@ const SName = styled('a', {
   textUnderlinePosition: 'under',
   textAlign: 'center',
   minWidth: '$48',
+
+  '@mobile': {
+    ml: '$8',
+    textDecoration: 'none',
+    minWidth: 'fit-content',
+  },
 });
 
 const SDate = styled(Box, {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
+
+  '@mobile': {
+    fontAg: '12_medium_100',
+    color: '$gray80',
+    justifyContent: 'space-between',
+  },
 });
 
 const SStatus = styled('span', {
