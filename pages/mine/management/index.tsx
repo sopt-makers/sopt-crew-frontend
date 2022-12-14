@@ -182,6 +182,11 @@ export default ManagementPage;
 const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
+
+  '@mobile': {
+    mt: '$31',
+    mb: '$66',
+  },
 });
 
 const SListHeader = styled(Box, {
