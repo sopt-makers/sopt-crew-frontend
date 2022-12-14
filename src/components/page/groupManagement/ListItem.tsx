@@ -75,7 +75,7 @@ const ListItem = ({
           <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
         </SLeft>
         {isHost && (
-          <div>
+          <SButtonContainer>
             {status === EApplyStatus.WAITING && (
               <>
                 <SHostPurpleButton onClick={handleClickApproveButton}>
@@ -96,7 +96,7 @@ const ListItem = ({
                 거절 취소
               </SHostGrayButton>
             )}
-          </div>
+          </SButtonContainer>
         )}
       </SListItem>
       {isModalOpened && (
@@ -238,6 +238,10 @@ const SDetailButton = styled('button', {
   textUnderlinePosition: 'under',
   margin: 'auto $60',
   fontAg: '18_semibold_100',
+});
+
+const SButtonContainer = styled(Box, {
+  minWidth: 'fit-content',
 });
 
 const SHostGrayButton = styled('button', {

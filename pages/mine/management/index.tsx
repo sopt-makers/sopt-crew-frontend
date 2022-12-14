@@ -249,6 +249,10 @@ const SSelectContainer = styled(Box, {
     flexType: 'verticalCenter',
     gap: '$12',
   },
+
+  '@mobile': {
+    mb: '$16',
+  },
 });
 
 const SSelectWrapper = styled(Box, {
