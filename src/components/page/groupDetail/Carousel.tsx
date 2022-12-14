@@ -41,6 +41,11 @@ const SCarousel = styled(Box, {
     flexType: 'center',
     mt: '$60',
     mb: '$80',
+
+    '@mobile': {
+      mt: '0',
+      mb: '$32',
+    },
   },
 
   '.slick-list': {
@@ -63,5 +68,10 @@ const SImageWrapper = styled(Box, {
     width: '$869',
     height: '$594',
     margin: '0 auto',
+
+    '@mobile': {
+      width: '100%',
+      height: '$256',
+    },
   },
 });
