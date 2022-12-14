@@ -71,6 +71,7 @@ const SImage = styled('img', {
     width: '$103',
     minWidth: '$103',
     height: '$67',
+    borderRadius: '6px',
     marginRight: '$12',
   },
 });
