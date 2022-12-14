@@ -382,6 +382,7 @@ const SStatusButton = styled(Button, {
 
   '@mobile': {
     width: '100%',
+    height: '$46',
     padding: '$13 0',
     mt: '$32',
     mb: '$10',
@@ -407,6 +408,7 @@ const SGuestButton = styled(Button, {
 
   '@mobile': {
     width: '100%',
+    height: '$46',
     fontAg: '14_bold_100',
     padding: '$16 0',
   },

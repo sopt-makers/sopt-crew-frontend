@@ -177,6 +177,7 @@ const stitches = createStitches({
       32: '32px',
       34: '34px',
       40: '40px',
+      46: '46px',
       48: '48px',
       54: '54px',
       58: '58px',
