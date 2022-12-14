@@ -190,6 +190,11 @@ const SListHeader = styled(Box, {
   mt: '$64',
   mb: '$48',
   position: 'relative',
+
+  '@mobile': {
+    mt: '$40',
+    mb: '$24',
+  },
 });
 
 const SListTitle = styled(Box, {

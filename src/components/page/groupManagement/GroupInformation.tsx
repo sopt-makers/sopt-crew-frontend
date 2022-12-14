@@ -48,6 +48,15 @@ const SGroupInformation = styled('a', {
   '& > div': {
     flex: '1',
   },
+
+  '@mobile': {
+    marginTop: '$48',
+    padding: '$16',
+    border: 'none',
+    svg: {
+      display: 'none',
+    },
+  },
 });
 
 const SImage = styled('img', {
@@ -57,17 +66,32 @@ const SImage = styled('img', {
   borderRadius: '14px',
   marginRight: '$35',
   objectFit: 'cover',
+
+  '@mobile': {
+    width: '$103',
+    minWidth: '$103',
+    height: '$67',
+    marginRight: '$12',
+  },
 });
 
 const SCategory = styled(Box, {
   fontAg: '24_semibold_100',
   color: '$gray80',
   mb: '$10',
+
+  '@mobile': {
+    fontAg: '12_bold_100',
+  },
 });
 
 const STitle = styled('p', {
   fontAg: '28_bold_140',
   color: '$white',
+
+  '@mobile': {
+    fontAg: '14_bold_140',
+  },
 });
 
 const SRecruitingStatus = styled('span', {
