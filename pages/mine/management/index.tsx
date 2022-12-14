@@ -111,13 +111,13 @@ const ManagementPage = () => {
                 초대하기
               </SInvitationButton>
             ) : (
-              <SSelectWrapper>
+              <SSelectNumberWrapper>
                 <Select
                   value={selectedNumber}
                   options={numberOptionList}
                   onChange={value => setSelectedNumber(value)}
                 />
-              </SSelectWrapper>
+              </SSelectNumberWrapper>
             )}
           </SListHeader>
           {isHost && (
@@ -131,13 +131,13 @@ const ManagementPage = () => {
                   />
                 </SSelectWrapper>
                 <div>
-                  <SSelectWrapper>
+                  <SSelectNumberWrapper>
                     <Select
                       value={selectedNumber}
                       options={numberOptionList}
                       onChange={value => setSelectedNumber(value)}
                     />
-                  </SSelectWrapper>
+                  </SSelectNumberWrapper>
                   <SSelectWrapper>
                     <Select
                       value={selectedSort}
@@ -194,6 +194,10 @@ const SListHeader = styled(Box, {
 
 const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
+
+  '@mobile': {
+    fontAg: '18_bold_100',
+  },
 });
 
 const SInvitationButton = styled('button', {
@@ -237,6 +241,12 @@ const SSelectWrapper = styled(Box, {
 
   '& div': {
     background: '$black100',
+  },
+});
+
+const SSelectNumberWrapper = styled(SSelectWrapper, {
+  '@mobile': {
+    display: 'none',
   },
 });
 
