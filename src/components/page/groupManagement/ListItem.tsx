@@ -115,7 +115,7 @@ const ListItem = ({
               <SCardUserInformation>
                 <div>
                   <Link href={`${origin}/members?id=${id}`} passHref>
-                    <SMobileName>{user.name}</SMobileName>
+                    <SCardName>{user.name}</SCardName>
                   </Link>
                   <SCardUserStatus status={status}>
                     {APPLY_STATUS[status]}
@@ -331,7 +331,7 @@ const SName = styled('a', {
   },
 });
 
-const SMobileName = styled('a', {
+const SCardName = styled('a', {
   fontAg: '14_bold_100',
   mr: '$4',
 });
