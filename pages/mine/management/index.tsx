@@ -256,6 +256,14 @@ const SSelectWrapper = styled(Box, {
     borderRadius: '14px',
     border: '1px solid $black20',
     backgroundColor: '$black100',
+
+    '@mobile': {
+      borderRadius: '8px',
+      minWidth: '$96',
+      height: '$36',
+      padding: '$12 $10',
+      fontAg: '12_semibold_100',
+    },
   },
 
   '& ul': {
