@@ -20,6 +20,11 @@ const SFilterArea = styled(Box, {
   display: 'flex',
   justifyContent: 'flex-end',
   mt: '$64',
+
+  '@mobile': {
+    justifyContent: 'flex-start',
+    mt: '$38',
+  },
 });
 
 const SFilter = styled(Box, {
@@ -28,6 +33,13 @@ const SFilter = styled(Box, {
   borderRadius: '14px',
   background: '$black80',
   mb: '$36',
+
+  '@mobile': {
+    width: '$133',
+    height: '$21',
+    borderRadius: '6px',
+    mb: '$28',
+  },
 });
 
 const SItemSkeleton = styled(Box, {
@@ -35,4 +47,10 @@ const SItemSkeleton = styled(Box, {
   borderRadius: '20px',
   background: '$black80',
   mb: '$16',
+
+  '@mobile': {
+    height: '$56',
+    borderRadius: '10px',
+    mb: '$10',
+  },
 });
