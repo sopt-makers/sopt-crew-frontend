@@ -527,6 +527,8 @@ const SApplicationForm = styled(Box, {
 
     '@mobile': {
       height: '$160',
+      padding: '$12',
+      fontAg: '16_medium_150',
     },
   },
 
@@ -547,8 +549,11 @@ const SApplicationForm = styled(Box, {
     backgroundColor: '$purple100',
 
     '@mobile': {
+      width: '$130',
+      padding: '$16 0',
       mt: '$8',
       mb: '$24',
+      fontAg: '14_bold_100',
     },
   },
 });
