@@ -49,12 +49,22 @@ TabList.Item = TabItem;
 const STabList = styled(Box, {
   display: 'flex',
   cursor: 'pointer',
+
+  '@mobile': {
+    overflowX: 'scroll',
+    '-ms-overflow-style': 'none',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 const STab = styled(Box, {
   '&:hover': {
     color: '$white',
   },
+
   variants: {
     isSelected: {
       true: {
@@ -65,18 +75,37 @@ const STab = styled(Box, {
         color: '$gray100',
       },
     },
+
     isSmall: {
       true: {
         pb: '$24',
         fontAg: '24_semibold_100',
         paddingBottom: '$17',
-        marginRight: '$32',
+        mr: '$32',
+
+        '@mobile': {
+          fontAg: '16_bold_100',
+          paddingBottom: '$10',
+          mr: '$16',
+          minWidth: 'fit-content',
+
+          '&:last-child': {
+            mr: '$0',
+          },
+        },
       },
+
       false: {
         pb: '$17',
         fontAg: '32_bold_100',
         paddingBottom: '$24',
-        marginRight: '$24',
+        mr: '$24',
+
+        '@mobile': {
+          fontAg: '18_bold_100',
+          paddingBottom: '$8',
+          mr: '$16',
+        },
       },
     },
   },

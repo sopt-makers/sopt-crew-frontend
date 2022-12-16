@@ -10,11 +10,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Box
         css={{
-          maxWidth: '1260px',
           minHeight: '100vh',
           color: theme.colors.white,
           mx: '$auto',
-          px: '$30',
+          '@desktop': {
+            maxWidth: '1260px',
+            px: '$30',
+          },
+          '@mobile': {
+            px: '$20',
+          },
         }}
       >
         <Component {...pageProps} />

@@ -41,10 +41,21 @@ const SCarousel = styled(Box, {
     flexType: 'center',
     mt: '$60',
     mb: '$80',
+
+    '@mobile': {
+      mt: '0',
+      mb: '$32',
+      width: 'calc(100% + 40px)',
+      marginLeft: '-20px',
+    },
   },
 
   '.slick-list': {
     borderRadius: '14px',
+
+    '@mobile': {
+      borderRadius: '$0',
+    },
   },
 
   '.slick-prev': {
@@ -63,5 +74,10 @@ const SImageWrapper = styled(Box, {
     width: '$869',
     height: '$594',
     margin: '0 auto',
+
+    '@mobile': {
+      width: '100%',
+      height: '$256',
+    },
   },
 });
