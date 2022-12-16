@@ -6,7 +6,7 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
-import ApplicantList from './ApplicantList';
+import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
@@ -70,7 +70,7 @@ const DetailHeader = ({
   const [textareaValue, setTextareaValue] = useState('');
   const [origin, setOrigin] = useState('');
 
-  const handleApplicantListModal = () => {
+  const handleRecruitmentStatusListModal = () => {
     handleModalOpen();
     setModalTitle(`모집 현황 (${current}/${capacity}명)`);
     setModalType('default');
@@ -160,7 +160,7 @@ const DetailHeader = ({
           </Link>
         </SAbout>
         <div>
-          <SStatusButton onClick={handleApplicantListModal}>
+          <SStatusButton onClick={handleRecruitmentStatusListModal}>
             <div>
               <span>모집 현황</span>
               <span>
@@ -221,9 +221,9 @@ const DetailHeader = ({
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
           ) : (
-            <SApplicantListWrapper>
+            <SRecruitmentStatusListWrapper>
               {appliedInfo.length > 0 ? (
-                <ApplicantList applicantList={appliedInfo} />
+                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
               ) : (
                 <SEmptyText>
                   {isHost ? '신청자' : '참여자'}가 없습니다.
@@ -231,21 +231,21 @@ const DetailHeader = ({
               )}
               {isHost && (
                 <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SApplicantAnchor>
+                  <SManagementAnchor>
                     <p>신청자 관리</p>
                     <ArrowSmallRightIcon />
-                  </SApplicantAnchor>
+                  </SManagementAnchor>
                 </Link>
               )}
               {isApplied && (
                 <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SApplicantAnchor>
+                  <SManagementAnchor>
                     <p>참여자 리스트</p>
                     <ArrowSmallRightIcon />
-                  </SApplicantAnchor>
+                  </SManagementAnchor>
                 </Link>
               )}
-            </SApplicantListWrapper>
+            </SRecruitmentStatusListWrapper>
           )}
         </DefaultModal>
       )}
@@ -456,7 +456,7 @@ const SHostButtonContainer = styled(Box, {
   },
 });
 
-const SApplicantListWrapper = styled(Box, {
+const SRecruitmentStatusListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
 
   '@mobile': {
@@ -464,7 +464,7 @@ const SApplicantListWrapper = styled(Box, {
   },
 });
 
-const SApplicantAnchor = styled('a', {
+const SManagementAnchor = styled('a', {
   mt: '$24',
   fontAg: '16_semibold_100',
   color: '$white',

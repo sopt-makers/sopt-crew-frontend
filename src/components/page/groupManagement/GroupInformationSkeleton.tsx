@@ -21,6 +21,14 @@ const SGroupInformationSkeleton = styled(Box, {
   borderRadius: '20px',
   mt: '$64',
   flexType: 'verticalCenter',
+
+  '@mobile': {
+    background: '$black90',
+    padding: '$0',
+    borderRadius: '8px',
+    mt: '$48',
+    height: '$99',
+  },
 });
 
 const SImage = styled(Box, {
@@ -28,10 +36,18 @@ const SImage = styled(Box, {
   borderRadius: '14px',
   width: '$167',
   height: '$109',
+
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const STextArea = styled(Box, {
   ml: '$24',
+
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const SLine = styled(Box, {

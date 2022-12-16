@@ -108,16 +108,16 @@ const ManagementPage = () => {
             {isHost ? (
               <SInvitationButton>
                 <InvitationIcon />
-                초대하기
+                <span>초대하기</span>
               </SInvitationButton>
             ) : (
-              <SSelectWrapper>
+              <SSelectNumberWrapper>
                 <Select
                   value={selectedNumber}
                   options={numberOptionList}
                   onChange={value => setSelectedNumber(value)}
                 />
-              </SSelectWrapper>
+              </SSelectNumberWrapper>
             )}
           </SListHeader>
           {isHost && (
@@ -131,13 +131,13 @@ const ManagementPage = () => {
                   />
                 </SSelectWrapper>
                 <div>
-                  <SSelectWrapper>
+                  <SSelectNumberWrapper>
                     <Select
                       value={selectedNumber}
                       options={numberOptionList}
                       onChange={value => setSelectedNumber(value)}
                     />
-                  </SSelectWrapper>
+                  </SSelectNumberWrapper>
                   <SSelectWrapper>
                     <Select
                       value={selectedSort}
@@ -182,6 +182,11 @@ export default ManagementPage;
 const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
+
+  '@mobile': {
+    mt: '$31',
+    mb: '$66',
+  },
 });
 
 const SListHeader = styled(Box, {
@@ -190,10 +195,19 @@ const SListHeader = styled(Box, {
   mt: '$64',
   mb: '$48',
   position: 'relative',
+
+  '@mobile': {
+    mt: '$40',
+    mb: '$24',
+  },
 });
 
 const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
+
+  '@mobile': {
+    fontAg: '18_bold_100',
+  },
 });
 
 const SInvitationButton = styled('button', {
@@ -207,6 +221,22 @@ const SInvitationButton = styled('button', {
   '& > svg': {
     mr: '$12',
   },
+
+  '@mobile': {
+    border: 'none',
+    padding: '$0',
+    width: '$24',
+    height: '$24',
+
+    svg: {
+      mr: '$0',
+      transform: 'scale(1.2)',
+    },
+
+    span: {
+      display: 'none',
+    },
+  },
 });
 
 const SSelectContainer = styled(Box, {
@@ -219,6 +249,10 @@ const SSelectContainer = styled(Box, {
     flexType: 'verticalCenter',
     gap: '$12',
   },
+
+  '@mobile': {
+    mb: '$16',
+  },
 });
 
 const SSelectWrapper = styled(Box, {
@@ -226,6 +260,14 @@ const SSelectWrapper = styled(Box, {
     borderRadius: '14px',
     border: '1px solid $black20',
     backgroundColor: '$black100',
+
+    '@mobile': {
+      borderRadius: '8px',
+      minWidth: '$96',
+      height: '$36',
+      padding: '$12 $10',
+      fontAg: '12_semibold_100',
+    },
   },
 
   '& ul': {
@@ -240,6 +282,12 @@ const SSelectWrapper = styled(Box, {
   },
 });
 
+const SSelectNumberWrapper = styled(SSelectWrapper, {
+  '@mobile': {
+    display: 'none',
+  },
+});
+
 const SEmptyView = styled(Box, {
   flexType: 'center',
   height: '$820',
@@ -247,8 +295,17 @@ const SEmptyView = styled(Box, {
   border: `1px solid $black40`,
   fontAg: '24_medium_100',
   color: '$gray80',
+
+  '@mobile': {
+    fontAg: '16_medium_100',
+    height: '$556',
+  },
 });
 
 const SPaginationWrapper = styled(Box, {
   mt: '$80',
+
+  '@mobile': {
+    mt: '$40',
+  },
 });

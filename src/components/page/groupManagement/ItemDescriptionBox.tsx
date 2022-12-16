@@ -29,6 +29,10 @@ const SItemDescriptionBox = styled(Box, {
     color: '$gray80',
     fontAg: '16_bold_100',
   },
+
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const SType = styled('span', {
