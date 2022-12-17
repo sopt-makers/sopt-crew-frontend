@@ -25,10 +25,13 @@ import {
 } from 'src/api/meeting/hooks';
 import { UpdateApplicationRequest } from 'src/api/meeting';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
+import useModal from '@hooks/useModal';
+import InvitationModal from '@components/page/groupManagement/InvitationModal';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { value: page, setValue: setPage } = usePageParams();
 
   const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
@@ -106,7 +109,7 @@ const ManagementPage = () => {
               {management && <span> ({management.meta.itemCount})</span>}
             </SListTitle>
             {isHost ? (
-              <SInvitationButton>
+              <SInvitationButton onClick={handleModalOpen}>
                 <InvitationIcon />
                 <span>초대하기</span>
               </SInvitationButton>
@@ -170,6 +173,13 @@ const ManagementPage = () => {
                 changeCurrentPage={setPage}
               />
             </SPaginationWrapper>
+          )}
+          {isModalOpened && (
+            <InvitationModal
+              isModalOpened={isModalOpened}
+              title="초대하기"
+              handleModalClose={handleModalClose}
+            />
           )}
         </>
       )}
