@@ -15,9 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { accessToken } = useAuth();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (accessToken === null) {
       localStorage.setItem('lastUnauthorizedPath', window.location.pathname);
-      router.push(`/auth/login`);
+      window.location.pathname = '/auth/login';
       return;
     }
     // set access token in header
