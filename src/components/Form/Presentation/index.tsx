@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import CancelIcon from 'public/assets/svg/x.svg';
 import { FieldError } from 'react-hook-form';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
@@ -271,7 +272,7 @@ function Presentation({
               }}
             ></FormController>
           </SDateField>
-          -
+          <span style={{ marginTop: '14px' }}>-</span>
           <SDateField>
             <FormController
               name="detail.mEndDate"
@@ -338,7 +339,10 @@ function Presentation({
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
         {cancelButtonLabel && (
-          <CancelButton type="button">{cancelButtonLabel}</CancelButton>
+          <CancelButton type="button">
+            <CancelIcon />
+            {cancelButtonLabel}
+          </CancelButton>
         )}
         <SubmitButton type="submit">{submitButtonLabel}</SubmitButton>
       </ButtonContainer>
@@ -352,14 +356,23 @@ const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '64px',
+
+  '@tablet': {
+    gap: '56px',
+  },
 });
 const STitleField = styled('div', {
-  width: '369px',
+  width: '100%',
+  maxWidth: '369px',
 });
 const SFileInputWrapper = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '16px',
+
+  '@tablet': {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+  },
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
@@ -367,7 +380,12 @@ const SApplicationFieldWrapper = styled('div', {
   gap: '12px',
 });
 const SApplicationField = styled('div', {
-  width: '205px',
+  width: '100%',
+  maxWidth: '205px',
+
+  '@tablet': {
+    maxWidth: '151px',
+  },
 });
 const SMemberCountField = styled(SApplicationField);
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
@@ -376,15 +394,30 @@ const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',
   alignSelf: 'flex-end',
+
+  '@tablet': {
+    flexDirection: 'column-reverse',
+    width: '100%',
+    marginBottom: '20px',
+    gap: '16px',
+  },
 });
 const Button = styled('button', {
   padding: '16px 20px',
-  flexType: 'verticalCenter',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   gap: '12px',
   background: '$black40',
   borderRadius: '10px',
   fontAg: '18_bold_100',
   color: '$white',
+
+  '@tablet': {
+    gap: '10px',
+    width: '100%',
+    fontAg: '16_bold_100',
+  },
 });
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
