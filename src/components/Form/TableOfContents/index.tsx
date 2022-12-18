@@ -75,7 +75,7 @@ const SContainer = styled('div', {
   position: 'sticky',
   top: 0,
 
-  '@tablet': {
+  '@mobile': {
     display: 'none',
   },
 });
