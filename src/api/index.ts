@@ -10,6 +10,10 @@ export const api = axios.create({
   // withCredentials: true,
 });
 
+export const playgroundApi = axios.create({
+  baseURL: 'https://playground.api.sopt.org/',
+});
+
 // accessToken 키가 필요한 요청이 있어서 임시 제작
 export const apiWithAuth = axios.create({
   baseURL,

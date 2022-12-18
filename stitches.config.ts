@@ -254,9 +254,9 @@ const stitches = createStitches({
     },
   },
   media: {
-    mobile: '(max-width: 640px)',
-    tablet: '(max-width:830px)',
-    desktop: '(min-width: 831px)',
+    mobile: '(max-width: 768px)',
+    tablet: '(max-width: 1065px)',
+    desktop: '(min-width: 1065px)',
   },
   utils: {
     size: (value: number) => ({

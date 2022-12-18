@@ -229,3 +229,18 @@ input[type='number'] {
   src: url('/fonts/SUIT-Thin.otf') format('otf');
   font-weight: 100;
 }
+
+.mobile-only {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .pc-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+}
+
