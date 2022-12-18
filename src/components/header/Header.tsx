@@ -24,13 +24,13 @@ const Header: FC = () => {
 
   const { data: me } = useGetMemberOfMe();
 
-  const playgroundLink = usePlaygroundLink();
-
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
 
+  const playgroundLink = usePlaygroundLink();
+  const isGroupPage = basePath === '/group';
   useEffect(() => {
     const closeDropdownHandler = (e: Event) => {
       if (!(e.target instanceof HTMLElement)) {
@@ -82,7 +82,7 @@ const Header: FC = () => {
           <MenuIcon />
         </button>
         <Link href={playgroundLink.memberList()} passHref>
-          <TextLinkButton isCurrentPath={pathname === '/'}>
+          <TextLinkButton isGroupPage={pathname === '/'}>
             <StyledLogo>
               <LogoIcon />
             </StyledLogo>
@@ -91,23 +91,13 @@ const Header: FC = () => {
 
         <MenuGroup className="pc-only">
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton
-              isCurrentPath={pathname === playgroundLink.memberList()}
-            >
-              멤버
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton
-              isCurrentPath={pathname === playgroundLink.projectList()}
-            >
-              프로젝트
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
-            <TextLinkButton isCurrentPath={basePath === '/group'}>
-              모임
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
           </Link>
         </MenuGroup>
       </LeftGroup>
@@ -169,23 +159,13 @@ const Header: FC = () => {
 
         <RouterWrapper>
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton
-              isCurrentPath={pathname === playgroundLink.memberList()}
-            >
-              멤버
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton
-              isCurrentPath={pathname === playgroundLink.projectList()}
-            >
-              프로젝트
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
-            <TextLinkButton isCurrentPath={basePath === '/group'}>
-              모임
-            </TextLinkButton>
+            <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
           </Link>
         </RouterWrapper>
         <Divider />
@@ -270,7 +250,7 @@ const StyledLogo = styled(Box, {
 const TextLinkButton = styled('a', {
   cursor: 'pointer',
   variants: {
-    isCurrentPath: {
+    isGroupPage: {
       true: {
         color: '#fff',
         fontWeight: 700,
