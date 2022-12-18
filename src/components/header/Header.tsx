@@ -19,7 +19,6 @@ import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 const Header: FC = () => {
   //   const { logout } = useAuth();
   const { pathname, events, basePath } = useRouter();
-
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
@@ -181,6 +180,11 @@ const Header: FC = () => {
               isCurrentPath={pathname === playgroundLink.projectList()}
             >
               프로젝트
+            </TextLinkButton>
+          </Link>
+          <Link href="/" passHref>
+            <TextLinkButton isCurrentPath={basePath === '/group'}>
+              모임
             </TextLinkButton>
           </Link>
         </RouterWrapper>
