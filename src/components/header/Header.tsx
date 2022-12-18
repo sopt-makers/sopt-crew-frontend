@@ -130,7 +130,7 @@ const Header: FC = () => {
         >
           내 프로필
         </Link>
-        {/* <div onClick={logout}>로그아웃</div> */}
+        <div onClick={() => 'logout()'}>로그아웃</div>
       </UserDropdown>
 
       <DimmedBackground
@@ -178,7 +178,7 @@ const Header: FC = () => {
           <MenuLink href={FEEDBACK_FORM_URL} target="_blank">
             의견 제안하기
           </MenuLink>
-          {/* <MenuLink onClick={logout}>로그아웃</MenuLink> */}
+          <MenuLink onClick={() => 'logout()'}>로그아웃</MenuLink>
         </MenuWrapper>
       </MobileMenu>
     </StyledHeader>
