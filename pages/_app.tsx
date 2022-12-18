@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@components/box/Box';
 import { theme } from 'stitches.config';
+import Header from '@components/header/Header';
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -13,15 +14,20 @@ function MyApp({ Component, pageProps }: AppProps) {
           minHeight: '100vh',
           color: theme.colors.white,
           mx: '$auto',
+          marginTop: '100px',
           '@desktop': {
             maxWidth: '1260px',
             px: '$30',
           },
-          '@mobile': {
+          '@tablet': {
             px: '$20',
+          },
+          '@mobile': {
+            marginTop: '70px',
           },
         }}
       >
+        <Header />
         <Component {...pageProps} />
       </Box>
     </QueryClientProvider>
