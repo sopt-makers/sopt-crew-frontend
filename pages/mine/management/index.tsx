@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
-import ListSkeleton from '@components/page/groupManagement/ListSkeleton';
+import ManagementListSkeleton from '@components/page/groupManagement/ManagementListSkeleton';
 import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
-import ListItem from '@components/page/groupManagement/ListItem';
+import ManagementListItem from '@components/page/groupManagement/ManagementListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
 import Select from '@components/Form/Select';
 import { Option } from '@components/Form/Select/OptionItem';
@@ -100,7 +100,7 @@ const ManagementPage = () => {
         groupData && <GroupInformation groupData={groupData} />
       )}
       {isManagementDataLoading ? (
-        <ListSkeleton />
+        <ManagementListSkeleton />
       ) : (
         <>
           <SListHeader>
@@ -155,7 +155,7 @@ const ManagementPage = () => {
           )}
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
-              <ListItem
+              <ManagementListItem
                 key={id}
                 application={application}
                 isHost={isHost}

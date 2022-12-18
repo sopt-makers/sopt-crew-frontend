@@ -3,6 +3,7 @@ import Textarea from '@components/Form/Textarea';
 import DefaultModal from '@components/modal/DefaultModal';
 import React, { useState } from 'react';
 import { styled } from 'stitches.config';
+import InvitationListItem from './InvitationListItem';
 
 interface InvitationModalProps {
   isModalOpened: boolean;
@@ -19,7 +20,7 @@ const InvitationModal = ({
   const [isAllSelected, setIsAllSelected] = useState(false);
 
   // TODO: API 연결 전 임시로 사용
-  const memberList = [
+  const invitationList = [
     { id: 0, name: '백지연' },
     { id: 1, name: '유저명' },
   ];
@@ -45,8 +46,8 @@ const InvitationModal = ({
           </div>
         </SMemberTitleContainer>
         <SMemberList>
-          {memberList.map(({ id, name }) => (
-            <div key={id}>{name}</div>
+          {invitationList.map(member => (
+            <InvitationListItem key={member.id} member={member} />
           ))}
         </SMemberList>
         <STitle>초대 메시지</STitle>
@@ -76,7 +77,7 @@ const InvitationModal = ({
 export default InvitationModal;
 
 const SInvitationModal = styled(Box, {
-  height: '$764',
+  height: '$644',
   padding: '$40',
   color: '$white',
 });
