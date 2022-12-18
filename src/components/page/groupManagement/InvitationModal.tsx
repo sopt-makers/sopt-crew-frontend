@@ -77,7 +77,6 @@ const InvitationModal = ({
 export default InvitationModal;
 
 const SInvitationModal = styled(Box, {
-  height: '$644',
   padding: '$40',
   color: '$white',
 });
@@ -108,7 +107,7 @@ const SAllButton = styled('button', {
 });
 
 const SMemberList = styled(Box, {
-  height: '$254',
+  // TODO: 디자인 수정 예정
 });
 
 const STitle = styled(Box, {
