@@ -74,6 +74,10 @@ const SContainer = styled('div', {
   borderRadius: '15px',
   position: 'sticky',
   top: 0,
+
+  '@tablet': {
+    display: 'none',
+  },
 });
 const SLabelWrapper = styled('div', {
   display: 'flex',

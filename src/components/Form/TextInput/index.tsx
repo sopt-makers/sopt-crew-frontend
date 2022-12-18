@@ -42,6 +42,7 @@ const SInputWrapper = styled('div', {
   alignItems: 'center',
 });
 const SInput = styled('input', {
+  width: '100%',
   padding: '18px 20px',
   display: 'flex',
   alignItems: 'center',
@@ -51,6 +52,10 @@ const SInput = styled('input', {
   borderRadius: 10,
   '&::placeholder': {
     color: '$gray100',
+  },
+
+  '@tablet': {
+    padding: '16px',
   },
 });
 const SErrorMessage = styled(ErrorMessage, {

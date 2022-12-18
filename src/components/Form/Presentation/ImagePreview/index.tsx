@@ -44,7 +44,9 @@ export default function ImagePreview({
 const SContainer = styled('div', {
   position: 'relative',
   width: '100%',
-  height: '176px',
+  height: '100%',
+  maxHeight: '176px',
+  aspectRatio: '40 / 27',
   borderRadius: '10px',
   overflow: 'hidden',
 });
