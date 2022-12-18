@@ -10,7 +10,7 @@ import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
 import { APPLY_STATUS, EApplyStatus } from '@constants/status';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 
-interface ListItemProps {
+interface ManagementListItemProps {
   application: ApplicationData;
   isHost: boolean;
   onChangeApplicationStatus: (
@@ -18,11 +18,11 @@ interface ListItemProps {
   ) => void;
 }
 
-const ListItem = ({
+const ManagementListItem = ({
   application,
   isHost,
   onChangeApplicationStatus,
-}: ListItemProps) => {
+}: ManagementListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { id, appliedDate, content, status = 0, user } = application;
@@ -189,7 +189,7 @@ const ListItem = ({
   );
 };
 
-export default ListItem;
+export default ManagementListItem;
 
 const SListItem = styled(Box, {
   flexType: 'verticalCenter',

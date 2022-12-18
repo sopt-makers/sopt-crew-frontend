@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
-const ListSkeleton = () => {
+const ManagementListSkeleton = () => {
   return (
     <>
       <SFilterArea>
@@ -14,7 +14,7 @@ const ListSkeleton = () => {
   );
 };
 
-export default ListSkeleton;
+export default ManagementListSkeleton;
 
 const SFilterArea = styled(Box, {
   display: 'flex',
