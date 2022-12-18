@@ -11,8 +11,10 @@ import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createGroup } from 'src/api/group';
 import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 const MakePage = () => {
+  const router = useRouter();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
@@ -41,10 +43,10 @@ const MakePage = () => {
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
-      await createGroup(formData);
-
-      // TODO: handle success
+      const { id } = await createGroup(formData);
       alert('모임을 개설했습니다.');
+      router.push(`/detail?id=${id}`);
+      // TODO: handle success
     } catch (error) {
       // TODO: handle error
       alert('모임을 개설하지 못했습니다.');
