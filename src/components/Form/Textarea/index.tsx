@@ -17,7 +17,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, message, error, required, ...props }: TextareaProps, ref) => {
     return (
       <SContainer>
-        <Label required={required}>{label}</Label>
+        {label && <Label required={required}>{label}</Label>}
         {message && <HelpMessage>{message}</HelpMessage>}
         <STextarea ref={ref} {...props} />
         <SBottomContainer>
