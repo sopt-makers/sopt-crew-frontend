@@ -3,12 +3,15 @@ import type { NextPage } from 'next';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
 import PlusIcon from '@assets/svg/plus.svg';
+import WriteIcon from '@assets/svg/write.svg';
+
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
 import Filter from '@components/page/groupList/Filter';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import { GroupListOfAll } from '@components/page/groupList/Grid/List';
+import Search from '@components/page/groupList/Filter/Search';
 
 const Home: NextPage = () => {
   return (
@@ -34,6 +37,14 @@ const Home: NextPage = () => {
             </SMakeGroup>
           </a>
         </Link>
+        <SMobileButtonGroup>
+          <Link href="/make" passHref>
+            <a>
+              <WriteIcon />
+            </a>
+          </Link>
+          <Search.Mobile />
+        </SMobileButtonGroup>
       </Flex>
       <Box css={{ mt: '$120', mb: '$64' }}>
         <Filter />
@@ -55,7 +66,19 @@ const SMakeGroup = styled(Flex, {
   '& > span': {
     ml: '$12',
     fontAg: '18_bold_100',
-
     color: '$white',
+  },
+  '@mobile': {
+    display: 'none',
+  },
+});
+
+const SMobileButtonGroup = styled(Flex, {
+  display: 'none',
+  '@mobile': {
+    display: 'flex',
+  },
+  '& > a': {
+    mr: '$18',
   },
 });

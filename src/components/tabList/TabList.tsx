@@ -102,7 +102,7 @@ const STab = styled(Box, {
         mr: '$24',
 
         '@mobile': {
-          fontAg: '18_bold_100',
+          fontAg: '20_bold_100',
           paddingBottom: '$8',
           mr: '$16',
         },
