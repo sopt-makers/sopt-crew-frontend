@@ -91,10 +91,10 @@ const Header: FC = () => {
 
         <MenuGroup className="pc-only">
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
             <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
@@ -159,10 +159,10 @@ const Header: FC = () => {
 
         <RouterWrapper>
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
             <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
