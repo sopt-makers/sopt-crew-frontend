@@ -20,7 +20,7 @@ export default ItemDescriptionBox;
 const SItemDescriptionBox = styled(Box, {
   border: '1px solid $black40',
   borderRadius: '15px',
-  padding: '$19 $82 $19 $35',
+  padding: '$19 $32',
   mb: '$28',
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
@@ -36,13 +36,13 @@ const SItemDescriptionBox = styled(Box, {
 });
 
 const SType = styled('span', {
-  mr: '$68',
+  mr: '$32',
 });
 
 const SProfile = styled('span', {
-  mr: '$84',
+  mr: '$147',
 });
 
 const SDetail = styled('span', {
-  mr: '$70',
+  mr: '$72',
 });
