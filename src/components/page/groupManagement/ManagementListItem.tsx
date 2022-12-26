@@ -63,7 +63,7 @@ const ManagementListItem = ({
             <SUserInformation>
               {/* TODO: 나중에 신청/초대로 수정 예정 */}
               <SType>신청</SType>
-              <SProfile>
+              <SDesktopProfile>
                 {profileImage ? (
                   <img src={profileImage} />
                 ) : (
@@ -75,7 +75,7 @@ const ManagementListItem = ({
                 <SUserStatus status={status}>
                   {APPLY_STATUS[status]}
                 </SUserStatus>
-              </SProfile>
+              </SDesktopProfile>
               {/* TODO: 나중에 신청/초대로 수정 예정 */}
               <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
@@ -282,11 +282,14 @@ const SUserInformation = styled(Box, {
 
 const SProfile = styled(Box, {
   flexType: 'verticalCenter',
-  width: '$244',
 
   '@mobile': {
     flex: 1,
   },
+});
+
+const SDesktopProfile = styled(SProfile, {
+  width: '$244',
 });
 
 const SType = styled(Box, {
