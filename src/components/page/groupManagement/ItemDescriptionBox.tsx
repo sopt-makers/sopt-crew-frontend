@@ -24,11 +24,8 @@ const SItemDescriptionBox = styled(Box, {
   mb: '$28',
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-
-  '& span': {
-    color: '$gray80',
-    fontAg: '16_bold_100',
-  },
+  color: '$gray80',
+  fontAg: '16_bold_100',
 
   '@mobile': {
     display: 'none',

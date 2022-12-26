@@ -194,14 +194,15 @@ export default ManagementListItem;
 const SListItem = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  borderRadius: '19.711px',
+  borderRadius: '20px',
   backgroundColor: '$black80',
-  padding: '$20',
+  padding: '$20 $32',
   height: '$80',
   mb: '$20',
 
   '@mobile': {
     borderRadius: '8px',
+    mb: '$10',
     padding: '$16',
     height: '$56',
   },
@@ -273,17 +274,15 @@ const SUserInformation = styled(Box, {
   },
 
   '& svg': {
-    ml: '$4',
-
     '@mobile': {
       transform: 'scale(0.75)',
-      ml: '$0',
     },
   },
 });
 
 const SProfile = styled(Box, {
   flexType: 'verticalCenter',
+  width: '$244',
 
   '@mobile': {
     flex: 1,
@@ -291,8 +290,7 @@ const SProfile = styled(Box, {
 });
 
 const SType = styled(Box, {
-  ml: '$17',
-  mr: '$38',
+  mr: '$32',
   fontAg: '16_bold_100',
 });
 
@@ -315,7 +313,7 @@ const SVerticalLine = styled(Box, {
 });
 
 const SName = styled('a', {
-  ml: '$16',
+  ml: '$8',
   color: '$white',
   fontAg: '18_semibold_100',
   textDecoration: 'underline',
@@ -324,7 +322,6 @@ const SName = styled('a', {
   minWidth: '$48',
 
   '@mobile': {
-    ml: '$8',
     fontAg: '14_bold_100',
     textDecoration: 'none',
     minWidth: 'fit-content',
@@ -353,8 +350,8 @@ const SCardDate = styled(Box, {
 });
 
 const SUserStatus = styled('span', {
-  padding: '$4',
-  ml: '$8',
+  padding: '$4 $5',
+  ml: '$10',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
   backgroundColor: '$gray100',
@@ -384,7 +381,7 @@ const SDetailButton = styled('button', {
   color: '$white',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
-  margin: 'auto $60',
+  mr: '$66',
   fontAg: '18_semibold_100',
 });
 
