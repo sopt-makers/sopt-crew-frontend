@@ -46,9 +46,9 @@ const Home: NextPage = () => {
           <Search.Mobile />
         </SMobileButtonGroup>
       </Flex>
-      <Box css={{ mt: '$120', mb: '$64' }}>
+      <SFilterWrapper>
         <Filter />
-      </Box>
+      </SFilterWrapper>
       <SSRSafeSuspense fallback={<p>loading...</p>}>
         <GroupListOfAll />
       </SSRSafeSuspense>
@@ -80,5 +80,14 @@ const SMobileButtonGroup = styled(Flex, {
   },
   '& > a': {
     mr: '$18',
+  },
+});
+
+const SFilterWrapper = styled(Box, {
+  mt: '$120',
+  mb: '$64',
+  '@mobile': {
+    mt: '$48',
+    mb: '$24',
   },
 });

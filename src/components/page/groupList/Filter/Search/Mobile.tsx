@@ -34,6 +34,7 @@ function SearchMobile() {
                 type="text"
                 placeholder="모임 검색"
                 {...register('search')}
+                autoComplete="off"
               />
             </SSearchWrapper>
           </SForm>
