@@ -17,7 +17,17 @@ function InitializationButton() {
     );
   };
   return (
-    <Flex as="button" onClick={onClickInitialization}>
+    <Flex
+      as="button"
+      css={{
+        '@mobile': {
+          width: '36px',
+          alignSelf: 'start',
+          marginTop: '16px',
+        },
+      }}
+      onClick={onClickInitialization}
+    >
       <ResetIcon />
       <InitializationText>초기화</InitializationText>
     </Flex>
@@ -32,4 +42,7 @@ const InitializationText = styled('span', {
   fontSize: '18px',
   fontWeight: '$medium',
   marginLeft: '6px',
+  '@mobile': {
+    display: 'none',
+  },
 });
