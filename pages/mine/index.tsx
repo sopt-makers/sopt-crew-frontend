@@ -13,6 +13,8 @@ import {
   GroupListOfApplied,
   GroupListOfMine,
 } from '@components/page/groupList/Grid/List';
+import GridLayout from '@components/page/groupList/Grid/Layout';
+import CardSkeleton from '@components/page/groupList/Card/Skeleton';
 
 const enum GroupType {
   MADE,
@@ -58,13 +60,29 @@ const MinePage: NextPage = () => {
 
         <Tab.Panels>
           <Tab.Panel>
-            <SSRSafeSuspense fallback={<p>loading...</p>}>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout>
+                  {new Array(4).fill(null).map(() => (
+                    <CardSkeleton />
+                  ))}
+                </GridLayout>
+              }
+            >
               <GroupListOfMine />
             </SSRSafeSuspense>
           </Tab.Panel>
 
           <Tab.Panel>
-            <SSRSafeSuspense fallback={<p>loading...</p>}>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout>
+                  {new Array(4).fill(null).map(() => (
+                    <CardSkeleton />
+                  ))}
+                </GridLayout>
+              }
+            >
               <GroupListOfApplied />
             </SSRSafeSuspense>
           </Tab.Panel>
@@ -80,6 +98,10 @@ const STabList = styled(Tab.List, {
   flexType: 'center',
   marginTop: '126px',
   paddingBottom: '64px',
+  '@mobile': {
+    marginTop: '48px',
+    paddingBottom: '24px',
+  },
 });
 
 const STab = styled('button', {
@@ -95,5 +117,9 @@ const STab = styled('button', {
       },
       false: { color: '$gray100' },
     },
+  },
+  '@mobile': {
+    fontAg: '14_bold_100',
+    py: '$12',
   },
 });

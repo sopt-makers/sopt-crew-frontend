@@ -25,6 +25,7 @@ function SelectComboBoxItem({
       onClick={toggle}
       align="center"
       css={{
+        width: '100%',
         height: '44px',
       }}
     >
@@ -43,6 +44,7 @@ const SCheckbox = styled('input', {
   mr: '$8',
   '& + label': {
     cursor: 'pointer',
+    fontAg: '16_medium_100',
   },
   variants: {
     checked: {

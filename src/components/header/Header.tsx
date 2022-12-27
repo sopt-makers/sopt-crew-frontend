@@ -91,10 +91,10 @@ const Header: FC = () => {
 
         <MenuGroup className="pc-only">
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
             <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
@@ -159,10 +159,10 @@ const Header: FC = () => {
 
         <RouterWrapper>
           <Link href={playgroundLink.memberList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>멤버</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>멤버</TextLinkButton>
           </Link>
           <Link href={playgroundLink.projectList()} passHref>
-            <TextLinkButton isGroupPage={isGroupPage}>프로젝트</TextLinkButton>
+            <TextLinkButton isGroupPage={!isGroupPage}>프로젝트</TextLinkButton>
           </Link>
           <Link href="/" passHref>
             <TextLinkButton isGroupPage={isGroupPage}>모임</TextLinkButton>
@@ -200,7 +200,7 @@ const StyledHeader = styled('header', {
   alignItems: 'center',
   justifyContent: 'space-between',
 
-  zIndex: 100,
+  zIndex: 10,
   backgroundColor: '$black100',
   padding: '0 36px',
   letterSpacing: '-0.01em',
@@ -323,7 +323,7 @@ const UserDropdown = styled(Box, {
   flexDirection: 'column',
   gap: '25px',
   transition: 'opacity 0.2s',
-  zIndex: 100,
+  zIndex: 11,
   borderRadius: '14px',
   background: '#272828',
   padding: '25px 20px',
@@ -351,7 +351,7 @@ const DimmedBackground = styled(Box, {
   position: 'fixed',
   top: 0,
   left: 0,
-  zIndex: 100000,
+  zIndex: 10,
   backgroundColor: 'rgb(0 0 0 / 70%)',
   width: '100%',
   height: '100vh',
@@ -369,7 +369,7 @@ const MobileMenu = styled(Box, {
   top: 0,
   left: 0,
   transition: 'transform 0.3s',
-  zIndex: 100001,
+  zIndex: 11,
   backgroundColor: '$black80',
   padding: '57px 20px',
   width: '212px',
