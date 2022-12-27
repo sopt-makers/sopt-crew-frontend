@@ -1,5 +1,5 @@
 import { RECRUITMENT_STATUS } from '@constants/status';
-import { api, apiWithAuth, PromiseResponse } from '..';
+import { api, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 interface PaginationType {
@@ -108,9 +108,8 @@ export const fetchGroupListOfAll = async ({
 };
 
 export const getGroup = async (id: string): Promise<GroupResponse> => {
-  return (
-    await apiWithAuth.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)
-  ).data.data;
+  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
+    .data;
 };
 
 export const getGroupPeopleList = async ({
@@ -118,33 +117,27 @@ export const getGroupPeopleList = async ({
   ...rest
 }: OptionData): Promise<GroupPeopleResponse> => {
   return (
-    await apiWithAuth.get<PromiseResponse<GroupPeopleResponse>>(
-      `/meeting/${id}/list`,
-      {
-        params: rest,
-      }
-    )
+    await api.get<PromiseResponse<GroupPeopleResponse>>(`/meeting/${id}/list`, {
+      params: rest,
+    })
   ).data.data;
 };
 
 export const deleteGroup = async (
   id: number
 ): Promise<{ statusCode: number }> => {
-  return (await apiWithAuth.delete<{ statusCode: number }>(`/meeting/${id}`))
-    .data;
+  return (await api.delete<{ statusCode: number }>(`/meeting/${id}`)).data;
 };
 
 export const postApplication = async (
   body: PostApplicationRequest
 ): Promise<{ statusCode: number }> => {
-  return (
-    await apiWithAuth.post<{ statusCode: number }>(`/meeting/apply`, body)
-  ).data;
+  return (await api.post<{ statusCode: number }>(`/meeting/apply`, body)).data;
 };
 
 export const updateApplication = async ({
   id,
   ...rest
 }: UpdateApplicationRequest) => {
-  return (await apiWithAuth.put(`/meeting/${id}/apply/status`, rest)).data;
+  return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
 };
