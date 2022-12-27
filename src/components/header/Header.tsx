@@ -294,7 +294,7 @@ const UserButton = styled('button', {
   padding: '3px 12px 3px 4px',
   height: '38px',
   fontWeight: 700,
-
+  color: '$white',
   svg: {
     width: '32px',
     height: 'auto',
