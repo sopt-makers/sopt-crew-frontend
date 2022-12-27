@@ -15,9 +15,10 @@ import { Box } from '@components/box/Box';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { FEEDBACK_FORM_URL } from '@constants/link';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import useAuth from '@hooks/useAuth';
 
 const Header: FC = () => {
-  //   const { logout } = useAuth();
+  const { logout } = useAuth();
   const { pathname, events, basePath } = useRouter();
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
@@ -130,7 +131,7 @@ const Header: FC = () => {
         >
           내 프로필
         </Link>
-        <div onClick={() => 'logout()'}>로그아웃</div>
+        <div onClick={logout}>로그아웃</div>
       </UserDropdown>
 
       <DimmedBackground
@@ -178,7 +179,7 @@ const Header: FC = () => {
           <MenuLink href={FEEDBACK_FORM_URL} target="_blank">
             의견 제안하기
           </MenuLink>
-          <MenuLink onClick={() => 'logout()'}>로그아웃</MenuLink>
+          <MenuLink onClick={logout}>로그아웃</MenuLink>
         </MenuWrapper>
       </MobileMenu>
     </StyledHeader>
@@ -294,7 +295,7 @@ const UserButton = styled('button', {
   padding: '3px 12px 3px 4px',
   height: '38px',
   fontWeight: 700,
-
+  color: '$white',
   svg: {
     width: '32px',
     height: 'auto',
