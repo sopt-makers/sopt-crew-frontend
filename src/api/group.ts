@@ -1,7 +1,6 @@
 import { Option } from '@components/Form/Select/OptionItem';
 import { FormType } from 'src/types/form';
-// TODO: replace with api
-import { apiWithAuth } from '.';
+import { api } from '.';
 
 interface CreateGroupResponse {
   id: number;
@@ -32,10 +31,7 @@ export const createGroup = async (formData: FormType) => {
     }
   }
 
-  const { data } = await apiWithAuth.post<CreateGroupResponse>(
-    '/meeting',
-    form
-  );
+  const { data } = await api.post<CreateGroupResponse>('/meeting', form);
 
   return data;
 };
@@ -63,15 +59,13 @@ interface GetGroupByIdResponse {
 }
 
 export const getGroupById = async (groupId: string) => {
-  const { data } = await apiWithAuth.get<GetGroupByIdResponse>(
-    `/meeting/${groupId}`
-  );
+  const { data } = await api.get<GetGroupByIdResponse>(`/meeting/${groupId}`);
 
   return data;
 };
 
 export const updateGroup = async (groupId: string, formData: FormType) => {
-  const response = await apiWithAuth.put(`/meeting/${groupId}`, {
+  const response = await api.put(`/meeting/${groupId}`, {
     ...formData,
     ...formData.detail,
     category: formData.category.value,
