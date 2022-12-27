@@ -12,6 +12,8 @@ import Filter from '@components/page/groupList/Filter';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import { GroupListOfAll } from '@components/page/groupList/Grid/List';
 import Search from '@components/page/groupList/Filter/Search';
+import GridLayout from '@components/page/groupList/Grid/Layout';
+import CardSkeleton from '@components/page/groupList/Card/Skeleton';
 
 const Home: NextPage = () => {
   return (
@@ -49,7 +51,15 @@ const Home: NextPage = () => {
       <SFilterWrapper>
         <Filter />
       </SFilterWrapper>
-      <SSRSafeSuspense fallback={<p>loading...</p>}>
+      <SSRSafeSuspense
+        fallback={
+          <GridLayout>
+            {new Array(4).fill(null).map(() => (
+              <CardSkeleton />
+            ))}
+          </GridLayout>
+        }
+      >
         <GroupListOfAll />
       </SSRSafeSuspense>
     </div>

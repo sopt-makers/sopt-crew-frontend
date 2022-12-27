@@ -13,6 +13,8 @@ import {
   GroupListOfApplied,
   GroupListOfMine,
 } from '@components/page/groupList/Grid/List';
+import GridLayout from '@components/page/groupList/Grid/Layout';
+import CardSkeleton from '@components/page/groupList/Card/Skeleton';
 
 const enum GroupType {
   MADE,
@@ -58,13 +60,29 @@ const MinePage: NextPage = () => {
 
         <Tab.Panels>
           <Tab.Panel>
-            <SSRSafeSuspense fallback={<p>loading...</p>}>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout>
+                  {new Array(4).fill(null).map(() => (
+                    <CardSkeleton />
+                  ))}
+                </GridLayout>
+              }
+            >
               <GroupListOfMine />
             </SSRSafeSuspense>
           </Tab.Panel>
 
           <Tab.Panel>
-            <SSRSafeSuspense fallback={<p>loading...</p>}>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout>
+                  {new Array(4).fill(null).map(() => (
+                    <CardSkeleton />
+                  ))}
+                </GridLayout>
+              }
+            >
               <GroupListOfApplied />
             </SSRSafeSuspense>
           </Tab.Panel>
