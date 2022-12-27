@@ -14,8 +14,8 @@ function ManagementButton({ id }: ManagementButtonProps) {
       <SAnchor>
         <SButton align="center" justify="between">
           <p>신청자 관리</p>
-          <ArrowMobileRight class="mobile-only" />
-          <ArrowSmallRight class="pc-only" />
+          <ArrowMobileRight className="mobile-only" />
+          <ArrowSmallRight className="pc-only" />
         </SButton>
       </SAnchor>
     </Link>
