@@ -7,7 +7,7 @@ import Header from '@components/header/Header';
 import { useRouter } from 'next/router';
 import useAuth from '@hooks/useAuth';
 import { useEffect } from 'react';
-import { api } from 'src/api';
+import { api, playgroundApi } from 'src/api';
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
     // set access token in header
     api.defaults.headers.common['Authorization'] = accessToken;
+    playgroundApi.defaults.headers.common['Authorization'] = accessToken;
   }, [router, accessToken]);
 
   return (
