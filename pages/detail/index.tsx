@@ -103,19 +103,36 @@ export default DetailPage;
 
 const SDetailPage = styled(Box, {
   mb: '$374',
+
+  '@mobile': {
+    mb: '$122',
+  },
 });
 
 const SDetail = styled(Box, {
   color: '$white',
   mt: '$120',
+
+  '@mobile': {
+    mt: '$56',
+  },
 });
 
 const STitle = styled(Box, {
   fontAg: '24_bold_100',
   mb: '$24',
+
+  '@mobile': {
+    fontAg: '16_bold_100',
+    mb: '$20',
+  },
 });
 
 const SContent = styled('p', {
   fontSize: '$22',
   lineHeight: '37.4px',
+
+  '@mobile': {
+    fontAg: '16_medium_150',
+  },
 });

@@ -37,7 +37,7 @@ function Pagination({
           disabled={pagesIndex === 0}
           onClick={pagesIndex === 0 ? () => {} : prevBundle}
         />
-        <Flex css={{ mx: '$24' }} as="ul">
+        <Flex css={{ mx: '$24', '@mobile': { mx: '$10' } }} as="ul">
           {pagesBundle[pagesIndex]?.map((item, idx) => (
             <SPageLink
               key={idx}
@@ -77,5 +77,14 @@ const SPageLink = styled('li', {
   },
   '& + &': {
     ml: '$12',
+  },
+
+  '@mobile': {
+    width: '$24',
+    height: '$24',
+    fontAg: '14_bold_100',
+    '& + &': {
+      ml: '$10',
+    },
   },
 });

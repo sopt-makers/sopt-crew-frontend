@@ -1,4 +1,4 @@
-import { apiWithAuth, PromiseResponse } from '..';
+import { api, PromiseResponse } from '..';
 import { GroupResponse } from '../meeting';
 
 export interface UserResponse {
@@ -29,13 +29,9 @@ interface GroupListOfMineResponse {
 }
 
 export const fetchGroupListOfApplied = async () => {
-  return apiWithAuth.get<PromiseResponse<GroupListOfAppliedResponse>>(
-    '/users/apply'
-  );
+  return api.get<PromiseResponse<GroupListOfAppliedResponse>>('/users/apply');
 };
 
 export const fetchGroupListOfMine = async () => {
-  return apiWithAuth.get<PromiseResponse<GroupListOfMineResponse>>(
-    '/users/meeting'
-  );
+  return api.get<PromiseResponse<GroupListOfMineResponse>>('/users/meeting');
 };

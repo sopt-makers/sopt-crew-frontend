@@ -17,6 +17,7 @@ import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import Loader from '@components/loader/Loader';
+import CheckIcon from 'public/assets/svg/check.svg';
 
 const EditPage = () => {
   const queryClient = useQueryClient();
@@ -120,14 +121,21 @@ const EditPage = () => {
       <SContainer>
         <SFormContainer>
           <SFormName>모임 수정하기</SFormName>
-          <Presentation
-            submitButtonLabel="수정 완료하기"
-            cancelButtonLabel="수정 취소하기"
-            imageUrls={imagesFromFiles}
-            handleChangeImage={handleChangeImage}
-            handleDeleteImage={handleDeleteImage}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
-          />
+          <SFormWrapper>
+            <Presentation
+              submitButtonLabel={
+                <>
+                  <CheckIcon />
+                  모임 수정하기
+                </>
+              }
+              cancelButtonLabel="수정 취소하기"
+              imageUrls={imagesFromFiles}
+              handleChangeImage={handleChangeImage}
+              handleDeleteImage={handleDeleteImage}
+              onSubmit={formMethods.handleSubmit(onSubmit)}
+            />
+          </SFormWrapper>
         </SFormContainer>
         <TableOfContents label="모임 수정" />
       </SContainer>
@@ -141,15 +149,35 @@ const SContainer = styled('div', {
   margin: '80px 0',
   display: 'flex',
   gap: '30px',
+
+  '@mobile': {
+    margin: 0,
+  },
 });
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '44px 40px 56px',
   background: '$black80',
   borderRadius: '15px',
+
+  '@mobile': {
+    padding: '40px 0 0 0',
+    background: '$black100',
+  },
 });
 const SFormName = styled('h1', {
   fontAg: '24_bold_100',
   color: '$white',
   marginBottom: '90px',
+
+  '@mobile': {
+    margin: 0,
+    paddingBottom: '40px',
+    borderBottom: '1px solid $black60',
+  },
+});
+const SFormWrapper = styled('div', {
+  '@mobile': {
+    paddingTop: '40px',
+  },
 });

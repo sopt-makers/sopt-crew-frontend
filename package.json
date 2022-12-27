@@ -8,7 +8,8 @@
     "build:ci": "next-on-pages --experimental-minify",
     "start": "next start",
     "lint": "next lint",
-    "wrangler": "wrangler"
+    "wrangler": "wrangler",
+    "where": "sh -c 'export IP=`ipconfig getifaddr en0` && echo [info] we are in ... http://${IP}:3000'"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",

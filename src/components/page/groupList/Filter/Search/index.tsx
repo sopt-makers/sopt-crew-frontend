@@ -4,6 +4,7 @@ import { useSearchParams } from '@hooks/queryString/custom';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
+import SearchMobile from './Mobile';
 
 function Search() {
   const { register, handleSubmit } = useForm();
@@ -37,6 +38,9 @@ const SSearchWrapper = styled(Flex, {
   px: '$24',
   border: '1px solid $black40',
   borderRadius: '59px',
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const SSearchInput = styled('input', {
@@ -52,3 +56,5 @@ const SSearchInput = styled('input', {
 const SSearchButton = styled('button', {
   flexType: 'center',
 });
+
+Search.Mobile = SearchMobile;

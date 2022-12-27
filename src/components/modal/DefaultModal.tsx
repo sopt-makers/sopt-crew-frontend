@@ -1,6 +1,5 @@
 import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
-import XBigIcon from '@assets/svg/x_big.svg';
 import { styled } from 'stitches.config';
 import ModalBackground from './ModalBackground';
 import { Dialog } from '@headlessui/react';
@@ -24,9 +23,7 @@ const DefaultModal = ({
         <SDialogWrapper>
           <SHeader>
             <Dialog.Title className="title">{title}</Dialog.Title>
-            <button onClick={handleModalClose}>
-              <SXBigIcon />
-            </button>
+            <button onClick={handleModalClose} />
           </SHeader>
           <div>{children}</div>
         </SDialogWrapper>
@@ -47,6 +44,10 @@ const SDialogWrapper = styled(Box, {
   backgroundColor: '$black80',
   width: '$646',
   boxShadow: '4px 4px 40px #181818',
+
+  '@mobile': {
+    width: 'calc(100% - 40px)',
+  },
 });
 
 const SHeader = styled(Box, {
@@ -62,8 +63,25 @@ const SHeader = styled(Box, {
     textAlign: 'center',
     color: '$white',
   },
-});
 
-const SXBigIcon = styled(XBigIcon, {
-  cursor: 'pointer',
+  button: {
+    width: '$24',
+    height: '$24',
+    background: `url('/group/assets/svg/x_big.svg')`,
+    backgroundSize: 'cover',
+  },
+
+  '@mobile': {
+    borderBottom: 'none',
+    padding: '$24',
+
+    '.title': {
+      fontAg: '16_bold_100',
+    },
+
+    button: {
+      width: '$16',
+      height: '$16',
+    },
+  },
 });

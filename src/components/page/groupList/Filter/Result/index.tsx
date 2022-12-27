@@ -13,7 +13,7 @@ function Result() {
     <div></div>
   ) : (
     <SResultWrapper align="center" justify="between">
-      <Flex align="center">
+      <Flex align="center" wrap="wrap">
         {category.map(selectedOption => (
           <ResultItem
             key={selectedOption}
@@ -37,9 +37,12 @@ function Result() {
 export default Result;
 
 const SResultWrapper = styled(Flex, {
-  height: '40px',
+  // height: '40px',
   marginTop: '24px',
   padding: '20px 24px',
   backgroundColor: '$black80',
   borderRadius: '10px',
+  '@mobile': {
+    align: 'start',
+  },
 });

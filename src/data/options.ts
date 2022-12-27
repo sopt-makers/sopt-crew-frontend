@@ -11,6 +11,6 @@ export const applicantOptionList = [
 ];
 
 export const sortOptionList = [
-  { label: '최근 신청순', value: 'desc' },
-  { label: '오래된 신청순', value: 'asc' },
+  { label: '최신순', value: 'desc' },
+  { label: '오래된 순', value: 'asc' },
 ];

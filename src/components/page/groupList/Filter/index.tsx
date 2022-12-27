@@ -1,9 +1,8 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
-import { SelectListVisionProvider } from '@providers/groupList/SelectListVisionProvider';
 import Search from './Search';
-import MultiSelectComboBox from './MultiSelectComboBox';
+import FilterSelect from './Select';
 import Result from './Result';
 
 export type SubjectType = 'category' | 'status';
@@ -30,11 +29,11 @@ function Filter() {
   const { value: search } = useSearchParams();
 
   return (
-    <SelectListVisionProvider>
+    <>
       <Flex align="center" justify="between">
         <Flex>
           {FILTERS.map(filter => (
-            <MultiSelectComboBox key={filter.label} filter={filter} />
+            <FilterSelect key={filter.label} filter={filter} />
           ))}
         </Flex>
 
@@ -48,7 +47,7 @@ function Filter() {
           "{search}"에 대한 검색결과입니다.
         </Box>
       )}
-    </SelectListVisionProvider>
+    </>
   );
 }
 

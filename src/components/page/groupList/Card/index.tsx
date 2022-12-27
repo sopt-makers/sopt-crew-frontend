@@ -32,7 +32,13 @@ function Card({ bottom, groupData }: CardProps) {
               <SCategory>{groupData.category}</SCategory>
               <STitle>{groupData.title}</STitle>
             </STitleSection>
-            <Box>
+            <Box
+              css={{
+                '@mobile': {
+                  display: 'none',
+                },
+              }}
+            >
               <SInfoRow>
                 <SKey>모집 기간</SKey>
                 <SValue>
@@ -55,6 +61,17 @@ function Card({ bottom, groupData }: CardProps) {
                 <SValue>{groupData.user.name}</SValue>
               </SInfoRow>
             </Box>
+            <Box
+              css={{
+                display: 'none',
+                '@mobile': {
+                  display: 'flex',
+                },
+              }}
+            >
+              <SMobileValue>{groupData.category}</SMobileValue>
+              <SMobileValue>{groupData.user.name}</SMobileValue>
+            </Box>
           </>
         </a>
       </Link>
@@ -74,6 +91,11 @@ const SThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
+  '@mobile': {
+    width: '162px',
+    height: '111px',
+    borderRadius: '$8',
+  },
 });
 
 const SStatus = styled(Box, {
@@ -98,10 +120,19 @@ const SStatus = styled(Box, {
       },
     },
   },
+  '@mobile': {
+    fontAg: '10_bold_100',
+    top: '8px',
+    left: '8px',
+    borderRadius: '5px',
+  },
 });
 
 const STitleSection = styled(Box, {
   my: '$16',
+  '@mobile': {
+    my: '$8',
+  },
 });
 
 const SCategory = styled('p', {
@@ -112,11 +143,20 @@ const SCategory = styled('p', {
   borderRadius: '37px',
   px: '$9',
   py: '$6',
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const STitle = styled('p', {
+  maxWidth: '380px',
+
   fontAg: '22_bold_140',
   mt: '$8',
+  '@mobile': {
+    fontAg: '14_semibold_140',
+    maxWidth: '162px',
+  },
 });
 const SInfoRow = styled(Flex, {
   '& + &': {
@@ -133,4 +173,16 @@ const SKey = styled(SInfo, {
 });
 const SValue = styled(SInfo, {
   color: '$gray60',
+});
+
+const SMobileValue = styled('p', {
+  fontAg: '12_medium_100',
+  color: '$gray80',
+  '& + &': {
+    ml: '$8',
+  },
+  '&:first-child:after': {
+    content: '|',
+    ml: '$8',
+  },
 });

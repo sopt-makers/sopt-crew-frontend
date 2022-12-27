@@ -22,6 +22,10 @@ const SButton = styled('button', {
   height: '$72',
   cursor: 'pointer',
 
+  '@mobile': {
+    display: 'none',
+  },
+
   '& svg': {
     display: 'block',
     margin: '0 auto',

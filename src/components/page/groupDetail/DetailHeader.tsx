@@ -6,7 +6,7 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
-import ApplicantList from './ApplicantList';
+import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
@@ -70,7 +70,7 @@ const DetailHeader = ({
   const [textareaValue, setTextareaValue] = useState('');
   const [origin, setOrigin] = useState('');
 
-  const handleApplicantListModal = () => {
+  const handleRecruitmentStatusListModal = () => {
     handleModalOpen();
     setModalTitle(`모집 현황 (${current}/${capacity}명)`);
     setModalType('default');
@@ -160,7 +160,7 @@ const DetailHeader = ({
           </Link>
         </SAbout>
         <div>
-          <SStatusButton onClick={handleApplicantListModal}>
+          <SStatusButton onClick={handleRecruitmentStatusListModal}>
             <div>
               <span>모집 현황</span>
               <span>
@@ -221,9 +221,9 @@ const DetailHeader = ({
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
           ) : (
-            <SApplicantListWrapper>
+            <SRecruitmentStatusListWrapper>
               {appliedInfo.length > 0 ? (
-                <ApplicantList applicantList={appliedInfo} />
+                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
               ) : (
                 <SEmptyText>
                   {isHost ? '신청자' : '참여자'}가 없습니다.
@@ -231,21 +231,21 @@ const DetailHeader = ({
               )}
               {isHost && (
                 <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SApplicantAnchor>
+                  <SManagementAnchor>
                     <p>신청자 관리</p>
                     <ArrowSmallRightIcon />
-                  </SApplicantAnchor>
+                  </SManagementAnchor>
                 </Link>
               )}
               {isApplied && (
                 <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SApplicantAnchor>
+                  <SManagementAnchor>
                     <p>참여자 리스트</p>
                     <ArrowSmallRightIcon />
-                  </SApplicantAnchor>
+                  </SManagementAnchor>
                 </Link>
               )}
-            </SApplicantListWrapper>
+            </SRecruitmentStatusListWrapper>
           )}
         </DefaultModal>
       )}
@@ -261,10 +261,21 @@ const SDetailHeader = styled(Box, {
   paddingBottom: '$120',
   borderBottom: `2px solid $black60`,
   mb: '$40',
+
+  '@mobile': {
+    display: 'block',
+    paddingBottom: '0',
+    borderBottom: 'none',
+    mb: '$64',
+  },
 });
 
 const SAbout = styled(Box, {
   marginRight: '$90',
+
+  '@mobile': {
+    mr: '$0',
+  },
 
   '& > div': {
     flexType: 'verticalCenter',
@@ -278,7 +289,12 @@ const SAbout = styled(Box, {
     },
 
     fontAg: '34_bold_140',
+    color: '$white',
     mb: '$20',
+
+    '@mobile': {
+      fontAg: '18_bold_140',
+    },
   },
 });
 
@@ -288,6 +304,13 @@ const SRecruitStatus = styled(Box, {
   mr: '$12',
   borderRadius: '6px',
   fontAg: '16_bold_100',
+
+  '@mobile': {
+    padding: '$5',
+    mr: '$8',
+    borderRadius: '5px',
+    fontAg: '10_bold_100',
+  },
 
   variants: {
     status: {
@@ -306,6 +329,10 @@ const SRecruitStatus = styled(Box, {
 
 const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
+
+  '@mobile': {
+    fontAg: '12_semibold_100',
+  },
 });
 
 const SProfileAnchor = styled('a', {
@@ -315,6 +342,11 @@ const SProfileAnchor = styled('a', {
 
   '& > span': {
     mr: '$16',
+
+    '@mobile': {
+      fontAg: '12_semibold_100',
+      mr: '$8',
+    },
   },
 });
 
@@ -325,6 +357,12 @@ const SProfileImage = styled(Box, {
   objectFit: 'cover',
   mr: '$16',
   backgroundColor: '$black60',
+
+  '@mobile': {
+    width: '$30',
+    height: '$30',
+    mr: '$8',
+  },
 });
 
 const Button = styled('button', {
@@ -342,6 +380,21 @@ const SStatusButton = styled(Button, {
   backgroundColor: '$black80',
   fontAg: '18_semibold_100',
 
+  '@mobile': {
+    width: '100%',
+    height: '$46',
+    padding: '$13 0',
+    mt: '$32',
+    mb: '$10',
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontAg: '14_semibold_100',
+
+    svg: {
+      ml: '$8',
+    },
+  },
+
   'span:first-child': {
     mr: '$12',
     color: '$gray80',
@@ -352,6 +405,13 @@ const SGuestButton = styled(Button, {
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
+
+  '@mobile': {
+    width: '100%',
+    height: '$46',
+    fontAg: '14_bold_100',
+    padding: '$16 0',
+  },
 
   variants: {
     isApplied: {
@@ -366,39 +426,57 @@ const SGuestButton = styled(Button, {
 });
 
 const SHostButtonContainer = styled(Box, {
-  button: {
+  '& > *': {
     width: '$144',
     color: '$white',
     padding: '$20 0',
     textAlign: 'center',
     borderRadius: '$50',
     fontAg: '20_bold_100',
+
+    '@mobile': {
+      width: 'calc(50% - 3.5px)',
+      padding: '$16 0',
+      fontAg: '14_bold_100',
+    },
+  },
+
+  button: {
     border: `2px solid $black40`,
-    mr: '12px',
+    mr: '$12',
+
+    '@mobile': {
+      mr: '$7',
+    },
   },
 
   a: {
     display: 'inline-block',
-    width: '$144',
-    color: '$white',
-    padding: '$20 0',
-    textAlign: 'center',
-    borderRadius: '$50',
-    fontAg: '20_bold_100',
     backgroundColor: '$purple100',
   },
 });
 
-const SApplicantListWrapper = styled(Box, {
+const SRecruitmentStatusListWrapper = styled(Box, {
   padding: '$28 $28 $88 $28',
+
+  '@mobile': {
+    padding: '$0',
+  },
 });
 
-const SApplicantAnchor = styled('a', {
+const SManagementAnchor = styled('a', {
   mt: '$24',
   fontAg: '16_semibold_100',
   color: '$white',
   float: 'right',
   flexType: 'verticalCenter',
+
+  '@mobile': {
+    mt: '$16',
+    fontAg: '12_semibold_100',
+    pb: '$24',
+    pr: '$20',
+  },
 
   svg: {
     ml: '$8',
@@ -412,19 +490,31 @@ const SEmptyText = styled('p', {
   padding: '$125 0',
   color: '$gray80',
   fontAg: '18_semibold_100',
+
+  '@mobile': {
+    padding: '$74 0 $100 0',
+    fontAg: '14_medium_100',
+  },
 });
 
 const SApplicationForm = styled(Box, {
-  padding: '$24 $24 $132 $24',
+  padding: '$24 $24 $40 $24',
   borderBottomLeftRadius: '16px',
   borderBottomRightRadius: '16px',
-  height: '$356',
+
+  '@mobile': {
+    padding: '0 $16',
+  },
 
   '& > p': {
     fontAg: '32_bold_100',
     textAlign: 'center',
     mt: '$32',
     mb: '$48',
+  },
+
+  label: {
+    margin: 0,
   },
 
   textarea: {
@@ -436,6 +526,12 @@ const SApplicationForm = styled(Box, {
     backgroundColor: '$black60',
     outline: 'none',
     borderRadius: '10px',
+
+    '@mobile': {
+      height: '$160',
+      padding: '$12',
+      fontAg: '16_medium_150',
+    },
   },
 
   'textarea:focus': {
@@ -446,7 +542,6 @@ const SApplicationForm = styled(Box, {
     display: 'block',
     margin: '0 auto',
     mt: '$4',
-    mb: '$48',
     padding: '$19 0',
     width: '$180',
     borderRadius: '12px',
@@ -454,5 +549,13 @@ const SApplicationForm = styled(Box, {
     fontAg: '18_bold_100',
     color: '$white',
     backgroundColor: '$purple100',
+
+    '@mobile': {
+      width: '$130',
+      padding: '$16 0',
+      mt: '$8',
+      mb: '$24',
+      fontAg: '14_bold_100',
+    },
   },
 });

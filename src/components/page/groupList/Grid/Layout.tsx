@@ -12,7 +12,7 @@ const StyledGridContainer = styled(Box, {
   columnGap: '30px',
   marginTop: '22px',
   rowGap: '120px',
-  placeItems: 'center',
+  placeItems: 'start center',
 
   '@media (max-width: 1250px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
@@ -20,7 +20,16 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 850px)': {
     gridTemplateColumns: '1fr',
   },
-  '@media (max-width: 768px)': {
+  '@mobile': {
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    marginTop: '16px',
+    rowGap: '40px',
+    columnGap: '11px',
+  },
+  '@media (max-width:550px)': {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+  },
+  '@media (max-width:375px)': {
     gridTemplateColumns: '1fr',
   },
 });

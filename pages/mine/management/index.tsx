@@ -1,13 +1,18 @@
-import { Box } from '@components/box/Box';
-import ListItem from '@components/page/groupManagement/ListItem';
-import { TabList } from '@components/tabList/TabList';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { styled } from 'stitches.config';
+import { Box } from '@components/box/Box';
+import { TabList } from '@components/tabList/TabList';
+import ListSkeleton from '@components/page/groupManagement/ListSkeleton';
+import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
+import ListItem from '@components/page/groupManagement/ListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
+import Select from '@components/Form/Select';
+import { Option } from '@components/Form/Select/OptionItem';
+import ItemDescriptionBox from '@components/page/groupManagement/ItemDescriptionBox';
 import Pagination from '@components/page/groupList/Pagination';
 import { usePageParams } from '@hooks/queryString/custom';
-import Select from '@components/Form/Select';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import {
   applicantOptionList,
   numberOptionList,
@@ -18,9 +23,8 @@ import {
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
-import { useRouter } from 'next/router';
-import { Option } from '@components/Form/Select/OptionItem';
 import { UpdateApplicationRequest } from 'src/api/meeting';
+import InvitationIcon from 'public/assets/svg/invitation.svg';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -73,10 +77,6 @@ const ManagementPage = () => {
     }
   }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
 
-  if (isGroupDataLoading || isManagementDataLoading) {
-    return <div>loading...</div>;
-  }
-
   return (
     <SManagementPage>
       <TabList text="mine" size="big" onChange={() => {}}>
@@ -91,69 +91,87 @@ const ManagementPage = () => {
           </a>
         </Link>
       </TabList>
-      {groupData && <GroupInformation groupData={groupData} />}
-      <SListHeader>
-        <SListTitle>
-          모임 {isHost ? '신청자' : '참여자'}
-          {management && <span> ({management.meta.itemCount})</span>}
-        </SListTitle>
-        {!isHost && (
-          <SSelectWrapper>
-            <Select
-              value={selectedNumber}
-              options={numberOptionList}
-              onChange={value => setSelectedNumber(value)}
-            />
-          </SSelectWrapper>
-        )}
-      </SListHeader>
-      {isHost && (
-        <SSelectContainer>
-          <SSelectWrapper>
-            <Select
-              value={selectedNumber}
-              options={numberOptionList}
-              onChange={value => setSelectedNumber(value)}
-            />
-          </SSelectWrapper>
-          <div>
-            <SSelectWrapper>
-              <Select
-                value={selectedApplicant}
-                options={applicantOptionList}
-                onChange={value => setSelectedApplicant(value)}
-              />
-            </SSelectWrapper>
-            <SSelectWrapper>
-              <Select
-                value={selectedSort}
-                options={sortOptionList}
-                onChange={value => setSelectedSort(value)}
-              />
-            </SSelectWrapper>
-          </div>
-        </SSelectContainer>
-      )}
-      {management && management.apply?.length > 0 ? (
-        management?.apply.map(application => (
-          <ListItem
-            key={id}
-            application={application}
-            isHost={isHost}
-            onChangeApplicationStatus={handleChangeApplicationStatus}
-          />
-        ))
+      {isGroupDataLoading ? (
+        <GroupInformationSkeleton />
       ) : (
-        <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+        groupData && <GroupInformation groupData={groupData} />
       )}
-      {management && management.meta?.pageCount > 0 && (
-        <SPaginationWrapper>
-          <Pagination
-            totalPagesLength={management?.meta?.pageCount}
-            currentPageIndex={Number(page)}
-            changeCurrentPage={setPage}
-          />
-        </SPaginationWrapper>
+      {isManagementDataLoading ? (
+        <ListSkeleton />
+      ) : (
+        <>
+          <SListHeader>
+            <SListTitle>
+              모임 {isHost ? '신청자' : '참여자'}
+              {management && <span> ({management.meta.itemCount})</span>}
+            </SListTitle>
+            {isHost ? (
+              <SInvitationButton>
+                <InvitationIcon />
+                <span>초대하기</span>
+              </SInvitationButton>
+            ) : (
+              <SSelectNumberWrapper>
+                <Select
+                  value={selectedNumber}
+                  options={numberOptionList}
+                  onChange={value => setSelectedNumber(value)}
+                />
+              </SSelectNumberWrapper>
+            )}
+          </SListHeader>
+          {isHost && (
+            <>
+              <SSelectContainer>
+                <SSelectWrapper>
+                  <Select
+                    value={selectedApplicant}
+                    options={applicantOptionList}
+                    onChange={value => setSelectedApplicant(value)}
+                  />
+                </SSelectWrapper>
+                <div>
+                  <SSelectNumberWrapper>
+                    <Select
+                      value={selectedNumber}
+                      options={numberOptionList}
+                      onChange={value => setSelectedNumber(value)}
+                    />
+                  </SSelectNumberWrapper>
+                  <SSelectWrapper>
+                    <Select
+                      value={selectedSort}
+                      options={sortOptionList}
+                      onChange={value => setSelectedSort(value)}
+                    />
+                  </SSelectWrapper>
+                </div>
+              </SSelectContainer>
+              <ItemDescriptionBox />
+            </>
+          )}
+          {management && management.apply?.length > 0 ? (
+            management?.apply.map(application => (
+              <ListItem
+                key={id}
+                application={application}
+                isHost={isHost}
+                onChangeApplicationStatus={handleChangeApplicationStatus}
+              />
+            ))
+          ) : (
+            <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
+          )}
+          {management && management.meta?.pageCount > 0 && (
+            <SPaginationWrapper>
+              <Pagination
+                totalPagesLength={management?.meta?.pageCount}
+                currentPageIndex={Number(page)}
+                changeCurrentPage={setPage}
+              />
+            </SPaginationWrapper>
+          )}
+        </>
       )}
     </SManagementPage>
   );
@@ -164,6 +182,11 @@ export default ManagementPage;
 const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
+
+  '@mobile': {
+    mt: '$31',
+    mb: '$66',
+  },
 });
 
 const SListHeader = styled(Box, {
@@ -172,28 +195,79 @@ const SListHeader = styled(Box, {
   mt: '$64',
   mb: '$48',
   position: 'relative',
+
+  '@mobile': {
+    mt: '$40',
+    mb: '$24',
+  },
 });
 
 const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
+
+  '@mobile': {
+    fontAg: '18_bold_100',
+  },
+});
+
+const SInvitationButton = styled('button', {
+  color: '$white',
+  fontAg: '18_bold_100',
+  border: '1px solid $white',
+  borderRadius: '14px',
+  padding: '$18 $24 $18 $20',
+  flexType: 'verticalCenter',
+
+  '& > svg': {
+    mr: '$12',
+  },
+
+  '@mobile': {
+    border: 'none',
+    padding: '$0',
+    width: '$24',
+    height: '$24',
+
+    svg: {
+      mr: '$0',
+      transform: 'scale(1.2)',
+    },
+
+    span: {
+      display: 'none',
+    },
+  },
 });
 
 const SSelectContainer = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  mb: '$16',
+  mb: '$36',
   position: 'relative',
 
   '& > div': {
     flexType: 'verticalCenter',
     gap: '$12',
   },
+
+  '@mobile': {
+    mb: '$16',
+  },
 });
 
 const SSelectWrapper = styled(Box, {
   '& button': {
-    border: '1px solid $black40',
+    borderRadius: '14px',
+    border: '1px solid $black20',
     backgroundColor: '$black100',
+
+    '@mobile': {
+      borderRadius: '8px',
+      minWidth: '$96',
+      height: '$36',
+      padding: '$12 $10',
+      fontAg: '12_semibold_100',
+    },
   },
 
   '& ul': {
@@ -208,6 +282,12 @@ const SSelectWrapper = styled(Box, {
   },
 });
 
+const SSelectNumberWrapper = styled(SSelectWrapper, {
+  '@mobile': {
+    display: 'none',
+  },
+});
+
 const SEmptyView = styled(Box, {
   flexType: 'center',
   height: '$820',
@@ -215,8 +295,17 @@ const SEmptyView = styled(Box, {
   border: `1px solid $black40`,
   fontAg: '24_medium_100',
   color: '$gray80',
+
+  '@mobile': {
+    fontAg: '16_medium_100',
+    height: '$556',
+  },
 });
 
 const SPaginationWrapper = styled(Box, {
   mt: '$80',
+
+  '@mobile': {
+    mt: '$40',
+  },
 });
