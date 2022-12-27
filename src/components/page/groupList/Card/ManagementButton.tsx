@@ -2,6 +2,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
 import Link from 'next/link';
+import ArrowMobileRight from '@assets/svg/arrow_mobile_right.svg';
 
 interface ManagementButtonProps {
   id: number;
@@ -13,7 +14,8 @@ function ManagementButton({ id }: ManagementButtonProps) {
       <SAnchor>
         <SButton align="center" justify="between">
           <p>신청자 관리</p>
-          <ArrowSmallRight />
+          <ArrowMobileRight class="mobile-only" />
+          <ArrowSmallRight class="pc-only" />
         </SButton>
       </SAnchor>
     </Link>
@@ -30,6 +32,11 @@ const SButton = styled(Flex, {
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
   background: '$black80',
+  '@mobile': {
+    width: '65px',
+    fontAg: '10_bold_100',
+    padding: '8px 6px 8px 12px',
+  },
 });
 
 const SAnchor = styled('a', {

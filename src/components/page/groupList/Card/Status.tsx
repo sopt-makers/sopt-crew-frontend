@@ -10,19 +10,31 @@ interface StatusProps {
 
 function Status({ status }: StatusProps) {
   return (
-    <Flex align="center" css={{ fontAg: '16_bold_100', marginTop: '24px' }}>
+    <SLayout align="center">
       <SLabel>신청현황</SLabel>
       <span>{APPLY_STATUS[status]}</span>
-    </Flex>
+    </SLayout>
   );
 }
 
 export default Status;
-
+const SLayout = styled(Flex, {
+  fontAg: '16_bold_100',
+  marginTop: '24px',
+  '@mobile': {
+    fontAg: '10_bold_100',
+    marginTop: '12px',
+  },
+});
 const SLabel = styled(Box, {
   flexType: 'center',
   padding: '10px 12px',
   border: '1px solid $gray100',
   borderRadius: '71px',
   marginRight: '8px',
+  backgroundColor: '$black80',
+  '@mobile': {
+    padding: '8px 10px',
+    marginRight: '6px',
+  },
 });

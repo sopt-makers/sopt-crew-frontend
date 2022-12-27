@@ -91,4 +91,7 @@ export function GroupListOfApplied() {
 
 const SGroupCount = styled('p', {
   fontAg: '18_semibold_100',
+  '@mobile': {
+    fontAg: '12_semibold_100',
+  },
 });
