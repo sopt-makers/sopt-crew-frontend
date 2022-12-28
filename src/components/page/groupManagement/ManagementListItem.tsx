@@ -326,7 +326,6 @@ const SName = styled('a', {
 
   '@mobile': {
     fontAg: '14_bold_100',
-    textDecoration: 'none',
     minWidth: 'fit-content',
   },
 });
