@@ -37,6 +37,8 @@ const SButton = styled('button', {
   },
 
   '&:hover': {
+    backgroundColor: '$black80',
+    borderRadius: '20px',
     path: {
       stroke: '$white',
     },
