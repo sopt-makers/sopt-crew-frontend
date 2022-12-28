@@ -83,6 +83,12 @@ export interface UpdateApplicationRequest {
   status: number;
 }
 
+export interface UpdateInvitationRequest {
+  id: number;
+  applyId: number;
+  status: number;
+}
+
 function parseStatusToNumber(status: string) {
   const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
   if (statusIdx >= 0) return statusIdx;
@@ -142,4 +148,11 @@ export const updateApplication = async ({
   ...rest
 }: UpdateApplicationRequest) => {
   return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
+};
+
+export const updateInvitation = async ({
+  id,
+  ...rest
+}: UpdateInvitationRequest) => {
+  return (await api.put(`/meeting/${id}/invite/status`, rest)).data;
 };

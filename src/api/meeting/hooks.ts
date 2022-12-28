@@ -24,6 +24,8 @@ import {
   postApplication,
   updateApplication,
   UpdateApplicationRequest,
+  updateInvitation,
+  UpdateInvitationRequest,
 } from '.';
 
 interface UseQueryGetGroupParams {
@@ -65,6 +67,14 @@ interface UseMutationUpdateApplicationBody {
     { statusCode: number },
     AxiosError,
     UpdateApplicationRequest
+  >;
+}
+
+interface UseMutationUpdateInvitationBody {
+  useMutationOptions?: UseMutationOptions<
+    { statusCode: number },
+    AxiosError,
+    UpdateInvitationRequest
   >;
 }
 
@@ -168,5 +178,23 @@ export const useMutationUpdateApplication = ({
     ...useMutationOptions,
     mutationKey: ['updateApplication'],
     mutationFn: updateApplication,
+  });
+};
+
+export const useMutationUpdateInvitation = ({
+  useMutationOptions,
+}: UseMutationUpdateInvitationBody): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  UpdateInvitationRequest
+> => {
+  return useMutation<
+    { statusCode: number },
+    AxiosError,
+    UpdateApplicationRequest
+  >({
+    ...useMutationOptions,
+    mutationKey: ['updateInvitation'],
+    mutationFn: updateInvitation,
   });
 };
