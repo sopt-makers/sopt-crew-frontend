@@ -11,7 +11,7 @@ import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { RECRUITMENT_STATUS } from '@constants/status';
+import { APPLY_STATUS, RECRUITMENT_STATUS } from '@constants/status';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
@@ -49,6 +49,8 @@ const DetailHeader = ({
     capacity,
     host,
     apply,
+    approved,
+    invite,
   } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -57,6 +59,8 @@ const DetailHeader = ({
   const hostName = user.name;
   const isHost = host;
   const isApplied = apply;
+  const isApproved = approved;
+  const isInvited = invite;
   const current = appliedInfo.length;
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
@@ -130,6 +134,14 @@ const DetailHeader = ({
     handleModalClose();
   };
 
+  const handleInvitation = () => {
+    console.log('초대 승인하기');
+  };
+
+  const handleApprovalModal = () => {
+    console.log('승인 취소');
+  };
+
   useEffect(() => {
     setOrigin(window.location.origin);
   }, []);
@@ -169,12 +181,22 @@ const DetailHeader = ({
             </div>
             <ArrowSmallRightIcon />
           </SStatusButton>
-          {!isHost && (
+          {!isHost && !isInvited && !isApproved && (
             <SGuestButton
               isApplied={isApplied}
               onClick={handleApplicationModal}
             >
               신청{isApplied ? ' 취소' : '하기'}
+            </SGuestButton>
+          )}
+          {!isHost && isInvited && (
+            <SGuestButton isInvited={isInvited} onClick={handleInvitation}>
+              초대 승인하기
+            </SGuestButton>
+          )}
+          {!isHost && isApproved && (
+            <SGuestButton isApproved={isApproved} onClick={handleApprovalModal}>
+              승인 취소
             </SGuestButton>
           )}
           {isHost && (
@@ -420,6 +442,16 @@ const SGuestButton = styled(Button, {
       },
       false: {
         backgroundColor: '$purple100',
+      },
+    },
+    isInvited: {
+      true: {
+        backgroundColor: '$purple100',
+      },
+    },
+    isApproved: {
+      true: {
+        border: `2px solid $black40`,
       },
     },
   },

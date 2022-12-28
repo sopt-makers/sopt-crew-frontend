@@ -43,6 +43,8 @@ export interface GroupResponse {
   user: UserResponse;
   host: boolean;
   apply: boolean;
+  approved: boolean;
+  invite: boolean;
 }
 interface GroupListOfFilterResponse {
   meta: PaginationType;
