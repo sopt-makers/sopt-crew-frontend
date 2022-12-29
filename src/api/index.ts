@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export type PromiseResponse<T> = { data: T; statusCode: number };
+export type Data<T> = PromiseResponse<T>;
 
 // TODO: change after deploy server
 const baseURL = 'https://makers-web.herokuapp.com';
