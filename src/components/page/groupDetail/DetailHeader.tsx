@@ -11,7 +11,7 @@ import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { APPLY_STATUS, RECRUITMENT_STATUS } from '@constants/status';
+import { RECRUITMENT_STATUS } from '@constants/status';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
@@ -69,10 +69,17 @@ const DetailHeader = ({
   const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
   const modalMessage = isHost
     ? '모임을 삭제하시겠습니까?'
+    : isApproved
+    ? '승인을 취소하시겠습니까?'
     : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
   const [origin, setOrigin] = useState('');
+
+  const openConfirmModal = () => {
+    setModalType('confirm');
+    handleModalOpen();
+  };
 
   const handleRecruitmentStatusListModal = () => {
     handleModalOpen();
@@ -85,10 +92,9 @@ const DetailHeader = ({
       handleModalOpen();
       setModalTitle('모임 신청하기');
       setModalType('default');
-    } else {
-      setModalType('confirm');
-      handleModalOpen();
+      return;
     }
+    openConfirmModal();
   };
 
   const handleApplicationButton = () => {
@@ -105,7 +111,7 @@ const DetailHeader = ({
     );
   };
 
-  const handleCancel = () => {
+  const handleCancelApplication = () => {
     mutateApplication(
       { id: Number(groupId), content: '' },
       {
@@ -119,12 +125,7 @@ const DetailHeader = ({
     );
   };
 
-  const handleGroupDeletionModal = () => {
-    setModalType('confirm');
-    handleModalOpen();
-  };
-
-  const handleDelete = () => {
+  const handleDeleteGroup = () => {
     queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
     mutateGroupDeletion(Number(groupId), {
       onSuccess: () => {
@@ -134,11 +135,11 @@ const DetailHeader = ({
     handleModalClose();
   };
 
-  const handleInvitation = () => {
+  const handleApproveInvitation = () => {
     console.log('초대 승인하기');
   };
 
-  const handleApprovalModal = () => {
+  const handleCancelInvitation = () => {
     console.log('승인 취소');
   };
 
@@ -190,18 +191,21 @@ const DetailHeader = ({
             </SGuestButton>
           )}
           {!isHost && isInvited && (
-            <SGuestButton isInvited={isInvited} onClick={handleInvitation}>
+            <SGuestButton
+              isInvited={isInvited}
+              onClick={handleApproveInvitation}
+            >
               초대 승인하기
             </SGuestButton>
           )}
           {!isHost && isApproved && (
-            <SGuestButton isApproved={isApproved} onClick={handleApprovalModal}>
+            <SGuestButton isApproved={isApproved} onClick={openConfirmModal}>
               승인 취소
             </SGuestButton>
           )}
           {isHost && (
             <SHostButtonContainer>
-              <button onClick={handleGroupDeletionModal}>삭제</button>
+              <button onClick={openConfirmModal}>삭제</button>
               <Link href={`/edit?id=${groupId}`} passHref>
                 <a>수정</a>
               </Link>
@@ -216,7 +220,13 @@ const DetailHeader = ({
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={isHost ? handleDelete : handleCancel}
+          handleConfirm={
+            isHost
+              ? handleDeleteGroup
+              : isApproved
+              ? handleCancelInvitation
+              : handleCancelApplication
+          }
         />
       )}
       {isDefaultModalOpened && (
