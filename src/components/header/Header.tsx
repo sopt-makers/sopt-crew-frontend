@@ -323,7 +323,6 @@ const UserDropdown = styled(Box, {
   right: '36px',
   flexDirection: 'column',
   gap: '25px',
-  transition: 'opacity 0.2s',
   zIndex: 11,
   borderRadius: '14px',
   background: '#272828',
@@ -336,10 +335,10 @@ const UserDropdown = styled(Box, {
   variants: {
     isOpen: {
       true: {
-        opacity: 1,
+        display: 'flex',
       },
       false: {
-        opacity: 0,
+        display: 'none',
       },
     },
   },
