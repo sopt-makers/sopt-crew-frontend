@@ -227,6 +227,7 @@ const SInvitationButton = styled('button', {
   borderRadius: '14px',
   padding: '$18 $24 $18 $20',
   flexType: 'verticalCenter',
+  display: 'none',
 
   '& > svg': {
     mr: '$12',
