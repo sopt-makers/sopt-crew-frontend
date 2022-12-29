@@ -5,3 +5,8 @@ export enum EApplyStatus {
   'APPROVE',
   'REJECT',
 }
+export enum EInviteStatus {
+  'WAITING',
+  'APPROVE',
+  'REJECT',
+}

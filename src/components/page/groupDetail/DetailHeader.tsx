@@ -9,9 +9,13 @@ import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/Form/Textarea';
 import Link from 'next/link';
-import { PostApplicationRequest, GroupResponse } from 'src/api/meeting';
+import {
+  PostApplicationRequest,
+  GroupResponse,
+  UpdateInvitationRequest,
+} from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { RECRUITMENT_STATUS } from '@constants/status';
+import { EInviteStatus, RECRUITMENT_STATUS } from '@constants/status';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
@@ -31,12 +35,18 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
+  mutateInvitation: UseMutateFunction<
+    { statusCode: number },
+    AxiosError,
+    UpdateInvitationRequest
+  >;
 }
 
 const DetailHeader = ({
   detailData,
   mutateGroupDeletion,
   mutateApplication,
+  mutateInvitation,
 }: DetailHeaderProps) => {
   const {
     status,
@@ -136,11 +146,38 @@ const DetailHeader = ({
   };
 
   const handleApproveInvitation = () => {
-    console.log('초대 승인하기');
+    mutateInvitation(
+      {
+        id: Number(groupId),
+        applyId: Number(groupId),
+        status: EInviteStatus.APPROVE,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
+        },
+      }
+    );
   };
 
   const handleCancelInvitation = () => {
-    console.log('승인 취소');
+    mutateInvitation(
+      {
+        id: Number(groupId),
+        applyId: Number(groupId),
+        status: EInviteStatus.REJECT,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['getGroup'],
+          });
+          handleModalClose();
+        },
+      }
+    );
   };
 
   useEffect(() => {
