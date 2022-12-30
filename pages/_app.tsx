@@ -6,11 +6,11 @@ import { theme } from 'stitches.config';
 import Header from '@components/header/Header';
 import { useRouter } from 'next/router';
 import useAuth from '@hooks/useAuth';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { api, playgroundApi } from 'src/api';
-const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [queryClient] = React.useState(() => new QueryClient());
   const router = useRouter();
   const {
     tokens: { playgroundToken, crewToken },

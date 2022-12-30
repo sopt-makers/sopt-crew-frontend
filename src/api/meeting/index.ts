@@ -43,6 +43,8 @@ export interface GroupResponse {
   user: UserResponse;
   host: boolean;
   apply: boolean;
+  approved: boolean;
+  invite: boolean;
 }
 interface GroupListOfFilterResponse {
   meta: PaginationType;
@@ -76,6 +78,12 @@ export interface PostApplicationRequest {
 }
 
 export interface UpdateApplicationRequest {
+  id: number;
+  applyId: number;
+  status: number;
+}
+
+export interface UpdateInvitationRequest {
   id: number;
   applyId: number;
   status: number;
@@ -140,4 +148,11 @@ export const updateApplication = async ({
   ...rest
 }: UpdateApplicationRequest) => {
   return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
+};
+
+export const updateInvitation = async ({
+  id,
+  ...rest
+}: UpdateInvitationRequest) => {
+  return (await api.put(`/meeting/${id}/invite/status`, rest)).data;
 };
