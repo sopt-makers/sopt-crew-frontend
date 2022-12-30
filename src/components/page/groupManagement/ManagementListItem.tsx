@@ -10,7 +10,7 @@ import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
 import { APPLY_STATUS, EApplyStatus } from '@constants/status';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 
-interface ListItemProps {
+interface ManagementListItemProps {
   application: ApplicationData;
   isHost: boolean;
   onChangeApplicationStatus: (
@@ -18,11 +18,11 @@ interface ListItemProps {
   ) => void;
 }
 
-const ListItem = ({
+const ManagementListItem = ({
   application,
   isHost,
   onChangeApplicationStatus,
-}: ListItemProps) => {
+}: ManagementListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { id, appliedDate, content, status = 0, user } = application;
@@ -63,7 +63,7 @@ const ListItem = ({
             <SUserInformation>
               {/* TODO: 나중에 신청/초대로 수정 예정 */}
               <SType>신청</SType>
-              <SProfile>
+              <SDesktopProfile>
                 {profileImage ? (
                   <img src={profileImage} />
                 ) : (
@@ -75,7 +75,7 @@ const ListItem = ({
                 <SUserStatus status={status}>
                   {APPLY_STATUS[status]}
                 </SUserStatus>
-              </SProfile>
+              </SDesktopProfile>
               {/* TODO: 나중에 신청/초대로 수정 예정 */}
               <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
@@ -189,19 +189,20 @@ const ListItem = ({
   );
 };
 
-export default ListItem;
+export default ManagementListItem;
 
 const SListItem = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  borderRadius: '19.711px',
+  borderRadius: '20px',
   backgroundColor: '$black80',
-  padding: '$20',
+  padding: '$20 $32',
   height: '$80',
   mb: '$20',
 
   '@mobile': {
     borderRadius: '8px',
+    mb: '$10',
     padding: '$16',
     height: '$56',
   },
@@ -273,11 +274,8 @@ const SUserInformation = styled(Box, {
   },
 
   '& svg': {
-    ml: '$4',
-
     '@mobile': {
       transform: 'scale(0.75)',
-      ml: '$0',
     },
   },
 });
@@ -290,9 +288,12 @@ const SProfile = styled(Box, {
   },
 });
 
+const SDesktopProfile = styled(SProfile, {
+  width: '$244',
+});
+
 const SType = styled(Box, {
-  ml: '$17',
-  mr: '$38',
+  mr: '$32',
   fontAg: '16_bold_100',
 });
 
@@ -315,7 +316,7 @@ const SVerticalLine = styled(Box, {
 });
 
 const SName = styled('a', {
-  ml: '$16',
+  ml: '$8',
   color: '$white',
   fontAg: '18_semibold_100',
   textDecoration: 'underline',
@@ -324,9 +325,7 @@ const SName = styled('a', {
   minWidth: '$48',
 
   '@mobile': {
-    ml: '$8',
     fontAg: '14_bold_100',
-    textDecoration: 'none',
     minWidth: 'fit-content',
   },
 });
@@ -353,8 +352,8 @@ const SCardDate = styled(Box, {
 });
 
 const SUserStatus = styled('span', {
-  padding: '$4',
-  ml: '$8',
+  padding: '$4 $5',
+  ml: '$10',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
   backgroundColor: '$gray100',
@@ -384,7 +383,7 @@ const SDetailButton = styled('button', {
   color: '$white',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
-  margin: 'auto $60',
+  mr: '$66',
   fontAg: '18_semibold_100',
 });
 

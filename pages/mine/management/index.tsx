@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
-import ListSkeleton from '@components/page/groupManagement/ListSkeleton';
+import ManagementListSkeleton from '@components/page/groupManagement/ManagementListSkeleton';
 import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
-import ListItem from '@components/page/groupManagement/ListItem';
+import ManagementListItem from '@components/page/groupManagement/ManagementListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
 import Select from '@components/Form/Select';
 import { Option } from '@components/Form/Select/OptionItem';
@@ -25,10 +25,13 @@ import {
 } from 'src/api/meeting/hooks';
 import { UpdateApplicationRequest } from 'src/api/meeting';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
+import useModal from '@hooks/useModal';
+import InvitationModal from '@components/page/groupManagement/InvitationModal';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { value: page, setValue: setPage } = usePageParams();
 
   const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
@@ -97,7 +100,7 @@ const ManagementPage = () => {
         groupData && <GroupInformation groupData={groupData} />
       )}
       {isManagementDataLoading ? (
-        <ListSkeleton />
+        <ManagementListSkeleton />
       ) : (
         <>
           <SListHeader>
@@ -106,7 +109,7 @@ const ManagementPage = () => {
               {management && <span> ({management.meta.itemCount})</span>}
             </SListTitle>
             {isHost ? (
-              <SInvitationButton>
+              <SInvitationButton onClick={handleModalOpen}>
                 <InvitationIcon />
                 <span>초대하기</span>
               </SInvitationButton>
@@ -152,7 +155,7 @@ const ManagementPage = () => {
           )}
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
-              <ListItem
+              <ManagementListItem
                 key={id}
                 application={application}
                 isHost={isHost}
@@ -170,6 +173,13 @@ const ManagementPage = () => {
                 changeCurrentPage={setPage}
               />
             </SPaginationWrapper>
+          )}
+          {isModalOpened && (
+            <InvitationModal
+              isModalOpened={isModalOpened}
+              title="초대하기"
+              handleModalClose={handleModalClose}
+            />
           )}
         </>
       )}
@@ -217,6 +227,7 @@ const SInvitationButton = styled('button', {
   borderRadius: '14px',
   padding: '$18 $24 $18 $20',
   flexType: 'verticalCenter',
+  display: 'none',
 
   '& > svg': {
     mr: '$12',

@@ -7,6 +7,7 @@ import { styled } from 'stitches.config';
 import {
   useMutationDeleteGroup,
   useMutationPostApplication,
+  useMutationUpdateInvitation,
   useQueryGetGroup,
 } from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
@@ -19,6 +20,7 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetGroup({ params: { id } });
   const { mutate: mutateDeleteGroup } = useMutationDeleteGroup({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const { mutate: mutateUpdateInvitation } = useMutationUpdateInvitation({});
   const tabRef = useRef<HTMLDivElement[]>([]);
   const detailList = [
     {
@@ -74,6 +76,7 @@ const DetailPage = () => {
         detailData={detailData}
         mutateGroupDeletion={mutateDeleteGroup}
         mutateApplication={mutatePostApplication}
+        mutateInvitation={mutateUpdateInvitation}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(
