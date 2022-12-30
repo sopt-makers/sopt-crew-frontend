@@ -12,18 +12,21 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const { accessToken } = useAuth();
+  const {
+    tokens: { playgroundToken, crewToken },
+  } = useAuth();
 
   useEffect(() => {
-    if (accessToken === null) {
+    // NOTE: playground token이 없다면 로그인 페이지로 redirect
+    if (playgroundToken === null) {
       localStorage.setItem('lastUnauthorizedPath', window.location.pathname);
       window.location.pathname = '/auth/login';
       return;
     }
-    // set access token in header
-    api.defaults.headers.common['Authorization'] = accessToken;
-    playgroundApi.defaults.headers.common['Authorization'] = accessToken;
-  }, [router, accessToken]);
+    // 토큰이 존재하면 이를 설정해준다.
+    api.defaults.headers.common['Authorization'] = crewToken;
+    playgroundApi.defaults.headers.common['Authorization'] = playgroundToken;
+  }, [router, playgroundToken, crewToken]);
 
   return (
     <QueryClientProvider client={queryClient}>
