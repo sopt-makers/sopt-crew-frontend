@@ -15,7 +15,7 @@ export default function useAuth() {
   });
 
   const setAccessTokens = (_tokens: Partial<Tokens>) => {
-    setTokens({ ...tokens, ..._tokens });
+    setTokens(prevState => ({ ...prevState, ..._tokens }));
   };
 
   const requestCrewToken = async (playgroundToken: string) => {
