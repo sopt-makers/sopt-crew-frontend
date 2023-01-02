@@ -14,14 +14,14 @@ export default function useAuth() {
     crewToken: '',
   });
 
-  const setAccessTokens = (_tokens: Tokens) => {
+  const setAccessTokens = (_tokens: Partial<Tokens>) => {
     setTokens({ ...tokens, ..._tokens });
   };
 
   const requestCrewToken = async (playgroundToken: string) => {
     try {
       const { accessToken: crewToken } = await getCrewToken(playgroundToken);
-      setAccessTokens({ playgroundToken, crewToken: `Bearer ${crewToken}` });
+      setAccessTokens({ crewToken: `Bearer ${crewToken}` });
     } catch {
       // TODO: 에러를 어떻게 핸들링하지?
       alert('계정 정보를 불러오지 못했습니다. 다시 로그인 해주세요.');
@@ -50,6 +50,7 @@ export default function useAuth() {
         setAccessTokens({ playgroundToken: null, crewToken: null });
         return;
       }
+      setAccessTokens({ playgroundToken });
       requestCrewToken(playgroundToken);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
