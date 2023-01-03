@@ -10,11 +10,9 @@ interface RecruitmentStatusProps {
 const RecruitmentStatusList = ({
   recruitmentStatusList,
 }: RecruitmentStatusProps) => {
-  const profileImage = '';
-
   return (
     <SRecruitmentStatusList>
-      {recruitmentStatusList.map(({ user: { id, name } }) => (
+      {recruitmentStatusList.map(({ user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
           {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
           <span>{name}</span>

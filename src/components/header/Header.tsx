@@ -116,7 +116,11 @@ const Header: FC = () => {
           ref={dropdownButtonRef}
           onClick={() => setIsUserDropdownOpened(e => !e)}
         >
-          <MemberIcon />
+          {me?.profileImage ? (
+            <img src={me?.profileImage} alt="" />
+          ) : (
+            <MemberIcon />
+          )}
           <span>{me?.name}</span>
         </UserButton>
       </RightGroup>
@@ -150,8 +154,13 @@ const Header: FC = () => {
           <ProfileContainer>
             {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
             <EmptyProfileImage>
-              <ProfileIcon />
+              {me?.profileImage ? (
+                <img src={me?.profileImage} alt="" />
+              ) : (
+                <ProfileIcon />
+              )}
             </EmptyProfileImage>
+
             <Name>{me?.name}</Name>
             <Spacer />
             <StyledForwardIcon />
@@ -296,6 +305,13 @@ const UserButton = styled('button', {
   height: '38px',
   fontWeight: 700,
   color: '$white',
+  img: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '$round',
+    objectFit: 'cover',
+  },
+
   svg: {
     width: '32px',
     height: 'auto',
@@ -401,6 +417,12 @@ const EmptyProfileImage = styled(Box, {
   height: '42px',
   svg: {
     width: '18px',
+  },
+  img: {
+    width: '42px',
+    height: '42px',
+    borderRadius: '14px',
+    objectFit: 'cover',
   },
 });
 

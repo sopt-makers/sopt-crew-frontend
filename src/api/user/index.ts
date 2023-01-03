@@ -4,7 +4,8 @@ import { GroupResponse } from '../meeting';
 export interface UserResponse {
   id: number;
   name: string;
-  originId: string;
+  orgId: string;
+  profileImage: string;
 }
 
 export type ApplicationStatusType = 0 | 1 | 2;
