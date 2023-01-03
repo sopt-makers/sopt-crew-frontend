@@ -27,9 +27,6 @@ const ManagementListItem = ({
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { appliedDate, content, status = 0, user } = application;
 
-  // TODO
-  const profileImage = '';
-
   const handleClickCancelButton = () => {
     onChangeApplicationStatus({
       applyId: application.id,
