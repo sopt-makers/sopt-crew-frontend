@@ -65,7 +65,7 @@ const ManagementListItem = ({
               <SType>신청</SType>
               <SDesktopProfile>
                 {user.profileImage ? (
-                  <img src={user.profileImage} />
+                  <img src={user.profileImage} alt="" />
                 ) : (
                   <ProfileDefaultIcon />
                 )}
@@ -107,7 +107,7 @@ const ManagementListItem = ({
             <SCardContent>
               <SCardProfileImage>
                 {user.profileImage ? (
-                  <img src={user.profileImage} />
+                  <img src={user.profileImage} alt="" />
                 ) : (
                   <ProfileDefaultIcon />
                 )}
@@ -163,7 +163,7 @@ const ManagementListItem = ({
           <SUserInformation>
             <SProfile>
               {user.profileImage ? (
-                <img src={user.profileImage} />
+                <img src={user.profileImage} alt="" />
               ) : (
                 <ProfileDefaultIcon />
               )}

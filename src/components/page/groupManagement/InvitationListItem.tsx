@@ -25,7 +25,11 @@ const InvitationListItem = ({
   return (
     <SInvitationListItem>
       <div>
-        {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
+        {profileImage ? (
+          <img src={profileImage} alt="" />
+        ) : (
+          <ProfileDefaultIcon />
+        )}
         <span>{name}</span>
       </div>
       <SCheckbox

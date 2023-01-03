@@ -14,7 +14,11 @@ const RecruitmentStatusList = ({
     <SRecruitmentStatusList>
       {recruitmentStatusList.map(({ user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
-          {profileImage ? <img src={profileImage} /> : <ProfileDefaultIcon />}
+          {profileImage ? (
+            <img src={profileImage} alt="" />
+          ) : (
+            <ProfileDefaultIcon />
+          )}
           <span>{name}</span>
         </SRecruitmentStatusItem>
       ))}

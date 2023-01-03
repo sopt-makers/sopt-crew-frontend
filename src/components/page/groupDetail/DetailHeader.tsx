@@ -205,7 +205,7 @@ const DetailHeader = ({
           <Link href={`${origin}/members?id=${hostId}`} passHref>
             <SProfileAnchor>
               {hostProfileImage ? (
-                <img src={hostProfileImage} />
+                <img src={hostProfileImage} alt="" />
               ) : (
                 <SProfileImage />
               )}
