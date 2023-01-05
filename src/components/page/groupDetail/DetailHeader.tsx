@@ -65,8 +65,9 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
-  const hostId = user.id;
+  const hostId = user.orgId;
   const hostName = user.name;
+  const hostProfileImage = user.profileImage;
   const isHost = host;
   const isApplied = apply;
   const isApproved = approved;
@@ -203,7 +204,11 @@ const DetailHeader = ({
           </h1>
           <Link href={`${origin}/members?id=${hostId}`} passHref>
             <SProfileAnchor>
-              <SProfileImage />
+              {hostProfileImage ? (
+                <img src={hostProfileImage} alt="" />
+              ) : (
+                <SProfileImage />
+              )}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
@@ -408,6 +413,19 @@ const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
   color: '$white',
   width: 'fit-content',
+
+  img: {
+    width: '$60',
+    height: '$60',
+    borderRadius: '50%',
+    objectFit: 'cover',
+    mr: '$16',
+    '@mobile': {
+      width: '$30',
+      height: '$30',
+      mr: '$8',
+    },
+  },
 
   '& > span': {
     mr: '$16',
