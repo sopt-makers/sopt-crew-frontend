@@ -25,10 +25,7 @@ const ManagementListItem = ({
 }: ManagementListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { id, appliedDate, content, status = 0, user } = application;
-
-  // TODO
-  const profileImage = '';
+  const { appliedDate, content, status = 0, user } = application;
 
   const handleClickCancelButton = () => {
     onChangeApplicationStatus({
@@ -64,12 +61,12 @@ const ManagementListItem = ({
               {/* TODO: 나중에 신청/초대로 수정 예정 */}
               <SType>신청</SType>
               <SDesktopProfile>
-                {profileImage ? (
-                  <img src={profileImage} />
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt="" />
                 ) : (
                   <ProfileDefaultIcon />
                 )}
-                <Link href={`${origin}/members?id=${id}`} passHref>
+                <Link href={`${origin}/members?id=${user.orgId}`} passHref>
                   <SName>{user.name}</SName>
                 </Link>
                 <SUserStatus status={status}>
@@ -106,15 +103,15 @@ const ManagementListItem = ({
           <SMobileCard>
             <SCardContent>
               <SCardProfileImage>
-                {profileImage ? (
-                  <img src={profileImage} />
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt="" />
                 ) : (
                   <ProfileDefaultIcon />
                 )}
               </SCardProfileImage>
               <SCardUserInformation>
                 <div>
-                  <Link href={`${origin}/members?id=${id}`} passHref>
+                  <Link href={`${origin}/members?id=${user.orgId}`} passHref>
                     <SCardName>{user.name}</SCardName>
                   </Link>
                   <SCardUserStatus status={status}>
@@ -162,12 +159,12 @@ const ManagementListItem = ({
         <SListItem>
           <SUserInformation>
             <SProfile>
-              {profileImage ? (
-                <img src={profileImage} />
+              {user.profileImage ? (
+                <img src={user.profileImage} alt="" />
               ) : (
                 <ProfileDefaultIcon />
               )}
-              <Link href={`${origin}/members?id=${id}`} passHref>
+              <Link href={`${origin}/members?id=${user.orgId}`} passHref>
                 <SName>{user.name}</SName>
               </Link>
             </SProfile>
