@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
@@ -12,40 +12,37 @@ import Select from '@components/Form/Select';
 import { Option } from '@components/Form/Select/OptionItem';
 import ItemDescriptionBox from '@components/page/groupManagement/ItemDescriptionBox';
 import Pagination from '@components/page/groupList/Pagination';
-import { usePageParams } from '@hooks/queryString/custom';
 import {
-  applicantOptionList,
-  numberOptionList,
-  sortOptionList,
-} from 'src/data/options';
+  usePageParams,
+  useSortParams,
+  useStatusParams,
+  useTakeParams,
+  useTypeParams,
+} from '@hooks/queryString/custom';
+import { numberOptionList, sortOptionList } from 'src/data/options';
 import {
-  useMutationUpdateApplication,
   useQueryGetGroup,
   useQueryGetGroupPeopleList,
 } from 'src/api/meeting/hooks';
-import { UpdateApplicationRequest } from 'src/api/meeting';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
 import useModal from '@hooks/useModal';
 import InvitationModal from '@components/page/groupManagement/InvitationModal';
+import Filter from '@components/page/groupManagement/Filter';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { value: page, setValue: setPage } = usePageParams();
-
+  const { value: type } = useTypeParams();
+  const { value: status } = useStatusParams();
+  const { value: take, setValue: setTake } = useTakeParams();
+  const { value: sort, setValue: setSort } = useSortParams();
   const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
     params: { id },
   });
   const isHost = groupData?.host ?? false;
 
-  const [selectedNumber, setSelectedNumber] = useState<Option>(
-    numberOptionList[0]
-  );
-  const [selectedApplicant, setSelectedApplicant] = useState<Option>(
-    applicantOptionList[0]
-  );
-  const [selectedSort, setSelectedSort] = useState<Option>(sortOptionList[0]);
   const {
     isLoading: isManagementDataLoading,
     data: management,
@@ -54,31 +51,26 @@ const ManagementPage = () => {
     params: {
       id,
       page: (page || 0) as number,
-      take: Number(selectedNumber.value),
-      status: Number(selectedApplicant.value) - 1,
-      date: selectedSort.value as string,
+      take: Number(numberOptionList[Number(take) || 0].value),
+      status: status,
+      type: type,
+      date: sortOptionList[Number(sort) || 0].value as string,
     },
   });
 
-  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
-  const handleChangeApplicationStatus = (
-    request: Omit<UpdateApplicationRequest, 'id'>
-  ) => {
-    mutateUpdateApplication(
-      { id: Number(id), ...request },
-      {
-        onSuccess: () => {
-          // TODO
-        },
-      }
-    );
-  };
+  const handleChangeSelectOption =
+    (setValue: (value: string | number) => void, optionList: Option[]) =>
+    (changeOption: Option) => {
+      setValue(
+        optionList.findIndex(option => option.value === changeOption.value)
+      );
+    };
 
   useEffect(() => {
     if (id) {
       refetch();
     }
-  }, [refetch, id, selectedNumber, selectedApplicant, selectedSort]);
+  }, [refetch, id]);
 
   return (
     <SManagementPage>
@@ -99,67 +91,61 @@ const ManagementPage = () => {
       ) : (
         groupData && <GroupInformation groupData={groupData} />
       )}
+      <SListHeader>
+        <SListTitle>
+          모임 {isHost ? '신청자' : '참여자'}
+          {management && <span> ({management.meta.itemCount})</span>}
+        </SListTitle>
+        {isHost ? (
+          <SInvitationButton onClick={handleModalOpen}>
+            <InvitationIcon />
+            <span>초대하기</span>
+          </SInvitationButton>
+        ) : (
+          <SSelectNumberWrapper>
+            <Select
+              value={numberOptionList[Number(take) || 0]}
+              options={numberOptionList}
+              onChange={handleChangeSelectOption(setTake, numberOptionList)}
+            />
+          </SSelectNumberWrapper>
+        )}
+      </SListHeader>
+      {isHost && (
+        <>
+          <SSelectContainer>
+            <Filter />
+            <div>
+              <SSelectNumberWrapper>
+                <Select
+                  value={numberOptionList[Number(take) || 0]}
+                  options={numberOptionList}
+                  onChange={handleChangeSelectOption(setTake, numberOptionList)}
+                />
+              </SSelectNumberWrapper>
+              <SSelectWrapper>
+                <Select
+                  value={sortOptionList[Number(sort) || 0]}
+                  options={sortOptionList}
+                  onChange={handleChangeSelectOption(setSort, sortOptionList)}
+                />
+              </SSelectWrapper>
+            </div>
+          </SSelectContainer>
+          <ItemDescriptionBox />
+        </>
+      )}
       {isManagementDataLoading ? (
         <ManagementListSkeleton />
       ) : (
         <>
-          <SListHeader>
-            <SListTitle>
-              모임 {isHost ? '신청자' : '참여자'}
-              {management && <span> ({management.meta.itemCount})</span>}
-            </SListTitle>
-            {isHost ? (
-              <SInvitationButton onClick={handleModalOpen}>
-                <InvitationIcon />
-                <span>초대하기</span>
-              </SInvitationButton>
-            ) : (
-              <SSelectNumberWrapper>
-                <Select
-                  value={selectedNumber}
-                  options={numberOptionList}
-                  onChange={value => setSelectedNumber(value)}
-                />
-              </SSelectNumberWrapper>
-            )}
-          </SListHeader>
-          {isHost && (
-            <>
-              <SSelectContainer>
-                <SSelectWrapper>
-                  <Select
-                    value={selectedApplicant}
-                    options={applicantOptionList}
-                    onChange={value => setSelectedApplicant(value)}
-                  />
-                </SSelectWrapper>
-                <div>
-                  <SSelectNumberWrapper>
-                    <Select
-                      value={selectedNumber}
-                      options={numberOptionList}
-                      onChange={value => setSelectedNumber(value)}
-                    />
-                  </SSelectNumberWrapper>
-                  <SSelectWrapper>
-                    <Select
-                      value={selectedSort}
-                      options={sortOptionList}
-                      onChange={value => setSelectedSort(value)}
-                    />
-                  </SSelectWrapper>
-                </div>
-              </SSelectContainer>
-              <ItemDescriptionBox />
-            </>
-          )}
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
               <ManagementListItem
-                key={id}
+                key={application.id}
+                groupId={Number(id)}
                 application={application}
                 isHost={isHost}
-                onChangeApplicationStatus={handleChangeApplicationStatus}
               />
             ))
           ) : (
@@ -258,7 +244,6 @@ const SSelectContainer = styled(Box, {
 
   '& > div': {
     flexType: 'verticalCenter',
-    gap: '$12',
   },
 
   '@mobile': {
@@ -290,6 +275,20 @@ const SSelectWrapper = styled(Box, {
 
   '& div': {
     background: '$black100',
+  },
+  '& + &': {
+    marginLeft: '12px',
+  },
+
+  // bottomSheet 만들기전 임시
+  '@mobile': {
+    '& ul': {
+      top: '36px',
+      minWidth: '96px',
+      div: {
+        fontAg: '12_semibold_100',
+      },
+    },
   },
 });
 
