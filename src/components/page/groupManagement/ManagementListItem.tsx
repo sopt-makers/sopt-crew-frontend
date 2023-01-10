@@ -6,7 +6,7 @@ import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { dateFormat } from '@utils/date';
-import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
+import { ApplicationData } from 'src/api/meeting';
 import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/status';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import {
@@ -45,11 +45,13 @@ const ManagementListItem = ({
   const queryClient = useQueryClient();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
-  const handleChangeApplicationStatus = async (
-    request: Omit<UpdateApplicationRequest, 'id'>
-  ) => {
+  const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
-    await mutateUpdateApplication({ id: groupId, ...request });
+    await mutateUpdateApplication({
+      id: groupId,
+      applyId: application.id,
+      status,
+    });
     await queryClient.invalidateQueries({
       queryKey: ['getGroupPeopleList'],
     });
@@ -63,13 +65,6 @@ const ManagementListItem = ({
       queryKey: ['getGroupPeopleList'],
     });
     setIsMutateLoading(false);
-  };
-
-  const handleChangeStatusButton = (status: number) => () => {
-    handleChangeApplicationStatus({
-      applyId: application.id,
-      status: status,
-    });
   };
 
   useEffect(() => {
@@ -114,14 +109,14 @@ const ManagementListItem = ({
                       {status === EApplyStatus.WAITING && (
                         <>
                           <SPurpleButton
-                            onClick={handleChangeStatusButton(
+                            onClick={handleChangeApplicationStatus(
                               EApplyStatus.APPROVE
                             )}
                           >
                             승인
                           </SPurpleButton>
                           <SGrayButton
-                            onClick={handleChangeStatusButton(
+                            onClick={handleChangeApplicationStatus(
                               EApplyStatus.REJECT
                             )}
                           >
@@ -131,7 +126,7 @@ const ManagementListItem = ({
                       )}
                       {status === EApplyStatus.APPROVE && (
                         <SGrayButton
-                          onClick={handleChangeStatusButton(
+                          onClick={handleChangeApplicationStatus(
                             EApplyStatus.WAITING
                           )}
                         >
@@ -140,7 +135,7 @@ const ManagementListItem = ({
                       )}
                       {status === EApplyStatus.REJECT && (
                         <SGrayButton
-                          onClick={handleChangeStatusButton(
+                          onClick={handleChangeApplicationStatus(
                             EApplyStatus.WAITING
                           )}
                         >
@@ -198,14 +193,14 @@ const ManagementListItem = ({
                       {status === EApplyStatus.WAITING && (
                         <>
                           <SRejectButton
-                            onClick={handleChangeStatusButton(
+                            onClick={handleChangeApplicationStatus(
                               EApplyStatus.REJECT
                             )}
                           >
                             거절
                           </SRejectButton>
                           <SApproveButton
-                            onClick={handleChangeStatusButton(
+                            onClick={handleChangeApplicationStatus(
                               EApplyStatus.APPROVE
                             )}
                           >
@@ -215,7 +210,7 @@ const ManagementListItem = ({
                       )}
                       {status === EApplyStatus.APPROVE && (
                         <SCancelButton
-                          onClick={handleChangeStatusButton(
+                          onClick={handleChangeApplicationStatus(
                             EApplyStatus.WAITING
                           )}
                         >
@@ -224,7 +219,7 @@ const ManagementListItem = ({
                       )}
                       {status === EApplyStatus.REJECT && (
                         <SCancelButton
-                          onClick={handleChangeStatusButton(
+                          onClick={handleChangeApplicationStatus(
                             EApplyStatus.WAITING
                           )}
                         >
