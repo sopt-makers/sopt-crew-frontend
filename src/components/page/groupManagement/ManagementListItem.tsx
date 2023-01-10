@@ -1,53 +1,85 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData, UpdateApplicationRequest } from 'src/api/meeting';
-import { APPLY_STATUS, EApplyStatus } from '@constants/status';
+import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/status';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
+import {
+  useMutationUpdateApplication,
+  useMutationDeleteInvitation,
+} from 'src/api/meeting/hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import { SyncLoader } from 'react-spinners';
 
 interface ManagementListItemProps {
+  groupId: number;
   application: ApplicationData;
   isHost: boolean;
-  onChangeApplicationStatus: (
-    request: Omit<UpdateApplicationRequest, 'id'>
-  ) => void;
 }
 
 const ManagementListItem = ({
+  groupId,
   application,
   isHost,
-  onChangeApplicationStatus,
 }: ManagementListItemProps) => {
   const [origin, setOrigin] = useState('');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { appliedDate, content, status = 0, user } = application;
+  const { appliedDate, content, status = 0, user, type } = application;
+
+  const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication(
+    {}
+  );
+  const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation(
+    {}
+  );
+  const queryClient = useQueryClient();
+  const [isMutateLoading, setIsMutateLoading] = useState(false);
+
+  const handleChangeApplicationStatus = async (
+    request: Omit<UpdateApplicationRequest, 'id'>
+  ) => {
+    setIsMutateLoading(true);
+    await mutateUpdateApplication({ id: groupId, ...request });
+    await queryClient.invalidateQueries({
+      queryKey: ['getGroupPeopleList'],
+    });
+    setIsMutateLoading(false);
+  };
 
   const handleClickCancelButton = () => {
-    onChangeApplicationStatus({
+    handleChangeApplicationStatus({
       applyId: application.id,
       status: EApplyStatus.WAITING,
     });
   };
 
   const handleClickApproveButton = () => {
-    onChangeApplicationStatus({
+    handleChangeApplicationStatus({
       applyId: application.id,
       status: EApplyStatus.APPROVE,
     });
   };
 
   const handleClickRejectButton = () => {
-    onChangeApplicationStatus({
+    handleChangeApplicationStatus({
       applyId: application.id,
       status: EApplyStatus.REJECT,
     });
   };
 
+  const handleCancelInvitation = async () => {
+    setIsMutateLoading(true);
+    await mutateDeleteInvitation({ id: groupId, inviteId: application.id });
+    await queryClient.invalidateQueries({
+      queryKey: ['getGroupPeopleList'],
+    });
+    setIsMutateLoading(false);
+  };
   useEffect(() => {
     setOrigin(window.location.origin);
   }, []);
@@ -58,14 +90,16 @@ const ManagementListItem = ({
         <>
           <SDesktopListItem>
             <SUserInformation>
-              {/* TODO: 나중에 신청/초대로 수정 예정 */}
-              <SType>신청</SType>
+              <SType>{APPLY_TYPE[type]}</SType>
               <SDesktopProfile>
-                {user.profileImage ? (
-                  <img src={user.profileImage} alt="" />
-                ) : (
-                  <ProfileDefaultIcon />
-                )}
+                <SProfileImage>
+                  {user.profileImage ? (
+                    <img src={user.profileImage} alt="" />
+                  ) : (
+                    <ProfileDefaultIcon />
+                  )}
+                </SProfileImage>
+
                 <Link href={`${origin}/members?id=${user.orgId}`} passHref>
                   <SName>{user.name}</SName>
                 </Link>
@@ -73,42 +107,58 @@ const ManagementListItem = ({
                   {APPLY_STATUS[status]}
                 </SUserStatus>
               </SDesktopProfile>
-              {/* TODO: 나중에 신청/초대로 수정 예정 */}
-              <SDetailButton onClick={handleModalOpen}>신청 내역</SDetailButton>
+              <SDetailButton onClick={handleModalOpen}>
+                {APPLY_TYPE[type]} 내역
+              </SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
             </SUserInformation>
             <SButtonContainer>
-              {status === EApplyStatus.WAITING && (
+              {isMutateLoading ? (
+                <SyncLoader color="#8040ff" />
+              ) : (
                 <>
-                  <SPurpleButton onClick={handleClickApproveButton}>
-                    승인
-                  </SPurpleButton>
-                  <SGrayButton onClick={handleClickRejectButton}>
-                    거절
-                  </SGrayButton>
+                  {type === 0 && (
+                    <>
+                      {status === EApplyStatus.WAITING && (
+                        <>
+                          <SPurpleButton onClick={handleClickApproveButton}>
+                            승인
+                          </SPurpleButton>
+                          <SGrayButton onClick={handleClickRejectButton}>
+                            거절
+                          </SGrayButton>
+                        </>
+                      )}
+                      {status === EApplyStatus.APPROVE && (
+                        <SGrayButton onClick={handleClickCancelButton}>
+                          승인 취소
+                        </SGrayButton>
+                      )}
+                      {status === EApplyStatus.REJECT && (
+                        <SGrayButton onClick={handleClickCancelButton}>
+                          거절 취소
+                        </SGrayButton>
+                      )}
+                    </>
+                  )}
+                  {type === 1 && (
+                    <SGrayButton onClick={handleCancelInvitation}>
+                      초대 취소
+                    </SGrayButton>
+                  )}
                 </>
-              )}
-              {status === EApplyStatus.APPROVE && (
-                <SGrayButton onClick={handleClickCancelButton}>
-                  승인 취소
-                </SGrayButton>
-              )}
-              {status === EApplyStatus.REJECT && (
-                <SGrayButton onClick={handleClickCancelButton}>
-                  거절 취소
-                </SGrayButton>
               )}
             </SButtonContainer>
           </SDesktopListItem>
           <SMobileCard>
             <SCardContent>
-              <SCardProfileImage>
+              <SProfileImage>
                 {user.profileImage ? (
                   <img src={user.profileImage} alt="" />
                 ) : (
                   <ProfileDefaultIcon />
                 )}
-              </SCardProfileImage>
+              </SProfileImage>
               <SCardUserInformation>
                 <div>
                   <Link href={`${origin}/members?id=${user.orgId}`} passHref>
@@ -119,37 +169,52 @@ const ManagementListItem = ({
                   </SCardUserStatus>
                 </div>
                 <div>
-                  {/* TODO: 나중에 신청/초대로 수정 예정 */}
-                  <SCardType>신청</SCardType>
+                  <SCardType>{APPLY_TYPE[type]}</SCardType>
                   <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
-                {/* TODO: 나중에 신청/초대로 수정 예정 */}
-                <span>신청 내역</span>
+                <span>{APPLY_TYPE[type]} 내역</span>
                 <ArrowMiniIcon />
               </SCardDetailButton>
             </SCardContent>
             <SCardButtonContainer>
-              {status === EApplyStatus.WAITING && (
+              {isMutateLoading ? (
+                <SCancelButton disabled>
+                  <SyncLoader color="#8040ff" />
+                </SCancelButton>
+              ) : (
                 <>
-                  <SRejectButton onClick={handleClickRejectButton}>
-                    거절
-                  </SRejectButton>
-                  <SApproveButton onClick={handleClickApproveButton}>
-                    승인
-                  </SApproveButton>
+                  {type === 0 && (
+                    <>
+                      {status === EApplyStatus.WAITING && (
+                        <>
+                          <SRejectButton onClick={handleClickRejectButton}>
+                            거절
+                          </SRejectButton>
+                          <SApproveButton onClick={handleClickApproveButton}>
+                            승인
+                          </SApproveButton>
+                        </>
+                      )}
+                      {status === EApplyStatus.APPROVE && (
+                        <SCancelButton onClick={handleClickCancelButton}>
+                          승인 취소
+                        </SCancelButton>
+                      )}
+                      {status === EApplyStatus.REJECT && (
+                        <SCancelButton onClick={handleClickCancelButton}>
+                          거절 취소
+                        </SCancelButton>
+                      )}
+                    </>
+                  )}
+                  {type === 1 && (
+                    <SCancelButton onClick={handleCancelInvitation}>
+                      초대 취소
+                    </SCancelButton>
+                  )}
                 </>
-              )}
-              {status === EApplyStatus.APPROVE && (
-                <SCancelButton onClick={handleClickCancelButton}>
-                  승인 취소
-                </SCancelButton>
-              )}
-              {status === EApplyStatus.REJECT && (
-                <SCancelButton onClick={handleClickCancelButton}>
-                  거절 취소
-                </SCancelButton>
               )}
             </SCardButtonContainer>
           </SMobileCard>
@@ -159,11 +224,14 @@ const ManagementListItem = ({
         <SListItem>
           <SUserInformation>
             <SProfile>
-              {user.profileImage ? (
-                <img src={user.profileImage} alt="" />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
+              <SProfileImage>
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt="" />
+                ) : (
+                  <ProfileDefaultIcon />
+                )}
+              </SProfileImage>
+
               <Link href={`${origin}/members?id=${user.orgId}`} passHref>
                 <SName>{user.name}</SName>
               </Link>
@@ -176,7 +244,7 @@ const ManagementListItem = ({
       {isModalOpened && (
         <DefaultModal
           isModalOpened={isModalOpened}
-          title="신청내역"
+          title={`${APPLY_TYPE[type]}내역`}
           handleModalClose={handleModalClose}
         >
           <SDetailText>{content}</SDetailText>
@@ -230,16 +298,26 @@ const SCardContent = styled(Box, {
   borderTopRightRadius: '8px',
 });
 
-const SCardProfileImage = styled(Box, {
-  mr: '$10',
-
+const SProfileImage = styled(Box, {
+  width: '$32',
+  height: '$32',
+  borderRadius: '$round',
+  ml: '$4',
+  overflow: 'hidden',
   img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  '@mobile': {
+    mr: '$10',
     width: '$38',
     height: '$38',
-  },
 
-  svg: {
-    transform: 'scale(1.1875)',
+    svg: {
+      width: '100%',
+      height: '100%',
+    },
   },
 });
 
@@ -256,25 +334,6 @@ const SCardUserInformation = styled(Box, {
 const SUserInformation = styled(Box, {
   flexType: 'verticalCenter',
   width: '100%',
-
-  '& img': {
-    width: '$32',
-    height: '$32',
-    borderRadius: '$round',
-    ml: '$4',
-
-    '@mobile': {
-      width: '$24',
-      height: '$24',
-      ml: '$0',
-    },
-  },
-
-  '& svg': {
-    '@mobile': {
-      transform: 'scale(0.75)',
-    },
-  },
 });
 
 const SProfile = styled(Box, {
