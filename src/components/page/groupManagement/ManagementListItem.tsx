@@ -22,6 +22,11 @@ interface ManagementListItemProps {
   isHost: boolean;
 }
 
+const enum EApplicationType {
+  APPLY,
+  INVITE,
+}
+
 const ManagementListItem = ({
   groupId,
   application,
@@ -51,27 +56,6 @@ const ManagementListItem = ({
     setIsMutateLoading(false);
   };
 
-  const handleClickCancelButton = () => {
-    handleChangeApplicationStatus({
-      applyId: application.id,
-      status: EApplyStatus.WAITING,
-    });
-  };
-
-  const handleClickApproveButton = () => {
-    handleChangeApplicationStatus({
-      applyId: application.id,
-      status: EApplyStatus.APPROVE,
-    });
-  };
-
-  const handleClickRejectButton = () => {
-    handleChangeApplicationStatus({
-      applyId: application.id,
-      status: EApplyStatus.REJECT,
-    });
-  };
-
   const handleCancelInvitation = async () => {
     setIsMutateLoading(true);
     await mutateDeleteInvitation({ id: groupId, inviteId: application.id });
@@ -80,6 +64,14 @@ const ManagementListItem = ({
     });
     setIsMutateLoading(false);
   };
+
+  const handleChangeStatusButton = (status: number) => () => {
+    handleChangeApplicationStatus({
+      applyId: application.id,
+      status: status,
+    });
+  };
+
   useEffect(() => {
     setOrigin(window.location.origin);
   }, []);
@@ -117,31 +109,47 @@ const ManagementListItem = ({
                 <SyncLoader color="#8040ff" />
               ) : (
                 <>
-                  {type === 0 && (
+                  {type === EApplicationType.APPLY && (
                     <>
                       {status === EApplyStatus.WAITING && (
                         <>
-                          <SPurpleButton onClick={handleClickApproveButton}>
+                          <SPurpleButton
+                            onClick={handleChangeStatusButton(
+                              EApplyStatus.APPROVE
+                            )}
+                          >
                             승인
                           </SPurpleButton>
-                          <SGrayButton onClick={handleClickRejectButton}>
+                          <SGrayButton
+                            onClick={handleChangeStatusButton(
+                              EApplyStatus.REJECT
+                            )}
+                          >
                             거절
                           </SGrayButton>
                         </>
                       )}
                       {status === EApplyStatus.APPROVE && (
-                        <SGrayButton onClick={handleClickCancelButton}>
+                        <SGrayButton
+                          onClick={handleChangeStatusButton(
+                            EApplyStatus.WAITING
+                          )}
+                        >
                           승인 취소
                         </SGrayButton>
                       )}
                       {status === EApplyStatus.REJECT && (
-                        <SGrayButton onClick={handleClickCancelButton}>
+                        <SGrayButton
+                          onClick={handleChangeStatusButton(
+                            EApplyStatus.WAITING
+                          )}
+                        >
                           거절 취소
                         </SGrayButton>
                       )}
                     </>
                   )}
-                  {type === 1 && (
+                  {type === EApplicationType.INVITE && (
                     <SGrayButton onClick={handleCancelInvitation}>
                       초대 취소
                     </SGrayButton>
@@ -185,31 +193,47 @@ const ManagementListItem = ({
                 </SCancelButton>
               ) : (
                 <>
-                  {type === 0 && (
+                  {type === EApplicationType.APPLY && (
                     <>
                       {status === EApplyStatus.WAITING && (
                         <>
-                          <SRejectButton onClick={handleClickRejectButton}>
+                          <SRejectButton
+                            onClick={handleChangeStatusButton(
+                              EApplyStatus.REJECT
+                            )}
+                          >
                             거절
                           </SRejectButton>
-                          <SApproveButton onClick={handleClickApproveButton}>
+                          <SApproveButton
+                            onClick={handleChangeStatusButton(
+                              EApplyStatus.APPROVE
+                            )}
+                          >
                             승인
                           </SApproveButton>
                         </>
                       )}
                       {status === EApplyStatus.APPROVE && (
-                        <SCancelButton onClick={handleClickCancelButton}>
+                        <SCancelButton
+                          onClick={handleChangeStatusButton(
+                            EApplyStatus.WAITING
+                          )}
+                        >
                           승인 취소
                         </SCancelButton>
                       )}
                       {status === EApplyStatus.REJECT && (
-                        <SCancelButton onClick={handleClickCancelButton}>
+                        <SCancelButton
+                          onClick={handleChangeStatusButton(
+                            EApplyStatus.WAITING
+                          )}
+                        >
                           거절 취소
                         </SCancelButton>
                       )}
                     </>
                   )}
-                  {type === 1 && (
+                  {type === EApplicationType.INVITE && (
                     <SCancelButton onClick={handleCancelInvitation}>
                       초대 취소
                     </SCancelButton>
