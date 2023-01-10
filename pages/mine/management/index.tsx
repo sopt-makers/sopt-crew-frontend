@@ -43,20 +43,17 @@ const ManagementPage = () => {
   });
   const isHost = groupData?.host ?? false;
 
-  const {
-    isLoading: isManagementDataLoading,
-    data: management,
-    refetch,
-  } = useQueryGetGroupPeopleList({
-    params: {
-      id,
-      page: (page || 0) as number,
-      take: Number(numberOptionList[Number(take) || 0].value),
-      status: status,
-      type: type,
-      date: sortOptionList[Number(sort) || 0].value as string,
-    },
-  });
+  const { isLoading: isManagementDataLoading, data: management } =
+    useQueryGetGroupPeopleList({
+      params: {
+        id,
+        page: (page || 0) as number,
+        take: Number(numberOptionList[Number(take) || 0].value),
+        status: status,
+        type: type,
+        date: sortOptionList[Number(sort) || 0].value as string,
+      },
+    });
 
   const handleChangeSelectOption =
     (setValue: (value: string | number) => void, optionList: Option[]) =>
@@ -65,12 +62,6 @@ const ManagementPage = () => {
         optionList.findIndex(option => option.value === changeOption.value)
       );
     };
-
-  useEffect(() => {
-    if (id) {
-      refetch();
-    }
-  }, [refetch, id]);
 
   return (
     <SManagementPage>
