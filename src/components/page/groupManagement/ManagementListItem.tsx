@@ -15,6 +15,7 @@ import {
 } from 'src/api/meeting/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { SyncLoader } from 'react-spinners';
+import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 
 interface ManagementListItemProps {
   groupId: number;
@@ -32,7 +33,7 @@ const ManagementListItem = ({
   application,
   isHost,
 }: ManagementListItemProps) => {
-  const [origin, setOrigin] = useState('');
+  const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { appliedDate, content, status = 0, user, type } = application;
 
@@ -67,10 +68,6 @@ const ManagementListItem = ({
     setIsMutateLoading(false);
   };
 
-  useEffect(() => {
-    setOrigin(window.location.origin);
-  }, []);
-
   return (
     <>
       {isHost && (
@@ -87,7 +84,7 @@ const ManagementListItem = ({
                   )}
                 </SProfileImage>
 
-                <Link href={`${origin}/members?id=${user.orgId}`} passHref>
+                <Link href={memberDetail(user.orgId)} passHref>
                   <SName>{user.name}</SName>
                 </Link>
                 <SUserStatus status={status}>
@@ -164,7 +161,7 @@ const ManagementListItem = ({
               </SProfileImage>
               <SCardUserInformation>
                 <div>
-                  <Link href={`${origin}/members?id=${user.orgId}`} passHref>
+                  <Link href={memberDetail(user.orgId)} passHref>
                     <SCardName>{user.name}</SCardName>
                   </Link>
                   <SCardUserStatus status={status}>
@@ -251,7 +248,7 @@ const ManagementListItem = ({
                 )}
               </SProfileImage>
 
-              <Link href={`${origin}/members?id=${user.orgId}`} passHref>
+              <Link href={memberDetail(user.orgId)} passHref>
                 <SName>{user.name}</SName>
               </Link>
             </SProfile>
