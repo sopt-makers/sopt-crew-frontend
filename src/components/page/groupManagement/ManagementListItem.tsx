@@ -4,7 +4,7 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
 import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/status';
