@@ -115,7 +115,10 @@ const SSelectDisplay = styled(Flex, {
     },
   },
   '@mobile': {
-    width: '86px',
+    width: '74px',
+    height: '10px',
+    padding: '$12 $10',
+    borderRadius: '$8',
   },
 });
 
@@ -130,7 +133,7 @@ const SCategory = styled('span', {
     },
   },
   '@mobile': {
-    fontAg: '14_medium_100',
+    fontAg: '12_semibold_100',
   },
 });
 const SSelectBoxList = styled(Box, {

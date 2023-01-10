@@ -4,9 +4,9 @@ import { styled } from 'stitches.config';
 const ManagementListSkeleton = () => {
   return (
     <>
-      <SFilterArea>
+      {/* <SFilterArea>
         <SFilter />
-      </SFilterArea>
+      </SFilterArea> */}
       {new Array(9).fill('').map((_, i) => (
         <SItemSkeleton key={i} />
       ))}
@@ -16,31 +16,31 @@ const ManagementListSkeleton = () => {
 
 export default ManagementListSkeleton;
 
-const SFilterArea = styled(Box, {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  mt: '$64',
+// const SFilterArea = styled(Box, {
+//   display: 'flex',
+//   justifyContent: 'flex-end',
+//   mt: '$64',
 
-  '@mobile': {
-    justifyContent: 'flex-start',
-    mt: '$38',
-  },
-});
+//   '@mobile': {
+//     justifyContent: 'flex-start',
+//     mt: '$38',
+//   },
+// });
 
-const SFilter = styled(Box, {
-  width: '$151',
-  height: '$54',
-  borderRadius: '14px',
-  background: '$black80',
-  mb: '$36',
+// const SFilter = styled(Box, {
+//   width: '$151',
+//   height: '$54',
+//   borderRadius: '14px',
+//   background: '$black80',
+//   mb: '$36',
 
-  '@mobile': {
-    width: '$133',
-    height: '$21',
-    borderRadius: '6px',
-    mb: '$28',
-  },
-});
+//   '@mobile': {
+//     width: '$133',
+//     height: '$21',
+//     borderRadius: '6px',
+//     mb: '$28',
+//   },
+// });
 
 const SItemSkeleton = styled(Box, {
   height: '$80',
