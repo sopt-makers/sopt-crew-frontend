@@ -100,8 +100,8 @@ export interface DeleteInvitationRequest {
   inviteId: number;
 }
 
-function parseStatusToNumber(status: string, StatusArray: string[]) {
-  const statusIdx = StatusArray.findIndex(item => item === status);
+function parseStatusToNumber(status: string, statusArray: string[]) {
+  const statusIdx = statusArray.findIndex(item => item === status);
   if (statusIdx >= 0) return statusIdx;
   return null;
 }
@@ -136,22 +136,23 @@ export const getGroupPeopleList = async ({
   ...rest
 }: OptionData): Promise<GroupPeopleResponse> => {
   const { status, type } = rest;
-  const DEFAULT_STATUS = '0,1,2';
-  const DEFAULT_TYPE = '0,1';
+
   return (
     await api.get<PromiseResponse<GroupPeopleResponse>>(`/meeting/${id}/list`, {
       params: {
         ...rest,
-        status:
-          status
+        ...(status.length && {
+          status: status
             .map(item => parseStatusToNumber(item, APPROVE_STATUS))
             .filter(item => item !== null)
-            .join(',') || DEFAULT_STATUS,
-        type:
-          type
+            .join(','),
+        }),
+        ...(type.length && {
+          type: type
             .map(item => parseStatusToNumber(item, APPLICATION_TYPE))
             .filter(item => item !== null)
-            .join(',') || DEFAULT_TYPE,
+            .join(','),
+        }),
       },
     })
   ).data.data;
