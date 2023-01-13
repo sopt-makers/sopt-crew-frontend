@@ -115,7 +115,7 @@ const ManagementPage = () => {
               </SSelectNumberWrapper>
               <SSelectWrapper>
                 <Select
-                  value={sortOptionList[Number(sort) || 0]}
+                  value={sortOptionList[Number(sortByDate) || 0]}
                   options={sortOptionList}
                   onChange={handleChangeSelectOption(setSort, sortOptionList)}
                 />
