@@ -1,10 +1,7 @@
 import { Option } from '@components/Form/Select/OptionItem';
 import { FormType } from 'src/types/form';
-import { api } from '.';
+import { api, Data } from '.';
 
-interface CreateGroupResponse {
-  id: number;
-}
 export const createGroup = async (formData: FormType) => {
   const form = new FormData();
   for (const [key, value] of Object.entries(formData)) {
@@ -31,7 +28,7 @@ export const createGroup = async (formData: FormType) => {
     }
   }
 
-  const { data } = await api.post<CreateGroupResponse>('/meeting', form);
+  const { data } = await api.post<Data<number>>('/meeting', form);
 
   return data;
 };
