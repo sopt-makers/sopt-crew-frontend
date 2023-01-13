@@ -48,8 +48,8 @@ const ManagementPage = () => {
         id,
         page: (page || 0) as number,
         take: Number(numberOptionList[Number(take) || 0].value),
-        status: status,
-        type: type,
+        status,
+        type,
         date: sortOptionList[Number(sortByDate) || 0].value as string,
       },
     });
