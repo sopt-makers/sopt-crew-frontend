@@ -8,3 +8,11 @@ export const sortOptionList = [
   { label: '최신순', value: 'desc' },
   { label: '오래된 순', value: 'asc' },
 ];
+
+export const generationOptions = [
+  { label: '전체 기수', value: null },
+  ...Array.from({ length: 31 }, (_, i) => i + 1).map(gen => ({
+    label: `${gen}기`,
+    value: gen.toString(),
+  })),
+];

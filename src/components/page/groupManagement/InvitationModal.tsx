@@ -1,7 +1,13 @@
 import { Box } from '@components/box/Box';
+import Select from '@components/Form/Select';
 import Textarea from '@components/Form/Textarea';
+import TextInput from '@components/Form/TextInput';
 import DefaultModal from '@components/modal/DefaultModal';
-import React, { useState } from 'react';
+import useDebounce from '@hooks/useDebounce';
+import { useRouter } from 'next/router';
+import React, { useMemo, useState } from 'react';
+import { useUsersToInvite } from 'src/api/meeting/hooks';
+import { generationOptions } from 'src/data/options';
 import { styled } from 'stitches.config';
 import InvitationListItem from './InvitationListItem';
 
@@ -16,14 +22,41 @@ const InvitationModal = ({
   title,
   handleModalClose,
 }: InvitationModalProps) => {
+  const router = useRouter();
+  const groupId = router.query.id as string;
   const [textareaValue, setTextareaValue] = useState('');
-  const [isAllSelected, setIsAllSelected] = useState(false);
 
-  // TODO: API 연결 전 임시로 사용
-  const invitationList = [
-    { id: 0, name: '백지연' },
-    { id: 1, name: '유저명' },
-  ];
+  const [generation, setGeneration] = useState(generationOptions[0]);
+  const [name, setName] = useState('');
+  const debouncedName = useDebounce<string>(name, 300);
+
+  const { data: users, isLoading } = useUsersToInvite({
+    groupId,
+    generation: generation.value,
+    name: debouncedName,
+  });
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
+  const isAllSelected = useMemo(
+    () => !!users?.length && selectedUsers.length === users?.length,
+    [selectedUsers, users]
+  );
+
+  const handleSelect = (userId: number) => {
+    if (selectedUsers.includes(userId)) {
+      setSelectedUsers(prev => prev.filter(id => id !== userId));
+    } else {
+      setSelectedUsers(prev => [...prev, userId]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers(users?.map(user => user.id) ?? []);
+    }
+  };
 
   const handleInvitationButton = () => {
     console.log('초대하기 버튼 클릭');
@@ -36,21 +69,52 @@ const InvitationModal = ({
       handleModalClose={handleModalClose}
     >
       <SInvitationModal>
+        <SFilterContainer>
+          <Select
+            options={generationOptions}
+            value={generation}
+            onChange={setGeneration}
+          />
+          <TextInput
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="회원 검색"
+          />
+        </SFilterContainer>
         <SMemberTitleContainer>
-          <STitle>회원 목록 ()</STitle>
+          <STitle>회원 목록 ({users?.length})</STitle>
           <div>
-            <button>선택 회원 보기 ()</button>
-            <SAllButton onClick={() => setIsAllSelected(prev => !prev)}>
-              전체 {isAllSelected ? '선택' : '해제'}
+            <ShowSelectedOnlyButton
+              active={showSelectedOnly}
+              onClick={() => setShowSelectedOnly(prev => !prev)}
+            >
+              선택 회원 보기 ({selectedUsers.length})
+            </ShowSelectedOnlyButton>
+            <SAllButton onClick={handleSelectAll} active={isAllSelected}>
+              전체 {isAllSelected ? '해제' : '선택'}
             </SAllButton>
           </div>
         </SMemberTitleContainer>
         <SMemberList>
-          {invitationList.map(member => (
-            <InvitationListItem key={member.id} member={member} />
-          ))}
+          {isLoading && <EmptyList>로딩중...</EmptyList>}
+          {!isLoading && !users?.length ? (
+            <EmptyList>회원이 없습니다.</EmptyList>
+          ) : (
+            users
+              ?.filter(user =>
+                showSelectedOnly ? selectedUsers.includes(user.id) : true
+              )
+              .map(user => (
+                <InvitationListItem
+                  key={user.id}
+                  member={user}
+                  checked={selectedUsers.includes(user.id)}
+                  onSelect={handleSelect}
+                />
+              ))
+          )}
         </SMemberList>
-        <STitle>초대 메시지</STitle>
+        {/* <STitle>초대 메시지</STitle>
         <SInvitationForm>
           <Textarea
             value={textareaValue}
@@ -65,7 +129,7 @@ const InvitationModal = ({
                 : ''
             }
           />
-        </SInvitationForm>
+        </SInvitationForm> */}
         <SInvitationButton onClick={handleInvitationButton}>
           초대하기
         </SInvitationButton>
@@ -79,6 +143,11 @@ export default InvitationModal;
 const SInvitationModal = styled(Box, {
   padding: '$40',
   color: '$white',
+});
+
+const SFilterContainer = styled(Box, {
+  display: 'flex',
+  alignItems: 'center',
 });
 
 const SMemberTitleContainer = styled(Box, {
@@ -104,10 +173,28 @@ const SMemberTitleContainer = styled(Box, {
 
 const SAllButton = styled('button', {
   ml: '$20',
+  variants: {
+    active: {
+      true: {
+        color: '$purple100 !important',
+      },
+    },
+  },
 });
 
 const SMemberList = styled(Box, {
-  // TODO: 디자인 수정 예정
+  height: '320px',
+  overflow: 'auto',
+});
+
+const EmptyList = styled(Box, {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontAg: '16_medium_100',
+  color: '$gray80',
 });
 
 const STitle = styled(Box, {
@@ -115,6 +202,16 @@ const STitle = styled(Box, {
 
   '@mobile': {
     fontAg: '16_bold_100',
+  },
+});
+
+const ShowSelectedOnlyButton = styled('button', {
+  variants: {
+    active: {
+      true: {
+        color: '$purple100 !important',
+      },
+    },
   },
 });
 
