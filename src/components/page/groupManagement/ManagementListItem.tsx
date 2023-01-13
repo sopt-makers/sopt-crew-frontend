@@ -263,7 +263,11 @@ const ManagementListItem = ({
           title={`${APPLY_TYPE[type]}내역`}
           handleModalClose={handleModalClose}
         >
-          <SDetailText>{content}</SDetailText>
+          {content ? (
+            <SDetailText>{content}</SDetailText>
+          ) : (
+            <SEmptyText>입력한 내용이 없습니다.</SEmptyText>
+          )}
         </DefaultModal>
       )}
     </>
@@ -530,4 +534,11 @@ const SDetailText = styled('p', {
   fontAg: '16_medium_150',
   color: '$white',
   boxSizing: 'border-box',
+});
+
+const SEmptyText = styled('p', {
+  padding: '$104 0 $124 0',
+  fontAg: '20_medium_100',
+  textAlign: 'center',
+  color: '$gray80',
 });
