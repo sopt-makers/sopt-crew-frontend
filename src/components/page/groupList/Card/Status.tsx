@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { APPLY_STATUS } from '@constants/option';
+import { APPROVE_STATUS } from '@constants/option';
 import { ApplicationStatusType } from 'src/api/user';
 import { styled } from 'stitches.config';
 
@@ -12,7 +12,7 @@ function Status({ status }: StatusProps) {
   return (
     <SLayout align="center">
       <SLabel>신청현황</SLabel>
-      <span>{APPLY_STATUS[status]}</span>
+      <span>{APPROVE_STATUS[status]}</span>
     </SLayout>
   );
 }

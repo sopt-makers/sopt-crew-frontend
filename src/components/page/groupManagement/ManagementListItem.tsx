@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
-import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/option';
+import { APPROVE_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import {
   useMutationUpdateApplication,
@@ -88,7 +88,7 @@ const ManagementListItem = ({
                   <SName>{user.name}</SName>
                 </Link>
                 <SUserStatus status={status}>
-                  {APPLY_STATUS[status]}
+                  {APPROVE_STATUS[status]}
                 </SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>
@@ -165,7 +165,7 @@ const ManagementListItem = ({
                     <SCardName>{user.name}</SCardName>
                   </Link>
                   <SCardUserStatus status={status}>
-                    {APPLY_STATUS[status]}
+                    {APPROVE_STATUS[status]}
                   </SCardUserStatus>
                 </div>
                 <div>

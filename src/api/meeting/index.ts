@@ -1,5 +1,5 @@
 import {
-  APPLY_STATUS,
+  APPROVE_STATUS,
   APPLY_TYPE,
   RECRUITMENT_STATUS,
 } from '@constants/option';
@@ -144,7 +144,7 @@ export const getGroupPeopleList = async ({
         ...rest,
         status:
           status
-            .map(item => parseStatusToNumber(item, APPLY_STATUS))
+            .map(item => parseStatusToNumber(item, APPROVE_STATUS))
             .filter(item => item !== null)
             .join(',') || DEFAULT_STATUS,
         type:
