@@ -13,7 +13,7 @@ import ItemDescriptionBox from '@components/page/groupManagement/ItemDescription
 import Pagination from '@components/page/groupList/Pagination';
 import {
   usePageParams,
-  useSortParams,
+  useSortByDateParams,
   useStatusParams,
   useTakeParams,
   useTypeParams,
@@ -36,7 +36,7 @@ const ManagementPage = () => {
   const { value: type } = useTypeParams();
   const { value: status } = useStatusParams();
   const { value: take, setValue: setTake } = useTakeParams();
-  const { value: sort, setValue: setSort } = useSortParams();
+  const { value: sortByDate, setValue: setSort } = useSortByDateParams();
   const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
     params: { id },
   });
@@ -50,7 +50,7 @@ const ManagementPage = () => {
         take: Number(numberOptionList[Number(take) || 0].value),
         status: status,
         type: type,
-        date: sortOptionList[Number(sort) || 0].value as string,
+        date: sortOptionList[Number(sortByDate) || 0].value as string,
       },
     });
 
