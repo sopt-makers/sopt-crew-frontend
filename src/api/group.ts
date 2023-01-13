@@ -1,8 +1,8 @@
 import { Option } from '@components/Form/Select/OptionItem';
 import { FormType } from 'src/types/form';
-import { api, Data } from '.';
+import { api } from '.';
 
-export const createGroup = async (formData: FormType) => {
+const serializeFormData = (formData: FormType) => {
   const form = new FormData();
   for (const [key, value] of Object.entries(formData)) {
     // NOTE: category는 object 이므로 value만 가져온다.
@@ -27,8 +27,17 @@ export const createGroup = async (formData: FormType) => {
       form.append(key, value);
     }
   }
+  return form;
+};
 
-  const { data } = await api.post<Data<number>>('/meeting', form);
+interface CreateGroupResponse {
+  id: number;
+}
+export const createGroup = async (formData: FormType) => {
+  const { data } = await api.post<CreateGroupResponse>(
+    '/meeting',
+    serializeFormData(formData)
+  );
 
   return data;
 };
@@ -62,12 +71,10 @@ export const getGroupById = async (groupId: string) => {
 };
 
 export const updateGroup = async (groupId: string, formData: FormType) => {
-  const response = await api.put(`/meeting/${groupId}`, {
-    ...formData,
-    ...formData.detail,
-    category: formData.category.value,
-    detail: undefined,
-  });
+  const response = await api.put(
+    `/meeting/${groupId}`,
+    serializeFormData(formData)
+  );
 
   return response;
 };

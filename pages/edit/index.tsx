@@ -57,9 +57,9 @@ const EditPage = () => {
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
       await mutateAsync({ id, formData });
-
       // TODO: handle success
       alert('모임을 수정했습니다.');
+      router.push(`/detail?id=${id}`);
     } catch (error) {
       // TODO: handle error
       alert('모임을 수정하지 못했습니다.');
