@@ -1,6 +1,6 @@
 import {
   APPROVE_STATUS,
-  APPLY_TYPE,
+  APPLICATION_TYPE,
   RECRUITMENT_STATUS,
 } from '@constants/option';
 import { api, PromiseResponse } from '..';
@@ -149,7 +149,7 @@ export const getGroupPeopleList = async ({
             .join(',') || DEFAULT_STATUS,
         type:
           type
-            .map(item => parseStatusToNumber(item, APPLY_TYPE))
+            .map(item => parseStatusToNumber(item, APPLICATION_TYPE))
             .filter(item => item !== null)
             .join(',') || DEFAULT_TYPE,
       },

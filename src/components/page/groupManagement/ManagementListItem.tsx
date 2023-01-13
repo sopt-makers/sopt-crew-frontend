@@ -7,7 +7,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
-import { APPROVE_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/option';
+import {
+  APPROVE_STATUS,
+  APPLICATION_TYPE,
+  EApplyStatus,
+} from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import {
   useMutationUpdateApplication,
@@ -74,7 +78,7 @@ const ManagementListItem = ({
         <>
           <SDesktopListItem>
             <SUserInformation>
-              <SType>{APPLY_TYPE[type]}</SType>
+              <SType>{APPLICATION_TYPE[type]}</SType>
               <SDesktopProfile>
                 <SProfileImage>
                   {user.profileImage ? (
@@ -92,7 +96,7 @@ const ManagementListItem = ({
                 </SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>
-                {APPLY_TYPE[type]} 내역
+                {APPLICATION_TYPE[type]} 내역
               </SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
             </SUserInformation>
@@ -169,12 +173,12 @@ const ManagementListItem = ({
                   </SCardUserStatus>
                 </div>
                 <div>
-                  <SCardType>{APPLY_TYPE[type]}</SCardType>
+                  <SCardType>{APPLICATION_TYPE[type]}</SCardType>
                   <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
-                <span>{APPLY_TYPE[type]} 내역</span>
+                <span>{APPLICATION_TYPE[type]} 내역</span>
                 <ArrowMiniIcon />
               </SCardDetailButton>
             </SCardContent>
@@ -260,7 +264,7 @@ const ManagementListItem = ({
       {isModalOpened && (
         <DefaultModal
           isModalOpened={isModalOpened}
-          title={`${APPLY_TYPE[type]}내역`}
+          title={`${APPLICATION_TYPE[type]}내역`}
           handleModalClose={handleModalClose}
         >
           {content ? (
