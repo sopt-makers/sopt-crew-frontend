@@ -10,7 +10,8 @@ import { ApplicationData } from 'src/api/meeting';
 import {
   APPROVE_STATUS,
   APPLICATION_TYPE,
-  EApplyStatus,
+  EApproveStatus,
+  EApplicationType,
 } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import {
@@ -25,11 +26,6 @@ interface ManagementListItemProps {
   groupId: number;
   application: ApplicationData;
   isHost: boolean;
-}
-
-const enum EApplicationType {
-  APPLY,
-  INVITE,
 }
 
 const ManagementListItem = ({
@@ -107,37 +103,37 @@ const ManagementListItem = ({
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
-                      {status === EApplyStatus.WAITING && (
+                      {status === EApproveStatus.WAITING && (
                         <>
                           <SPurpleButton
                             onClick={handleChangeApplicationStatus(
-                              EApplyStatus.APPROVE
+                              EApproveStatus.APPROVE
                             )}
                           >
                             승인
                           </SPurpleButton>
                           <SGrayButton
                             onClick={handleChangeApplicationStatus(
-                              EApplyStatus.REJECT
+                              EApproveStatus.REJECT
                             )}
                           >
                             거절
                           </SGrayButton>
                         </>
                       )}
-                      {status === EApplyStatus.APPROVE && (
+                      {status === EApproveStatus.APPROVE && (
                         <SGrayButton
                           onClick={handleChangeApplicationStatus(
-                            EApplyStatus.WAITING
+                            EApproveStatus.WAITING
                           )}
                         >
                           승인 취소
                         </SGrayButton>
                       )}
-                      {status === EApplyStatus.REJECT && (
+                      {status === EApproveStatus.REJECT && (
                         <SGrayButton
                           onClick={handleChangeApplicationStatus(
-                            EApplyStatus.WAITING
+                            EApproveStatus.WAITING
                           )}
                         >
                           거절 취소
@@ -191,37 +187,37 @@ const ManagementListItem = ({
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
-                      {status === EApplyStatus.WAITING && (
+                      {status === EApproveStatus.WAITING && (
                         <>
                           <SRejectButton
                             onClick={handleChangeApplicationStatus(
-                              EApplyStatus.REJECT
+                              EApproveStatus.REJECT
                             )}
                           >
                             거절
                           </SRejectButton>
                           <SApproveButton
                             onClick={handleChangeApplicationStatus(
-                              EApplyStatus.APPROVE
+                              EApproveStatus.APPROVE
                             )}
                           >
                             승인
                           </SApproveButton>
                         </>
                       )}
-                      {status === EApplyStatus.APPROVE && (
+                      {status === EApproveStatus.APPROVE && (
                         <SCancelButton
                           onClick={handleChangeApplicationStatus(
-                            EApplyStatus.WAITING
+                            EApproveStatus.WAITING
                           )}
                         >
                           승인 취소
                         </SCancelButton>
                       )}
-                      {status === EApplyStatus.REJECT && (
+                      {status === EApproveStatus.REJECT && (
                         <SCancelButton
                           onClick={handleChangeApplicationStatus(
-                            EApplyStatus.WAITING
+                            EApproveStatus.WAITING
                           )}
                         >
                           거절 취소
