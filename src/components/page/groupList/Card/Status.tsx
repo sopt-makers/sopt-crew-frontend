@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { APPLY_STATUS } from '@constants/status';
+import { APPLY_STATUS } from '@constants/option';
 import { ApplicationStatusType } from 'src/api/user';
 import { styled } from 'stitches.config';
 

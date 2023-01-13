@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
-import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/status';
+import { APPLY_STATUS, APPLY_TYPE, EApplyStatus } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import {
   useMutationUpdateApplication,

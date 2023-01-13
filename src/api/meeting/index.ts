@@ -2,7 +2,7 @@ import {
   APPLY_STATUS,
   APPLY_TYPE,
   RECRUITMENT_STATUS,
-} from '@constants/status';
+} from '@constants/option';
 import { api, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 

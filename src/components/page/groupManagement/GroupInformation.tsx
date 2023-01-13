@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
 import { GroupResponse } from 'src/api/meeting';
-import { EApplyStatus, RECRUITMENT_STATUS } from '@constants/status';
+import { EApplyStatus, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
 
 interface GroupInformationProps {

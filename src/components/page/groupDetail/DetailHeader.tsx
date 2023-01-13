@@ -15,7 +15,7 @@ import {
   UpdateInvitationRequest,
 } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { EInviteStatus, RECRUITMENT_STATUS } from '@constants/status';
+import { EInviteStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
