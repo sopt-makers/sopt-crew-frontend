@@ -192,7 +192,7 @@ export const deleteInvitation = async ({
 };
 
 // NOTE: profileImage의 type을 override 한다
-interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
+export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
   profileImage: string | null;
   hasProfile: boolean;
 }
@@ -208,6 +208,19 @@ export const getUsersToInvite = async (
       generation,
       name,
     },
+  });
+  return data;
+};
+
+export const invite = async (
+  groupId: string,
+  message: string,
+  userIdArr: number[]
+) => {
+  const { data } = await api.post(`/meeting/invite`, {
+    id: Number(groupId),
+    message,
+    userIdArr,
   });
   return data;
 };
