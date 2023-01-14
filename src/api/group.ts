@@ -1,6 +1,6 @@
 import { Option } from '@components/Form/Select/OptionItem';
 import { FormType } from 'src/types/form';
-import { api } from '.';
+import { api, Data } from '.';
 
 const serializeFormData = (formData: FormType) => {
   const form = new FormData();
@@ -30,11 +30,8 @@ const serializeFormData = (formData: FormType) => {
   return form;
 };
 
-interface CreateGroupResponse {
-  id: number;
-}
 export const createGroup = async (formData: FormType) => {
-  const { data } = await api.post<CreateGroupResponse>(
+  const { data } = await api.post<Data<number>>(
     '/meeting',
     serializeFormData(formData)
   );
