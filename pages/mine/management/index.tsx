@@ -25,8 +25,8 @@ import {
 } from 'src/api/meeting/hooks';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
 import useModal from '@hooks/useModal';
-import InvitationModal from '@components/page/groupManagement/InvitationModal';
 import Filter from '@components/page/groupManagement/Filter';
+import InvitationModal from '@components/page/groupManagement/InvitationModal/InvitationModal';
 
 const ManagementPage = () => {
   const router = useRouter();
