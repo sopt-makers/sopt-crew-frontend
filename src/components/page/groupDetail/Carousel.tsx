@@ -11,12 +11,7 @@ interface CarouselProps {
 
 const Carousel = ({ imageList }: CarouselProps) => {
   const settings = {
-    dots: false,
-    infinite: true,
     autoplay: true,
-    speed: 3000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
     prevArrow: <NextArrow className="prev" />,
     nextArrow: <NextArrow className="next" />,
     responsive: [
