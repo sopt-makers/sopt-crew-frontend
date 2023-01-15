@@ -3,7 +3,7 @@ import {
   APPLICATION_TYPE,
   RECRUITMENT_STATUS,
 } from '@constants/option';
-import { api, PromiseResponse } from '..';
+import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 interface PaginationType {
@@ -189,4 +189,38 @@ export const deleteInvitation = async ({
   inviteId,
 }: DeleteInvitationRequest) => {
   return (await api.delete(`/meeting/${id}/invite/${inviteId}`)).data;
+};
+
+// NOTE: profileImage의 type을 override 한다
+export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
+  profileImage: string | null;
+  hasProfile: boolean;
+}
+export const getUsersToInvite = async (
+  groupId: string,
+  generation: string | null,
+  name: string
+) => {
+  const {
+    data: { data },
+  } = await api.get<Data<UserToInvite[]>>(`/meeting/${groupId}/users`, {
+    params: {
+      generation,
+      name,
+    },
+  });
+  return data;
+};
+
+export const invite = async (
+  groupId: string,
+  message: string,
+  userIdArr: number[]
+) => {
+  const { data } = await api.post(`/meeting/invite`, {
+    id: Number(groupId),
+    message,
+    userIdArr,
+  });
+  return data;
 };

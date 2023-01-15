@@ -11,6 +11,9 @@ interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   error?: string;
   required?: boolean;
   right?: React.ReactNode;
+  // NOTE: controlled component로 사용할 때 필요한 props
+  value?: string | number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(

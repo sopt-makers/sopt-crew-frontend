@@ -28,6 +28,7 @@ import {
   UpdateInvitationRequest,
   deleteInvitation,
   DeleteInvitationRequest,
+  getUsersToInvite,
 } from '.';
 
 interface UseQueryGetGroupParams {
@@ -191,5 +192,22 @@ export const useMutationDeleteInvitation = ({
     ...useMutationOptions,
     mutationKey: ['deleteInvitation'],
     mutationFn: deleteInvitation,
+  });
+};
+
+interface UseUsersToInviteParams {
+  groupId: string;
+  generation: string | null;
+  name: string;
+}
+export const useUsersToInvite = ({
+  groupId,
+  generation,
+  name,
+}: UseUsersToInviteParams) => {
+  return useQuery({
+    queryKey: ['getUsersToInvite', groupId, generation, name],
+    queryFn: () => getUsersToInvite(groupId, generation, name),
+    enabled: !!groupId,
   });
 };

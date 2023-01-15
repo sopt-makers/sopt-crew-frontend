@@ -1,29 +1,29 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
-import { Box } from '@components/box/Box';
-import { useState } from 'react';
 import { styled } from 'stitches.config';
 
 interface Member {
   id: number;
   name: string;
-  profileImage?: string;
+  profileImage?: string | null;
 }
 
 interface InvitationListProps {
   member: Member;
+  checked: boolean;
+  onSelect: (userId: number) => void;
 }
 
 const InvitationListItem = ({
   member: { id, profileImage, name },
+  checked,
+  onSelect,
 }: InvitationListProps) => {
-  const [isChecked, setIsChecked] = useState(false);
   const handleChange = () => {
-    setIsChecked(prev => !prev);
-    console.log(id);
+    onSelect(id);
   };
 
   return (
-    <SInvitationListItem>
+    <SInvitationListItem htmlFor={`member-${id}`}>
       <div>
         {profileImage ? (
           <img src={profileImage} alt="" />
@@ -33,8 +33,9 @@ const InvitationListItem = ({
         <span>{name}</span>
       </div>
       <SCheckbox
+        id={`member-${id}`}
         type="checkbox"
-        isChecked={isChecked}
+        isChecked={checked}
         onChange={handleChange}
       />
     </SInvitationListItem>
@@ -43,7 +44,9 @@ const InvitationListItem = ({
 
 export default InvitationListItem;
 
-const SInvitationListItem = styled(Box, {
+const SInvitationListItem = styled('label', {
+  boxSizing: 'border-box',
+  display: 'block',
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   height: '$56',

@@ -25,8 +25,8 @@ import {
 } from 'src/api/meeting/hooks';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
 import useModal from '@hooks/useModal';
-import InvitationModal from '@components/page/groupManagement/InvitationModal';
 import Filter from '@components/page/groupManagement/Filter';
+import InvitationModal from '@components/page/groupManagement/InvitationModal/InvitationModal';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -203,7 +203,6 @@ const SInvitationButton = styled('button', {
   borderRadius: '14px',
   padding: '$18 $24 $18 $20',
   flexType: 'verticalCenter',
-  display: 'none',
 
   '& > svg': {
     mr: '$12',
@@ -218,10 +217,6 @@ const SInvitationButton = styled('button', {
     svg: {
       mr: '$0',
       transform: 'scale(1.2)',
-    },
-
-    span: {
-      display: 'none',
     },
   },
 });
