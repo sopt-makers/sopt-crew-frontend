@@ -1,5 +1,9 @@
-import { RECRUITMENT_STATUS } from '@constants/status';
-import { api, PromiseResponse } from '..';
+import {
+  APPROVE_STATUS,
+  APPLICATION_TYPE,
+  RECRUITMENT_STATUS,
+} from '@constants/option';
+import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 interface PaginationType {
@@ -55,12 +59,14 @@ interface OptionData {
   id: string;
   page: number;
   take: number;
-  status: number;
+  status: string[];
+  type: string[];
   date: string;
 }
 
 export interface ApplicationData {
   id: number;
+  type: number;
   appliedDate: string;
   content: string;
   status: ApplicationStatusType;
@@ -89,8 +95,13 @@ export interface UpdateInvitationRequest {
   status: number;
 }
 
-function parseStatusToNumber(status: string) {
-  const statusIdx = RECRUITMENT_STATUS.findIndex(item => item === status);
+export interface DeleteInvitationRequest {
+  id: number;
+  inviteId: number;
+}
+
+function parseStatusToNumber(status: string, statusArray: string[]) {
+  const statusIdx = statusArray.findIndex(item => item === status);
   if (statusIdx >= 0) return statusIdx;
   return null;
 }
@@ -105,7 +116,7 @@ export const fetchGroupListOfAll = async ({
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
         ? `&status=${status
-            .map(item => parseStatusToNumber(item))
+            .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
             .filter(item => item !== null)
             .join(',')}`
         : ''
@@ -124,9 +135,25 @@ export const getGroupPeopleList = async ({
   id,
   ...rest
 }: OptionData): Promise<GroupPeopleResponse> => {
+  const { status, type } = rest;
+
   return (
     await api.get<PromiseResponse<GroupPeopleResponse>>(`/meeting/${id}/list`, {
-      params: rest,
+      params: {
+        ...rest,
+        ...(status.length && {
+          status: status
+            .map(item => parseStatusToNumber(item, APPROVE_STATUS))
+            .filter(item => item !== null)
+            .join(','),
+        }),
+        ...(type.length && {
+          type: type
+            .map(item => parseStatusToNumber(item, APPLICATION_TYPE))
+            .filter(item => item !== null)
+            .join(','),
+        }),
+      },
     })
   ).data.data;
 };
@@ -155,4 +182,45 @@ export const updateInvitation = async ({
   ...rest
 }: UpdateInvitationRequest) => {
   return (await api.put(`/meeting/${id}/invite/status`, rest)).data;
+};
+
+export const deleteInvitation = async ({
+  id,
+  inviteId,
+}: DeleteInvitationRequest) => {
+  return (await api.delete(`/meeting/${id}/invite/${inviteId}`)).data;
+};
+
+// NOTE: profileImage의 type을 override 한다
+export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
+  profileImage: string | null;
+  hasProfile: boolean;
+}
+export const getUsersToInvite = async (
+  groupId: string,
+  generation: string | null,
+  name: string
+) => {
+  const {
+    data: { data },
+  } = await api.get<Data<UserToInvite[]>>(`/meeting/${groupId}/users`, {
+    params: {
+      generation,
+      name,
+    },
+  });
+  return data;
+};
+
+export const invite = async (
+  groupId: string,
+  message: string,
+  userIdArr: number[]
+) => {
+  const { data } = await api.post(`/meeting/invite`, {
+    id: Number(groupId),
+    message,
+    userIdArr,
+  });
+  return data;
 };

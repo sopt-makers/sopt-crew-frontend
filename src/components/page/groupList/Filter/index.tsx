@@ -5,10 +5,9 @@ import Search from './Search';
 import FilterSelect from './Select';
 import Result from './Result';
 
-export type SubjectType = 'category' | 'status';
 export interface FilterType {
   label: string;
-  subject: SubjectType;
+  subject: string;
   options: string[];
 }
 

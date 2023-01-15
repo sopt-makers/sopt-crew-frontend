@@ -157,6 +157,14 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: var(--colors-white) !important;
+}
+
 input,
 button {
   margin: 0;
@@ -234,7 +242,6 @@ input[type='number'] {
   display: none;
 }
 
-
 @media screen and (max-width: 768px) {
   .pc-only {
     display: none;
@@ -243,4 +250,3 @@ input[type='number'] {
     display: block;
   }
 }
-

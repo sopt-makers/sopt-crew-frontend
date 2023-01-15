@@ -44,11 +44,10 @@ const MakePage = () => {
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
-      const { id } = await createGroup(formData);
+      const { data: groupId } = await createGroup(formData);
       alert('모임을 개설했습니다.');
-      router.push(`/detail?id=${id}`);
+      router.push(`/detail?id=${groupId}`);
       // TODO: handle success
-      alert('모임을 개설했습니다.');
     } catch (error) {
       // TODO: handle error
       alert('모임을 생성하지 못했습니다.');

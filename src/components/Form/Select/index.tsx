@@ -67,6 +67,8 @@ function Select({
 export default Select;
 
 const SOptionList = styled('ul', {
+  position: 'absolute',
+  maxHeight: '300px',
   padding: '8px 0px',
   display: 'flex',
   flexDirection: 'column',
@@ -74,6 +76,8 @@ const SOptionList = styled('ul', {
   borderRadius: 10,
   mt: '$8',
   background: '$black40',
+  overflow: 'auto',
+  zIndex: 100,
 });
 const SErrorMessage = styled(ErrorMessage, {
   marginTop: '12px',
