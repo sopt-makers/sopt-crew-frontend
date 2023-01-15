@@ -15,7 +15,7 @@ import {
   UpdateInvitationRequest,
 } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { EInviteStatus, RECRUITMENT_STATUS } from '@constants/status';
+import { EApproveStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 
@@ -151,7 +151,7 @@ const DetailHeader = ({
       {
         id: Number(groupId),
         applyId: Number(groupId),
-        status: EInviteStatus.APPROVE,
+        status: EApproveStatus.APPROVE,
       },
       {
         onSuccess: () => {
@@ -168,7 +168,7 @@ const DetailHeader = ({
       {
         id: Number(groupId),
         applyId: Number(groupId),
-        status: EInviteStatus.REJECT,
+        status: EApproveStatus.REJECT,
       },
       {
         onSuccess: () => {

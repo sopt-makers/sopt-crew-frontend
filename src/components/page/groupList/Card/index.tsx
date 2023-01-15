@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { RECRUITMENT_STATUS } from '@constants/status';
+import { RECRUITMENT_STATUS } from '@constants/option';
 import { dateFormat } from '@utils/date';
 import Link from 'next/link';
 import { ReactNode } from 'react';

@@ -26,6 +26,8 @@ import {
   UpdateApplicationRequest,
   updateInvitation,
   UpdateInvitationRequest,
+  deleteInvitation,
+  DeleteInvitationRequest,
 } from '.';
 
 interface UseQueryGetGroupParams {
@@ -40,41 +42,17 @@ interface UseQueryGetGroupPeopleListParams {
     id: string;
     page: number;
     take: number;
-    status: number;
+    status: string[];
     date: string;
+    type: string[];
   };
   useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
 }
-
-interface UseMutationDeleteGroupParams {
+interface UseMutateBody<T> {
   useMutationOptions?: UseMutationOptions<
     { statusCode: number },
     AxiosError,
-    number
-  >;
-}
-
-interface UseMutationPostApplicationBody {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    PostApplicationRequest
-  >;
-}
-
-interface UseMutationUpdateApplicationBody {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    UpdateApplicationRequest
-  >;
-}
-
-interface UseMutationUpdateInvitationBody {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    UpdateInvitationRequest
+    T
   >;
 }
 
@@ -119,10 +97,10 @@ export const useQueryGetGroupPeopleList = ({
   params,
   useQueryOptions,
 }: UseQueryGetGroupPeopleListParams): UseQueryResult<GroupPeopleResponse> => {
-  const { id, page, take, status, date } = params;
+  const { id, page, take, status, date, type } = params;
 
   return useQuery<GroupPeopleResponse>({
-    queryKey: ['getGroupPeopleList', id, page, take, status, date],
+    queryKey: ['getGroupPeopleList', id, page, take, status, date, type],
     queryFn: () => {
       return getGroupPeopleList(params);
     },
@@ -133,7 +111,7 @@ export const useQueryGetGroupPeopleList = ({
 
 export const useMutationDeleteGroup = ({
   useMutationOptions,
-}: UseMutationDeleteGroupParams): UseMutationResult<
+}: UseMutateBody<number>): UseMutationResult<
   { statusCode: number },
   AxiosError,
   number
@@ -147,7 +125,7 @@ export const useMutationDeleteGroup = ({
 
 export const useMutationPostApplication = ({
   useMutationOptions,
-}: UseMutationPostApplicationBody): UseMutationResult<
+}: UseMutateBody<PostApplicationRequest>): UseMutationResult<
   { statusCode: number },
   AxiosError,
   PostApplicationRequest
@@ -165,7 +143,7 @@ export const useMutationPostApplication = ({
 
 export const useMutationUpdateApplication = ({
   useMutationOptions,
-}: UseMutationUpdateApplicationBody): UseMutationResult<
+}: UseMutateBody<UpdateApplicationRequest>): UseMutationResult<
   { statusCode: number },
   AxiosError,
   UpdateApplicationRequest
@@ -183,7 +161,7 @@ export const useMutationUpdateApplication = ({
 
 export const useMutationUpdateInvitation = ({
   useMutationOptions,
-}: UseMutationUpdateInvitationBody): UseMutationResult<
+}: UseMutateBody<UpdateInvitationRequest>): UseMutationResult<
   { statusCode: number },
   AxiosError,
   UpdateInvitationRequest
@@ -191,10 +169,27 @@ export const useMutationUpdateInvitation = ({
   return useMutation<
     { statusCode: number },
     AxiosError,
-    UpdateApplicationRequest
+    UpdateInvitationRequest
   >({
     ...useMutationOptions,
     mutationKey: ['updateInvitation'],
     mutationFn: updateInvitation,
+  });
+};
+export const useMutationDeleteInvitation = ({
+  useMutationOptions,
+}: UseMutateBody<DeleteInvitationRequest>): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  DeleteInvitationRequest
+> => {
+  return useMutation<
+    { statusCode: number },
+    AxiosError,
+    DeleteInvitationRequest
+  >({
+    ...useMutationOptions,
+    mutationKey: ['deleteInvitation'],
+    mutationFn: deleteInvitation,
   });
 };

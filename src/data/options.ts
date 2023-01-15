@@ -4,12 +4,6 @@ export const numberOptionList = [
   { label: '50명씩 보기', value: '50' },
 ];
 
-export const applicantOptionList = [
-  { label: '전체 신청자', value: '1' },
-  { label: '승인한 신청자', value: '2' },
-  { label: '거절한 신청자', value: '3' },
-];
-
 export const sortOptionList = [
   { label: '최신순', value: 'desc' },
   { label: '오래된 순', value: 'asc' },
