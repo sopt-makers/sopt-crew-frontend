@@ -113,6 +113,7 @@ const SDetailPage = styled(Box, {
 });
 
 const SDetail = styled(Box, {
+  scrollMarginTop: '$80',
   color: '$white',
   mt: '$120',
 

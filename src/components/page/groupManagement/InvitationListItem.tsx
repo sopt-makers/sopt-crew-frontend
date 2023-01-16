@@ -1,4 +1,4 @@
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { styled } from 'stitches.config';
 
 interface Member {
@@ -70,7 +70,8 @@ const SInvitationListItem = styled('label', {
   },
 
   svg: {
-    transform: 'scale(0.75)',
+    width: '$24',
+    height: '$24',
   },
 
   span: {
