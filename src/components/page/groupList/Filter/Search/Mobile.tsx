@@ -86,6 +86,13 @@ const SSearchInput = styled('input', {
   '&::placeholder': {
     fontAg: '18_medium_100',
   },
+
+  '@mobile': {
+    fontAg: '16_medium_100',
+    '&::placeholder': {
+      fontAg: '16_medium_100',
+    },
+  },
 });
 
 const SCancelButton = styled('button', {
