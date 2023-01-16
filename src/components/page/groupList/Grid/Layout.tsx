@@ -26,6 +26,9 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 550px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
+  '@media (max-width: 360px)': {
+    gridTemplateColumns: '1fr',
+  },
 });
 
 export default GridLayout;
