@@ -214,6 +214,10 @@ const SInvitationButton = styled('button', {
     width: '$24',
     height: '$24',
 
+    span: {
+      display: 'none',
+    },
+
     svg: {
       mr: '$0',
       transform: 'scale(1.2)',
