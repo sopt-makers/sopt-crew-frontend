@@ -552,7 +552,7 @@ const SHostButtonContainer = styled(Box, {
 });
 
 const SRecruitmentStatusListWrapper = styled(Box, {
-  padding: '$28 $28 $88 $28',
+  padding: '$24 $24 $88 $24',
 
   '@mobile': {
     padding: '$0',
@@ -582,7 +582,7 @@ const SEmptyText = styled('p', {
   flexType: 'verticalCenter',
   justifyContent: 'center',
   width: '100%',
-  padding: '$125 0',
+  padding: '$93 0 $35 0',
   color: '$gray80',
   fontAg: '18_semibold_100',
 
