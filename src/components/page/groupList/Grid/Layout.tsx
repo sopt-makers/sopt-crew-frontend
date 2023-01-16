@@ -14,15 +14,8 @@ const StyledGridContainer = styled(Box, {
   rowGap: '120px',
   placeItems: 'start center',
 
-  '& > li': {
-    width: '100%',
-  },
-
   '@media (max-width: 1250px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
-  },
-  '@media (max-width: 850px)': {
-    gridTemplateColumns: '1fr',
   },
   '@mobile': {
     gridTemplateColumns: 'repeat(3, 1fr)',

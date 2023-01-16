@@ -83,6 +83,7 @@ function Card({ bottom, groupData }: CardProps) {
 export default Card;
 
 const SThumbnailImage = styled('div', {
+  width: '380px',
   height: '260px',
   overflow: 'hidden',
   borderRadius: '$10',
@@ -91,6 +92,7 @@ const SThumbnailImage = styled('div', {
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
   '@mobile': {
+    width: '162px',
     height: '111px',
     borderRadius: '$8',
   },
