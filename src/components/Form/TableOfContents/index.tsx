@@ -73,7 +73,7 @@ const SContainer = styled('div', {
   border: '1px solid $black60',
   borderRadius: '15px',
   position: 'sticky',
-  top: 0,
+  top: '$80',
 
   '@mobile': {
     display: 'none',
