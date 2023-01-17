@@ -18,6 +18,7 @@ import { dateFormat } from '@utils/date';
 import { EApproveStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 
 interface DetailHeaderProps {
   detailData: GroupResponse;
@@ -207,7 +208,7 @@ const DetailHeader = ({
               {hostProfileImage ? (
                 <img src={hostProfileImage} alt="" />
               ) : (
-                <SProfileImage />
+                <ProfileDefaultIcon />
               )}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
@@ -427,6 +428,18 @@ const SProfileAnchor = styled('a', {
     },
   },
 
+  '& > svg:first-child': {
+    width: '$60',
+    height: '$60',
+    mr: '$16',
+
+    '@mobile': {
+      width: '$30',
+      height: '$30',
+      mr: '$8',
+    },
+  },
+
   '& > span': {
     mr: '$16',
 
@@ -434,21 +447,6 @@ const SProfileAnchor = styled('a', {
       fontAg: '12_semibold_100',
       mr: '$8',
     },
-  },
-});
-
-const SProfileImage = styled(Box, {
-  width: '$60',
-  height: '$60',
-  borderRadius: '50%',
-  objectFit: 'cover',
-  mr: '$16',
-  backgroundColor: '$black60',
-
-  '@mobile': {
-    width: '$30',
-    height: '$30',
-    mr: '$8',
   },
 });
 
@@ -554,7 +552,7 @@ const SHostButtonContainer = styled(Box, {
 });
 
 const SRecruitmentStatusListWrapper = styled(Box, {
-  padding: '$28 $28 $88 $28',
+  padding: '$24 $24 $88 $24',
 
   '@mobile': {
     padding: '$0',
@@ -584,7 +582,7 @@ const SEmptyText = styled('p', {
   flexType: 'verticalCenter',
   justifyContent: 'center',
   width: '100%',
-  padding: '$125 0',
+  padding: '$93 0 $35 0',
   color: '$gray80',
   fontAg: '18_semibold_100',
 

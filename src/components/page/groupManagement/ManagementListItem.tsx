@@ -541,4 +541,9 @@ const SEmptyText = styled('p', {
   fontAg: '20_medium_100',
   textAlign: 'center',
   color: '$gray80',
+
+  '@mobile': {
+    padding: '$100 0',
+    fontAg: '14_medium_100',
+  },
 });

@@ -44,6 +44,7 @@ const SLayout = styled(Box, {
     width: '162px',
   },
 });
+
 const BasicSkeleton = styled(Box, {
   backgroundColor: '$black60',
   borderRadius: '6px',

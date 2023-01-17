@@ -81,10 +81,10 @@ const SSearchWrapper = styled(Flex, {
 const SSearchInput = styled('input', {
   width: '200px',
   color: '$white',
-  fontAg: '18_medium_100',
+  fontAg: '16_medium_100',
   ml: '$10',
   '&::placeholder': {
-    fontAg: '18_medium_100',
+    fontAg: '16_medium_100',
   },
 });
 

@@ -55,13 +55,13 @@ const SRecruitmentStatusList = styled(Box, {
 
 const SRecruitmentStatusItem = styled(Box, {
   flexType: 'verticalCenter',
-  width: '$280',
+  width: 'calc(50% - 11px)',
   height: '$64',
-  padding: '$17 $20 $16 $20',
+  padding: '$16 $20',
   borderRadius: '12px',
   backgroundColor: '$black60',
   color: '$white',
-  fontAg: '16_bold_100',
+  fontAg: '16_semibold_100',
   mb: '$12',
 
   '@mobile': {
