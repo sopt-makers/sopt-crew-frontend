@@ -17,6 +17,9 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 1250px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
+  '@media (max-width: 850px)': {
+    gridTemplateColumns: '1fr',
+  },
   '@mobile': {
     gridTemplateColumns: 'repeat(3, 1fr)',
     marginTop: '16px',
@@ -26,7 +29,7 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 550px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
-  '@media (max-width: 360px)': {
+  '@media (max-width: 375px)': {
     gridTemplateColumns: '1fr',
   },
 });
