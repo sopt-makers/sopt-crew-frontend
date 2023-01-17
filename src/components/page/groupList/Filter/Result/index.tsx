@@ -1,8 +1,8 @@
 import { Flex } from '@components/util/layout/Flex';
-import { styled } from '@stitches/react';
 import { useCategoryParams, useStatusParams } from '@hooks/queryString/custom';
 import ResultItem from './ResultItem';
 import InitializationButton from './InitializationButton';
+import { styled } from 'stitches.config';
 
 function Result() {
   const { value: category, deleteValue: deleteCategoryValue } =
@@ -37,12 +37,14 @@ function Result() {
 export default Result;
 
 const SResultWrapper = styled(Flex, {
-  // height: '40px',
   marginTop: '24px',
   padding: '20px 24px',
   backgroundColor: '$black80',
   borderRadius: '10px',
   '@mobile': {
-    align: 'start',
+    padding: '12px 20px',
+    marginRight: '-20px',
+    marginLeft: '-20px',
+    borderRadius: '0',
   },
 });
