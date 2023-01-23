@@ -64,7 +64,7 @@ const ManagementPage = () => {
 
   return (
     <SManagementPage>
-      <TabList text="mine" size="big" onChange={() => {}}>
+      <TabList text="mine" size="big">
         <Link href="/" passHref>
           <a>
             <TabList.Item text="all">전체 모임</TabList.Item>
