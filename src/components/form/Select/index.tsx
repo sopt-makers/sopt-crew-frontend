@@ -1,7 +1,7 @@
 import { FocusEventHandler, Fragment, useMemo } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import Label from '@components/Form/Label';
+import Label from '@components/form/Label';
 import Button from './Button';
 import OptionItem, { Option } from './OptionItem';
 import ErrorMessage from '../ErrorMessage';

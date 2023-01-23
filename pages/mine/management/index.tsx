@@ -7,8 +7,8 @@ import ManagementListSkeleton from '@components/page/groupManagement/ManagementL
 import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
 import ManagementListItem from '@components/page/groupManagement/ManagementListItem';
 import GroupInformation from '@components/page/groupManagement/GroupInformation';
-import Select from '@components/Form/Select';
-import { Option } from '@components/Form/Select/OptionItem';
+import Select from '@components/form/Select';
+import { Option } from '@components/form/Select/OptionItem';
 import ItemDescriptionBox from '@components/page/groupManagement/ItemDescriptionBox';
 import Pagination from '@components/page/groupList/Pagination';
 import {

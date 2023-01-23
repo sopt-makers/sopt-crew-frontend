@@ -1,5 +1,5 @@
-import Presentation from '@components/Form/Presentation';
-import TableOfContents from '@components/Form/TableOfContents';
+import Presentation from '@components/form/Presentation';
+import TableOfContents from '@components/form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import getExtensionFromUrl from '@utils/getExtensionFromUrl';

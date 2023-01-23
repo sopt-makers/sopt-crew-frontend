@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import ArrowSmallDownIcon from '@assets/svg/arrow_small_down.svg';
-import { Option } from '@components/Form/Select/OptionItem';
+import { Option } from '@components/form/Select/OptionItem';
 
 interface ButtonProps {
   open?: boolean;

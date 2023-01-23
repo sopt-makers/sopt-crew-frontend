@@ -7,7 +7,7 @@ import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
-import Textarea from '@components/Form/Textarea';
+import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
 import {
   PostApplicationRequest,
