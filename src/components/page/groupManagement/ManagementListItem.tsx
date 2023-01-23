@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { dateFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
 import {
-  APPROVE_STATUS,
+  APPROVAL_STATUS,
   APPLICATION_TYPE,
   EApproveStatus,
   EApplicationType,
@@ -88,7 +88,7 @@ const ManagementListItem = ({
                   <SName>{user.name}</SName>
                 </Link>
                 <SUserStatus status={status}>
-                  {APPROVE_STATUS[status]}
+                  {APPROVAL_STATUS[status]}
                 </SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>
@@ -165,7 +165,7 @@ const ManagementListItem = ({
                     <SCardName>{user.name}</SCardName>
                   </Link>
                   <SCardUserStatus status={status}>
-                    {APPROVE_STATUS[status]}
+                    {APPROVAL_STATUS[status]}
                   </SCardUserStatus>
                 </div>
                 <div>

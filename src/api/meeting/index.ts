@@ -1,5 +1,5 @@
 import {
-  APPROVE_STATUS,
+  APPROVAL_STATUS,
   APPLICATION_TYPE,
   RECRUITMENT_STATUS,
 } from '@constants/option';
@@ -143,7 +143,7 @@ export const getGroupPeopleList = async ({
         ...rest,
         ...(status.length && {
           status: status
-            .map(item => parseStatusToNumber(item, APPROVE_STATUS))
+            .map(item => parseStatusToNumber(item, APPROVAL_STATUS))
             .filter(item => item !== null)
             .join(','),
         }),
