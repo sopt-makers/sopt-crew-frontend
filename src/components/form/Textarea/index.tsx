@@ -40,6 +40,7 @@ const SContainer = styled('div', {
   flexDirection: 'column',
 });
 const STextarea = styled('textarea', {
+  fontFamily: 'SUIT',
   boxSizing: 'border-box',
   width: '100%',
   minHeight: '157px',
