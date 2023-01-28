@@ -15,7 +15,11 @@ import {
   UpdateInvitationRequest,
 } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import { EApproveStatus, RECRUITMENT_STATUS } from '@constants/option';
+import {
+  EApproveStatus,
+  ERecruitmentStatus,
+  RECRUITMENT_STATUS,
+} from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -69,6 +73,7 @@ const DetailHeader = ({
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
+  const isRecruitmentOver = status === ERecruitmentStatus.OVER;
   const isHost = host;
   const isApplied = apply;
   const isApproved = approved;
@@ -227,6 +232,8 @@ const DetailHeader = ({
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
             <SGuestButton
+              disabled={isRecruitmentOver}
+              isRecruitmentOver={isRecruitmentOver}
               isApplied={isApplied}
               onClick={handleApplicationModal}
             >
@@ -499,6 +506,12 @@ const SGuestButton = styled(Button, {
   },
 
   variants: {
+    isRecruitmentOver: {
+      true: {
+        opacity: 0.35,
+        cursor: 'not-allowed',
+      },
+    },
     isApplied: {
       true: {
         border: `2px solid $black40`,
