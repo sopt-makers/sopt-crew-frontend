@@ -21,7 +21,6 @@ function InitializationButton() {
       as="button"
       css={{
         '@mobile': {
-          width: '36px',
           alignSelf: 'start',
           marginTop: '16px',
         },
