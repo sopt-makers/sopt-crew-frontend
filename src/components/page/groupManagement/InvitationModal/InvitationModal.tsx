@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import Textarea from '@components/Form/Textarea';
+import Textarea from '@components/form/Textarea';
 import DefaultModal from '@components/modal/DefaultModal';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';

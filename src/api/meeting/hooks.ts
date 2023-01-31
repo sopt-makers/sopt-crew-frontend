@@ -177,6 +177,7 @@ export const useMutationUpdateInvitation = ({
     mutationFn: updateInvitation,
   });
 };
+
 export const useMutationDeleteInvitation = ({
   useMutationOptions,
 }: UseMutateBody<DeleteInvitationRequest>): UseMutationResult<

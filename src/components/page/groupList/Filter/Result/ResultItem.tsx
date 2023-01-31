@@ -1,6 +1,6 @@
-import { styled } from '@stitches/react';
-import XSmallIcon from '@assets/svg/x_small.svg';
+import XSmallIcon from '@assets/svg/x_small.svg?rect';
 import { Flex } from '@components/util/layout/Flex';
+import { styled } from 'stitches.config';
 
 function ResultItem({
   selectedOption,
@@ -28,9 +28,18 @@ const SResultItemWrapper = styled(Flex, {
   whiteSpace: 'nowrap',
 
   margin: '4px',
+  '@mobile': {
+    border: '1px solid $white',
+    svg: {
+      width: '12px',
+    },
+  },
 });
 const SFilterItemName = styled('p', {
   marginRight: '$8',
+  '@mobile': {
+    fontAg: '12_semibold_100',
+  },
 });
 const SCancelButton = styled('button', {
   flexType: 'center',

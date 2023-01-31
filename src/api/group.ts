@@ -1,4 +1,4 @@
-import { Option } from '@components/Form/Select/OptionItem';
+import { Option } from '@components/form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api, Data } from '.';
 

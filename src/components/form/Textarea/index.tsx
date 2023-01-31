@@ -1,7 +1,7 @@
 import { styled } from 'stitches.config';
 import React, { HTMLAttributes } from 'react';
-import Label from '@components/Form/Label';
-import HelpMessage from '@components/Form/HelpMessage';
+import Label from '@components/form/Label';
+import HelpMessage from '@components/form/HelpMessage';
 import ErrorMessage from '../ErrorMessage';
 
 interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
@@ -40,6 +40,7 @@ const SContainer = styled('div', {
   flexDirection: 'column',
 });
 const STextarea = styled('textarea', {
+  fontFamily: 'SUIT',
   boxSizing: 'border-box',
   width: '100%',
   minHeight: '157px',

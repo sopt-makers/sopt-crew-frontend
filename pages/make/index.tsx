@@ -1,5 +1,5 @@
-import Presentation from '@components/Form/Presentation';
-import TableOfContents from '@components/Form/TableOfContents';
+import Presentation from '@components/form/Presentation';
+import TableOfContents from '@components/form/TableOfContents';
 import {
   FormProvider,
   SubmitHandler,

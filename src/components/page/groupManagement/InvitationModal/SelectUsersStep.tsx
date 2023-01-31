@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
-import Select from '@components/Form/Select';
-import TextInput from '@components/Form/TextInput';
+import Select from '@components/form/Select';
+import TextInput from '@components/form/TextInput';
 import useDebounce from '@hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { SetStateAction, useMemo, useState } from 'react';
