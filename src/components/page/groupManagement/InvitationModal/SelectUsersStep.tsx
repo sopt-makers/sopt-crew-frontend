@@ -4,6 +4,7 @@ import TextInput from '@components/form/TextInput';
 import useDebounce from '@hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { SetStateAction, useMemo, useState } from 'react';
+import { SyncLoader } from 'react-spinners';
 import { useUsersToInvite } from 'src/api/meeting/hooks';
 import { generationOptions } from 'src/data/options';
 import { styled } from 'stitches.config';
@@ -65,22 +66,28 @@ export default function SelectUsersStep({ selectedUsers, setSelectedUsers }: Sel
           placeholder="회원 검색"
         />
       </SFilterContainer>
-      <SMemberTitleContainer>
-        <STitle>회원 목록 ({users?.length})</STitle>
-        <ControlButtonContainer>
-          <ShowSelectedOnlyButton
-            active={showSelectedOnly}
-            onClick={() => setShowSelectedOnly(prev => !prev)}
-          >
-            선택 회원 보기 ({selectedUsers.length})
-          </ShowSelectedOnlyButton>
-          <SAllButton onClick={handleSelectAll} active={isAllSelected}>
-            전체 {isAllSelected ? '해제' : '선택'}
-          </SAllButton>
-        </ControlButtonContainer>
-      </SMemberTitleContainer>
+      {users?.length && (
+        <SMemberTitleContainer>
+          <STitle>회원 목록 ({users?.length})</STitle>
+          <ControlButtonContainer>
+            <ShowSelectedOnlyButton
+              active={showSelectedOnly}
+              onClick={() => setShowSelectedOnly(prev => !prev)}
+            >
+              선택 회원 보기 ({selectedUsers.length})
+            </ShowSelectedOnlyButton>
+            <SAllButton onClick={handleSelectAll} active={isAllSelected}>
+              전체 {isAllSelected ? '해제' : '선택'}
+            </SAllButton>
+          </ControlButtonContainer>
+        </SMemberTitleContainer>
+      )}
       <SMemberList>
-        {isLoading && <EmptyList>로딩중...</EmptyList>}
+        {isLoading && (
+          <SLoaderWrapper>
+            <SyncLoader color="#8040ff" />
+          </SLoaderWrapper>
+        )}
         {!isLoading && !users?.length ? (
           <EmptyList>회원이 없습니다.</EmptyList>
         ) : (
@@ -106,6 +113,10 @@ const SFilterContainer = styled(Box, {
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
+
+  button: {
+    height: '$54',
+  },
 });
 
 const SMemberTitleContainer = styled(Box, {
@@ -143,6 +154,19 @@ const SAllButton = styled('button', {
 const SMemberList = styled(Box, {
   height: '320px',
   overflow: 'auto',
+  '&::-webkit-scrollbar': {
+    width: '$8',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    height: '$122',
+    backgroundColor: '$gray100',
+    borderRadius: '6px',
+  },
+});
+
+const SLoaderWrapper = styled(Box, {
+  flexType: 'center',
+  height: '100%',
 });
 
 const EmptyList = styled(Box, {
