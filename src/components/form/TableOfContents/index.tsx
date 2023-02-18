@@ -100,7 +100,9 @@ const SListHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginBottom: '72px',
+  marginBottom: '$36',
+  paddingBottom: '$36',
+  borderBottom: '1.5px solid $black60',
 });
 const SLabel = styled('h2', {
   fontWeight: '700',
