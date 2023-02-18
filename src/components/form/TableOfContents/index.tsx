@@ -17,6 +17,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
 
   const isTitleValid = form.title && !errors.title;
   const isCategoryValid = form.category?.value && !errors.category;
+  const isImageValid = form.files?.length > 0;
   const isApplicationDateValid =
     form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isMemberCountValid = form.capacity && !errors.capacity;
@@ -45,7 +46,10 @@ function TableOfContents({ label }: TableOfContentsProps) {
           {isCategoryValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>모임 카테고리</SItemLabel>
         </SItem>
-        {/* TODO: image */}
+        <SItem>
+          {isImageValid ? <CheckedIcon /> : <UncheckedIcon />}
+          <SItemLabel>이미지</SItemLabel>
+        </SItem>
         <SItem>
           {isApplicationDateValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>모집 기간</SItemLabel>
