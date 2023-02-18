@@ -173,7 +173,6 @@ button {
   -webkit-appearance: inherit;
   -moz-appearance: inherit;
   background: inherit;
-  cursor: pointer;
   font-size: inherit;
   text-align: left;
 }
@@ -181,6 +180,7 @@ button {
 button {
   background: transparent;
   border-radius: 0;
+  cursor: pointer;
 }
 
 input[type='number']::-webkit-outer-spin-button,
