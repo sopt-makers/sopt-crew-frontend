@@ -34,6 +34,7 @@ function Presentation({
   onSubmit,
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onChangeFile =
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,8 +67,13 @@ function Presentation({
       onChange(newFiles);
     };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setIsSubmitting(true);
+    onSubmit(e);
+  };
+
   return (
-    <SForm onSubmit={onSubmit}>
+    <SForm onSubmit={e => handleSubmit(e)}>
       {/* 모임 제목 */}
       <STitleField>
         <FormController
@@ -344,7 +350,9 @@ function Presentation({
             {cancelButtonLabel}
           </CancelButton>
         )}
-        <SubmitButton type="submit">{submitButtonLabel}</SubmitButton>
+        <SubmitButton type="submit" disabled={isSubmitting}>
+          {submitButtonLabel}
+        </SubmitButton>
       </ButtonContainer>
     </SForm>
   );
@@ -422,4 +430,8 @@ const Button = styled('button', {
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
   background: '$purple100',
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.35,
+  },
 });
