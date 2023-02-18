@@ -3,6 +3,7 @@ import { FormType } from 'src/types/form';
 import { styled } from 'stitches.config';
 import UncheckedIcon from 'public/assets/svg/icon_progress_unchecked.svg';
 import CheckedIcon from 'public/assets/svg/icon_progress_checked.svg';
+import { Box } from '@components/box/Box';
 
 interface TableOfContentsProps {
   label: string;
@@ -17,6 +18,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
 
   const isTitleValid = form.title && !errors.title;
   const isCategoryValid = form.category?.value && !errors.category;
+  const isImageValid = form.files?.length > 0;
   const isApplicationDateValid =
     form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isMemberCountValid = form.capacity && !errors.capacity;
@@ -30,11 +32,23 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.detail.targetDesc &&
     !errors.detail;
 
+  const validityList = [
+    isTitleValid,
+    isCategoryValid,
+    isImageValid,
+    isApplicationDateValid,
+    isMemberCountValid,
+    isDetailValid,
+  ];
+
   return (
     <SContainer>
-      <SLabelWrapper>
+      <SListHeader>
         <SLabel>{label}</SLabel>
-      </SLabelWrapper>
+        <SCount>
+          {validityList.filter(Boolean).length} / {validityList.length}
+        </SCount>
+      </SListHeader>
 
       <SItemList>
         <SItem>
@@ -45,7 +59,10 @@ function TableOfContents({ label }: TableOfContentsProps) {
           {isCategoryValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>모임 카테고리</SItemLabel>
         </SItem>
-        {/* TODO: image */}
+        <SItem>
+          {isImageValid ? <CheckedIcon /> : <UncheckedIcon />}
+          <SItemLabel>이미지</SItemLabel>
+        </SItem>
         <SItem>
           {isApplicationDateValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>모집 기간</SItemLabel>
@@ -79,17 +96,30 @@ const SContainer = styled('div', {
     display: 'none',
   },
 });
-const SLabelWrapper = styled('div', {
+const SListHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginBottom: '72px',
+  marginBottom: '$36',
+  paddingBottom: '$36',
+  borderBottom: '1.5px solid $black60',
 });
 const SLabel = styled('h2', {
   fontWeight: '700',
   fontSize: '24px',
   lineHeight: '100%',
   color: '$white',
+});
+const SCount = styled(Box, {
+  width: '$60',
+  padding: '$6 0',
+  fontWeight: '600',
+  fontSize: '12px',
+  lineHeight: '100%',
+  textAlign: 'center',
+  color: '$purple100',
+  background: '$black60',
+  borderRadius: '6px',
 });
 const SItemList = styled('ul', {
   margin: 0,

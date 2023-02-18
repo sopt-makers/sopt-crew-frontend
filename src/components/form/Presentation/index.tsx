@@ -196,6 +196,7 @@ function Presentation({
                 <span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>
               }
               error={error?.message}
+              required
               {...field}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 field.onChange(+e.target.value > 0 && +e.target.value)

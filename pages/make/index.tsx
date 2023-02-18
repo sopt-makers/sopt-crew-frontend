@@ -74,7 +74,7 @@ const MakePage = () => {
             />
           </SFormWrapper>
         </SFormContainer>
-        <TableOfContents label="모임 개설" />
+        <TableOfContents label="모임 생성" />
       </SContainer>
     </FormProvider>
   );
