@@ -3,6 +3,7 @@ import { FormType } from 'src/types/form';
 import { styled } from 'stitches.config';
 import UncheckedIcon from 'public/assets/svg/icon_progress_unchecked.svg';
 import CheckedIcon from 'public/assets/svg/icon_progress_checked.svg';
+import { Box } from '@components/box/Box';
 
 interface TableOfContentsProps {
   label: string;
@@ -31,11 +32,23 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.detail.targetDesc &&
     !errors.detail;
 
+  const validityList = [
+    isTitleValid,
+    isCategoryValid,
+    isImageValid,
+    isApplicationDateValid,
+    isMemberCountValid,
+    isDetailValid,
+  ];
+
   return (
     <SContainer>
-      <SLabelWrapper>
+      <SListHeader>
         <SLabel>{label}</SLabel>
-      </SLabelWrapper>
+        <SCount>
+          {validityList.filter(item => item).length} / {validityList.length}
+        </SCount>
+      </SListHeader>
 
       <SItemList>
         <SItem>
@@ -83,7 +96,7 @@ const SContainer = styled('div', {
     display: 'none',
   },
 });
-const SLabelWrapper = styled('div', {
+const SListHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -94,6 +107,17 @@ const SLabel = styled('h2', {
   fontSize: '24px',
   lineHeight: '100%',
   color: '$white',
+});
+const SCount = styled(Box, {
+  width: '$60',
+  padding: '$6 0',
+  fontWeight: '600',
+  fontSize: '12px',
+  lineHeight: '100%',
+  textAlign: 'center',
+  color: '$purple100',
+  background: '$black60',
+  borderRadius: '6px',
 });
 const SItemList = styled('ul', {
   margin: 0,
