@@ -198,7 +198,7 @@ function Presentation({
               error={error?.message}
               {...field}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                field.onChange(+e.target.value)
+                field.onChange(+e.target.value > 0 && +e.target.value)
               }
             />
           )}
