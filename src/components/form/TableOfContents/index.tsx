@@ -46,7 +46,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
       <SListHeader>
         <SLabel>{label}</SLabel>
         <SCount>
-          {validityList.filter(item => item).length} / {validityList.length}
+          {validityList.filter(Boolean).length} / {validityList.length}
         </SCount>
       </SListHeader>
 
