@@ -19,6 +19,7 @@ interface PresentationProps {
   handleChangeImage: (index: number, file: File) => void;
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
+  isSubmitting?: boolean;
 }
 interface FileChangeHandler {
   value: File[];
@@ -32,9 +33,9 @@ function Presentation({
   handleChangeImage,
   handleDeleteImage,
   onSubmit,
+  isSubmitting = false,
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onChangeFile =
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,13 +68,8 @@ function Presentation({
       onChange(newFiles);
     };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true);
-    onSubmit(e);
-  };
-
   return (
-    <SForm onSubmit={e => handleSubmit(e)}>
+    <SForm onSubmit={onSubmit}>
       {/* 모임 제목 */}
       <STitleField>
         <FormController
