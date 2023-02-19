@@ -19,6 +19,7 @@ interface PresentationProps {
   handleChangeImage: (index: number, file: File) => void;
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
+  isSubmitting?: boolean;
 }
 interface FileChangeHandler {
   value: File[];
@@ -32,6 +33,7 @@ function Presentation({
   handleChangeImage,
   handleDeleteImage,
   onSubmit,
+  isSubmitting = false,
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
 
@@ -196,9 +198,10 @@ function Presentation({
                 <span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>
               }
               error={error?.message}
+              required
               {...field}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                field.onChange(+e.target.value)
+                field.onChange(+e.target.value > 0 && +e.target.value)
               }
             />
           )}
@@ -344,7 +347,9 @@ function Presentation({
             {cancelButtonLabel}
           </CancelButton>
         )}
-        <SubmitButton type="submit">{submitButtonLabel}</SubmitButton>
+        <SubmitButton type="submit" disabled={isSubmitting}>
+          {submitButtonLabel}
+        </SubmitButton>
       </ButtonContainer>
     </SForm>
   );
@@ -422,4 +427,8 @@ const Button = styled('button', {
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
   background: '$purple100',
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.35,
+  },
 });

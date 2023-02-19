@@ -53,6 +53,7 @@ const SInvitationListItem = styled('label', {
   background: '$black60',
   borderRadius: '14px',
   padding: '$16 $24 $16 $20',
+  mr: '$8',
 
   '& + &': {
     mt: '$10',

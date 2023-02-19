@@ -10,12 +10,13 @@ import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createGroup } from 'src/api/group';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
 
 const MakePage = () => {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
@@ -43,14 +44,17 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
+    setIsSubmitting(true);
     try {
       const { data: groupId } = await createGroup(formData);
-      alert('모임을 개설했습니다.');
+      alert('모임을 생성했습니다.');
       router.push(`/detail?id=${groupId}`);
       // TODO: handle success
     } catch (error) {
       // TODO: handle error
       alert('모임을 생성하지 못했습니다.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,10 +75,11 @@ const MakePage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
+              isSubmitting={isSubmitting}
             />
           </SFormWrapper>
         </SFormContainer>
-        <TableOfContents label="모임 개설" />
+        <TableOfContents label="모임 생성" />
       </SContainer>
     </FormProvider>
   );
