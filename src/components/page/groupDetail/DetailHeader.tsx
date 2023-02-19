@@ -73,7 +73,7 @@ const DetailHeader = ({
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
-  const isRecruitmentOver = status === ERecruitmentStatus.OVER;
+  const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const isHost = host;
   const isApplied = apply;
   const isApproved = approved;
@@ -232,8 +232,8 @@ const DetailHeader = ({
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
             <SGuestButton
-              disabled={isRecruitmentOver}
-              isRecruitmentOver={isRecruitmentOver}
+              disabled={!isRecruiting}
+              isRecruiting={isRecruiting}
               isApplied={isApplied}
               onClick={handleApplicationModal}
             >
@@ -506,8 +506,8 @@ const SGuestButton = styled(Button, {
   },
 
   variants: {
-    isRecruitmentOver: {
-      true: {
+    isRecruiting: {
+      false: {
         opacity: 0.35,
         cursor: 'not-allowed',
       },
