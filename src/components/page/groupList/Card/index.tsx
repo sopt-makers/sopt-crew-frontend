@@ -42,8 +42,8 @@ function Card({ bottom, groupData }: CardProps) {
               <SInfoRow>
                 <SKey>모집 기간</SKey>
                 <SValue>
-                  {dateFormat(groupData.mStartDate)['YY.MM.DD']} -
-                  {dateFormat(groupData.mEndDate)['YY.MM.DD']}
+                  {dateFormat(groupData.startDate)['YY.MM.DD']} -
+                  {dateFormat(groupData.endDate)['YY.MM.DD']}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
