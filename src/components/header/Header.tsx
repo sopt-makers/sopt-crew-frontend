@@ -38,16 +38,10 @@ const Header: FC = () => {
         return;
       }
 
-      if (
-        !dropdownButtonRef.current?.contains(e.target) &&
-        !dropdownRef.current?.contains(e.target)
-      ) {
+      if (!dropdownButtonRef.current?.contains(e.target) && !dropdownRef.current?.contains(e.target)) {
         setIsUserDropdownOpened(false);
       }
-      if (
-        !mobileButtonRef.current?.contains(e.target) &&
-        !mobileMenuRef.current?.contains(e.target)
-      ) {
+      if (!mobileButtonRef.current?.contains(e.target) && !mobileMenuRef.current?.contains(e.target)) {
         setIsMobileMenuOpened(false);
       }
     };
@@ -75,11 +69,7 @@ const Header: FC = () => {
   return (
     <StyledHeader>
       <LeftGroup>
-        <button
-          ref={mobileButtonRef}
-          className="mobile-only"
-          onClick={() => setIsMobileMenuOpened(true)}
-        >
+        <button ref={mobileButtonRef} className="mobile-only" onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
         </button>
         <Link href={playgroundLink.memberList()} passHref>
@@ -112,53 +102,26 @@ const Header: FC = () => {
           </Link>
         </div>
 
-        <UserButton
-          ref={dropdownButtonRef}
-          onClick={() => setIsUserDropdownOpened(e => !e)}
-        >
-          {me?.profileImage ? (
-            <img src={me?.profileImage} alt="" />
-          ) : (
-            <MemberIcon />
-          )}
+        <UserButton ref={dropdownButtonRef} onClick={() => setIsUserDropdownOpened(e => !e)}>
+          {me?.profileImage ? <img src={me?.profileImage} alt="" /> : <MemberIcon />}
           <span>{me?.name}</span>
         </UserButton>
       </RightGroup>
 
       <UserDropdown ref={dropdownRef} isOpen={isUserDropdownOpened}>
-        <Link
-          href={
-            me?.hasProfile
-              ? playgroundLink.memberDetail(me.id)
-              : playgroundLink.memberUpload()
-          }
-        >
+        <Link href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()}>
           내 프로필
         </Link>
         <div onClick={logout}>로그아웃</div>
       </UserDropdown>
 
-      <DimmedBackground
-        isOpen={isMobileMenuOpened}
-        onClick={() => setIsMobileMenuOpened(false)}
-      />
+      <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
       <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
-        <Link
-          href={
-            me?.hasProfile
-              ? playgroundLink.memberDetail(me.id)
-              : playgroundLink.memberUpload()
-          }
-          passHref
-        >
+        <Link href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()} passHref>
           <ProfileContainer>
             {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
             <EmptyProfileImage>
-              {me?.profileImage ? (
-                <img src={me?.profileImage} alt="" />
-              ) : (
-                <ProfileIcon />
-              )}
+              {me?.profileImage ? <img src={me?.profileImage} alt="" /> : <ProfileIcon />}
             </EmptyProfileImage>
 
             <Name>{me?.name}</Name>
@@ -181,9 +144,7 @@ const Header: FC = () => {
         <Divider />
         <MenuWrapper>
           <Link href={playgroundLink.makers()} passHref>
-            <MenuLink highlight={pathname === playgroundLink.makers()}>
-              만든 사람들
-            </MenuLink>
+            <MenuLink highlight={pathname === playgroundLink.makers()}>만든 사람들</MenuLink>
           </Link>
           <MenuLink href={FEEDBACK_FORM_URL} target="_blank">
             의견 제안하기

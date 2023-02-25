@@ -13,14 +13,9 @@ interface InvitationModalProps {
   handleModalClose: () => void;
 }
 
-const InvitationModal = ({
-  isModalOpened,
-  title,
-  handleModalClose,
-}: InvitationModalProps) => {
+const InvitationModal = ({ isModalOpened, title, handleModalClose }: InvitationModalProps) => {
   const router = useRouter();
   const groupId = router.query.id as string;
-  // eslint-disable-next-line prettier/prettier
   const [currentStep, setCurrentStep] = useState<'selectUsers' | 'writeMessage'>('selectUsers');
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [inviteMessage, setInviteMessage] = useState('');
@@ -35,23 +30,13 @@ const InvitationModal = ({
   };
 
   return (
-    <DefaultModal
-      isModalOpened={isModalOpened}
-      title={title}
-      handleModalClose={handleModalClose}
-    >
+    <DefaultModal isModalOpened={isModalOpened} title={title} handleModalClose={handleModalClose}>
       <SInvitationModal>
         {currentStep === 'selectUsers' && (
           <>
-            <SelectUsersStep
-              selectedUsers={selectedUsers}
-              setSelectedUsers={setSelectedUsers}
-            />
+            <SelectUsersStep selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
             <Footer>
-              <SubmitButton
-                onClick={() => setCurrentStep('writeMessage')}
-                disabled={!selectedUsers.length}
-              >
+              <SubmitButton onClick={() => setCurrentStep('writeMessage')} disabled={!selectedUsers.length}>
                 다음
               </SubmitButton>
             </Footer>
@@ -63,16 +48,10 @@ const InvitationModal = ({
             <SInvitationForm>
               <Textarea
                 value={inviteMessage}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setInviteMessage(e.target.value)
-                }
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInviteMessage(e.target.value)}
                 placeholder="(선택) 초대와 함께 보낼 메시지를 입력해주세요!"
                 maxLength={300}
-                error={
-                  inviteMessage.length >= 300
-                    ? '300자 까지 입력할 수 있습니다.'
-                    : ''
-                }
+                error={inviteMessage.length >= 300 ? '300자 까지 입력할 수 있습니다.' : ''}
               />
             </SInvitationForm>
             <Footer>
@@ -84,9 +63,7 @@ const InvitationModal = ({
               >
                 초대하기
               </SubmitButton>
-              <BackButton onClick={() => setCurrentStep('selectUsers')}>
-                이전
-              </BackButton>
+              <BackButton onClick={() => setCurrentStep('selectUsers')}>이전</BackButton>
             </Footer>
           </>
         )}

@@ -1,11 +1,6 @@
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
-import {
-  FormProvider,
-  SubmitHandler,
-  useForm,
-  useWatch,
-} from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';

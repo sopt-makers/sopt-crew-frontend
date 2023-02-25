@@ -20,16 +20,8 @@ interface SelectProps {
   deleteValue: (value: any) => void;
 }
 
-function MultiSelect({
-  selectListData,
-  selectedValues,
-  addValue,
-  deleteValue,
-}: SelectProps) {
-  const [isVisible, setIsVisible] = useSessionStorage(
-    selectListData.subject,
-    false
-  );
+function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: SelectProps) {
+  const [isVisible, setIsVisible] = useSessionStorage(selectListData.subject, false);
   const onDismissSelectList = () => setIsVisible(false);
   const toggleSelectList = () => setIsVisible(!isVisible);
 
@@ -42,9 +34,7 @@ function MultiSelect({
           onClick={() => toggleSelectList()}
           isSelected={selectedValues.length !== 0}
         >
-          <SCategory isSelected={selectedValues.length !== 0}>
-            {selectListData.label}
-          </SCategory>
+          <SCategory isSelected={selectedValues.length !== 0}>{selectListData.label}</SCategory>
           <ArrowButton size="small" direction="bottom" />
         </SSelectDisplay>
 
@@ -54,39 +44,24 @@ function MultiSelect({
               <SelectComboBoxItem
                 key={option}
                 value={option}
-                isChecked={
-                  selectedValues?.filter(
-                    selectedValue => selectedValue === option
-                  ).length > 0
-                }
+                isChecked={selectedValues?.filter(selectedValue => selectedValue === option).length > 0}
                 onCheck={addValue}
                 onRemove={deleteValue}
               />
             ))}
           </SSelectBoxList>
-          <SelectBottomSheet
-            label={selectListData.label}
-            isVisible={isVisible}
-            setIsVisible={setIsVisible}
-          >
+          <SelectBottomSheet label={selectListData.label} isVisible={isVisible} setIsVisible={setIsVisible}>
             {selectListData.options.map(option => (
               <SelectComboBoxItem
                 key={option}
                 value={option}
-                isChecked={
-                  selectedValues?.filter(
-                    selectedValue => selectedValue === option
-                  ).length > 0
-                }
+                isChecked={selectedValues?.filter(selectedValue => selectedValue === option).length > 0}
                 onCheck={addValue}
                 onRemove={deleteValue}
               />
             ))}
           </SelectBottomSheet>
-          <SelectOverlay
-            isVisible={isVisible}
-            onClick={() => onDismissSelectList()}
-          />
+          <SelectOverlay isVisible={isVisible} onClick={() => onDismissSelectList()} />
         </>
       </SSelectWrapper>
     </>

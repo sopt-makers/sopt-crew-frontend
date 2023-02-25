@@ -19,10 +19,7 @@ import {
   useTypeParams,
 } from '@hooks/queryString/custom';
 import { numberOptionList, sortOptionList } from 'src/data/options';
-import {
-  useQueryGetGroup,
-  useQueryGetGroupPeopleList,
-} from 'src/api/meeting/hooks';
+import { useQueryGetGroup, useQueryGetGroupPeopleList } from 'src/api/meeting/hooks';
 import InvitationIcon from 'public/assets/svg/invitation.svg';
 import useModal from '@hooks/useModal';
 import Filter from '@components/page/groupManagement/Filter';
@@ -42,24 +39,20 @@ const ManagementPage = () => {
   });
   const isHost = groupData?.host ?? false;
 
-  const { isLoading: isManagementDataLoading, data: management } =
-    useQueryGetGroupPeopleList({
-      params: {
-        id,
-        page: (page || 0) as number,
-        take: Number(numberOptionList[Number(take) || 0].value),
-        status,
-        type,
-        date: sortOptionList[Number(sortByDate) || 0].value as string,
-      },
-    });
+  const { isLoading: isManagementDataLoading, data: management } = useQueryGetGroupPeopleList({
+    params: {
+      id,
+      page: (page || 0) as number,
+      take: Number(numberOptionList[Number(take) || 0].value),
+      status,
+      type,
+      date: sortOptionList[Number(sortByDate) || 0].value as string,
+    },
+  });
 
   const handleChangeSelectOption =
-    (setValue: (value: string | number) => void, optionList: Option[]) =>
-    (changeOption: Option) => {
-      setValue(
-        optionList.findIndex(option => option.value === changeOption.value)
-      );
+    (setValue: (value: string | number) => void, optionList: Option[]) => (changeOption: Option) => {
+      setValue(optionList.findIndex(option => option.value === changeOption.value));
     };
 
   return (
@@ -76,11 +69,7 @@ const ManagementPage = () => {
           </a>
         </Link>
       </TabList>
-      {isGroupDataLoading ? (
-        <GroupInformationSkeleton />
-      ) : (
-        groupData && <GroupInformation groupData={groupData} />
-      )}
+      {isGroupDataLoading ? <GroupInformationSkeleton /> : groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>
         <SListTitle>
           {!isGroupDataLoading && (
@@ -133,12 +122,7 @@ const ManagementPage = () => {
         <>
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
-              <ManagementListItem
-                key={application.id}
-                groupId={Number(id)}
-                application={application}
-                isHost={isHost}
-              />
+              <ManagementListItem key={application.id} groupId={Number(id)} application={application} isHost={isHost} />
             ))
           ) : (
             <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
@@ -153,11 +137,7 @@ const ManagementPage = () => {
             </SPaginationWrapper>
           )}
           {isModalOpened && (
-            <InvitationModal
-              isModalOpened={isModalOpened}
-              title="초대하기"
-              handleModalClose={handleModalClose}
-            />
+            <InvitationModal isModalOpened={isModalOpened} title="초대하기" handleModalClose={handleModalClose} />
           )}
         </>
       )}

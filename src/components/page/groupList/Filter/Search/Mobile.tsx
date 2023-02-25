@@ -30,12 +30,7 @@ function SearchMobile() {
                 <SearchIcon />
               </button>
 
-              <SSearchInput
-                type="text"
-                placeholder="모임 검색"
-                {...register('search')}
-                autoComplete="off"
-              />
+              <SSearchInput type="text" placeholder="모임 검색" {...register('search')} autoComplete="off" />
             </SSearchWrapper>
           </SForm>
 

@@ -14,25 +14,14 @@ interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   required?: boolean;
 }
 
-export default function FileInput({
-  label,
-  message,
-  error,
-  required,
-  ...props
-}: FileInputProps) {
+export default function FileInput({ label, message, error, required, ...props }: FileInputProps) {
   return (
     <SContainer>
       {label && <Label required={required}>{label}</Label>}
       {message && <HelpMessage>{message}</HelpMessage>}
       <SInputWrapper>
         <PictureIcon />
-        <SInput
-          type="file"
-          multiple
-          accept={ACCEPTED_IMAGE_TYPES.join(', ')}
-          {...props}
-        />
+        <SInput type="file" multiple accept={ACCEPTED_IMAGE_TYPES.join(', ')} {...props} />
       </SInputWrapper>
       {error && <SErrorMessage>{error}</SErrorMessage>}
     </SContainer>

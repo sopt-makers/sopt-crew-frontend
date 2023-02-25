@@ -1,9 +1,4 @@
-import {
-  useCategoryParams,
-  usePageParams,
-  useSearchParams,
-  useStatusParams,
-} from '@hooks/queryString/custom';
+import { useCategoryParams, usePageParams, useSearchParams, useStatusParams } from '@hooks/queryString/custom';
 import {
   useMutation,
   UseMutationOptions,
@@ -50,11 +45,7 @@ interface UseQueryGetGroupPeopleListParams {
   useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
 }
 interface UseMutateBody<T> {
-  useMutationOptions?: UseMutationOptions<
-    { statusCode: number },
-    AxiosError,
-    T
-  >;
+  useMutationOptions?: UseMutationOptions<{ statusCode: number }, AxiosError, T>;
 }
 
 export const useQueryGroupListOfAll = () => {
@@ -112,11 +103,7 @@ export const useQueryGetGroupPeopleList = ({
 
 export const useMutationDeleteGroup = ({
   useMutationOptions,
-}: UseMutateBody<number>): UseMutationResult<
-  { statusCode: number },
-  AxiosError,
-  number
-> => {
+}: UseMutateBody<number>): UseMutationResult<{ statusCode: number }, AxiosError, number> => {
   return useMutation<{ statusCode: number }, AxiosError, number>({
     ...useMutationOptions,
     mutationKey: ['deleteGroup'],
@@ -131,11 +118,7 @@ export const useMutationPostApplication = ({
   AxiosError,
   PostApplicationRequest
 > => {
-  return useMutation<
-    { statusCode: number },
-    AxiosError,
-    PostApplicationRequest
-  >({
+  return useMutation<{ statusCode: number }, AxiosError, PostApplicationRequest>({
     ...useMutationOptions,
     mutationKey: ['postApplication'],
     mutationFn: postApplication,
@@ -149,11 +132,7 @@ export const useMutationUpdateApplication = ({
   AxiosError,
   UpdateApplicationRequest
 > => {
-  return useMutation<
-    { statusCode: number },
-    AxiosError,
-    UpdateApplicationRequest
-  >({
+  return useMutation<{ statusCode: number }, AxiosError, UpdateApplicationRequest>({
     ...useMutationOptions,
     mutationKey: ['updateApplication'],
     mutationFn: updateApplication,
@@ -167,11 +146,7 @@ export const useMutationUpdateInvitation = ({
   AxiosError,
   UpdateInvitationRequest
 > => {
-  return useMutation<
-    { statusCode: number },
-    AxiosError,
-    UpdateInvitationRequest
-  >({
+  return useMutation<{ statusCode: number }, AxiosError, UpdateInvitationRequest>({
     ...useMutationOptions,
     mutationKey: ['updateInvitation'],
     mutationFn: updateInvitation,
@@ -185,11 +160,7 @@ export const useMutationDeleteInvitation = ({
   AxiosError,
   DeleteInvitationRequest
 > => {
-  return useMutation<
-    { statusCode: number },
-    AxiosError,
-    DeleteInvitationRequest
-  >({
+  return useMutation<{ statusCode: number }, AxiosError, DeleteInvitationRequest>({
     ...useMutationOptions,
     mutationKey: ['deleteInvitation'],
     mutationFn: deleteInvitation,
@@ -201,11 +172,7 @@ interface UseUsersToInviteParams {
   generation: string | null;
   name: string;
 }
-export const useUsersToInvite = ({
-  groupId,
-  generation,
-  name,
-}: UseUsersToInviteParams) => {
+export const useUsersToInvite = ({ groupId, generation, name }: UseUsersToInviteParams) => {
   return useQuery({
     queryKey: ['getUsersToInvite', groupId, generation, name],
     queryFn: () => getUsersToInvite(groupId, generation, name),

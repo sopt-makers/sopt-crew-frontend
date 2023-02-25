@@ -55,25 +55,14 @@ export default function SelectUsersStep({ selectedUsers, setSelectedUsers }: Sel
   return (
     <>
       <SFilterContainer>
-        <Select
-          options={generationOptions}
-          value={generation}
-          onChange={setGeneration}
-        />
-        <TextInput
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder="회원 검색"
-        />
+        <Select options={generationOptions} value={generation} onChange={setGeneration} />
+        <TextInput value={name} onChange={e => setName(e.target.value)} placeholder="회원 검색" />
       </SFilterContainer>
       {users?.length && (
         <SMemberTitleContainer>
           <STitle>회원 목록 ({users?.length})</STitle>
           <ControlButtonContainer>
-            <ShowSelectedOnlyButton
-              active={showSelectedOnly}
-              onClick={() => setShowSelectedOnly(prev => !prev)}
-            >
+            <ShowSelectedOnlyButton active={showSelectedOnly} onClick={() => setShowSelectedOnly(prev => !prev)}>
               선택 회원 보기 ({selectedUsers.length})
             </ShowSelectedOnlyButton>
             <SAllButton onClick={handleSelectAll} active={isAllSelected}>
@@ -92,9 +81,7 @@ export default function SelectUsersStep({ selectedUsers, setSelectedUsers }: Sel
           <EmptyList>회원이 없습니다.</EmptyList>
         ) : (
           users
-            ?.filter(user =>
-              showSelectedOnly ? selectedUsers.includes(user.id) : true
-            )
+            ?.filter(user => (showSelectedOnly ? selectedUsers.includes(user.id) : true))
             .map(user => (
               <InvitationListItem
                 key={user.id}
