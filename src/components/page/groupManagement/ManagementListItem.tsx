@@ -5,7 +5,7 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useState } from 'react';
-import { dateFormat } from '@utils/date';
+import { dateFormat, timeFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
 import { APPROVAL_STATUS, APPLICATION_TYPE, EApproveStatus, EApplicationType } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
@@ -71,6 +71,7 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+              <STime>{timeFormat(appliedDate)['HH:MM:SS']}</STime>
             </SUserInformation>
             <SButtonContainer>
               {isMutateLoading ? (
@@ -121,6 +122,7 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 <div>
                   <SCardType>{APPLICATION_TYPE[type]}</SCardType>
                   <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
+                  <SCardTime>{timeFormat(appliedDate)['HH:MM:SS']}</SCardTime>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
@@ -346,9 +348,21 @@ const SDate = styled(Box, {
   },
 });
 
+const STime = styled(Box, {
+  marginLeft: '$15',
+  fontAg: '18_semibold_100',
+  color: '$gray60',
+});
+
 const SCardDate = styled(Box, {
   fontAg: '12_medium_100',
   color: '$gray80',
+});
+
+const SCardTime = styled(Box, {
+  marginLeft: '$4',
+  fontAg: '10_medium_120',
+  color: '$gray100',
 });
 
 const SUserStatus = styled('span', {

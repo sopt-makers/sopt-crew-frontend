@@ -72,7 +72,7 @@ const ManagementPage = () => {
       {isGroupDataLoading ? <GroupInformationSkeleton /> : groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>
         <SListTitle>
-          모임 {isHost ? '신청자' : '참여자'}
+          {!isGroupDataLoading && <span>모임 {isHost ? '신청자' : '참여자'}</span>}
           {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
         {isHost ? (

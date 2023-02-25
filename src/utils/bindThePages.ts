@@ -13,10 +13,7 @@
  *
  */
 
-export function bindThePages(
-  pageLength: number,
-  bundleSize: number
-): number[][] {
+export function bindThePages(pageLength: number, bundleSize: number): number[][] {
   const listAllPages = Array.from({ length: pageLength }, (v, i) => i + 1);
   let i, j;
   const bundleOfPages = [];

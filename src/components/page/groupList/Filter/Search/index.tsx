@@ -18,11 +18,7 @@ function Search() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <SSearchWrapper align="center" justify="between">
-        <SSearchInput
-          type="text"
-          placeholder="모임 검색"
-          {...register('search')}
-        />
+        <SSearchInput type="text" placeholder="모임 검색" {...register('search')} />
         <SSearchButton>
           <SearchIcon />
         </SSearchButton>

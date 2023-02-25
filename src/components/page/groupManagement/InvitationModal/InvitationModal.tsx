@@ -16,7 +16,6 @@ interface InvitationModalProps {
 const InvitationModal = ({ isModalOpened, title, handleModalClose }: InvitationModalProps) => {
   const router = useRouter();
   const groupId = router.query.id as string;
-  // eslint-disable-next-line prettier/prettier
   const [currentStep, setCurrentStep] = useState<'selectUsers' | 'writeMessage'>('selectUsers');
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [inviteMessage, setInviteMessage] = useState('');
@@ -56,7 +55,14 @@ const InvitationModal = ({ isModalOpened, title, handleModalClose }: InvitationM
               />
             </SInvitationForm>
             <Footer>
-              <SubmitButton onClick={() => handleSubmit()}>초대하기</SubmitButton>
+              <SubmitButton
+                onClick={() => {
+                  handleSubmit();
+                  handleModalClose();
+                }}
+              >
+                초대하기
+              </SubmitButton>
               <BackButton onClick={() => setCurrentStep('selectUsers')}>이전</BackButton>
             </Footer>
           </>
