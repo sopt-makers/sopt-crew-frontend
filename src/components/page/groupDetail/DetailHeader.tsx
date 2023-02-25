@@ -292,7 +292,7 @@ const DetailHeader = ({
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setTextareaValue(e.target.value)
                 }
-                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
+                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요, 입력한 각오는 개설자에게 전달돼요"
                 maxLength={150}
                 error={
                   textareaValue.length >= 150
