@@ -7,11 +7,7 @@ export default class Document extends NextDocument {
     return (
       <Html lang="ko">
         <Head>
-          <title>SOPT Playground</title>
-          <style
-            id="stitches"
-            dangerouslySetInnerHTML={{ __html: getCssText() }}
-          />
+          <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
         </Head>
         <body>
           <Main />

@@ -17,10 +17,7 @@ interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  (
-    { type, label, message, error, required, ...props }: TextInputProps,
-    ref
-  ) => (
+  ({ type, label, message, error, required, ...props }: TextInputProps, ref) => (
     <SContainer>
       {label && <Label required={required}>{label}</Label>}
       {message && <HelpMessage>{message}</HelpMessage>}

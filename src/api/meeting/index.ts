@@ -1,8 +1,4 @@
-import {
-  APPROVAL_STATUS,
-  APPLICATION_TYPE,
-  RECRUITMENT_STATUS,
-} from '@constants/option';
+import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS } from '@constants/option';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
@@ -106,12 +102,7 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   return null;
 }
 
-export const fetchGroupListOfAll = async ({
-  page,
-  category,
-  status,
-  search,
-}: filterData) => {
+export const fetchGroupListOfAll = async ({ page, category, status, search }: filterData) => {
   return api.get<PromiseResponse<GroupListOfFilterResponse>>(
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
@@ -120,21 +111,15 @@ export const fetchGroupListOfAll = async ({
             .filter(item => item !== null)
             .join(',')}`
         : ''
-    }${category?.length ? `&category=${category.join(',')}` : ''}${
-      search ? `&query=${search}` : ''
-    }`
+    }${category?.length ? `&category=${category.join(',')}` : ''}${search ? `&query=${search}` : ''}`
   );
 };
 
 export const getGroup = async (id: string): Promise<GroupResponse> => {
-  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data
-    .data;
+  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data.data;
 };
 
-export const getGroupPeopleList = async ({
-  id,
-  ...rest
-}: OptionData): Promise<GroupPeopleResponse> => {
+export const getGroupPeopleList = async ({ id, ...rest }: OptionData): Promise<GroupPeopleResponse> => {
   const { status, type } = rest;
 
   return (
@@ -158,36 +143,23 @@ export const getGroupPeopleList = async ({
   ).data.data;
 };
 
-export const deleteGroup = async (
-  id: number
-): Promise<{ statusCode: number }> => {
+export const deleteGroup = async (id: number): Promise<{ statusCode: number }> => {
   return (await api.delete<{ statusCode: number }>(`/meeting/${id}`)).data;
 };
 
-export const postApplication = async (
-  body: PostApplicationRequest
-): Promise<{ statusCode: number }> => {
+export const postApplication = async (body: PostApplicationRequest): Promise<{ statusCode: number }> => {
   return (await api.post<{ statusCode: number }>(`/meeting/apply`, body)).data;
 };
 
-export const updateApplication = async ({
-  id,
-  ...rest
-}: UpdateApplicationRequest) => {
+export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
   return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
 };
 
-export const updateInvitation = async ({
-  id,
-  ...rest
-}: UpdateInvitationRequest) => {
+export const updateInvitation = async ({ id, ...rest }: UpdateInvitationRequest) => {
   return (await api.put(`/meeting/${id}/invite/status`, rest)).data;
 };
 
-export const deleteInvitation = async ({
-  id,
-  inviteId,
-}: DeleteInvitationRequest) => {
+export const deleteInvitation = async ({ id, inviteId }: DeleteInvitationRequest) => {
   return (await api.delete(`/meeting/${id}/invite/${inviteId}`)).data;
 };
 
@@ -196,11 +168,7 @@ export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
   profileImage: string | null;
   hasProfile: boolean;
 }
-export const getUsersToInvite = async (
-  groupId: string,
-  generation: string | null,
-  name: string
-) => {
+export const getUsersToInvite = async (groupId: string, generation: string | null, name: string) => {
   const {
     data: { data },
   } = await api.get<Data<UserToInvite[]>>(`/meeting/${groupId}/users`, {
@@ -212,11 +180,7 @@ export const getUsersToInvite = async (
   return data;
 };
 
-export const invite = async (
-  groupId: string,
-  message: string,
-  userIdArr: number[]
-) => {
+export const invite = async (groupId: string, message: string, userIdArr: number[]) => {
   const { data } = await api.post(`/meeting/invite`, {
     id: Number(groupId),
     message,

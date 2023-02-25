@@ -13,17 +13,10 @@ interface TabProps {
   text: string;
 }
 
-export function TabList({
-  text,
-  size,
-  onChange,
-  children,
-}: PropsWithChildren<TabListProps>) {
+export function TabList({ text, size, onChange, children }: PropsWithChildren<TabListProps>) {
   return (
     <STabList>
-      <TabListContext.Provider
-        value={{ text, size, onChange: onChange ? onChange : () => {} }}
-      >
+      <TabListContext.Provider value={{ text, size, onChange: onChange ? onChange : () => {} }}>
         {children}
       </TabListContext.Provider>
     </STabList>
@@ -34,11 +27,7 @@ function TabItem({ text, children }: PropsWithChildren<TabProps>) {
   const { text: selectedTab, size, onChange } = useTabListContext();
 
   return (
-    <STab
-      isSelected={text === selectedTab}
-      isSmall={size === 'small'}
-      onClick={() => onChange(text)}
-    >
+    <STab isSelected={text === selectedTab} isSmall={size === 'small'} onClick={() => onChange(text)}>
       {children}
     </STab>
   );

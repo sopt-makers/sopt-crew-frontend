@@ -37,15 +37,14 @@ function Presentation({
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
 
-  const onChangeFile =
-    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files) {
-        setFilename('');
-        return;
-      }
-      const [file] = [...e.target.files];
-      handleChangeImage(index, file);
-    };
+  const onChangeFile = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      setFilename('');
+      return;
+    }
+    const [file] = [...e.target.files];
+    handleChangeImage(index, file);
+  };
 
   const onDeleteFile = (index: number) => () => {
     handleDeleteImage(index);
@@ -92,9 +91,7 @@ function Presentation({
         name="category"
         defaultValue={categories[0]}
         render={({ field: { value, onChange, onBlur }, fieldState }) => {
-          const error = (
-            fieldState.error as (FieldError & { value: FieldError }) | undefined
-          )?.value;
+          const error = (fieldState.error as (FieldError & { value: FieldError }) | undefined)?.value;
           return (
             <Select
               label="모임 카테고리"
@@ -116,21 +113,13 @@ function Presentation({
         <SFileInputWrapper>
           {imageUrls.length > 0 &&
             imageUrls.map((url, idx) => (
-              <ImagePreview
-                key={`${url}-${idx}`}
-                url={url}
-                onChange={onChangeFile(idx)}
-                onDelete={onDeleteFile(idx)}
-              />
+              <ImagePreview key={`${url}-${idx}`} url={url} onChange={onChangeFile(idx)} onDelete={onDeleteFile(idx)} />
             ))}
           {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
           <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
             <FormController
               name="files"
-              render={({
-                field: { value, onChange, onBlur },
-                fieldState: { error },
-              }) => (
+              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
                 <FileInput
                   // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
                   error={error?.message}
@@ -162,10 +151,7 @@ function Presentation({
                 return (
                   <TextInput
                     placeholder="YYYY.MM.DD"
-                    error={
-                      dateError?.startDate?.message ||
-                      dateError?.endDate?.message
-                    }
+                    error={dateError?.startDate?.message || dateError?.endDate?.message}
                     required
                     {...field}
                   />
@@ -177,9 +163,7 @@ function Presentation({
           <SApplicationField>
             <FormController
               name="endDate"
-              render={({ field }) => (
-                <TextInput placeholder="YYYY.MM.DD" {...field} />
-              )}
+              render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
             ></FormController>
           </SApplicationField>
         </SApplicationFieldWrapper>
@@ -194,15 +178,11 @@ function Presentation({
               type="number"
               label="모집 인원"
               placeholder="인원 입력"
-              right={
-                <span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>
-              }
+              right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
               error={error?.message}
               required
               {...field}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                field.onChange(+e.target.value > 0 && +e.target.value)
-              }
+              onChange={(e: ChangeEvent<HTMLInputElement>) => field.onChange(+e.target.value > 0 && +e.target.value)}
             />
           )}
         ></FormController>
@@ -217,12 +197,7 @@ function Presentation({
         <FormController
           name="detail.desc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea
-              placeholder="모임 소개"
-              maxLength={300}
-              error={error?.message}
-              {...field}
-            />
+            <Textarea placeholder="모임 소개" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -235,12 +210,7 @@ function Presentation({
         <FormController
           name="detail.processDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea
-              placeholder="진행 방식 소개"
-              maxLength={300}
-              error={error?.message}
-              {...field}
-            />
+            <Textarea placeholder="진행 방식 소개" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -265,10 +235,7 @@ function Presentation({
                   <TextInput
                     placeholder="YYYY.MM.DD"
                     required
-                    error={
-                      dateError?.mStartDate?.message ||
-                      dateError?.mEndDate?.message
-                    }
+                    error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                     {...field}
                   />
                 );
@@ -279,9 +246,7 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mEndDate"
-              render={({ field }) => (
-                <TextInput placeholder="YYYY.MM.DD" {...field} />
-              )}
+              render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
             ></FormController>
           </SDateField>
         </SDateFieldWrapper>
@@ -295,12 +260,7 @@ function Presentation({
         <FormController
           name="detail.leaderDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea
-              placeholder="개설자 소개"
-              maxLength={300}
-              error={error?.message}
-              {...field}
-            />
+            <Textarea placeholder="개설자 소개" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -313,12 +273,7 @@ function Presentation({
         <FormController
           name="detail.targetDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea
-              placeholder="이런 분을 찾습니다."
-              maxLength={300}
-              error={error?.message}
-              {...field}
-            />
+            <Textarea placeholder="이런 분을 찾습니다." maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -329,12 +284,7 @@ function Presentation({
         <FormController
           name="detail.note"
           render={({ field, fieldState: { error } }) => (
-            <Textarea
-              placeholder="유의 사항 입력"
-              maxLength={300}
-              error={error?.message}
-              {...field}
-            />
+            <Textarea placeholder="유의 사항 입력" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>

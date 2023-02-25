@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import useAuth from '@hooks/useAuth';
 import React, { useEffect } from 'react';
 import { api, playgroundApi } from 'src/api';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -30,6 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Head>
+        <title>SOPT Playground</title>
+      </Head>
       <Box
         css={{
           minHeight: '100vh',

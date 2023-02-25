@@ -8,11 +8,7 @@ interface PaginationProps {
   currentPageIndex?: number;
   changeCurrentPage: (value: number) => void;
 }
-function Pagination({
-  totalPagesLength = 1,
-  currentPageIndex = 1,
-  changeCurrentPage,
-}: PaginationProps) {
+function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentPage }: PaginationProps) {
   const BUNDLE_SIZE = 5;
 
   const [pagesIndex, setPagesIndex] = useState(0);
@@ -32,18 +28,10 @@ function Pagination({
   return (
     <Flex align="center" justify="center">
       <Flex align="center">
-        <ArrowButton
-          direction="left"
-          disabled={pagesIndex === 0}
-          onClick={pagesIndex === 0 ? () => {} : prevBundle}
-        />
+        <ArrowButton direction="left" disabled={pagesIndex === 0} onClick={pagesIndex === 0 ? () => {} : prevBundle} />
         <Flex css={{ mx: '$24', '@mobile': { mx: '$10' } }} as="ul">
           {pagesBundle[pagesIndex]?.map((item, idx) => (
-            <SPageLink
-              key={idx}
-              isCurrent={currentPageIndex === item}
-              onClick={() => changeCurrentPage(item)}
-            >
+            <SPageLink key={idx} isCurrent={currentPageIndex === item} onClick={() => changeCurrentPage(item)}>
               {item}
             </SPageLink>
           ))}

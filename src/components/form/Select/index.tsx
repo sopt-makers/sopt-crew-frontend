@@ -16,31 +16,15 @@ interface SelectProps {
   onBlur?: FocusEventHandler<HTMLDivElement>;
 }
 
-function Select({
-  label,
-  value,
-  options,
-  required,
-  error,
-  onChange,
-  onBlur,
-}: SelectProps) {
-  const stringifiedSelectedValue = useMemo(
-    () => JSON.stringify(value),
-    [value]
-  );
+function Select({ label, value, options, required, error, onChange, onBlur }: SelectProps) {
+  const stringifiedSelectedValue = useMemo(() => JSON.stringify(value), [value]);
   const handleChange = (stringifiedValue: string) => {
     onChange(JSON.parse(stringifiedValue));
   };
 
   return (
     <div>
-      <Listbox
-        value={stringifiedSelectedValue}
-        onChange={handleChange}
-        onBlur={onBlur}
-        as="div"
-      >
+      <Listbox value={stringifiedSelectedValue} onChange={handleChange} onBlur={onBlur} as="div">
         {({ open }) => (
           <>
             {label && <Label required={required}>{label}</Label>}

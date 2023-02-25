@@ -4,11 +4,7 @@ export interface QueryStringType {
   [key: string]: string | string[] | undefined;
 }
 
-export function useQueryString(
-  key: string,
-  initValue?: string | null,
-  withPage?: boolean
-) {
+export function useQueryString(key: string, initValue?: string | null, withPage?: boolean) {
   const router = useRouter();
   const query: QueryStringType = router?.query;
 
@@ -65,9 +61,7 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
   };
 
   const deleteValue = (value: string) => {
-    const deletedQueryData = splitQueryOfKey
-      .filter((option: string) => option !== value)
-      .join(',');
+    const deletedQueryData = splitQueryOfKey.filter((option: string) => option !== value).join(',');
 
     query[key] = deletedQueryData;
     if (!deletedQueryData) {

@@ -9,17 +9,9 @@ import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
-import {
-  PostApplicationRequest,
-  GroupResponse,
-  UpdateInvitationRequest,
-} from 'src/api/meeting';
+import { PostApplicationRequest, GroupResponse, UpdateInvitationRequest } from 'src/api/meeting';
 import { dateFormat } from '@utils/date';
-import {
-  EApproveStatus,
-  ERecruitmentStatus,
-  RECRUITMENT_STATUS,
-} from '@constants/option';
+import { EApproveStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -40,40 +32,19 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
-  mutateInvitation: UseMutateFunction<
-    { statusCode: number },
-    AxiosError,
-    UpdateInvitationRequest
-  >;
+  mutateInvitation: UseMutateFunction<{ statusCode: number }, AxiosError, UpdateInvitationRequest>;
 }
 
-const DetailHeader = ({
-  detailData,
-  mutateGroupDeletion,
-  mutateApplication,
-  mutateInvitation,
-}: DetailHeaderProps) => {
-  const {
-    status,
-    startDate,
-    endDate,
-    category,
-    title,
-    user,
-    appliedInfo,
-    capacity,
-    host,
-    apply,
-    approved,
-    invite,
-  } = detailData;
+const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, mutateInvitation }: DetailHeaderProps) => {
+  const { status, startDate, endDate, category, title, user, appliedInfo, capacity, host, apply, approved, invite } =
+    detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
-  const isRecruitmentOver = status === ERecruitmentStatus.OVER;
+  const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const isHost = host;
   const isApplied = apply;
   const isApproved = approved;
@@ -196,12 +167,9 @@ const DetailHeader = ({
       <SDetailHeader>
         <SAbout>
           <div>
-            <SRecruitStatus status={status}>
-              {RECRUITMENT_STATUS[status]}
-            </SRecruitStatus>
+            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
             <SPeriod>
-              {dateFormat(startDate)['YY.MM.DD']} -{' '}
-              {dateFormat(endDate)['YY.MM.DD']}
+              {dateFormat(startDate)['YY.MM.DD']} - {dateFormat(endDate)['YY.MM.DD']}
             </SPeriod>
           </div>
           <h1>
@@ -210,11 +178,7 @@ const DetailHeader = ({
           </h1>
           <Link href={`${origin}/members?id=${hostId}`} passHref>
             <SProfileAnchor>
-              {hostProfileImage ? (
-                <img src={hostProfileImage} alt="" />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
+              {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
@@ -232,8 +196,8 @@ const DetailHeader = ({
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
             <SGuestButton
-              disabled={isRecruitmentOver}
-              isRecruitmentOver={isRecruitmentOver}
+              disabled={!isRecruiting}
+              isRecruiting={isRecruiting}
               isApplied={isApplied}
               onClick={handleApplicationModal}
             >
@@ -241,10 +205,7 @@ const DetailHeader = ({
             </SGuestButton>
           )}
           {!isHost && isInvited && (
-            <SGuestButton
-              isInvited={isInvited}
-              onClick={handleApproveInvitation}
-            >
+            <SGuestButton isInvited={isInvited} onClick={handleApproveInvitation}>
               초대 승인하기
             </SGuestButton>
           )}
@@ -270,35 +231,19 @@ const DetailHeader = ({
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={
-            isHost
-              ? handleDeleteGroup
-              : isApproved
-              ? handleCancelInvitation
-              : handleCancelApplication
-          }
+          handleConfirm={isHost ? handleDeleteGroup : isApproved ? handleCancelInvitation : handleCancelApplication}
         />
       )}
       {isDefaultModalOpened && (
-        <DefaultModal
-          isModalOpened={isDefaultModalOpened}
-          title={modalTitle}
-          handleModalClose={handleModalClose}
-        >
+        <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleModalClose}>
           {modalTitle === '모임 신청하기' ? (
             <SApplicationForm>
               <Textarea
                 value={textareaValue}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setTextareaValue(e.target.value)
-                }
-                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요!"
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTextareaValue(e.target.value)}
+                placeholder="(선택사항) 모임에 임할 각오를 입력해주세요, 입력한 각오는 개설자에게 전달돼요"
                 maxLength={150}
-                error={
-                  textareaValue.length >= 150
-                    ? '150자 까지 입력할 수 있습니다.'
-                    : ''
-                }
+                error={textareaValue.length >= 150 ? '150자 까지 입력할 수 있습니다.' : ''}
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
@@ -307,9 +252,7 @@ const DetailHeader = ({
               {appliedInfo.length > 0 ? (
                 <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
               ) : (
-                <SEmptyText>
-                  {isHost ? '신청자' : '참여자'}가 없습니다.
-                </SEmptyText>
+                <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
               )}
               {isHost && (
                 <Link href={`/mine/management?id=${groupId}`} passHref>
@@ -506,8 +449,8 @@ const SGuestButton = styled(Button, {
   },
 
   variants: {
-    isRecruitmentOver: {
-      true: {
+    isRecruiting: {
+      false: {
         opacity: 0.35,
         cursor: 'not-allowed',
       },

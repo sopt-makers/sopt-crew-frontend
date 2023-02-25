@@ -1,11 +1,6 @@
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
-import {
-  FormProvider,
-  SubmitHandler,
-  useForm,
-  useWatch,
-} from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,12 +42,12 @@ const MakePage = () => {
     setIsSubmitting(true);
     try {
       const { data: groupId } = await createGroup(formData);
-      alert('모임을 생성했습니다.');
+      alert('모임을 개설했습니다.');
       router.push(`/detail?id=${groupId}`);
       // TODO: handle success
     } catch (error) {
       // TODO: handle error
-      alert('모임을 생성하지 못했습니다.');
+      alert('모임을 개설하지 못했습니다.');
     } finally {
       setIsSubmitting(false);
     }
@@ -62,13 +57,13 @@ const MakePage = () => {
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 생성하기</SFormName>
+          <SFormName>모임 개설하기</SFormName>
           <SFormWrapper>
             <Presentation
               submitButtonLabel={
                 <>
                   <PlusIcon />
-                  모임 생성하기
+                  모임 개설하기
                 </>
               }
               imageUrls={imagesFromFiles}
@@ -79,7 +74,7 @@ const MakePage = () => {
             />
           </SFormWrapper>
         </SFormContainer>
-        <TableOfContents label="모임 생성" />
+        <TableOfContents label="모임 개설" />
       </SContainer>
     </FormProvider>
   );

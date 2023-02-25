@@ -9,10 +9,7 @@ import { Fragment } from 'react';
 import useSessionStorage from '@hooks/useSessionStorage';
 
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import {
-  GroupListOfApplied,
-  GroupListOfMine,
-} from '@components/page/groupList/Grid/List';
+import { GroupListOfApplied, GroupListOfMine } from '@components/page/groupList/Grid/List';
 import GridLayout from '@components/page/groupList/Grid/Layout';
 import CardSkeleton from '@components/page/groupList/Card/Skeleton';
 
@@ -22,8 +19,7 @@ const enum GroupType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedGroupType, setSelectedGroupType] =
-    useSessionStorage<GroupType>('groupType', GroupType.MADE);
+  const [selectedGroupType, setSelectedGroupType] = useSessionStorage<GroupType>('groupType', GroupType.MADE);
 
   return (
     <div>
@@ -41,20 +37,13 @@ const MinePage: NextPage = () => {
           </Link>
         </TabList>
       </Flex>
-      <Tab.Group
-        selectedIndex={Number(selectedGroupType)}
-        onChange={setSelectedGroupType}
-      >
+      <Tab.Group selectedIndex={Number(selectedGroupType)} onChange={setSelectedGroupType}>
         <STabList>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>
-              내가 만든 모임
-            </STab>
+            <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>내가 만든 모임</STab>
           </Tab>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedGroupType) === GroupType.APPLIED}>
-              내가 신청한 모임
-            </STab>
+            <STab isSelected={Number(selectedGroupType) === GroupType.APPLIED}>내가 신청한 모임</STab>
           </Tab>
         </STabList>
 

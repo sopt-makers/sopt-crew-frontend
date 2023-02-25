@@ -10,12 +10,7 @@ interface DefaultModalProps {
   handleModalClose: () => void;
 }
 
-const DefaultModal = ({
-  isModalOpened,
-  title,
-  handleModalClose,
-  children,
-}: PropsWithChildren<DefaultModalProps>) => {
+const DefaultModal = ({ isModalOpened, title, handleModalClose, children }: PropsWithChildren<DefaultModalProps>) => {
   return (
     <Dialog open={isModalOpened} onClose={handleModalClose}>
       <ModalBackground />

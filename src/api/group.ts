@@ -31,10 +31,7 @@ const serializeFormData = (formData: FormType) => {
 };
 
 export const createGroup = async (formData: FormType) => {
-  const { data } = await api.post<Data<number>>(
-    '/meeting',
-    serializeFormData(formData)
-  );
+  const { data } = await api.post<Data<number>>('/meeting', serializeFormData(formData));
 
   return data;
 };
@@ -68,10 +65,7 @@ export const getGroupById = async (groupId: string) => {
 };
 
 export const updateGroup = async (groupId: string, formData: FormType) => {
-  const response = await api.put(
-    `/meeting/${groupId}`,
-    serializeFormData(formData)
-  );
+  const response = await api.put(`/meeting/${groupId}`, serializeFormData(formData));
 
   return response;
 };
