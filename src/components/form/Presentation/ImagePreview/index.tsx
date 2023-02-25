@@ -9,19 +9,12 @@ interface ImagePreviewProps {
   onDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function ImagePreview({
-  url,
-  onChange,
-  onDelete,
-}: ImagePreviewProps) {
+export default function ImagePreview({ url, onChange, onDelete }: ImagePreviewProps) {
   const id = useMemo(() => nanoid(), []);
   const [showControl, setShowControl] = useState(false);
 
   return (
-    <SContainer
-      onMouseEnter={() => setShowControl(true)}
-      onMouseLeave={() => setShowControl(false)}
-    >
+    <SContainer onMouseEnter={() => setShowControl(true)} onMouseLeave={() => setShowControl(false)}>
       {showControl && (
         <SBackdrop>
           <SEditButton htmlFor={id}>수정</SEditButton>
@@ -31,12 +24,7 @@ export default function ImagePreview({
         </SBackdrop>
       )}
       <SImage src={url} alt="" />
-      <SInput
-        id={id}
-        type="file"
-        accept={ACCEPTED_IMAGE_TYPES.join(', ')}
-        onChange={onChange}
-      />
+      <SInput id={id} type="file" accept={ACCEPTED_IMAGE_TYPES.join(', ')} onChange={onChange} />
     </SContainer>
   );
 }

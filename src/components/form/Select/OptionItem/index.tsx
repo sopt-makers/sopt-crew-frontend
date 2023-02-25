@@ -16,9 +16,7 @@ function OptionItem({ option }: OptionItemProps) {
   const stringifiedValue = useMemo(() => JSON.stringify(option), [option]);
   return (
     <Listbox.Option as={Fragment} key={option.label} value={stringifiedValue}>
-      {({ selected }) => (
-        <SOptionItem selected={selected}>{option.label}</SOptionItem>
-      )}
+      {({ selected }) => <SOptionItem selected={selected}>{option.label}</SOptionItem>}
     </Listbox.Option>
   );
 }

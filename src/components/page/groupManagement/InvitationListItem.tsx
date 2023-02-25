@@ -13,11 +13,7 @@ interface InvitationListProps {
   onSelect: (userId: number) => void;
 }
 
-const InvitationListItem = ({
-  member: { id, profileImage, name },
-  checked,
-  onSelect,
-}: InvitationListProps) => {
+const InvitationListItem = ({ member: { id, profileImage, name }, checked, onSelect }: InvitationListProps) => {
   const handleChange = () => {
     onSelect(id);
   };
@@ -25,19 +21,10 @@ const InvitationListItem = ({
   return (
     <SInvitationListItem htmlFor={`member-${id}`}>
       <div>
-        {profileImage ? (
-          <img src={profileImage} alt="" />
-        ) : (
-          <ProfileDefaultIcon />
-        )}
+        {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
         <span>{name}</span>
       </div>
-      <SCheckbox
-        id={`member-${id}`}
-        type="checkbox"
-        isChecked={checked}
-        onChange={handleChange}
-      />
+      <SCheckbox id={`member-${id}`} type="checkbox" isChecked={checked} onChange={handleChange} />
     </SInvitationListItem>
   );
 };
@@ -89,8 +76,7 @@ const SCheckbox = styled('input', {
   variants: {
     isChecked: {
       true: {
-        background:
-          'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
+        background: 'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
         backgroundSize: 'contain',
         border: '0',
       },

@@ -60,9 +60,7 @@ const DetailPage = () => {
 
   const handleChange = (text: string) => {
     setSelectedTab(text);
-    tabRef.current[
-      detailList.findIndex(item => item.title === text)
-    ].scrollIntoView({ behavior: 'smooth' });
+    tabRef.current[detailList.findIndex(item => item.title === text)].scrollIntoView({ behavior: 'smooth' });
   };
 
   if (!detailData) {
