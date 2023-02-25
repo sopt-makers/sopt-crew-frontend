@@ -76,7 +76,12 @@ const InvitationModal = ({
               />
             </SInvitationForm>
             <Footer>
-              <SubmitButton onClick={() => handleSubmit()}>
+              <SubmitButton
+                onClick={() => {
+                  handleSubmit();
+                  handleModalClose();
+                }}
+              >
                 초대하기
               </SubmitButton>
               <BackButton onClick={() => setCurrentStep('selectUsers')}>
