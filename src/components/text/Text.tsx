@@ -2,20 +2,10 @@ import { CSSProps, mergeCss } from '@utils/styles';
 import React, { HTMLProps, ReactNode } from 'react';
 import { CSSType, styled } from 'stitches.config';
 
-interface Props
-  extends Omit<HTMLProps<HTMLDivElement>, 'children' | 'size'>,
-    CSSProps {
+interface Props extends Omit<HTMLProps<HTMLDivElement>, 'children' | 'size'>, CSSProps {
   size?: CSSType['fontSizes'];
   children: Exclude<ReactNode, null | undefined>;
-  weight?:
-    | 'thin'
-    | 'extralight'
-    | 'light'
-    | 'normal'
-    | 'medium'
-    | 'semibold'
-    | 'bold'
-    | 'extrabold';
+  weight?: 'thin' | 'extralight' | 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold';
 
   /* text-align css property */
   align?: 'left' | 'center' | 'right' | 'justify';
@@ -125,13 +115,7 @@ const Text = ({
   );
 };
 
-export function Anchor({
-  elementType = 'a',
-  variant = 'link',
-  children,
-  css,
-  ...others
-}: Props) {
+export function Anchor({ elementType = 'a', variant = 'link', children, css, ...others }: Props) {
   return (
     <Text
       elementType={elementType}

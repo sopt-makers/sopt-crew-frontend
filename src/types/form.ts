@@ -18,10 +18,7 @@ export const schema = z.object({
       required_error: '이미지를 추가해주세요.',
     })
     .refine((files: FileList) => files?.length > 0, '이미지를 추가해주세요.')
-    .refine(
-      (files: FileList) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `5MB 이하의 사진만 업로드할 수 있습니다.`
-    )
+    .refine((files: FileList) => files?.[0]?.size <= MAX_FILE_SIZE, `5MB 이하의 사진만 업로드할 수 있습니다.`)
     .refine(
       (files: FileList) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       '.jpg, .jpeg, .png, .webp, .gif 파일만 업로드할 수 있습니다.'
@@ -85,11 +82,7 @@ export const schema = z.object({
         message: '모집 대상을 입력해주세요.',
       })
       .max(300, { message: '300자 까지 입력 가능합니다.' }),
-    note: z
-      .string()
-      .max(300, { message: '300자 까지 입력 가능합니다.' })
-      .optional()
-      .nullable(),
+    note: z.string().max(300, { message: '300자 까지 입력 가능합니다.' }).optional().nullable(),
   }),
 });
 
@@ -97,10 +90,4 @@ export type FormType = z.infer<typeof schema>;
 
 const MAX_FILE_SIZE = 500 * 1000; // 5MB
 
-export const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-];
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];

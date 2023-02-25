@@ -7,18 +7,12 @@ interface RecruitmentStatusProps {
   recruitmentStatusList: ApplyResponse[];
 }
 
-const RecruitmentStatusList = ({
-  recruitmentStatusList,
-}: RecruitmentStatusProps) => {
+const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
   return (
     <SRecruitmentStatusList>
       {recruitmentStatusList.map(({ user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
-          {profileImage ? (
-            <img src={profileImage} alt="" />
-          ) : (
-            <ProfileDefaultIcon />
-          )}
+          {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
           <span>{name}</span>
         </SRecruitmentStatusItem>
       ))}

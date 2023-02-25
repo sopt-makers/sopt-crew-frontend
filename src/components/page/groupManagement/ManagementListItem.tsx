@@ -5,19 +5,11 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useState } from 'react';
-import { dateFormat } from '@utils/date';
+import { dateFormat, timeFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
-import {
-  APPROVAL_STATUS,
-  APPLICATION_TYPE,
-  EApproveStatus,
-  EApplicationType,
-} from '@constants/option';
+import { APPROVAL_STATUS, APPLICATION_TYPE, EApproveStatus, EApplicationType } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
-import {
-  useMutationUpdateApplication,
-  useMutationDeleteInvitation,
-} from 'src/api/meeting/hooks';
+import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { SyncLoader } from 'react-spinners';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
@@ -28,21 +20,13 @@ interface ManagementListItemProps {
   isHost: boolean;
 }
 
-const ManagementListItem = ({
-  groupId,
-  application,
-  isHost,
-}: ManagementListItemProps) => {
+const ManagementListItem = ({ groupId, application, isHost }: ManagementListItemProps) => {
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { appliedDate, content, status = 0, user, type } = application;
 
-  const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication(
-    {}
-  );
-  const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation(
-    {}
-  );
+  const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
+  const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation({});
   const queryClient = useQueryClient();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
@@ -77,24 +61,17 @@ const ManagementListItem = ({
               <SType>{APPLICATION_TYPE[type]}</SType>
               <SDesktopProfile>
                 <SProfileImage>
-                  {user.profileImage ? (
-                    <img src={user.profileImage} alt="" />
-                  ) : (
-                    <ProfileDefaultIcon />
-                  )}
+                  {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
                 </SProfileImage>
 
                 <Link href={memberDetail(user.orgId)} passHref>
                   <SName>{user.name}</SName>
                 </Link>
-                <SUserStatus status={status}>
-                  {APPROVAL_STATUS[status]}
-                </SUserStatus>
+                <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
-              <SDetailButton onClick={handleModalOpen}>
-                {APPLICATION_TYPE[type]} 내역
-              </SDetailButton>
+              <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+              <STime>{timeFormat(appliedDate)['HH:MM:SS']}</STime>
             </SUserInformation>
             <SButtonContainer>
               {isMutateLoading ? (
@@ -105,46 +82,26 @@ const ManagementListItem = ({
                     <>
                       {status === EApproveStatus.WAITING && (
                         <>
-                          <SPurpleButton
-                            onClick={handleChangeApplicationStatus(
-                              EApproveStatus.APPROVE
-                            )}
-                          >
+                          <SPurpleButton onClick={handleChangeApplicationStatus(EApproveStatus.APPROVE)}>
                             승인
                           </SPurpleButton>
-                          <SGrayButton
-                            onClick={handleChangeApplicationStatus(
-                              EApproveStatus.REJECT
-                            )}
-                          >
-                            거절
-                          </SGrayButton>
+                          <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.REJECT)}>거절</SGrayButton>
                         </>
                       )}
                       {status === EApproveStatus.APPROVE && (
-                        <SGrayButton
-                          onClick={handleChangeApplicationStatus(
-                            EApproveStatus.WAITING
-                          )}
-                        >
+                        <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
                           승인 취소
                         </SGrayButton>
                       )}
                       {status === EApproveStatus.REJECT && (
-                        <SGrayButton
-                          onClick={handleChangeApplicationStatus(
-                            EApproveStatus.WAITING
-                          )}
-                        >
+                        <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
                           거절 취소
                         </SGrayButton>
                       )}
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SGrayButton onClick={handleCancelInvitation}>
-                      초대 취소
-                    </SGrayButton>
+                    <SGrayButton onClick={handleCancelInvitation}>초대 취소</SGrayButton>
                   )}
                 </>
               )}
@@ -153,24 +110,19 @@ const ManagementListItem = ({
           <SMobileCard>
             <SCardContent>
               <SProfileImage>
-                {user.profileImage ? (
-                  <img src={user.profileImage} alt="" />
-                ) : (
-                  <ProfileDefaultIcon />
-                )}
+                {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
               </SProfileImage>
               <SCardUserInformation>
                 <div>
                   <Link href={memberDetail(user.orgId)} passHref>
                     <SCardName>{user.name}</SCardName>
                   </Link>
-                  <SCardUserStatus status={status}>
-                    {APPROVAL_STATUS[status]}
-                  </SCardUserStatus>
+                  <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
                 </div>
                 <div>
                   <SCardType>{APPLICATION_TYPE[type]}</SCardType>
                   <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
+                  <SCardTime>{timeFormat(appliedDate)['HH:MM:SS']}</SCardTime>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
@@ -189,46 +141,28 @@ const ManagementListItem = ({
                     <>
                       {status === EApproveStatus.WAITING && (
                         <>
-                          <SRejectButton
-                            onClick={handleChangeApplicationStatus(
-                              EApproveStatus.REJECT
-                            )}
-                          >
+                          <SRejectButton onClick={handleChangeApplicationStatus(EApproveStatus.REJECT)}>
                             거절
                           </SRejectButton>
-                          <SApproveButton
-                            onClick={handleChangeApplicationStatus(
-                              EApproveStatus.APPROVE
-                            )}
-                          >
+                          <SApproveButton onClick={handleChangeApplicationStatus(EApproveStatus.APPROVE)}>
                             승인
                           </SApproveButton>
                         </>
                       )}
                       {status === EApproveStatus.APPROVE && (
-                        <SCancelButton
-                          onClick={handleChangeApplicationStatus(
-                            EApproveStatus.WAITING
-                          )}
-                        >
+                        <SCancelButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
                           승인 취소
                         </SCancelButton>
                       )}
                       {status === EApproveStatus.REJECT && (
-                        <SCancelButton
-                          onClick={handleChangeApplicationStatus(
-                            EApproveStatus.WAITING
-                          )}
-                        >
+                        <SCancelButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
                           거절 취소
                         </SCancelButton>
                       )}
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SCancelButton onClick={handleCancelInvitation}>
-                      초대 취소
-                    </SCancelButton>
+                    <SCancelButton onClick={handleCancelInvitation}>초대 취소</SCancelButton>
                   )}
                 </>
               )}
@@ -241,11 +175,7 @@ const ManagementListItem = ({
           <SUserInformation>
             <SProfile>
               <SProfileImage>
-                {user.profileImage ? (
-                  <img src={user.profileImage} alt="" />
-                ) : (
-                  <ProfileDefaultIcon />
-                )}
+                {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
               </SProfileImage>
 
               <Link href={memberDetail(user.orgId)} passHref>
@@ -263,11 +193,7 @@ const ManagementListItem = ({
           title={`${APPLICATION_TYPE[type]}내역`}
           handleModalClose={handleModalClose}
         >
-          {content ? (
-            <SDetailText>{content}</SDetailText>
-          ) : (
-            <SEmptyText>입력한 내용이 없습니다.</SEmptyText>
-          )}
+          {content ? <SDetailText>{content}</SDetailText> : <SEmptyText>입력한 내용이 없습니다.</SEmptyText>}
         </DefaultModal>
       )}
     </>
@@ -422,9 +348,21 @@ const SDate = styled(Box, {
   },
 });
 
+const STime = styled(Box, {
+  marginLeft: '$15',
+  fontAg: '18_semibold_100',
+  color: '$gray60',
+});
+
 const SCardDate = styled(Box, {
   fontAg: '12_medium_100',
   color: '$gray80',
+});
+
+const SCardTime = styled(Box, {
+  marginLeft: '$4',
+  fontAg: '10_medium_120',
+  color: '$gray100',
 });
 
 const SUserStatus = styled('span', {

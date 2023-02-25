@@ -23,9 +23,7 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
         <div>
           <SCategory>{category}</SCategory>
           <STitle>
-            <SRecruitingStatus isRecruiting={isRecruiting}>
-              {RECRUITMENT_STATUS[status]}
-            </SRecruitingStatus>
+            <SRecruitingStatus isRecruiting={isRecruiting}>{RECRUITMENT_STATUS[status]}</SRecruitingStatus>
             {` ${title}`}
           </STitle>
         </div>

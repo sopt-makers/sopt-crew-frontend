@@ -19,9 +19,7 @@ function Card({ bottom, groupData }: CardProps) {
         <a>
           <>
             <Box css={{ position: 'relative' }}>
-              <SStatus recruitingStatus={groupData.status}>
-                {RECRUITMENT_STATUS[groupData.status]}
-              </SStatus>
+              <SStatus recruitingStatus={groupData.status}>{RECRUITMENT_STATUS[groupData.status]}</SStatus>
               <SThumbnailImage
                 css={{
                   backgroundImage: `url(${groupData.imageURL[0].url})`,
@@ -42,18 +40,15 @@ function Card({ bottom, groupData }: CardProps) {
               <SInfoRow>
                 <SKey>모집 기간</SKey>
                 <SValue>
-                  {dateFormat(groupData.startDate)['YY.MM.DD']} -
-                  {dateFormat(groupData.endDate)['YY.MM.DD']}
+
+                  {dateFormat(groupData.mStartDate)['YY.MM.DD']} -{dateFormat(groupData.mEndDate)['YY.MM.DD']}
+
                 </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모집 인원</SKey>
                 <SValue>
-                  {
-                    groupData.appliedInfo.filter(info => info.status === 1)
-                      .length
-                  }
-                  /{groupData.capacity}명
+                  {groupData.appliedInfo.filter(info => info.status === 1).length}/{groupData.capacity}명
                 </SValue>
               </SInfoRow>
               <SInfoRow>

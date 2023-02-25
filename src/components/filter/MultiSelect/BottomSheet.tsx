@@ -7,12 +7,7 @@ interface SelectBottomSheetProps {
   isVisible: boolean;
   setIsVisible: (value: boolean) => void;
 }
-function SelectBottomSheet({
-  children,
-  label,
-  isVisible,
-  setIsVisible,
-}: PropsWithChildren<SelectBottomSheetProps>) {
+function SelectBottomSheet({ children, label, isVisible, setIsVisible }: PropsWithChildren<SelectBottomSheetProps>) {
   return (
     <SLayout direction="column" justify="between" isVisible={isVisible}>
       <Box css={{ width: '100%' }}>

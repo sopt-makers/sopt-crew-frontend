@@ -16,9 +16,7 @@ function FormController({ name, render, defaultValue }: FormControllerProps) {
       name={name}
       control={control}
       defaultValue={formState.defaultValues?.[name] || defaultValue || ''}
-      render={({ field, fieldState, formState }) =>
-        render({ field, fieldState, formState })
-      }
+      render={({ field, fieldState, formState }) => render({ field, fieldState, formState })}
     />
   );
 }

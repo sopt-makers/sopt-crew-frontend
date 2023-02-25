@@ -1,10 +1,7 @@
 import { Box } from '@components/box/Box';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useQueryGroupListOfAll } from 'src/api/meeting/hooks';
-import {
-  useQueryGroupListOfApplied,
-  useQueryGroupListOfMine,
-} from 'src/api/user/hooks';
+import { useQueryGroupListOfApplied, useQueryGroupListOfMine } from 'src/api/user/hooks';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
@@ -52,11 +49,7 @@ export function GroupListOfMine() {
       {mineData?.meetings.length ? (
         <GridLayout>
           {mineData?.meetings.map(groupData => (
-            <Card
-              key={groupData.id}
-              groupData={groupData}
-              bottom={<ManagementButton id={groupData.id} />}
-            />
+            <Card key={groupData.id} groupData={groupData} bottom={<ManagementButton id={groupData.id} />} />
           ))}
         </GridLayout>
       ) : (
@@ -75,11 +68,7 @@ export function GroupListOfApplied() {
       {applyData?.apply.length ? (
         <GridLayout>
           {applyData?.apply.map(applyData => (
-            <Card
-              key={applyData.id}
-              groupData={applyData.meeting}
-              bottom={<Status status={applyData.status} />}
-            />
+            <Card key={applyData.id} groupData={applyData.meeting} bottom={<Status status={applyData.status} />} />
           ))}
         </GridLayout>
       ) : (

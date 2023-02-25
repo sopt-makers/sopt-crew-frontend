@@ -6,12 +6,7 @@ import getExtensionFromUrl from '@utils/getExtensionFromUrl';
 import urlToFile from '@utils/urlToFile';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
-import {
-  FormProvider,
-  SubmitHandler,
-  useForm,
-  useWatch,
-} from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { getGroupById, updateGroup } from 'src/api/group';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
@@ -35,8 +30,7 @@ const EditPage = () => {
   const { data: formData } = query;
 
   const { mutateAsync } = useMutation({
-    mutationFn: ({ id, formData }: { id: string; formData: FormType }) =>
-      updateGroup(id, formData),
+    mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateGroup(id, formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['group', id] });
     },
