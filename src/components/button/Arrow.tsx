@@ -21,13 +21,7 @@ const ArrowButton = ({
   ...props
 }: ArrowButtonProps) => {
   return (
-    <SButton
-      css={{ ...css }}
-      disabled={disabled}
-      onClick={onClick}
-      direction={direction}
-      {...props}
-    >
+    <SButton css={{ ...css }} disabled={disabled} onClick={onClick} direction={direction} {...props}>
       {size === 'big' && <ArrowBigRight />}
       {size === 'small' && <ArrowSmallRight />}
     </SButton>

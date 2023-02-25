@@ -9,13 +9,7 @@ interface ParentComponentProps {
   children: ReactNode;
 }
 
-export type RejectedFallbackFuncType = ({
-  error,
-  reset,
-}: {
-  error: Error | null;
-  reset: () => void;
-}) => ReactElement;
+export type RejectedFallbackFuncType = ({ error, reset }: { error: Error | null; reset: () => void }) => ReactElement;
 
 interface Props extends ParentComponentProps {
   renderFallback: RejectedFallbackFuncType;
