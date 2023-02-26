@@ -19,7 +19,7 @@ interface PresentationProps {
   handleChangeImage: (index: number, file: File) => void;
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
-  isSubmitting?: boolean;
+  disabled?: boolean;
 }
 interface FileChangeHandler {
   value: File[];
@@ -33,7 +33,7 @@ function Presentation({
   handleChangeImage,
   handleDeleteImage,
   onSubmit,
-  isSubmitting = false,
+  disabled = true,
 }: PresentationProps) {
   const [filename, setFilename] = useState<string>('');
 
@@ -297,7 +297,7 @@ function Presentation({
             {cancelButtonLabel}
           </CancelButton>
         )}
-        <SubmitButton type="submit" disabled={isSubmitting}>
+        <SubmitButton type="submit" disabled={disabled}>
           {submitButtonLabel}
         </SubmitButton>
       </ButtonContainer>
