@@ -174,9 +174,9 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
         <SListItem>
           <SUserInformation>
             <SProfile>
-              <SProfileImage>
+              <SGuestProfileImage>
                 {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
-              </SProfileImage>
+              </SGuestProfileImage>
               <Link href={memberDetail(user.orgId)} passHref>
                 <SName>{user.name}</SName>
               </Link>
@@ -264,6 +264,14 @@ const SProfileImage = styled(Box, {
       width: '100%',
       height: '100%',
     },
+  },
+});
+
+const SGuestProfileImage = styled(SProfileImage, {
+  '@mobile': {
+    width: '$24',
+    height: '$24',
+    margin: 0,
   },
 });
 
