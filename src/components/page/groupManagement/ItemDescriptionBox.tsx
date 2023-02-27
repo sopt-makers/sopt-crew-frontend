@@ -8,7 +8,7 @@ const ItemDescriptionBox = () => {
         <SType>유형</SType>
         <SProfile>프로필 (상태)</SProfile>
         <SDetail>상세 내역</SDetail>
-        <span>신청 일자</span>
+        <span>신청 일시</span>
       </div>
       <span>관리</span>
     </SItemDescriptionBox>
