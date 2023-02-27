@@ -51,7 +51,7 @@ const HeaderWrapper = styled(Box, {
   top: 0,
   left: 0,
   width: '100%',
-  zIndex: 10,
+  zIndex: '$1',
 });
 
 const SDesktopHeaderWrapper = styled(HeaderWrapper, {

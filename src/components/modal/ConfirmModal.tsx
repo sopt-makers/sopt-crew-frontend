@@ -43,7 +43,7 @@ const SDialogWrapper = styled(Box, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  zIndex: 11,
+  zIndex: '$2',
   width: '$508',
   height: '$298',
   padding: '$48 $69',
