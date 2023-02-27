@@ -10,11 +10,11 @@ import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse, UpdateInvitationRequest } from 'src/api/meeting';
-import { dateFormat } from '@utils/date';
 import { EApproveStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import dayjs from 'dayjs';
 
 interface DetailHeaderProps {
   detailData: GroupResponse;
@@ -169,7 +169,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           <div>
             <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
             <SPeriod>
-              {dateFormat(startDate)['YY.MM.DD']} - {dateFormat(endDate)['YY.MM.DD']}
+              {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
             </SPeriod>
           </div>
           <h1>
