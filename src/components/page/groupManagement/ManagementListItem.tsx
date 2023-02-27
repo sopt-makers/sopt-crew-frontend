@@ -177,13 +177,13 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
               <SProfileImage>
                 {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
               </SProfileImage>
-
               <Link href={memberDetail(user.orgId)} passHref>
                 <SName>{user.name}</SName>
               </Link>
             </SProfile>
             <SVerticalLine />
             <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+            <STime>{timeFormat(appliedDate)['HH:MM:SS']}</STime>
           </SUserInformation>
         </SListItem>
       )}
@@ -352,6 +352,12 @@ const STime = styled(Box, {
   marginLeft: '$15',
   fontAg: '18_semibold_100',
   color: '$gray60',
+
+  '@mobile': {
+    marginLeft: '$8',
+    fontAg: '12_medium_100',
+    color: '$gray100',
+  },
 });
 
 const SCardDate = styled(Box, {
