@@ -7,12 +7,3 @@ export function dateFormat(dateString: string) {
     'YY.MM.DD': `${year.slice(2, 4)}.${month}.${day}`,
   };
 }
-
-export function timeFormat(dateString: string) {
-  const hour = dateString.slice(11, 13);
-  const minute = dateString.slice(14, 16);
-  const second = dateString.slice(17, 19);
-  return {
-    'HH:MM:SS': `${hour}:${minute}:${second}`,
-  };
-}
