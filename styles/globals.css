@@ -31,7 +31,7 @@
 @font-face {
   font-family: 'SUIT';
   font-weight: 400;
-  src: url('../public/assets/fonts/SUIT-Heavy.woff2') format('woff2');
+  src: url('../public/assets/fonts/SUIT-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -53,10 +53,17 @@
 }
 
 html,
+body,
+button,
+input,
+textarea {
+  font-family: 'SUIT', sans-serif;
+}
+
+html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'SUIT', sans-serif;
   background-color: var(--colors-black100);
 }
 
