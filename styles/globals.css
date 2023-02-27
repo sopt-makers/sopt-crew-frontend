@@ -58,6 +58,7 @@ button,
 input,
 textarea {
   font-family: 'SUIT', sans-serif;
+  font-display: swap;
 }
 
 html,
