@@ -193,7 +193,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
                 </STooltipTitle>
                 <STooltipDescription>
                   <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
-                  <p> 개설자 프로필에서 커피챗을 걸어주세요:)</p>
+                  <p>개설자 프로필에서 커피챗을 걸어주세요:)</p>
                 </STooltipDescription>
               </STooltip>
             )}
