@@ -188,13 +188,13 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
             </Link>
             {!hasMentor && (
               <STooltip>
-                <div>
+                <STooltipTitle>
                   멘토 구해요 <QuestionMarkIcon />
-                </div>
-                <div>
+                </STooltipTitle>
+                <STooltipDescription>
                   <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
                   <p> 개설자 프로필에서 커피챗을 걸어주세요:)</p>
-                </div>
+                </STooltipDescription>
               </STooltip>
             )}
           </SHostWrapper>
@@ -435,14 +435,6 @@ const STooltip = styled(Box, {
     marginLeft: '$10',
   },
 
-  'div:first-child': {
-    flexType: 'verticalCenter',
-  },
-
-  'div:last-child': {
-    display: 'none',
-  },
-
   '@mobile': {
     top: '-2px',
     left: '109px',
@@ -454,11 +446,6 @@ const STooltip = styled(Box, {
       display: 'block',
       marginTop: '$14',
       lineHeight: '140%',
-
-      '@mobile': {
-        fontSize: '10px',
-        lineHeight: '150%',
-      },
     },
   },
 
@@ -470,6 +457,21 @@ const STooltip = styled(Box, {
     border: 'solid transparent',
     borderWidth: '3.5px 9px',
     borderRightColor: '$black40',
+  },
+});
+
+const STooltipTitle = styled(Box, {
+  flexType: 'verticalCenter',
+});
+
+const STooltipDescription = styled(Box, {
+  display: 'none',
+
+  '& > p': {
+    '@mobile': {
+      fontSize: '$10',
+      lineHeight: '150%',
+    },
   },
 });
 
