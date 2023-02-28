@@ -2,6 +2,7 @@ import { Box } from '@components/box/Box';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import QuestionMarkIcon from '@assets/svg/question_mark.svg';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -176,13 +177,24 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
             <span>{category}</span>
             {title}
           </h1>
-          <Link href={`${origin}/members?id=${hostId}`} passHref>
-            <SProfileAnchor>
-              {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
-              <span>{hostName}</span>
-              <ArrowSmallRightIcon />
-            </SProfileAnchor>
-          </Link>
+          <SHostWrapper>
+            <Link href={`${origin}/members?id=${hostId}`} passHref>
+              <SProfileAnchor>
+                {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
+                <span>{hostName}</span>
+                <ArrowSmallRightIcon />
+              </SProfileAnchor>
+            </Link>
+            <STooltip>
+              <div>
+                멘토 구해요 <QuestionMarkIcon />
+              </div>
+              <div>
+                <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
+                <p> 개설자 프로필에서 커피챗을 걸어주세요:)</p>
+              </div>
+            </STooltip>
+          </SHostWrapper>
         </SAbout>
         <div>
           <SStatusButton onClick={handleRecruitmentStatusListModal}>
@@ -396,6 +408,68 @@ const SProfileAnchor = styled('a', {
     '@mobile': {
       fontAg: '12_semibold_100',
       mr: '$8',
+    },
+  },
+});
+
+const SHostWrapper = styled(Box, {
+  position: 'relative',
+});
+
+const STooltip = styled(Box, {
+  position: 'absolute',
+  top: '$10',
+  left: '176px',
+  backgroundColor: '$black40',
+  width: 'max-content',
+  padding: '$12 $14',
+  borderRadius: '10px',
+  fontAg: '14_medium_100',
+  zIndex: '$1',
+  cursor: 'default',
+
+  svg: {
+    marginLeft: '$10',
+  },
+
+  'div:first-child': {
+    flexType: 'verticalCenter',
+  },
+
+  'div:last-child': {
+    display: 'none',
+  },
+
+  '@mobile': {
+    top: '-4px',
+    left: '109px',
+    fontAg: '12_medium_100',
+  },
+
+  '&:hover': {
+    '& > div:last-child': {
+      display: 'block',
+      marginTop: '$12',
+      lineHeight: '140%',
+
+      '@mobile': {
+        fontSize: '10px',
+        lineHeight: '150%',
+      },
+    },
+  },
+
+  '&::after': {
+    content: '',
+    position: 'absolute',
+    top: '$12',
+    right: '100%',
+    border: 'solid transparent',
+    borderWidth: '9px',
+    borderRightColor: '$black40',
+
+    '@mobile': {
+      borderWidth: '7px',
     },
   },
 });
