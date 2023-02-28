@@ -45,7 +45,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
-  const hasMentor = true; // TODO: API response 바뀌면 수정할 예정
+  const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const isHost = host;
   const isApplied = apply;
@@ -421,7 +421,7 @@ const SHostWrapper = styled(Box, {
 
 const STooltip = styled(Box, {
   position: 'absolute',
-  top: '$10',
+  top: '$13',
   left: '176px',
   backgroundColor: '$black40',
   width: 'max-content',
@@ -444,7 +444,7 @@ const STooltip = styled(Box, {
   },
 
   '@mobile': {
-    top: '-4px',
+    top: '-2px',
     left: '109px',
     fontAg: '12_medium_100',
   },
@@ -452,7 +452,7 @@ const STooltip = styled(Box, {
   '&:hover': {
     '& > div:last-child': {
       display: 'block',
-      marginTop: '$12',
+      marginTop: '$14',
       lineHeight: '140%',
 
       '@mobile': {
@@ -465,15 +465,11 @@ const STooltip = styled(Box, {
   '&::after': {
     content: '',
     position: 'absolute',
-    top: '$12',
+    top: '$14',
     right: '100%',
     border: 'solid transparent',
-    borderWidth: '9px',
+    borderWidth: '3.5px 9px',
     borderRightColor: '$black40',
-
-    '@mobile': {
-      borderWidth: '7px',
-    },
   },
 });
 
