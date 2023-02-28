@@ -2,7 +2,7 @@ import { Box } from '@components/box/Box';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import QuestionMarkIcon from '@assets/svg/question_mark.svg';
+import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -433,6 +433,12 @@ const STooltip = styled(Box, {
 
   svg: {
     marginLeft: '$10',
+
+    '@mobile': {
+      marginLeft: '$6',
+      width: '$12',
+      height: '$12',
+    },
   },
 
   '@mobile': {
