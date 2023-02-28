@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { RECRUITMENT_STATUS } from '@constants/option';
-import { dateFormat } from '@utils/date';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { GroupResponse } from 'src/api/meeting';
@@ -40,7 +40,7 @@ function Card({ bottom, groupData }: CardProps) {
               <SInfoRow>
                 <SKey>모집 기간</SKey>
                 <SValue>
-                  {dateFormat(groupData.mStartDate)['YY.MM.DD']} - {dateFormat(groupData.mEndDate)['YY.MM.DD']}
+                  {dayjs(groupData.mStartDate).format('YY.MM.DD')} - {dayjs(groupData.mEndDate).format('YY.MM.DD')}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
@@ -99,7 +99,6 @@ const SStatus = styled(Box, {
   px: '$8',
   py: '$4',
   fontAg: '16_bold_100',
-  zIndex: '2',
   variants: {
     recruitingStatus: {
       0: {

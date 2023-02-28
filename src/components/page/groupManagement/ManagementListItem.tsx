@@ -5,7 +5,6 @@ import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useState } from 'react';
-import { dateFormat, timeFormat } from '@utils/date';
 import { ApplicationData } from 'src/api/meeting';
 import { APPROVAL_STATUS, APPLICATION_TYPE, EApproveStatus, EApplicationType } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
@@ -13,6 +12,7 @@ import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/a
 import { useQueryClient } from '@tanstack/react-query';
 import { SyncLoader } from 'react-spinners';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import dayjs from 'dayjs';
 
 interface ManagementListItemProps {
   groupId: number;
@@ -70,8 +70,8 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
-              <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
-              <STime>{timeFormat(appliedDate)['HH:MM:SS']}</STime>
+              <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
+              <STime>{dayjs(appliedDate).format('HH:mm:ss')}</STime>
             </SUserInformation>
             <SButtonContainer>
               {isMutateLoading ? (
@@ -121,8 +121,8 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 </div>
                 <div>
                   <SCardType>{APPLICATION_TYPE[type]}</SCardType>
-                  <SCardDate>{dateFormat(appliedDate)['YY.MM.DD']}</SCardDate>
-                  <SCardTime>{timeFormat(appliedDate)['HH:MM:SS']}</SCardTime>
+                  <SCardDate>{dayjs(appliedDate).format('YY.MM.DD')}</SCardDate>
+                  <SCardTime>{dayjs(appliedDate).format('HH:mm:ss')}</SCardTime>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
@@ -174,16 +174,16 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
         <SListItem>
           <SUserInformation>
             <SProfile>
-              <SProfileImage>
+              <SGuestProfileImage>
                 {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
-              </SProfileImage>
-
+              </SGuestProfileImage>
               <Link href={memberDetail(user.orgId)} passHref>
                 <SName>{user.name}</SName>
               </Link>
             </SProfile>
             <SVerticalLine />
-            <SDate>{dateFormat(appliedDate)['YY.MM.DD']}</SDate>
+            <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
+            <STime>{dayjs(appliedDate).format('HH:mm:ss')}</STime>
           </SUserInformation>
         </SListItem>
       )}
@@ -264,6 +264,14 @@ const SProfileImage = styled(Box, {
       width: '100%',
       height: '100%',
     },
+  },
+});
+
+const SGuestProfileImage = styled(SProfileImage, {
+  '@mobile': {
+    width: '$24',
+    height: '$24',
+    margin: 0,
   },
 });
 
@@ -352,6 +360,12 @@ const STime = styled(Box, {
   marginLeft: '$15',
   fontAg: '18_semibold_100',
   color: '$gray60',
+
+  '@mobile': {
+    marginLeft: '$8',
+    fontAg: '12_medium_100',
+    color: '$gray100',
+  },
 });
 
 const SCardDate = styled(Box, {
