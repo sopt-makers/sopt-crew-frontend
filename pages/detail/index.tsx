@@ -11,8 +11,8 @@ import {
   useQueryGetGroup,
 } from 'src/api/meeting/hooks';
 import { useRouter } from 'next/router';
-import { dateFormat } from '@utils/date';
 import Loader from '@components/loader/Loader';
+import dayjs from 'dayjs';
 
 const DetailPage = () => {
   const router = useRouter();
@@ -31,9 +31,9 @@ const DetailPage = () => {
     {
       id: 1,
       title: '모임 기간',
-      content: `${dateFormat(detailData?.mStartDate ?? '')['YYYY.MM.DD']} - ${
-        dateFormat(detailData?.mEndDate ?? '')['YYYY.MM.DD']
-      }`,
+      content: `${dayjs(detailData?.mStartDate ?? '').format('YYYY.MM.DD')} - ${dayjs(
+        detailData?.mEndDate ?? ''
+      ).format('YYYY.MM.DD')}`,
     },
     {
       id: 2,
