@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 import { FontAg } from '@constants/font';
-import {
-  createStitches,
-  CSS,
-  PropertyValue,
-  ScaleValue,
-} from '@stitches/react';
+import { createStitches, CSS, PropertyValue, ScaleValue } from '@stitches/react';
 
 const stitches = createStitches({
   theme: {
@@ -413,8 +408,7 @@ const stitches = createStitches({
 export type CSSType = CSS<typeof stitches>;
 export type Color = string;
 
-export const { styled, css, theme, getCssText, globalCss, keyframes, config } =
-  stitches;
+export const { styled, css, theme, getCssText, globalCss, keyframes, config } = stitches;
 
 export type HexColorKey = keyof typeof theme.colors;
 export const rawColors = theme.colors;

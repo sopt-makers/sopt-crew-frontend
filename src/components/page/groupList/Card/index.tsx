@@ -99,7 +99,6 @@ const SStatus = styled(Box, {
   px: '$8',
   py: '$4',
   fontAg: '16_bold_100',
-  zIndex: '2',
   variants: {
     recruitingStatus: {
       0: {
