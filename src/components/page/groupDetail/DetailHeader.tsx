@@ -653,7 +653,6 @@ const SApplicationForm = styled(Box, {
     width: '100%',
     height: '$200',
     fontAg: '16_medium_150',
-    fontFamily: 'SUIT',
     color: '$white',
     backgroundColor: '$black60',
     outline: 'none',
