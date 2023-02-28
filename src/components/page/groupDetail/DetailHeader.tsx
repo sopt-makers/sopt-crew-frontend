@@ -428,7 +428,6 @@ const STooltip = styled(Box, {
   padding: '$12 $14',
   borderRadius: '10px',
   fontAg: '14_medium_100',
-  zIndex: '$1',
   cursor: 'default',
 
   svg: {
