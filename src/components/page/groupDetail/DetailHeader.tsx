@@ -2,6 +2,7 @@ import { Box } from '@components/box/Box';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -44,6 +45,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
+  const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const isHost = host;
   const isApplied = apply;
@@ -176,13 +178,26 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
             <span>{category}</span>
             {title}
           </h1>
-          <Link href={`${origin}/members?id=${hostId}`} passHref>
-            <SProfileAnchor>
-              {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
-              <span>{hostName}</span>
-              <ArrowSmallRightIcon />
-            </SProfileAnchor>
-          </Link>
+          <SHostWrapper>
+            <Link href={`${origin}/members?id=${hostId}`} passHref>
+              <SProfileAnchor>
+                {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
+                <span>{hostName}</span>
+                <ArrowSmallRightIcon />
+              </SProfileAnchor>
+            </Link>
+            {!hasMentor && (
+              <STooltip>
+                <STooltipTitle>
+                  멘토 구해요 <QuestionMarkIcon />
+                </STooltipTitle>
+                <STooltipDescription>
+                  <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
+                  <p>개설자 프로필에서 커피챗을 걸어주세요:)</p>
+                </STooltipDescription>
+              </STooltip>
+            )}
+          </SHostWrapper>
         </SAbout>
         <div>
           <SStatusButton onClick={handleRecruitmentStatusListModal}>
@@ -396,6 +411,72 @@ const SProfileAnchor = styled('a', {
     '@mobile': {
       fontAg: '12_semibold_100',
       mr: '$8',
+    },
+  },
+});
+
+const SHostWrapper = styled(Box, {
+  position: 'relative',
+});
+
+const STooltip = styled(Box, {
+  position: 'absolute',
+  top: '$13',
+  left: '176px',
+  backgroundColor: '$black40',
+  width: 'max-content',
+  padding: '$12 $14',
+  borderRadius: '10px',
+  fontAg: '14_medium_100',
+  zIndex: '$1',
+  cursor: 'default',
+
+  svg: {
+    marginLeft: '$10',
+
+    '@mobile': {
+      marginLeft: '$6',
+      width: '$12',
+      height: '$12',
+    },
+  },
+
+  '@mobile': {
+    top: '-2px',
+    left: '109px',
+    fontAg: '12_medium_100',
+  },
+
+  '&:hover': {
+    '& > div:last-child': {
+      display: 'block',
+      marginTop: '$14',
+      lineHeight: '140%',
+    },
+  },
+
+  '&::after': {
+    content: '',
+    position: 'absolute',
+    top: '$14',
+    right: '100%',
+    border: 'solid transparent',
+    borderWidth: '3.5px 9px',
+    borderRightColor: '$black40',
+  },
+});
+
+const STooltipTitle = styled(Box, {
+  flexType: 'verticalCenter',
+});
+
+const STooltipDescription = styled(Box, {
+  display: 'none',
+
+  '& > p': {
+    '@mobile': {
+      fontSize: '$10',
+      lineHeight: '150%',
     },
   },
 });
