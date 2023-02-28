@@ -45,6 +45,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
+  const hasMentor = true; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const isHost = host;
   const isApplied = apply;
@@ -185,15 +186,17 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
                 <ArrowSmallRightIcon />
               </SProfileAnchor>
             </Link>
-            <STooltip>
-              <div>
-                멘토 구해요 <QuestionMarkIcon />
-              </div>
-              <div>
-                <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
-                <p> 개설자 프로필에서 커피챗을 걸어주세요:)</p>
-              </div>
-            </STooltip>
+            {!hasMentor && (
+              <STooltip>
+                <div>
+                  멘토 구해요 <QuestionMarkIcon />
+                </div>
+                <div>
+                  <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
+                  <p> 개설자 프로필에서 커피챗을 걸어주세요:)</p>
+                </div>
+              </STooltip>
+            )}
           </SHostWrapper>
         </SAbout>
         <div>
