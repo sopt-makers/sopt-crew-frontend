@@ -86,7 +86,7 @@ const SCarousel = styled(Box, {
 
   '.slick-dots li': {
     position: 'relative',
-    top: '-15px',
+    top: '-14px',
     display: 'inline-block',
     width: 'fit-content',
 
