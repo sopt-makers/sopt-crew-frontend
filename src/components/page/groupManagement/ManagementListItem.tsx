@@ -63,7 +63,6 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 <SProfileImage>
                   {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
                 </SProfileImage>
-
                 <Link href={memberDetail(user.orgId)} passHref>
                   <SName>{user.name}</SName>
                 </Link>

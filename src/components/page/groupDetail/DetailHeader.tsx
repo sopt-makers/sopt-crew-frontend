@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { styled } from 'stitches.config';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
+import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 
 interface DetailHeaderProps {
   detailData: GroupResponse;
@@ -64,7 +65,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
     : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
-  const [origin, setOrigin] = useState('');
+  const { memberDetail } = usePlaygroundLink();
 
   const openConfirmModal = () => {
     setModalType('confirm');
@@ -160,10 +161,6 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
     );
   };
 
-  useEffect(() => {
-    setOrigin(window.location.origin);
-  }, []);
-
   return (
     <>
       <SDetailHeader>
@@ -179,7 +176,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
             {title}
           </h1>
           <SHostWrapper>
-            <Link href={`${origin}/members?id=${hostId}`} passHref>
+            <Link href={memberDetail(hostId)} passHref>
               <SProfileAnchor>
                 {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
                 <span>{hostName}</span>
