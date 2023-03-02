@@ -34,6 +34,7 @@ const SSearchWrapper = styled(Flex, {
   px: '$24',
   border: '1px solid $black40',
   borderRadius: '59px',
+  ml: '$12',
   '@mobile': {
     display: 'none',
   },
