@@ -5,7 +5,7 @@ import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
 import FilterSelect from './Select';
 import Result from './Result';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg?rect';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
 export interface FilterType {
   label: string;
