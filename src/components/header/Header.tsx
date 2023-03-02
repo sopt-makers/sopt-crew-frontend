@@ -69,6 +69,10 @@ const SDesktopHeaderWrapper = styled(HeaderWrapper, {
 const SMobileHeaderWrapper = styled(HeaderWrapper, {
   display: 'none',
 
+  img: {
+    width: '100%',
+  },
+
   '@mobile': {
     display: 'block',
   },
