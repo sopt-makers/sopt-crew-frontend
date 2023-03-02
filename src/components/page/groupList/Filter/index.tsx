@@ -39,7 +39,7 @@ function Filter() {
           <Search />
         </Flex>
         {/* TODO: href 추가 */}
-        <SGuideButton href="">
+        <SGuideButton target="_blank" href="" rel="noreferrer noopener">
           모임 신청 가이드
           <ArrowSmallRightIcon />
         </SGuideButton>
