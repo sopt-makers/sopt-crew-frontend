@@ -58,16 +58,16 @@ const ManagementPage = () => {
   return (
     <SManagementPage>
       <TabList text="mine" size="big">
-        <TabList.Item text="all">
-          <Link href="/">
-            <a>전체 모임</a>
-          </Link>
-        </TabList.Item>
-        <TabList.Item text="mine">
-          <Link href="/mine">
-            <a>내 모임</a>
-          </Link>
-        </TabList.Item>
+        <Link href="/" passHref>
+          <a>
+            <TabList.Item text="all">전체 모임</TabList.Item>
+          </a>
+        </Link>
+        <Link href="/mine" passHref>
+          <a>
+            <TabList.Item text="mine">내 모임</TabList.Item>
+          </a>
+        </Link>
       </TabList>
       {isGroupDataLoading ? <GroupInformationSkeleton /> : groupData && <GroupInformation groupData={groupData} />}
       <SListHeader>

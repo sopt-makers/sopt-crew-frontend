@@ -20,22 +20,22 @@ const Home: NextPage = () => {
     <div>
       <Flex align="center" justify="between">
         <TabList text="all" size="big">
-          <TabList.Item text="all">
-            <Link href="/">
-              <a>전체 모임</a>
-            </Link>
-          </TabList.Item>
-          <TabList.Item text="mine">
-            <Link href="/mine">
-              <a>내 모임</a>
-            </Link>
-          </TabList.Item>
+          <Link href="/" passHref>
+            <a>
+              <TabList.Item text="all">전체 모임</TabList.Item>
+            </a>
+          </Link>
+          <Link href="/mine" passHref>
+            <a>
+              <TabList.Item text="mine">내 모임</TabList.Item>
+            </a>
+          </Link>
         </TabList>
         <Link href="/make" passHref>
           <a>
             <SMakeGroup align="center" justify="center">
               <PlusIcon />
-              <span>모임개설</span>
+              <span>모임 개설하기</span>
             </SMakeGroup>
           </a>
         </Link>
@@ -69,8 +69,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SMakeGroup = styled(Flex, {
-  width: '132px',
-  height: '50px',
+  padding: '$18 $24 $18 $20',
   background: '$purple100',
   borderRadius: '12px',
   '& > span': {

@@ -1,5 +1,4 @@
-import { Box } from '@components/box/Box';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 import { TabListContext, useTabListContext } from './TabListContext';
 
@@ -49,6 +48,8 @@ const STabList = styled('ul', {
 });
 
 const STab = styled('li', {
+  cursor: 'pointer',
+
   '&:hover': {
     color: '$white',
   },
