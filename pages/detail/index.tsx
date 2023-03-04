@@ -42,13 +42,13 @@ const DetailPage = () => {
     },
     {
       id: 3,
-      title: '개설자 소개',
-      content: detailData?.leaderDesc,
+      title: '모집 대상',
+      content: detailData?.targetDesc,
     },
     {
       id: 4,
-      title: '모집 대상',
-      content: detailData?.targetDesc,
+      title: '개설자 소개',
+      content: detailData?.leaderDesc,
     },
     {
       id: 5,
