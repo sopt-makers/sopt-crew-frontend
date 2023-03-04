@@ -35,9 +35,8 @@ function TabItem({ text, children }: PropsWithChildren<TabProps>) {
 
 TabList.Item = TabItem;
 
-const STabList = styled(Box, {
+const STabList = styled('ul', {
   display: 'flex',
-  cursor: 'pointer',
 
   '@mobile': {
     overflowX: 'scroll',
@@ -49,7 +48,7 @@ const STabList = styled(Box, {
   },
 });
 
-const STab = styled(Box, {
+const STab = styled('li', {
   '&:hover': {
     color: '$white',
   },

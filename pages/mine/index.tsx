@@ -25,16 +25,16 @@ const MinePage: NextPage = () => {
     <div>
       <Flex align="center" justify="between">
         <TabList text="mine" size="big">
-          <Link href="/" passHref>
-            <a>
-              <TabList.Item text="all">전체 모임</TabList.Item>
-            </a>
-          </Link>
-          <Link href="/mine" passHref>
-            <a>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </a>
-          </Link>
+          <TabList.Item text="all">
+            <Link href="/">
+              <a>전체 모임</a>
+            </Link>
+          </TabList.Item>
+          <TabList.Item text="mine">
+            <Link href="/mine">
+              <a>내 모임</a>
+            </Link>
+          </TabList.Item>
         </TabList>
       </Flex>
       <Tab.Group selectedIndex={Number(selectedGroupType)} onChange={setSelectedGroupType}>
