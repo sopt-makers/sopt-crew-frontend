@@ -21,7 +21,10 @@ const DetailPage = () => {
   const { mutate: mutateDeleteGroup } = useMutationDeleteGroup({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateUpdateInvitation } = useMutationUpdateInvitation({});
-  const tabRef = useRef<HTMLDivElement[]>([]);
+  const tabRef = useRef<HTMLElement[]>([]);
+  // TODO: targetGeneration과 targetPart는 임시 변수, response 수정되면 제거 예정
+  const targetGeneration = '32기';
+  const targetPart = '기획';
   const detailList = [
     {
       id: 0,
@@ -43,7 +46,7 @@ const DetailPage = () => {
     {
       id: 3,
       title: '모집 대상',
-      content: detailData?.targetDesc,
+      content: { generation: targetGeneration, part: targetPart, description: detailData?.targetDesc },
     },
     {
       id: 4,
@@ -92,7 +95,18 @@ const DetailPage = () => {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
               <STitle>{title}</STitle>
-              <SContent>{content}</SContent>
+              {content instanceof Object ? (
+                <>
+                  <STarget>
+                    <span>대상 기수</span> : {content.generation}
+                    <br />
+                    <span>대상 파트</span> : {content.part}
+                  </STarget>
+                  <SDescription>{content.description}</SDescription>
+                </>
+              ) : (
+                <SDescription>{content}</SDescription>
+              )}
             </SDetail>
           )
       )}
@@ -110,7 +124,7 @@ const SDetailPage = styled(Box, {
   },
 });
 
-const SDetail = styled(Box, {
+const SDetail = styled('section', {
   scrollMarginTop: '$80',
   color: '$white',
   mt: '$120',
@@ -120,7 +134,7 @@ const SDetail = styled(Box, {
   },
 });
 
-const STitle = styled(Box, {
+const STitle = styled('h2', {
   fontAg: '24_bold_100',
   mb: '$24',
 
@@ -130,11 +144,26 @@ const STitle = styled(Box, {
   },
 });
 
-const SContent = styled('p', {
-  fontSize: '$22',
-  lineHeight: '37.4px',
+const SDescription = styled('p', {
+  fontAg: '22_regular_170',
 
   '@mobile': {
     fontAg: '16_medium_150',
+  },
+});
+
+const STarget = styled(SDescription, {
+  mb: '$24',
+
+  '@mobile': {
+    mb: '$20',
+  },
+
+  span: {
+    fontAg: '22_semibold_150',
+
+    '@mobile': {
+      fontAg: '16_bold_150',
+    },
   },
 });
