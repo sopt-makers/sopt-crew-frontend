@@ -4,7 +4,7 @@ import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createGroup } from 'src/api/group';
+import { createGroup } from 'src/api/meeting';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';

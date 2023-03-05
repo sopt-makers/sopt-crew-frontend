@@ -7,7 +7,7 @@ import urlToFile from '@utils/urlToFile';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
-import { getGroupById, updateGroup } from 'src/api/group';
+import { getGroup, updateGroup } from 'src/api/meeting';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
@@ -21,11 +21,8 @@ const EditPage = () => {
 
   const query = useQuery({
     queryKey: ['group', id],
-    queryFn: () => getGroupById(id),
+    queryFn: () => getGroup(id),
     enabled: !!id,
-    select(data) {
-      return data.data;
-    },
   });
   const { data: formData } = query;
 

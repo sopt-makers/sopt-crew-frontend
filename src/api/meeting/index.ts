@@ -1,4 +1,6 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS } from '@constants/option';
+import { Option } from '@components/form/Select/OptionItem';
+import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
@@ -187,4 +189,43 @@ export const invite = async (groupId: string, message: string, userIdArr: number
     userIdArr,
   });
   return data;
+};
+
+const serializeFormData = (formData: FormType) => {
+  const form = new FormData();
+  for (const [key, value] of Object.entries(formData)) {
+    // NOTE: category는 object 이므로 value만 가져온다.
+    if (key === 'category') {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      form.append(key, (value as Option).value!);
+    }
+    // NOTE: nested된 필드를 flat하게 만들어주자.
+    else if (key === 'detail') {
+      for (const [detailKey, value] of Object.entries(formData[key])) {
+        if (value) {
+          form.append(detailKey, value);
+        }
+      }
+    } else if (key === 'files') {
+      for (const file of formData[key] as File[]) {
+        form.append('files', file);
+      }
+    }
+    // NOTE: 다른 필드들은 그대로 주입
+    else {
+      form.append(key, value);
+    }
+  }
+  return form;
+};
+export const createGroup = async (formData: FormType) => {
+  const { data } = await api.post<Data<number>>('/meeting', serializeFormData(formData));
+
+  return data;
+};
+
+export const updateGroup = async (groupId: string, formData: FormType) => {
+  const response = await api.put(`/meeting/${groupId}`, serializeFormData(formData));
+
+  return response;
 };
