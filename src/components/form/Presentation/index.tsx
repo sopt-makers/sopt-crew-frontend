@@ -11,6 +11,7 @@ import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
+import { MAX_FILE_SIZE } from 'src/types/form';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -58,6 +59,10 @@ function Presentation({
         return;
       }
       const newFiles = [...value, ...e.target.files];
+      if (newFiles.some(file => file.size > MAX_FILE_SIZE)) {
+        alert('5MB 이하의 사진만 업로드할 수 있습니다.');
+        return;
+      }
       if (newFiles.length > 6) {
         // TODO: file 개수 validation
         alert('이미지는 최대 6개까지 업로드 가능합니다.');
