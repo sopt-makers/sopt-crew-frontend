@@ -26,7 +26,7 @@ const EditPage = () => {
   });
   const { data: formData } = query;
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isLoading: isSubmitting } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['meeting', id] });
@@ -125,6 +125,7 @@ const EditPage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
+              isSubmitting={isSubmitting}
             />
           </SFormWrapper>
         </SFormContainer>
