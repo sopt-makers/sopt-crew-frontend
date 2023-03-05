@@ -2,23 +2,23 @@ import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
-import { GroupResponse } from 'src/api/meeting';
+import { MeetingResponse } from 'src/api/meeting';
 import { EApproveStatus, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
 
-interface GroupInformationProps {
-  groupData: GroupResponse;
+interface MeetingInformationProps {
+  meetingData: MeetingResponse;
 }
 
-const GroupInformation = ({ groupData }: GroupInformationProps) => {
+const MeetingInformation = ({ meetingData }: MeetingInformationProps) => {
   const router = useRouter();
-  const groupId = router.query.id;
-  const { imageURL, status, category, title } = groupData;
+  const meetingId = router.query.id;
+  const { imageURL, status, category, title } = meetingData;
   const isRecruiting = status === EApproveStatus.APPROVE ? true : false;
 
   return (
-    <Link href={`/detail?id=${groupId}`} passHref>
-      <SGroupInformation>
+    <Link href={`/detail?id=${meetingId}`} passHref>
+      <SMeetingInformation>
         <SImage src={imageURL[0].url} />
         <div>
           <SCategory>{category}</SCategory>
@@ -28,14 +28,14 @@ const GroupInformation = ({ groupData }: GroupInformationProps) => {
           </STitle>
         </div>
         <ArrowMediumRightGrayIcon />
-      </SGroupInformation>
+      </SMeetingInformation>
     </Link>
   );
 };
 
-export default GroupInformation;
+export default MeetingInformation;
 
-const SGroupInformation = styled('a', {
+const SMeetingInformation = styled('a', {
   flexType: 'verticalCenter',
   marginTop: '$64',
   background: '$black80',

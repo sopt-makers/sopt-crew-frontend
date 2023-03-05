@@ -15,12 +15,12 @@ import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import dayjs from 'dayjs';
 
 interface ManagementListItemProps {
-  groupId: number;
+  meetingId: number;
   application: ApplicationData;
   isHost: boolean;
 }
 
-const ManagementListItem = ({ groupId, application, isHost }: ManagementListItemProps) => {
+const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { appliedDate, content, status = 0, user, type } = application;
@@ -33,21 +33,21 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
   const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
     await mutateUpdateApplication({
-      id: groupId,
+      id: meetingId,
       applyId: application.id,
       status,
     });
     await queryClient.invalidateQueries({
-      queryKey: ['getGroupPeopleList'],
+      queryKey: ['getMeetingPeopleList'],
     });
     setIsMutateLoading(false);
   };
 
   const handleCancelInvitation = async () => {
     setIsMutateLoading(true);
-    await mutateDeleteInvitation({ id: groupId, inviteId: application.id });
+    await mutateDeleteInvitation({ id: meetingId, inviteId: application.id });
     await queryClient.invalidateQueries({
-      queryKey: ['getGroupPeopleList'],
+      queryKey: ['getMeetingPeopleList'],
     });
     setIsMutateLoading(false);
   };

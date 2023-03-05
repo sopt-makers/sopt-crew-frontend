@@ -1,6 +1,6 @@
 import { useMultiQueryString } from '@hooks/queryString';
 
-import { FilterType } from '@components/page/groupList/Filter';
+import { FilterType } from '@components/page/meetingList/Filter';
 import MultiSelect from '@components/filter/MultiSelect';
 
 interface SelectProps {

@@ -15,14 +15,14 @@ interface InvitationModalProps {
 
 const InvitationModal = ({ isModalOpened, title, handleModalClose }: InvitationModalProps) => {
   const router = useRouter();
-  const groupId = router.query.id as string;
+  const meetingId = router.query.id as string;
   const [currentStep, setCurrentStep] = useState<'selectUsers' | 'writeMessage'>('selectUsers');
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [inviteMessage, setInviteMessage] = useState('');
 
   const handleSubmit = async () => {
     try {
-      await invite(groupId, inviteMessage, selectedUsers);
+      await invite(meetingId, inviteMessage, selectedUsers);
       alert('초대 메세지를 전송했습니다.');
     } catch (error) {
       alert('초대 메세지를 전송하지 못했습니다. 잠시 후 다시 시도해주세요.');

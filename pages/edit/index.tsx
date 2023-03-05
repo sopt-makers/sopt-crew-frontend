@@ -7,7 +7,7 @@ import urlToFile from '@utils/urlToFile';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
-import { getGroup, updateGroup } from 'src/api/meeting';
+import { getMeeting, updateMeeting } from 'src/api/meeting';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
@@ -20,16 +20,16 @@ const EditPage = () => {
   const id = router.query.id as string;
 
   const query = useQuery({
-    queryKey: ['group', id],
-    queryFn: () => getGroup(id),
+    queryKey: ['meeting', id],
+    queryFn: () => getMeeting(id),
     enabled: !!id,
   });
   const { data: formData } = query;
 
   const { mutateAsync } = useMutation({
-    mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateGroup(id, formData),
+    mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['group', id] });
+      queryClient.invalidateQueries({ queryKey: ['meeting', id] });
     },
   });
 

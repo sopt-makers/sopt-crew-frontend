@@ -24,7 +24,7 @@ export interface ImageURLType {
   url: string;
 }
 export type RecruitmentStatusType = 0 | 1 | 2;
-export interface GroupResponse {
+export interface MeetingResponse {
   id: number;
   userId: number;
   title: string;
@@ -48,9 +48,9 @@ export interface GroupResponse {
   approved: boolean;
   invite: boolean;
 }
-interface GroupListOfFilterResponse {
+interface MeetingListOfFilterResponse {
   meta: PaginationType;
-  meetings: GroupResponse[];
+  meetings: MeetingResponse[];
 }
 
 interface OptionData {
@@ -71,7 +71,7 @@ export interface ApplicationData {
   user: UserResponse;
 }
 
-export interface GroupPeopleResponse {
+export interface MeetingPeopleResponse {
   apply: ApplicationData[];
   meta: PaginationType;
 }
@@ -104,8 +104,8 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   return null;
 }
 
-export const fetchGroupListOfAll = async ({ page, category, status, search }: filterData) => {
-  return api.get<PromiseResponse<GroupListOfFilterResponse>>(
+export const fetchMeetingListOfAll = async ({ page, category, status, search }: filterData) => {
+  return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
         ? `&status=${status
@@ -117,15 +117,15 @@ export const fetchGroupListOfAll = async ({ page, category, status, search }: fi
   );
 };
 
-export const getGroup = async (id: string): Promise<GroupResponse> => {
-  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data.data;
+export const getMeeting = async (id: string): Promise<MeetingResponse> => {
+  return (await api.get<PromiseResponse<MeetingResponse>>(`/meeting/${id}`)).data.data;
 };
 
-export const getGroupPeopleList = async ({ id, ...rest }: OptionData): Promise<GroupPeopleResponse> => {
+export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise<MeetingPeopleResponse> => {
   const { status, type } = rest;
 
   return (
-    await api.get<PromiseResponse<GroupPeopleResponse>>(`/meeting/${id}/list`, {
+    await api.get<PromiseResponse<MeetingPeopleResponse>>(`/meeting/${id}/list`, {
       params: {
         ...rest,
         ...(status.length && {
@@ -145,7 +145,7 @@ export const getGroupPeopleList = async ({ id, ...rest }: OptionData): Promise<G
   ).data.data;
 };
 
-export const deleteGroup = async (id: number): Promise<{ statusCode: number }> => {
+export const deleteMeeting = async (id: number): Promise<{ statusCode: number }> => {
   return (await api.delete<{ statusCode: number }>(`/meeting/${id}`)).data;
 };
 
@@ -170,10 +170,10 @@ export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
   profileImage: string | null;
   hasProfile: boolean;
 }
-export const getUsersToInvite = async (groupId: string, generation: string | null, name: string) => {
+export const getUsersToInvite = async (meetingId: string, generation: string | null, name: string) => {
   const {
     data: { data },
-  } = await api.get<Data<UserToInvite[]>>(`/meeting/${groupId}/users`, {
+  } = await api.get<Data<UserToInvite[]>>(`/meeting/${meetingId}/users`, {
     params: {
       generation,
       name,
@@ -182,9 +182,9 @@ export const getUsersToInvite = async (groupId: string, generation: string | nul
   return data;
 };
 
-export const invite = async (groupId: string, message: string, userIdArr: number[]) => {
+export const invite = async (meetingId: string, message: string, userIdArr: number[]) => {
   const { data } = await api.post(`/meeting/invite`, {
-    id: Number(groupId),
+    id: Number(meetingId),
     message,
     userIdArr,
   });
@@ -218,14 +218,14 @@ const serializeFormData = (formData: FormType) => {
   }
   return form;
 };
-export const createGroup = async (formData: FormType) => {
+export const createMeeting = async (formData: FormType) => {
   const { data } = await api.post<Data<number>>('/meeting', serializeFormData(formData));
 
   return data;
 };
 
-export const updateGroup = async (groupId: string, formData: FormType) => {
-  const response = await api.put(`/meeting/${groupId}`, serializeFormData(formData));
+export const updateMeeting = async (meetingId: string, formData: FormType) => {
+  const response = await api.put(`/meeting/${meetingId}`, serializeFormData(formData));
 
   return response;
 };

@@ -4,7 +4,7 @@ import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createGroup } from 'src/api/meeting';
+import { createMeeting } from 'src/api/meeting';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
@@ -41,9 +41,9 @@ const MakePage = () => {
   const onSubmit: SubmitHandler<FormType> = async formData => {
     setIsSubmitting(true);
     try {
-      const { data: groupId } = await createGroup(formData);
+      const { data: meetingId } = await createMeeting(formData);
       alert('모임을 개설했습니다.');
-      router.push(`/detail?id=${groupId}`);
+      router.push(`/detail?id=${meetingId}`);
       // TODO: handle success
     } catch (error) {
       // TODO: handle error

@@ -1,5 +1,5 @@
 import { api, PromiseResponse } from '..';
-import { GroupResponse } from '../meeting';
+import { MeetingResponse } from '../meeting';
 
 export interface UserResponse {
   id: number;
@@ -14,25 +14,25 @@ export interface ApplyResponse {
   id: number;
   content: string;
   status: ApplicationStatusType;
-  meeting: GroupResponse;
+  meeting: MeetingResponse;
   user: UserResponse;
 }
 
-interface GroupListOfAppliedResponse {
+interface MeetingListOfAppliedResponse {
   id: number;
   apply: ApplyResponse[];
   user: UserResponse;
 }
 
-interface GroupListOfMineResponse {
+interface MeetingListOfMineResponse {
   id: number;
-  meetings: GroupResponse[];
+  meetings: MeetingResponse[];
 }
 
-export const fetchGroupListOfApplied = async () => {
-  return api.get<PromiseResponse<GroupListOfAppliedResponse>>('/users/apply');
+export const fetchMeetingListOfApplied = async () => {
+  return api.get<PromiseResponse<MeetingListOfAppliedResponse>>('/users/apply');
 };
 
-export const fetchGroupListOfMine = async () => {
-  return api.get<PromiseResponse<GroupListOfMineResponse>>('/users/meeting');
+export const fetchMeetingListOfMine = async () => {
+  return api.get<PromiseResponse<MeetingListOfMineResponse>>('/users/meeting');
 };

@@ -8,12 +8,12 @@ import WriteIcon from '@assets/svg/write.svg';
 import { Flex } from '@components/util/layout/Flex';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import Filter from '@components/page/groupList/Filter';
+import Filter from '@components/page/meetingList/Filter';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { GroupListOfAll } from '@components/page/groupList/Grid/List';
-import Search from '@components/page/groupList/Filter/Search';
-import GridLayout from '@components/page/groupList/Grid/Layout';
-import CardSkeleton from '@components/page/groupList/Card/Skeleton';
+import { MeetingListOfAll } from '@components/page/meetingList/Grid/List';
+import Search from '@components/page/meetingList/Filter/Search';
+import GridLayout from '@components/page/meetingList/Grid/Layout';
+import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
 
 const Home: NextPage = () => {
   return (
@@ -33,20 +33,20 @@ const Home: NextPage = () => {
         </TabList>
         <Link href="/make" passHref>
           <a>
-            <SMakeGroup align="center" justify="center">
+            <SMakeMeeting align="center" justify="center">
               <PlusIcon />
               <span>모임개설</span>
-            </SMakeGroup>
+            </SMakeMeeting>
           </a>
         </Link>
-        <SMobileButtonGroup>
+        <SMobileButtonMeeting>
           <Link href="/make" passHref>
             <a>
               <WriteIcon />
             </a>
           </Link>
           <Search.Mobile />
-        </SMobileButtonGroup>
+        </SMobileButtonMeeting>
       </Flex>
       <SFilterWrapper>
         <Filter />
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
           </GridLayout>
         }
       >
-        <GroupListOfAll />
+        <MeetingListOfAll />
       </SSRSafeSuspense>
     </div>
   );
@@ -68,7 +68,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const SMakeGroup = styled(Flex, {
+const SMakeMeeting = styled(Flex, {
   width: '132px',
   height: '50px',
   background: '$purple100',
@@ -83,7 +83,7 @@ const SMakeGroup = styled(Flex, {
   },
 });
 
-const SMobileButtonGroup = styled(Flex, {
+const SMobileButtonMeeting = styled(Flex, {
   display: 'none',
   '@mobile': {
     display: 'flex',
