@@ -46,7 +46,9 @@ const DetailPage = () => {
     {
       id: 3,
       title: '모집 대상',
-      content: { generation: targetGeneration, part: targetPart, description: detailData?.targetDesc },
+      generation: targetGeneration,
+      part: targetPart,
+      content: detailData?.targetDesc,
     },
     {
       id: 4,
@@ -90,23 +92,19 @@ const DetailPage = () => {
         )}
       </TabList>
       {detailList.map(
-        ({ id, title, content }) =>
+        ({ id, title, generation, part, content }) =>
           content && (
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
               <STitle>{title}</STitle>
-              {content instanceof Object ? (
-                <>
-                  <STarget>
-                    <span>대상 기수</span> : {content.generation}
-                    <br />
-                    <span>대상 파트</span> : {content.part}
-                  </STarget>
-                  <SDescription>{content.description}</SDescription>
-                </>
-              ) : (
-                <SDescription>{content}</SDescription>
+              {title === '모집 대상' && (
+                <STarget>
+                  <span>대상 기수</span> : {generation}
+                  <br />
+                  <span>대상 파트</span> : {part}
+                </STarget>
               )}
+              <SDescription>{content}</SDescription>
             </SDetail>
           )
       )}
