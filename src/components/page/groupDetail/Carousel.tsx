@@ -56,6 +56,8 @@ const SCarousel = styled(Box, {
   },
 
   '.slick-list': {
+    width: '100%',
+    maxWidth: '$869',
     borderRadius: '14px',
 
     '@mobile': {
@@ -122,12 +124,11 @@ const SCarousel = styled(Box, {
 const SImageWrapper = styled(Box, {
   img: {
     objectFit: 'cover',
-    width: '$869',
+    width: '100%',
     height: '$594',
     margin: '0 auto',
 
     '@mobile': {
-      width: '100%',
       height: '$256',
     },
   },

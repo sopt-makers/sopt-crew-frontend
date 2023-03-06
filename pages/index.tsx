@@ -35,7 +35,7 @@ const Home: NextPage = () => {
           <a>
             <SMakeGroup align="center" justify="center">
               <PlusIcon />
-              <span>모임개설</span>
+              <span>모임 개설하기</span>
             </SMakeGroup>
           </a>
         </Link>
@@ -69,8 +69,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SMakeGroup = styled(Flex, {
-  width: '132px',
-  height: '50px',
+  padding: '$18 $24 $18 $20',
   background: '$purple100',
   borderRadius: '12px',
   '& > span': {
