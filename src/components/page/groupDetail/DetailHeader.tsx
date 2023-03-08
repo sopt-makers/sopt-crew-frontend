@@ -38,8 +38,20 @@ interface DetailHeaderProps {
 }
 
 const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, mutateInvitation }: DetailHeaderProps) => {
-  const { status, startDate, endDate, category, title, user, appliedInfo, capacity, host, apply, approved, invite } =
-    detailData;
+  const {
+    status,
+    startDate,
+    endDate,
+    category,
+    title,
+    user,
+    appliedInfo,
+    capacity,
+    host: isHost,
+    apply: isApplied,
+    approved: isApproved,
+    invite: isInvited,
+  } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = router.query.id;
@@ -48,10 +60,6 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const hostProfileImage = user.profileImage;
   const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const isHost = host;
-  const isApplied = apply;
-  const isApproved = approved;
-  const isInvited = invite;
   const current = appliedInfo.length;
   const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
@@ -260,7 +268,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
-          ) : appliedInfo.length > 0 ? (
+          ) : current > 0 ? (
             <SRecruitmentStatusListWrapper>
               <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
             </SRecruitmentStatusListWrapper>
