@@ -257,7 +257,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
       )}
       {isDefaultModalOpened && (
         <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleModalClose}>
-          {modalTitle === '모임 신청하기' ? (
+          {modalTitle === '모임 신청하기' && (
             <SApplicationForm>
               <Textarea
                 value={textareaValue}
@@ -268,7 +268,8 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
-          ) : current > 0 ? (
+          )}
+          {modalTitle.includes('모집 현황') && current > 0 ? (
             <SRecruitmentStatusListWrapper>
               <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
             </SRecruitmentStatusListWrapper>
@@ -280,7 +281,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
               {total > 0 && <STotal>총 {total}명</STotal>}
               <Link href={`/mine/management?id=${groupId}`} passHref>
                 <SManagementAnchor>
-                  <p>{isHost ? '신청자 관리' : isApplied && '참여자 리스트'}</p>
+                  {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
                   <ArrowSmallRightIcon />
                 </SManagementAnchor>
               </Link>
