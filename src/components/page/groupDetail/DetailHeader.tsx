@@ -53,6 +53,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const isApproved = approved;
   const isInvited = invite;
   const current = appliedInfo.length;
+  const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
@@ -259,30 +260,23 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
-          ) : (
+          ) : appliedInfo.length > 0 ? (
             <SRecruitmentStatusListWrapper>
-              {appliedInfo.length > 0 ? (
-                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
-              ) : (
-                <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
-              )}
-              {isHost && (
-                <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SManagementAnchor>
-                    <p>신청자 관리</p>
-                    <ArrowSmallRightIcon />
-                  </SManagementAnchor>
-                </Link>
-              )}
-              {isApplied && (
-                <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SManagementAnchor>
-                    <p>참여자 리스트</p>
-                    <ArrowSmallRightIcon />
-                  </SManagementAnchor>
-                </Link>
-              )}
+              <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
             </SRecruitmentStatusListWrapper>
+          ) : (
+            <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
+          )}
+          {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
+            <SRecruitmentStatusModalBottom>
+              {total > 0 && <STotal>총 {total}명</STotal>}
+              <Link href={`/mine/management?id=${groupId}`} passHref>
+                <SManagementAnchor>
+                  <p>{isHost ? '신청자 관리' : isApplied && '참여자 리스트'}</p>
+                  <ArrowSmallRightIcon />
+                </SManagementAnchor>
+              </Link>
+            </SRecruitmentStatusModalBottom>
           )}
         </DefaultModal>
       )}
@@ -585,25 +579,42 @@ const SHostButtonContainer = styled(Box, {
 });
 
 const SRecruitmentStatusListWrapper = styled(Box, {
-  padding: '$24 $24 $88 $24',
+  padding: '$24 $24 0 $24',
 
   '@mobile': {
     padding: '$0',
   },
 });
 
-const SManagementAnchor = styled('a', {
-  mt: '$24',
-  fontAg: '16_semibold_100',
-  color: '$white',
-  float: 'right',
+const SRecruitmentStatusModalBottom = styled(Box, {
+  margin: '$24 $42 $44 $30',
   flexType: 'verticalCenter',
+  justifyContent: 'space-between',
 
   '@mobile': {
-    mt: '$16',
+    margin: '$16 $20 $24 $20',
+  },
+});
+
+const STotal = styled('p', {
+  color: '$gray80',
+  fontAg: '16_medium_100',
+
+  '@mobile': {
+    fontAg: '12_medium_100',
+  },
+});
+
+const SManagementAnchor = styled('a', {
+  fontAg: '16_semibold_100',
+  color: '$white',
+  flexType: 'verticalCenter',
+  position: 'absolute',
+  right: '$42',
+
+  '@mobile': {
     fontAg: '12_semibold_100',
-    pb: '$24',
-    pr: '$20',
+    right: '$20',
   },
 
   svg: {
@@ -612,15 +623,14 @@ const SManagementAnchor = styled('a', {
 });
 
 const SEmptyText = styled('p', {
-  flexType: 'verticalCenter',
-  justifyContent: 'center',
+  flexType: 'center',
   width: '100%',
-  padding: '$93 0 $35 0',
+  height: '$280',
   color: '$gray80',
   fontAg: '18_semibold_100',
 
   '@mobile': {
-    padding: '$74 0 $100 0',
+    height: '$184',
     fontAg: '14_medium_100',
   },
 });
