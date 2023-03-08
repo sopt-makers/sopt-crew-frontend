@@ -54,7 +54,14 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
       { shallow: true }
     );
   };
-
+  const setValue = (value: string[]) => {
+    query[key] = value.join(',');
+    if (value.length) {
+      pushQuery(query);
+    } else {
+      deleteKey();
+    }
+  };
   const addValue = (value: string) => {
     query[key] = [...splitQueryOfKey, value].join(',');
     pushQuery(query);
@@ -77,6 +84,7 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
   };
   return {
     value: splitQueryOfKey,
+    setValue,
     addValue,
     deleteValue,
     deleteKey,
