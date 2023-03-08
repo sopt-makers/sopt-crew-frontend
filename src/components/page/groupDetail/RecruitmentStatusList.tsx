@@ -1,4 +1,4 @@
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { Box } from '@components/box/Box';
 import { ApplyResponse } from 'src/api/user';
 import { styled } from 'stitches.config';
@@ -12,8 +12,12 @@ const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps
     <SRecruitmentStatusList>
       {recruitmentStatusList.map(({ user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
-          {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
-          <span>{name}</span>
+          <div>
+            {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
+            <span>{name}</span>
+          </div>
+          {/* TODO: 고정된 텍스트 값 수정 */}
+          <SStatusText>신청</SStatusText>
         </SRecruitmentStatusItem>
       ))}
     </SRecruitmentStatusList>
@@ -49,6 +53,7 @@ const SRecruitmentStatusList = styled(Box, {
 
 const SRecruitmentStatusItem = styled(Box, {
   flexType: 'verticalCenter',
+  justifyContent: 'space-between',
   width: 'calc(50% - 11px)',
   height: '$64',
   padding: '$16 $20',
@@ -66,11 +71,30 @@ const SRecruitmentStatusItem = styled(Box, {
     mb: '$8',
   },
 
+  div: {
+    flexType: 'verticalCenter',
+  },
+
   img: {
     width: '$32',
     height: '$32',
     borderRadius: '$round',
     objectFit: 'cover',
+
+    '@mobile': {
+      width: '$26',
+      height: '$26',
+    },
+  },
+
+  svg: {
+    width: '$32',
+    height: '$32',
+
+    '@mobile': {
+      width: '$26',
+      height: '$26',
+    },
   },
 
   span: {
@@ -83,5 +107,16 @@ const SRecruitmentStatusItem = styled(Box, {
     '@mobile': {
       ml: '$7',
     },
+  },
+});
+
+const SStatusText = styled(Box, {
+  ml: '$14',
+  color: '$gray100',
+  fontAg: '14_medium_100',
+
+  '@mobile': {
+    ml: '$9',
+    fontSize: '$10',
   },
 });
