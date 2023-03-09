@@ -278,7 +278,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           )}
           {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
             <SRecruitmentStatusModalBottom>
-              {total > 0 && <STotal>총 {total}명</STotal>}
+              {total > 0 && <STotal>총 {total}명 신청</STotal>}
               <Link href={`/mine/management?id=${groupId}`} passHref>
                 <SManagementAnchor>
                   {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
