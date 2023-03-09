@@ -23,7 +23,7 @@ export const ArrowButton = ({
   disabled = false,
   size = 16,
   color = '#fff',
-  strokeWidth = 3.5,
+  strokeWidth = 2,
   ...props
 }: ArrowButtonProps) => {
   return (
@@ -42,13 +42,13 @@ export const Arrow = ({
   direction = 'left',
   size = 16,
   color = '#fff',
-  strokeWidth = 3.5,
+  strokeWidth = 2,
   ...props
 }: ArrowProps) => {
   return (
     <SArrow
       css={mergeCss(
-        { svg: { width: `${size}px`, height: `${size}px` }, 'svg path': { strokeWidth: strokeWidth } },
+        { svg: { width: `${size}px`, height: `${size}px` }, path: { strokeWidth: strokeWidth } },
         { ...css }
       )}
       direction={direction}
