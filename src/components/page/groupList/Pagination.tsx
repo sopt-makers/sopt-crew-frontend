@@ -2,7 +2,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { bindThePages } from '@utils/bindThePages';
 import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
-import ArrowButton from '@components/button/Arrow';
+import { ArrowButton } from '@components/button/Arrow';
 interface PaginationProps {
   totalPagesLength?: number;
   currentPageIndex?: number;

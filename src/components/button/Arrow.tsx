@@ -1,40 +1,66 @@
 import { CSSType } from 'stitches.config';
-import ArrowBigRight from '@assets/svg/arrow_big_right.svg';
-import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
+import ArrowBigRight from '@assets/svg/arrow_big_right.svg?rect';
 import { MouseEventHandler } from 'react';
 import { styled } from '@stitches/react';
+import { mergeCss } from '@utils/styles';
 
-interface ArrowButtonProps {
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+interface ArrowProps {
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
   css?: CSSType;
   direction: 'right' | 'top' | 'left' | 'bottom';
+}
+interface ArrowButtonProps extends ArrowProps {
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  size?: 'big' | 'small';
 }
 
-const ArrowButton = ({
+export const ArrowButton = ({
   css,
   onClick,
   direction = 'left',
   disabled = false,
-  size = 'big',
+  size = 16,
+  color = '#fff',
+  strokeWidth = 3.5,
   ...props
 }: ArrowButtonProps) => {
   return (
-    <SButton css={{ ...css }} disabled={disabled} onClick={onClick} direction={direction} {...props}>
-      {size === 'big' && <ArrowBigRight />}
-      {size === 'small' && <ArrowSmallRight />}
+    <SButton css={{ ...css }} disabled={disabled} onClick={onClick} {...props}>
+      <Arrow color={color} direction={direction} strokeWidth={strokeWidth} size={size} />
     </SButton>
   );
 };
 
 const SButton = styled('button', {
   p: '$8',
-  '& svg': {
-    display: 'block',
-    margin: '0 auto',
-  },
+});
 
+export const Arrow = ({
+  css,
+  direction = 'left',
+  size = 16,
+  color = '#fff',
+  strokeWidth = 3.5,
+  ...props
+}: ArrowProps) => {
+  return (
+    <SArrow
+      css={mergeCss(
+        { svg: { width: `${size}px`, height: `${size}px` }, 'svg path': { strokeWidth: strokeWidth } },
+        { ...css }
+      )}
+      direction={direction}
+      color={color}
+      {...props}
+    />
+  );
+};
+
+const SArrow = styled(ArrowBigRight, {
+  display: 'block',
+  margin: '0 auto',
   variants: {
     direction: {
       right: {},
@@ -46,20 +72,5 @@ const SButton = styled('button', {
         transform: 'rotate(90deg)',
       },
     },
-    disabled: {
-      true: {
-        path: {
-          stroke: '$black20',
-        },
-        cursor: 'not-allowed',
-      },
-      false: {
-        path: {
-          stroke: '$white',
-        },
-      },
-    },
   },
 });
-
-export default ArrowButton;
