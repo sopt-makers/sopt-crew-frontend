@@ -99,6 +99,14 @@ const SRecruitmentStatusItem = styled(Box, {
 
   span: {
     ml: '$10',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '$154',
+
+    '@mobile': {
+      maxWidth: '$61',
+    },
   },
 
   '&:nth-child(2n)': {
