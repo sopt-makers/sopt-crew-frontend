@@ -17,7 +17,7 @@ const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps
             {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
             <span>{name}</span>
           </div>
-          <SStatusText status={status}>{APPROVAL_STATUS[status]}</SStatusText>
+          <SStatusText isApproved={status === 1}>{APPROVAL_STATUS[status]}</SStatusText>
         </SRecruitmentStatusItem>
       ))}
     </SRecruitmentStatusList>
@@ -115,19 +115,19 @@ const SStatusText = styled(Box, {
   color: '$gray100',
   fontAg: '14_medium_100',
 
+  variants: {
+    isApproved: {
+      true: {
+        color: '$purple100',
+      },
+      false: {
+        color: '$gray100',
+      },
+    },
+  },
+
   '@mobile': {
     ml: '$9',
     fontSize: '$10',
-  },
-
-  variants: {
-    status: {
-      0: {
-        color: '$gray100',
-      },
-      1: {
-        color: '$purple100',
-      },
-    },
   },
 });
