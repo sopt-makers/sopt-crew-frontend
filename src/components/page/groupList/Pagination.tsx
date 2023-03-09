@@ -28,7 +28,7 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
   return (
     <Flex align="center" justify="center">
       <Flex align="center">
-        <ArrowButton direction="left" disabled={pagesIndex === 0} onClick={pagesIndex === 0 ? () => {} : prevBundle} />
+        <SArrowButton direction="left" disabled={pagesIndex === 0} onClick={pagesIndex === 0 ? () => {} : prevBundle} />
         <Flex css={{ mx: '$24', '@mobile': { mx: '$10' } }} as="ul">
           {pagesBundle[pagesIndex]?.map((item, idx) => (
             <SPageLink key={idx} isCurrent={currentPageIndex === item} onClick={() => changeCurrentPage(item)}>
@@ -37,7 +37,7 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
           ))}
         </Flex>
 
-        <ArrowButton
+        <SArrowButton
           direction="right"
           disabled={pagesBundle.length - 1 <= pagesIndex}
           onClick={pagesBundle.length - 1 <= pagesIndex ? () => {} : nextBundle}
@@ -73,6 +73,15 @@ const SPageLink = styled('li', {
     fontAg: '14_bold_100',
     '& + &': {
       ml: '$10',
+    },
+  },
+});
+
+const SArrowButton = styled(ArrowButton, {
+  '@mobile': {
+    '& svg': {
+      width: '12px',
+      height: '12px',
     },
   },
 });
