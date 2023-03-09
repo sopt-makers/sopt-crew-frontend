@@ -1,5 +1,6 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { Box } from '@components/box/Box';
+import { APPROVAL_STATUS } from '@constants/option';
 import { ApplyResponse } from 'src/api/user';
 import { styled } from 'stitches.config';
 
@@ -10,14 +11,13 @@ interface RecruitmentStatusProps {
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
   return (
     <SRecruitmentStatusList>
-      {recruitmentStatusList.map(({ user: { id, name, profileImage } }) => (
+      {recruitmentStatusList.map(({ status, user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
           <div>
             {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
             <span>{name}</span>
           </div>
-          {/* TODO: 고정된 텍스트 값 수정 */}
-          <SStatusText>신청</SStatusText>
+          <SStatusText status={status}>{APPROVAL_STATUS[status]}</SStatusText>
         </SRecruitmentStatusItem>
       ))}
     </SRecruitmentStatusList>
@@ -118,5 +118,16 @@ const SStatusText = styled(Box, {
   '@mobile': {
     ml: '$9',
     fontSize: '$10',
+  },
+
+  variants: {
+    status: {
+      0: {
+        color: '$gray100',
+      },
+      1: {
+        color: '$purple100',
+      },
+    },
   },
 });
