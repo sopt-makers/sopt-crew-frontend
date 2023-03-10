@@ -2,29 +2,29 @@ import { useState } from 'react';
 import MultiSelect from '@components/filter/MultiSelect';
 
 export function useMultiSelect() {
-  const [value, setValue] = useState<string[]>([]);
-  const addValue = (e: string) => {
-    if (!isContained(e)) {
-      setValue(prev => [...prev, e]);
+  const [values, setValues] = useState<string[]>([]);
+  const addValue = (inputValue: string) => {
+    if (!isContained(inputValue)) {
+      setValues(prev => [...prev, inputValue]);
     }
   };
-  const deleteValue = (e: string) => {
-    const filteredValues = value.filter(value => value === e);
-    setValue(filteredValues);
+  const deleteValue = (inputValue: string) => {
+    const filteredValues = values.filter(value => value === inputValue);
+    setValues(filteredValues);
   };
-  const isContained = (e: string) => value.includes(e);
+  const isContained = (inputValue: string) => values.includes(inputValue);
 
-  const toggle = (e: string) => {
-    if (isContained(e)) {
-      deleteValue(e);
+  const toggle = (inputValue: string) => {
+    if (isContained(inputValue)) {
+      deleteValue(inputValue);
     } else {
-      addValue(e);
+      addValue(inputValue);
     }
   };
-  const reset = () => setValue([]);
+  const reset = () => setValues([]);
   return {
-    value,
-    setValue,
+    values,
+    setValues,
     addValue,
     deleteValue,
     isContained,
