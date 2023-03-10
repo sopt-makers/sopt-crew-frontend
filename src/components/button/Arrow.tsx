@@ -3,10 +3,9 @@ import ArrowBigRight from '@assets/svg/arrow_big_right.svg';
 import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
 import { MouseEventHandler } from 'react';
 import { styled } from '@stitches/react';
-import { Box } from '@components/box/Box';
 
 interface ArrowButtonProps {
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   css?: CSSType;
   direction: 'right' | 'top' | 'left' | 'bottom';
   disabled?: boolean;
@@ -22,14 +21,14 @@ const ArrowButton = ({
   ...props
 }: ArrowButtonProps) => {
   return (
-    <SWrapper css={{ ...css }} disabled={disabled} onClick={onClick} direction={direction} {...props}>
+    <SButton css={{ ...css }} disabled={disabled} onClick={onClick} direction={direction} {...props}>
       {size === 'big' && <ArrowBigRight />}
       {size === 'small' && <ArrowSmallRight />}
-    </SWrapper>
+    </SButton>
   );
 };
 
-const SWrapper = styled(Box, {
+const SButton = styled('button', {
   p: '$8',
   '& svg': {
     display: 'block',
