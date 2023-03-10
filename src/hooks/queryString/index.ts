@@ -56,11 +56,8 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
   };
   const setValue = (value: string[]) => {
     query[key] = value.join(',');
-    if (value.length) {
-      pushQuery(query);
-    } else {
-      deleteKey();
-    }
+    if (value.length) return pushQuery(query);
+    deleteKey();
   };
   const addValue = (value: string) => {
     query[key] = [...splitQueryOfKey, value].join(',');
@@ -71,11 +68,8 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
     const deletedQueryData = splitQueryOfKey.filter((option: string) => option !== value).join(',');
 
     query[key] = deletedQueryData;
-    if (!deletedQueryData) {
-      deleteKey();
-    } else {
-      pushQuery(query);
-    }
+    if (!deletedQueryData) return deleteKey();
+    pushQuery(query);
   };
 
   const deleteKey = () => {
