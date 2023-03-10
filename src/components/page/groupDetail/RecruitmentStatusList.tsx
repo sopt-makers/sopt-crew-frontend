@@ -1,6 +1,6 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { Box } from '@components/box/Box';
-import { APPROVAL_STATUS } from '@constants/option';
+import { APPROVAL_STATUS, EApproveStatus } from '@constants/option';
 import { ApplyResponse } from 'src/api/user';
 import { styled } from 'stitches.config';
 
@@ -17,7 +17,7 @@ const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps
             {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
             <span>{name}</span>
           </div>
-          <SStatusText isApproved={status === 1}>{APPROVAL_STATUS[status]}</SStatusText>
+          <SStatusText isApproved={status === EApproveStatus.APPROVE}>{APPROVAL_STATUS[status]}</SStatusText>
         </SRecruitmentStatusItem>
       ))}
     </SRecruitmentStatusList>
