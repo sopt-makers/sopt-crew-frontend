@@ -11,7 +11,7 @@ import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
 import { PostApplicationRequest, GroupResponse, UpdateInvitationRequest } from 'src/api/meeting';
-import { EApproveStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -140,7 +140,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
       {
         id: Number(groupId),
         applyId: Number(groupId),
-        status: EApproveStatus.APPROVE,
+        status: EApprovalStatus.APPROVE,
       },
       {
         onSuccess: () => {
@@ -157,7 +157,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
       {
         id: Number(groupId),
         applyId: Number(groupId),
-        status: EApproveStatus.REJECT,
+        status: EApprovalStatus.REJECT,
       },
       {
         onSuccess: () => {
