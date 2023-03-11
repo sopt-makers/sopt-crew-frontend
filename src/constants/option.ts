@@ -7,7 +7,7 @@ export const enum ERecruitmentStatus {
   RECRUITING,
   OVER,
 }
-export const enum EApproveStatus {
+export const enum EApprovalStatus {
   WAITING,
   APPROVE,
   REJECT,

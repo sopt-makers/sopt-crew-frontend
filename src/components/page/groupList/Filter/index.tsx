@@ -39,7 +39,11 @@ function Filter() {
           <Search />
         </Flex>
         {/* TODO: href 추가 */}
-        <SGuideButton target="_blank" href="" rel="noreferrer noopener">
+        <SGuideButton
+          target="_blank"
+          href="https://golden-rib-2f1.notion.site/SOPT-Playground-e75e8895b9e54445b12994128646dcf4"
+          rel="noreferrer noopener"
+        >
           모임 신청 가이드
           <ArrowSmallRightIcon />
         </SGuideButton>
