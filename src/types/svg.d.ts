@@ -6,3 +6,8 @@ declare module '*.svg' {
   const src: string;
   export default ReactComponent;
 }
+
+declare module '*.svg?rect' {
+  const filePath: string;
+  export default filePath;
+}
