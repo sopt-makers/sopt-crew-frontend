@@ -125,7 +125,7 @@ const EditPage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              isSubmitting={isSubmitting}
+              disabled={isSubmitting}
             />
           </SFormWrapper>
         </SFormContainer>
