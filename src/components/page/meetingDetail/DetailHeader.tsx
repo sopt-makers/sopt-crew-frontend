@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
-import { PostApplicationRequest, GroupResponse, UpdateInvitationRequest } from 'src/api/meeting';
+import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
@@ -19,8 +19,8 @@ import dayjs from 'dayjs';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 
 interface DetailHeaderProps {
-  detailData: GroupResponse;
-  mutateGroupDeletion: UseMutateFunction<
+  detailData: MeetingResponse;
+  mutateMeetingDeletion: UseMutateFunction<
     {
       statusCode: number;
     },
@@ -37,7 +37,12 @@ interface DetailHeaderProps {
   mutateInvitation: UseMutateFunction<{ statusCode: number }, AxiosError, UpdateInvitationRequest>;
 }
 
-const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, mutateInvitation }: DetailHeaderProps) => {
+const DetailHeader = ({
+  detailData,
+  mutateMeetingDeletion,
+  mutateApplication,
+  mutateInvitation,
+}: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -54,7 +59,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
-  const groupId = router.query.id;
+  const meetingId = router.query.id;
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
@@ -99,11 +104,11 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
 
   const handleApplicationButton = () => {
     mutateApplication(
-      { id: Number(groupId), content: textareaValue },
+      { id: Number(meetingId), content: textareaValue },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -113,11 +118,11 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
 
   const handleCancelApplication = () => {
     mutateApplication(
-      { id: Number(groupId), content: '' },
+      { id: Number(meetingId), content: '' },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -125,9 +130,9 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
     );
   };
 
-  const handleDeleteGroup = () => {
-    queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
-    mutateGroupDeletion(Number(groupId), {
+  const handleDeleteMeeting = () => {
+    queryClient.invalidateQueries({ queryKey: ['fetchMeetingList'] });
+    mutateMeetingDeletion(Number(meetingId), {
       onSuccess: () => {
         router.push('/');
       },
@@ -138,14 +143,14 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const handleApproveInvitation = () => {
     mutateInvitation(
       {
-        id: Number(groupId),
-        applyId: Number(groupId),
+        id: Number(meetingId),
+        applyId: Number(meetingId),
         status: EApprovalStatus.APPROVE,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
         },
       }
@@ -155,14 +160,14 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const handleCancelInvitation = () => {
     mutateInvitation(
       {
-        id: Number(groupId),
-        applyId: Number(groupId),
+        id: Number(meetingId),
+        applyId: Number(meetingId),
         status: EApprovalStatus.REJECT,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -238,7 +243,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           {isHost && (
             <SHostButtonContainer>
               <button onClick={openConfirmModal}>삭제</button>
-              <Link href={`/edit?id=${groupId}`} passHref>
+              <Link href={`/edit?id=${meetingId}`} passHref>
                 <a>수정</a>
               </Link>
             </SHostButtonContainer>
@@ -252,7 +257,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={isHost ? handleDeleteGroup : isApproved ? handleCancelInvitation : handleCancelApplication}
+          handleConfirm={isHost ? handleDeleteMeeting : isApproved ? handleCancelInvitation : handleCancelApplication}
         />
       )}
       {isDefaultModalOpened && (
@@ -278,7 +283,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
             <SRecruitmentStatusModalBottom>
               {total > 0 && <STotal>총 {total}명 신청</STotal>}
-              <Link href={`/mine/management?id=${groupId}`} passHref>
+              <Link href={`/mine/management?id=${meetingId}`} passHref>
                 <SManagementAnchor>
                   {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
                   <ArrowSmallRightIcon />
