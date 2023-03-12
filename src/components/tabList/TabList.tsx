@@ -1,5 +1,4 @@
-import { Box } from '@components/box/Box';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 import { TabListContext, useTabListContext } from './TabListContext';
 
@@ -35,9 +34,8 @@ function TabItem({ text, children }: PropsWithChildren<TabProps>) {
 
 TabList.Item = TabItem;
 
-const STabList = styled(Box, {
+const STabList = styled('ul', {
   display: 'flex',
-  cursor: 'pointer',
 
   '@mobile': {
     overflowX: 'scroll',
@@ -49,7 +47,9 @@ const STabList = styled(Box, {
   },
 });
 
-const STab = styled(Box, {
+const STab = styled('li', {
+  cursor: 'pointer',
+
   '&:hover': {
     color: '$white',
   },

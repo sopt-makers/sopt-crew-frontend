@@ -9,17 +9,17 @@ import { Fragment } from 'react';
 import useSessionStorage from '@hooks/useSessionStorage';
 
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { GroupListOfApplied, GroupListOfMine } from '@components/page/groupList/Grid/List';
-import GridLayout from '@components/page/groupList/Grid/Layout';
-import CardSkeleton from '@components/page/groupList/Card/Skeleton';
+import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
+import GridLayout from '@components/page/meetingList/Grid/Layout';
+import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
 
-const enum GroupType {
+const enum MeetingType {
   MADE,
   APPLIED,
 }
 
 const MinePage: NextPage = () => {
-  const [selectedGroupType, setSelectedGroupType] = useSessionStorage<GroupType>('groupType', GroupType.MADE);
+  const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>('meetingType', MeetingType.MADE);
 
   return (
     <div>
@@ -37,13 +37,13 @@ const MinePage: NextPage = () => {
           </Link>
         </TabList>
       </Flex>
-      <Tab.Group selectedIndex={Number(selectedGroupType)} onChange={setSelectedGroupType}>
+      <Tab.Group selectedIndex={Number(selectedMeetingType)} onChange={setSelectedMeetingType}>
         <STabList>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedGroupType) === GroupType.MADE}>내가 만든 모임</STab>
+            <STab isSelected={Number(selectedMeetingType) === MeetingType.MADE}>내가 만든 모임</STab>
           </Tab>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedGroupType) === GroupType.APPLIED}>내가 신청한 모임</STab>
+            <STab isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}>내가 신청한 모임</STab>
           </Tab>
         </STabList>
 
@@ -58,7 +58,7 @@ const MinePage: NextPage = () => {
                 </GridLayout>
               }
             >
-              <GroupListOfMine />
+              <MeetingListOfMine />
             </SSRSafeSuspense>
           </Tab.Panel>
 
@@ -72,7 +72,7 @@ const MinePage: NextPage = () => {
                 </GridLayout>
               }
             >
-              <GroupListOfApplied />
+              <MeetingListOfApplied />
             </SSRSafeSuspense>
           </Tab.Panel>
         </Tab.Panels>
