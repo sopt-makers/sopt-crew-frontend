@@ -14,7 +14,7 @@ const MeetingInformation = ({ meetingData }: MeetingInformationProps) => {
   const router = useRouter();
   const meetingId = router.query.id;
   const { imageURL, status, category, title } = meetingData;
-  const isRecruiting = status === EApprovalStatus.APPROVE ? true : false;
+  const isRecruiting = status === EApprovalStatus.APPROVE;
 
   return (
     <Link href={`/detail?id=${meetingId}`} passHref>
