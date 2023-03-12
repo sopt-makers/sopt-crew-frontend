@@ -16,6 +16,7 @@ const MakePage = () => {
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
+  const { isValid } = formMethods.formState;
 
   const files = useWatch({
     control: formMethods.control,
@@ -70,7 +71,7 @@ const MakePage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              isSubmitting={isSubmitting}
+              disabled={isSubmitting || !isValid}
             />
           </SFormWrapper>
         </SFormContainer>
