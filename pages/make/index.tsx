@@ -5,18 +5,22 @@ import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createMeeting } from 'src/api/meeting';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
+import { useMutation } from '@tanstack/react-query';
 
 const MakePage = () => {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
   const { isValid } = formMethods.formState;
+  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormType) => createMeeting(formData),
+    onError: () => alert('모임을 개설하지 못했습니다.'),
+  });
 
   const files = useWatch({
     control: formMethods.control,
@@ -40,18 +44,9 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    setIsSubmitting(true);
-    try {
-      const { data: meetingId } = await createMeeting(formData);
-      alert('모임을 개설했습니다.');
-      router.push(`/detail?id=${meetingId}`);
-      // TODO: handle success
-    } catch (error) {
-      // TODO: handle error
-      alert('모임을 개설하지 못했습니다.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    const { data: meetingId } = await mutateCreateMeeting(formData);
+    alert('모임을 개설했습니다.');
+    router.push(`/detail?id=${meetingId}`);
   };
 
   return (
