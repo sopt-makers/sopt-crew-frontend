@@ -1,6 +1,7 @@
 import { Fragment, useMemo } from 'react';
 import { Listbox } from '@headlessui/react';
-import { styled } from 'stitches.config';
+import { CSSType, styled } from 'stitches.config';
+import { Box } from '@components/box/Box';
 
 export interface Option {
   label: string;
@@ -9,21 +10,26 @@ export interface Option {
 }
 
 interface OptionItemProps {
+  css?: CSSType;
   option: Option;
 }
 
-function OptionItem({ option }: OptionItemProps) {
+function OptionItem({ css, option }: OptionItemProps) {
   const stringifiedValue = useMemo(() => JSON.stringify(option), [option]);
   return (
     <Listbox.Option as={Fragment} key={option.label} value={stringifiedValue}>
-      {({ selected }) => <SOptionItem selected={selected}>{option.label}</SOptionItem>}
+      {({ selected }) => (
+        <SOptionItem css={{ ...css }} selected={selected}>
+          {option.label}
+        </SOptionItem>
+      )}
     </Listbox.Option>
   );
 }
 
 export default OptionItem;
 
-const SOptionItem = styled('div', {
+const SOptionItem = styled(Box, {
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
