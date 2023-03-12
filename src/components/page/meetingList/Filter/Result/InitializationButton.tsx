@@ -36,11 +36,9 @@ function InitializationButton() {
 export default InitializationButton;
 
 const InitializationText = styled('span', {
-  //   fontAg: '18_medium_100',
+  fontAg: '18_medium_100',
   color: '$white',
-  fontSize: '18px',
-  fontWeight: '$medium',
-  marginLeft: '6px',
+  ml: '$6',
   '@mobile': {
     display: 'none',
   },
