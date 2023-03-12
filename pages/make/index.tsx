@@ -4,7 +4,7 @@ import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting as createMeetingApi } from 'src/api/meeting';
+import { createMeeting } from 'src/api/meeting';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
@@ -17,8 +17,9 @@ const MakePage = () => {
     resolver: zodResolver(schema),
   });
   const { isValid } = formMethods.formState;
-  const { mutateAsync: createMeeting, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createMeetingApi(formData),
+  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormType) => createMeeting(formData),
+    onError: () => alert('모임을 개설하지 못했습니다.'),
   });
 
   const files = useWatch({
@@ -43,15 +44,9 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    try {
-      const { data: meetingId } = await createMeeting(formData);
-      alert('모임을 개설했습니다.');
-      router.push(`/detail?id=${meetingId}`);
-      // TODO: handle success
-    } catch (error) {
-      // TODO: handle error
-      alert('모임을 개설하지 못했습니다.');
-    }
+    const { data: meetingId } = await mutateCreateMeeting(formData);
+    alert('모임을 개설했습니다.');
+    router.push(`/detail?id=${meetingId}`);
   };
 
   return (
