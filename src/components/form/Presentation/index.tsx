@@ -12,6 +12,7 @@ import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from 'src/types/form';
+import NeedMentor from '../CheckBox/NeedMentor';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -257,17 +258,22 @@ function Presentation({
         </SDateFieldWrapper>
       </div>
 
-      {/* 모임 정보 - 개설자 소개 */}
+      {/* 모임 정보 - 개설자 소개 / 멘토 필요 여부 */}
       <div>
         <Label required={true} size="small">
           개설자 소개
         </Label>
-        <FormController
-          name="detail.leaderDesc"
-          render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="개설자 소개" maxLength={300} error={error?.message} {...field} />
-          )}
-        ></FormController>
+        <div style={{ position: 'relative' }}>
+          <SSNeedMentorFieldWrapper>
+            <FormController name="detail.needMentor" render={({ field }) => <NeedMentor {...field} />}></FormController>
+          </SSNeedMentorFieldWrapper>
+          <FormController
+            name="detail.leaderDesc"
+            render={({ field, fieldState: { error } }) => (
+              <Textarea placeholder="개설자 소개" maxLength={300} error={error?.message} {...field} />
+            )}
+          ></FormController>
+        </div>
       </div>
 
       {/* 모임 정보 - 모집 대상 */}
@@ -350,6 +356,11 @@ const SApplicationField = styled('div', {
 const SMemberCountField = styled(SApplicationField);
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
+const SSNeedMentorFieldWrapper = styled('div', {
+  position: 'absolute',
+  transform: 'translateY(-120%)',
+  right: 6,
+});
 const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',

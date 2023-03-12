@@ -94,6 +94,8 @@ const EditPage = () => {
           mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
           mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
+          // TODO: add field
+          // needMentor: formData.needMentor,
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },
