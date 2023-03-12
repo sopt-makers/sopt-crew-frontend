@@ -59,11 +59,7 @@ interface FlexOptions {
 }
 
 export function flex(flexOptions: FlexOptions) {
-  const {
-    align = 'flex-start',
-    direction = 'row',
-    justify = 'flex-start',
-  } = flexOptions;
+  const { align = 'flex-start', direction = 'row', justify = 'flex-start' } = flexOptions;
 
   return {
     alignItems: align,
@@ -72,11 +68,10 @@ export function flex(flexOptions: FlexOptions) {
   } as const;
 }
 
-type Props<ElementType extends keyof JSX.IntrinsicElements> =
-  JSX.IntrinsicElements[ElementType] &
-    FlexOptions & {
-      elementType?: keyof JSX.IntrinsicElements;
-    } & CSSProps;
+type Props<ElementType extends keyof JSX.IntrinsicElements> = JSX.IntrinsicElements[ElementType] &
+  FlexOptions & {
+    elementType?: keyof JSX.IntrinsicElements;
+  } & CSSProps;
 
 export const Flex = <E extends keyof JSX.IntrinsicElements>({
   align = 'start',
@@ -111,17 +106,13 @@ export const Flex = <E extends keyof JSX.IntrinsicElements>({
     },
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   }) as any;
-  return (
-    <SFlex align={align} direction={direction} justify={justify} {...props} />
-  );
+  return <SFlex align={align} direction={direction} justify={justify} {...props} />;
 };
 
 Flex.Center = <E extends keyof JSX.IntrinsicElements>(props: Props<E>) => (
   <Flex<E> align="center" justify="center" {...props} />
 );
-Flex.CenterVertical = <E extends keyof JSX.IntrinsicElements>(
-  props: Props<E>
-) => <Flex<E> align="center" {...props} />;
-Flex.CenterHorizontal = <E extends keyof JSX.IntrinsicElements>(
-  props: Props<E>
-) => <Flex<E> justify="center" {...props} />;
+Flex.CenterVertical = <E extends keyof JSX.IntrinsicElements>(props: Props<E>) => <Flex<E> align="center" {...props} />;
+Flex.CenterHorizontal = <E extends keyof JSX.IntrinsicElements>(props: Props<E>) => (
+  <Flex<E> justify="center" {...props} />
+);

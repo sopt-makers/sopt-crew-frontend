@@ -8,12 +8,7 @@ interface SelectComboBoxItemProps {
   onRemove: (value: string) => void;
 }
 
-function SelectComboBoxItem({
-  value,
-  isChecked,
-  onCheck,
-  onRemove,
-}: SelectComboBoxItemProps) {
+function SelectComboBoxItem({ value, isChecked, onCheck, onRemove }: SelectComboBoxItemProps) {
   const toggle = () => {
     if (!isChecked) onCheck(value);
     if (isChecked) onRemove(value);
@@ -49,8 +44,7 @@ const SCheckbox = styled('input', {
   variants: {
     checked: {
       true: {
-        background:
-          'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
+        background: 'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
         border: '0',
       },
     },
