@@ -82,7 +82,7 @@ function Presentation({
           render={({ field, fieldState: { error } }) => (
             <TextInput
               label="모임 제목"
-              message="최대 30자 이내로 입력"
+              message="최대 30자 이내로 입력해주세요"
               placeholder="제목 입력"
               required
               error={error?.message}
@@ -115,7 +115,7 @@ function Presentation({
       {/* 이미지 */}
       <div>
         <Label required={true}>이미지</Label>
-        <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
+        <HelpMessage>6개까지 첨부 가능하며, 5MB 이하 이미지를 권장해요</HelpMessage>
         <SFileInputWrapper>
           {imageUrls.length > 0 &&
             imageUrls.map((url, idx) => (
@@ -142,7 +142,7 @@ function Presentation({
       {/* 모집 기간 */}
       <div>
         <Label required={true}>모집 기간</Label>
-        <HelpMessage>시작 날짜와 끝 날짜 순서에 주의</HelpMessage>
+        <HelpMessage>모집 기간을 형식에 맞춰 입력해주세요</HelpMessage>
         <SApplicationFieldWrapper>
           <SApplicationField>
             <FormController
@@ -183,7 +183,7 @@ function Presentation({
             <TextInput
               type="number"
               label="모집 인원"
-              placeholder="인원 입력"
+              placeholder="인원"
               right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
               error={error?.message}
               required
@@ -203,7 +203,7 @@ function Presentation({
         <FormController
           name="detail.desc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="모임 소개" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="모임을 소개해주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -216,7 +216,7 @@ function Presentation({
         <FormController
           name="detail.processDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="진행 방식 소개" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="진행 방식을 소개해주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -226,6 +226,7 @@ function Presentation({
         <Label required={true} size="small">
           모임 기간
         </Label>
+        <HelpMessage>모임 기간을 형식에 맞춰 입력해주세요</HelpMessage>
         <SDateFieldWrapper>
           <SDateField>
             <FormController
@@ -270,7 +271,12 @@ function Presentation({
           <FormController
             name="detail.leaderDesc"
             render={({ field, fieldState: { error } }) => (
-              <Textarea placeholder="개설자 소개" maxLength={300} error={error?.message} {...field} />
+              <Textarea
+                placeholder="개설자를 소개해주세요, 멘토가 필요하다면 멘토 구해요를 체크해주세요"
+                maxLength={300}
+                error={error?.message}
+                {...field}
+              />
             )}
           ></FormController>
         </div>
@@ -284,7 +290,7 @@ function Presentation({
         <FormController
           name="detail.targetDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="이런 분을 찾습니다." maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="이런 분을 찾아요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -295,7 +301,7 @@ function Presentation({
         <FormController
           name="detail.note"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="유의 사항 입력" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="유의사항을 알려주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
