@@ -3,29 +3,23 @@ import { styled } from 'stitches.config';
 
 interface SelectRadioItemProps {
   value: string;
+  label: string;
   isChecked: boolean;
 }
 
-function SelectRadioItem({ value, isChecked }: SelectRadioItemProps) {
+function SelectRadioItem({ value, label, isChecked }: SelectRadioItemProps) {
   return (
-    <Flex
-      as="li"
-      align="center"
-      css={{
-        width: '100%',
-        height: '44px',
-      }}
-    >
+    <Flex as="li" align="center">
       <SCheckbox type="checkbox" checked={isChecked} id={value} name={value} />
-      <label htmlFor={value}>{value}</label>
+      <label htmlFor={value}>{label}</label>
     </Flex>
   );
 }
 export default SelectRadioItem;
 
 const SCheckbox = styled('input', {
-  width: '20px',
-  height: '20px',
+  width: '16px',
+  height: '16px',
   border: '1px solid $white',
   borderRadius: '50%',
   mr: '$8',
@@ -36,7 +30,7 @@ const SCheckbox = styled('input', {
   variants: {
     checked: {
       true: {
-        background: 'url(/group/assets/img/radio/selected.png) center center no-repeat',
+        background: 'url(/group/assets/svg/radio/selected.svg) center center no-repeat',
         border: '0',
       },
     },

@@ -20,7 +20,12 @@ function MobileOptionItem({ css, option, stringifiedSelectedValue }: OptionItemP
 
   return (
     <Listbox.Option key={option.label} value={stringifiedValue}>
-      <SelectRadioItem {...css} value={option.value || ''} isChecked={stringifiedSelectedValue === stringifiedValue} />
+      <SelectRadioItem
+        {...css}
+        value={option.value || ''}
+        label={option.label || ''}
+        isChecked={stringifiedSelectedValue === stringifiedValue}
+      />
     </Listbox.Option>
   );
 }

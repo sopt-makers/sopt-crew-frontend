@@ -66,22 +66,6 @@ function Select({ label, value, options, required, error, onChange, onBlur }: Se
                 ))
               }
             </SOptionList>
-
-            {/* <SelectBottomSheet label={label || ''} isVisible={open}>
-              <Listbox value={stringifiedSelectedValue} onChange={handleChange} onBlur={onBlur} as="div">
-                <Listbox.Options as={Fragment} static>
-                  <ul>
-                    {selectableOptions.map(option => (
-                      <MobileOptionItem
-                        key={option.value}
-                        option={option}
-                        stringifiedSelectedValue={stringifiedSelectedValue || ''}
-                      />
-                    ))}
-                  </ul>
-                </Listbox.Options>
-              </Listbox>
-            </SelectBottomSheet> */}
           </>
         )}
       </Listbox>

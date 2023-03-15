@@ -3,7 +3,6 @@ import { Dialog } from '@headlessui/react';
 import { PropsWithChildren } from 'react';
 import BottomSheetButton from './Button';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface BottomSheetProps {
   isOpen: boolean;
   label: string;
