@@ -9,13 +9,13 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
-  deleteGroup,
-  fetchGroupListOfAll,
-  getGroup,
-  getGroupPeopleList,
+  deleteMeeting,
+  fetchMeetingListOfAll,
+  getMeeting,
+  getMeetingPeopleList,
   PostApplicationRequest,
-  GroupPeopleResponse,
-  GroupResponse,
+  MeetingPeopleResponse,
+  MeetingResponse,
   postApplication,
   updateApplication,
   UpdateApplicationRequest,
@@ -26,14 +26,14 @@ import {
   getUsersToInvite,
 } from '.';
 
-interface UseQueryGetGroupParams {
+interface UseQueryGetMeetingParams {
   params: {
     id: string;
   };
-  useQueryOptions?: UseQueryOptions<GroupResponse>;
+  useQueryOptions?: UseQueryOptions<MeetingResponse>;
 }
 
-interface UseQueryGetGroupPeopleListParams {
+interface UseQueryGetMeetingPeopleListParams {
   params: {
     id: string;
     page: number;
@@ -42,21 +42,21 @@ interface UseQueryGetGroupPeopleListParams {
     date: string;
     type: string[];
   };
-  useQueryOptions?: UseQueryOptions<GroupPeopleResponse>;
+  useQueryOptions?: UseQueryOptions<MeetingPeopleResponse>;
 }
 interface UseMutateBody<T> {
   useMutationOptions?: UseMutationOptions<{ statusCode: number }, AxiosError, T>;
 }
 
-export const useQueryGroupListOfAll = () => {
+export const useQueryMeetingListOfAll = () => {
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
   const { value: page } = usePageParams();
   return useQuery(
-    ['fetchGroupList', 'all', page, category, status, search],
+    ['fetchMeetingList', 'all', page, category, status, search],
     () =>
-      fetchGroupListOfAll({
+      fetchMeetingListOfAll({
         page: Number(page),
         category,
         status,
@@ -69,45 +69,45 @@ export const useQueryGroupListOfAll = () => {
   );
 };
 
-export const useQueryGetGroup = ({
+export const useQueryGetMeeting = ({
   params,
   useQueryOptions,
-}: UseQueryGetGroupParams): UseQueryResult<GroupResponse> => {
+}: UseQueryGetMeetingParams): UseQueryResult<MeetingResponse> => {
   const { id } = params;
 
-  return useQuery<GroupResponse>({
-    queryKey: ['getGroup', id],
+  return useQuery<MeetingResponse>({
+    queryKey: ['getMeeting', id],
     queryFn: () => {
-      return getGroup(id);
+      return getMeeting(id);
     },
     enabled: !!id,
     ...useQueryOptions,
   });
 };
 
-export const useQueryGetGroupPeopleList = ({
+export const useQueryGetMeetingPeopleList = ({
   params,
   useQueryOptions,
-}: UseQueryGetGroupPeopleListParams): UseQueryResult<GroupPeopleResponse> => {
+}: UseQueryGetMeetingPeopleListParams): UseQueryResult<MeetingPeopleResponse> => {
   const { id, page, take, status, date, type } = params;
 
-  return useQuery<GroupPeopleResponse>({
-    queryKey: ['getGroupPeopleList', id, page, take, status, date, type],
+  return useQuery<MeetingPeopleResponse>({
+    queryKey: ['getMeetingPeopleList', id, page, take, status, date, type],
     queryFn: () => {
-      return getGroupPeopleList(params);
+      return getMeetingPeopleList(params);
     },
     enabled: !!id,
     ...useQueryOptions,
   });
 };
 
-export const useMutationDeleteGroup = ({
+export const useMutationDeleteMeeting = ({
   useMutationOptions,
 }: UseMutateBody<number>): UseMutationResult<{ statusCode: number }, AxiosError, number> => {
   return useMutation<{ statusCode: number }, AxiosError, number>({
     ...useMutationOptions,
-    mutationKey: ['deleteGroup'],
-    mutationFn: deleteGroup,
+    mutationKey: ['deleteMeeting'],
+    mutationFn: deleteMeeting,
   });
 };
 
@@ -168,14 +168,14 @@ export const useMutationDeleteInvitation = ({
 };
 
 interface UseUsersToInviteParams {
-  groupId: string;
+  meetingId: string;
   generation: string | null;
   name: string;
 }
-export const useUsersToInvite = ({ groupId, generation, name }: UseUsersToInviteParams) => {
+export const useUsersToInvite = ({ meetingId, generation, name }: UseUsersToInviteParams) => {
   return useQuery({
-    queryKey: ['getUsersToInvite', groupId, generation, name],
-    queryFn: () => getUsersToInvite(groupId, generation, name),
-    enabled: !!groupId,
+    queryKey: ['getUsersToInvite', meetingId, generation, name],
+    queryFn: () => getUsersToInvite(meetingId, generation, name),
+    enabled: !!meetingId,
   });
 };

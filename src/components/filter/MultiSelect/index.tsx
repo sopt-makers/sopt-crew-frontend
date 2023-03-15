@@ -117,7 +117,7 @@ const SSelectBoxList = styled(Box, {
   border: '1px solid $black40',
   borderRadius: '$10',
   p: '$16',
-  top: '58px',
+  top: '63px',
   backgroundColor: '$black100',
   zIndex: '$2',
   variants: {
