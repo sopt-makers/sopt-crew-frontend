@@ -2,7 +2,7 @@
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
-import ArrowButton from '@components/button/Arrow';
+import { ArrowButton } from '@components/button/Arrow';
 import { Flex } from '@components/util/layout/Flex';
 import SelectComboBoxItem from './SelectComboBoxItem';
 import useSessionStorage from '@hooks/useSessionStorage';
@@ -35,7 +35,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
           isSelected={selectedValues.length !== 0}
         >
           <SCategory isSelected={selectedValues.length !== 0}>{selectListData.label}</SCategory>
-          <ArrowButton size="small" direction="bottom" />
+          <ArrowButton direction="bottom" />
         </SSelectDisplay>
 
         <>
