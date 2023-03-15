@@ -18,14 +18,14 @@ interface SelectUsersStepProps {
 // eslint-disable-next-line prettier/prettier
 export default function SelectUsersStep({ selectedUsers, setSelectedUsers }: SelectUsersStepProps) {
   const router = useRouter();
-  const groupId = router.query.id as string;
+  const meetingId = router.query.id as string;
 
   const [generation, setGeneration] = useState(generationOptions[0]);
   const [name, setName] = useState('');
   const debouncedName = useDebounce<string>(name, 300);
 
   const { data: users, isLoading } = useUsersToInvite({
-    groupId,
+    meetingId,
     generation: generation.value,
     name: debouncedName,
   });

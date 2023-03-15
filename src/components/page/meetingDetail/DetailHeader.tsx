@@ -10,8 +10,8 @@ import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
 import Link from 'next/link';
-import { PostApplicationRequest, GroupResponse, UpdateInvitationRequest } from 'src/api/meeting';
-import { EApproveStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
+import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -19,8 +19,8 @@ import dayjs from 'dayjs';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 
 interface DetailHeaderProps {
-  detailData: GroupResponse;
-  mutateGroupDeletion: UseMutateFunction<
+  detailData: MeetingResponse;
+  mutateMeetingDeletion: UseMutateFunction<
     {
       statusCode: number;
     },
@@ -37,22 +37,36 @@ interface DetailHeaderProps {
   mutateInvitation: UseMutateFunction<{ statusCode: number }, AxiosError, UpdateInvitationRequest>;
 }
 
-const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, mutateInvitation }: DetailHeaderProps) => {
-  const { status, startDate, endDate, category, title, user, appliedInfo, capacity, host, apply, approved, invite } =
-    detailData;
+const DetailHeader = ({
+  detailData,
+  mutateMeetingDeletion,
+  mutateApplication,
+  mutateInvitation,
+}: DetailHeaderProps) => {
+  const {
+    status,
+    startDate,
+    endDate,
+    category,
+    title,
+    user,
+    appliedInfo,
+    capacity,
+    host: isHost,
+    apply: isApplied,
+    approved: isApproved,
+    invite: isInvited,
+  } = detailData;
   const queryClient = useQueryClient();
   const router = useRouter();
-  const groupId = router.query.id;
+  const meetingId = router.query.id;
   const hostId = user.orgId;
   const hostName = user.name;
   const hostProfileImage = user.profileImage;
   const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const isHost = host;
-  const isApplied = apply;
-  const isApproved = approved;
-  const isInvited = invite;
   const current = appliedInfo.length;
+  const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const [modalTitle, setModalTitle] = useState('');
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
@@ -90,11 +104,11 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
 
   const handleApplicationButton = () => {
     mutateApplication(
-      { id: Number(groupId), content: textareaValue },
+      { id: Number(meetingId), content: textareaValue },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -104,11 +118,11 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
 
   const handleCancelApplication = () => {
     mutateApplication(
-      { id: Number(groupId), content: '' },
+      { id: Number(meetingId), content: '' },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -116,9 +130,9 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
     );
   };
 
-  const handleDeleteGroup = () => {
-    queryClient.invalidateQueries({ queryKey: ['fetchGroupList'] });
-    mutateGroupDeletion(Number(groupId), {
+  const handleDeleteMeeting = () => {
+    queryClient.invalidateQueries({ queryKey: ['fetchMeetingList'] });
+    mutateMeetingDeletion(Number(meetingId), {
       onSuccess: () => {
         router.push('/');
       },
@@ -129,14 +143,14 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const handleApproveInvitation = () => {
     mutateInvitation(
       {
-        id: Number(groupId),
-        applyId: Number(groupId),
-        status: EApproveStatus.APPROVE,
+        id: Number(meetingId),
+        applyId: Number(meetingId),
+        status: EApprovalStatus.APPROVE,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
         },
       }
@@ -146,14 +160,14 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
   const handleCancelInvitation = () => {
     mutateInvitation(
       {
-        id: Number(groupId),
-        applyId: Number(groupId),
-        status: EApproveStatus.REJECT,
+        id: Number(meetingId),
+        applyId: Number(meetingId),
+        status: EApprovalStatus.REJECT,
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['getGroup'],
+            queryKey: ['getMeeting'],
           });
           handleModalClose();
         },
@@ -190,7 +204,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
                 </STooltipTitle>
                 <STooltipDescription>
                   <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
-                  <p>개설자 프로필에서 커피챗을 걸어주세요:)</p>
+                  <p>개설자 프로필에서 쪽지를 보내주세요:)</p>
                 </STooltipDescription>
               </STooltip>
             )}
@@ -229,7 +243,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           {isHost && (
             <SHostButtonContainer>
               <button onClick={openConfirmModal}>삭제</button>
-              <Link href={`/edit?id=${groupId}`} passHref>
+              <Link href={`/edit?id=${meetingId}`} passHref>
                 <a>수정</a>
               </Link>
             </SHostButtonContainer>
@@ -243,7 +257,7 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={isHost ? handleDeleteGroup : isApproved ? handleCancelInvitation : handleCancelApplication}
+          handleConfirm={isHost ? handleDeleteMeeting : isApproved ? handleCancelInvitation : handleCancelApplication}
         />
       )}
       {isDefaultModalOpened && (
@@ -259,30 +273,23 @@ const DetailHeader = ({ detailData, mutateGroupDeletion, mutateApplication, muta
               />
               <button onClick={handleApplicationButton}>신청하기</button>
             </SApplicationForm>
-          ) : (
+          ) : current > 0 ? (
             <SRecruitmentStatusListWrapper>
-              {appliedInfo.length > 0 ? (
-                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
-              ) : (
-                <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
-              )}
-              {isHost && (
-                <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SManagementAnchor>
-                    <p>신청자 관리</p>
-                    <ArrowSmallRightIcon />
-                  </SManagementAnchor>
-                </Link>
-              )}
-              {isApplied && (
-                <Link href={`/mine/management?id=${groupId}`} passHref>
-                  <SManagementAnchor>
-                    <p>참여자 리스트</p>
-                    <ArrowSmallRightIcon />
-                  </SManagementAnchor>
-                </Link>
-              )}
+              <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
             </SRecruitmentStatusListWrapper>
+          ) : (
+            <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
+          )}
+          {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
+            <SRecruitmentStatusModalBottom>
+              {total > 0 && <STotal>총 {total}명 신청</STotal>}
+              <Link href={`/mine/management?id=${meetingId}`} passHref>
+                <SManagementAnchor>
+                  {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
+                  <ArrowSmallRightIcon />
+                </SManagementAnchor>
+              </Link>
+            </SRecruitmentStatusModalBottom>
           )}
         </DefaultModal>
       )}
@@ -585,25 +592,42 @@ const SHostButtonContainer = styled(Box, {
 });
 
 const SRecruitmentStatusListWrapper = styled(Box, {
-  padding: '$24 $24 $88 $24',
+  padding: '$24 $24 0 $24',
 
   '@mobile': {
     padding: '$0',
   },
 });
 
-const SManagementAnchor = styled('a', {
-  mt: '$24',
-  fontAg: '16_semibold_100',
-  color: '$white',
-  float: 'right',
+const SRecruitmentStatusModalBottom = styled(Box, {
+  margin: '$24 $42 $44 $30',
   flexType: 'verticalCenter',
+  justifyContent: 'space-between',
 
   '@mobile': {
-    mt: '$16',
+    margin: '$16 $20 $24 $20',
+  },
+});
+
+const STotal = styled('p', {
+  color: '$gray80',
+  fontAg: '16_medium_100',
+
+  '@mobile': {
+    fontAg: '12_medium_100',
+  },
+});
+
+const SManagementAnchor = styled('a', {
+  fontAg: '16_semibold_100',
+  color: '$white',
+  flexType: 'verticalCenter',
+  position: 'absolute',
+  right: '$42',
+
+  '@mobile': {
     fontAg: '12_semibold_100',
-    pb: '$24',
-    pr: '$20',
+    right: '$20',
   },
 
   svg: {
@@ -612,15 +636,14 @@ const SManagementAnchor = styled('a', {
 });
 
 const SEmptyText = styled('p', {
-  flexType: 'verticalCenter',
-  justifyContent: 'center',
+  flexType: 'center',
   width: '100%',
-  padding: '$93 0 $35 0',
+  height: '$280',
   color: '$gray80',
   fontAg: '18_semibold_100',
 
   '@mobile': {
-    padding: '$74 0 $100 0',
+    height: '$184',
     fontAg: '14_medium_100',
   },
 });

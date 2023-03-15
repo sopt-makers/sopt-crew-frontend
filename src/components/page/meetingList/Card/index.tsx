@@ -4,31 +4,31 @@ import { RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { GroupResponse } from 'src/api/meeting';
+import { MeetingResponse } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
-  groupData: GroupResponse;
+  meetingData: MeetingResponse;
 }
 
-function Card({ bottom, groupData }: CardProps) {
+function Card({ bottom, meetingData }: CardProps) {
   return (
     <Box as="li">
-      <Link href={`/detail?id=${groupData.id}`} passHref>
+      <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
           <>
             <Box css={{ position: 'relative' }}>
-              <SStatus recruitingStatus={groupData.status}>{RECRUITMENT_STATUS[groupData.status]}</SStatus>
+              <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
               <SThumbnailImage
                 css={{
-                  backgroundImage: `url(${groupData.imageURL[0].url})`,
+                  backgroundImage: `url(${meetingData.imageURL[0].url})`,
                 }}
               />
             </Box>
             <STitleSection>
-              <SCategory>{groupData.category}</SCategory>
-              <STitle>{groupData.title}</STitle>
+              <SCategory>{meetingData.category}</SCategory>
+              <STitle>{meetingData.title}</STitle>
             </STitleSection>
             <Box
               css={{
@@ -40,18 +40,18 @@ function Card({ bottom, groupData }: CardProps) {
               <SInfoRow>
                 <SKey>모집 기간</SKey>
                 <SValue>
-                  {dayjs(groupData.mStartDate).format('YY.MM.DD')} - {dayjs(groupData.mEndDate).format('YY.MM.DD')}
+                  {dayjs(meetingData.mStartDate).format('YY.MM.DD')} - {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모집 인원</SKey>
                 <SValue>
-                  {groupData.appliedInfo.filter(info => info.status === 1).length}/{groupData.capacity}명
+                  {meetingData.appliedInfo.filter(info => info.status === 1).length}/{meetingData.capacity}명
                 </SValue>
               </SInfoRow>
               <SInfoRow>
                 <SKey>모임 개설</SKey>
-                <SValue>{groupData.user.name}</SValue>
+                <SValue>{meetingData.user.name}</SValue>
               </SInfoRow>
             </Box>
             <Box
@@ -62,8 +62,8 @@ function Card({ bottom, groupData }: CardProps) {
                 },
               }}
             >
-              <SMobileValue>{groupData.category}</SMobileValue>
-              <SMobileValue>{groupData.user.name}</SMobileValue>
+              <SMobileValue>{meetingData.category}</SMobileValue>
+              <SMobileValue>{meetingData.user.name}</SMobileValue>
             </Box>
           </>
         </a>

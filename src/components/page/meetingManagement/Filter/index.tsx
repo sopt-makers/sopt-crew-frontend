@@ -1,5 +1,5 @@
-import { FilterType } from '@components/page/groupList/Filter';
-import FilterSelect from '@components/page/groupList/Filter/Select';
+import { FilterType } from '@components/page/meetingList/Filter';
+import FilterSelect from '@components/page/meetingList/Filter/Select';
 import { Flex } from '@components/util/layout/Flex';
 
 const FILTERS: FilterType[] = [

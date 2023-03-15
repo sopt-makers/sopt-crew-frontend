@@ -6,7 +6,7 @@ import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useState } from 'react';
 import { ApplicationData } from 'src/api/meeting';
-import { APPROVAL_STATUS, APPLICATION_TYPE, EApproveStatus, EApplicationType } from '@constants/option';
+import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus, EApplicationType } from '@constants/option';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
 import { useQueryClient } from '@tanstack/react-query';
@@ -15,12 +15,12 @@ import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import dayjs from 'dayjs';
 
 interface ManagementListItemProps {
-  groupId: number;
+  meetingId: number;
   application: ApplicationData;
   isHost: boolean;
 }
 
-const ManagementListItem = ({ groupId, application, isHost }: ManagementListItemProps) => {
+const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { appliedDate, content, status = 0, user, type } = application;
@@ -33,21 +33,21 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
   const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
     await mutateUpdateApplication({
-      id: groupId,
+      id: meetingId,
       applyId: application.id,
       status,
     });
     await queryClient.invalidateQueries({
-      queryKey: ['getGroupPeopleList'],
+      queryKey: ['getMeetingPeopleList'],
     });
     setIsMutateLoading(false);
   };
 
   const handleCancelInvitation = async () => {
     setIsMutateLoading(true);
-    await mutateDeleteInvitation({ id: groupId, inviteId: application.id });
+    await mutateDeleteInvitation({ id: meetingId, inviteId: application.id });
     await queryClient.invalidateQueries({
-      queryKey: ['getGroupPeopleList'],
+      queryKey: ['getMeetingPeopleList'],
     });
     setIsMutateLoading(false);
   };
@@ -79,21 +79,23 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
-                      {status === EApproveStatus.WAITING && (
+                      {status === EApprovalStatus.WAITING && (
                         <>
-                          <SPurpleButton onClick={handleChangeApplicationStatus(EApproveStatus.APPROVE)}>
+                          <SPurpleButton onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}>
                             승인
                           </SPurpleButton>
-                          <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.REJECT)}>거절</SGrayButton>
+                          <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}>
+                            거절
+                          </SGrayButton>
                         </>
                       )}
-                      {status === EApproveStatus.APPROVE && (
-                        <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
+                      {status === EApprovalStatus.APPROVE && (
+                        <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
                           승인 취소
                         </SGrayButton>
                       )}
-                      {status === EApproveStatus.REJECT && (
-                        <SGrayButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
+                      {status === EApprovalStatus.REJECT && (
+                        <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
                           거절 취소
                         </SGrayButton>
                       )}
@@ -138,23 +140,23 @@ const ManagementListItem = ({ groupId, application, isHost }: ManagementListItem
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
-                      {status === EApproveStatus.WAITING && (
+                      {status === EApprovalStatus.WAITING && (
                         <>
-                          <SRejectButton onClick={handleChangeApplicationStatus(EApproveStatus.REJECT)}>
+                          <SRejectButton onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}>
                             거절
                           </SRejectButton>
-                          <SApproveButton onClick={handleChangeApplicationStatus(EApproveStatus.APPROVE)}>
+                          <SApproveButton onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}>
                             승인
                           </SApproveButton>
                         </>
                       )}
-                      {status === EApproveStatus.APPROVE && (
-                        <SCancelButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
+                      {status === EApprovalStatus.APPROVE && (
+                        <SCancelButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
                           승인 취소
                         </SCancelButton>
                       )}
-                      {status === EApproveStatus.REJECT && (
-                        <SCancelButton onClick={handleChangeApplicationStatus(EApproveStatus.WAITING)}>
+                      {status === EApprovalStatus.REJECT && (
+                        <SCancelButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
                           거절 취소
                         </SCancelButton>
                       )}
