@@ -9,11 +9,11 @@ export function usePlaygroundLink() {
   }, []);
   return {
     memberList: () => `${origin}/members`,
-    memberDetail: (id: string | number) => `${origin}/members?id=${id}`,
+    memberDetail: (id: string | number) => `${origin}/members/${id}`,
     memberUpload: () => `${origin}/members/upload`,
     memberEdit: () => `${origin}/members/upload?edit=true`,
     projectList: () => `${origin}/projects`,
-    projectDetail: (id: string | number) => `${origin}/projects?id=${id}`,
+    projectDetail: (id: string | number) => `${origin}/projects/${id}`,
     projectUpload: () => `${origin}/projects/upload`,
     login: () => `${origin}/auth/login`,
     register: () => `${origin}/auth/verify`,

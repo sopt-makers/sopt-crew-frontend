@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { usePageParams } from '@hooks/queryString/custom';
-import { useQueryGroupListOfAll } from 'src/api/meeting/hooks';
-import { useQueryGroupListOfApplied, useQueryGroupListOfMine } from 'src/api/user/hooks';
+import { useQueryMeetingListOfAll } from 'src/api/meeting/hooks';
+import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from 'src/api/user/hooks';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
@@ -10,24 +10,24 @@ import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
 import GridLayout from './Layout';
 
-export function GroupListOfAll() {
+export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
-  const { data: groupListData } = useQueryGroupListOfAll();
+  const { data: meetingListData } = useQueryMeetingListOfAll();
 
   return (
     <main>
-      <SGroupCount>{groupListData?.meetings.length}개의 모임</SGroupCount>
-      {groupListData?.meetings.length ? (
+      <SMeetingCount>{meetingListData?.meetings.length}개의 모임</SMeetingCount>
+      {meetingListData?.meetings.length ? (
         <>
           <GridLayout>
-            {groupListData?.meetings.map(groupData => (
-              <Card key={groupData.id} groupData={groupData} />
+            {meetingListData?.meetings.map(meetingData => (
+              <Card key={meetingData.id} meetingData={meetingData} />
             ))}
           </GridLayout>
 
           <Box css={{ my: '$80' }}>
             <Pagination
-              totalPagesLength={groupListData?.meta.pageCount}
+              totalPagesLength={meetingListData?.meta.pageCount}
               currentPageIndex={Number(page)}
               changeCurrentPage={setPage}
             />
@@ -40,16 +40,16 @@ export function GroupListOfAll() {
   );
 }
 
-export function GroupListOfMine() {
-  const { data: mineData } = useQueryGroupListOfMine();
+export function MeetingListOfMine() {
+  const { data: mineData } = useQueryMeetingListOfMine();
 
   return (
     <main>
-      <SGroupCount>{mineData?.meetings.length}개의 모임</SGroupCount>
+      <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
       {mineData?.meetings.length ? (
         <GridLayout>
-          {mineData?.meetings.map(groupData => (
-            <Card key={groupData.id} groupData={groupData} bottom={<ManagementButton id={groupData.id} />} />
+          {mineData?.meetings.map(meetingData => (
+            <Card key={meetingData.id} meetingData={meetingData} bottom={<ManagementButton id={meetingData.id} />} />
           ))}
         </GridLayout>
       ) : (
@@ -59,16 +59,16 @@ export function GroupListOfMine() {
   );
 }
 
-export function GroupListOfApplied() {
-  const { data: applyData } = useQueryGroupListOfApplied();
+export function MeetingListOfApplied() {
+  const { data: applyData } = useQueryMeetingListOfApplied();
 
   return (
     <main>
-      <SGroupCount>{applyData?.apply.length}개의 모임</SGroupCount>
+      <SMeetingCount>{applyData?.apply.length}개의 모임</SMeetingCount>
       {applyData?.apply.length ? (
         <GridLayout>
           {applyData?.apply.map(applyData => (
-            <Card key={applyData.id} groupData={applyData.meeting} bottom={<Status status={applyData.status} />} />
+            <Card key={applyData.id} meetingData={applyData.meeting} bottom={<Status status={applyData.status} />} />
           ))}
         </GridLayout>
       ) : (
@@ -78,7 +78,7 @@ export function GroupListOfApplied() {
   );
 }
 
-const SGroupCount = styled('p', {
+const SMeetingCount = styled('p', {
   fontAg: '18_semibold_100',
   '@mobile': {
     fontAg: '12_semibold_100',

@@ -1,4 +1,6 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS } from '@constants/option';
+import { Option } from '@components/form/Select/OptionItem';
+import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
@@ -22,7 +24,7 @@ export interface ImageURLType {
   url: string;
 }
 export type RecruitmentStatusType = 0 | 1 | 2;
-export interface GroupResponse {
+export interface MeetingResponse {
   id: number;
   userId: number;
   title: string;
@@ -46,9 +48,9 @@ export interface GroupResponse {
   approved: boolean;
   invite: boolean;
 }
-interface GroupListOfFilterResponse {
+interface MeetingListOfFilterResponse {
   meta: PaginationType;
-  meetings: GroupResponse[];
+  meetings: MeetingResponse[];
 }
 
 interface OptionData {
@@ -69,7 +71,7 @@ export interface ApplicationData {
   user: UserResponse;
 }
 
-export interface GroupPeopleResponse {
+export interface MeetingPeopleResponse {
   apply: ApplicationData[];
   meta: PaginationType;
 }
@@ -102,8 +104,8 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   return null;
 }
 
-export const fetchGroupListOfAll = async ({ page, category, status, search }: filterData) => {
-  return api.get<PromiseResponse<GroupListOfFilterResponse>>(
+export const fetchMeetingListOfAll = async ({ page, category, status, search }: filterData) => {
+  return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
         ? `&status=${status
@@ -115,15 +117,15 @@ export const fetchGroupListOfAll = async ({ page, category, status, search }: fi
   );
 };
 
-export const getGroup = async (id: string): Promise<GroupResponse> => {
-  return (await api.get<PromiseResponse<GroupResponse>>(`/meeting/${id}`)).data.data;
+export const getMeeting = async (id: string): Promise<MeetingResponse> => {
+  return (await api.get<PromiseResponse<MeetingResponse>>(`/meeting/${id}`)).data.data;
 };
 
-export const getGroupPeopleList = async ({ id, ...rest }: OptionData): Promise<GroupPeopleResponse> => {
+export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise<MeetingPeopleResponse> => {
   const { status, type } = rest;
 
   return (
-    await api.get<PromiseResponse<GroupPeopleResponse>>(`/meeting/${id}/list`, {
+    await api.get<PromiseResponse<MeetingPeopleResponse>>(`/meeting/${id}/list`, {
       params: {
         ...rest,
         ...(status.length && {
@@ -143,7 +145,7 @@ export const getGroupPeopleList = async ({ id, ...rest }: OptionData): Promise<G
   ).data.data;
 };
 
-export const deleteGroup = async (id: number): Promise<{ statusCode: number }> => {
+export const deleteMeeting = async (id: number): Promise<{ statusCode: number }> => {
   return (await api.delete<{ statusCode: number }>(`/meeting/${id}`)).data;
 };
 
@@ -168,10 +170,10 @@ export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
   profileImage: string | null;
   hasProfile: boolean;
 }
-export const getUsersToInvite = async (groupId: string, generation: string | null, name: string) => {
+export const getUsersToInvite = async (meetingId: string, generation: string | null, name: string) => {
   const {
     data: { data },
-  } = await api.get<Data<UserToInvite[]>>(`/meeting/${groupId}/users`, {
+  } = await api.get<Data<UserToInvite[]>>(`/meeting/${meetingId}/users`, {
     params: {
       generation,
       name,
@@ -180,11 +182,50 @@ export const getUsersToInvite = async (groupId: string, generation: string | nul
   return data;
 };
 
-export const invite = async (groupId: string, message: string, userIdArr: number[]) => {
+export const invite = async (meetingId: string, message: string, userIdArr: number[]) => {
   const { data } = await api.post(`/meeting/invite`, {
-    id: Number(groupId),
+    id: Number(meetingId),
     message,
     userIdArr,
   });
   return data;
+};
+
+const serializeFormData = (formData: FormType) => {
+  const form = new FormData();
+  for (const [key, value] of Object.entries(formData)) {
+    // NOTE: category는 object 이므로 value만 가져온다.
+    if (key === 'category') {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      form.append(key, (value as Option).value!);
+    }
+    // NOTE: nested된 필드를 flat하게 만들어주자.
+    else if (key === 'detail') {
+      for (const [detailKey, value] of Object.entries(formData[key])) {
+        if (value) {
+          form.append(detailKey, value);
+        }
+      }
+    } else if (key === 'files') {
+      for (const file of formData[key] as File[]) {
+        form.append('files', file);
+      }
+    }
+    // NOTE: 다른 필드들은 그대로 주입
+    else {
+      form.append(key, value);
+    }
+  }
+  return form;
+};
+export const createMeeting = async (formData: FormType) => {
+  const { data } = await api.post<Data<number>>('/meeting', serializeFormData(formData));
+
+  return data;
+};
+
+export const updateMeeting = async (meetingId: string, formData: FormType) => {
+  const response = await api.put(`/meeting/${meetingId}`, serializeFormData(formData));
+
+  return response;
 };

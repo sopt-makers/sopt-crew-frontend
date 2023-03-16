@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
-import ManagementListSkeleton from '@components/page/groupManagement/ManagementListSkeleton';
-import GroupInformationSkeleton from '@components/page/groupManagement/GroupInformationSkeleton';
-import ManagementListItem from '@components/page/groupManagement/ManagementListItem';
-import GroupInformation from '@components/page/groupManagement/GroupInformation';
+import ManagementListSkeleton from '@components/page/meetingManagement/ManagementListSkeleton';
+import MeetingInformationSkeleton from '@components/page/meetingManagement/MeetingInformationSkeleton';
+import ManagementListItem from '@components/page/meetingManagement/ManagementListItem';
+import MeetingInformation from '@components/page/meetingManagement/MeetingInformation';
 import Select from '@components/form/Select';
 import { Option } from '@components/form/Select/OptionItem';
-import ItemDescriptionBox from '@components/page/groupManagement/ItemDescriptionBox';
-import Pagination from '@components/page/groupList/Pagination';
+import ItemDescriptionBox from '@components/page/meetingManagement/ItemDescriptionBox';
+import Pagination from '@components/page/meetingList/Pagination';
 import {
   usePageParams,
   useSortByDateParams,
@@ -19,27 +19,27 @@ import {
   useTypeParams,
 } from '@hooks/queryString/custom';
 import { numberOptionList, sortOptionList } from 'src/data/options';
-import { useQueryGetGroup, useQueryGetGroupPeopleList } from 'src/api/meeting/hooks';
-import InvitationIcon from 'public/assets/svg/invitation.svg';
-import useModal from '@hooks/useModal';
-import Filter from '@components/page/groupManagement/Filter';
-import InvitationModal from '@components/page/groupManagement/InvitationModal/InvitationModal';
+import { useQueryGetMeeting, useQueryGetMeetingPeopleList } from 'src/api/meeting/hooks';
+import Filter from '@components/page/meetingManagement/Filter';
+// import useModal from '@hooks/useModal';
+// import InvitationModal from '@components/page/meetingManagement/InvitationModal/InvitationModal';
+// import InvitationIcon from 'public/assets/svg/invitation.svg';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+  // const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { value: page, setValue: setPage } = usePageParams();
   const { value: type } = useTypeParams();
   const { value: status } = useStatusParams();
   const { value: take, setValue: setTake } = useTakeParams();
   const { value: sortByDate, setValue: setSort } = useSortByDateParams();
-  const { isLoading: isGroupDataLoading, data: groupData } = useQueryGetGroup({
+  const { isLoading: isMeetingDataLoading, data: meetingData } = useQueryGetMeeting({
     params: { id },
   });
-  const isHost = groupData?.host ?? false;
+  const isHost = meetingData?.host ?? false;
 
-  const { isLoading: isManagementDataLoading, data: management } = useQueryGetGroupPeopleList({
+  const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
     params: {
       id,
       page: (page || 0) as number,
@@ -69,18 +69,31 @@ const ManagementPage = () => {
           </a>
         </Link>
       </TabList>
-      {isGroupDataLoading ? <GroupInformationSkeleton /> : groupData && <GroupInformation groupData={groupData} />}
+      {isMeetingDataLoading ? (
+        <MeetingInformationSkeleton />
+      ) : (
+        meetingData && <MeetingInformation meetingData={meetingData} />
+      )}
       <SListHeader>
         <SListTitle>
-          {!isGroupDataLoading && <span>모임 {isHost ? '신청자' : '참여자'}</span>}
+          {!isMeetingDataLoading && <span>모임 {isHost ? '신청자' : '참여자'}</span>}
           {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
-        {isHost ? (
+        {/* {isHost ? (
           <SInvitationButton onClick={handleModalOpen}>
             <InvitationIcon />
             <span>초대하기</span>
           </SInvitationButton>
         ) : (
+          <SSelectNumberWrapper>
+            <Select
+              value={numberOptionList[Number(take) || 0]}
+              options={numberOptionList}
+              onChange={handleChangeSelectOption(setTake, numberOptionList)}
+            />
+          </SSelectNumberWrapper>
+        )} */}
+        {!isHost && (
           <SSelectNumberWrapper>
             <Select
               value={numberOptionList[Number(take) || 0]}
@@ -120,7 +133,12 @@ const ManagementPage = () => {
         <>
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
-              <ManagementListItem key={application.id} groupId={Number(id)} application={application} isHost={isHost} />
+              <ManagementListItem
+                key={application.id}
+                meetingId={Number(id)}
+                application={application}
+                isHost={isHost}
+              />
             ))
           ) : (
             <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
@@ -134,9 +152,9 @@ const ManagementPage = () => {
               />
             </SPaginationWrapper>
           )}
-          {isModalOpened && (
+          {/* {isModalOpened && (
             <InvitationModal isModalOpened={isModalOpened} title="초대하기" handleModalClose={handleModalClose} />
-          )}
+          )} */}
         </>
       )}
     </SManagementPage>
@@ -176,34 +194,34 @@ const SListTitle = styled(Box, {
   },
 });
 
-const SInvitationButton = styled('button', {
-  color: '$white',
-  fontAg: '18_bold_100',
-  border: '1px solid $white',
-  borderRadius: '14px',
-  padding: '$18 $24 $18 $20',
-  flexType: 'verticalCenter',
+// const SInvitationButton = styled('button', {
+//   color: '$white',
+//   fontAg: '18_bold_100',
+//   border: '1px solid $white',
+//   borderRadius: '14px',
+//   padding: '$18 $24 $18 $20',
+//   flexType: 'verticalCenter',
 
-  '& > svg': {
-    mr: '$12',
-  },
+//   '& > svg': {
+//     mr: '$12',
+//   },
 
-  '@mobile': {
-    border: 'none',
-    padding: '$0',
-    width: '$24',
-    height: '$24',
+//   '@mobile': {
+//     border: 'none',
+//     padding: '$0',
+//     width: '$24',
+//     height: '$24',
 
-    span: {
-      display: 'none',
-    },
+//     span: {
+//       display: 'none',
+//     },
 
-    svg: {
-      mr: '$0',
-      transform: 'scale(1.2)',
-    },
-  },
-});
+//     svg: {
+//       mr: '$0',
+//       transform: 'scale(1.2)',
+//     },
+//   },
+// });
 
 const SSelectContainer = styled(Box, {
   flexType: 'verticalCenter',
