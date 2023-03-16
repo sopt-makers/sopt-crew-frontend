@@ -1,6 +1,5 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { Listbox } from '@headlessui/react';
 import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 interface SelectBottomSheetProps {
@@ -65,14 +64,6 @@ const SListItemWrapper = styled('ul', {
 });
 
 const SCloseButton = styled('button', {
-  width: '100%',
-  height: '50px',
-  backgroundColor: '$purple100',
-  color: '$white',
-  fontAg: '16_bold_100',
-  textAlign: 'center',
-});
-const SHeadlessCloseButton = styled(Listbox.Button, {
   width: '100%',
   height: '50px',
   backgroundColor: '$purple100',
