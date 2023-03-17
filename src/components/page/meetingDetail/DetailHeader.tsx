@@ -71,25 +71,8 @@ const DetailHeader = ({
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
   const isDefaultModalOpened = isModalOpened && modalType === 'default';
   const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
-  const modalConfirmButton = isHost ? '삭제하기' : !me?.hasProfile ? '작성하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
   const { memberDetail, memberUpload } = usePlaygroundLink();
-
-  const getConfirmModalMessage = () => {
-    if (isHost) {
-      return '모임을 삭제하시겠습니까?';
-    }
-
-    if (!me?.hasProfile) {
-      return '모임을 신청하려면\n프로필 작성이 필요해요';
-    }
-
-    if (isApproved) {
-      return '승인을 취소하시겠습니까?';
-    }
-
-    return '신청을 취소하시겠습니까?';
-  };
 
   const openConfirmModal = () => {
     setModalType('confirm');
@@ -194,14 +177,36 @@ const DetailHeader = ({
     router.push(uploadHref);
   };
 
-  const handleConfirm = () => {
+  const getConfirmModalInformation = () => {
     if (isHost) {
-      return handleDeleteMeeting();
+      return {
+        message: '모임을 삭제하시겠습니까?',
+        button: '삭제하기',
+        handleConfirm: handleDeleteMeeting,
+      };
     }
+
     if (!me?.hasProfile) {
-      return handleNoProfile();
+      return {
+        message: '모임을 신청하려면\n프로필 작성이 필요해요',
+        button: '작성하기',
+        handleConfirm: handleNoProfile,
+      };
     }
-    return isApproved ? handleCancelInvitation() : handleCancelApplication();
+
+    if (isApproved) {
+      return {
+        message: '승인을 취소하시겠습니까?',
+        button: '취소하기',
+        handleConfirm: handleCancelInvitation,
+      };
+    }
+
+    return {
+      message: '신청을 취소하시겠습니까?',
+      button: '취소하기',
+      handleConfirm: handleCancelApplication,
+    };
   };
 
   return (
@@ -282,11 +287,11 @@ const DetailHeader = ({
       {isConfirmModalOpened && (
         <ConfirmModal
           isModalOpened={isConfirmModalOpened}
-          message={getConfirmModalMessage()}
+          message={getConfirmModalInformation().message}
           cancelButton="돌아가기"
-          confirmButton={modalConfirmButton}
+          confirmButton={getConfirmModalInformation().button}
           handleModalClose={handleModalClose}
-          handleConfirm={handleConfirm}
+          handleConfirm={getConfirmModalInformation().handleConfirm}
         />
       )}
       {isDefaultModalOpened && (
