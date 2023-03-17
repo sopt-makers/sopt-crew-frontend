@@ -188,6 +188,16 @@ const DetailHeader = ({
     router.push(uploadHref);
   };
 
+  const handleConfirm = () => {
+    if (isHost) {
+      return handleDeleteMeeting();
+    }
+    if (!me?.hasProfile) {
+      return handleNoProfile();
+    }
+    return isApproved ? handleCancelInvitation() : handleCancelApplication();
+  };
+
   return (
     <>
       <SDetailHeader>
@@ -270,15 +280,7 @@ const DetailHeader = ({
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={
-            isHost
-              ? handleDeleteMeeting
-              : !me?.hasProfile
-              ? handleNoProfile
-              : isApproved
-              ? handleCancelInvitation
-              : handleCancelApplication
-          }
+          handleConfirm={handleConfirm}
         />
       )}
       {isDefaultModalOpened && (
