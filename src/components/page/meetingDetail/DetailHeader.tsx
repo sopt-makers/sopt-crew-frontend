@@ -71,16 +71,25 @@ const DetailHeader = ({
   const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
   const isDefaultModalOpened = isModalOpened && modalType === 'default';
   const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
-  const modalMessage = isHost
-    ? '모임을 삭제하시겠습니까?'
-    : !me?.hasProfile
-    ? '모임을 신청하려면\n프로필 작성이 필요해요'
-    : isApproved
-    ? '승인을 취소하시겠습니까?'
-    : '신청을 취소하시겠습니까?';
   const modalConfirmButton = isHost ? '삭제하기' : !me?.hasProfile ? '작성하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
   const { memberDetail, memberUpload } = usePlaygroundLink();
+
+  const getConfirmModalMessage = () => {
+    if (isHost) {
+      return '모임을 삭제하시겠습니까?';
+    }
+
+    if (!me?.hasProfile) {
+      return '모임을 신청하려면\n프로필 작성이 필요해요';
+    }
+
+    if (isApproved) {
+      return '승인을 취소하시겠습니까?';
+    }
+
+    return '신청을 취소하시겠습니까?';
+  };
 
   const openConfirmModal = () => {
     setModalType('confirm');
@@ -273,7 +282,7 @@ const DetailHeader = ({
       {isConfirmModalOpened && (
         <ConfirmModal
           isModalOpened={isConfirmModalOpened}
-          message={modalMessage}
+          message={getConfirmModalMessage()}
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
