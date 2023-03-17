@@ -10,7 +10,6 @@ import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus, EApplicationType } 
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
 import { useQueryClient } from '@tanstack/react-query';
-import { SyncLoader } from 'react-spinners';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import dayjs from 'dayjs';
 
@@ -73,39 +72,51 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               <STime>{dayjs(appliedDate).format('HH:mm:ss')}</STime>
             </SUserInformation>
             <SButtonContainer>
-              {isMutateLoading ? (
-                <SyncLoader color="#8040ff" />
-              ) : (
+              {
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
                       {status === EApprovalStatus.WAITING && (
                         <>
-                          <SPurpleButton onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}>
+                          <SPurpleButton
+                            disabled={isMutateLoading}
+                            onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
+                          >
                             승인
                           </SPurpleButton>
-                          <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}>
+                          <SGrayButton
+                            disabled={isMutateLoading}
+                            onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
+                          >
                             거절
                           </SGrayButton>
                         </>
                       )}
                       {status === EApprovalStatus.APPROVE && (
-                        <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
+                        <SGrayButton
+                          disabled={isMutateLoading}
+                          onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
+                        >
                           승인 취소
                         </SGrayButton>
                       )}
                       {status === EApprovalStatus.REJECT && (
-                        <SGrayButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
+                        <SGrayButton
+                          disabled={isMutateLoading}
+                          onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
+                        >
                           거절 취소
                         </SGrayButton>
                       )}
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SGrayButton onClick={handleCancelInvitation}>초대 취소</SGrayButton>
+                    <SGrayButton disabled={isMutateLoading} onClick={handleCancelInvitation}>
+                      초대 취소
+                    </SGrayButton>
                   )}
                 </>
-              )}
+              }
             </SButtonContainer>
           </SDesktopListItem>
           <SMobileCard>
@@ -132,41 +143,51 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               </SCardDetailButton>
             </SCardContent>
             <SCardButtonContainer>
-              {isMutateLoading ? (
-                <SCancelButton disabled>
-                  <SyncLoader color="#8040ff" />
-                </SCancelButton>
-              ) : (
+              {
                 <>
                   {type === EApplicationType.APPLY && (
                     <>
                       {status === EApprovalStatus.WAITING && (
                         <>
-                          <SRejectButton onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}>
+                          <SRejectButton
+                            disabled={isMutateLoading}
+                            onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
+                          >
                             거절
                           </SRejectButton>
-                          <SApproveButton onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}>
+                          <SApproveButton
+                            disabled={isMutateLoading}
+                            onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
+                          >
                             승인
                           </SApproveButton>
                         </>
                       )}
                       {status === EApprovalStatus.APPROVE && (
-                        <SCancelButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
+                        <SCancelButton
+                          disabled={isMutateLoading}
+                          onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
+                        >
                           승인 취소
                         </SCancelButton>
                       )}
                       {status === EApprovalStatus.REJECT && (
-                        <SCancelButton onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}>
+                        <SCancelButton
+                          disabled={isMutateLoading}
+                          onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
+                        >
                           거절 취소
                         </SCancelButton>
                       )}
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SCancelButton onClick={handleCancelInvitation}>초대 취소</SCancelButton>
+                    <SCancelButton disabled={isMutateLoading} onClick={handleCancelInvitation}>
+                      초대 취소
+                    </SCancelButton>
                   )}
                 </>
-              )}
+              }
             </SCardButtonContainer>
           </SMobileCard>
         </>
@@ -358,12 +379,12 @@ const SDate = styled(Box, {
 });
 
 const STime = styled(Box, {
-  marginLeft: '$15',
+  ml: '$15',
   fontAg: '18_semibold_100',
   color: '$gray60',
 
   '@mobile': {
-    marginLeft: '$8',
+    ml: '$8',
     fontAg: '12_medium_100',
     color: '$gray100',
   },
@@ -375,7 +396,7 @@ const SCardDate = styled(Box, {
 });
 
 const SCardTime = styled(Box, {
-  marginLeft: '$4',
+  ml: '$4',
   fontAg: '10_medium_120',
   color: '$gray100',
 });
@@ -438,17 +459,25 @@ const SCardButtonContainer = styled(Box, {
   mb: '$16',
 });
 
-const SGrayButton = styled('button', {
+const SRoundButton = styled('button', {
   color: '$white',
   borderRadius: '32px',
   fontAg: '16_bold_100',
   padding: '$12 $20',
-  backgroundColor: '$black40',
   lineHeight: '$16',
+
+  '&:disabled': {
+    opacity: '0.35',
+    cursor: 'not-allowed',
+  },
 });
 
-const SPurpleButton = styled(SGrayButton, {
-  marginRight: '8.5px',
+const SGrayButton = styled(SRoundButton, {
+  backgroundColor: '$black40',
+});
+
+const SPurpleButton = styled(SRoundButton, {
+  mr: '$8',
   backgroundColor: '$purple100',
 });
 
@@ -462,6 +491,14 @@ const SCardButton = styled('button', {
   borderTop: '1px solid $black40',
   borderBottomLeftRadius: '8px',
   borderBottomRightRadius: '8px',
+  variants: {
+    isMutateLoading: {
+      true: {
+        opacity: '0.35',
+        cursor: 'not-allowed',
+      },
+    },
+  },
 });
 
 const SRejectButton = styled(SCardButton, {
