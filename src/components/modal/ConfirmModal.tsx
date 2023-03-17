@@ -68,7 +68,7 @@ const SDialogWrapper = styled(Box, {
     flexType: 'center',
 
     '@mobile': {
-      fontAg: '16_bold_100',
+      fontAg: '16_bold_150',
     },
   },
 
