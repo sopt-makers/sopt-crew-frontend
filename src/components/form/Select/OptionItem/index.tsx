@@ -12,17 +12,16 @@ export interface Option {
 interface OptionItemProps {
   css?: CSSType;
   option: Option;
+  selectedValue?: Option;
 }
 
-function OptionItem({ css, option }: OptionItemProps) {
-  const stringifiedValue = useMemo(() => JSON.stringify(option), [option]);
+function OptionItem({ css, option, selectedValue }: OptionItemProps) {
+  const selected = useMemo(() => option.value === selectedValue?.value, [option, selectedValue]);
   return (
-    <Listbox.Option as={Fragment} key={option.label} value={stringifiedValue}>
-      {({ selected }) => (
-        <SOptionItem css={{ ...css }} selected={selected}>
-          {option.label}
-        </SOptionItem>
-      )}
+    <Listbox.Option as={Fragment} key={option.label} value={option}>
+      <SOptionItem css={{ ...css }} selected={selected}>
+        {option.label}
+      </SOptionItem>
     </Listbox.Option>
   );
 }

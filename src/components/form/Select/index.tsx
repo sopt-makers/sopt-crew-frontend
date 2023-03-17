@@ -1,4 +1,4 @@
-import { FocusEventHandler, Fragment, useMemo } from 'react';
+import { FocusEventHandler, Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/form/Label';
@@ -23,25 +23,21 @@ function Select({ label, value, options, required, error, onChange, onBlur }: Se
   const { isMobile } = useDisplay();
   const { isModalOpened, handleModalClose, handleToggle } = useModal();
 
-  const stringifiedSelectedValue = useMemo(() => JSON.stringify(value), [value]);
-  const handleChange = (stringifiedValue: string) => {
-    onChange(JSON.parse(stringifiedValue));
+  const handleChange = (newValue: Option) => {
+    onChange(newValue);
   };
   const selectableOptions = options.filter(option => option.value);
+
   return isMobile ? (
     <div>
       {label && <Label required={required}>{label}</Label>}
       <BottomSheet.Button value={value} open={isModalOpened} handleOpen={handleToggle} />
       <BottomSheet label={label || ''} handleClose={handleModalClose} isOpen={isModalOpened}>
-        <Listbox value={stringifiedSelectedValue} onChange={handleChange} onBlur={onBlur} as="div">
+        <Listbox value={value} onChange={handleChange} onBlur={onBlur} as="div">
           <Listbox.Options as={Fragment} static>
             <ul>
               {selectableOptions.map(option => (
-                <MobileOptionItem
-                  key={option.value}
-                  option={option}
-                  stringifiedSelectedValue={stringifiedSelectedValue || ''}
-                />
+                <MobileOptionItem key={option.value} option={option} selectedValue={value} />
               ))}
             </ul>
           </Listbox.Options>
@@ -50,18 +46,15 @@ function Select({ label, value, options, required, error, onChange, onBlur }: Se
     </div>
   ) : (
     <div>
-      <Listbox value={stringifiedSelectedValue} onChange={handleChange} onBlur={onBlur} as="div">
+      <Listbox value={value} onChange={handleChange} onBlur={onBlur} as="div">
         {({ open }) => (
           <>
             {label && <Label required={required}>{label}</Label>}
             <Button value={value} open={open} />
             <SOptionList>
-              {
-                // NOTE: value가 null 이면 placeholder 전용 옵션. 이는 제거하고 목록을 보여주자.
-                selectableOptions.map(option => (
-                  <OptionItem key={option.value} option={option} css={{ minWidth: '147px' }} />
-                ))
-              }
+              {selectableOptions.map(option => (
+                <OptionItem key={option.value} option={option} css={{ minWidth: '147px' }} selectedValue={value} />
+              ))}
             </SOptionList>
           </>
         )}
