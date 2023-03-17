@@ -1,4 +1,4 @@
-import { FocusEventHandler, Fragment } from 'react';
+import { FocusEventHandler } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import Label from '@components/form/Label';
@@ -34,12 +34,10 @@ function Select({ label, value, options, required, error, onChange, onBlur }: Se
       <BottomSheet.Button value={value} open={isModalOpened} handleOpen={handleToggle} />
       <BottomSheet label={label || ''} handleClose={handleModalClose} isOpen={isModalOpened}>
         <Listbox value={value} onChange={handleChange} onBlur={onBlur} as="div">
-          <Listbox.Options as={Fragment} static>
-            <ul>
-              {selectableOptions.map(option => (
-                <MobileOptionItem key={option.value} option={option} selectedValue={value} />
-              ))}
-            </ul>
+          <Listbox.Options static>
+            {selectableOptions.map(option => (
+              <MobileOptionItem key={option.value} option={option} selectedValue={value} />
+            ))}
           </Listbox.Options>
         </Listbox>
       </BottomSheet>

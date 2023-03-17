@@ -11,7 +11,7 @@ interface BottomSheetProps {
 
 function BottomSheet({ children, label, isOpen, handleClose }: PropsWithChildren<BottomSheetProps>) {
   return (
-    <Dialog open={true} onClose={handleClose}>
+    <Dialog open={isOpen} onClose={handleClose}>
       <SelectBottomSheet label={label} isVisible={isOpen} handleClose={handleClose}>
         {children}
       </SelectBottomSheet>

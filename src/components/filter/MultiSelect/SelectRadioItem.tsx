@@ -9,7 +9,7 @@ interface SelectRadioItemProps {
 
 function SelectRadioItem({ value, label, isChecked }: SelectRadioItemProps) {
   return (
-    <Flex as="li" align="center">
+    <Flex as="div" align="center">
       <SCheckbox type="checkbox" checked={isChecked} id={value} name={value} />
       <label htmlFor={value}>{label}</label>
     </Flex>
