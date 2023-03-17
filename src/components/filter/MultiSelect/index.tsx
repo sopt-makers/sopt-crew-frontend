@@ -2,7 +2,7 @@
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
-import { ArrowButton } from '@components/button/Arrow';
+import ArrowIcon from '@assets/svg/arrow_small_right.svg';
 import { Flex } from '@components/util/layout/Flex';
 import SelectComboBoxItem from './SelectComboBoxItem';
 import useSessionStorage from '@hooks/useSessionStorage';
@@ -35,7 +35,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
           isSelected={selectedValues.length !== 0}
         >
           <SCategory isSelected={selectedValues.length !== 0}>{selectListData.label}</SCategory>
-          <ArrowButton direction="bottom" />
+          <ArrowIcon />
         </SSelectDisplay>
 
         <>
@@ -73,14 +73,17 @@ const SSelectWrapper = styled(Box, {
   position: 'relative',
   '& + &': {
     ml: '$12',
+    '@mobile': {
+      ml: '$8',
+    },
   },
 });
 
 const SSelectDisplay = styled(Flex, {
   width: '147px',
   border: '1px solid $black40',
-  borderRadius: '$10',
-  padding: '$16 $20 $16 $16',
+  borderRadius: '14px',
+  padding: '$18 $20',
   cursor: 'pointer',
   variants: {
     isSelected: {
@@ -88,6 +91,9 @@ const SSelectDisplay = styled(Flex, {
         border: '1px solid $white',
       },
     },
+  },
+  svg: {
+    transform: 'rotate(90deg)',
   },
   '@mobile': {
     width: '74px',
@@ -99,7 +105,7 @@ const SSelectDisplay = styled(Flex, {
 
 const SCategory = styled('span', {
   fontAg: '18_medium_100',
-  color: '$gray60',
+  color: '$white',
   variants: {
     isSelected: {
       true: {
