@@ -50,7 +50,7 @@ const DetailHeader = ({
     endDate,
     category,
     title,
-    user,
+    user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
     capacity,
     host: isHost,
@@ -62,9 +62,6 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
-  const hostId = user.orgId;
-  const hostName = user.name;
-  const hostProfileImage = user.profileImage;
   const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const current = appliedInfo.length;
