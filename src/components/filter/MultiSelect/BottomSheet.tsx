@@ -5,17 +5,16 @@ import { styled } from 'stitches.config';
 interface SelectBottomSheetProps {
   label: string;
   isVisible: boolean;
-  setIsVisible: (value: boolean) => void;
+  handleClose?: () => void;
 }
-function SelectBottomSheet({ children, label, isVisible, setIsVisible }: PropsWithChildren<SelectBottomSheetProps>) {
+function SelectBottomSheet({ children, label, isVisible, handleClose }: PropsWithChildren<SelectBottomSheetProps>) {
   return (
     <SLayout direction="column" justify="between" isVisible={isVisible}>
       <Box css={{ width: '100%' }}>
         <SLabel as="p">{label}</SLabel>
         <SListItemWrapper>{children}</SListItemWrapper>
       </Box>
-
-      <SCloseButton onClick={() => setIsVisible(false)}>확인</SCloseButton>
+      <SCloseButton onClick={handleClose}>확인</SCloseButton>
     </SLayout>
   );
 }
@@ -40,7 +39,7 @@ const SLayout = styled(Flex, {
     },
   },
   transition: 'height 0.5s',
-
+  color: '#fff',
   display: 'none',
   '@mobile': {
     display: 'flex',
@@ -63,6 +62,7 @@ const SListItemWrapper = styled('ul', {
     borderBottom: 'none',
   },
 });
+
 const SCloseButton = styled('button', {
   width: '100%',
   height: '50px',
