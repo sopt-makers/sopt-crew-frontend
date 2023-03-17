@@ -79,14 +79,12 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       {status === EApprovalStatus.WAITING && (
                         <>
                           <SPurpleButton
-                            isMutateLoading={isMutateLoading}
                             disabled={isMutateLoading}
                             onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
                           >
                             승인
                           </SPurpleButton>
                           <SGrayButton
-                            isMutateLoading={isMutateLoading}
                             disabled={isMutateLoading}
                             onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
                           >
@@ -96,7 +94,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       )}
                       {status === EApprovalStatus.APPROVE && (
                         <SGrayButton
-                          isMutateLoading={isMutateLoading}
                           disabled={isMutateLoading}
                           onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
                         >
@@ -105,7 +102,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       )}
                       {status === EApprovalStatus.REJECT && (
                         <SGrayButton
-                          isMutateLoading={isMutateLoading}
                           disabled={isMutateLoading}
                           onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
                         >
@@ -115,11 +111,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SGrayButton
-                      isMutateLoading={isMutateLoading}
-                      disabled={isMutateLoading}
-                      onClick={handleCancelInvitation}
-                    >
+                    <SGrayButton disabled={isMutateLoading} onClick={handleCancelInvitation}>
                       초대 취소
                     </SGrayButton>
                   )}
@@ -158,14 +150,12 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       {status === EApprovalStatus.WAITING && (
                         <>
                           <SRejectButton
-                            isMutateLoading={isMutateLoading}
                             disabled={isMutateLoading}
                             onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
                           >
                             거절
                           </SRejectButton>
                           <SApproveButton
-                            isMutateLoading={isMutateLoading}
                             disabled={isMutateLoading}
                             onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
                           >
@@ -175,7 +165,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       )}
                       {status === EApprovalStatus.APPROVE && (
                         <SCancelButton
-                          isMutateLoading={isMutateLoading}
                           disabled={isMutateLoading}
                           onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
                         >
@@ -184,7 +173,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       )}
                       {status === EApprovalStatus.REJECT && (
                         <SCancelButton
-                          isMutateLoading={isMutateLoading}
                           disabled={isMutateLoading}
                           onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
                         >
@@ -194,11 +182,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                     </>
                   )}
                   {type === EApplicationType.INVITE && (
-                    <SCancelButton
-                      isMutateLoading={isMutateLoading}
-                      disabled={isMutateLoading}
-                      onClick={handleCancelInvitation}
-                    >
+                    <SCancelButton disabled={isMutateLoading} onClick={handleCancelInvitation}>
                       초대 취소
                     </SCancelButton>
                   )}
@@ -481,13 +465,10 @@ const SRoundButton = styled('button', {
   fontAg: '16_bold_100',
   padding: '$12 $20',
   lineHeight: '$16',
-  variants: {
-    isMutateLoading: {
-      true: {
-        opacity: '0.35',
-        cursor: 'not-allowed',
-      },
-    },
+
+  '&:disabled': {
+    opacity: '0.35',
+    cursor: 'not-allowed',
   },
 });
 
