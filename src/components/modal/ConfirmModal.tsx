@@ -50,24 +50,25 @@ const SDialogWrapper = styled(Box, {
   borderRadius: '20px',
   backgroundColor: '$black80',
   boxShadow: '4px 4px 40px #181818',
+  display: 'flex',
+  flexDirection: 'column',
 
   '@mobile': {
     width: 'calc(100% - 40px)',
-    height: 'fit-content',
+    height: '$194',
     padding: '$32',
   },
 
   '.title': {
-    mt: '$59',
-    mb: '$63',
-    fontAg: '24_bold_100',
+    fontAg: '24_bold_150',
     textAlign: 'center',
     color: '$white',
+    whiteSpace: 'pre-wrap',
+    flex: '1',
+    flexType: 'center',
 
     '@mobile': {
       fontAg: '16_bold_100',
-      mt: '$28',
-      mb: '$40',
     },
   },
 

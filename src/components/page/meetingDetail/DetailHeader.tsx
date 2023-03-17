@@ -17,6 +17,7 @@ import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import { useGetMemberOfMe } from 'src/api/members/hooks';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -57,6 +58,7 @@ const DetailHeader = ({
     approved: isApproved,
     invite: isInvited,
   } = detailData;
+  const { data: me } = useGetMemberOfMe();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
@@ -74,12 +76,14 @@ const DetailHeader = ({
   const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
   const modalMessage = isHost
     ? '모임을 삭제하시겠습니까?'
+    : !me?.hasProfile
+    ? '모임을 신청하려면\n프로필 작성이 필요해요'
     : isApproved
     ? '승인을 취소하시겠습니까?'
     : '신청을 취소하시겠습니까?';
-  const modalConfirmButton = isHost ? '삭제하기' : '취소하기';
+  const modalConfirmButton = isHost ? '삭제하기' : !me?.hasProfile ? '작성하기' : '취소하기';
   const [textareaValue, setTextareaValue] = useState('');
-  const { memberDetail } = usePlaygroundLink();
+  const { memberDetail, memberUpload } = usePlaygroundLink();
 
   const openConfirmModal = () => {
     setModalType('confirm');
@@ -93,6 +97,10 @@ const DetailHeader = ({
   };
 
   const handleApplicationModal = () => {
+    if (!me?.hasProfile) {
+      openConfirmModal();
+      return;
+    }
     if (!isApplied) {
       handleModalOpen();
       setModalTitle('모임 신청하기');
@@ -173,6 +181,11 @@ const DetailHeader = ({
         },
       }
     );
+  };
+
+  const handleNoProfile = () => {
+    const uploadHref = memberUpload();
+    router.push(uploadHref);
   };
 
   return (
@@ -257,7 +270,15 @@ const DetailHeader = ({
           cancelButton="돌아가기"
           confirmButton={modalConfirmButton}
           handleModalClose={handleModalClose}
-          handleConfirm={isHost ? handleDeleteMeeting : isApproved ? handleCancelInvitation : handleCancelApplication}
+          handleConfirm={
+            isHost
+              ? handleDeleteMeeting
+              : !me?.hasProfile
+              ? handleNoProfile
+              : isApproved
+              ? handleCancelInvitation
+              : handleCancelApplication
+          }
         />
       )}
       {isDefaultModalOpened && (
