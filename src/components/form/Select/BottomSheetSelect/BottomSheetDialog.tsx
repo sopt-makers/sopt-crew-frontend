@@ -1,15 +1,15 @@
 import SelectBottomSheet from '@components/filter/MultiSelect/BottomSheet';
 import { Dialog } from '@headlessui/react';
 import { PropsWithChildren } from 'react';
-import BottomSheetButton from './Button';
+import BottomSheetButton from './BottomSheetButton';
 
-interface BottomSheetProps {
+interface BottomSheetDialogProps {
   isOpen: boolean;
   label: string;
   handleClose: () => void;
 }
 
-function BottomSheet({ children, label, isOpen, handleClose }: PropsWithChildren<BottomSheetProps>) {
+function BottomSheetDialog({ children, label, isOpen, handleClose }: PropsWithChildren<BottomSheetDialogProps>) {
   return (
     <Dialog open={isOpen} onClose={handleClose}>
       <SelectBottomSheet label={label} isVisible={isOpen} handleClose={handleClose}>
@@ -19,5 +19,5 @@ function BottomSheet({ children, label, isOpen, handleClose }: PropsWithChildren
   );
 }
 
-export default BottomSheet;
-BottomSheet.Button = BottomSheetButton;
+export default BottomSheetDialog;
+BottomSheetDialog.Button = BottomSheetButton;
