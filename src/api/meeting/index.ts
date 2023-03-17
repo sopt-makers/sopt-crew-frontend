@@ -39,6 +39,8 @@ export interface MeetingResponse {
   mStartDate: string;
   mEndDate: string;
   leaderDesc: string;
+  // TODO: add field
+  // needMentor: boolean;
   targetDesc: string;
   note: string | null;
   appliedInfo: ApplyResponse[];
@@ -203,7 +205,7 @@ const serializeFormData = (formData: FormType) => {
     else if (key === 'detail') {
       for (const [detailKey, value] of Object.entries(formData[key])) {
         if (value) {
-          form.append(detailKey, value);
+          form.append(detailKey, String(value));
         }
       }
     } else if (key === 'files') {

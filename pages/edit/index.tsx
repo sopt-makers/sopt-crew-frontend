@@ -13,6 +13,10 @@ import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import Loader from '@components/loader/Loader';
 import CheckIcon from 'public/assets/svg/check.svg';
+import dynamic from 'next/dynamic';
+const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
+  ssr: false,
+});
 
 const EditPage = () => {
   const queryClient = useQueryClient();
@@ -94,6 +98,8 @@ const EditPage = () => {
           mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
           mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
+          // TODO: add field
+          // needMentor: formData.needMentor,
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },
@@ -131,6 +137,9 @@ const EditPage = () => {
         </SFormContainer>
         <TableOfContents label="모임 수정" />
       </SContainer>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
+      <DevTool control={formMethods.control} />
     </FormProvider>
   );
 };
