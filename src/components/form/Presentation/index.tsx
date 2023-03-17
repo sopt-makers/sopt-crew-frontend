@@ -265,9 +265,9 @@ function Presentation({
           개설자 소개
         </Label>
         <div style={{ position: 'relative' }}>
-          <SSNeedMentorFieldWrapper>
+          <SNeedMentorFieldWrapper>
             <FormController name="detail.needMentor" render={({ field }) => <NeedMentor {...field} />}></FormController>
-          </SSNeedMentorFieldWrapper>
+          </SNeedMentorFieldWrapper>
           <FormController
             name="detail.leaderDesc"
             render={({ field, fieldState: { error } }) => (
@@ -362,7 +362,7 @@ const SApplicationField = styled('div', {
 const SMemberCountField = styled(SApplicationField);
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
-const SSNeedMentorFieldWrapper = styled('div', {
+const SNeedMentorFieldWrapper = styled('div', {
   position: 'absolute',
   transform: 'translateY(-120%)',
   right: 6,
