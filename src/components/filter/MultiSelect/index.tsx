@@ -35,7 +35,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
           isSelected={selectedValues.length !== 0}
         >
           <SCategory isSelected={selectedValues.length !== 0}>{selectListData.label}</SCategory>
-          <ArrowIcon />
+          <SArrowIcon isVisible={isVisible} />
         </SSelectDisplay>
 
         <>
@@ -92,14 +92,22 @@ const SSelectDisplay = styled(Flex, {
       },
     },
   },
-  svg: {
-    transform: 'rotate(90deg)',
-  },
   '@mobile': {
     width: '74px',
     height: '10px',
     padding: '$12 $10',
     borderRadius: '$8',
+  },
+});
+
+const SArrowIcon = styled(ArrowIcon, {
+  transform: 'rotate(90deg)',
+  variants: {
+    isVisible: {
+      true: {
+        transform: 'rotate(270deg)',
+      },
+    },
   },
 });
 
