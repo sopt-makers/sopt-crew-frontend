@@ -1,27 +1,33 @@
-import { Fragment, useMemo } from 'react';
+import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { CSSType, styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 
 export interface Option {
   label: string;
-  // NOTE: null 은 placeholder
+  /**
+   * null 은 placeholder
+   */
   value: string | null;
+  /**
+   * multiple 셀렉트에서 선택된 옵션을 표기할 순서
+   */
+  order?: number;
 }
 
 interface OptionItemProps {
   css?: CSSType;
   option: Option;
-  selectedValue?: Option;
 }
 
-function OptionItem({ css, option, selectedValue }: OptionItemProps) {
-  const selected = useMemo(() => option.value === selectedValue?.value, [option, selectedValue]);
+function OptionItem({ css, option }: OptionItemProps) {
   return (
     <Listbox.Option as={Fragment} key={option.label} value={option}>
-      <SOptionItem css={{ ...css }} selected={selected}>
-        {option.label}
-      </SOptionItem>
+      {({ selected }) => (
+        <SOptionItem css={{ ...css }} selected={selected}>
+          {option.label}
+        </SOptionItem>
+      )}
     </Listbox.Option>
   );
 }

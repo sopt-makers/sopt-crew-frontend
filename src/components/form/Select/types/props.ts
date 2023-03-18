@@ -1,12 +1,22 @@
 import type { Option } from '../OptionItem';
 import type { FocusEventHandler } from 'react';
 
-export interface SelectProps {
+interface CommonProps {
   label?: string;
-  value?: Option;
   options: Option[];
   required?: boolean;
   error?: string;
-  onChange: (value: Option) => void;
   onBlur?: FocusEventHandler<HTMLDivElement>;
+}
+
+export interface SelectProps extends CommonProps {
+  value?: Option;
+  multiple?: never;
+  onChange: (value: Option) => void;
+}
+
+export interface MultipleSelectProps extends CommonProps {
+  value?: Option[];
+  multiple: true;
+  onChange: (value: Option[]) => void;
 }
