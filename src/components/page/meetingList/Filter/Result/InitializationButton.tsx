@@ -1,9 +1,12 @@
 import { Flex } from '@components/util/layout/Flex';
-import ResetIcon from '@assets/svg/reset.svg';
+import ResetIcon from '@assets/svg/reset.svg?rect';
 import { styled } from 'stitches.config';
 import { useRouter } from 'next/router';
-
-function InitializationButton() {
+interface InitializationButtonProp {
+  withText?: boolean;
+  size?: number;
+}
+function InitializationButton({ withText = true, size = 16 }: InitializationButtonProp) {
   const router = useRouter();
   const onClickInitialization = () => {
     router.push(
@@ -27,8 +30,8 @@ function InitializationButton() {
       }}
       onClick={onClickInitialization}
     >
-      <ResetIcon />
-      <InitializationText>초기화</InitializationText>
+      <ResetIcon width={size} height={size} />
+      {withText && <InitializationText>초기화</InitializationText>}
     </Flex>
   );
 }

@@ -3,28 +3,9 @@ import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
-import FilterSelect from './Select';
 import Result from './Result';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-
-export interface FilterType {
-  label: string;
-  subject: string;
-  options: string[];
-}
-
-const FILTERS: FilterType[] = [
-  {
-    label: '카테고리',
-    subject: 'category',
-    options: ['스터디', '번개', '강연'],
-  },
-  {
-    label: '모집 상태',
-    subject: 'status',
-    options: ['모집 전', '모집 중', '모집 마감'],
-  },
-];
+import FilterModalOpenButton from './Modal/OpenButton';
 
 function Filter() {
   const { value: search } = useSearchParams();
@@ -33,11 +14,10 @@ function Filter() {
     <>
       <Flex align="center" justify="between">
         <Flex>
-          {FILTERS.map(filter => (
-            <FilterSelect key={filter.label} filter={filter} />
-          ))}
+          <FilterModalOpenButton />
           <Search />
         </Flex>
+
         <SGuideButton
           target="_blank"
           href="https://golden-rib-2f1.notion.site/SOPT-Playground-e75e8895b9e54445b12994128646dcf4"
