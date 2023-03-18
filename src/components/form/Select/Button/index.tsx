@@ -7,6 +7,9 @@ interface ButtonProps {
   open?: boolean;
   label: {
     text?: string;
+    /**
+     * 텍스트 하이라이트 여부
+     */
     active: boolean;
   };
 }

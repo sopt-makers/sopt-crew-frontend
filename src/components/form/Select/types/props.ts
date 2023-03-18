@@ -10,13 +10,13 @@ interface CommonProps {
 }
 
 export interface SelectProps extends CommonProps {
-  value?: Option;
+  value: Option;
   multiple?: never;
   onChange: (value: Option) => void;
 }
 
 export interface MultipleSelectProps extends CommonProps {
-  value?: Option[];
+  value: Option[];
   multiple: true;
   onChange: (value: Option[]) => void;
 }
