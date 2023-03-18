@@ -4,7 +4,7 @@ export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
 
 // TODO: change after deploy server
-const baseURL = 'https://makers-web.herokuapp.com';
+const baseURL = 'https://crew.api.dev.sopt.org';
 
 const playgroundBaseURL = 'https://playground.api.sopt.org/';
 
