@@ -33,7 +33,7 @@ const SItemDescriptionBox = styled(Box, {
 });
 
 const SType = styled('span', {
-  mr: '$32',
+  mr: '$42',
 });
 
 const SProfile = styled('span', {

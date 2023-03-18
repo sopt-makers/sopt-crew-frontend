@@ -50,7 +50,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
               />
             ))}
           </SSelectBoxList>
-          <SelectBottomSheet label={selectListData.label} isVisible={isVisible} setIsVisible={setIsVisible}>
+          <SelectBottomSheet label={selectListData.label} isVisible={isVisible} handleClose={() => setIsVisible(false)}>
             {selectListData.options.map(option => (
               <SelectComboBoxItem
                 key={option}
