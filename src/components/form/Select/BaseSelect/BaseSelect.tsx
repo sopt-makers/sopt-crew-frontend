@@ -6,6 +6,7 @@ import ErrorMessage from '../../ErrorMessage';
 import { styled } from 'stitches.config';
 import { MultipleSelectProps, SelectProps } from '../types/props';
 import CheckboxOptionItem from '../OptionItem/CheckboxOptionItem';
+import { isAllSelect, isAllUnselected } from '../utils';
 
 export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
   const { label, value, options, required, error, multiple, onChange, onBlur } = props;
@@ -68,10 +69,6 @@ export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
     </>
   );
 }
-
-const isAllSelect = (option?: Option) => option?.value === 'all';
-const isAllUnselected = (prev: Option[], next: Option[]) =>
-  prev.some(v => v.value === 'all' && !next.some(v => v.value === 'all'));
 
 const SOptionList = styled(Listbox.Options, {
   position: 'absolute',
