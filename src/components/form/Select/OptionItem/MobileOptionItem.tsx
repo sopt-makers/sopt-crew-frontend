@@ -11,18 +11,14 @@ export interface Option {
 interface OptionItemProps {
   css?: CSSType;
   option: Option;
-  selectedValue?: Option;
 }
 
-function MobileOptionItem({ css, option, selectedValue }: OptionItemProps) {
+function MobileOptionItem({ css, option }: OptionItemProps) {
   return (
     <Listbox.Option key={option.label} value={option}>
-      <SelectRadioItem
-        {...css}
-        value={option.value || ''}
-        label={option.label || ''}
-        isChecked={selectedValue?.value === option.value}
-      />
+      {({ selected }) => (
+        <SelectRadioItem {...css} value={option.value || ''} label={option.label || ''} isChecked={selected} />
+      )}
     </Listbox.Option>
   );
 }

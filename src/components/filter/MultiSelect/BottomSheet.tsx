@@ -34,7 +34,7 @@ const SLayout = styled(Flex, {
   zIndex: '$2',
   variants: {
     isVisible: {
-      true: { height: '306px' },
+      true: { height: 'auto', minHeight: '306px' },
       false: { height: '0px' },
     },
   },
