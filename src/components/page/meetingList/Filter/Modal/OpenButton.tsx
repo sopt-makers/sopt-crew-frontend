@@ -3,21 +3,17 @@ import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import EqualizerIcon from '@assets/svg/equalizer.svg?rect';
 import FilterSelectModal from '.';
-import { useRef } from 'react';
+import { useDisplay } from '@hooks/useDisplay';
 
 function FilterModalOpenButton() {
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  //   const {isMobile} = useDisplay()
-  const isModal = useRef(false);
-  console.log(isModal);
-  const modalOpen = () => (isModal.current = true);
-  const modalClose = () => (isModal.current = false);
+  const { isMobile } = useDisplay();
 
   return (
     <>
       <SSelectModalOpenButton as="button" type="button" onClick={handleModalOpen}>
         <SLabel>필터</SLabel>
-        <EqualizerIcon width={24} height={24} />
+        <EqualizerIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
       </SSelectModalOpenButton>
       <FilterSelectModal isModalOpened={isModalOpened} handleModalClose={handleModalClose} />
     </>
@@ -36,7 +32,8 @@ const SSelectModalOpenButton = styled(Box, {
   '@mobile': {
     width: '112px',
     py: '$14',
-    px: '$12',
+    paddingRight: '$12',
+    paddingLeft: '$16',
   },
 });
 
