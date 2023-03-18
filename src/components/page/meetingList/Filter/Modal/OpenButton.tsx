@@ -1,21 +1,20 @@
-import useModal from '@hooks/useModal';
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import EqualizerIcon from '@assets/svg/equalizer.svg?rect';
 import FilterSelectModal from '.';
 import { useDisplay } from '@hooks/useDisplay';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 function FilterModalOpenButton() {
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { isMobile } = useDisplay();
-
+  const [isModalOpened, setIsModalOpened] = useSessionStorage('filter&sort', false);
   return (
     <>
-      <SSelectModalOpenButton as="button" type="button" onClick={handleModalOpen}>
+      <SSelectModalOpenButton as="button" type="button" onClick={() => setIsModalOpened(true)}>
         <SLabel>필터</SLabel>
         <EqualizerIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
       </SSelectModalOpenButton>
-      <FilterSelectModal isModalOpened={isModalOpened} handleModalClose={handleModalClose} />
+      <FilterSelectModal isModalOpened={isModalOpened} handleModalClose={() => setIsModalOpened(false)} />
     </>
   );
 }

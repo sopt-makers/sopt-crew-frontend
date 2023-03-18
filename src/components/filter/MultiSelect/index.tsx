@@ -80,7 +80,7 @@ const SSelectWrapper = styled(Box, {
 });
 
 const SSelectDisplay = styled(Flex, {
-  width: '147px',
+  width: '111px',
   border: '1px solid $black40',
   borderRadius: '14px',
   padding: '$18 $20',
@@ -134,6 +134,12 @@ const SSelectBoxList = styled(Box, {
   top: '63px',
   backgroundColor: '$black100',
   zIndex: '$2',
+  '& li': {
+    height: '50px',
+  },
+  '& li:last-child': {
+    borderBottom: 'none',
+  },
   variants: {
     isVisible: {
       true: { visibility: 'visible' },
