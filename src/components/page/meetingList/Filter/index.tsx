@@ -56,9 +56,9 @@ const SGuideButton = styled('a', {
   border: '1px solid $purple100',
   borderRadius: '14px',
   fontAg: '18_medium_100',
-
+  boxSizing: 'border-box',
   '@mobile': {
-    padding: '$15 $10 $15 $16',
+    padding: '$14 $12 $14 $16',
     borderRadius: '10px',
     fontAg: '14_medium_100',
   },
