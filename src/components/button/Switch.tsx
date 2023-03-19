@@ -3,7 +3,7 @@ import { Switch as HeadlessSwitch } from '@headlessui/react';
 import { Fragment } from 'react';
 import { CSSType, styled } from 'stitches.config';
 
-interface SwitchProps {
+export interface SwitchProps {
   css?: CSSType;
   checked: boolean;
   onChange: (value: boolean) => void;
