@@ -4,7 +4,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { useIsCurrentGenerationParams } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';
 import { CSSType, styled } from 'stitches.config';
-
+import { Switch as HeadlessSwitch } from '@headlessui/react';
 interface ToggleProps {
   css?: CSSType;
   label: string;
@@ -13,16 +13,20 @@ interface ToggleProps {
 function Toggle({ css, label }: ToggleProps) {
   const { value: isCurrentGeneration, setValue } = useIsCurrentGenerationParams();
   return (
-    <ToggleWrapper css={{ ...css }}>
-      {label && <SLabel>{label}</SLabel>}
-      <SSwitchWrapper align="center" justify="center">
-        <SToggleDetailWord>활동 기수만</SToggleDetailWord>
-        <Switch
-          checked={parseBool(isCurrentGeneration || '')}
-          onChange={() => setValue(String(!parseBool(isCurrentGeneration || '')))}
-        />
-      </SSwitchWrapper>
-    </ToggleWrapper>
+    <HeadlessSwitch.Group>
+      <ToggleWrapper css={{ ...css }}>
+        {label && <SLabel>{label}</SLabel>}
+        <SSwitchWrapper align="center" justify="center">
+          <SToggleDetailWord isCurrentGeneration={parseBool(isCurrentGeneration)}>
+            <HeadlessSwitch.Label>활동 기수만</HeadlessSwitch.Label>
+          </SToggleDetailWord>
+          <Switch
+            checked={parseBool(isCurrentGeneration || '')}
+            onChange={() => setValue(String(!parseBool(isCurrentGeneration)))}
+          />
+        </SSwitchWrapper>
+      </ToggleWrapper>
+    </HeadlessSwitch.Group>
   );
 }
 
@@ -48,7 +52,7 @@ const SSwitchWrapper = styled(Flex, {
     borderRadius: '10px',
   },
 });
-const SToggleDetailWord = styled('p', {
+const SToggleDetailWord = styled(Box, {
   fontAg: '16_medium_100',
   color: '$gray60',
   mt: '$1',
@@ -56,5 +60,12 @@ const SToggleDetailWord = styled('p', {
   '@mobile': {
     fontAg: '12_semibold_100',
     mr: '$8',
+  },
+  variants: {
+    isCurrentGeneration: {
+      true: {
+        color: '$white',
+      },
+    },
   },
 });
