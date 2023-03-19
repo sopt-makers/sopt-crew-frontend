@@ -22,10 +22,12 @@ function ChipItem({ value, isSelected, addValue, deleteValue }: ChipItemProps) {
 export default ChipItem;
 
 const SOption = styled('button', {
+  mt: '$10',
   fontAg: '16_medium_100',
   px: '$16',
   py: '$14',
   borderRadius: '10px',
+  mr: '$8',
   variants: {
     isSelected: {
       true: {
@@ -41,7 +43,11 @@ const SOption = styled('button', {
   '&:hover': {
     color: '$white',
   },
-  '& + &': {
-    ml: '$8',
+
+  '@mobile': {
+    fontAg: '12_semibold_100',
+    borderRadius: '20px',
+    px: '$12',
+    py: '$8',
   },
 });

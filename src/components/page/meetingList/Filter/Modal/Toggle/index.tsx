@@ -32,16 +32,29 @@ const SLabel = styled('p', {
   color: '$white',
   fontAg: '18_bold_100',
   mb: '$20',
+  '@mobile': {
+    fontAg: '14_bold_100',
+    mb: '$16',
+  },
 });
 const SSwitchWrapper = styled(Flex, {
   background: '$black100',
   borderRadius: '14px',
   width: '163px',
   height: '46px',
+  '@mobile': {
+    width: '124px',
+    height: '36px',
+    borderRadius: '10px',
+  },
 });
 const SToggleDetailWord = styled('p', {
   fontAg: '16_medium_100',
   color: '$gray60',
   mt: '$1',
   mr: '$15',
+  '@mobile': {
+    fontAg: '12_semibold_100',
+    mr: '$8',
+  },
 });

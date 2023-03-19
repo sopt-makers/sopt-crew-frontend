@@ -33,4 +33,8 @@ const SLabel = styled('p', {
   color: '$white',
   fontAg: '18_bold_100',
   mb: '$20',
+  '@mobile': {
+    fontAg: '14_bold_100',
+    mb: '$6',
+  },
 });
