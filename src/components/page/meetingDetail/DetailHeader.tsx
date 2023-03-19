@@ -19,7 +19,7 @@ import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
+import MentorTooltip from './MentorTooltip';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -209,17 +209,7 @@ const DetailHeader = ({
                 <ArrowSmallRightIcon />
               </SProfileAnchor>
             </Link>
-            {!hasMentor && (
-              <STooltip>
-                <STooltipTitle>
-                  멘토 구해요 <QuestionMarkIcon />
-                </STooltipTitle>
-                <STooltipDescription>
-                  <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
-                  <p>개설자 프로필에서 쪽지를 보내주세요:)</p>
-                </STooltipDescription>
-              </STooltip>
-            )}
+            {!hasMentor && <MentorTooltip />}
           </SHostWrapper>
         </SAbout>
         <div>
@@ -433,67 +423,6 @@ const SProfileAnchor = styled('a', {
 
 const SHostWrapper = styled(Box, {
   position: 'relative',
-});
-
-const STooltip = styled(Box, {
-  position: 'absolute',
-  top: '$13',
-  left: '176px',
-  backgroundColor: '$black40',
-  width: 'max-content',
-  padding: '$12 $14',
-  borderRadius: '10px',
-  fontAg: '14_medium_100',
-  cursor: 'default',
-
-  svg: {
-    marginLeft: '$10',
-
-    '@mobile': {
-      marginLeft: '$6',
-      width: '$12',
-      height: '$12',
-    },
-  },
-
-  '@mobile': {
-    top: '-2px',
-    left: '109px',
-    fontAg: '12_medium_100',
-  },
-
-  '&:hover': {
-    '& > div:last-child': {
-      display: 'block',
-      marginTop: '$14',
-      lineHeight: '140%',
-    },
-  },
-
-  '&::after': {
-    content: '',
-    position: 'absolute',
-    top: '$14',
-    right: '100%',
-    border: 'solid transparent',
-    borderWidth: '3.5px 9px',
-    borderRightColor: '$black40',
-  },
-});
-
-const STooltipTitle = styled(Box, {
-  flexType: 'verticalCenter',
-});
-
-const STooltipDescription = styled(Box, {
-  display: 'none',
-
-  '& > p': {
-    '@mobile': {
-      fontSize: '$10',
-      lineHeight: '150%',
-    },
-  },
 });
 
 const Button = styled('button', {
