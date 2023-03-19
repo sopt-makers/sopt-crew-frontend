@@ -1,25 +1,25 @@
-import { Box } from '@components/box/Box';
 import React, { useState } from 'react';
-import { styled } from 'stitches.config';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
-import useModal from '@hooks/useModal';
-import DefaultModal from '@components/modal/DefaultModal';
 import { useRouter } from 'next/router';
-import RecruitmentStatusList from './RecruitmentStatusList';
 import Link from 'next/link';
-import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
-import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
-import { useGetMemberOfMe } from 'src/api/members/hooks';
+import useModal from '@hooks/useModal';
+import { Box } from '@components/box/Box';
+import DefaultModal from '@components/modal/DefaultModal';
 import HostConfirmModal from './HostConfirmModal';
 import GuestConfirmModal from './GuestConfirmModal';
 import ProfileConfirmModal from './ProfileConfirmModal';
 import ApplicationModalContent from './ApplicationModalContent';
+import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
+import { useGetMemberOfMe } from 'src/api/members/hooks';
+import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
+import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -97,10 +97,10 @@ const DetailHeader = ({
   };
 
   const handleApplicationModal = () => {
-    // if (!me?.hasProfile) {
-    //   handleProfileModalOpen();
-    //   return;
-    // }
+    if (!me?.hasProfile) {
+      handleProfileModalOpen();
+      return;
+    }
     if (!isApplied) {
       handleDefaultModalOpen();
       setModalTitle('모임 신청하기');
@@ -293,24 +293,15 @@ const DetailHeader = ({
           {modalTitle === '모임 신청하기' && (
             <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
           )}
-          {modalTitle.includes('모집 현황') &&
-            (current > 0 ? (
-              <SRecruitmentStatusListWrapper>
-                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
-              </SRecruitmentStatusListWrapper>
-            ) : (
-              <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
-            ))}
-          {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
-            <SRecruitmentStatusModalBottom>
-              {total > 0 && <STotal>총 {total}명 신청</STotal>}
-              <Link href={`/mine/management?id=${meetingId}`} passHref>
-                <SManagementAnchor>
-                  {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
-                  <ArrowSmallRightIcon />
-                </SManagementAnchor>
-              </Link>
-            </SRecruitmentStatusModalBottom>
+          {modalTitle.includes('모집 현황') && (
+            <RecruitmentStatusModalContent
+              current={current}
+              total={total}
+              meetingId={Number(meetingId)}
+              appliedInfo={appliedInfo}
+              isHost={isHost}
+              isApplied={isApplied}
+            />
           )}
         </DefaultModal>
       )}
@@ -609,62 +600,5 @@ const SHostButtonContainer = styled(Box, {
   a: {
     display: 'inline-block',
     backgroundColor: '$purple100',
-  },
-});
-
-const SRecruitmentStatusListWrapper = styled(Box, {
-  padding: '$24 $24 0 $24',
-
-  '@mobile': {
-    padding: '$0',
-  },
-});
-
-const SRecruitmentStatusModalBottom = styled(Box, {
-  margin: '$24 $42 $44 $30',
-  flexType: 'verticalCenter',
-  justifyContent: 'space-between',
-
-  '@mobile': {
-    margin: '$16 $20 $24 $20',
-  },
-});
-
-const STotal = styled('p', {
-  color: '$gray80',
-  fontAg: '16_medium_100',
-
-  '@mobile': {
-    fontAg: '12_medium_100',
-  },
-});
-
-const SManagementAnchor = styled('a', {
-  fontAg: '16_semibold_100',
-  color: '$white',
-  flexType: 'verticalCenter',
-  position: 'absolute',
-  right: '$42',
-
-  '@mobile': {
-    fontAg: '12_semibold_100',
-    right: '$20',
-  },
-
-  svg: {
-    ml: '$8',
-  },
-});
-
-const SEmptyText = styled('p', {
-  flexType: 'center',
-  width: '100%',
-  height: '$280',
-  color: '$gray80',
-  fontAg: '18_semibold_100',
-
-  '@mobile': {
-    height: '$184',
-    fontAg: '14_medium_100',
   },
 });
