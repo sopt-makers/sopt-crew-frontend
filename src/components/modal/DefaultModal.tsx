@@ -26,7 +26,7 @@ const DefaultModal = ({
           <SHeader>
             {titleLeft}
             <Dialog.Title className="title">{title}</Dialog.Title>
-            <button className="button_close" onClick={handleModalClose} />
+            <button className="close-button" onClick={handleModalClose} />
           </SHeader>
           <div>{children}</div>
         </SDialogWrapper>
