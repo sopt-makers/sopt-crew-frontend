@@ -64,7 +64,7 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
-  const hasMentor = false; // TODO: API response 바뀌면 수정할 예정
+  const isMentorNeeded = true; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const current = appliedInfo.length;
   const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
@@ -207,7 +207,7 @@ const DetailHeader = ({
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
-            {!hasMentor && <MentorTooltip />}
+            {isMentorNeeded && <MentorTooltip />}
           </SHostWrapper>
         </SAbout>
         <div>
