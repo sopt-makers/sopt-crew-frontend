@@ -31,11 +31,12 @@ function CheckboxOptionItem({ option }: CheckboxOptionItemProps) {
 export default CheckboxOptionItem;
 
 const SCheckboxOptionItem = styled(Box, {
+  minWidth: '147px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
-  padding: '16px 12px 16px 16px',
+  padding: '16px',
   background: '$black40',
   color: '$white',
   fontAg: '16_medium_100',
