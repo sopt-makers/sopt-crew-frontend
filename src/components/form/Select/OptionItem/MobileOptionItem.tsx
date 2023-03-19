@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Listbox } from '@headlessui/react';
 import { CSSType } from 'stitches.config';
 import SelectRadioItem from '@components/filter/MultiSelect/SelectRadioItem';
@@ -12,20 +11,14 @@ export interface Option {
 interface OptionItemProps {
   css?: CSSType;
   option: Option;
-  stringifiedSelectedValue: string;
 }
 
-function MobileOptionItem({ css, option, stringifiedSelectedValue }: OptionItemProps) {
-  const stringifiedValue = useMemo(() => JSON.stringify(option), [option]);
-
+function MobileOptionItem({ css, option }: OptionItemProps) {
   return (
-    <Listbox.Option key={option.label} value={stringifiedValue}>
-      <SelectRadioItem
-        {...css}
-        value={option.value || ''}
-        label={option.label || ''}
-        isChecked={stringifiedSelectedValue === stringifiedValue}
-      />
+    <Listbox.Option key={option.label} value={option} style={{ display: 'flex', alignItems: 'center' }}>
+      {({ selected }) => (
+        <SelectRadioItem {...css} value={option.value || ''} label={option.label || ''} isChecked={selected} />
+      )}
     </Listbox.Option>
   );
 }
