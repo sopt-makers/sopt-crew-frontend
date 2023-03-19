@@ -14,7 +14,7 @@ function Switch({ css, checked, onChange }: SwitchProps) {
     <HeadlessSwitch as={Fragment} checked={checked} onChange={onChange}>
       {({ checked }) => (
         <SSwitch type="button" css={{ ...css }} checked={checked}>
-          <SThumb className="toggle-button__thumb"></SThumb>
+          <SThumb />
         </SSwitch>
       )}
     </HeadlessSwitch>
