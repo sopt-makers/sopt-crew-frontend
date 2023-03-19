@@ -97,10 +97,10 @@ const DetailHeader = ({
   };
 
   const handleApplicationModal = () => {
-    if (!me?.hasProfile) {
-      handleProfileModalOpen();
-      return;
-    }
+    // if (!me?.hasProfile) {
+    //   handleProfileModalOpen();
+    //   return;
+    // }
     if (!isApplied) {
       handleDefaultModalOpen();
       setModalTitle('모임 신청하기');
@@ -290,15 +290,17 @@ const DetailHeader = ({
           title={modalTitle}
           handleModalClose={handleDefaultModalClose}
         >
-          {modalTitle === '모임 신청하기' ? (
+          {modalTitle === '모임 신청하기' && (
             <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
-          ) : current > 0 ? (
-            <SRecruitmentStatusListWrapper>
-              <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
-            </SRecruitmentStatusListWrapper>
-          ) : (
-            <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
           )}
+          {modalTitle.includes('모집 현황') &&
+            (current > 0 ? (
+              <SRecruitmentStatusListWrapper>
+                <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
+              </SRecruitmentStatusListWrapper>
+            ) : (
+              <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
+            ))}
           {modalTitle.includes('모집 현황') && (total > 0 || isHost || isApplied) && (
             <SRecruitmentStatusModalBottom>
               {total > 0 && <STotal>총 {total}명 신청</STotal>}
