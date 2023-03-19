@@ -15,7 +15,7 @@ interface OptionItemProps {
 
 function MobileOptionItem({ css, option }: OptionItemProps) {
   return (
-    <Listbox.Option key={option.label} value={option}>
+    <Listbox.Option key={option.label} value={option} style={{ display: 'flex', alignItems: 'center' }}>
       {({ selected }) => (
         <SelectRadioItem {...css} value={option.value || ''} label={option.label || ''} isChecked={selected} />
       )}
