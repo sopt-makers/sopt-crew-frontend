@@ -10,12 +10,6 @@ interface FilterSelectModalProps {
   isModalOpened: boolean;
   handleModalClose: () => void;
 }
-export interface FilterType {
-  label: string;
-  subject: string;
-  options: string[];
-}
-
 function FilterSelectModal({ isModalOpened, handleModalClose }: FilterSelectModalProps) {
   const filterSectionStyle = { mb: '$48', '@mobile': { mb: '$40' } };
   return (
