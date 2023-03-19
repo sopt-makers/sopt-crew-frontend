@@ -13,6 +13,7 @@ import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from 'src/types/form';
 import NeedMentor from '../CheckBox/NeedMentor';
+import { parts } from 'src/data/options';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -282,11 +283,20 @@ function Presentation({
         </div>
       </div>
 
-      {/* 모임 정보 - 모집 대상 */}
+      {/* 모임 정보 - 모집 대상 / 대상 파트 */}
       <div>
         <Label required={true} size="small">
           모집 대상
         </Label>
+        <STargetFieldWrapper>
+          <FormController
+            name="detail.targetPart"
+            defaultValue={[parts[0]]}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+            )}
+          ></FormController>
+        </STargetFieldWrapper>
         <FormController
           name="detail.targetDesc"
           render={({ field, fieldState: { error } }) => (
@@ -366,6 +376,12 @@ const SNeedMentorFieldWrapper = styled('div', {
   position: 'absolute',
   transform: 'translateY(-120%)',
   right: 6,
+});
+const STargetFieldWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  marginBottom: '16px',
 });
 const ButtonContainer = styled('div', {
   display: 'flex',

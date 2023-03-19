@@ -1,19 +1,24 @@
 import { styled } from 'stitches.config';
 import ArrowSmallDownIcon from '@assets/svg/arrow_small_down.svg';
-import { Option } from '@components/form/Select/OptionItem';
 
 interface ButtonProps {
   open?: boolean;
-  value?: Option;
+  label: {
+    text?: string;
+    /**
+     * 텍스트 하이라이트 여부
+     */
+    active: boolean;
+  };
   handleOpen: () => void;
 }
 
-function BottomSheetButton({ value, open, handleOpen }: ButtonProps) {
-  const isNotSelected = value?.value === null;
+function BottomSheetButton({ open, label, handleOpen }: ButtonProps) {
+  const isNotSelected = !label.active;
 
   return (
     <SButton type="button" isNotSelected={isNotSelected} onClick={handleOpen}>
-      {value?.label}
+      {label.text}
       <SArrowDownIcon open={open} isNotSelected={isNotSelected} />
     </SButton>
   );
