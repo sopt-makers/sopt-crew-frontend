@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
-import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import { Box } from '@components/box/Box';
 import DefaultModal from '@components/modal/DefaultModal';
@@ -89,7 +89,7 @@ const DetailHeader = ({
     handleModalClose: handleDefaultModalClose,
   } = useModal();
   const [modalTitle, setModalTitle] = useState('');
-  const { memberDetail, memberUpload } = usePlaygroundLink();
+  const playgroundURL = `https://playground.sopt.org/`;
 
   const handleRecruitmentStatusListModal = () => {
     handleDefaultModalOpen();
@@ -183,8 +183,8 @@ const DetailHeader = ({
   };
 
   const handleNoProfile = () => {
-    const uploadHref = memberUpload();
-    router.push(uploadHref);
+    const memberUploadHref = `${playgroundURL}${playgroundLink.memberUpload()}`;
+    router.push(memberUploadHref);
   };
 
   return (
@@ -202,13 +202,11 @@ const DetailHeader = ({
             {title}
           </h1>
           <SHostWrapper>
-            <Link href={memberDetail(hostId)} passHref>
-              <SProfileAnchor>
-                {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
-                <span>{hostName}</span>
-                <ArrowSmallRightIcon />
-              </SProfileAnchor>
-            </Link>
+            <SProfileAnchor href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}>
+              {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
+              <span>{hostName}</span>
+              <ArrowSmallRightIcon />
+            </SProfileAnchor>
             {!hasMentor && <MentorTooltip />}
           </SHostWrapper>
         </SAbout>
