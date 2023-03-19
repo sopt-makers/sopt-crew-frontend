@@ -91,7 +91,7 @@ const DetailHeader = ({
   const [modalTitle, setModalTitle] = useState('');
   const playgroundURL = `https://playground.sopt.org/`;
 
-  const handleRecruitmentStatusListModal = () => {
+  const handleRecruitmentStatusModal = () => {
     handleDefaultModalOpen();
     setModalTitle(`모집 현황 (${current}/${capacity}명)`);
   };
@@ -211,7 +211,7 @@ const DetailHeader = ({
           </SHostWrapper>
         </SAbout>
         <div>
-          <SStatusButton onClick={handleRecruitmentStatusListModal}>
+          <SStatusButton onClick={handleRecruitmentStatusModal}>
             <div>
               <span>모집 현황</span>
               <span>
