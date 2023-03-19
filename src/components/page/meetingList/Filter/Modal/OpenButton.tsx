@@ -50,16 +50,3 @@ const SLabel = styled('span', {
     fontAg: '14_medium_100',
   },
 });
-
-const SDesktopDisplay = styled(Box, {
-  display: 'block',
-  '@mobile': {
-    display: 'none',
-  },
-});
-const SMobileDisplay = styled(Box, {
-  display: 'none',
-  '@mobile': {
-    display: 'block',
-  },
-});
