@@ -67,7 +67,7 @@ const SHeader = styled(Box, {
     color: '$white',
   },
 
-  '.button_close': {
+  '.close-button': {
     width: '$24',
     height: '$24',
     background: `url('/group/assets/svg/x_big.svg')`,
@@ -82,7 +82,7 @@ const SHeader = styled(Box, {
       fontAg: '16_bold_100',
     },
 
-    button: {
+    '.close-button': {
       width: '$16',
       height: '$16',
     },
