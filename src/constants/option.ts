@@ -16,6 +16,12 @@ export const enum EApplicationType {
   APPLY,
   INVITE,
 }
+export interface FilterType {
+  label: string;
+  subject: string;
+  options: string[];
+}
+
 export const CATEGORY_FILTER = {
   label: '카테고리',
   subject: 'category',

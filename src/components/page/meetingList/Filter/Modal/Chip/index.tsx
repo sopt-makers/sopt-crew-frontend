@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
+import { FilterType } from '@constants/option';
 import { useMultiQueryString } from '@hooks/queryString';
 import { CSSType, styled } from 'stitches.config';
-import { FilterType } from '..';
 import ChipItem from './ChipItem';
 
 interface ChipProps {

@@ -1,6 +1,6 @@
 import { useMultiQueryString } from '@hooks/queryString';
 import MultiSelect from '@components/filter/MultiSelect';
-import { FilterType } from '../Modal';
+import { FilterType } from '@constants/option';
 
 interface SelectProps {
   filter: FilterType;
