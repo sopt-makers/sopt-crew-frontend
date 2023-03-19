@@ -4,17 +4,24 @@ import EqualizerIcon from '@assets/svg/equalizer.svg?rect';
 import FilterSelectModal from '.';
 import { useDisplay } from '@hooks/useDisplay';
 import useSessionStorage from '@hooks/useSessionStorage';
+import BottomSheet from './BottomSheet';
+import { useMemo } from 'react';
 
 function FilterModalOpenButton() {
   const { isMobile } = useDisplay();
   const [isModalOpened, setIsModalOpened] = useSessionStorage('filter&sort', false);
+  const isModalOpen = useMemo(() => (isMobile ? false : isModalOpened), [isModalOpened, isMobile]);
+  const isBottomSheetOpen = useMemo(() => (!isMobile ? false : isModalOpened), [isModalOpened, isMobile]);
   return (
     <>
       <SSelectModalOpenButton as="button" type="button" onClick={() => setIsModalOpened(true)}>
         <SLabel>필터</SLabel>
         <EqualizerIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
       </SSelectModalOpenButton>
-      <FilterSelectModal isModalOpened={isModalOpened} handleModalClose={() => setIsModalOpened(false)} />
+
+      <FilterSelectModal isModalOpened={isModalOpen} handleModalClose={() => setIsModalOpened(false)} />
+
+      <BottomSheet isOpen={isBottomSheetOpen} handleClose={() => setIsModalOpened(false)} />
     </>
   );
 }
@@ -41,5 +48,18 @@ const SLabel = styled('span', {
   color: '$white',
   '@mobile': {
     fontAg: '14_medium_100',
+  },
+});
+
+const SDesktopDisplay = styled(Box, {
+  display: 'block',
+  '@mobile': {
+    display: 'none',
+  },
+});
+const SMobileDisplay = styled(Box, {
+  display: 'none',
+  '@mobile': {
+    display: 'block',
   },
 });

@@ -1,17 +1,30 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 interface SelectBottomSheetProps {
   label: string;
   isVisible: boolean;
   handleClose?: () => void;
+  headerLeft?: ReactNode;
+  headerRight?: ReactNode;
 }
-function SelectBottomSheet({ children, label, isVisible, handleClose }: PropsWithChildren<SelectBottomSheetProps>) {
+function SelectBottomSheet({
+  children,
+  label,
+  isVisible,
+  handleClose,
+  headerLeft,
+  headerRight,
+}: PropsWithChildren<SelectBottomSheetProps>) {
   return (
     <SLayout direction="column" justify="between" isVisible={isVisible}>
       <Box css={{ width: '100%' }}>
-        <SLabel as="p">{label}</SLabel>
+        <Flex css={{ px: '$28' }} align="center" justify="between">
+          <Box>{headerLeft}</Box>
+          <SLabel as="p">{label}</SLabel>
+          <Box>{headerRight}</Box>
+        </Flex>
         <SListItemWrapper>{children}</SListItemWrapper>
       </Box>
       <SCloseButton onClick={handleClose}>확인</SCloseButton>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 export function useDisplay() {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTable] = useState(false);
@@ -8,13 +9,13 @@ export function useDisplay() {
   const tablet = useMediaQuery({ query: '(max-width: 1065px)' });
   const desktop = useMediaQuery({ query: '(min-width: 1065px)' });
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsMobile(mobile);
   }, [mobile]);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsTable(tablet);
   }, [tablet]);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsDesktop(desktop);
   }, [desktop]);
 

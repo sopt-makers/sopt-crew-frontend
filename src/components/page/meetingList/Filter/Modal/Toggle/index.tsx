@@ -19,7 +19,7 @@ function Toggle({ css, label }: ToggleProps) {
         <SToggleDetailWord>활동 기수만</SToggleDetailWord>
         <Switch
           checked={parseBool(isCurrentGeneration || '')}
-          onClick={() => setValue(String(!parseBool(isCurrentGeneration || '')))}
+          onChange={() => setValue(String(!parseBool(isCurrentGeneration || '')))}
         />
       </SSwitchWrapper>
     </ToggleWrapper>

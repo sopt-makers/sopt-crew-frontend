@@ -6,15 +6,17 @@ import { CSSType, styled } from 'stitches.config';
 interface SwitchProps {
   css?: CSSType;
   checked: boolean;
-  onClick: () => void;
+  onChange: (value: boolean) => void;
 }
 
-function Switch({ css, checked, onClick }: SwitchProps) {
+function Switch({ css, checked, onChange }: SwitchProps) {
   return (
-    <HeadlessSwitch as={Fragment}>
-      <SSwitch css={{ ...css }} checked={checked} onClick={onClick}>
-        <SThumb className="toggle-button__thumb"></SThumb>
-      </SSwitch>
+    <HeadlessSwitch as={Fragment} checked={checked} onChange={onChange}>
+      {({ checked }) => (
+        <SSwitch css={{ ...css }} checked={checked}>
+          <SThumb className="toggle-button__thumb"></SThumb>
+        </SSwitch>
+      )}
     </HeadlessSwitch>
   );
 }
