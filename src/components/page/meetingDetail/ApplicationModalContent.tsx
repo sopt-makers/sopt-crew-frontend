@@ -28,8 +28,7 @@ export default ApplicationModalContent;
 
 const SApplicationModalContent = styled(Box, {
   padding: '$24 $24 $40 $24',
-  borderBottomLeftRadius: '16px',
-  borderBottomRightRadius: '16px',
+  borderRadius: '0 0 16px 16px',
 
   '@mobile': {
     padding: '0 $16',

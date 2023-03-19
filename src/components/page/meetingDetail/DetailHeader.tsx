@@ -302,7 +302,7 @@ export default DetailHeader;
 const SDetailHeader = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  paddingBottom: '$120',
+  pb: '$120',
   borderBottom: `2px solid $black60`,
   mb: '$40',
 
@@ -315,7 +315,7 @@ const SDetailHeader = styled(Box, {
 });
 
 const SAbout = styled(Box, {
-  marginRight: '$90',
+  mr: '$90',
 
   '@mobile': {
     mr: '$0',

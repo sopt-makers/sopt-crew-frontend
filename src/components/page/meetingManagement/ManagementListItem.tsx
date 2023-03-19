@@ -358,12 +358,12 @@ const SDate = styled(Box, {
 });
 
 const STime = styled(Box, {
-  marginLeft: '$15',
+  ml: '$15',
   fontAg: '18_semibold_100',
   color: '$gray60',
 
   '@mobile': {
-    marginLeft: '$8',
+    ml: '$8',
     fontAg: '12_medium_100',
     color: '$gray100',
   },
@@ -375,7 +375,7 @@ const SCardDate = styled(Box, {
 });
 
 const SCardTime = styled(Box, {
-  marginLeft: '$4',
+  ml: '$4',
   fontAg: '10_medium_120',
   color: '$gray100',
 });

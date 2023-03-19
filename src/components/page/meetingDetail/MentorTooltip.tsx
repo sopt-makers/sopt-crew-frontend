@@ -6,7 +6,7 @@ const MentorTooltip = () => {
   return (
     <STooltip>
       <STooltipTitle>
-        멘토 구해요 <QuestionMarkIcon />
+        멘토 구해요 <SQuestionMarkIcon />
       </STooltipTitle>
       <STooltipDescription>
         <p>이 모임의 멘토로 참여할 의향이 있으신가요?</p>
@@ -29,16 +29,6 @@ const STooltip = styled(Box, {
   fontAg: '14_medium_100',
   cursor: 'default',
 
-  svg: {
-    marginLeft: '$10',
-
-    '@mobile': {
-      marginLeft: '$6',
-      width: '$12',
-      height: '$12',
-    },
-  },
-
   '@mobile': {
     top: '-2px',
     left: '109px',
@@ -46,10 +36,8 @@ const STooltip = styled(Box, {
   },
 
   '&:hover': {
-    '& > div:last-child': {
+    'div:last-child': {
       display: 'block',
-      marginTop: '$14',
-      lineHeight: '140%',
     },
   },
 
@@ -70,11 +58,23 @@ const STooltipTitle = styled(Box, {
 
 const STooltipDescription = styled(Box, {
   display: 'none',
+  mt: '$14',
+  lineHeight: '140%',
 
   '& > p': {
     '@mobile': {
       fontSize: '$10',
       lineHeight: '150%',
     },
+  },
+});
+
+const SQuestionMarkIcon = styled(QuestionMarkIcon, {
+  marginLeft: '$10',
+
+  '@mobile': {
+    ml: '$6',
+    width: '$12',
+    height: '$12',
   },
 });
