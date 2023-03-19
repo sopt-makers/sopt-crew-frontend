@@ -85,6 +85,9 @@ const SOptionList = styled(Listbox.Options, {
   '@mobile': {
     display: 'none',
   },
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
 const SErrorMessage = styled(ErrorMessage, {
   marginTop: '12px',
