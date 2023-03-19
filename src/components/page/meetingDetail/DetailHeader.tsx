@@ -5,7 +5,6 @@ import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
-import ConfirmModal from '@components/modal/ConfirmModal';
 import { useRouter } from 'next/router';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import Textarea from '@components/form/Textarea';
@@ -18,6 +17,9 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
+import HostConfirmModal from './HostConfirmModal';
+import GuestConfirmModal from './GuestConfirmModal';
+import ProfileConfirmModal from './ProfileConfirmModal';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -66,37 +68,46 @@ const DetailHeader = ({
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const current = appliedInfo.length;
   const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+  const {
+    isModalOpened: isHostModalOpened,
+    handleModalOpen: handleHostModalOpen,
+    handleModalClose: handleHostModalClose,
+  } = useModal();
+  const {
+    isModalOpened: isGuestModalOpened,
+    handleModalOpen: handleGuestModalOpen,
+    handleModalClose: handleGuestModalClose,
+  } = useModal();
+  const {
+    isModalOpened: isProfileModalOpened,
+    handleModalOpen: handleProfileModalOpen,
+    handleModalClose: handleProfileModalClose,
+  } = useModal();
+  const {
+    isModalOpened: isDefaultModalOpened,
+    handleModalOpen: handleDefaultModalOpen,
+    handleModalClose: handleDefaultModalClose,
+  } = useModal();
   const [modalTitle, setModalTitle] = useState('');
-  const [modalType, setModalType] = useState<'default' | 'confirm'>('default');
-  const isDefaultModalOpened = isModalOpened && modalType === 'default';
-  const isConfirmModalOpened = isModalOpened && modalType === 'confirm';
   const [textareaValue, setTextareaValue] = useState('');
   const { memberDetail, memberUpload } = usePlaygroundLink();
 
-  const openConfirmModal = () => {
-    setModalType('confirm');
-    handleModalOpen();
-  };
-
   const handleRecruitmentStatusListModal = () => {
-    handleModalOpen();
+    handleDefaultModalOpen();
     setModalTitle(`모집 현황 (${current}/${capacity}명)`);
-    setModalType('default');
   };
 
   const handleApplicationModal = () => {
     if (!me?.hasProfile) {
-      openConfirmModal();
+      handleProfileModalOpen();
       return;
     }
     if (!isApplied) {
-      handleModalOpen();
+      handleDefaultModalOpen();
       setModalTitle('모임 신청하기');
-      setModalType('default');
       return;
     }
-    openConfirmModal();
+    handleGuestModalOpen();
   };
 
   const handleApplicationButton = () => {
@@ -107,7 +118,7 @@ const DetailHeader = ({
           queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
           });
-          handleModalClose();
+          handleDefaultModalClose();
         },
       }
     );
@@ -121,7 +132,7 @@ const DetailHeader = ({
           queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
           });
-          handleModalClose();
+          handleGuestModalClose();
         },
       }
     );
@@ -134,7 +145,7 @@ const DetailHeader = ({
         router.push('/');
       },
     });
-    handleModalClose();
+    handleHostModalClose();
   };
 
   const handleApproveInvitation = () => {
@@ -166,7 +177,7 @@ const DetailHeader = ({
           queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
           });
-          handleModalClose();
+          handleGuestModalClose();
         },
       }
     );
@@ -175,38 +186,6 @@ const DetailHeader = ({
   const handleNoProfile = () => {
     const uploadHref = memberUpload();
     router.push(uploadHref);
-  };
-
-  const getConfirmModalInformation = () => {
-    if (isHost) {
-      return {
-        message: '모임을 삭제하시겠습니까?',
-        button: '삭제하기',
-        handleConfirm: handleDeleteMeeting,
-      };
-    }
-
-    if (!me?.hasProfile) {
-      return {
-        message: '모임을 신청하려면\n프로필 작성이 필요해요',
-        button: '작성하기',
-        handleConfirm: handleNoProfile,
-      };
-    }
-
-    if (isApproved) {
-      return {
-        message: '승인을 취소하시겠습니까?',
-        button: '취소하기',
-        handleConfirm: handleCancelInvitation,
-      };
-    }
-
-    return {
-      message: '신청을 취소하시겠습니까?',
-      button: '취소하기',
-      handleConfirm: handleCancelApplication,
-    };
   };
 
   return (
@@ -270,13 +249,13 @@ const DetailHeader = ({
             </SGuestButton>
           )}
           {!isHost && isApproved && (
-            <SGuestButton isApproved={isApproved} onClick={openConfirmModal}>
+            <SGuestButton isApproved={isApproved} onClick={handleGuestModalOpen}>
               승인 취소
             </SGuestButton>
           )}
           {isHost && (
             <SHostButtonContainer>
-              <button onClick={openConfirmModal}>삭제</button>
+              <button onClick={handleHostModalOpen}>삭제</button>
               <Link href={`/edit?id=${meetingId}`} passHref>
                 <a>수정</a>
               </Link>
@@ -284,18 +263,34 @@ const DetailHeader = ({
           )}
         </div>
       </SDetailHeader>
-      {isConfirmModalOpened && (
-        <ConfirmModal
-          isModalOpened={isConfirmModalOpened}
-          message={getConfirmModalInformation().message}
-          cancelButton="돌아가기"
-          confirmButton={getConfirmModalInformation().button}
-          handleModalClose={handleModalClose}
-          handleConfirm={getConfirmModalInformation().handleConfirm}
+      {isHost && isHostModalOpened && (
+        <HostConfirmModal
+          isModalOpened={isHostModalOpened}
+          handleModalClose={handleHostModalClose}
+          handleConfirm={handleDeleteMeeting}
+        />
+      )}
+      {!me?.hasProfile && isProfileModalOpened && (
+        <ProfileConfirmModal
+          isModalOpened={isProfileModalOpened}
+          handleModalClose={handleProfileModalClose}
+          handleConfirm={handleNoProfile}
+        />
+      )}
+      {isGuestModalOpened && (
+        <GuestConfirmModal
+          isModalOpened={isGuestModalOpened}
+          message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
+          handleModalClose={handleGuestModalClose}
+          handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
         />
       )}
       {isDefaultModalOpened && (
-        <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleModalClose}>
+        <DefaultModal
+          isModalOpened={isDefaultModalOpened}
+          title={modalTitle}
+          handleModalClose={handleDefaultModalClose}
+        >
           {modalTitle === '모임 신청하기' ? (
             <SApplicationForm>
               <Textarea
