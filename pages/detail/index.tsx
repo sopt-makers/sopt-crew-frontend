@@ -45,7 +45,7 @@ const DetailPage = () => {
       id: 3,
       title: '모집 대상',
       generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체',
-      part: detailData?.joinableParts?.map(name => PART_NAME[name]),
+      partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
       content: detailData?.targetDesc,
     },
     {
@@ -90,7 +90,7 @@ const DetailPage = () => {
         )}
       </TabList>
       {detailList.map(
-        ({ id, title, generation, part, content }) =>
+        ({ id, title, generation, partList, content }) =>
           content && (
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
@@ -99,7 +99,7 @@ const DetailPage = () => {
                 <STarget>
                   <span>대상 기수</span> : {generation}
                   <br />
-                  <span>대상 파트</span> : {part?.join(', ')}
+                  <span>대상 파트</span> : {partList?.join(', ')}
                 </STarget>
               )}
               <SDescription>{content}</SDescription>
