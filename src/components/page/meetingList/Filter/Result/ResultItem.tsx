@@ -18,9 +18,8 @@ const SResultItemWrapper = styled(Flex, {
   backgroundColor: '$black100',
   border: '1px solid $black40',
   borderRadius: '44px',
-  padding: '10px 16px',
+  padding: '$8 $10 $8 $12 ',
   whiteSpace: 'nowrap',
-
   margin: '4px',
   '@mobile': {
     border: '1px solid $white',
