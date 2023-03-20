@@ -39,8 +39,6 @@ export interface MeetingResponse {
   mStartDate: string;
   mEndDate: string;
   leaderDesc: string;
-  // TODO: add field
-  // needMentor: boolean;
   targetDesc: string;
   note: string | null;
   isMentorNeeded: boolean;
