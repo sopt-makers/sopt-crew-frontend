@@ -1,5 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
-import { useCategoryParams, useStatusParams } from '@hooks/queryString/custom';
+import { useCategoryParams, usePartParams, useStatusParams } from '@hooks/queryString/custom';
 import ResultItem from './ResultItem';
 import InitializationButton from './InitializationButton';
 import { styled } from 'stitches.config';
@@ -7,7 +7,7 @@ import { styled } from 'stitches.config';
 function Result() {
   const { value: category, deleteValue: deleteCategoryValue } = useCategoryParams();
   const { value: status, deleteValue: deleteStatusValue } = useStatusParams();
-
+  const { value: part, deleteValue: deletePartValue } = usePartParams();
   return category.length === 0 && status.length === 0 ? (
     <div></div>
   ) : (
@@ -18,6 +18,9 @@ function Result() {
         ))}
         {status.map(selectedOption => (
           <ResultItem key={selectedOption} selectedOption={selectedOption} deleteValue={deleteStatusValue} />
+        ))}
+        {part.map(selectedOption => (
+          <ResultItem key={selectedOption} selectedOption={selectedOption} deleteValue={deletePartValue} />
         ))}
       </Flex>
       <InitializationButton />

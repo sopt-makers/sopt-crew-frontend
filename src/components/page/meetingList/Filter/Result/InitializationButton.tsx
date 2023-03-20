@@ -47,6 +47,7 @@ const InitializationText = styled('span', {
   fontAg: '18_medium_100',
   color: '$white',
   ml: '$6',
+  whiteSpace: 'nowrap',
   '@mobile': {
     display: 'none',
   },
