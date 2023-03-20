@@ -59,12 +59,12 @@ const DetailHeader = ({
     apply: isApplied,
     approved: isApproved,
     invite: isInvited,
+    isMentorNeeded,
   } = detailData;
   const { data: me } = useGetMemberOfMe();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
-  const isMentorNeeded = true; // TODO: API response 바뀌면 수정할 예정
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const current = appliedInfo.length;
   const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
