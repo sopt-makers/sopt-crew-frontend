@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import Switch from '@components/button/Switch';
 import { Flex } from '@components/util/layout/Flex';
-import { useIsCurrentGenerationParams } from '@hooks/queryString/custom';
+import { useIsOnlyActiveGenerationParams } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';
 import { CSSType, styled } from 'stitches.config';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
@@ -11,18 +11,18 @@ interface ToggleProps {
 }
 
 function Toggle({ css, label }: ToggleProps) {
-  const { value: isCurrentGeneration, setValue } = useIsCurrentGenerationParams();
+  const { value: isOnlyActiveGeneration, setValue } = useIsOnlyActiveGenerationParams();
   return (
     <HeadlessSwitch.Group>
       <ToggleWrapper css={{ ...css }}>
         {label && <SLabel>{label}</SLabel>}
         <SSwitchWrapper align="center" justify="center">
-          <SToggleDetailWord isCurrentGeneration={parseBool(isCurrentGeneration)}>
+          <SToggleDetailWord isOnlyActiveGeneration={parseBool(isOnlyActiveGeneration)}>
             <HeadlessSwitch.Label>활동 기수만</HeadlessSwitch.Label>
           </SToggleDetailWord>
           <Switch
-            checked={parseBool(isCurrentGeneration || '')}
-            onChange={() => setValue(String(!parseBool(isCurrentGeneration)))}
+            checked={parseBool(isOnlyActiveGeneration || '')}
+            onChange={() => setValue(String(!parseBool(isOnlyActiveGeneration)))}
           />
         </SSwitchWrapper>
       </ToggleWrapper>
@@ -62,7 +62,7 @@ const SToggleDetailWord = styled(Box, {
     mr: '$8',
   },
   variants: {
-    isCurrentGeneration: {
+    isOnlyActiveGeneration: {
       true: {
         color: '$white',
       },

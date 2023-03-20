@@ -1,8 +1,16 @@
-import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS } from '@constants/option';
+import {
+  APPROVAL_STATUS,
+  APPLICATION_TYPE,
+  RECRUITMENT_STATUS,
+  EPartFilterValue,
+  PART_OPTIONS,
+  PART_VALUES,
+} from '@constants/option';
 import { Option } from '@components/form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
+import { parseBool } from '@utils/parseBool';
 
 interface PaginationType {
   page: number;
@@ -18,6 +26,8 @@ interface filterData {
   category: string[];
   status?: string[];
   search?: string;
+  isOnlyActiveGeneration?: string | null;
+  part?: string[];
 }
 export interface ImageURLType {
   id: number;
@@ -105,8 +115,20 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   if (statusIdx >= 0) return statusIdx;
   return null;
 }
+function parsePart(part: string) {
+  const partIdx = PART_OPTIONS.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_VALUES[partIdx];
+  return null;
+}
 
-export const fetchMeetingListOfAll = async ({ page, category, status, search }: filterData) => {
+export const fetchMeetingListOfAll = async ({
+  page,
+  category,
+  status,
+  search,
+  isOnlyActiveGeneration,
+  part,
+}: filterData) => {
   return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
@@ -115,7 +137,17 @@ export const fetchMeetingListOfAll = async ({ page, category, status, search }: 
             .filter(item => item !== null)
             .join(',')}`
         : ''
-    }${category?.length ? `&category=${category.join(',')}` : ''}${search ? `&query=${search}` : ''}`
+    }${
+      part?.length
+        ? `${part
+            .map((item: string) => parsePart(item))
+            .filter(item => item !== null)
+            .map(item => `&joinableParts=${item}`)
+            .join('')}`
+        : ''
+    }${category?.length ? `&category=${category.join(',')}` : ''}${
+      search ? `&query=${search}` : ''
+    }${`&isOnlyActiveGeneration=${parseBool(isOnlyActiveGeneration)}`}`
   );
 };
 
