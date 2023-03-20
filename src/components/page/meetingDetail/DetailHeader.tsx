@@ -246,49 +246,37 @@ const DetailHeader = ({
           )}
         </div>
       </SDetailHeader>
-      {isHost && isHostModalOpened && (
-        <HostConfirmModal
-          isModalOpened={isHostModalOpened}
-          handleModalClose={handleHostModalClose}
-          handleConfirm={handleDeleteMeeting}
-        />
-      )}
-      {!me?.hasProfile && isProfileModalOpened && (
-        <ProfileConfirmModal
-          isModalOpened={isProfileModalOpened}
-          handleModalClose={handleProfileModalClose}
-          handleConfirm={moveToProfileUploadPage}
-        />
-      )}
-      {isGuestModalOpened && (
-        <GuestConfirmModal
-          isModalOpened={isGuestModalOpened}
-          message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
-          handleModalClose={handleGuestModalClose}
-          handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
-        />
-      )}
-      {isDefaultModalOpened && (
-        <DefaultModal
-          isModalOpened={isDefaultModalOpened}
-          title={modalTitle}
-          handleModalClose={handleDefaultModalClose}
-        >
-          {modalTitle === '모임 신청하기' && (
-            <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
-          )}
-          {modalTitle.includes('모집 현황') && (
-            <RecruitmentStatusModalContent
-              current={current}
-              total={total}
-              meetingId={Number(meetingId)}
-              appliedInfo={appliedInfo}
-              isHost={isHost}
-              isApplied={isApplied}
-            />
-          )}
-        </DefaultModal>
-      )}
+      <HostConfirmModal
+        isModalOpened={isHostModalOpened}
+        handleModalClose={handleHostModalClose}
+        handleConfirm={handleDeleteMeeting}
+      />
+      <ProfileConfirmModal
+        isModalOpened={isProfileModalOpened}
+        handleModalClose={handleProfileModalClose}
+        handleConfirm={moveToProfileUploadPage}
+      />
+      <GuestConfirmModal
+        isModalOpened={isGuestModalOpened}
+        message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
+        handleModalClose={handleGuestModalClose}
+        handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
+      />
+      <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
+        {modalTitle === '모임 신청하기' && (
+          <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
+        )}
+        {modalTitle.includes('모집 현황') && (
+          <RecruitmentStatusModalContent
+            current={current}
+            total={total}
+            meetingId={Number(meetingId)}
+            appliedInfo={appliedInfo}
+            isHost={isHost}
+            isApplied={isApplied}
+          />
+        )}
+      </DefaultModal>
     </>
   );
 };
