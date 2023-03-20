@@ -36,12 +36,14 @@ const RecruitmentStatusModalContent = ({
       {isBottomVisible && (
         <SRecruitmentStatusModalBottom>
           {total > 0 && <STotal>총 {total}명 신청</STotal>}
-          <Link href={`/mine/management?id=${meetingId}`} passHref>
-            <SManagementAnchor>
-              {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
-              <ArrowSmallRightIcon />
-            </SManagementAnchor>
-          </Link>
+          {(isHost || isApplied) && (
+            <Link href={`/mine/management?id=${meetingId}`} passHref>
+              <SManagementAnchor>
+                {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
+                <ArrowSmallRightIcon />
+              </SManagementAnchor>
+            </Link>
+          )}
         </SRecruitmentStatusModalBottom>
       )}
     </>
