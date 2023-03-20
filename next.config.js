@@ -23,6 +23,15 @@ const nextConfig = {
     return config;
   },
   basePath: '/group',
+  async redirects() {
+    return [
+      {
+        source: '/make',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
