@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import useModal from '@hooks/useModal';
-import { useDisplay } from '@hooks/useDisplay';
 import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { Box } from '@components/box/Box';
@@ -23,7 +22,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useGetMemberOfMe();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { isMobile } = useDisplay();
 
   const handleMakeMeeting = () => {
     if (!me?.hasProfile) {
@@ -64,7 +62,7 @@ const Home: NextPage = () => {
         <SSRSafeSuspense
           fallback={
             <GridLayout>
-              {new Array(isMobile ? 4 : 9).fill(null).map((_, index) => (
+              {new Array(6).fill(null).map((_, index) => (
                 <CardSkeleton key={index} />
               ))}
             </GridLayout>

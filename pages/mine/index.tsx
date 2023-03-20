@@ -12,7 +12,6 @@ import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
 import GridLayout from '@components/page/meetingList/Grid/Layout';
 import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
-import { useDisplay } from '@hooks/useDisplay';
 
 const enum MeetingType {
   MADE,
@@ -21,7 +20,6 @@ const enum MeetingType {
 
 const MinePage: NextPage = () => {
   const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>('meetingType', MeetingType.MADE);
-  const { isMobile } = useDisplay();
 
   return (
     <div>
@@ -54,7 +52,7 @@ const MinePage: NextPage = () => {
             <SSRSafeSuspense
               fallback={
                 <GridLayout>
-                  {new Array(isMobile ? 4 : 9).fill(null).map((_, index) => (
+                  {new Array(6).fill(null).map((_, index) => (
                     <CardSkeleton key={index} />
                   ))}
                 </GridLayout>
