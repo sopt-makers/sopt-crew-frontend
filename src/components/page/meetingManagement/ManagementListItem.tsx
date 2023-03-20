@@ -22,7 +22,7 @@ interface ManagementListItemProps {
 const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { appliedDate, content, status = 0, user, type } = application;
+  const { appliedDate, content = '', status = 0, user, type } = application;
 
   const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
   const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation({});

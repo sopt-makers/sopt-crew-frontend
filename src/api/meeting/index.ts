@@ -69,7 +69,7 @@ export interface ApplicationData {
   id: number;
   type: number;
   appliedDate: string;
-  content: string;
+  content?: string;
   status: ApplicationStatusType;
   user: UserResponse;
 }
