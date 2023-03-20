@@ -67,7 +67,7 @@ const Home: NextPage = () => {
         <SSRSafeSuspense
           fallback={
             <GridLayout>
-              {new Array(4).fill(null).map((_, index) => (
+              {new Array(isMobile ? 4 : 9).fill(null).map((_, index) => (
                 <CardSkeleton key={index} />
               ))}
             </GridLayout>
