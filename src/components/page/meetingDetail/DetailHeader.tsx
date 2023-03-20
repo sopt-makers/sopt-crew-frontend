@@ -16,6 +16,8 @@ import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
+import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
+import { playgroundURL } from '@constants/url';
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
@@ -89,7 +91,6 @@ const DetailHeader = ({
     handleModalClose: handleDefaultModalClose,
   } = useModal();
   const [modalTitle, setModalTitle] = useState('');
-  const playgroundURL = `https://playground.sopt.org/`;
 
   const handleRecruitmentStatusModal = () => {
     handleDefaultModalOpen();
@@ -182,11 +183,6 @@ const DetailHeader = ({
     );
   };
 
-  const handleNoProfile = () => {
-    const memberUploadHref = `${playgroundURL}${playgroundLink.memberUpload()}`;
-    router.push(memberUploadHref);
-  };
-
   return (
     <>
       <SDetailHeader>
@@ -261,7 +257,7 @@ const DetailHeader = ({
         <ProfileConfirmModal
           isModalOpened={isProfileModalOpened}
           handleModalClose={handleProfileModalClose}
-          handleConfirm={handleNoProfile}
+          handleConfirm={moveToProfileUploadPage}
         />
       )}
       {isGuestModalOpened && (
