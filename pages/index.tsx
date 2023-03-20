@@ -107,6 +107,9 @@ const SMakeMeetingButton = styled('button', {
 const SMobileButtonContainer = styled(Box, {
   flexType: 'verticalCenter',
   gap: '16px',
+  svg: {
+    cursor: 'pointer',
+  },
 });
 
 const SFilterWrapper = styled(Box, {
