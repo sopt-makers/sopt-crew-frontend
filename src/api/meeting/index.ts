@@ -43,6 +43,9 @@ export interface MeetingResponse {
   // needMentor: boolean;
   targetDesc: string;
   note: string | null;
+  isMentorNeeded: boolean;
+  canJoinOnlyActiveGeneration: boolean;
+  joinableParts: string[];
   appliedInfo: ApplyResponse[];
   user: UserResponse;
   host: boolean;

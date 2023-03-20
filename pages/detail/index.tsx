@@ -13,6 +13,7 @@ import {
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import dayjs from 'dayjs';
+import { PART_NAME } from '@constants/option';
 
 const DetailPage = () => {
   const router = useRouter();
@@ -22,9 +23,6 @@ const DetailPage = () => {
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateUpdateInvitation } = useMutationUpdateInvitation({});
   const tabRef = useRef<HTMLElement[]>([]);
-  // TODO: targetGeneration과 targetPart는 임시 변수, response 수정되면 제거 예정
-  const targetGeneration = '32기';
-  const targetPart = '기획';
   const detailList = [
     {
       id: 0,
@@ -46,8 +44,8 @@ const DetailPage = () => {
     {
       id: 3,
       title: '모집 대상',
-      generation: targetGeneration,
-      part: targetPart,
+      generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체',
+      partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
       content: detailData?.targetDesc,
     },
     {
@@ -92,7 +90,7 @@ const DetailPage = () => {
         )}
       </TabList>
       {detailList.map(
-        ({ id, title, generation, part, content }) =>
+        ({ id, title, generation, partList, content }) =>
           content && (
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
@@ -101,7 +99,7 @@ const DetailPage = () => {
                 <STarget>
                   <span>대상 기수</span> : {generation}
                   <br />
-                  <span>대상 파트</span> : {part}
+                  <span>대상 파트</span> : {partList?.join(', ')}
                 </STarget>
               )}
               <SDescription>{content}</SDescription>
