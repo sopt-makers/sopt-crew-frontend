@@ -15,7 +15,15 @@ function SelectComboBoxItem({ value, isChecked, onCheck, onRemove }: SelectCombo
   };
 
   return (
-    <Flex as="li" onClick={toggle} align="center">
+    <Flex
+      as="li"
+      onClick={toggle}
+      align="center"
+      css={{
+        width: '100%',
+        height: '50px',
+      }}
+    >
       <SCheckbox type="checkbox" checked={isChecked} id={value} name={value} />
       <label htmlFor={value}>{value}</label>
     </Flex>
@@ -28,10 +36,10 @@ const SCheckbox = styled('input', {
   height: '16px',
   border: '1px solid $white',
   borderRadius: '4px',
-  mr: '$8',
+  mr: '$10',
   '& + label': {
     cursor: 'pointer',
-    fontAg: '16_medium_100',
+    fontAg: '18_medium_100',
   },
   variants: {
     checked: {
