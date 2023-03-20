@@ -42,8 +42,6 @@ export interface MeetingResponse {
   mStartDate: string;
   mEndDate: string;
   leaderDesc: string;
-  // TODO: add field
-  // needMentor: boolean;
   targetDesc: string;
   note: string | null;
   appliedInfo: ApplyResponse[];
@@ -52,6 +50,10 @@ export interface MeetingResponse {
   apply: boolean;
   approved: boolean;
   invite: boolean;
+  canJoinOnlyActiveGeneration: boolean;
+  targetActiveGeneration: number | null;
+  joinableParts: string[];
+  isMentorNeeded: boolean;
 }
 interface MeetingListOfFilterResponse {
   meta: PaginationType;
@@ -108,12 +110,16 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   if (statusIdx >= 0) return statusIdx;
   return null;
 }
-function parsePart(part: string) {
+function parsePartLabelToValue(part: string) {
   const partIdx = PART_OPTIONS.findIndex(option => option === part);
   if (partIdx >= 0) return PART_VALUES[partIdx];
   return null;
 }
-
+export function parsePartValueToLabel(part: string) {
+  const partIdx = PART_VALUES.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_OPTIONS[partIdx];
+  return null;
+}
 export const fetchMeetingListOfAll = async ({
   page,
   category,
@@ -133,7 +139,7 @@ export const fetchMeetingListOfAll = async ({
     }${
       part?.length
         ? `${part
-            .map((item: string) => parsePart(item))
+            .map((item: string) => parsePartLabelToValue(item))
             .filter(item => item !== null)
             .map(item => `&joinableParts=${item}`)
             .join('')}`

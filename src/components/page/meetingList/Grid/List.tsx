@@ -16,7 +16,7 @@ export function MeetingListOfAll() {
 
   return (
     <main>
-      <SMeetingCount>{meetingListData?.meetings.length}개의 모임</SMeetingCount>
+      <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout>
