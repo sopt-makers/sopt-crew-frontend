@@ -6,8 +6,6 @@ import RecruitmentStatusList from './RecruitmentStatusList';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
 interface RecruitmentStatusModalContentProps {
-  current: number;
-  total: number;
   meetingId: number;
   appliedInfo: ApplyResponse[];
   isHost: boolean;
@@ -15,18 +13,17 @@ interface RecruitmentStatusModalContentProps {
 }
 
 const RecruitmentStatusModalContent = ({
-  current,
-  total,
   meetingId,
   appliedInfo,
   isHost,
   isApplied,
 }: RecruitmentStatusModalContentProps) => {
+  const total = appliedInfo.length;
   const isBottomVisible = total > 0 || isHost || isApplied;
 
   return (
     <>
-      {current > 0 ? (
+      {total > 0 ? (
         <SRecruitmentStatusListWrapper>
           <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
         </SRecruitmentStatusListWrapper>

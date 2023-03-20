@@ -33,6 +33,7 @@ export interface MeetingResponse {
   imageURL: ImageURLType[];
   startDate: string;
   endDate: string;
+  approvedApplyCount: number;
   capacity: number;
   desc: string;
   processDesc: string;

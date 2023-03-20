@@ -56,6 +56,7 @@ const DetailHeader = ({
     title,
     user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
+    approvedApplyCount,
     capacity,
     host: isHost,
     apply: isApplied,
@@ -68,8 +69,6 @@ const DetailHeader = ({
   const router = useRouter();
   const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const current = appliedInfo.length;
-  const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -94,7 +93,7 @@ const DetailHeader = ({
 
   const handleRecruitmentStatusModal = () => {
     handleDefaultModalOpen();
-    setModalTitle(`모집 현황 (${current}/${capacity}명)`);
+    setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
   };
 
   const handleApplicationModal = () => {
@@ -211,7 +210,7 @@ const DetailHeader = ({
             <div>
               <span>모집 현황</span>
               <span>
-                {current}/{capacity}명
+                {approvedApplyCount}/{capacity}명
               </span>
             </div>
             <ArrowSmallRightIcon />
@@ -268,8 +267,6 @@ const DetailHeader = ({
         )}
         {modalTitle.includes('모집 현황') && (
           <RecruitmentStatusModalContent
-            current={current}
-            total={total}
             meetingId={Number(meetingId)}
             appliedInfo={appliedInfo}
             isHost={isHost}
