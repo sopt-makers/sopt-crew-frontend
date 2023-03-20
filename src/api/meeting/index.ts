@@ -44,6 +44,7 @@ export interface MeetingResponse {
   leaderDesc: string;
   targetDesc: string;
   note: string | null;
+  isMentorNeeded: boolean;
   appliedInfo: ApplyResponse[];
   user: UserResponse;
   host: boolean;
@@ -53,7 +54,6 @@ export interface MeetingResponse {
   canJoinOnlyActiveGeneration: boolean;
   targetActiveGeneration: number | null;
   joinableParts: string[];
-  isMentorNeeded: boolean;
 }
 interface MeetingListOfFilterResponse {
   meta: PaginationType;
