@@ -49,17 +49,14 @@ const Home: NextPage = () => {
               </a>
             </Link>
           </TabList>
-          {isMobile ? (
-            <SMobileButtonContainer>
-              <WriteIcon onClick={handleMakeMeeting} />
-              <Search.Mobile />
-            </SMobileButtonContainer>
-          ) : (
-            <SMakeMeetingButton onClick={handleMakeMeeting}>
-              <PlusIcon />
-              <span>모임 개설하기</span>
-            </SMakeMeetingButton>
-          )}
+          <SMobileButtonContainer>
+            <WriteIcon onClick={handleMakeMeeting} />
+            <Search.Mobile />
+          </SMobileButtonContainer>
+          <SMakeMeetingButton onClick={handleMakeMeeting}>
+            <PlusIcon />
+            <span>모임 개설하기</span>
+          </SMakeMeetingButton>
         </Flex>
         <SFilterWrapper>
           <Filter />
@@ -76,16 +73,14 @@ const Home: NextPage = () => {
           <MeetingListOfAll />
         </SSRSafeSuspense>
       </div>
-      {isModalOpened && (
-        <ConfirmModal
-          isModalOpened={isModalOpened}
-          message={`모임을 개설하려면\n프로필 작성이 필요해요`}
-          cancelButton="돌아가기"
-          confirmButton="작성하기"
-          handleModalClose={handleModalClose}
-          handleConfirm={moveToProfileUploadPage}
-        />
-      )}
+      <ConfirmModal
+        isModalOpened={isModalOpened}
+        message={`모임을 개설하려면\n프로필 작성이 필요해요`}
+        cancelButton="돌아가기"
+        confirmButton="작성하기"
+        handleModalClose={handleModalClose}
+        handleConfirm={moveToProfileUploadPage}
+      />
     </>
   );
 };
@@ -102,11 +97,17 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$white',
   },
+  '@mobile': {
+    display: 'none',
+  },
 });
 
 const SMobileButtonContainer = styled(Box, {
-  flexType: 'verticalCenter',
-  gap: '16px',
+  display: 'none',
+  '@mobile': {
+    flexType: 'verticalCenter',
+    gap: '16px',
+  },
   svg: {
     cursor: 'pointer',
   },
