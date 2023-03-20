@@ -12,6 +12,8 @@ import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/a
 import { useQueryClient } from '@tanstack/react-query';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -69,7 +71,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
-              <STime>{dayjs(appliedDate).format('HH:mm:ss')}</STime>
+              <STime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</STime>
             </SUserInformation>
             <SButtonContainer>
               {
@@ -134,7 +136,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <div>
                   <SCardType>{APPLICATION_TYPE[type]}</SCardType>
                   <SCardDate>{dayjs(appliedDate).format('YY.MM.DD')}</SCardDate>
-                  <SCardTime>{dayjs(appliedDate).format('HH:mm:ss')}</SCardTime>
+                  <SCardTime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</SCardTime>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
@@ -205,7 +207,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
             </SProfile>
             <SVerticalLine />
             <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
-            <STime>{dayjs(appliedDate).format('HH:mm:ss')}</STime>
+            <STime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</STime>
           </SUserInformation>
         </SListItem>
       )}
