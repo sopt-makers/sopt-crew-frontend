@@ -40,11 +40,3 @@ export const PART_FILTER = {
   subject: 'part',
   options: PART_OPTIONS,
 };
-export enum EPartFilterValue {
-  기획 = 'PM',
-  디자인 = 'DESIGN',
-  안드로이드 = 'ANDROID',
-  IOS = 'IOS',
-  서버 = 'SERVER',
-  웹 = 'WEB',
-}

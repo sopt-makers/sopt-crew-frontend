@@ -1,11 +1,4 @@
-import {
-  APPROVAL_STATUS,
-  APPLICATION_TYPE,
-  RECRUITMENT_STATUS,
-  EPartFilterValue,
-  PART_OPTIONS,
-  PART_VALUES,
-} from '@constants/option';
+import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
 import { Option } from '@components/form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
