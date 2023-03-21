@@ -1,21 +1,33 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 interface SelectBottomSheetProps {
   label: string;
   isVisible: boolean;
-  setIsVisible: (value: boolean) => void;
+  handleClose?: () => void;
+  headerLeft?: ReactNode;
+  headerRight?: ReactNode;
 }
-function SelectBottomSheet({ children, label, isVisible, setIsVisible }: PropsWithChildren<SelectBottomSheetProps>) {
+function SelectBottomSheet({
+  children,
+  label,
+  isVisible,
+  handleClose,
+  headerLeft,
+  headerRight,
+}: PropsWithChildren<SelectBottomSheetProps>) {
   return (
     <SLayout direction="column" justify="between" isVisible={isVisible}>
       <Box css={{ width: '100%' }}>
-        <SLabel as="p">{label}</SLabel>
+        <Flex css={{ px: '$28' }} align="center" justify="between">
+          <Box>{headerLeft}</Box>
+          <SLabel as="p">{label}</SLabel>
+          <Box>{headerRight}</Box>
+        </Flex>
         <SListItemWrapper>{children}</SListItemWrapper>
       </Box>
-
-      <SCloseButton onClick={() => setIsVisible(false)}>확인</SCloseButton>
+      <SCloseButton onClick={handleClose}>확인</SCloseButton>
     </SLayout>
   );
 }
@@ -35,12 +47,12 @@ const SLayout = styled(Flex, {
   zIndex: '$2',
   variants: {
     isVisible: {
-      true: { height: '306px' },
+      true: { height: 'auto', minHeight: '306px' },
       false: { height: '0px' },
     },
   },
   transition: 'height 0.5s',
-
+  color: '#fff',
   display: 'none',
   '@mobile': {
     display: 'flex',
@@ -63,6 +75,7 @@ const SListItemWrapper = styled('ul', {
     borderBottom: 'none',
   },
 });
+
 const SCloseButton = styled('button', {
   width: '100%',
   height: '50px',

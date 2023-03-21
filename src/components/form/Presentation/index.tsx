@@ -12,6 +12,9 @@ import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from 'src/types/form';
+import NeedMentor from '../CheckBox/NeedMentor';
+import { parts } from 'src/data/options';
+import FormSwitch from '../FormSwitch/FormSwitch';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -81,7 +84,7 @@ function Presentation({
           render={({ field, fieldState: { error } }) => (
             <TextInput
               label="모임 제목"
-              message="최대 30자 이내로 입력"
+              message="최대 30자 이내로 입력해주세요"
               placeholder="제목 입력"
               required
               error={error?.message}
@@ -114,7 +117,7 @@ function Presentation({
       {/* 이미지 */}
       <div>
         <Label required={true}>이미지</Label>
-        <HelpMessage>최대 6개까지 첨부 가능, 이미지 사이즈 제약</HelpMessage>
+        <HelpMessage>6개까지 첨부 가능하며, 5MB 이하 이미지를 권장해요</HelpMessage>
         <SFileInputWrapper>
           {imageUrls.length > 0 &&
             imageUrls.map((url, idx) => (
@@ -141,7 +144,7 @@ function Presentation({
       {/* 모집 기간 */}
       <div>
         <Label required={true}>모집 기간</Label>
-        <HelpMessage>시작 날짜와 끝 날짜 순서에 주의</HelpMessage>
+        <HelpMessage>모집 기간을 형식에 맞춰 입력해주세요</HelpMessage>
         <SApplicationFieldWrapper>
           <SApplicationField>
             <FormController
@@ -182,7 +185,7 @@ function Presentation({
             <TextInput
               type="number"
               label="모집 인원"
-              placeholder="인원 입력"
+              placeholder="인원"
               right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
               error={error?.message}
               required
@@ -202,7 +205,7 @@ function Presentation({
         <FormController
           name="detail.desc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="모임 소개" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="모임을 소개해주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -215,7 +218,7 @@ function Presentation({
         <FormController
           name="detail.processDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="진행 방식 소개" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="진행 방식을 소개해주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -225,6 +228,7 @@ function Presentation({
         <Label required={true} size="small">
           모임 기간
         </Label>
+        <HelpMessage>모임 기간을 형식에 맞춰 입력해주세요</HelpMessage>
         <SDateFieldWrapper>
           <SDateField>
             <FormController
@@ -257,28 +261,53 @@ function Presentation({
         </SDateFieldWrapper>
       </div>
 
-      {/* 모임 정보 - 개설자 소개 */}
+      {/* 모임 정보 - 개설자 소개 / 멘토 필요 여부 */}
       <div>
         <Label required={true} size="small">
           개설자 소개
         </Label>
-        <FormController
-          name="detail.leaderDesc"
-          render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="개설자 소개" maxLength={300} error={error?.message} {...field} />
-          )}
-        ></FormController>
+        <div style={{ position: 'relative' }}>
+          <SNeedMentorFieldWrapper>
+            <FormController name="detail.needMentor" render={({ field }) => <NeedMentor {...field} />}></FormController>
+          </SNeedMentorFieldWrapper>
+          <FormController
+            name="detail.leaderDesc"
+            render={({ field, fieldState: { error } }) => (
+              <Textarea
+                placeholder="개설자를 소개해주세요, 멘토가 필요하다면 멘토 구해요를 체크해주세요"
+                maxLength={300}
+                error={error?.message}
+                {...field}
+              />
+            )}
+          ></FormController>
+        </div>
       </div>
 
-      {/* 모임 정보 - 모집 대상 */}
+      {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
       <div>
         <Label required={true} size="small">
           모집 대상
         </Label>
+        <STargetFieldWrapper>
+          <FormController
+            name="detail.onlyCurrentGeneration"
+            render={({ field: { value, onChange } }) => (
+              <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
+            )}
+          ></FormController>
+          <FormController
+            name="detail.targetPart"
+            defaultValue={[parts[0]]}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+            )}
+          ></FormController>
+        </STargetFieldWrapper>
         <FormController
           name="detail.targetDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="이런 분을 찾습니다." maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="이런 분을 찾아요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -289,7 +318,7 @@ function Presentation({
         <FormController
           name="detail.note"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="유의 사항 입력" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="유의사항을 알려주세요" maxLength={300} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -350,6 +379,17 @@ const SApplicationField = styled('div', {
 const SMemberCountField = styled(SApplicationField);
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
+const SNeedMentorFieldWrapper = styled('div', {
+  position: 'absolute',
+  transform: 'translateY(-120%)',
+  right: 6,
+});
+const STargetFieldWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  marginBottom: '16px',
+});
 const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',

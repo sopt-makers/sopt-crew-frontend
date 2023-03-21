@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
 function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
   const [storedValue, setStoredValue] = useState(initialValue);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setStoredValue(() => {
       if (typeof window === 'undefined') {
         return initialValue;

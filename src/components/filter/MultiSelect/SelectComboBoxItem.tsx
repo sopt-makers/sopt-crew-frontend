@@ -21,7 +21,7 @@ function SelectComboBoxItem({ value, isChecked, onCheck, onRemove }: SelectCombo
       align="center"
       css={{
         width: '100%',
-        height: '44px',
+        height: '50px',
       }}
     >
       <SCheckbox type="checkbox" checked={isChecked} id={value} name={value} />
@@ -32,19 +32,25 @@ function SelectComboBoxItem({ value, isChecked, onCheck, onRemove }: SelectCombo
 export default SelectComboBoxItem;
 
 const SCheckbox = styled('input', {
-  width: '20px',
-  height: '20px',
+  width: '16px',
+  height: '16px',
   border: '1px solid $white',
   borderRadius: '4px',
-  mr: '$8',
+  mr: '$10',
   '& + label': {
     cursor: 'pointer',
-    fontAg: '16_medium_100',
+    fontAg: '18_medium_100',
+  },
+  '@mobile': {
+    '& + label': {
+      cursor: 'pointer',
+      fontAg: '16_medium_100',
+    },
   },
   variants: {
     checked: {
       true: {
-        background: 'url(/group/assets/img/checkBox/selected.png) left top no-repeat',
+        background: 'url(/group/assets/svg/checkBox/selected.svg) left top no-repeat',
         border: '0',
       },
     },

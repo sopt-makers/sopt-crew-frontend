@@ -1,74 +1,92 @@
 import type { NextPage } from 'next';
-
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { styled } from 'stitches.config';
+import { useGetMemberOfMe } from 'src/api/members/hooks';
+import useModal from '@hooks/useModal';
+import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
+import ConfirmModal from '@components/modal/ConfirmModal';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
-import PlusIcon from '@assets/svg/plus.svg';
-import WriteIcon from '@assets/svg/write.svg';
-
 import { Flex } from '@components/util/layout/Flex';
-import Link from 'next/link';
-import { styled } from 'stitches.config';
-import Filter from '@components/page/meetingList/Filter';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import { MeetingListOfAll } from '@components/page/meetingList/Grid/List';
+import Filter from '@components/page/meetingList/Filter';
 import Search from '@components/page/meetingList/Filter/Search';
 import GridLayout from '@components/page/meetingList/Grid/Layout';
 import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
+import PlusIcon from '@assets/svg/plus.svg';
+import WriteIcon from '@assets/svg/write.svg';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const { data: me } = useGetMemberOfMe();
+  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+
+  const handleMakeMeeting = () => {
+    if (!me?.hasProfile) {
+      handleModalOpen();
+      return;
+    }
+    router.push('/make');
+  };
+
   return (
-    <div>
-      <Flex align="center" justify="between">
-        <TabList text="all" size="big">
-          <Link href="/" passHref>
-            <a>
-              <TabList.Item text="all">전체 모임</TabList.Item>
-            </a>
-          </Link>
-          <Link href="/mine" passHref>
-            <a>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </a>
-          </Link>
-        </TabList>
-        <Link href="/make" passHref>
-          <a>
-            <SMakeMeeting align="center" justify="center">
-              <PlusIcon />
-              <span>모임 개설하기</span>
-            </SMakeMeeting>
-          </a>
-        </Link>
-        <SMobileButtonMeeting>
-          <Link href="/make" passHref>
-            <a>
-              <WriteIcon />
-            </a>
-          </Link>
-          <Search.Mobile />
-        </SMobileButtonMeeting>
-      </Flex>
-      <SFilterWrapper>
-        <Filter />
-      </SFilterWrapper>
-      <SSRSafeSuspense
-        fallback={
-          <GridLayout>
-            {new Array(4).fill(null).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </GridLayout>
-        }
-      >
-        <MeetingListOfAll />
-      </SSRSafeSuspense>
-    </div>
+    <>
+      <div>
+        <Flex align="center" justify="between">
+          <TabList text="all" size="big">
+            <Link href="/" passHref>
+              <a>
+                <TabList.Item text="all">전체 모임</TabList.Item>
+              </a>
+            </Link>
+            <Link href="/mine" passHref>
+              <a>
+                <TabList.Item text="mine">내 모임</TabList.Item>
+              </a>
+            </Link>
+          </TabList>
+          <SMobileButtonContainer>
+            <WriteIcon onClick={handleMakeMeeting} />
+            <Search.Mobile />
+          </SMobileButtonContainer>
+          <SMakeMeetingButton onClick={handleMakeMeeting}>
+            <PlusIcon />
+            <span>모임 개설하기</span>
+          </SMakeMeetingButton>
+        </Flex>
+        <SFilterWrapper>
+          <Filter />
+        </SFilterWrapper>
+        <SSRSafeSuspense
+          fallback={
+            <GridLayout>
+              {new Array(6).fill(null).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))}
+            </GridLayout>
+          }
+        >
+          <MeetingListOfAll />
+        </SSRSafeSuspense>
+      </div>
+      <ConfirmModal
+        isModalOpened={isModalOpened}
+        message={`모임을 개설하려면\n프로필 작성이 필요해요`}
+        cancelButton="돌아가기"
+        confirmButton="작성하기"
+        handleModalClose={handleModalClose}
+        handleConfirm={moveToProfileUploadPage}
+      />
+    </>
   );
 };
 
 export default Home;
 
-const SMakeMeeting = styled(Flex, {
+const SMakeMeetingButton = styled('button', {
+  flexType: 'verticalCenter',
   padding: '$18 $24 $18 $20',
   background: '$purple100',
   borderRadius: '12px',
@@ -82,13 +100,14 @@ const SMakeMeeting = styled(Flex, {
   },
 });
 
-const SMobileButtonMeeting = styled(Flex, {
+const SMobileButtonContainer = styled(Box, {
   display: 'none',
   '@mobile': {
-    display: 'flex',
+    flexType: 'verticalCenter',
+    gap: '16px',
   },
-  '& > a': {
-    mr: '$18',
+  svg: {
+    cursor: 'pointer',
   },
 });
 

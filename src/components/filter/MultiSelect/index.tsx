@@ -2,7 +2,7 @@
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
-import { ArrowButton } from '@components/button/Arrow';
+import ArrowIcon from '@assets/svg/arrow_small_right.svg';
 import { Flex } from '@components/util/layout/Flex';
 import SelectComboBoxItem from './SelectComboBoxItem';
 import useSessionStorage from '@hooks/useSessionStorage';
@@ -35,7 +35,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
           isSelected={selectedValues.length !== 0}
         >
           <SCategory isSelected={selectedValues.length !== 0}>{selectListData.label}</SCategory>
-          <ArrowButton direction="bottom" />
+          <SArrowIcon isVisible={isVisible} />
         </SSelectDisplay>
 
         <>
@@ -50,7 +50,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
               />
             ))}
           </SSelectBoxList>
-          <SelectBottomSheet label={selectListData.label} isVisible={isVisible} setIsVisible={setIsVisible}>
+          <SelectBottomSheet label={selectListData.label} isVisible={isVisible} handleClose={() => setIsVisible(false)}>
             {selectListData.options.map(option => (
               <SelectComboBoxItem
                 key={option}
@@ -73,14 +73,17 @@ const SSelectWrapper = styled(Box, {
   position: 'relative',
   '& + &': {
     ml: '$12',
+    '@mobile': {
+      ml: '$8',
+    },
   },
 });
 
 const SSelectDisplay = styled(Flex, {
-  width: '147px',
+  width: '111px',
   border: '1px solid $black40',
-  borderRadius: '$10',
-  padding: '$16 $20 $16 $16',
+  borderRadius: '14px',
+  padding: '$18 $20',
   cursor: 'pointer',
   variants: {
     isSelected: {
@@ -97,9 +100,20 @@ const SSelectDisplay = styled(Flex, {
   },
 });
 
+const SArrowIcon = styled(ArrowIcon, {
+  transform: 'rotate(90deg)',
+  variants: {
+    isVisible: {
+      true: {
+        transform: 'rotate(270deg)',
+      },
+    },
+  },
+});
+
 const SCategory = styled('span', {
   fontAg: '18_medium_100',
-  color: '$gray60',
+  color: '$white',
   variants: {
     isSelected: {
       true: {
@@ -116,10 +130,16 @@ const SSelectBoxList = styled(Box, {
   position: 'absolute',
   border: '1px solid $black40',
   borderRadius: '$10',
-  p: '$16',
+  padding: '$8 $16',
   top: '63px',
   backgroundColor: '$black100',
   zIndex: '$2',
+  '& li': {
+    height: '50px',
+  },
+  '& li:last-child': {
+    borderBottom: 'none',
+  },
   variants: {
     isVisible: {
       true: { visibility: 'visible' },

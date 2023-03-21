@@ -4,8 +4,9 @@ import { RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { MeetingResponse } from 'src/api/meeting';
+import { MeetingResponse, parsePartValueToLabel } from 'src/api/meeting';
 import { styled } from 'stitches.config';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -13,6 +14,8 @@ interface CardProps {
 }
 
 function Card({ bottom, meetingData }: CardProps) {
+  const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
+  const approve = 1;
   return (
     <Box as="li">
       <Link href={`/detail?id=${meetingData.id}`} passHref>
@@ -28,6 +31,7 @@ function Card({ bottom, meetingData }: CardProps) {
             </Box>
             <STitleSection>
               <SCategory>{meetingData.category}</SCategory>
+              {meetingData.isMentorNeeded && <SCategory>멘토 구해요</SCategory>}
               <STitle>{meetingData.title}</STitle>
             </STitleSection>
             <Box
@@ -37,21 +41,40 @@ function Card({ bottom, meetingData }: CardProps) {
                 },
               }}
             >
+              <Flex css={{ mb: '$12' }} align="center">
+                <SProfileWrapper>
+                  {meetingData.user.profileImage ? (
+                    <SProfile src={meetingData.user.profileImage} alt="" />
+                  ) : (
+                    <ProfileDefaultIcon width={24} height={24} />
+                  )}
+                </SProfileWrapper>
+
+                <SName>{meetingData.user.name}</SName>
+              </Flex>
               <SInfoRow>
-                <SKey>모집 기간</SKey>
+                <SKey>모임 기간</SKey>
                 <SValue>
-                  {dayjs(meetingData.mStartDate).format('YY.MM.DD')} - {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
+                  {dayjs(meetingData.startDate).format('YY.MM.DD')} - {dayjs(meetingData.endDate).format('YY.MM.DD')}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
-                <SKey>모집 인원</SKey>
+                <SKey>모임 대상</SKey>
                 <SValue>
-                  {meetingData.appliedInfo.filter(info => info.status === 1).length}/{meetingData.capacity}명
+                  {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체기수'} /{' '}
+                  {isAllParts
+                    ? '전체파트'
+                    : meetingData.joinableParts
+                        .map(part => parsePartValueToLabel(part))
+                        .filter(item => item !== null)
+                        .join(',')}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
-                <SKey>모임 개설</SKey>
-                <SValue>{meetingData.user.name}</SValue>
+                <SKey>모집 현황</SKey>
+                <SValue>
+                  {meetingData.appliedInfo.filter(info => info.status === approve).length}/{meetingData.capacity}명
+                </SValue>
               </SInfoRow>
             </Box>
             <Box
@@ -135,11 +158,31 @@ const SCategory = styled('p', {
   borderRadius: '37px',
   px: '$9',
   py: '$6',
+  mr: '$5',
   '@mobile': {
+    mr: '$0',
     display: 'none',
   },
 });
+const SProfileWrapper = styled(Box, {
+  flexType: 'verticalCenter',
+  color: '$white',
+  width: 'fit-content',
+  mr: '$8',
+});
+const SProfile = styled('img', {
+  width: '$24',
+  height: '$24',
+  borderRadius: '50%',
+  objectFit: 'cover',
+});
+const SProfileDefaultIcon = styled(ProfileDefaultIcon, {
+  mr: '$8',
+});
 
+const SName = styled('p', {
+  fontAg: '14_medium_100',
+});
 const STitle = styled('p', {
   maxWidth: '380px',
 
@@ -162,6 +205,7 @@ const SKey = styled(SInfo, {
   width: '74px',
   color: '$gray80',
   mr: '$16',
+  whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
   color: '$gray60',

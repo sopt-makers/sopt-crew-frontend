@@ -10,10 +10,11 @@ export default function useModal() {
   const handleModalClose = () => {
     setIsModalOpened(false);
   };
-
+  const handleToggle = () => setIsModalOpened(prev => !prev);
   return {
     isModalOpened,
     handleModalOpen,
     handleModalClose,
+    handleToggle,
   };
 }

@@ -35,7 +35,7 @@ const SButton = styled(Flex, {
   '@mobile': {
     width: '65px',
     fontAg: '10_bold_100',
-    padding: '8px 6px 8px 12px',
+    padding: '5px 6px 6px 10px',
   },
 });
 

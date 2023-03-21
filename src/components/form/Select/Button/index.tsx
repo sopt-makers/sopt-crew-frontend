@@ -2,20 +2,25 @@ import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import ArrowSmallDownIcon from '@assets/svg/arrow_small_down.svg';
-import { Option } from '@components/form/Select/OptionItem';
 
 interface ButtonProps {
   open?: boolean;
-  value?: Option;
+  label: {
+    text?: string;
+    /**
+     * 텍스트 하이라이트 여부
+     */
+    active: boolean;
+  };
 }
 
-function Button({ value, open }: ButtonProps) {
-  const isNotSelected = value?.value === null;
+function Button({ open, label }: ButtonProps) {
+  const isNotSelected = !label.active;
 
   return (
     <Listbox.Button as={Fragment}>
       <SButton isNotSelected={isNotSelected}>
-        {value?.label}
+        {label.text}
         <SArrowDownIcon open={open} isNotSelected={isNotSelected} />
       </SButton>
     </Listbox.Button>
@@ -26,12 +31,12 @@ export default Button;
 
 const SButton = styled('button', {
   minWidth: '147px',
-  padding: '16px 20px 16px 16px',
+  padding: '$18 $20',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 8,
-  fontAg: '16_medium_100',
+  fontAg: '18_medium_100',
   color: '$white',
   background: '$black60',
   borderRadius: 10,

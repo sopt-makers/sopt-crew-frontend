@@ -9,6 +9,10 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
+  ssr: false,
+});
 
 const MakePage = () => {
   const router = useRouter();
@@ -72,6 +76,9 @@ const MakePage = () => {
         </SFormContainer>
         <TableOfContents label="모임 개설" />
       </SContainer>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
+      <DevTool control={formMethods.control} />
     </FormProvider>
   );
 };
