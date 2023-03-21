@@ -3,8 +3,7 @@ import axios from 'axios';
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
 
-// TODO: change after deploy server
-const baseURL = 'https://crew.api.dev.sopt.org';
+const baseURL = process.env.APP_ENV === 'production' ? 'https://crew.api.sopt.org' : 'https://crew.api.dev.sopt.org';
 
 const playgroundBaseURL = 'https://playground.api.sopt.org/';
 
