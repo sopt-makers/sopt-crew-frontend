@@ -14,6 +14,7 @@ import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from 'src/types/form';
 import NeedMentor from '../CheckBox/NeedMentor';
 import { parts } from 'src/data/options';
+import FormSwitch from '../FormSwitch/FormSwitch';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -283,12 +284,18 @@ function Presentation({
         </div>
       </div>
 
-      {/* 모임 정보 - 모집 대상 / 대상 파트 */}
+      {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
       <div>
         <Label required={true} size="small">
           모집 대상
         </Label>
         <STargetFieldWrapper>
+          <FormController
+            name="detail.onlyCurrentGeneration"
+            render={({ field: { value, onChange } }) => (
+              <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
+            )}
+          ></FormController>
           <FormController
             name="detail.targetPart"
             defaultValue={[parts[0]]}
