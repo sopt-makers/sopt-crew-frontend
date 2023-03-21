@@ -52,7 +52,7 @@ const MinePage: NextPage = () => {
             <SSRSafeSuspense
               fallback={
                 <GridLayout>
-                  {new Array(4).fill(null).map((_, index) => (
+                  {new Array(6).fill(null).map((_, index) => (
                     <CardSkeleton key={index} />
                   ))}
                 </GridLayout>

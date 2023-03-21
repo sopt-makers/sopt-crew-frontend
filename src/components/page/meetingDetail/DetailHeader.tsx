@@ -16,6 +16,8 @@ import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
+import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
+import { playgroundURL } from '@constants/url';
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
@@ -54,6 +56,7 @@ const DetailHeader = ({
     title,
     user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
+    approvedApplyCount,
     capacity,
     host: isHost,
     apply: isApplied,
@@ -66,8 +69,6 @@ const DetailHeader = ({
   const router = useRouter();
   const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const current = appliedInfo.length;
-  const total = appliedInfo.length; // TODO: API response 바뀌면 수정할 예정
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -89,11 +90,10 @@ const DetailHeader = ({
     handleModalClose: handleDefaultModalClose,
   } = useModal();
   const [modalTitle, setModalTitle] = useState('');
-  const playgroundURL = `https://playground.sopt.org/`;
 
   const handleRecruitmentStatusModal = () => {
     handleDefaultModalOpen();
-    setModalTitle(`모집 현황 (${current}/${capacity}명)`);
+    setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
   };
 
   const handleApplicationModal = () => {
@@ -182,11 +182,6 @@ const DetailHeader = ({
     );
   };
 
-  const handleNoProfile = () => {
-    const memberUploadHref = `${playgroundURL}${playgroundLink.memberUpload()}`;
-    router.push(memberUploadHref);
-  };
-
   return (
     <>
       <SDetailHeader>
@@ -215,7 +210,7 @@ const DetailHeader = ({
             <div>
               <span>모집 현황</span>
               <span>
-                {current}/{capacity}명
+                {approvedApplyCount}/{capacity}명
               </span>
             </div>
             <ArrowSmallRightIcon />
@@ -250,49 +245,35 @@ const DetailHeader = ({
           )}
         </div>
       </SDetailHeader>
-      {isHost && isHostModalOpened && (
-        <HostConfirmModal
-          isModalOpened={isHostModalOpened}
-          handleModalClose={handleHostModalClose}
-          handleConfirm={handleDeleteMeeting}
-        />
-      )}
-      {!me?.hasProfile && isProfileModalOpened && (
-        <ProfileConfirmModal
-          isModalOpened={isProfileModalOpened}
-          handleModalClose={handleProfileModalClose}
-          handleConfirm={handleNoProfile}
-        />
-      )}
-      {isGuestModalOpened && (
-        <GuestConfirmModal
-          isModalOpened={isGuestModalOpened}
-          message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
-          handleModalClose={handleGuestModalClose}
-          handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
-        />
-      )}
-      {isDefaultModalOpened && (
-        <DefaultModal
-          isModalOpened={isDefaultModalOpened}
-          title={modalTitle}
-          handleModalClose={handleDefaultModalClose}
-        >
-          {modalTitle === '모임 신청하기' && (
-            <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
-          )}
-          {modalTitle.includes('모집 현황') && (
-            <RecruitmentStatusModalContent
-              current={current}
-              total={total}
-              meetingId={Number(meetingId)}
-              appliedInfo={appliedInfo}
-              isHost={isHost}
-              isApplied={isApplied}
-            />
-          )}
-        </DefaultModal>
-      )}
+      <HostConfirmModal
+        isModalOpened={isHostModalOpened}
+        handleModalClose={handleHostModalClose}
+        handleConfirm={handleDeleteMeeting}
+      />
+      <ProfileConfirmModal
+        isModalOpened={isProfileModalOpened}
+        handleModalClose={handleProfileModalClose}
+        handleConfirm={moveToProfileUploadPage}
+      />
+      <GuestConfirmModal
+        isModalOpened={isGuestModalOpened}
+        message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
+        handleModalClose={handleGuestModalClose}
+        handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
+      />
+      <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
+        {modalTitle === '모임 신청하기' && (
+          <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
+        )}
+        {modalTitle.includes('모집 현황') && (
+          <RecruitmentStatusModalContent
+            meetingId={Number(meetingId)}
+            appliedInfo={appliedInfo}
+            isHost={isHost}
+            isApplied={isApplied}
+          />
+        )}
+      </DefaultModal>
     </>
   );
 };

@@ -52,14 +52,14 @@ const HeaderWrapper = styled(Box, {
   left: 0,
   width: '100%',
   zIndex: '$1',
-});
-
-const SDesktopHeaderWrapper = styled(HeaderWrapper, {
-  display: 'block',
 
   '& > header': {
     backgroundColor: '$black100',
   },
+});
+
+const SDesktopHeaderWrapper = styled(HeaderWrapper, {
+  display: 'block',
 
   '@mobile': {
     display: 'none',

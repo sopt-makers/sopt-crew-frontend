@@ -33,14 +33,13 @@ export interface MeetingResponse {
   imageURL: ImageURLType[];
   startDate: string;
   endDate: string;
+  approvedApplyCount: number;
   capacity: number;
   desc: string;
   processDesc: string;
   mStartDate: string;
   mEndDate: string;
   leaderDesc: string;
-  // TODO: add field
-  // needMentor: boolean;
   targetDesc: string;
   note: string | null;
   isMentorNeeded: boolean;
@@ -71,7 +70,7 @@ export interface ApplicationData {
   id: number;
   type: number;
   appliedDate: string;
-  content: string;
+  content?: string;
   status: ApplicationStatusType;
   user: UserResponse;
 }
