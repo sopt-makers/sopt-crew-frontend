@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import Loader from '@components/loader/Loader';
 import CheckIcon from 'public/assets/svg/check.svg';
 import dynamic from 'next/dynamic';
+import { parts } from 'src/data/options';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -99,6 +100,7 @@ const EditPage = () => {
           mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
+          joinableParts: formData?.joinableParts.map(partString => parts.find(part => part.value === partString)),
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },

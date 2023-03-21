@@ -300,7 +300,7 @@ function Presentation({
             )}
           ></FormController>
           <FormController
-            name="detail.targetPart"
+            name="detail.joinableParts"
             defaultValue={[parts[0]]}
             render={({ field: { value, onChange, onBlur } }) => (
               <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
