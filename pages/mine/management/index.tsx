@@ -263,19 +263,9 @@ const SSelectWrapper = styled(Box, {
   '& div': {
     background: '$black100',
   },
+
   '& + &': {
     marginLeft: '12px',
-  },
-
-  // bottomSheet 만들기전 임시
-  '@mobile': {
-    '& ul': {
-      top: '36px',
-      minWidth: '96px',
-      div: {
-        fontAg: '12_semibold_100',
-      },
-    },
   },
 });
 
