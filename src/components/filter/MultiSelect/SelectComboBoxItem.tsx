@@ -39,7 +39,13 @@ const SCheckbox = styled('input', {
   mr: '$10',
   '& + label': {
     cursor: 'pointer',
-    fontAg: '16_medium_100',
+    fontAg: '18_medium_100',
+  },
+  '@mobile': {
+    '& + label': {
+      cursor: 'pointer',
+      fontAg: '16_medium_100',
+    },
   },
   variants: {
     checked: {

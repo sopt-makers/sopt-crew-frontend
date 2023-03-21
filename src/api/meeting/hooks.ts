@@ -1,4 +1,11 @@
-import { useCategoryParams, usePageParams, useSearchParams, useStatusParams } from '@hooks/queryString/custom';
+import {
+  useCategoryParams,
+  useIsOnlyActiveGenerationParams,
+  usePageParams,
+  usePartParams,
+  useSearchParams,
+  useStatusParams,
+} from '@hooks/queryString/custom';
 import {
   useMutation,
   UseMutationOptions,
@@ -53,14 +60,18 @@ export const useQueryMeetingListOfAll = () => {
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
   const { value: page } = usePageParams();
+  const { value: isOnlyActiveGeneration } = useIsOnlyActiveGenerationParams();
+  const { value: part } = usePartParams();
   return useQuery(
-    ['fetchMeetingList', 'all', page, category, status, search],
+    ['fetchMeetingList', 'all', page, category, status, search, isOnlyActiveGeneration, part],
     () =>
       fetchMeetingListOfAll({
         page: Number(page),
         category,
         status,
         search: search as string,
+        isOnlyActiveGeneration,
+        part,
       }),
     {
       select: response => response.data.data,

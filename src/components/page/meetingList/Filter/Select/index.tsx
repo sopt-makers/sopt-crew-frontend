@@ -1,9 +1,6 @@
 import { useMultiQueryString } from '@hooks/queryString';
-
-import { FilterType } from '@components/page/meetingList/Filter';
 import MultiSelect from '@components/filter/MultiSelect';
-// headless ui로 제작용 import, 제가 나중에 지울꼐야
-// import Select from '@components/filter/Select';
+import { FilterType } from '@constants/option';
 
 interface SelectProps {
   filter: FilterType;
@@ -12,7 +9,6 @@ interface SelectProps {
 function FilterSelect({ filter }: SelectProps) {
   const {
     value: selectedFilterValue,
-    // setValue: setFilterOption,
     addValue: addFilterOption,
     deleteValue: deleteFilterOption,
   } = useMultiQueryString(filter.subject, true);

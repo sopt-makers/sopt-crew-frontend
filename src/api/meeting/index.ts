@@ -1,8 +1,9 @@
-import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS } from '@constants/option';
+import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
 import { Option } from '@components/form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
+import { parseBool } from '@utils/parseBool';
 
 interface PaginationType {
   page: number;
@@ -18,6 +19,8 @@ interface filterData {
   category: string[];
   status?: string[];
   search?: string;
+  isOnlyActiveGeneration?: string | null;
+  part?: string[];
 }
 export interface ImageURLType {
   id: number;
@@ -43,14 +46,15 @@ export interface MeetingResponse {
   targetDesc: string;
   note: string | null;
   isMentorNeeded: boolean;
-  canJoinOnlyActiveGeneration: boolean;
-  joinableParts: string[];
   appliedInfo: ApplyResponse[];
   user: UserResponse;
   host: boolean;
   apply: boolean;
   approved: boolean;
   invite: boolean;
+  canJoinOnlyActiveGeneration: boolean;
+  targetActiveGeneration: number | null;
+  joinableParts: string[];
 }
 interface MeetingListOfFilterResponse {
   meta: PaginationType;
@@ -107,8 +111,24 @@ function parseStatusToNumber(status: string, statusArray: string[]) {
   if (statusIdx >= 0) return statusIdx;
   return null;
 }
-
-export const fetchMeetingListOfAll = async ({ page, category, status, search }: filterData) => {
+function parsePartLabelToValue(part: string) {
+  const partIdx = PART_OPTIONS.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_VALUES[partIdx];
+  return null;
+}
+export function parsePartValueToLabel(part: string) {
+  const partIdx = PART_VALUES.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_OPTIONS[partIdx];
+  return null;
+}
+export const fetchMeetingListOfAll = async ({
+  page,
+  category,
+  status,
+  search,
+  isOnlyActiveGeneration,
+  part,
+}: filterData) => {
   return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
     `/meeting?${page ? `&page=${page}` : ''}${
       status?.length
@@ -117,7 +137,17 @@ export const fetchMeetingListOfAll = async ({ page, category, status, search }: 
             .filter(item => item !== null)
             .join(',')}`
         : ''
-    }${category?.length ? `&category=${category.join(',')}` : ''}${search ? `&query=${search}` : ''}`
+    }${
+      part?.length
+        ? `${part
+            .map((item: string) => parsePartLabelToValue(item))
+            .filter(item => item !== null)
+            .map(item => `&joinableParts=${item}`)
+            .join('')}`
+        : ''
+    }${category?.length ? `&category=${category.join(',')}` : ''}${
+      search ? `&query=${search}` : ''
+    }${`&isOnlyActiveGeneration=${parseBool(isOnlyActiveGeneration)}`}`
   );
 };
 

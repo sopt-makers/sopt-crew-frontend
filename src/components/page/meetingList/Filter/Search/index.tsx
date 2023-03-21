@@ -29,11 +29,11 @@ function Search() {
 
 export default Search;
 const SSearchWrapper = styled(Flex, {
-  width: '242px',
-  py: '$13',
-  px: '$24',
-  border: '1px solid $black40',
-  borderRadius: '59px',
+  width: '198px',
+  py: '$15',
+  px: '$20',
+  border: '1px solid $black20',
+  borderRadius: '14px',
   ml: '$12',
   '@mobile': {
     display: 'none',
@@ -41,7 +41,7 @@ const SSearchWrapper = styled(Flex, {
 });
 
 const SSearchInput = styled('input', {
-  width: '200px',
+  width: '160px',
   color: '$white',
   fontAg: '18_medium_100',
 

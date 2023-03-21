@@ -1,6 +1,6 @@
-import { FilterType } from '@components/page/meetingList/Filter';
 import FilterSelect from '@components/page/meetingList/Filter/Select';
 import { Flex } from '@components/util/layout/Flex';
+import { FilterType } from '@constants/option';
 
 const FILTERS: FilterType[] = [
   {

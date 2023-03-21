@@ -2,11 +2,11 @@ import XSmallIcon from '@assets/svg/x_small.svg?rect';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 
-function ResultItem({ selectedOption, deleteValue }: { selectedOption: string; deleteValue: (value: string) => void }) {
+function ResultItem({ selectedOption, deleteValue }: { selectedOption: string; deleteValue: () => void }) {
   return (
     <SResultItemWrapper align="center" justify="between">
       <SFilterItemName>{selectedOption}</SFilterItemName>
-      <SCancelButton onClick={() => deleteValue(selectedOption)}>
+      <SCancelButton onClick={deleteValue}>
         <XSmallIcon />
       </SCancelButton>
     </SResultItemWrapper>
