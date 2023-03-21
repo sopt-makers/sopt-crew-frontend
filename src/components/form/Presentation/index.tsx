@@ -268,7 +268,10 @@ function Presentation({
         </Label>
         <div style={{ position: 'relative' }}>
           <SNeedMentorFieldWrapper>
-            <FormController name="detail.needMentor" render={({ field }) => <NeedMentor {...field} />}></FormController>
+            <FormController
+              name="detail.isMentorNeeded"
+              render={({ field }) => <NeedMentor {...field} />}
+            ></FormController>
           </SNeedMentorFieldWrapper>
           <FormController
             name="detail.leaderDesc"
