@@ -294,7 +294,7 @@ function Presentation({
         </Label>
         <STargetFieldWrapper>
           <FormController
-            name="detail.onlyCurrentGeneration"
+            name="detail.canJoinOnlyActiveGeneration"
             render={({ field: { value, onChange } }) => (
               <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
             )}

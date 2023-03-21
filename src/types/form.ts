@@ -77,7 +77,7 @@ export const schema = z.object({
       })
       .max(300, { message: '300자 까지 입력 가능합니다.' }),
     isMentorNeeded: z.boolean().optional().nullable(),
-    onlyCurrentGeneration: z.boolean().optional().nullable(),
+    canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
     joinableParts: z.array(
       z.object({
         label: z.string(),

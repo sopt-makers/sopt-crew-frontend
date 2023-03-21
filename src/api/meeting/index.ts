@@ -237,12 +237,12 @@ const serializeFormData = (formData: FormType) => {
     else if (key === 'detail') {
       for (const [detailKey, value] of Object.entries(formData[key])) {
         if (detailKey === 'joinableParts') {
-          const refinedParts = formData.detail.joinableParts.filter(part => part.value && part.value !== 'all');
-          for (const part of refinedParts) {
-            part.value && form.append(detailKey, part.value);
-          }
-        }
-        if (value) {
+          const refinedParts = formData.detail.joinableParts
+            // NOTE: value가 null, 'all' 인 것들을 필터링한다
+            .filter(part => part.value && part.value !== 'all')
+            .map(part => part.value) as string[];
+          form.append(detailKey, refinedParts.join(','));
+        } else {
           form.append(detailKey, String(value));
         }
       }

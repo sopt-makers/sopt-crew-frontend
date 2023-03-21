@@ -101,6 +101,7 @@ const EditPage = () => {
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts: formData?.joinableParts.map(partString => parts.find(part => part.value === partString)),
+          canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },
