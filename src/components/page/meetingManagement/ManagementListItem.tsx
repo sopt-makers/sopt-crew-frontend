@@ -1,16 +1,16 @@
-import { Box } from '@components/box/Box';
-import { styled } from 'stitches.config';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import useModal from '@hooks/useModal';
-import DefaultModal from '@components/modal/DefaultModal';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ApplicationData } from 'src/api/meeting';
-import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus, EApplicationType } from '@constants/option';
-import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
-import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
 import { useQueryClient } from '@tanstack/react-query';
+import { styled } from 'stitches.config';
+import useModal from '@hooks/useModal';
+import { Box } from '@components/box/Box';
+import DefaultModal from '@components/modal/DefaultModal';
+import { ApplicationData } from 'src/api/meeting';
+import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
+import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus, EApplicationType } from '@constants/option';
 import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -22,9 +22,12 @@ interface ManagementListItemProps {
 }
 
 const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
+  const { appliedDate, content = '', status = 0, user, type } = application;
+  const date = dayjs(appliedDate).format('YY.MM.DD');
+  const time = dayjs.utc(appliedDate).format('HH:mm:ss');
+
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { appliedDate, content = '', status = 0, user, type } = application;
 
   const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
   const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation({});
@@ -70,8 +73,8 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
-              <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
-              <STime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</STime>
+              <SDate>{date}</SDate>
+              <STime>{time}</STime>
             </SUserInformation>
             <SButtonContainer>
               {
@@ -135,8 +138,8 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 </div>
                 <div>
                   <SCardType>{APPLICATION_TYPE[type]}</SCardType>
-                  <SCardDate>{dayjs(appliedDate).format('YY.MM.DD')}</SCardDate>
-                  <SCardTime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</SCardTime>
+                  <SCardDate>{date}</SCardDate>
+                  <SCardTime>{time}</SCardTime>
                 </div>
               </SCardUserInformation>
               <SCardDetailButton onClick={handleModalOpen}>
@@ -206,8 +209,8 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               </Link>
             </SProfile>
             <SVerticalLine />
-            <SDate>{dayjs(appliedDate).format('YY.MM.DD')}</SDate>
-            <STime>{dayjs.utc(appliedDate).format('HH:mm:ss')}</STime>
+            <SDate>{date}</SDate>
+            <STime>{time}</STime>
           </SUserInformation>
         </SListItem>
       )}
