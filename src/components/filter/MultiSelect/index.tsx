@@ -173,8 +173,9 @@ const SSelectOverlay = styled(Box, {
       false: { display: 'none' },
     },
   },
-  '@mobile': {
-    backgroundColor: '$black60',
-    opacity: 0.2,
-  },
+  // TODO: 임시 삭제후, select에도 적용 논의
+  // '@mobile': {
+  //   backgroundColor: '$black60',
+  //   opacity: 0.2,
+  // },
 });

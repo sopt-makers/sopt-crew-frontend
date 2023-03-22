@@ -7,6 +7,7 @@ import { mergeCss } from '@utils/styles';
 interface ArrowProps {
   size?: number;
   color?: string;
+  disabledColor?: string;
   strokeWidth?: number;
   css?: CSSType;
   direction: 'right' | 'top' | 'left' | 'bottom';
@@ -23,18 +24,26 @@ export const ArrowButton = ({
   disabled = false,
   size = 16,
   color = '#fff',
+  disabledColor = '$black20',
   strokeWidth = 2,
   ...props
 }: ArrowButtonProps) => {
   return (
     <SButton css={{ ...css }} disabled={disabled} onClick={onClick} {...props}>
-      <Arrow color={color} direction={direction} strokeWidth={strokeWidth} size={size} />
+      <Arrow color={disabled ? disabledColor : color} direction={direction} strokeWidth={strokeWidth} size={size} />
     </SButton>
   );
 };
 
 const SButton = styled('button', {
   p: '$8',
+  variants: {
+    disabled: {
+      true: {
+        cursor: 'not-allowed',
+      },
+    },
+  },
 });
 
 export const Arrow = ({
@@ -48,11 +57,10 @@ export const Arrow = ({
   return (
     <SArrow
       css={mergeCss(
-        { svg: { width: `${size}px`, height: `${size}px` }, path: { strokeWidth: strokeWidth } },
+        { svg: { width: `${size}px`, height: `${size}px` }, path: { strokeWidth: strokeWidth, stroke: color } },
         { ...css }
       )}
       direction={direction}
-      color={color}
       {...props}
     />
   );
