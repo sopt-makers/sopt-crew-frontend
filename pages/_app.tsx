@@ -1,14 +1,16 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Box } from '@components/box/Box';
-import { theme } from 'stitches.config';
-import Header from '@components/header/Header';
-import { useRouter } from 'next/router';
-import useAuth from '@hooks/useAuth';
-import React, { useEffect } from 'react';
-import { api, playgroundApi } from 'src/api';
 import Head from 'next/head';
+import Script from 'next/script';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { theme } from 'stitches.config';
+import '../styles/globals.css';
+import Header from '@components/header/Header';
+import { Box } from '@components/box/Box';
+import useAuth from '@hooks/useAuth';
+import { api, playgroundApi } from 'src/api';
+import { GTM_ID, pageview } from '@utils/gtm';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -16,6 +18,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   const {
     tokens: { playgroundToken, crewToken },
   } = useAuth();
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', pageview);
+    return () => {
+      router.events.off('routeChangeComplete', pageview);
+    };
+  }, [router.events]);
 
   useEffect(() => {
     // NOTE: playground token이 없다면 로그인 페이지로 redirect
@@ -34,6 +43,19 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>SOPT Playground</title>
       </Head>
+      <Script
+        id="gtag-base"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer', '${GTM_ID}');
+          `,
+        }}
+      />
       <Box
         css={{
           minHeight: '100vh',
