@@ -28,6 +28,8 @@ jobs:
           echo "NEXT_PUBLIC_APP_ENV=production" >> .env
       - name: Build
         run: yarn build:ci
+        env:
+          NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
       - name: Publish
         run: yarn run wrangler pages publish ".vercel/output/static" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
         env:
