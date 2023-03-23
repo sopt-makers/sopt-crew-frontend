@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCrewToken } from 'src/api/auth';
 
-const ACCESS_TOKEN_KEY = 'serviceAccessToken';
+export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
 interface Tokens {
   playgroundToken: string | null;
