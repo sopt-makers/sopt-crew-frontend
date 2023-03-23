@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import Loader from '@components/loader/Loader';
 import CheckIcon from 'public/assets/svg/check.svg';
 import dynamic from 'next/dynamic';
+import { parts } from 'src/data/options';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -84,6 +85,13 @@ const EditPage = () => {
         return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
       });
       const files = await Promise.all(filePromises);
+      const joinableParts =
+        // NOTE: null(디폴트), all(전체) 옵션을 제외한 나머지 옵션 개수와 서버에서 내려온 개수가 같으면 '전체' 옵션이 선택된 것 처럼 여겨져야 한다.
+        // NOTE: 그게 아니라면, 서버에서 저장된 옵션에 더해 null(디폴트) 옵션을 추가해준다.
+        parts.length - 2 === formData?.joinableParts.length
+          ? parts
+          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            [parts[0], ...formData!.joinableParts.map(partString => parts.find(part => part.value === partString))];
 
       formMethods.reset({
         ...formData,
@@ -98,8 +106,9 @@ const EditPage = () => {
           mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
           mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
-          // TODO: add field
-          // needMentor: formData.needMentor,
+          isMentorNeeded: formData?.isMentorNeeded,
+          joinableParts,
+          canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
           targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },

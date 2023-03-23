@@ -12,8 +12,6 @@ import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -24,7 +22,7 @@ interface ManagementListItemProps {
 const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
   const { appliedDate, content = '', status = 0, user, type } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
-  const time = dayjs.utc(appliedDate).format('HH:mm:ss');
+  const time = dayjs(appliedDate).format('HH:mm:ss');
 
   const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();

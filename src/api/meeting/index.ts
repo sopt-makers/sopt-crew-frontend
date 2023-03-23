@@ -236,7 +236,13 @@ const serializeFormData = (formData: FormType) => {
     // NOTE: nested된 필드를 flat하게 만들어주자.
     else if (key === 'detail') {
       for (const [detailKey, value] of Object.entries(formData[key])) {
-        if (value) {
+        if (detailKey === 'joinableParts') {
+          const refinedParts = formData.detail.joinableParts
+            // NOTE: value가 null, 'all' 인 것들을 필터링한다
+            .filter(part => part.value && part.value !== 'all')
+            .map(part => part.value) as string[];
+          form.append(detailKey, refinedParts.join(','));
+        } else {
           form.append(detailKey, String(value));
         }
       }

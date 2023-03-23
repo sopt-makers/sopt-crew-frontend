@@ -268,7 +268,10 @@ function Presentation({
         </Label>
         <div style={{ position: 'relative' }}>
           <SNeedMentorFieldWrapper>
-            <FormController name="detail.needMentor" render={({ field }) => <NeedMentor {...field} />}></FormController>
+            <FormController
+              name="detail.isMentorNeeded"
+              render={({ field }) => <NeedMentor {...field} />}
+            ></FormController>
           </SNeedMentorFieldWrapper>
           <FormController
             name="detail.leaderDesc"
@@ -291,13 +294,13 @@ function Presentation({
         </Label>
         <STargetFieldWrapper>
           <FormController
-            name="detail.onlyCurrentGeneration"
+            name="detail.canJoinOnlyActiveGeneration"
             render={({ field: { value, onChange } }) => (
               <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
             )}
           ></FormController>
           <FormController
-            name="detail.targetPart"
+            name="detail.joinableParts"
             defaultValue={[parts[0]]}
             render={({ field: { value, onChange, onBlur } }) => (
               <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
