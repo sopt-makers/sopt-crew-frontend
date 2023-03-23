@@ -23,7 +23,10 @@ jobs:
       - name: Install Packages
         run: yarn install
       - name: Set .env
-        run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
+        run: |
+          echo "${{ secrets.PROJECT_ENV }}" > .env.local
+          echo "NEXT_PUBLIC_APP_ENV=development" >> .env
+
       - name: Build
         run: yarn build:ci
       - name: Publish
