@@ -3,10 +3,11 @@ import axios from 'axios';
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
 
-// TODO: change after deploy server
-const baseURL = 'https://makers-web.herokuapp.com';
+const baseURL =
+  process.env.APP_ENV === 'production' ? 'https://crew.api.prod.sopt.org' : 'https://crew.api.dev.sopt.org';
 
-const playgroundBaseURL = 'https://playground.api.sopt.org/';
+const playgroundBaseURL =
+  process.env.APP_ENV === 'production' ? 'https://playground.api.sopt.org/' : 'https://playground.dev.sopt.org/';
 
 export const api = axios.create({
   baseURL,
