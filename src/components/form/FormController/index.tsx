@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, ControllerProps, useFormContext } from 'react-hook-form';
 import { Option } from '../Select/OptionItem';
 
 interface FormControllerProps {
   name: string;
   render: ControllerProps['render'];
-  defaultValue?: string | number | Option | Option[];
+  defaultValue?: boolean | string | number | Option | Option[];
 }
 
 function FormController({ name, render, defaultValue }: FormControllerProps) {
-  const { control, formState } = useFormContext();
+  const { control, formState, setValue } = useFormContext();
+
+  useEffect(() => {
+    if (defaultValue === false) {
+      setValue(name, false);
+    }
+  }, [defaultValue, name, setValue]);
 
   return (
     <Controller
