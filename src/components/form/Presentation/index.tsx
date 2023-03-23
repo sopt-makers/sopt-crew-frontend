@@ -270,6 +270,7 @@ function Presentation({
           <SNeedMentorFieldWrapper>
             <FormController
               name="detail.isMentorNeeded"
+              defaultValue={false}
               render={({ field }) => <NeedMentor {...field} />}
             ></FormController>
           </SNeedMentorFieldWrapper>
@@ -295,6 +296,7 @@ function Presentation({
         <STargetFieldWrapper>
           <FormController
             name="detail.canJoinOnlyActiveGeneration"
+            defaultValue={false}
             render={({ field: { value, onChange } }) => (
               <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
             )}
