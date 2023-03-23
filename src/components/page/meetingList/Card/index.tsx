@@ -61,9 +61,9 @@ function Card({ bottom, meetingData }: CardProps) {
               <SInfoRow>
                 <SKey>모임 대상</SKey>
                 <SValue>
-                  {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체기수'} /{' '}
+                  {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
                   {isAllParts
-                    ? '전체파트'
+                    ? '전체 파트'
                     : meetingData.joinableParts
                         .map(part => parsePartValueToLabel(part))
                         .filter(item => item !== null)
