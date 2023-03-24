@@ -37,6 +37,7 @@ function FilterModalOpenButton() {
         type="button"
         onClick={() => setIsModalOpened(true)}
         isFilterActive={isFilterActive}
+        className="filter-button"
       >
         <SLabel>필터</SLabel>
         <EqualizerIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
