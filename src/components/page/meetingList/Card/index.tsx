@@ -59,7 +59,7 @@ function Card({ bottom, meetingData }: CardProps) {
                 </SValue>
               </SInfoRow>
               <SInfoRow>
-                <SKey>모임 대상</SKey>
+                <SKey>모집 대상</SKey>
                 <SValue>
                   {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
                   {isAllParts
