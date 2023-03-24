@@ -15,6 +15,7 @@ import { MAX_FILE_SIZE } from 'src/types/form';
 import NeedMentor from '../CheckBox/NeedMentor';
 import { parts } from 'src/data/options';
 import FormSwitch from '../FormSwitch/FormSwitch';
+import { useRouter } from 'next/router';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -39,6 +40,7 @@ function Presentation({
   onSubmit,
   disabled = true,
 }: PresentationProps) {
+  const router = useRouter();
   const [filename, setFilename] = useState<string>('');
 
   const onChangeFile = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -331,7 +333,7 @@ function Presentation({
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
         {cancelButtonLabel && (
-          <CancelButton type="button">
+          <CancelButton type="button" onClick={() => router.back()}>
             <CancelIcon />
             {cancelButtonLabel}
           </CancelButton>
