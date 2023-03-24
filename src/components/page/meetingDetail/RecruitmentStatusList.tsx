@@ -61,7 +61,10 @@ const SRecruitmentStatusItem = styled(Box, {
   backgroundColor: '$black60',
   color: '$white',
   fontAg: '16_semibold_100',
-  mb: '$12',
+
+  '&:not(:nth-last-child(-n + 2))': {
+    mb: '$12',
+  },
 
   '@mobile': {
     width: 'calc(50% - 3.5px)',
