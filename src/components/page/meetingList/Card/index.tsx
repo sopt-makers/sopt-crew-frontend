@@ -55,7 +55,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <SInfoRow>
                 <SKey>모임 기간</SKey>
                 <SValue>
-                  {dayjs(meetingData.startDate).format('YY.MM.DD')} - {dayjs(meetingData.endDate).format('YY.MM.DD')}
+                  {dayjs(meetingData.mStartDate).format('YY.MM.DD')} - {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
                 </SValue>
               </SInfoRow>
               <SInfoRow>
