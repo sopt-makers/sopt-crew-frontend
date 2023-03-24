@@ -371,6 +371,7 @@ const SProfileAnchor = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     mr: '$16',
+    background: '$black60',
     '@mobile': {
       width: '$30',
       height: '$30',

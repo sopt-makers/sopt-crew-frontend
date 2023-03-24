@@ -83,6 +83,7 @@ const SRecruitmentStatusItem = styled(Box, {
     height: '$32',
     borderRadius: '$round',
     objectFit: 'cover',
+    background: '$black40',
 
     '@mobile': {
       width: '$26',

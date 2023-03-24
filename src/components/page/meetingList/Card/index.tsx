@@ -174,9 +174,7 @@ const SProfile = styled('img', {
   height: '$24',
   borderRadius: '50%',
   objectFit: 'cover',
-});
-const SProfileDefaultIcon = styled(ProfileDefaultIcon, {
-  mr: '$8',
+  background: '$black60',
 });
 
 const SName = styled('p', {
