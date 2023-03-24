@@ -29,6 +29,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.detail.mEndDate &&
     form.detail.leaderDesc &&
     form.detail.targetDesc &&
+    form.detail.joinableParts &&
+    form.detail.joinableParts.length > 1 && // default 옵션이 선택되어 있기 때문 최소 2개 이상 선택되어야 통과
     !errors.detail;
 
   const validityList = [
