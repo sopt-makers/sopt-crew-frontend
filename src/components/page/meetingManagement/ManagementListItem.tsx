@@ -272,6 +272,7 @@ const SCardContent = styled(Box, {
 const SProfileImage = styled(Box, {
   width: '$32',
   height: '$32',
+  background: '$black40',
   borderRadius: '$round',
   ml: '$4',
   overflow: 'hidden',

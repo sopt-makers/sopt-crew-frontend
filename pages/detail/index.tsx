@@ -13,6 +13,8 @@ import {
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 
 const DetailPage = () => {
@@ -32,9 +34,9 @@ const DetailPage = () => {
     {
       id: 1,
       title: '모임 기간',
-      content: `${dayjs(detailData?.mStartDate ?? '').format('YYYY.MM.DD')} - ${dayjs(
+      content: `${dayjs(detailData?.mStartDate ?? '').format('YYYY.MM.DD (ddd)')} ~ ${dayjs(
         detailData?.mEndDate ?? ''
-      ).format('YYYY.MM.DD')}`,
+      ).format('YYYY.MM.DD (ddd)')}`,
     },
     {
       id: 2,
@@ -143,6 +145,7 @@ const STitle = styled('h2', {
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
   whiteSpace: 'pre-line',
+
   '@mobile': {
     fontAg: '16_medium_150',
   },

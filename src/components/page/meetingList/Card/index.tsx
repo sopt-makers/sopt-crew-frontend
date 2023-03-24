@@ -1,6 +1,6 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
-import { RECRUITMENT_STATUS } from '@constants/option';
+import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
@@ -15,7 +15,6 @@ interface CardProps {
 
 function Card({ bottom, meetingData }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
-  const approve = 1;
   return (
     <Box as="li">
       <Link href={`/detail?id=${meetingData.id}`} passHref>
@@ -49,7 +48,6 @@ function Card({ bottom, meetingData }: CardProps) {
                     <ProfileDefaultIcon width={24} height={24} />
                   )}
                 </SProfileWrapper>
-
                 <SName>{meetingData.user.name}</SName>
               </Flex>
               <SInfoRow>
@@ -59,7 +57,7 @@ function Card({ bottom, meetingData }: CardProps) {
                 </SValue>
               </SInfoRow>
               <SInfoRow>
-                <SKey>모임 대상</SKey>
+                <SKey>모집 대상</SKey>
                 <SValue>
                   {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
                   {isAllParts
@@ -73,7 +71,8 @@ function Card({ bottom, meetingData }: CardProps) {
               <SInfoRow>
                 <SKey>모집 현황</SKey>
                 <SValue>
-                  {meetingData.appliedInfo.filter(info => info.status === approve).length}/{meetingData.capacity}명
+                  {meetingData.appliedInfo.filter(info => info.status === EApprovalStatus.APPROVE).length}/
+                  {meetingData.capacity}명
                 </SValue>
               </SInfoRow>
             </Box>
@@ -175,9 +174,7 @@ const SProfile = styled('img', {
   height: '$24',
   borderRadius: '50%',
   objectFit: 'cover',
-});
-const SProfileDefaultIcon = styled(ProfileDefaultIcon, {
-  mr: '$8',
+  background: '$black60',
 });
 
 const SName = styled('p', {

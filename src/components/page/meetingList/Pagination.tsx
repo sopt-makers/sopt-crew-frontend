@@ -8,6 +8,7 @@ interface PaginationProps {
   currentPageIndex?: number;
   changeCurrentPage: (value: number) => void;
 }
+
 function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentPage }: PaginationProps) {
   const BUNDLE_SIZE = 5;
 
@@ -21,6 +22,11 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
     changeCurrentPage(currentPageIndex + BUNDLE_SIZE);
   };
 
+  const handlePageLinkClick = (item: number) => {
+    changeCurrentPage(item);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     setPagesIndex(Math.floor((currentPageIndex - 1) / BUNDLE_SIZE));
   }, [currentPageIndex]);
@@ -31,12 +37,11 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
         <SArrowButton direction="left" disabled={pagesIndex === 0} onClick={pagesIndex === 0 ? () => {} : prevBundle} />
         <Flex css={{ mx: '$24', '@mobile': { mx: '$10' } }} as="ul">
           {pagesBundle[pagesIndex]?.map((item, idx) => (
-            <SPageLink key={idx} isCurrent={currentPageIndex === item} onClick={() => changeCurrentPage(item)}>
+            <SPageLink key={idx} isCurrent={currentPageIndex === item} onClick={() => handlePageLinkClick(item)}>
               {item}
             </SPageLink>
           ))}
         </Flex>
-
         <SArrowButton
           direction="right"
           disabled={pagesBundle.length - 1 <= pagesIndex}

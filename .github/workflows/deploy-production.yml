@@ -24,8 +24,7 @@ jobs:
       - name: Set .env
         run: |
           echo "${{ secrets.PROJECT_ENV }}" > .env.local
-          echo "${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}" > .env
-          echo "NEXT_PUBLIC_APP_ENV=production" >> .env
+          echo "NEXT_PUBLIC_APP_ENV=production" > .env
       - name: Build
         run: yarn build:ci
         env:
