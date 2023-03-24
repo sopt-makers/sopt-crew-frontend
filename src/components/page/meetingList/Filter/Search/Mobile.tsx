@@ -22,7 +22,7 @@ function SearchMobile() {
 
   return (
     <>
-      <SearchIcon onClick={toggle} />
+      <SearchIcon onClick={toggle} className="search-button" />
       <SLayout onSubmit={handleSubmit(onSubmit)} isVisible={isVisible}>
         <Flex align="center" justify="between">
           <SForm>

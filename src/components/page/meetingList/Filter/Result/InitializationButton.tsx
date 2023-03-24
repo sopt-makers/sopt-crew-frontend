@@ -23,6 +23,7 @@ function InitializationButton({ css, withText = true, size = 16 }: Initializatio
   };
   return (
     <Flex
+      className="initialize-button"
       as="button"
       css={mergeCss(
         {

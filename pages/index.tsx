@@ -48,7 +48,7 @@ const Home: NextPage = () => {
             </Link>
           </TabList>
           <SMobileButtonContainer>
-            <WriteIcon onClick={handleMakeMeeting} />
+            <WriteIcon onClick={handleMakeMeeting} className="make-button" />
             <Search.Mobile />
           </SMobileButtonContainer>
           <SMakeMeetingButton onClick={handleMakeMeeting}>
