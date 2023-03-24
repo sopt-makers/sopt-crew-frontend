@@ -142,7 +142,7 @@ const STitle = styled('h2', {
 
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
-
+  whiteSpace: 'pre-line',
   '@mobile': {
     fontAg: '16_medium_150',
   },
