@@ -14,7 +14,7 @@ export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
   const handleChange = (newValue: Option | Option[]) => {
     if (multiple) {
       let newValues = newValue as Option[];
-      const lastSelectedItem = newValues.at(-1);
+      const lastSelectedItem = newValues[newValues.length - 1];
       // NOTE: 전체 옵션을 선택한 경우, 전체 옵션을 체크해주어야 한다.
       if (isAllSelect(lastSelectedItem)) return onChange(options);
       // NOTE: 전체 옵션을 선택 해제한 경우, 전체 옵션을 체크 해제해주어야 한다.
