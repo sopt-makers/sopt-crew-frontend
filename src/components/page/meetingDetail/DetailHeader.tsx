@@ -120,9 +120,9 @@ const DetailHeader = ({
           handleDefaultModalClose();
         },
         onError: (error: AxiosError) => {
-          handleDefaultModalClose();
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.message);
+          handleDefaultModalClose();
         },
       }
     );
