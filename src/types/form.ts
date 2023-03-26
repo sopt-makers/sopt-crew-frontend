@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import { z } from 'zod';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 export const schema = z.object({
   title: z
