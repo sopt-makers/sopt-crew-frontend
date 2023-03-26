@@ -74,17 +74,19 @@ const EditPage = () => {
     formMethods.setValue('files', files);
   };
 
+  const urlsToFiles = async (urls: string[]) => {
+    const filePromises = urls.map((url, index) => {
+      return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
+    });
+    return await Promise.all(filePromises);
+  };
+
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
     if (!formData) {
       return;
     }
     async function fillForm() {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const filePromises = formData!.imageURL.map(async ({ url }, index) => {
-        return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
-      });
-      const files = await Promise.all(filePromises);
       const joinableParts =
         // NOTE: null(디폴트), all(전체) 옵션을 제외한 나머지 옵션 개수와 서버에서 내려온 개수가 같으면 '전체' 옵션이 선택된 것 처럼 여겨져야 한다.
         // NOTE: 그게 아니라면, 서버에서 저장된 옵션에 더해 null(디폴트) 옵션을 추가해준다.
@@ -98,7 +100,6 @@ const EditPage = () => {
         startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
         endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
         category: { label: formData?.category, value: formData?.category },
-        files,
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
@@ -113,6 +114,10 @@ const EditPage = () => {
           note: formData?.note ?? '',
         },
       });
+      // NOTE: files 필드는 다른 폼 필드를 모두 채우고 나서 채운다. 이미지 url을 파일로 변환하는 동안 빈 폼이 보이지 않도록 하기 위해서.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const files = await urlsToFiles(formData!.imageURL.map(({ url }) => url));
+      formMethods.setValue('files', files);
     }
 
     fillForm();
