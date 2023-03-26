@@ -299,7 +299,6 @@ function Presentation({
         <FormController
           name="detail.targetDesc"
           render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
-            console.log(errors);
             const detailError = errors.detail as FieldErrors | undefined;
             const joinablePartsError = detailError?.joinableParts as FieldError;
             const errorMessage = () => {
