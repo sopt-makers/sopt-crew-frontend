@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
@@ -117,6 +117,11 @@ const DetailHeader = ({
           queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
           });
+          handleDefaultModalClose();
+        },
+        onError: (error: AxiosError) => {
+          const errorResponse = error.response as AxiosResponse;
+          alert(errorResponse.data.message);
           handleDefaultModalClose();
         },
       }
