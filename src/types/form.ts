@@ -78,16 +78,18 @@ export const schema = z.object({
       .max(300, { message: '300자 까지 입력 가능합니다.' }),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
-    joinableParts: z.array(
-      z.object({
-        label: z.string(),
-        value: z.string().nullable(),
-      })
-    ),
+    joinableParts: z
+      .array(
+        z.object({
+          label: z.string(),
+          value: z.string().nullable(),
+        })
+      )
+      .min(2, { message: '대상 파트를 선택해주세요.' }), // NOTE: default 옵션에 더해 최소 1개는 선택해야 한다(총 2개)
     targetDesc: z
       .string()
       .min(1, {
-        message: '모집 대상을 입력해주세요.',
+        message: '상세 내용을 작성해주세요.',
       })
       .max(300, { message: '300자 까지 입력 가능합니다.' }),
     note: z.string().max(300, { message: '300자 까지 입력 가능합니다.' }).optional().nullable(),

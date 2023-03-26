@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import CancelIcon from 'public/assets/svg/x.svg';
-import { FieldError } from 'react-hook-form';
+import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from 'src/data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
@@ -295,27 +295,46 @@ function Presentation({
         <Label required={true} size="small">
           모집 대상
         </Label>
-        <STargetFieldWrapper>
-          <FormController
-            name="detail.canJoinOnlyActiveGeneration"
-            defaultValue={false}
-            render={({ field: { value, onChange } }) => (
-              <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
-            )}
-          ></FormController>
-          <FormController
-            name="detail.joinableParts"
-            defaultValue={[parts[0]]}
-            render={({ field: { value, onChange, onBlur } }) => (
-              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-            )}
-          ></FormController>
-        </STargetFieldWrapper>
+        <HelpMessage>기수 제한, 대상 파트를 선택하고 상세 내용을 작성해주세요.</HelpMessage>
         <FormController
           name="detail.targetDesc"
-          render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="이런 분을 찾아요" maxLength={300} error={error?.message} {...field} />
-          )}
+          render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
+            console.log(errors);
+            const detailError = errors.detail as FieldErrors | undefined;
+            const joinablePartsError = detailError?.joinableParts as FieldError;
+            const errorMessage = () => {
+              if (targetDescError) {
+                if (joinablePartsError) {
+                  return '대상 파트를 선택하고 상세 내용을 작성해주세요.';
+                }
+                return targetDescError.message;
+              }
+              if (joinablePartsError) {
+                return joinablePartsError.message;
+              }
+            };
+            return (
+              <>
+                <STargetFieldWrapper>
+                  <FormController
+                    name="detail.canJoinOnlyActiveGeneration"
+                    defaultValue={false}
+                    render={({ field: { value, onChange } }) => (
+                      <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
+                    )}
+                  ></FormController>
+                  <FormController
+                    name="detail.joinableParts"
+                    defaultValue={[parts[0]]}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                    )}
+                  ></FormController>
+                </STargetFieldWrapper>
+                <Textarea placeholder="이런 분을 찾아요" maxLength={300} error={errorMessage()} {...field} />
+              </>
+            );
+          }}
         ></FormController>
       </div>
 
