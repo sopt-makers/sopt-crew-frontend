@@ -33,7 +33,7 @@ const DetailPage = () => {
     },
     {
       id: 1,
-      title: '모임 기간',
+      title: '활동 기간',
       content: `${dayjs(detailData?.mStartDate ?? '').format('YYYY.MM.DD (ddd)')} ~ ${dayjs(
         detailData?.mEndDate ?? ''
       ).format('YYYY.MM.DD (ddd)')}`,
