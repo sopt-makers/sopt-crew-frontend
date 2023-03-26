@@ -228,9 +228,9 @@ function Presentation({
       {/* 모임 정보 - 모임 기간 */}
       <div>
         <Label required={true} size="small">
-          모임 기간
+          활동 기간
         </Label>
-        <HelpMessage>모임 기간을 형식에 맞춰 입력해주세요</HelpMessage>
+        <HelpMessage>활동 기간을 형식에 맞춰 입력해주세요</HelpMessage>
         <SDateFieldWrapper>
           <SDateField>
             <FormController
