@@ -23,8 +23,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         <SBottomContainer>
           {error && <SErrorMessage>{error}</SErrorMessage>}
           {props.maxLength && (
-            <STextCount overflow={props.value.length > props.maxLength}>
-              {props.value.length} / {props.maxLength}
+            <STextCount overflow={props.value.replace(/\r\n/g, '\n').length > props.maxLength}>
+              {props.value.replace(/\r\n/g, '\n').length} / {props.maxLength}
             </STextCount>
           )}
         </SBottomContainer>

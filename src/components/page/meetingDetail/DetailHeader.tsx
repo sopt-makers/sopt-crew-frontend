@@ -22,6 +22,7 @@ import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@consta
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
+import { getResizedImage } from '@utils/image';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -203,7 +204,7 @@ const DetailHeader = ({
           </h1>
           <SHostWrapper>
             <SProfileAnchor href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}>
-              {hostProfileImage ? <img src={hostProfileImage} alt="" /> : <ProfileDefaultIcon />}
+              {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
