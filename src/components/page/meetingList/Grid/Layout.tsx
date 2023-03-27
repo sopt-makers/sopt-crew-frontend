@@ -29,7 +29,7 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 550px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
-  '@media (max-width: 375px)': {
+  '@media (max-width: 359px)': {
     gridTemplateColumns: '1fr',
   },
 });

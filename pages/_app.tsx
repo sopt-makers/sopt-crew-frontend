@@ -72,6 +72,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           '@mobile': {
             marginTop: '70px',
           },
+          '@small_mobile': {
+            px: '$12',
+          },
         }}
       >
         <Header />
