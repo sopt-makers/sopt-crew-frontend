@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 import { MeetingResponse, parsePartValueToLabel } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { getResizedImage } from '@utils/image';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -43,7 +44,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <Flex css={{ mb: '$12' }} align="center">
                 <SProfileWrapper>
                   {meetingData.user.profileImage ? (
-                    <SProfile src={meetingData.user.profileImage} alt="" />
+                    <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
                   ) : (
                     <ProfileDefaultIcon width={24} height={24} />
                   )}
