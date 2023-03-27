@@ -68,6 +68,22 @@ const DetailPage = () => {
     tabRef.current[detailList.findIndex(item => item.title === text)].scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleContent = (content: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
+    const fragmentList = content.split(urlRegex);
+    return fragmentList.map((fragment, index) => {
+      if (urlRegex.test(fragment)) {
+        const url = fragment.startsWith('https') ? fragment : `https://${fragment}`;
+        return (
+          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
+            {fragment}
+          </a>
+        );
+      }
+      return fragment;
+    });
+  };
+
   if (!detailData) {
     return <Loader />;
   }
@@ -104,7 +120,7 @@ const DetailPage = () => {
                   <span>대상 파트</span> : {partList?.join(', ')}
                 </STarget>
               )}
-              <SDescription>{content}</SDescription>
+              <SDescription>{handleContent(content)}</SDescription>
             </SDetail>
           )
       )}
@@ -145,6 +161,10 @@ const STitle = styled('h2', {
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
   whiteSpace: 'pre-line',
+
+  a: {
+    textDecoration: 'underline',
+  },
 
   '@mobile': {
     fontAg: '16_medium_150',
