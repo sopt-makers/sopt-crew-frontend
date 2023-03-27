@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 import { MeetingResponse, parsePartValueToLabel } from 'src/api/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { getResizedImage } from '@utils/image';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -15,6 +16,7 @@ interface CardProps {
 
 function Card({ bottom, meetingData }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
+
   return (
     <Box as="li">
       <Link href={`/detail?id=${meetingData.id}`} passHref>
@@ -24,7 +26,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
               <SThumbnailImage
                 css={{
-                  backgroundImage: `url(${meetingData.imageURL[0].url})`,
+                  backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 760)})`,
                 }}
               />
             </Box>
@@ -43,7 +45,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <Flex css={{ mb: '$12' }} align="center">
                 <SProfileWrapper>
                   {meetingData.user.profileImage ? (
-                    <SProfile src={meetingData.user.profileImage} alt="" />
+                    <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
                   ) : (
                     <ProfileDefaultIcon width={24} height={24} />
                   )}
