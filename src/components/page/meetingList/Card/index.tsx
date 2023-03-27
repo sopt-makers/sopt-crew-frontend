@@ -25,7 +25,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
               <SThumbnailImage
                 css={{
-                  backgroundImage: `url(${meetingData.imageURL[0].url})`,
+                  backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 380)})`,
                 }}
               />
             </Box>
