@@ -187,7 +187,6 @@ const DetailHeader = ({
       }
     );
   };
-  const profileImageWidth = 120;
 
   return (
     <>
@@ -205,11 +204,7 @@ const DetailHeader = ({
           </h1>
           <SHostWrapper>
             <SProfileAnchor href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}>
-              {hostProfileImage ? (
-                <img src={getResizedImage(hostProfileImage, profileImageWidth)} />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
+              {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
