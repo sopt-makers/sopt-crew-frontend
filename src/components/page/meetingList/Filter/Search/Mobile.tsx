@@ -93,4 +93,5 @@ const SCancelButton = styled('button', {
   flexType: 'center',
   color: '$white',
   margin: '0 $24 0 $16',
+  whiteSpace: 'nowrap',
 });

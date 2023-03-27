@@ -261,6 +261,7 @@ const stitches = createStitches({
     },
   },
   media: {
+    small_mobile: '(max-width: 375px)',
     mobile: '(max-width: 768px)',
     tablet: '(max-width: 1065px)',
     desktop: '(min-width: 1065px)',

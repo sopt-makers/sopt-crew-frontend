@@ -63,4 +63,9 @@ const SResultWrapper = styled(Flex, {
     marginLeft: '-20px',
     borderRadius: '0',
   },
+  '@small_mobile': {
+    padding: '12px',
+    marginRight: '-12px',
+    marginLeft: '-12px',
+  },
 });
