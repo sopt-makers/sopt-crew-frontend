@@ -16,6 +16,8 @@ interface CardProps {
 
 function Card({ bottom, meetingData }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
+  const cardImageWidth = 760;
+  const profileImageWidth = 120;
   return (
     <Box as="li">
       <Link href={`/detail?id=${meetingData.id}`} passHref>
@@ -25,7 +27,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
               <SThumbnailImage
                 css={{
-                  backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 380)})`,
+                  backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, cardImageWidth)})`,
                 }}
               />
             </Box>
@@ -44,7 +46,7 @@ function Card({ bottom, meetingData }: CardProps) {
               <Flex css={{ mb: '$12' }} align="center">
                 <SProfileWrapper>
                   {meetingData.user.profileImage ? (
-                    <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
+                    <SProfile src={getResizedImage(meetingData.user.profileImage, profileImageWidth)} alt="" />
                   ) : (
                     <ProfileDefaultIcon width={24} height={24} />
                   )}
