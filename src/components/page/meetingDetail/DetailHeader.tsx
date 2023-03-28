@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { AxiosError, AxiosResponse } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
+import dayjs from 'dayjs';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import { Box } from '@components/box/Box';
@@ -22,9 +23,6 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-dayjs.extend(isBetween);
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -113,12 +111,6 @@ const DetailHeader = ({
   };
 
   const handleApplicationButton = (textareaValue: string) => {
-    const now = dayjs();
-    if (now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00')) {
-      alert('32기 스터디는 23:00부터 신청할 수 있어요.');
-      handleDefaultModalClose();
-      return;
-    }
     mutateApplication(
       { id: Number(meetingId), content: textareaValue },
       {
