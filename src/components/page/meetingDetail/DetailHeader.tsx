@@ -17,8 +17,7 @@ import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
 import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
 import { playgroundURL } from '@constants/url';
-// import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
-import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
@@ -76,7 +75,7 @@ const DetailHeader = ({
   const now = dayjs();
   const isDisabledPeriod =
     now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') || now.isBefore(startDate) || now.isAfter(endDate);
-  const tempStatus = now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') ? 0 : status;
+  const tempStatus = now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') ? ERecruitmentStatus.BEFORE : status;
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
