@@ -71,11 +71,7 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
-  //const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const now = dayjs();
-  const isDisabledPeriod =
-    now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') || now.isBefore(startDate) || now.isAfter(endDate);
-  const tempStatus = now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') ? ERecruitmentStatus.BEFORE : status;
+  const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -199,7 +195,7 @@ const DetailHeader = ({
       <SDetailHeader>
         <SAbout>
           <div>
-            <SRecruitStatus status={tempStatus}>{RECRUITMENT_STATUS[tempStatus]}</SRecruitStatus>
+            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
             <SPeriod>
               {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
             </SPeriod>
@@ -228,7 +224,7 @@ const DetailHeader = ({
             <ArrowSmallRightIcon />
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
-            <SGuestButton disabled={isDisabledPeriod} isApplied={isApplied} onClick={handleApplicationModal}>
+            <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
               신청{isApplied ? ' 취소' : '하기'}
             </SGuestButton>
           )}
