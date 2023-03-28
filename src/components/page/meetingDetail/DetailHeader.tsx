@@ -113,6 +113,12 @@ const DetailHeader = ({
   };
 
   const handleApplicationButton = (textareaValue: string) => {
+    const now = dayjs();
+    if (now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00')) {
+      alert('32기 스터디는 23:00부터 신청할 수 있어요.');
+      handleDefaultModalClose();
+      return;
+    }
     mutateApplication(
       { id: Number(meetingId), content: textareaValue },
       {
