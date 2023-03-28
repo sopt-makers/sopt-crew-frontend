@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { AxiosError, AxiosResponse } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
-import dayjs from 'dayjs';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import { Box } from '@components/box/Box';
@@ -18,11 +17,15 @@ import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
 import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
 import { playgroundURL } from '@constants/url';
-import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+// import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+dayjs.extend(isBetween);
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -69,7 +72,11 @@ const DetailHeader = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
-  const isRecruiting = status === ERecruitmentStatus.RECRUITING;
+  //const isRecruiting = status === ERecruitmentStatus.RECRUITING;
+  const now = dayjs();
+  const isDisabledPeriod =
+    now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') || now.isBefore(startDate) || now.isAfter(endDate);
+  const tempStatus = now.isBetween('2023-03-31 00:00:00', '2023-03-31 23:00:00') ? 0 : status;
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -193,7 +200,7 @@ const DetailHeader = ({
       <SDetailHeader>
         <SAbout>
           <div>
-            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
+            <SRecruitStatus status={tempStatus}>{RECRUITMENT_STATUS[tempStatus]}</SRecruitStatus>
             <SPeriod>
               {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
             </SPeriod>
@@ -222,12 +229,7 @@ const DetailHeader = ({
             <ArrowSmallRightIcon />
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
-            <SGuestButton
-              disabled={!isRecruiting}
-              isRecruiting={isRecruiting}
-              isApplied={isApplied}
-              onClick={handleApplicationModal}
-            >
+            <SGuestButton disabled={isDisabledPeriod} isApplied={isApplied} onClick={handleApplicationModal}>
               신청{isApplied ? ' 취소' : '하기'}
             </SGuestButton>
           )}
@@ -459,13 +461,12 @@ const SGuestButton = styled(Button, {
     padding: '$16 0',
   },
 
+  '&:disabled': {
+    opacity: 0.35,
+    cursor: 'not-allowed',
+  },
+
   variants: {
-    isRecruiting: {
-      false: {
-        opacity: 0.35,
-        cursor: 'not-allowed',
-      },
-    },
     isApplied: {
       true: {
         border: `2px solid $black40`,
