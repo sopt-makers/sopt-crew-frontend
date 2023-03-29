@@ -222,12 +222,7 @@ const DetailHeader = ({
             <ArrowSmallRightIcon />
           </SStatusButton>
           {!isHost && !isInvited && !isApproved && (
-            <SGuestButton
-              disabled={!isRecruiting}
-              isRecruiting={isRecruiting}
-              isApplied={isApplied}
-              onClick={handleApplicationModal}
-            >
+            <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
               신청{isApplied ? ' 취소' : '하기'}
             </SGuestButton>
           )}
@@ -459,13 +454,12 @@ const SGuestButton = styled(Button, {
     padding: '$16 0',
   },
 
+  '&:disabled': {
+    opacity: 0.35,
+    cursor: 'not-allowed',
+  },
+
   variants: {
-    isRecruiting: {
-      false: {
-        opacity: 0.35,
-        cursor: 'not-allowed',
-      },
-    },
     isApplied: {
       true: {
         border: `2px solid $black40`,
