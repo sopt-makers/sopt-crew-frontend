@@ -69,6 +69,7 @@ const DetailPage = () => {
   };
 
   const handleContent = (content: string) => {
+    // eslint-disable-next-line no-useless-escape
     const urlRegex = /(https?:\/\/[^\s\]\)]+)|(www\.[^\s\]\)]+)/g;
     const fragmentList = content.split(urlRegex);
     return fragmentList.map((fragment, index) => {
