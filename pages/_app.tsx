@@ -16,7 +16,7 @@ import { api, playgroundApi } from 'src/api';
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
   const router = useRouter();
-  const [isServiceReady, setisServiceReady] = useState(false);
+  const [isServiceReady, setIsServiceReady] = useState(false);
 
   useEffect(() => {
     router.events.on('routeChangeComplete', pageview);
@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       return;
     }
     // NOTE: NODE_ENV가 production 환경에서는 로컬스토리지에 저장된 토큰을 가져와 사용
-    setAccessTokens().then(() => setisServiceReady(true));
+    setAccessTokens().then(() => setIsServiceReady(true));
   }, []);
 
   return (
