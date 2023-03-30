@@ -20,7 +20,7 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
     changeCurrentPage(prevBundleLastPage);
   };
   const nextBundle = () => {
-    const nextBundleFirstPage = (parseInt(String((currentPageIndex - 1) / BUNDLE_SIZE)) + 1) * BUNDLE_SIZE + 1;
+    const nextBundleFirstPage = Math.ceil(currentPageIndex / BUNDLE_SIZE) * BUNDLE_SIZE + 1;
     changeCurrentPage(nextBundleFirstPage);
   };
 
