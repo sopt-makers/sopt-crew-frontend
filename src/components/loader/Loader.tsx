@@ -3,7 +3,7 @@ import { keyframes, styled } from 'stitches.config';
 
 const Loader = () => {
   return (
-    <SLoaderWrapper>
+    <SLoaderWrapper aria-label="로딩 중" aria-live="polite" aria-busy="true">
       <span />
       <span />
       <span />
