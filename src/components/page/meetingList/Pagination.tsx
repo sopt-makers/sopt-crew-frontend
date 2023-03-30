@@ -16,7 +16,7 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
 
   const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
   const prevBundle = () => {
-    const prevBundleLastPage = (parseInt(String((currentPageIndex - 1) / BUNDLE_SIZE)) - 1) * BUNDLE_SIZE + BUNDLE_SIZE;
+    const prevBundleLastPage = Math.floor((currentPageIndex - 1) / BUNDLE_SIZE) * BUNDLE_SIZE;
     changeCurrentPage(prevBundleLastPage);
   };
   const nextBundle = () => {
