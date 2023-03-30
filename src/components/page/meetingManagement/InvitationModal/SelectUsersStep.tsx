@@ -1,10 +1,10 @@
 import { Box } from '@components/box/Box';
 import Select from '@components/form/Select';
 import TextInput from '@components/form/TextInput';
+import Loader from '@components/loader/Loader';
 import useDebounce from '@hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { SetStateAction, useMemo, useState } from 'react';
-import { SyncLoader } from 'react-spinners';
 import { useUsersToInvite } from 'src/api/meeting/hooks';
 import { generationOptions } from 'src/data/options';
 import { styled } from 'stitches.config';
@@ -74,7 +74,7 @@ export default function SelectUsersStep({ selectedUsers, setSelectedUsers }: Sel
       <SMemberList>
         {isLoading && (
           <SLoaderWrapper>
-            <SyncLoader color="#8040ff" />
+            <Loader />
           </SLoaderWrapper>
         )}
         {!isLoading && !users?.length ? (
