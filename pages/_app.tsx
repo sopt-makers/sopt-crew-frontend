@@ -2,22 +2,21 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { theme } from 'stitches.config';
 import '../styles/globals.css';
 import Header from '@components/header/Header';
 import { Box } from '@components/box/Box';
-import useAuth from '@hooks/useAuth';
-import { api, playgroundApi } from 'src/api';
 import { GTM_ID, pageview } from '@utils/gtm';
+import { setAccessTokens } from '@components/util/auth';
+import Loader from '@components/loader/Loader';
+import { api, playgroundApi } from 'src/api';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
   const router = useRouter();
-  const {
-    tokens: { playgroundToken, crewToken },
-  } = useAuth();
+  const [isServiceReady, setisServiceReady] = useState(false);
 
   useEffect(() => {
     router.events.on('routeChangeComplete', pageview);
@@ -27,16 +26,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   useEffect(() => {
-    // NOTE: playground token이 없다면 로그인 페이지로 redirect
-    if (playgroundToken === null) {
-      localStorage.setItem('lastUnauthorizedPath', window.location.pathname);
-      window.location.pathname = '/auth/login';
+    // NOTE: development 환경에서는 테스트 토큰을 사용한다.
+    if (process.env.NODE_ENV === 'development') {
+      api.defaults.headers.common['Authorization'] =
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibGVlIiwidXNlcklkIjoxLCJpYXQiOjE2Njg0MzM0MTMsImV4cCI6MTcwNDQzMzQxM30.NGbf96zcykC0QQERvSe5F5S2uZO8Tuc13mkpb73y2Bo';
+      playgroundApi.defaults.headers.common['Authorization'] = '';
       return;
     }
-    // 토큰이 존재하면 이를 설정해준다.
-    api.defaults.headers.common['Authorization'] = crewToken;
-    playgroundApi.defaults.headers.common['Authorization'] = playgroundToken;
-  }, [router, playgroundToken, crewToken]);
+    // NOTE: NODE_ENV가 production 환경에서는 로컬스토리지에 저장된 토큰을 가져와 사용
+    setAccessTokens().then(() => setisServiceReady(true));
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -77,8 +76,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <Header />
-        <Component {...pageProps} />
+        {isServiceReady ? (
+          <>
+            <Header />
+            <Component {...pageProps} />
+          </>
+        ) : (
+          <Loader />
+        )}
       </Box>
     </QueryClientProvider>
   );

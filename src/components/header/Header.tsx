@@ -4,7 +4,7 @@ import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
-import { ACCESS_TOKEN_KEY } from '@hooks/useAuth';
+import { ACCESS_TOKEN_KEY } from '@components/util/auth';
 
 // TODO: playground 팀에서 type export하면 제거할 예정
 type LinkRendererParams = {
