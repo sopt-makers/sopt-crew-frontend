@@ -16,10 +16,12 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
 
   const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
   const prevBundle = () => {
-    changeCurrentPage(currentPageIndex - BUNDLE_SIZE);
+    const prevBundleLastPage = Math.floor((currentPageIndex - 1) / BUNDLE_SIZE) * BUNDLE_SIZE;
+    changeCurrentPage(prevBundleLastPage);
   };
   const nextBundle = () => {
-    changeCurrentPage(currentPageIndex + BUNDLE_SIZE);
+    const nextBundleFirstPage = Math.ceil(currentPageIndex / BUNDLE_SIZE) * BUNDLE_SIZE + 1;
+    changeCurrentPage(nextBundleFirstPage);
   };
 
   const handlePageLinkClick = (item: number) => {
