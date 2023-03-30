@@ -38,6 +38,6 @@ export const setAccessTokens = async () => {
   }
   const crewToken = await getCrewServiceToken(playgroundToken);
 
-  api.defaults.headers.common['Authorization'] = crewToken;
+  api.defaults.headers.common['Authorization'] = `Bearer ${crewToken}`;
   playgroundApi.defaults.headers.common['Authorization'] = playgroundToken;
 };
