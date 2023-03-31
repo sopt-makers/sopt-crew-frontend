@@ -11,14 +11,9 @@ export const getPlaygroundToken = () => {
 };
 
 export const getCrewServiceToken = async (playgroundToken: string) => {
-  const crewToken = localStorage.getItem(CREW_ACCESS_TOKEN_KEY);
-  if (crewToken) {
-    return crewToken;
-  }
   // NOTE: crewToken이 없으면 playground Token으로 로그인 시도
   try {
     const { accessToken: crewToken } = await getCrewToken(playgroundToken);
-    localStorage.setItem(CREW_ACCESS_TOKEN_KEY, crewToken);
     return crewToken;
   } catch {
     // TODO: 에러를 어떻게 핸들링하지?
