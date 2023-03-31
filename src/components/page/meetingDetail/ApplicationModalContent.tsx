@@ -5,9 +5,10 @@ import { styled } from 'stitches.config';
 
 interface ApplicationModalContentProps {
   handleApplicationButton: (textareaValue: string) => void;
+  disabled?: boolean;
 }
 
-const ApplicationModalContent = ({ handleApplicationButton }: ApplicationModalContentProps) => {
+const ApplicationModalContent = ({ handleApplicationButton, disabled }: ApplicationModalContentProps) => {
   const [textareaValue, setTextareaValue] = useState('');
 
   return (
@@ -19,7 +20,9 @@ const ApplicationModalContent = ({ handleApplicationButton }: ApplicationModalCo
         maxLength={150}
         error={textareaValue.length >= 150 ? '150자 까지 입력할 수 있습니다.' : ''}
       />
-      <button onClick={() => handleApplicationButton(textareaValue)}>신청하기</button>
+      <button disabled={disabled} onClick={() => handleApplicationButton(textareaValue)}>
+        신청하기
+      </button>
     </SApplicationModalContent>
   );
 };
@@ -76,6 +79,11 @@ const SApplicationModalContent = styled(Box, {
     fontAg: '18_bold_100',
     color: '$white',
     backgroundColor: '$purple100',
+
+    '&:disabled': {
+      opacity: 0.35,
+      cursor: 'not-allowed',
+    },
 
     '@mobile': {
       width: '$130',
