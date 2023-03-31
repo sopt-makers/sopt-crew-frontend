@@ -253,7 +253,7 @@ const DetailHeader = ({
       <ProfileConfirmModal
         isModalOpened={isProfileModalOpened}
         handleModalClose={handleProfileModalClose}
-        handleConfirm={() => (window.location.pathname = `${playgroundLink.memberUpload()}`)}
+        handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
       />
       <GuestConfirmModal
         isModalOpened={isGuestModalOpened}
