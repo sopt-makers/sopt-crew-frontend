@@ -141,7 +141,7 @@ const DetailHeader = ({
         onError: (error: AxiosError) => {
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.message);
-          handleDefaultModalClose();
+          handleGuestModalClose();
         },
       }
     );
