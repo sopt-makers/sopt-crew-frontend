@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import useModal from '@hooks/useModal';
-import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
+import { playgroundLink } from '@sopt-makers/playground-common';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
         cancelButton="돌아가기"
         confirmButton="작성하기"
         handleModalClose={handleModalClose}
-        handleConfirm={moveToProfileUploadPage}
+        handleConfirm={() => (window.location.pathname = `${playgroundLink.memberUpload()}`)}
       />
     </>
   );
