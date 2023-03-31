@@ -361,7 +361,10 @@ const SName = styled('button', {
 });
 
 const SCardName = styled('button', {
+  color: '$white',
   fontAg: '14_bold_100',
+  textDecoration: 'underline',
+  textUnderlinePosition: 'under',
   mr: '$4',
 });
 
