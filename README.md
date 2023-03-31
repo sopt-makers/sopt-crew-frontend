@@ -17,7 +17,3 @@
 - React Context, TanStack Query, React Hook Form
 - Stitches
 - GitHub Actions
-
-## LICENSE
-
-MIT

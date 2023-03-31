@@ -1,3 +1,4 @@
+import { playgroundLink } from '@sopt-makers/playground-common';
 import { api, playgroundApi } from 'src/api';
 import { getCrewToken } from 'src/api/auth';
 
@@ -27,8 +28,8 @@ export const getCrewServiceToken = async (playgroundToken: string) => {
 };
 
 export const redirectToLoginPage = () => {
-  localStorage.setItem('lastUnauthorizedPath', window.location.pathname);
-  window.location.pathname = '/auth/login';
+  localStorage.setItem('lastUnauthorizedPath', window.location.href);
+  window.location.href = `${playgroundLink.login()}`;
 };
 
 export const setAccessTokens = async () => {

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
@@ -8,7 +7,7 @@ import DefaultModal from '@components/modal/DefaultModal';
 import { ApplicationData } from 'src/api/meeting';
 import { useMutationUpdateApplication, useMutationDeleteInvitation } from 'src/api/meeting/hooks';
 import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus, EApplicationType } from '@constants/option';
-import { usePlaygroundLink } from '@hooks/usePlaygroundLink';
+import { playgroundLink } from '@sopt-makers/playground-common';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
@@ -23,14 +22,15 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
   const { appliedDate, content = '', status = 0, user, type } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
-
-  const { memberDetail } = usePlaygroundLink();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-
   const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
   const { mutateAsync: mutateDeleteInvitation } = useMutationDeleteInvitation({});
   const queryClient = useQueryClient();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
+
+  const moveToMemberDetailPage = (id: string) => {
+    window.location.href = `${playgroundLink.memberDetail(id)}`;
+  };
 
   const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
@@ -65,9 +65,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SProfileImage>
                   {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
                 </SProfileImage>
-                <Link href={memberDetail(user.orgId)} passHref>
-                  <SName>{user.name}</SName>
-                </Link>
+                <SName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SName>
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
@@ -129,9 +127,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               </SProfileImage>
               <SCardUserInformation>
                 <div>
-                  <Link href={memberDetail(user.orgId)} passHref>
-                    <SCardName>{user.name}</SCardName>
-                  </Link>
+                  <SCardName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SCardName>
                   <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
                 </div>
                 <div>
@@ -202,9 +198,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               <SGuestProfileImage>
                 {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
               </SGuestProfileImage>
-              <Link href={memberDetail(user.orgId)} passHref>
-                <SName>{user.name}</SName>
-              </Link>
+              <SName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SName>
             </SProfile>
             <SVerticalLine />
             <SDate>{date}</SDate>
@@ -351,7 +345,7 @@ const SVerticalLine = styled(Box, {
   },
 });
 
-const SName = styled('a', {
+const SName = styled('button', {
   ml: '$8',
   color: '$white',
   fontAg: '18_semibold_100',
@@ -366,8 +360,11 @@ const SName = styled('a', {
   },
 });
 
-const SCardName = styled('a', {
+const SCardName = styled('button', {
+  color: '$white',
   fontAg: '14_bold_100',
+  textDecoration: 'underline',
+  textUnderlinePosition: 'under',
   mr: '$4',
 });
 
