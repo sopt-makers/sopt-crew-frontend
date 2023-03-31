@@ -90,6 +90,7 @@ const DetailHeader = ({
     handleModalClose: handleDefaultModalClose,
   } = useModal();
   const [modalTitle, setModalTitle] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRecruitmentStatusModal = () => {
     handleDefaultModalOpen();
@@ -110,6 +111,7 @@ const DetailHeader = ({
   };
 
   const handleApplicationButton = (textareaValue: string) => {
+    setIsSubmitting(true);
     mutateApplication(
       { id: Number(meetingId), content: textareaValue },
       {
@@ -124,6 +126,7 @@ const DetailHeader = ({
           alert(errorResponse.data.message);
           handleDefaultModalClose();
         },
+        onSettled: () => setIsSubmitting(false),
       }
     );
   };
@@ -268,7 +271,7 @@ const DetailHeader = ({
       />
       <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
         {modalTitle === '모임 신청하기' && (
-          <ApplicationModalContent handleApplicationButton={handleApplicationButton} />
+          <ApplicationModalContent handleApplicationButton={handleApplicationButton} disabled={isSubmitting} />
         )}
         {modalTitle.includes('모집 현황') && (
           <RecruitmentStatusModalContent
