@@ -16,7 +16,6 @@ import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
 import { useGetMemberOfMe } from 'src/api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from 'src/api/meeting';
-import moveToProfileUploadPage from '@utils/moveToProfileUploadPage';
 import { playgroundURL } from '@constants/url';
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -139,6 +138,11 @@ const DetailHeader = ({
           });
           handleGuestModalClose();
         },
+        onError: (error: AxiosError) => {
+          const errorResponse = error.response as AxiosResponse;
+          alert(errorResponse.data.message);
+          handleGuestModalClose();
+        },
       }
     );
   };
@@ -254,7 +258,7 @@ const DetailHeader = ({
       <ProfileConfirmModal
         isModalOpened={isProfileModalOpened}
         handleModalClose={handleProfileModalClose}
-        handleConfirm={moveToProfileUploadPage}
+        handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
       />
       <GuestConfirmModal
         isModalOpened={isGuestModalOpened}

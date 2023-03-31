@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       api.defaults.headers.common['Authorization'] =
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibGVlIiwidXNlcklkIjoxLCJpYXQiOjE2Njg0MzM0MTMsImV4cCI6MTcwNDQzMzQxM30.NGbf96zcykC0QQERvSe5F5S2uZO8Tuc13mkpb73y2Bo';
       playgroundApi.defaults.headers.common['Authorization'] = '';
+      setIsServiceReady(true);
       return;
     }
     // NOTE: NODE_ENV가 production 환경에서는 로컬스토리지에 저장된 토큰을 가져와 사용
