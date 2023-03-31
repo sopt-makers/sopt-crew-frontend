@@ -18,7 +18,7 @@ const Header: FC = () => {
 
   const logout = () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
-    window.location.pathname = '/auth/login';
+    window.location.pathname = `${playgroundLink.login()}`;
   };
 
   const renderLink = ({ href, children }: LinkRendererParams) => {
