@@ -29,7 +29,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
   const moveToMemberDetailPage = (id: string) => {
-    window.location.pathname = `${playgroundLink.memberDetail(id)}`;
+    window.location.href = `${playgroundLink.memberDetail(id)}`;
   };
 
   const handleChangeApplicationStatus = (status: number) => async () => {
