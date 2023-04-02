@@ -11,6 +11,7 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
+import { AxiosError } from 'axios';
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -34,15 +35,24 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
 
   const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
-    await mutateUpdateApplication({
-      id: meetingId,
-      applyId: application.id,
-      status,
-    });
-    await queryClient.invalidateQueries({
-      queryKey: ['getMeetingPeopleList'],
-    });
-    setIsMutateLoading(false);
+    try {
+      await mutateUpdateApplication({
+        id: meetingId,
+        applyId: application.id,
+        status,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['getMeetingPeopleList'],
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        alert(error.response?.data.message);
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setIsMutateLoading(false);
+    }
   };
 
   const handleCancelInvitation = async () => {

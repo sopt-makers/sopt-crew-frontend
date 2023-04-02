@@ -14,7 +14,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import {
   deleteMeeting,
   fetchMeetingListOfAll,
@@ -147,10 +147,6 @@ export const useMutationUpdateApplication = ({
     ...useMutationOptions,
     mutationKey: ['updateApplication'],
     mutationFn: updateApplication,
-    onError: (error: AxiosError) => {
-      const errorResponse = error.response as AxiosResponse;
-      alert(errorResponse.data.message);
-    },
   });
 };
 
