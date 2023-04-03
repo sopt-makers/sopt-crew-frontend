@@ -67,11 +67,14 @@ const SRecruitmentStatusItem = styled(Box, {
   },
 
   '@mobile': {
-    width: 'calc(50% - 3.5px)',
+    width: 'calc(50% - 4px)',
     height: '$48',
     padding: '$11 $12',
     fontAg: '14_medium_100',
-    mb: '$8',
+
+    '&:not(:nth-last-child(-n + 2))': {
+      mb: '$8',
+    },
   },
 
   div: {
@@ -117,7 +120,7 @@ const SRecruitmentStatusItem = styled(Box, {
     ml: '$12',
 
     '@mobile': {
-      ml: '$7',
+      ml: '$8',
     },
   },
 });
