@@ -47,8 +47,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
     } catch (error) {
       if (error instanceof AxiosError) {
         alert(error.response?.data.message);
-      } else {
-        console.error(error);
       }
     } finally {
       setIsMutateLoading(false);
