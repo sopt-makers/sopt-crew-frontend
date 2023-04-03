@@ -12,6 +12,7 @@ import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import { AxiosError } from 'axios';
+import alertErrorMessage from '@utils/alertErrorMessage';
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -46,7 +47,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        alert(error.response?.data.message);
+        alertErrorMessage(error);
       }
     } finally {
       setIsMutateLoading(false);

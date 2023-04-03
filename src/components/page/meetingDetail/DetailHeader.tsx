@@ -22,6 +22,7 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
+import alertErrorMessage from '@utils/alertErrorMessage';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -122,8 +123,7 @@ const DetailHeader = ({
           handleDefaultModalClose();
         },
         onError: (error: AxiosError) => {
-          const errorResponse = error.response as AxiosResponse;
-          alert(errorResponse.data.message);
+          alertErrorMessage(error);
           handleDefaultModalClose();
         },
         onSettled: () => setIsSubmitting(false),
