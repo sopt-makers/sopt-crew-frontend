@@ -8,7 +8,6 @@ import ErrorMessage from '../ErrorMessage';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
-  value?: string;
   message?: string;
   error?: string;
   required?: boolean;
