@@ -146,7 +146,6 @@ function Presentation({
                 {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
                 <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
                   <FileInput
-                    // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
                     error={error?.message}
                     onChange={handleAddFiles({ imageUrls, onChange })}
                     onBlur={onBlur}
