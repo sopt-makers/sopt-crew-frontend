@@ -29,6 +29,7 @@ jobs:
         run: yarn build:ci
         env:
           NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}
+          NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY: ${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}
       - name: Publish
         run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
         env:
