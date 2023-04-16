@@ -18,18 +18,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
       - name: Install Packages
         run: yarn install
       - name: Set .env
         run: |
           echo "${{ secrets.PROJECT_ENV }}" > .env.local
+          echo "${{ vars.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
           echo "NEXT_PUBLIC_APP_ENV=development" >> .env
       - name: Build
         run: yarn build:ci
-        env:
-          NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY: ${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}
       - name: Publish
         run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
         env:
