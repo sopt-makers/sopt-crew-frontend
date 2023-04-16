@@ -11,6 +11,8 @@ import { Box } from '@components/box/Box';
 import { GTM_ID, pageview } from '@utils/gtm';
 import { setAccessTokens } from '@components/util/auth';
 import Loader from '@components/loader/Loader';
+import ChannelService from '@utils/ChannelService';
+import { getMemberOfMe } from 'src/api/members';
 import { api, playgroundApi } from 'src/api';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -37,6 +39,37 @@ function MyApp({ Component, pageProps }: AppProps) {
     // NOTE: NODE_ENV가 production 환경에서는 로컬스토리지에 저장된 토큰을 가져와 사용
     setAccessTokens().then(() => setIsServiceReady(true));
   }, []);
+
+  useEffect(() => {
+    // if (process.env.APP_ENV !== 'production') return;
+    if (!isServiceReady) return;
+
+    const channelTalk = new ChannelService();
+
+    async function bootChannelTalk() {
+      const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY as string;
+      try {
+        const user = await getMemberOfMe();
+        channelTalk.boot({
+          pluginKey,
+          memberId: String(user.id),
+          profile: {
+            name: user.name,
+            avatarUrl: user.profileImage ?? null,
+          },
+        });
+      } catch (error) {
+        channelTalk.boot({
+          pluginKey,
+        });
+      }
+    }
+    bootChannelTalk();
+
+    return () => {
+      channelTalk.shutdown();
+    };
+  }, [isServiceReady]);
 
   return (
     <QueryClientProvider client={queryClient}>
