@@ -41,7 +41,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   useEffect(() => {
-    // if (process.env.APP_ENV !== 'production') return;
     if (!isServiceReady) return;
 
     const channelTalk = new ChannelService();
