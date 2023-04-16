@@ -281,9 +281,9 @@ export const getPresignedUrl = async (contentType: string) => {
 };
 export const uploadImage = async (file: File, url: string, fields: { [key: string]: string }) => {
   const formData = new FormData();
-  Object.entries(fields).map(([key, value]) => {
+  for (const [key, value] of Object.entries(fields)) {
     formData.append(key, value);
-  });
+  }
   formData.append('file', file);
   return await axios.post<never>(url, formData);
 };
