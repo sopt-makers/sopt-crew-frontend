@@ -18,7 +18,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
 
   const isTitleValid = form.title && !errors.title;
   const isCategoryValid = form.category?.value && !errors.category;
-  const isImageValid = form.files?.length > 0;
+  const isImageValid = form.files && form.files.length > 0;
   const isApplicationDateValid = form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isMemberCountValid = form.capacity && !errors.capacity;
   const isDetailValid =
