@@ -27,8 +27,8 @@ jobs:
       - name: Set .env
         run: |
           echo "${{ secrets.PROJECT_ENV }}" > .env.local
-          echo "${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}" >> .env.local
-          echo "${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY=${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
           echo "NEXT_PUBLIC_APP_ENV=production" > .env
       - name: Build
         run: yarn build:ci

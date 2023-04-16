@@ -28,12 +28,10 @@ jobs:
       - name: Set .env
         run: |
           echo "${{ secrets.PROJECT_ENV }}" > .env.local
-          echo "${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY=${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
           echo "NEXT_PUBLIC_APP_ENV=development" >> .env
       - name: Build
         run: yarn build:ci
-        env:
-          NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY: ${{ secrets.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}
       - name: Publish
         run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
         env:
