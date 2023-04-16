@@ -61,8 +61,8 @@ function Presentation({
       if (!e.target.files) {
         return;
       }
-      const newFiles = e.target.files;
-      if (Array.from(newFiles).some(file => file.size > MAX_FILE_SIZE)) {
+      const newFiles = Array.from(e.target.files);
+      if (newFiles.some(file => file.size > MAX_FILE_SIZE)) {
         alert('5MB 이하의 사진만 업로드할 수 있습니다.');
         return;
       }
@@ -71,7 +71,7 @@ function Presentation({
         alert('이미지는 최대 6개까지 업로드 가능합니다.');
         return;
       } else {
-        const urls = await Promise.all(Array.from(newFiles).map(async file => await uploadFile(file)));
+        const urls = await Promise.all(newFiles.map(async file => await uploadFile(file)));
         onChange([...imageUrls, ...urls]);
       }
     };
