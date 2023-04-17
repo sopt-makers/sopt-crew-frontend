@@ -2,11 +2,9 @@ import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import getExtensionFromUrl from '@utils/getExtensionFromUrl';
-import urlToFile from '@utils/urlToFile';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
-import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { getMeeting, updateMeeting } from 'src/api/meeting';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
@@ -42,13 +40,6 @@ const EditPage = () => {
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
-  const files = useWatch({
-    control: formMethods.control,
-    name: 'files',
-  }) as File[] | undefined;
-  const imagesFromFiles = useMemo(() => {
-    return files ? files.map(file => URL.createObjectURL(file)) : [];
-  }, [files]);
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
@@ -62,23 +53,16 @@ const EditPage = () => {
     }
   };
 
-  const handleChangeImage = (index: number, file: File) => {
-    const files = (formMethods.getValues().files as File[]).slice();
-    files.splice(index, 1, file);
+  const handleChangeImage = (index: number, url: string) => {
+    const files = formMethods.getValues().files.slice();
+    files.splice(index, 1, url);
     formMethods.setValue('files', files);
   };
 
   const handleDeleteImage = (index: number) => {
-    const files = (formMethods.getValues().files as File[]).slice();
+    const files = formMethods.getValues().files.slice();
     files.splice(index, 1);
     formMethods.setValue('files', files);
-  };
-
-  const urlsToFiles = async (urls: string[]) => {
-    const filePromises = urls.map((url, index) => {
-      return urlToFile(url, `image-${index}.${getExtensionFromUrl(url)}`);
-    });
-    return await Promise.all(filePromises);
   };
 
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
@@ -97,6 +81,7 @@ const EditPage = () => {
 
       formMethods.reset({
         ...formData,
+        files: formData?.imageURL.map(image => image.url),
         startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
         endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
         category: { label: formData?.category, value: formData?.category },
@@ -114,10 +99,6 @@ const EditPage = () => {
           note: formData?.note ?? '',
         },
       });
-      // NOTE: files 필드는 다른 폼 필드를 모두 채우고 나서 채운다. 이미지 url을 파일로 변환하는 동안 빈 폼이 보이지 않도록 하기 위해서.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const files = await urlsToFiles(formData!.imageURL.map(({ url }) => url));
-      formMethods.setValue('files', files);
     }
 
     fillForm();
@@ -141,7 +122,6 @@ const EditPage = () => {
                 </>
               }
               cancelButtonLabel="수정 취소하기"
-              imageUrls={imagesFromFiles}
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
