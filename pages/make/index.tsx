@@ -1,11 +1,10 @@
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
-import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { FormType, schema } from 'src/types/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createMeeting } from 'src/api/meeting';
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import PlusIcon from 'public/assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
@@ -26,29 +25,22 @@ const MakePage = () => {
     onError: () => alert('모임을 개설하지 못했습니다.'),
   });
 
-  const files = useWatch({
-    control: formMethods.control,
-    name: 'files',
-  }) as File[] | undefined;
-
-  const imagesFromFiles = useMemo(() => {
-    return files ? files.map(file => URL.createObjectURL(file)) : [];
-  }, [files]);
-
-  const handleChangeImage = (index: number, file: File) => {
-    const files = (formMethods.getValues().files as File[]).slice();
-    files.splice(index, 1, file);
+  const handleChangeImage = (index: number, url: string) => {
+    const files = formMethods.getValues().files.slice();
+    files.splice(index, 1, url);
     formMethods.setValue('files', files);
   };
 
   const handleDeleteImage = (index: number) => {
-    const files = (formMethods.getValues().files as File[]).slice();
+    const files = formMethods.getValues().files.slice();
     files.splice(index, 1);
     formMethods.setValue('files', files);
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    const { data: meetingId } = await mutateCreateMeeting(formData);
+    const {
+      data: { meetingId },
+    } = await mutateCreateMeeting(formData);
     alert('모임을 개설했습니다.');
     router.push(`/detail?id=${meetingId}`);
   };
@@ -66,7 +58,6 @@ const MakePage = () => {
                   모임 개설하기
                 </>
               }
-              imageUrls={imagesFromFiles}
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
