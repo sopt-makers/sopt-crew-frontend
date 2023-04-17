@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import CancelIcon from 'public/assets/svg/x.svg';
+import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
-import { categories } from 'src/data/categories';
+import { categories } from '@data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
 import FormController from '../FormController';
@@ -11,12 +11,12 @@ import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
-import { MAX_FILE_SIZE } from 'src/types/form';
+import { MAX_FILE_SIZE } from '@type/form';
 import NeedMentor from '../CheckBox/NeedMentor';
-import { parts } from 'src/data/options';
+import { parts } from '@data/options';
 import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
-import { getPresignedUrl, uploadImage } from 'src/api/meeting';
+import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
 
 interface PresentationProps {

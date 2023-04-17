@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { APPROVAL_STATUS } from '@constants/option';
-import { ApplicationStatusType } from 'src/api/user';
+import { ApplicationStatusType } from '@api/user';
 import { styled } from 'stitches.config';
 
 interface StatusProps {

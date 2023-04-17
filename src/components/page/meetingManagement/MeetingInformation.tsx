@@ -2,7 +2,7 @@ import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
-import { MeetingResponse } from 'src/api/meeting';
+import { MeetingResponse } from '@api/meeting';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
 

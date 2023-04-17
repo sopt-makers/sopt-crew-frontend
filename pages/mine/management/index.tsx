@@ -18,12 +18,12 @@ import {
   useTakeParams,
   useTypeParams,
 } from '@hooks/queryString/custom';
-import { numberOptionList, sortOptionList } from 'src/data/options';
-import { useQueryGetMeeting, useQueryGetMeetingPeopleList } from 'src/api/meeting/hooks';
+import { numberOptionList, sortOptionList } from '@data/options';
+import { useQueryGetMeeting, useQueryGetMeetingPeopleList } from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 // import useModal from '@hooks/useModal';
 // import InvitationModal from '@components/page/meetingManagement/InvitationModal/InvitationModal';
-// import InvitationIcon from 'public/assets/svg/invitation.svg';
+// import InvitationIcon from '@assets/svg/invitation.svg';
 
 const ManagementPage = () => {
   const router = useRouter();

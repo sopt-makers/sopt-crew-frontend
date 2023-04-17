@@ -1,12 +1,12 @@
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormType, schema } from 'src/types/form';
+import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting } from 'src/api/meeting';
+import { createMeeting } from '@api/meeting';
 import { useRouter } from 'next/router';
-import PlusIcon from 'public/assets/svg/plus.svg';
+import PlusIcon from '@assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {

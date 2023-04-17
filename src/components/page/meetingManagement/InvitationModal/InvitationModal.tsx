@@ -3,7 +3,7 @@ import Textarea from '@components/form/Textarea';
 import DefaultModal from '@components/modal/DefaultModal';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { invite } from 'src/api/meeting';
+import { invite } from '@api/meeting';
 import { styled } from 'stitches.config';
 import SelectUsersStep from './SelectUsersStep';
 

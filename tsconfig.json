@@ -23,7 +23,9 @@
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
       "@providers/*": ["src/providers/*"],
-      "@remotes/*": ["src/remotes/*"]
+      "@type/*": ["src/types/*"],
+      "@api/*": ["src/api/*"],
+      "@data/*": ["src/data/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

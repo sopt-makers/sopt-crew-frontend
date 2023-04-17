@@ -5,14 +5,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { getMeeting, updateMeeting } from 'src/api/meeting';
-import { FormType, schema } from 'src/types/form';
+import { getMeeting, updateMeeting } from '@api/meeting';
+import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import Loader from '@components/loader/Loader';
-import CheckIcon from 'public/assets/svg/check.svg';
+import CheckIcon from '@assets/svg/check.svg';
 import dynamic from 'next/dynamic';
-import { parts } from 'src/data/options';
+import { parts } from '@data/options';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
