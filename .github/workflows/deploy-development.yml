@@ -29,8 +29,10 @@ jobs:
 
       - name: Build
         run: yarn build:ci
+      - name: Move artifacts into dist folder
+        run: mkdir group && mv out/* group/ && mv group out
       - name: Publish
-        run: yarn run wrangler pages publish ".vercel/output/static" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}"
+        run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}" --branch=main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
