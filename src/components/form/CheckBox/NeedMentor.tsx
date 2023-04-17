@@ -1,5 +1,5 @@
 import { styled } from 'stitches.config';
-import CheckIcon from 'public/assets/svg/check_need_mentor.svg';
+import CheckIcon from '@assets/svg/check_need_mentor.svg';
 import { forwardRef } from 'react';
 
 interface NeedMentorProps extends React.HTMLAttributes<HTMLInputElement> {

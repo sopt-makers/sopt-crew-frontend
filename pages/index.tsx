@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
-import { useGetMemberOfMe } from 'src/api/members/hooks';
+import { useGetMemberOfMe } from '@api/members/hooks';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import ConfirmModal from '@components/modal/ConfirmModal';

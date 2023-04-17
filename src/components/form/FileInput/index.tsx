@@ -2,8 +2,8 @@ import { HTMLAttributes } from 'react';
 import { styled } from 'stitches.config';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
-import PictureIcon from 'public/assets/svg/picture.svg';
-import { ACCEPTED_IMAGE_TYPES } from 'src/types/form';
+import PictureIcon from '@assets/svg/picture.svg';
+import { ACCEPTED_IMAGE_TYPES } from '@type/form';
 import ErrorMessage from '../ErrorMessage';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {

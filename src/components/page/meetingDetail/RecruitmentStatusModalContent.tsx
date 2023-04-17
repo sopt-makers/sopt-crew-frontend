@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { ApplyResponse } from 'src/api/user';
+import { ApplyResponse } from '@api/user';
 import { Box } from '@components/box/Box';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';

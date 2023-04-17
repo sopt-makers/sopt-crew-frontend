@@ -9,7 +9,7 @@ import {
   useMutationPostApplication,
   useMutationUpdateInvitation,
   useQueryGetMeeting,
-} from 'src/api/meeting/hooks';
+} from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import dayjs from 'dayjs';

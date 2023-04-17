@@ -1,5 +1,5 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
-import { FormType } from 'src/types/form';
+import { FormType } from '@type/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';

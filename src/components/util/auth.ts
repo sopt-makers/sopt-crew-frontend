@@ -1,6 +1,6 @@
 import { playgroundLink } from '@sopt-makers/playground-common';
-import { api, playgroundApi } from 'src/api';
-import { getCrewToken } from 'src/api/auth';
+import { api, playgroundApi } from '@api/index';
+import { getCrewToken } from '@api/auth';
 
 // NOTE: playground token 다루는 로직은 추후 다 제거되어야 함
 export const ACCESS_TOKEN_KEY = 'serviceAccessToken';

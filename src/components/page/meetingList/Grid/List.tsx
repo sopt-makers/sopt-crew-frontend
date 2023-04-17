@@ -1,7 +1,7 @@
 import { Box } from '@components/box/Box';
 import { usePageParams } from '@hooks/queryString/custom';
-import { useQueryMeetingListOfAll } from 'src/api/meeting/hooks';
-import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from 'src/api/user/hooks';
+import { useQueryMeetingListOfAll } from '@api/meeting/hooks';
+import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/user/hooks';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';

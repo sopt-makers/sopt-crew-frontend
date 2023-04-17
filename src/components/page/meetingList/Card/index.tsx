@@ -4,7 +4,7 @@ import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { MeetingResponse, parsePartValueToLabel } from 'src/api/meeting';
+import { MeetingResponse, parsePartValueToLabel } from '@api/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
