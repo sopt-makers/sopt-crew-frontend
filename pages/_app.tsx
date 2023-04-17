@@ -12,8 +12,8 @@ import { GTM_ID, pageview } from '@utils/gtm';
 import { setAccessTokens } from '@components/util/auth';
 import Loader from '@components/loader/Loader';
 import ChannelService from '@utils/ChannelService';
-import { getMemberOfMe } from 'src/api/members';
-import { api, playgroundApi } from 'src/api';
+import { getMemberOfMe } from '@api/members';
+import { api, playgroundApi } from '@api/index';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());

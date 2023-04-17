@@ -5,8 +5,8 @@ import Loader from '@components/loader/Loader';
 import useDebounce from '@hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { SetStateAction, useMemo, useState } from 'react';
-import { useUsersToInvite } from 'src/api/meeting/hooks';
-import { generationOptions } from 'src/data/options';
+import { useUsersToInvite } from '@api/meeting/hooks';
+import { generationOptions } from '@data/options';
 import { styled } from 'stitches.config';
 import InvitationListItem from '../InvitationListItem';
 

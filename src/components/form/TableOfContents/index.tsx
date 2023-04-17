@@ -1,8 +1,8 @@
 import { useFormContext, useWatch } from 'react-hook-form';
-import { FormType } from 'src/types/form';
+import { FormType } from '@type/form';
 import { styled } from 'stitches.config';
-import UncheckedIcon from 'public/assets/svg/icon_progress_unchecked.svg';
-import CheckedIcon from 'public/assets/svg/icon_progress_checked.svg';
+import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
+import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
 import { Box } from '@components/box/Box';
 
 interface TableOfContentsProps {
