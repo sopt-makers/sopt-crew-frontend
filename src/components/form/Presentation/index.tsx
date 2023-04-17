@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import CancelIcon from 'public/assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from 'src/data/categories';
@@ -16,75 +16,66 @@ import NeedMentor from '../CheckBox/NeedMentor';
 import { parts } from 'src/data/options';
 import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
-import { getPresignedUrl, uploadImage } from 'src/api/meeting';
-import { imageS3Bucket } from '@constants/url';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
-  handleChangeImage: (index: number, url: string) => void;
+  imageUrls: string[];
+  handleChangeImage: (index: number, file: File) => void;
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled?: boolean;
 }
 interface FileChangeHandler {
-  imageUrls: string[];
-  onChange: (urls: string[]) => void;
+  value: File[];
+  onChange: (...event: unknown[]) => void;
 }
 
 function Presentation({
   submitButtonLabel,
   cancelButtonLabel,
+  imageUrls,
   handleChangeImage,
   handleDeleteImage,
   onSubmit,
   disabled = true,
 }: PresentationProps) {
   const router = useRouter();
+  const [filename, setFilename] = useState<string>('');
 
-  const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeFile = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
+      setFilename('');
       return;
     }
     const [file] = [...e.target.files];
-    const url = await uploadFile(file);
-    handleChangeImage(index, url);
+    handleChangeImage(index, file);
   };
 
   const onDeleteFile = (index: number) => () => {
     handleDeleteImage(index);
+    setFilename('');
   };
 
   const handleAddFiles =
-    ({ imageUrls, onChange }: FileChangeHandler) =>
-    async (e: ChangeEvent<HTMLInputElement>) => {
+    ({ value, onChange }: FileChangeHandler) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
       if (!e.target.files) {
         return;
       }
-      const newFiles = Array.from(e.target.files);
+      const newFiles = [...value, ...e.target.files];
       if (newFiles.some(file => file.size > MAX_FILE_SIZE)) {
         alert('5MB 이하의 사진만 업로드할 수 있습니다.');
         return;
       }
-      const filesCount = imageUrls.length + newFiles.length;
-      if (filesCount > 6) {
+      if (newFiles.length > 6) {
+        // TODO: file 개수 validation
         alert('이미지는 최대 6개까지 업로드 가능합니다.');
         return;
-      } else {
-        const urls = await Promise.all(newFiles.map(async file => await uploadFile(file)));
-        onChange([...imageUrls, ...urls]);
       }
+      setFilename(e.target.value);
+      onChange(newFiles);
     };
-
-  const uploadFile = async (file: File) => {
-    const extension = file.type.split('/')[1];
-    const {
-      data: { url, fields },
-    } = await getPresignedUrl(extension);
-    await uploadImage(file, url, fields);
-    const imageUrls = imageS3Bucket + fields.key;
-    return imageUrls;
-  };
 
   return (
     <SForm onSubmit={onSubmit}>
@@ -130,30 +121,25 @@ function Presentation({
         <Label required={true}>이미지</Label>
         <HelpMessage>6개까지 첨부 가능하며, 5MB 이하 이미지를 권장해요</HelpMessage>
         <SFileInputWrapper>
-          <FormController
-            name="files"
-            defaultValue={[]}
-            render={({ field: { value: imageUrls, onChange, onBlur }, fieldState: { error } }) => (
-              <>
-                {(imageUrls as string[]).map((url, idx) => (
-                  <ImagePreview
-                    key={`${url}-${idx}`}
-                    url={url}
-                    onChange={onChangeFile(idx)}
-                    onDelete={onDeleteFile(idx)}
-                  />
-                ))}
-                {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
-                <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
-                  <FileInput
-                    error={error?.message}
-                    onChange={handleAddFiles({ imageUrls, onChange })}
-                    onBlur={onBlur}
-                  />
-                </div>
-              </>
-            )}
-          />
+          {imageUrls.length > 0 &&
+            imageUrls.map((url, idx) => (
+              <ImagePreview key={`${url}-${idx}`} url={url} onChange={onChangeFile(idx)} onDelete={onDeleteFile(idx)} />
+            ))}
+          {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
+          <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
+            <FormController
+              name="files"
+              render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
+                <FileInput
+                  // NOTE: FileInput의 value는 filename(string)이고, FormController의 value는 File[] 이다.
+                  error={error?.message}
+                  value={filename}
+                  onChange={handleAddFiles({ value, onChange })}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          </div>
         </SFileInputWrapper>
       </div>
 

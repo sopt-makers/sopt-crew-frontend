@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:ci": "yarn build && next export",
+    "build:ci": "next-on-pages --experimental-minify",
     "start": "next start",
     "lint": "next lint",
     "wrangler": "wrangler",
@@ -30,6 +30,7 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^0.2.0",
     "@hookform/devtools": "4.3.0",
     "@svgr/webpack": "^6.5.0",
     "@types/node": "18.8.3",
