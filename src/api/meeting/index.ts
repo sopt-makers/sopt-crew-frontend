@@ -1,9 +1,9 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
-import { Option } from '@components/form/Select/OptionItem';
 import { FormType } from 'src/types/form';
 import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
+import axios from 'axios';
 
 interface PaginationType {
   page: number;
@@ -226,46 +226,64 @@ export const invite = async (meetingId: string, message: string, userIdArr: numb
 };
 
 const serializeFormData = (formData: FormType) => {
-  const form = new FormData();
-  for (const [key, value] of Object.entries(formData)) {
-    // NOTE: category는 object 이므로 value만 가져온다.
-    if (key === 'category') {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      form.append(key, (value as Option).value!);
-    }
-    // NOTE: nested된 필드를 flat하게 만들어주자.
-    else if (key === 'detail') {
-      for (const [detailKey, value] of Object.entries(formData[key])) {
-        if (detailKey === 'joinableParts') {
-          const refinedParts = formData.detail.joinableParts
-            // NOTE: value가 null, 'all' 인 것들을 필터링한다
-            .filter(part => part.value && part.value !== 'all')
-            .map(part => part.value) as string[];
-          form.append(detailKey, refinedParts.join(','));
-        } else {
-          form.append(detailKey, String(value));
-        }
-      }
-    } else if (key === 'files') {
-      for (const file of formData[key] as File[]) {
-        form.append('files', file);
-      }
-    }
-    // NOTE: 다른 필드들은 그대로 주입
-    else {
-      form.append(key, value);
-    }
-  }
-  return form;
+  const refinedParts = formData.detail.joinableParts
+    // NOTE: value가 null, 'all' 인 것들을 필터링한다
+    .filter(part => part.value && part.value !== 'all')
+    .map(part => part.value) as string[];
+
+  const data = {
+    ...formData,
+    category: formData.category.value,
+    desc: formData.detail.desc,
+    processDesc: formData.detail.processDesc,
+    mStartDate: formData.detail.mStartDate,
+    mEndDate: formData.detail.mEndDate,
+    leaderDesc: formData.detail.leaderDesc,
+    isMentorNeeded: formData.detail.isMentorNeeded,
+    canJoinOnlyActiveGeneration: formData.detail.canJoinOnlyActiveGeneration,
+    joinableParts: refinedParts,
+    targetDesc: formData.detail.targetDesc,
+    note: formData.detail.note,
+    detail: undefined,
+  };
+  return data;
 };
 export const createMeeting = async (formData: FormType) => {
-  const { data } = await api.post<Data<number>>('/meeting', serializeFormData(formData));
+  const { data } = await api.post<Data<{ meetingId: number }>>('/meeting/v1', serializeFormData(formData));
 
   return data;
 };
 
 export const updateMeeting = async (meetingId: string, formData: FormType) => {
-  const response = await api.put(`/meeting/${meetingId}`, serializeFormData(formData));
+  const response = await api.put(`/meeting/v1/${meetingId}`, serializeFormData(formData));
 
   return response;
+};
+
+interface GetPresignedUrlResponse {
+  url: string;
+  fields: {
+    'Content-Type': string;
+    key: string;
+    bucket: string;
+    'X-Amz-Algorithm': string;
+    'X-Amz-Credential': string;
+    'X-Amz-Date': string;
+    Policy: string;
+    'X-Amz-Signature': string;
+  };
+}
+export const getPresignedUrl = async (contentType: string) => {
+  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v1/presigned-url', {
+    params: { contentType },
+  });
+  return data;
+};
+export const uploadImage = async (file: File, url: string, fields: { [key: string]: string }) => {
+  const formData = new FormData();
+  for (const [key, value] of Object.entries(fields)) {
+    formData.append(key, value);
+  }
+  formData.append('file', file);
+  return await axios.post<never>(url, formData);
 };
