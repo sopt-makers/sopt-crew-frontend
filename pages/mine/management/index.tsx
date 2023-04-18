@@ -19,16 +19,17 @@ import {
   useTypeParams,
 } from '@hooks/queryString/custom';
 import { numberOptionList, sortOptionList } from '@data/options';
-import { useQueryGetMeeting, useQueryGetMeetingPeopleList } from '@api/meeting/hooks';
+import {
+  useMutationDownloadMeetingMemberCSV,
+  useQueryGetMeeting,
+  useQueryGetMeetingPeopleList,
+} from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
-// import useModal from '@hooks/useModal';
-// import InvitationModal from '@components/page/meetingManagement/InvitationModal/InvitationModal';
-// import InvitationIcon from '@assets/svg/invitation.svg';
+import DownloadIcon from '@assets/svg/download.svg';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  // const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const { value: page, setValue: setPage } = usePageParams();
   const { value: type } = useTypeParams();
   const { value: status } = useStatusParams();
@@ -38,7 +39,7 @@ const ManagementPage = () => {
     params: { id },
   });
   const isHost = meetingData?.host ?? false;
-
+  const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useMutationDownloadMeetingMemberCSV();
   const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
     params: {
       id,
@@ -54,6 +55,10 @@ const ManagementPage = () => {
     (setValue: (value: string | number) => void, optionList: Option[]) => (changeOption: Option) => {
       setValue(optionList.findIndex(option => option.value === changeOption.value));
     };
+
+  const handleCSVDownload = () => {
+    downloadCSVMutate(id);
+  };
 
   return (
     <SManagementPage>
@@ -79,21 +84,12 @@ const ManagementPage = () => {
           {!isMeetingDataLoading && <span>모임 {isHost ? '신청자' : '참여자'}</span>}
           {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
-        {/* {isHost ? (
-          <SInvitationButton onClick={handleModalOpen}>
-            <InvitationIcon />
-            <span>초대하기</span>
-          </SInvitationButton>
+        {isHost ? (
+          <SDownloadButton onClick={handleCSVDownload} disabled={isDownloadCSVLoading}>
+            <DownloadIcon />
+            <span>CSV 다운로드</span>
+          </SDownloadButton>
         ) : (
-          <SSelectNumberWrapper>
-            <Select
-              value={numberOptionList[Number(take) || 0]}
-              options={numberOptionList}
-              onChange={handleChangeSelectOption(setTake, numberOptionList)}
-            />
-          </SSelectNumberWrapper>
-        )} */}
-        {!isHost && (
           <SSelectNumberWrapper>
             <Select
               value={numberOptionList[Number(take) || 0]}
@@ -152,9 +148,6 @@ const ManagementPage = () => {
               />
             </SPaginationWrapper>
           )}
-          {/* {isModalOpened && (
-            <InvitationModal isModalOpened={isModalOpened} title="초대하기" handleModalClose={handleModalClose} />
-          )} */}
         </>
       )}
     </SManagementPage>
@@ -194,34 +187,31 @@ const SListTitle = styled(Box, {
   },
 });
 
-// const SInvitationButton = styled('button', {
-//   color: '$white',
-//   fontAg: '18_bold_100',
-//   border: '1px solid $white',
-//   borderRadius: '14px',
-//   padding: '$18 $24 $18 $20',
-//   flexType: 'verticalCenter',
+const SDownloadButton = styled('button', {
+  color: '$white',
+  fontAg: '18_bold_100',
+  border: '1px solid $white',
+  borderRadius: '14px',
+  padding: '$18 $24 $18 $20',
+  flexType: 'verticalCenter',
 
-//   '& > svg': {
-//     mr: '$12',
-//   },
+  '& > svg': {
+    mr: '$12',
+  },
 
-//   '@mobile': {
-//     border: 'none',
-//     padding: '$0',
-//     width: '$24',
-//     height: '$24',
+  '@mobile': {
+    border: 'none',
+    padding: '$0',
 
-//     span: {
-//       display: 'none',
-//     },
+    span: {
+      display: 'none',
+    },
 
-//     svg: {
-//       mr: '$0',
-//       transform: 'scale(1.2)',
-//     },
-//   },
-// });
+    svg: {
+      mr: '$0',
+    },
+  },
+});
 
 const SSelectContainer = styled(Box, {
   flexType: 'verticalCenter',
