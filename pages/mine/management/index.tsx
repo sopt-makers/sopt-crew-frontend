@@ -25,7 +25,7 @@ import {
   useQueryGetMeetingPeopleList,
 } from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
-import DownloadIcon from 'public/assets/svg/download.svg';
+import DownloadIcon from '@assets/svg/download.svg';
 
 const ManagementPage = () => {
   const router = useRouter();
