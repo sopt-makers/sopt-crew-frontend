@@ -198,7 +198,7 @@ export const useMutationDownloadMeetingMemberCSV = () =>
       const url = data.data.url;
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'data.csv';
+      a.download = 'groupMember.csv';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
