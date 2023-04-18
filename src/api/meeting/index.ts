@@ -287,3 +287,9 @@ export const uploadImage = async (file: File, url: string, fields: { [key: strin
   formData.append('file', file);
   return await axios.post<never>(url, formData);
 };
+
+export const downloadMeetingMemberCSV = async (meetingId: string) => {
+  // status를 1로 박아 놓은 이유 : 승인된 신청자만 보기 위해
+  // type을 0,1로 둔 이유 : 지원, 초대 둘다 보기 위해 (지금은 초대가 없지만...)
+  return await api.get<Data<{ url: string }>>(`/meeting/v1/${meetingId}/list/csv?status=1&type=0,1&order=desc`);
+};
