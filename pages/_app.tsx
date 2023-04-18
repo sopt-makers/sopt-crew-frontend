@@ -31,8 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     // NOTE: development 환경에서는 테스트 토큰을 사용한다.
     if (process.env.NODE_ENV === 'development') {
       api.defaults.headers.common['Authorization'] =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibGVlIiwidXNlcklkIjoxLCJpYXQiOjE2Njg0MzM0MTMsImV4cCI6MTcwNDQzMzQxM30.NGbf96zcykC0QQERvSe5F5S2uZO8Tuc13mkpb73y2Bo';
-      playgroundApi.defaults.headers.common['Authorization'] = '';
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi7J207J6s7ZuIIiwiaWQiOjI1NywiaWF0IjoxNjgxODE5NTcxLCJleHAiOjE3MTc4MTk1NzF9.JVG-xzOVikIbX7vj_cZig_TTHxM-EzMgjO-_VGRbLTs';
+      playgroundApi.defaults.headers.common['Authorization'] =
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMyIsImV4cCI6MTY4MjI0NzIzNn0.jPK_OTNXVNvnVFkbdme6tfABsdryUFgXEYOYGCAxdPc';
       setIsServiceReady(true);
       return;
     }
