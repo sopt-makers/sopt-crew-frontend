@@ -19,7 +19,11 @@ import {
   useTypeParams,
 } from '@hooks/queryString/custom';
 import { numberOptionList, sortOptionList } from '@data/options';
-import { useQueryGetMeeting, useQueryGetMeetingPeopleList } from '@api/meeting/hooks';
+import {
+  useMutationDownloadMeetingMemberCSV,
+  useQueryGetMeeting,
+  useQueryGetMeetingPeopleList,
+} from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from 'public/assets/svg/download.svg';
 
@@ -35,7 +39,7 @@ const ManagementPage = () => {
     params: { id },
   });
   const isHost = meetingData?.host ?? false;
-
+  const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useMutationDownloadMeetingMemberCSV();
   const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
     params: {
       id,
@@ -53,7 +57,7 @@ const ManagementPage = () => {
     };
 
   const handleCSVDownload = () => {
-    console.log('csv 다운로드');
+    downloadCSVMutate(id);
   };
 
   return (
@@ -81,7 +85,7 @@ const ManagementPage = () => {
           {management && <span> ({management.meta.itemCount})</span>}
         </SListTitle>
         {isHost ? (
-          <SDownloadButton onClick={handleCSVDownload}>
+          <SDownloadButton onClick={handleCSVDownload} disabled={isDownloadCSVLoading}>
             <DownloadIcon />
             <span>CSV 다운로드</span>
           </SDownloadButton>

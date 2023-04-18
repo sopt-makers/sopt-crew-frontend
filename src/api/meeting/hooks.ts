@@ -31,6 +31,7 @@ import {
   deleteInvitation,
   DeleteInvitationRequest,
   getUsersToInvite,
+  downloadMeetingMemberCSV,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -190,3 +191,16 @@ export const useUsersToInvite = ({ meetingId, generation, name }: UseUsersToInvi
     enabled: !!meetingId,
   });
 };
+
+export const useMutationDownloadMeetingMemberCSV = () =>
+  useMutation(downloadMeetingMemberCSV, {
+    onSuccess: ({ data }) => {
+      const url = data.data.url;
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+  });
