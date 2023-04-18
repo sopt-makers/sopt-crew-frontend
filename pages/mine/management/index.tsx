@@ -27,6 +27,7 @@ import {
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
 
+
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
