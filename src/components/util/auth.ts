@@ -6,6 +6,11 @@ import { getCrewToken } from '@api/auth';
 export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 export const CREW_ACCESS_TOKEN_KEY = 'crewServiceAccessToken';
 
+export const redirectToLoginPage = () => {
+  localStorage.setItem('lastUnauthorizedPath', window.location.href);
+  window.location.href = `${playgroundLink.login()}`;
+};
+
 export const getPlaygroundToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 };
@@ -19,12 +24,8 @@ export const getCrewServiceToken = async (playgroundToken: string) => {
     // TODO: 에러를 어떻게 핸들링하지?
     // TODO: 플레이 그라운드 토큰이 만료된 경우에는 어떡하지?
     alert('계정 정보를 불러오지 못했습니다. 다시 로그인 해주세요.');
+    redirectToLoginPage();
   }
-};
-
-export const redirectToLoginPage = () => {
-  localStorage.setItem('lastUnauthorizedPath', window.location.href);
-  window.location.href = `${playgroundLink.login()}`;
 };
 
 export const setAccessTokens = async () => {
