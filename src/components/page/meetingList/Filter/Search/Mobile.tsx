@@ -64,7 +64,7 @@ const SLayout = styled(Box, {
 });
 
 const SForm = styled('form', {
-  width: 'calc(100vw - 30px - 20px)',
+  flex: 1,
   ml: '$20',
 });
 
