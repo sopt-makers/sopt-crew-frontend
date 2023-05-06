@@ -239,6 +239,7 @@ const SListItem = styled(Box, {
   borderRadius: '20px',
   backgroundColor: '$black80',
   padding: '$24',
+  minWidth: 'fit-content',
   height: '$80',
   mb: '$16',
 
