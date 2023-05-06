@@ -1,10 +1,17 @@
 import { api, PromiseResponse } from '..';
 import { MeetingResponse } from '../meeting';
 
+interface ActivityResponse {
+  part: string;
+  generation: number;
+}
+
 export interface UserResponse {
+  activities: ActivityResponse[];
   id: number;
   name: string;
   orgId: string;
+  phone: string;
   profileImage: string;
 }
 
