@@ -1,4 +1,5 @@
 import SearchIcon from '@assets/svg/search.svg';
+import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import useBooleanState from '@hooks/useBooleanState';
@@ -42,7 +43,7 @@ function SearchMobile() {
 
 export default SearchMobile;
 
-const SLayout = styled('div', {
+const SLayout = styled(Box, {
   width: 0,
   height: '100vh',
   visibility: 'hidden',
@@ -63,7 +64,7 @@ const SLayout = styled('div', {
 });
 
 const SForm = styled('form', {
-  flex: '1',
+  flex: 1,
   ml: '$20',
 });
 
@@ -81,6 +82,7 @@ const SSearchWrapper = styled(Flex, {
 });
 
 const SSearchInput = styled('input', {
+  width: '100%',
   color: '$white',
   fontAg: '16_medium_100',
   ml: '$10',
