@@ -19,6 +19,7 @@ const ItemDescriptionBox = () => {
 export default ItemDescriptionBox;
 
 const SItemDescriptionBox = styled(Box, {
+  minWidth: 'fit-content',
   border: '1px solid $black40',
   borderRadius: '15px',
   padding: '$19 0',

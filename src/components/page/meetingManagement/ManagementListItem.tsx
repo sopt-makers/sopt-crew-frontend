@@ -142,14 +142,16 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                   <div>{user.phone}</div>
                 </SCardGenerationAndPhone>
               </SCardUserInformation>
-              <SCardDetailButton onClick={handleModalOpen}>
-                <span>{APPLICATION_TYPE[type]} 내역</span>
-                <ArrowMiniIcon />
-              </SCardDetailButton>
-              <div>
-                <SCardDate>{date}</SCardDate>
-                <SCardTime>{time}</SCardTime>
-              </div>
+              <SCardApplicationInformation>
+                <SCardDetailButton onClick={handleModalOpen}>
+                  <span>{APPLICATION_TYPE[type]} 내역</span>
+                  <ArrowMiniIcon />
+                </SCardDetailButton>
+                <SCardDateAndTime>
+                  <span>{date}</span>
+                  <span>{time}</span>
+                </SCardDateAndTime>
+              </SCardApplicationInformation>
             </SCardContent>
             <SCardButtonContainer>
               {
@@ -305,6 +307,12 @@ const SCardUserInformation = styled(Box, {
   },
 });
 
+const SCardApplicationInformation = styled(Box, {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+});
+
 const SUserInformation = styled(Box, {
   flexType: 'verticalCenter',
   width: '100%',
@@ -380,14 +388,11 @@ const STime = styled(Box, {
   },
 });
 
-const SCardDate = styled(Box, {
-  fontAg: '12_medium_100',
-  color: '$gray80',
-});
-
-const SCardTime = styled(Box, {
-  ml: '$4',
-  fontAg: '10_medium_120',
+const SCardDateAndTime = styled(Box, {
+  display: 'flex',
+  gap: '$4',
+  mt: '$13',
+  fontAg: '10_medium_100',
   color: '$gray100',
 });
 
