@@ -1,3 +1,5 @@
+const { withSentryConfig } = require('@sentry/nextjs');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -23,6 +25,15 @@ const nextConfig = {
     return config;
   },
   basePath: '/group',
+  sentry: {
+    hideSourceMaps: true,
+  },
 };
 
-module.exports = nextConfig;
+const sentryWebpackPluginOptions = {
+  org: 'sopt-crew',
+  project: 'sopt-crew-frontend',
+  silent: true, // Suppresses all logs
+};
+
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
