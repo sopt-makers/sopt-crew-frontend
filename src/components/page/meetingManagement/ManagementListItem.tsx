@@ -77,7 +77,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SGeneration>{user.activities[0].generation}기</SGeneration>
-              <SPhone>{user.phone}</SPhone>
+              <SPhone>{user.phone ?? '-'}</SPhone>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDate>{date}</SDate>
               <STime>{time}</STime>
@@ -138,8 +138,8 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                   <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
                 </div>
                 <SCardGenerationAndPhone>
-                  <div>{user.activities[0].generation}기, </div>
-                  <div>{user.phone}</div>
+                  <div>{user.activities[0].generation}기</div>
+                  <div>{user.phone ? `, ${user.phone}` : ''}</div>
                 </SCardGenerationAndPhone>
               </SCardUserInformation>
               <SCardApplicationInformation>
