@@ -79,8 +79,10 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               <SGeneration>{user.activities[0].generation}기</SGeneration>
               <SPhone>{user.phone ?? '-'}</SPhone>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
-              <SDate>{date}</SDate>
-              <STime>{time}</STime>
+              <SDateAndTime>
+                <SDate>{date}</SDate>
+                <STime>{time}</STime>
+              </SDateAndTime>
             </SUserInformation>
             <SButtonContainer>
               {
@@ -364,6 +366,11 @@ const SCardName = styled('button', {
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
   mr: '$4',
+});
+
+const SDateAndTime = styled(Box, {
+  display: 'flex',
+  width: '$168',
 });
 
 const SDate = styled(Box, {
