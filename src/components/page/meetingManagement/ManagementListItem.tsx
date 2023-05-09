@@ -369,7 +369,7 @@ const SCardName = styled('button', {
 });
 
 const SDateAndTime = styled(Box, {
-  display: 'flex',
+  flexType: 'horizontalCenter',
   width: '$168',
 });
 
