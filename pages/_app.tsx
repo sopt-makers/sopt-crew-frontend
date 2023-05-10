@@ -12,8 +12,8 @@ import { GTM_ID, pageview } from '@utils/gtm';
 import { setAccessTokens } from '@components/util/auth';
 import Loader from '@components/loader/Loader';
 import ChannelService from '@utils/ChannelService';
-import { getMemberOfMe } from '@api/members';
 import { api, playgroundApi } from '@api/index';
+import { fetchMyProfile } from '@api/user';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -49,10 +49,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     async function bootChannelTalk() {
       const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY as string;
       try {
-        const user = await getMemberOfMe();
+        const profileResponse = await fetchMyProfile();
+        const user = profileResponse.data.data;
         channelTalk.boot({
           pluginKey,
-          memberId: String(user.id),
+          memberId: String(user.orgId),
           profile: {
             name: user.name,
             avatarUrl: user.profileImage ?? null,

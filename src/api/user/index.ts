@@ -8,6 +8,10 @@ export interface UserResponse {
   profileImage: string;
 }
 
+export interface MyProfileResponse extends UserResponse {
+  hasActivities: boolean;
+}
+
 export type ApplicationStatusType = 0 | 1 | 2;
 
 export interface ApplyResponse {
@@ -35,4 +39,8 @@ export const fetchMeetingListOfApplied = async () => {
 
 export const fetchMeetingListOfMine = async () => {
   return api.get<PromiseResponse<MeetingListOfMineResponse>>('/users/meeting');
+};
+
+export const fetchMyProfile = async () => {
+  return api.get<PromiseResponse<MyProfileResponse>>('/users/v1/profile/me');
 };
