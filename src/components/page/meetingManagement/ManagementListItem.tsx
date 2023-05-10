@@ -69,7 +69,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
         <>
           <SDesktopListItem>
             <SUserInformation>
-              <SType>{APPLICATION_TYPE[type]}</SType>
               <SDesktopProfile>
                 <SProfileImage>
                   {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
@@ -77,9 +76,13 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SName>
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
+              <SGeneration>{user.activities[0].generation}기</SGeneration>
+              <SPhone>{user.phone ?? '-'}</SPhone>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
-              <SDate>{date}</SDate>
-              <STime>{time}</STime>
+              <SDateAndTime>
+                <SDate>{date}</SDate>
+                <STime>{time}</STime>
+              </SDateAndTime>
             </SUserInformation>
             <SButtonContainer>
               {
@@ -131,24 +134,26 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
           </SDesktopListItem>
           <SMobileCard>
             <SCardContent>
-              <SProfileImage>
-                {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
-              </SProfileImage>
               <SCardUserInformation>
                 <div>
                   <SCardName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SCardName>
                   <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
                 </div>
-                <div>
-                  <SCardType>{APPLICATION_TYPE[type]}</SCardType>
-                  <SCardDate>{date}</SCardDate>
-                  <SCardTime>{time}</SCardTime>
-                </div>
+                <SCardGenerationAndPhone>
+                  <div>{user.activities[0].generation}기</div>
+                  <div>{user.phone ? `, ${user.phone}` : ''}</div>
+                </SCardGenerationAndPhone>
               </SCardUserInformation>
-              <SCardDetailButton onClick={handleModalOpen}>
-                <span>{APPLICATION_TYPE[type]} 내역</span>
-                <ArrowMiniIcon />
-              </SCardDetailButton>
+              <SCardApplicationInformation>
+                <SCardDetailButton onClick={handleModalOpen}>
+                  <span>{APPLICATION_TYPE[type]} 내역</span>
+                  <ArrowMiniIcon />
+                </SCardDetailButton>
+                <SCardDateAndTime>
+                  <span>{date}</span>
+                  <span>{time}</span>
+                </SCardDateAndTime>
+              </SCardApplicationInformation>
             </SCardContent>
             <SCardButtonContainer>
               {
@@ -235,9 +240,10 @@ const SListItem = styled(Box, {
   justifyContent: 'space-between',
   borderRadius: '20px',
   backgroundColor: '$black80',
-  padding: '$20 $32',
+  padding: '$24',
+  minWidth: 'fit-content',
   height: '$80',
-  mb: '$20',
+  mb: '$16',
 
   '@mobile': {
     borderRadius: '8px',
@@ -266,7 +272,7 @@ const SMobileCard = styled(Box, {
 const SCardContent = styled(Box, {
   display: 'flex',
   height: '$80',
-  padding: '$21 $16',
+  padding: '$20',
   backgroundColor: '$black80',
   borderTopLeftRadius: '8px',
   borderTopRightRadius: '8px',
@@ -283,16 +289,6 @@ const SProfileImage = styled(Box, {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-  },
-  '@mobile': {
-    mr: '$10',
-    width: '$38',
-    height: '$38',
-
-    svg: {
-      width: '100%',
-      height: '100%',
-    },
   },
 });
 
@@ -314,6 +310,12 @@ const SCardUserInformation = styled(Box, {
   },
 });
 
+const SCardApplicationInformation = styled(Box, {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+});
+
 const SUserInformation = styled(Box, {
   flexType: 'verticalCenter',
   width: '100%',
@@ -328,18 +330,7 @@ const SProfile = styled(Box, {
 });
 
 const SDesktopProfile = styled(SProfile, {
-  width: '$244',
-});
-
-const SType = styled(Box, {
-  mr: '$32',
-  fontAg: '16_bold_100',
-});
-
-const SCardType = styled(Box, {
-  mr: '$4',
-  fontAg: '12_bold_100',
-  color: '$gray60',
+  width: '$163',
 });
 
 const SVerticalLine = styled(Box, {
@@ -377,6 +368,11 @@ const SCardName = styled('button', {
   mr: '$4',
 });
 
+const SDateAndTime = styled(Box, {
+  flexType: 'horizontalCenter',
+  width: '$168',
+});
+
 const SDate = styled(Box, {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
@@ -389,25 +385,22 @@ const SDate = styled(Box, {
 });
 
 const STime = styled(Box, {
-  ml: '$15',
+  ml: '$8',
   fontAg: '18_semibold_100',
   color: '$gray60',
 
   '@mobile': {
-    ml: '$8',
+    ml: '$4',
     fontAg: '12_medium_100',
     color: '$gray100',
   },
 });
 
-const SCardDate = styled(Box, {
-  fontAg: '12_medium_100',
-  color: '$gray80',
-});
-
-const SCardTime = styled(Box, {
-  ml: '$4',
-  fontAg: '10_medium_120',
+const SCardDateAndTime = styled(Box, {
+  display: 'flex',
+  gap: '$4',
+  mt: '$13',
+  fontAg: '10_medium_100',
   color: '$gray100',
 });
 
@@ -439,12 +432,30 @@ const SCardUserStatus = styled(SUserStatus, {
   fontAg: '10_bold_100',
 });
 
+const SGeneration = styled(Box, {
+  width: '$166',
+  textAlign: 'center',
+});
+
+const SCardGenerationAndPhone = styled(Box, {
+  mt: '$8',
+  fontAg: '12_medium_100',
+  color: '$gray60',
+  whiteSpace: 'pre',
+});
+
+const SPhone = styled(Box, {
+  width: '$166',
+  textAlign: 'center',
+});
+
 const SDetailButton = styled('button', {
   color: '$white',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
-  mr: '$66',
   fontAg: '18_semibold_100',
+  width: '$216',
+  textAlign: 'center',
 });
 
 const SCardDetailButton = styled('button', {
@@ -461,6 +472,7 @@ const SCardDetailButton = styled('button', {
 });
 
 const SButtonContainer = styled(Box, {
+  mr: '$8',
   minWidth: 'fit-content',
 });
 
