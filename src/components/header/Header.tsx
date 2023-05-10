@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
-import { useGetMemberOfMe } from '@api/members/hooks';
 import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
 import { ACCESS_TOKEN_KEY } from '@components/util/auth';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 // TODO: playground 팀에서 type export하면 제거할 예정
 type LinkRendererParams = {
@@ -13,8 +13,8 @@ type LinkRendererParams = {
 };
 
 const Header: FC = () => {
-  const { data: me } = useGetMemberOfMe();
-  const user = me ? { id: `${me.id}`, name: me.name, image: me.profileImage ?? undefined } : null;
+  const { data: me } = useQueryMyProfile();
+  const user = me ? { id: `${me.orgId}`, name: me.name, image: me.profileImage ?? undefined } : null;
 
   const logout = () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
