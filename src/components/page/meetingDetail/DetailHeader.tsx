@@ -14,7 +14,6 @@ import GuestConfirmModal from './GuestConfirmModal';
 import ProfileConfirmModal from './ProfileConfirmModal';
 import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
-import { useGetMemberOfMe } from '@api/members/hooks';
 import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from '@api/meeting';
 import { playgroundURL } from '@constants/url';
 import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
@@ -23,6 +22,7 @@ import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
 import alertErrorMessage from '@utils/alertErrorMessage';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -65,7 +65,7 @@ const DetailHeader = ({
     invite: isInvited,
     isMentorNeeded,
   } = detailData;
-  const { data: me } = useGetMemberOfMe();
+  const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
@@ -99,7 +99,7 @@ const DetailHeader = ({
   };
 
   const handleApplicationModal = () => {
-    if (!me?.hasProfile) {
+    if (!me?.hasActivities) {
       handleProfileModalOpen();
       return;
     }

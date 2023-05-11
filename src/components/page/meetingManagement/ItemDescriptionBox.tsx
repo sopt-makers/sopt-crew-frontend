@@ -4,13 +4,14 @@ import { styled } from 'stitches.config';
 const ItemDescriptionBox = () => {
   return (
     <SItemDescriptionBox>
-      <div>
-        <SType>유형</SType>
+      <SLeft>
         <SProfile>프로필 (상태)</SProfile>
+        <SGeneration>최근 기수</SGeneration>
+        <SPhone>연락처</SPhone>
         <SDetail>상세 내역</SDetail>
-        <span>신청 일시</span>
-      </div>
-      <span>관리</span>
+        <SDate>신청 일시</SDate>
+      </SLeft>
+      <SManagement>관리</SManagement>
     </SItemDescriptionBox>
   );
 };
@@ -18,9 +19,10 @@ const ItemDescriptionBox = () => {
 export default ItemDescriptionBox;
 
 const SItemDescriptionBox = styled(Box, {
+  minWidth: 'fit-content',
   border: '1px solid $black40',
   borderRadius: '15px',
-  padding: '$19 $32',
+  padding: '$19 0',
   mb: '$28',
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
@@ -32,14 +34,35 @@ const SItemDescriptionBox = styled(Box, {
   },
 });
 
-const SType = styled('span', {
-  mr: '$42',
+const SLeft = styled(Box, {
+  flexType: 'verticalCenter',
 });
 
-const SProfile = styled('span', {
-  mr: '$147',
+const Item = styled(Box, {
+  textAlign: 'center',
 });
 
-const SDetail = styled('span', {
-  mr: '$72',
+const SProfile = styled(Item, {
+  width: '$187',
+});
+
+const SGeneration = styled(Item, {
+  width: '$164',
+});
+
+const SPhone = styled(Item, {
+  width: '$166',
+});
+
+const SDetail = styled(Item, {
+  width: '$216',
+});
+
+const SDate = styled(Item, {
+  width: '$168',
+});
+
+const SManagement = styled(Box, {
+  minWidth: '$28',
+  mr: '$66',
 });

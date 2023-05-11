@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
-import { useGetMemberOfMe } from '@api/members/hooks';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -17,14 +16,15 @@ import GridLayout from '@components/page/meetingList/Grid/Layout';
 import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
 import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { data: me } = useGetMemberOfMe();
+  const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
 
   const handleMakeMeeting = () => {
-    if (!me?.hasProfile) {
+    if (!me?.hasActivities) {
       handleModalOpen();
       return;
     }

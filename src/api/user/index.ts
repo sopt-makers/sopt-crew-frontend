@@ -1,11 +1,22 @@
 import { api, PromiseResponse } from '..';
 import { MeetingResponse } from '../meeting';
 
+interface ActivityResponse {
+  part: string;
+  generation: number;
+}
+
 export interface UserResponse {
+  activities: ActivityResponse[];
   id: number;
   name: string;
   orgId: string;
+  phone: string;
   profileImage: string;
+}
+
+export interface MyProfileResponse extends UserResponse {
+  hasActivities: boolean;
 }
 
 export type ApplicationStatusType = 0 | 1 | 2;
@@ -35,4 +46,8 @@ export const fetchMeetingListOfApplied = async () => {
 
 export const fetchMeetingListOfMine = async () => {
   return api.get<PromiseResponse<MeetingListOfMineResponse>>('/users/meeting');
+};
+
+export const fetchMyProfile = async () => {
+  return api.get<PromiseResponse<MyProfileResponse>>('/users/v1/profile/me');
 };
