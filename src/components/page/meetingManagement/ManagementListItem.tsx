@@ -297,6 +297,11 @@ const SGuestProfileImage = styled(SProfileImage, {
     width: '$24',
     height: '$24',
     margin: 0,
+
+    svg: {
+      width: '$24',
+      height: '$24',
+    },
   },
 });
 
