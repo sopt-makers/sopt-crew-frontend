@@ -63,6 +63,9 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
     setIsMutateLoading(false);
   };
 
+  const addHyphenToPhoneNumber = (phoneNumber: string) =>
+    phoneNumber.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
   return (
     <>
       {isHost && (
@@ -77,7 +80,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SGeneration>{user.activities[0].generation}기</SGeneration>
-              <SPhone>{user.phone ?? '-'}</SPhone>
+              <SPhone>{user.phone ? addHyphenToPhoneNumber(user.phone) : '-'}</SPhone>
               <SDetailButton onClick={handleModalOpen}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDateAndTime>
                 <SDate>{date}</SDate>
@@ -141,7 +144,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 </div>
                 <SCardGenerationAndPhone>
                   <div>{user.activities[0].generation}기</div>
-                  <div>{user.phone ? `, ${user.phone}` : ''}</div>
+                  <div>{user.phone ? `, ${addHyphenToPhoneNumber(user.phone)}` : ''}</div>
                 </SCardGenerationAndPhone>
               </SCardUserInformation>
               <SCardApplicationInformation>
