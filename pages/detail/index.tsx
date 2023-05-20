@@ -4,12 +4,7 @@ import Carousel from '@components/page/meetingDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
-import {
-  useMutationDeleteMeeting,
-  useMutationPostApplication,
-  useMutationUpdateInvitation,
-  useQueryGetMeeting,
-} from '@api/meeting/hooks';
+import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import dayjs from 'dayjs';
@@ -23,7 +18,6 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const { mutate: mutateUpdateInvitation } = useMutationUpdateInvitation({});
   const tabRef = useRef<HTMLElement[]>([]);
   const detailList = [
     {
@@ -96,7 +90,6 @@ const DetailPage = () => {
         detailData={detailData}
         mutateMeetingDeletion={mutateDeleteMeeting}
         mutateApplication={mutatePostApplication}
-        mutateInvitation={mutateUpdateInvitation}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(
