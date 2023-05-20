@@ -24,10 +24,6 @@ export const enum EApprovalStatus {
   APPROVE,
   REJECT,
 }
-export const enum EApplicationType {
-  APPLY,
-  INVITE,
-}
 export interface FilterType {
   label: string;
   subject: string;

@@ -51,7 +51,6 @@ export interface MeetingResponse {
   host: boolean;
   apply: boolean;
   approved: boolean;
-  invite: boolean;
   canJoinOnlyActiveGeneration: boolean;
   targetActiveGeneration: number | null;
   joinableParts: string[];
@@ -93,17 +92,6 @@ export interface UpdateApplicationRequest {
   id: number;
   applyId: number;
   status: number;
-}
-
-export interface UpdateInvitationRequest {
-  id: number;
-  applyId: number;
-  status: number;
-}
-
-export interface DeleteInvitationRequest {
-  id: number;
-  inviteId: number;
 }
 
 function parseStatusToNumber(status: string, statusArray: string[]) {
@@ -189,40 +177,6 @@ export const postApplication = async (body: PostApplicationRequest): Promise<{ s
 
 export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
   return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
-};
-
-export const updateInvitation = async ({ id, ...rest }: UpdateInvitationRequest) => {
-  return (await api.put(`/meeting/${id}/invite/status`, rest)).data;
-};
-
-export const deleteInvitation = async ({ id, inviteId }: DeleteInvitationRequest) => {
-  return (await api.delete(`/meeting/${id}/invite/${inviteId}`)).data;
-};
-
-// NOTE: profileImage의 type을 override 한다
-export interface UserToInvite extends Omit<UserResponse, 'profileImage'> {
-  profileImage: string | null;
-  hasProfile: boolean;
-}
-export const getUsersToInvite = async (meetingId: string, generation: string | null, name: string) => {
-  const {
-    data: { data },
-  } = await api.get<Data<UserToInvite[]>>(`/meeting/${meetingId}/users`, {
-    params: {
-      generation,
-      name,
-    },
-  });
-  return data;
-};
-
-export const invite = async (meetingId: string, message: string, userIdArr: number[]) => {
-  const { data } = await api.post(`/meeting/invite`, {
-    id: Number(meetingId),
-    message,
-    userIdArr,
-  });
-  return data;
 };
 
 const serializeFormData = (formData: FormType) => {

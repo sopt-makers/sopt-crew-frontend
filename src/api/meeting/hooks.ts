@@ -26,11 +26,6 @@ import {
   postApplication,
   updateApplication,
   UpdateApplicationRequest,
-  updateInvitation,
-  UpdateInvitationRequest,
-  deleteInvitation,
-  DeleteInvitationRequest,
-  getUsersToInvite,
   downloadMeetingMemberCSV,
 } from '.';
 
@@ -148,47 +143,6 @@ export const useMutationUpdateApplication = ({
     ...useMutationOptions,
     mutationKey: ['updateApplication'],
     mutationFn: updateApplication,
-  });
-};
-
-export const useMutationUpdateInvitation = ({
-  useMutationOptions,
-}: UseMutateBody<UpdateInvitationRequest>): UseMutationResult<
-  { statusCode: number },
-  AxiosError,
-  UpdateInvitationRequest
-> => {
-  return useMutation<{ statusCode: number }, AxiosError, UpdateInvitationRequest>({
-    ...useMutationOptions,
-    mutationKey: ['updateInvitation'],
-    mutationFn: updateInvitation,
-  });
-};
-
-export const useMutationDeleteInvitation = ({
-  useMutationOptions,
-}: UseMutateBody<DeleteInvitationRequest>): UseMutationResult<
-  { statusCode: number },
-  AxiosError,
-  DeleteInvitationRequest
-> => {
-  return useMutation<{ statusCode: number }, AxiosError, DeleteInvitationRequest>({
-    ...useMutationOptions,
-    mutationKey: ['deleteInvitation'],
-    mutationFn: deleteInvitation,
-  });
-};
-
-interface UseUsersToInviteParams {
-  meetingId: string;
-  generation: string | null;
-  name: string;
-}
-export const useUsersToInvite = ({ meetingId, generation, name }: UseUsersToInviteParams) => {
-  return useQuery({
-    queryKey: ['getUsersToInvite', meetingId, generation, name],
-    queryFn: () => getUsersToInvite(meetingId, generation, name),
-    enabled: !!meetingId,
   });
 };
 

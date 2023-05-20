@@ -14,9 +14,9 @@ import GuestConfirmModal from './GuestConfirmModal';
 import ProfileConfirmModal from './ProfileConfirmModal';
 import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
-import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from '@api/meeting';
+import { PostApplicationRequest, MeetingResponse } from '@api/meeting';
 import { playgroundURL } from '@constants/url';
-import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
@@ -40,15 +40,9 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
-  mutateInvitation: UseMutateFunction<{ statusCode: number }, AxiosError, UpdateInvitationRequest>;
 }
 
-const DetailHeader = ({
-  detailData,
-  mutateMeetingDeletion,
-  mutateApplication,
-  mutateInvitation,
-}: DetailHeaderProps) => {
+const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -62,7 +56,6 @@ const DetailHeader = ({
     host: isHost,
     apply: isApplied,
     approved: isApproved,
-    invite: isInvited,
     isMentorNeeded,
   } = detailData;
   const { data: me } = useQueryMyProfile();
@@ -160,41 +153,6 @@ const DetailHeader = ({
     handleHostModalClose();
   };
 
-  const handleApproveInvitation = () => {
-    mutateInvitation(
-      {
-        id: Number(meetingId),
-        applyId: Number(meetingId),
-        status: EApprovalStatus.APPROVE,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });
-        },
-      }
-    );
-  };
-
-  const handleCancelInvitation = () => {
-    mutateInvitation(
-      {
-        id: Number(meetingId),
-        applyId: Number(meetingId),
-        status: EApprovalStatus.REJECT,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });
-          handleGuestModalClose();
-        },
-      }
-    );
-  };
-
   return (
     <>
       <SDetailHeader>
@@ -228,19 +186,9 @@ const DetailHeader = ({
             </div>
             <ArrowSmallRightIcon />
           </SStatusButton>
-          {!isHost && !isInvited && !isApproved && (
+          {!isHost && (
             <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
               신청{isApplied ? ' 취소' : '하기'}
-            </SGuestButton>
-          )}
-          {!isHost && isInvited && (
-            <SGuestButton isInvited={isInvited} onClick={handleApproveInvitation}>
-              초대 승인하기
-            </SGuestButton>
-          )}
-          {!isHost && isApproved && (
-            <SGuestButton isApproved={isApproved} onClick={handleGuestModalOpen}>
-              승인 취소
             </SGuestButton>
           )}
           {isHost && (
@@ -265,9 +213,9 @@ const DetailHeader = ({
       />
       <GuestConfirmModal
         isModalOpened={isGuestModalOpened}
-        message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
+        message="신청을 취소하시겠습니까?"
         handleModalClose={handleGuestModalClose}
-        handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
+        handleConfirm={handleCancelApplication}
       />
       <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
         {modalTitle === '모임 신청하기' && (
@@ -472,11 +420,6 @@ const SGuestButton = styled(Button, {
         border: `2px solid $black40`,
       },
       false: {
-        backgroundColor: '$purple100',
-      },
-    },
-    isInvited: {
-      true: {
         backgroundColor: '$purple100',
       },
     },
