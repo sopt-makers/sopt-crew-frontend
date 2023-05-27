@@ -134,7 +134,7 @@ const SDetailPage = styled(Box, {
 
 const SDetail = styled('section', {
   scrollMarginTop: '$80',
-  color: '$white',
+  color: '$white100',
   mt: '$120',
 
   '@mobile': {

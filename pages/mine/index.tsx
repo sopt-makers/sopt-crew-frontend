@@ -101,7 +101,7 @@ const STab = styled('button', {
   variants: {
     isSelected: {
       true: {
-        color: '$white',
+        color: '$white100',
         backgroundColor: '$black40',
       },
       false: { color: '$gray100' },

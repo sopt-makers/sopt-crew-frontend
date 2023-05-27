@@ -91,7 +91,7 @@ const STotal = styled('p', {
 
 const SManagementAnchor = styled('a', {
   fontAg: '16_semibold_100',
-  color: '$white',
+  color: '$white100',
   flexType: 'verticalCenter',
   position: 'absolute',
   right: '$42',

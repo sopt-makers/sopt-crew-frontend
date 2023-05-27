@@ -52,7 +52,7 @@ const SApplicationModalContent = styled(Box, {
     width: '100%',
     height: '$200',
     fontAg: '16_medium_150',
-    color: '$white',
+    color: '$white100',
     backgroundColor: '$black60',
     outline: 'none',
     borderRadius: '10px',
@@ -77,7 +77,7 @@ const SApplicationModalContent = styled(Box, {
     borderRadius: '12px',
     textAlign: 'center',
     fontAg: '18_bold_100',
-    color: '$white',
+    color: '$white100',
     backgroundColor: '$purple100',
 
     '&:disabled': {

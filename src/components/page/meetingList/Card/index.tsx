@@ -167,7 +167,7 @@ const SCategory = styled('p', {
 });
 const SProfileWrapper = styled(Box, {
   flexType: 'verticalCenter',
-  color: '$white',
+  color: '$white100',
   width: 'fit-content',
   mr: '$8',
 });

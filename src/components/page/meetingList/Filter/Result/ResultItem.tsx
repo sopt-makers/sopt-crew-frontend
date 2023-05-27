@@ -22,7 +22,7 @@ const SResultItemWrapper = styled(Flex, {
   whiteSpace: 'nowrap',
   margin: '4px',
   '@mobile': {
-    border: '1px solid $white',
+    border: '1px solid $white100',
     svg: {
       width: '12px',
     },

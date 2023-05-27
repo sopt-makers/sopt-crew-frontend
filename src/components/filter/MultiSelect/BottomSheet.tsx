@@ -80,7 +80,7 @@ const SCloseButton = styled('button', {
   width: '100%',
   height: '50px',
   backgroundColor: '$purple100',
-  color: '$white',
+  color: '$white100',
   fontAg: '16_bold_100',
   textAlign: 'center',
 });

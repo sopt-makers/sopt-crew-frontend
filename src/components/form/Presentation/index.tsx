@@ -450,7 +450,7 @@ const Button = styled('button', {
   background: '$black40',
   borderRadius: '10px',
   fontAg: '18_bold_100',
-  color: '$white',
+  color: '$white100',
 
   '@mobile': {
     gap: '10px',
