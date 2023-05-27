@@ -55,7 +55,6 @@ const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: 
     capacity,
     host: isHost,
     apply: isApplied,
-    approved: isApproved,
     isMentorNeeded,
   } = detailData;
   const { data: me } = useQueryMyProfile();
