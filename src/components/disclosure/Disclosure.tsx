@@ -7,11 +7,11 @@ import ArrowIcon from 'public/assets/svg/ic.svg';
 interface DisclosureProps {
   title: string;
   subTitle: string;
-  body: string;
-  createdAt: string;
+  contents: string;
+  createdDate: string; // YYYY-MM-DD
 }
 
-export default function Disclosure({ title, subTitle, body, createdAt }: DisclosureProps) {
+export default function Disclosure({ title, subTitle, contents, createdDate }: DisclosureProps) {
   return (
     <HeadlessDisclosure>
       {({ open }) => (
@@ -27,10 +27,10 @@ export default function Disclosure({ title, subTitle, body, createdAt }: Disclos
           </HeadlessDisclosure.Button>
           <HeadlessDisclosure.Panel>
             <SDivider />
-            <SBody>{body}</SBody>
+            <SContents>{contents}</SContents>
             <SInfo justify="end" align="center">
               <SCreatedAt>작성 일자</SCreatedAt>
-              <SDate>{createdAt}</SDate>
+              <SDate>{createdDate}</SDate>
             </SInfo>
           </HeadlessDisclosure.Panel>
         </Container>
@@ -76,7 +76,7 @@ const SDivider = styled('div', {
   margin: '36px 0 32px 0',
   background: '$black40',
 });
-const SBody = styled('div', {
+const SContents = styled('div', {
   padding: '0 9px',
   /* Crew/Body/2 */
   fontWeight: '500',
