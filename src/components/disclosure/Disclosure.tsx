@@ -1,6 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
 import { Disclosure as HeadlessDisclosure } from '@headlessui/react';
-import { Fragment } from 'react';
 import { styled } from 'stitches.config';
 import ArrowIcon from 'public/assets/svg/ic.svg';
 
@@ -16,15 +15,15 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
     <HeadlessDisclosure>
       {({ open }) => (
         <Container>
-          <HeadlessDisclosure.Button as={Fragment}>
-            <Flex justify="between" align="center">
-              <STitleWrapper direction="column">
-                <STitle>{title}</STitle>
-                <SSubTitle>{subTitle}</SSubTitle>
-              </STitleWrapper>
+          <STitleContainer justify="between" align="center">
+            <STitleWrapper direction="column">
+              <STitle>{title}</STitle>
+              <SSubTitle>{subTitle}</SSubTitle>
+            </STitleWrapper>
+            <HeadlessDisclosure.Button>
               <SArrowIcon isOpen={open} />
-            </Flex>
-          </HeadlessDisclosure.Button>
+            </HeadlessDisclosure.Button>
+          </STitleContainer>
           <HeadlessDisclosure.Panel>
             <SDivider />
             <SContents>{contents}</SContents>
@@ -40,10 +39,12 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
 }
 
 const Container = styled('div', {
-  width: '100$',
   padding: '48px',
   background: '$black80',
   borderRadius: '20px',
+});
+const STitleContainer = styled(Flex, {
+  width: '100%',
 });
 const STitleWrapper = styled(Flex, {
   gap: '14px',
@@ -63,6 +64,7 @@ const SSubTitle = styled('h4', {
   color: 'gray60',
 });
 const SArrowIcon = styled(ArrowIcon, {
+  color: '$white',
   variants: {
     isOpen: {
       true: {
