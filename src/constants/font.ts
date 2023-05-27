@@ -33,3 +33,21 @@ export type FontAg =
   | '10_bold_100'
   | '10_medium_100'
   | '10_medium_120';
+
+export type FontStyle =
+  | 'H1'
+  | 'H2'
+  | 'H3'
+  | 'H4'
+  | 'H5'
+  | 'T1'
+  | 'T2'
+  | 'T3'
+  | 'T4'
+  | 'T5'
+  | 'T6'
+  | 'B1'
+  | 'B2'
+  | 'B3'
+  | 'B4'
+  | 'C1';

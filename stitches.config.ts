@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { FontAg } from '@constants/font';
+import { FontAg, FontStyle } from '@constants/font';
 import { createStitches, CSS, PropertyValue, ScaleValue } from '@stitches/react';
 
 const stitches = createStitches({
@@ -118,6 +118,22 @@ const stitches = createStitches({
       xxl: '24px',
       xxxl: '32px',
       title: '34px',
+      H1: '24px',
+      H2: '20px',
+      H3: '18px',
+      H4: '16px',
+      H5: '14px',
+      T1: '22px',
+      T2: '20px',
+      T3: '18px',
+      T4: '16px',
+      T5: '14px',
+      T6: '12px',
+      B1: '18px',
+      B2: '16px',
+      B3: '14px',
+      B4: '12px',
+      C1: '10px',
       10: '10px',
       12: '12px',
       14: '14px',
@@ -145,6 +161,10 @@ const stitches = createStitches({
       bold: 700,
       extrabold: 800,
       heavy: 900,
+      H: 700,
+      T: 600,
+      B: 500,
+      C: 700,
     },
     sizes: {
       0: '0px',
@@ -264,6 +284,22 @@ const stitches = createStitches({
       140: '140%',
       150: '150%',
       170: '170%',
+      H1: '24px',
+      H2: '30px',
+      H3: '18px',
+      H4: '24px',
+      H5: '14px',
+      T1: '32px',
+      T2: '30px',
+      T3: '28px',
+      T4: '24px',
+      T5: '20px',
+      T6: '18px',
+      B1: '28px',
+      B2: '26px',
+      B3: '24px',
+      B4: '18px',
+      C1: '10px',
     },
   },
   media: {
@@ -369,6 +405,13 @@ const stitches = createStitches({
         fontSize: `$${fontSize}`,
         fontWeight: `$${fontWeight}`,
         lineHeight: `$${fontHeight}`,
+      };
+    },
+    fontStyle: (value: FontStyle) => {
+      return {
+        fontSize: `$${value}`,
+        fontWeight: `$${value[0]}`,
+        lineHeight: `$${value}`,
       };
     },
     flexType: (value: 'center' | 'horizontalCenter' | 'verticalCenter') => {
