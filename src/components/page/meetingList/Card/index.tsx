@@ -42,7 +42,7 @@ function Card({ bottom, meetingData }: CardProps) {
                 },
               }}
             >
-              <Flex css={{ mb: '$12' }} align="center">
+              <Flex css={{ mb: '$14' }} align="center">
                 <SProfileWrapper>
                   {meetingData.user.profileImage ? (
                     <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
@@ -153,12 +153,12 @@ const STitleSection = styled(Box, {
 
 const SCategory = styled('p', {
   display: 'inline-block',
-  fontAg: '15_bold_100',
-  color: '$gray50',
-  border: '1px solid $gray50',
+  fontStyle: 'T6',
+  color: '$gray40',
+  border: '1px solid $gray60',
   borderRadius: '37px',
-  px: '$9',
-  py: '$6',
+  px: '$10',
+  py: '$3',
   mr: '$5',
   '@mobile': {
     mr: '$0',
@@ -180,12 +180,11 @@ const SProfile = styled('img', {
 });
 
 const SName = styled('p', {
-  fontAg: '14_medium_100',
+  fontStyle: 'T5',
 });
 const STitle = styled('p', {
   maxWidth: '380px',
-
-  fontAg: '22_bold_140',
+  fontStyle: 'H2',
   mt: '$8',
   '@mobile': {
     fontAg: '14_semibold_140',
@@ -194,11 +193,11 @@ const STitle = styled('p', {
 });
 const SInfoRow = styled(Flex, {
   '& + &': {
-    mt: '$8',
+    mt: '$4',
   },
 });
 const SInfo = styled('p', {
-  fontAg: '16_medium_100',
+  fontStyle: 'B3',
 });
 const SKey = styled(SInfo, {
   width: '74px',
