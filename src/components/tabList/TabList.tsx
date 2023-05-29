@@ -58,7 +58,7 @@ const STab = styled('li', {
     isSelected: {
       true: {
         color: '$white100',
-        borderBottom: `4px solid $white100`,
+        borderBottom: `2px solid $gray40`,
       },
       false: {
         color: '$gray100',
@@ -85,15 +85,14 @@ const STab = styled('li', {
       },
 
       false: {
-        pb: '$17',
-        fontAg: '32_bold_100',
-        paddingBottom: '$24',
-        mr: '$24',
+        pb: '$16',
+        mr: '$20',
+        fontStyle: 'H1',
 
         '@mobile': {
-          fontAg: '20_bold_100',
-          paddingBottom: '$8',
-          mr: '$16',
+          fontStyle: 'T3',
+          pb: '$6',
+          mr: '$12',
         },
       },
     },
