@@ -37,15 +37,20 @@ export default function NoticeSlider({ notices }: NoticeSliderProps) {
       customPaging={index => <SDot active={index === currentIndex} />}
       afterChange={updateCurrentIndex}
     >
-      {notices?.map(notice => (
-        <Disclosure
-          key={notice.id}
-          title={notice.title}
-          subTitle={notice.subTitle}
-          contents={notice.contents}
-          createdDate={dayjs(notice.createdDate).format('YYYY.MM.DD')}
-        />
-      ))}
+      {notices ? (
+        notices.map(notice => (
+          <Disclosure
+            key={notice.id}
+            title={notice.title}
+            subTitle={notice.subTitle}
+            contents={notice.contents}
+            createdDate={dayjs(notice.createdDate).format('YYYY.MM.DD')}
+          />
+        ))
+      ) : (
+        // to minimize CLS, put a placeholder
+        <SPlaceholder />
+      )}
     </Slider>
   );
 }
@@ -62,5 +67,12 @@ const SDot = styled('div', {
         background: '$purple100',
       },
     },
+  },
+});
+const SPlaceholder = styled('div', {
+  width: '100%',
+  minHeight: '158px',
+  '@mobile': {
+    minHeight: '86px',
   },
 });
