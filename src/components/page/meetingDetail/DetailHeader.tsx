@@ -265,7 +265,11 @@ const SAbout = styled(Box, {
   '& > h1': {
     span: {
       color: '$gray80',
-      marginRight: '$8',
+      mr: '$8',
+
+      '@mobile': {
+        mr: '$4',
+      },
     },
 
     fontAg: '34_bold_140',
@@ -273,7 +277,7 @@ const SAbout = styled(Box, {
     mb: '$20',
 
     '@mobile': {
-      fontAg: '18_bold_140',
+      fontStyle: 'H3',
     },
   },
 });
@@ -286,10 +290,10 @@ const SRecruitStatus = styled(Box, {
   fontAg: '16_bold_100',
 
   '@mobile': {
-    padding: '$5',
+    padding: '$2 $6',
     mr: '$8',
     borderRadius: '5px',
-    fontAg: '10_bold_100',
+    fontStyle: 'B4',
   },
 
   variants: {
@@ -309,9 +313,10 @@ const SRecruitStatus = styled(Box, {
 
 const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
+  color: '$gray60',
 
   '@mobile': {
-    fontAg: '12_semibold_100',
+    fontStyle: 'T6',
   },
 });
 
@@ -328,8 +333,8 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
     background: '$black60',
     '@mobile': {
-      width: '$30',
-      height: '$30',
+      width: '$32',
+      height: '$32',
       mr: '$8',
     },
   },
@@ -340,8 +345,8 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
 
     '@mobile': {
-      width: '$30',
-      height: '$30',
+      width: '$32',
+      height: '$32',
       mr: '$8',
     },
   },
@@ -350,9 +355,13 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
 
     '@mobile': {
-      fontAg: '12_semibold_100',
-      mr: '$8',
+      fontStyle: 'T5',
+      mr: '$2',
     },
+  },
+
+  '& > svg:last-child > path': {
+    stroke: `$gray40`,
   },
 });
 
@@ -363,7 +372,7 @@ const SHostWrapper = styled(Box, {
 const Button = styled('button', {
   width: '$300',
   height: '$60',
-  borderRadius: '12px',
+  borderRadius: '8px',
   color: '$white100',
 });
 
@@ -383,15 +392,15 @@ const SStatusButton = styled(Button, {
     mb: '$10',
     textAlign: 'center',
     justifyContent: 'center',
-    fontAg: '14_semibold_100',
+    fontStyle: 'T5',
 
     svg: {
-      ml: '$8',
+      ml: '$2',
     },
   },
 
   'span:first-child': {
-    mr: '$12',
+    mr: '$6',
     color: '$gray80',
   },
 });
@@ -404,8 +413,8 @@ const SGuestButton = styled(Button, {
   '@mobile': {
     width: '100%',
     height: '$46',
-    fontAg: '14_bold_100',
-    padding: '$16 0',
+    fontStyle: 'T5',
+    padding: '$13 0',
   },
 
   '&:disabled': {
