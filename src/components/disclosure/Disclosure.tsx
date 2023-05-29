@@ -112,6 +112,7 @@ const SContents = styled('div', {
   fontSize: '16px',
   lineHeight: '26px',
   color: '$gray30',
+  whiteSpace: 'pre-line',
   '@mobile': {
     /* Crew/Body/4 */
     fontSize: '12px',
