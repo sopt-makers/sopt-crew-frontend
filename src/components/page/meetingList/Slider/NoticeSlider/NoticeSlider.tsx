@@ -7,13 +7,15 @@ import DotWrapper from './DotWrapper';
 import { styled } from 'stitches.config';
 
 interface NoticeSliderProps {
-  notices: {
-    id: number;
-    title: string;
-    subTitle: string;
-    contents: string;
-    createdDate: string;
-  }[];
+  notices:
+    | {
+        id: number;
+        title: string;
+        subTitle: string;
+        contents: string;
+        createdDate: string;
+      }[]
+    | undefined;
 }
 
 export default function NoticeSlider({ notices }: NoticeSliderProps) {
@@ -35,7 +37,7 @@ export default function NoticeSlider({ notices }: NoticeSliderProps) {
       customPaging={index => <SDot active={index === currentIndex} />}
       afterChange={updateCurrentIndex}
     >
-      {notices.map(notice => (
+      {notices?.map(notice => (
         <Disclosure
           key={notice.id}
           title={notice.title}

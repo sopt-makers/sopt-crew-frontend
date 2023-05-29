@@ -2,6 +2,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { Disclosure as HeadlessDisclosure } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import ArrowIcon from 'public/assets/svg/ic.svg';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 
 interface DisclosureProps {
   title: string;
@@ -26,7 +27,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
           </STitleContainer>
           <HeadlessDisclosure.Panel>
             <SDivider />
-            <SContents>{contents}</SContents>
+            <SContents>{parseTextToLink(contents)}</SContents>
             <SInfo justify="end" align="center">
               <SCreatedAt>작성 일자</SCreatedAt>
               <SDate>{createdDate}</SDate>
