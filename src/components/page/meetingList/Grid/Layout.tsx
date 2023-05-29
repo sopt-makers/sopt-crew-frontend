@@ -10,7 +10,7 @@ const StyledGridContainer = styled(Box, {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   columnGap: '30px',
-  margin: '22px 0 120px 0',
+  margin: '24px 0 120px 0',
   rowGap: '120px',
   placeItems: 'start center',
 

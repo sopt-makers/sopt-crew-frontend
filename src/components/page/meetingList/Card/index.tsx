@@ -103,7 +103,7 @@ const SThumbnailImage = styled('div', {
   width: '380px',
   height: '260px',
   overflow: 'hidden',
-  borderRadius: '$10',
+  borderRadius: '$12',
   backgroundColor: '$black80',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
@@ -120,19 +120,18 @@ const SStatus = styled(Box, {
   top: '16px',
   left: '16px',
   borderRadius: '$8',
-  px: '$8',
-  py: '$4',
-  fontAg: '16_bold_100',
+  padding: '$3 $8',
+  fontStyle: 'T5',
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$black40',
+        backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$purple200',
+        backgroundColor: '$purple100',
       },
       2: {
-        backgroundColor: '$gray80',
+        backgroundColor: '$black60',
       },
     },
   },
@@ -201,8 +200,8 @@ const SInfo = styled('p', {
 });
 const SKey = styled(SInfo, {
   width: '74px',
-  color: '$gray80',
-  mr: '$16',
+  color: '$gray100',
+  mr: '$12',
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
