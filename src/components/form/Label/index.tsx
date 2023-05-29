@@ -22,7 +22,7 @@ const SLabel = styled('label', {
   display: 'inline-block',
   width: '100%',
   fontAg: '18_semibold_100',
-  color: '$white',
+  color: '$white100',
   variants: {
     required: {
       true: {

@@ -50,6 +50,6 @@ const SThumb = styled(Box, {
   width: '12px',
   height: '12px',
   borderRadius: '50%',
-  backgroundColor: '$white',
+  backgroundColor: '$white100',
   transition: 'transform 0.3s',
 });

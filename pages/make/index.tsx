@@ -98,7 +98,7 @@ const SFormContainer = styled('div', {
 });
 const SFormName = styled('h1', {
   fontAg: '24_bold_100',
-  color: '$white',
+  color: '$white100',
   marginBottom: '90px',
 
   '@mobile': {

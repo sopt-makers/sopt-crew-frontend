@@ -40,7 +40,7 @@ const SMeetingInformation = styled('a', {
   marginTop: '$64',
   background: '$black80',
   padding: '$32 $26 $32 $29',
-  border: `1px solid $black20`,
+  border: `1px solid $black40`,
   borderRadius: '24px',
 
   '& > div': {
@@ -86,7 +86,7 @@ const SCategory = styled(Box, {
 
 const STitle = styled('p', {
   fontAg: '28_bold_140',
-  color: '$white',
+  color: '$white100',
 
   '@mobile': {
     fontAg: '14_bold_140',

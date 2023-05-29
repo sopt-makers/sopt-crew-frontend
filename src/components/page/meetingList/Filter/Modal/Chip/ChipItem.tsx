@@ -32,7 +32,7 @@ const SOption = styled('button', {
     isSelected: {
       true: {
         backgroundColor: '$purple200',
-        color: '$white',
+        color: '$white100',
       },
       false: {
         backgroundColor: '$black100',
@@ -41,7 +41,7 @@ const SOption = styled('button', {
     },
   },
   '&:hover': {
-    color: '$white',
+    color: '$white100',
   },
 
   '@mobile': {

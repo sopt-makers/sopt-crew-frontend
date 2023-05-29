@@ -88,7 +88,7 @@ const SSelectDisplay = styled(Flex, {
   variants: {
     isSelected: {
       true: {
-        border: '1px solid $white',
+        border: '1px solid $white100',
       },
     },
   },
@@ -113,11 +113,11 @@ const SArrowIcon = styled(ArrowIcon, {
 
 const SCategory = styled('span', {
   fontAg: '18_medium_100',
-  color: '$white',
+  color: '$white100',
   variants: {
     isSelected: {
       true: {
-        color: '1px solid $white',
+        color: '1px solid $white100',
       },
     },
   },

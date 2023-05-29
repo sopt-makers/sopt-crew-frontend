@@ -79,7 +79,7 @@ export function MeetingListOfApplied() {
 }
 
 const SMeetingCount = styled('p', {
-  fontAg: '18_semibold_100',
+  fontStyle: 'H3',
   '@mobile': {
     fontAg: '12_semibold_100',
   },

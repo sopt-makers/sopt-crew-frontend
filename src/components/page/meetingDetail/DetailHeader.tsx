@@ -269,7 +269,7 @@ const SAbout = styled(Box, {
     },
 
     fontAg: '34_bold_140',
-    color: '$white',
+    color: '$white100',
     mb: '$20',
 
     '@mobile': {
@@ -317,7 +317,7 @@ const SPeriod = styled(Box, {
 
 const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
-  color: '$white',
+  color: '$white100',
   width: 'fit-content',
 
   img: {
@@ -364,7 +364,7 @@ const Button = styled('button', {
   width: '$300',
   height: '$60',
   borderRadius: '12px',
-  color: '$white',
+  color: '$white100',
 });
 
 const SStatusButton = styled(Button, {
@@ -433,7 +433,7 @@ const SGuestButton = styled(Button, {
 const SHostButtonContainer = styled(Box, {
   '& > *': {
     width: '$144',
-    color: '$white',
+    color: '$white100',
     padding: '$20 0',
     textAlign: 'center',
     borderRadius: '$50',

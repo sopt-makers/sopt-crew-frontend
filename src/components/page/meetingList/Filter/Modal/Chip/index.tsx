@@ -30,7 +30,7 @@ function Chip({ css, filter }: ChipProps) {
 export default Chip;
 const SChipWrapper = styled(Box, {});
 const SLabel = styled('p', {
-  color: '$white',
+  color: '$white100',
   fontAg: '18_bold_100',
   mb: '$20',
   '@mobile': {
