@@ -58,28 +58,17 @@ const STitleWrapper = styled(Flex, {
   },
 });
 const STitle = styled('h1', {
-  /* Crew/Headline/1 */
-  fontWeight: '700',
-  fontSize: '24px',
-  lineHeight: '24px',
+  fontStyle: 'H1',
   color: '$white',
   '@mobile': {
-    /* Crew/Headline/5 */
-    fontSize: '14px',
-    lineHeight: '14px',
+    fontStyle: 'H5',
   },
 });
 const SSubTitle = styled('h4', {
-  /* Crew/Title/4 */
-  fontWeight: '600',
-  fontSize: '16px',
-  lineheight: '24px',
+  fontStyle: 'T4',
   color: 'gray60',
   '@mobile': {
-    /* Crew/Body/4 */
-    fontWeight: '500',
-    fontSize: '12px',
-    lineHeight: '18px',
+    fontStyle: 'B4',
   },
 });
 const SArrowIcon = styled(ArrowIcon, {
@@ -108,16 +97,11 @@ const SDivider = styled('div', {
 });
 const SContents = styled('div', {
   padding: '0 4px',
-  /* Crew/Body/2 */
-  fontWeight: '500',
-  fontSize: '16px',
-  lineHeight: '26px',
+  fontStyle: 'B2',
   color: '$gray30',
   whiteSpace: 'pre-line',
   '@mobile': {
-    /* Crew/Body/4 */
-    fontSize: '12px',
-    lineHeight: '18px',
+    fontStyle: 'B4',
   },
 });
 const SInfo = styled(Flex, {
@@ -127,28 +111,16 @@ const SInfo = styled(Flex, {
   },
 });
 const SCreatedAt = styled('span', {
-  /* Crew/Title/6 */
-  fontWeight: '600',
-  fontSize: '12px',
-  lineheight: '18px',
+  fontStyle: 'T6',
   color: '$gray100',
   '@mobile': {
-    /* Crew/Caption/1 */
-    fontWeight: '700',
-    fontSize: '10px',
-    lineHeight: '10px',
+    fontStyle: 'C1',
   },
 });
 const SDate = styled('span', {
-  /* Crew/Body/4 */
-  fontWeight: '500',
-  fontSize: '12px',
-  lineHeight: '18px',
+  fontStyle: 'B4',
   color: '$gray60',
   '@mobile': {
-    /* Crew/Caption/1 */
-    fontWeight: '700',
-    fontSize: '10px',
-    lineHeight: '10px',
+    fontStyle: 'C1',
   },
 });
