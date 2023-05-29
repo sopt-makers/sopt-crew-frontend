@@ -87,9 +87,9 @@ export default Home;
 
 const SMakeMeetingButton = styled('button', {
   flexType: 'verticalCenter',
-  padding: '$18 $24 $18 $20',
+  padding: '$16 $24 $16 $20',
   background: '$purple100',
-  borderRadius: '12px',
+  borderRadius: '16px',
   '& > span': {
     ml: '$12',
     fontAg: '18_bold_100',

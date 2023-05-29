@@ -60,11 +60,13 @@ const SPageLink = styled('li', {
   flexType: 'center',
   width: '40px',
   height: '40px',
-  fontAg: '18_bold_100',
+  fontStyle: 'H3',
   cursor: 'pointer',
+  color: '$gray40',
   variants: {
     isCurrent: {
       true: {
+        color: '$white100',
         backgroundColor: '$purple100',
         borderRadius: '20px',
       },
