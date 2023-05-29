@@ -117,7 +117,7 @@ const SCarousel = styled(Box, {
   },
 
   '.slick-dots .slick-active button:before': {
-    backgroundColor: '$white',
+    backgroundColor: '$white100',
   },
 });
 

@@ -33,7 +33,7 @@ function Toggle({ css, label }: ToggleProps) {
 export default Toggle;
 const ToggleWrapper = styled(Box, {});
 const SLabel = styled('p', {
-  color: '$white',
+  color: '$white100',
   fontAg: '18_bold_100',
   mb: '$20',
   '@mobile': {
@@ -64,7 +64,7 @@ const SToggleDetailWord = styled(Box, {
   variants: {
     isOnlyActiveGeneration: {
       true: {
-        color: '$white',
+        color: '$white100',
       },
     },
   },

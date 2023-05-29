@@ -327,7 +327,7 @@ const SVerticalLine = styled(Box, {
 
 const SName = styled('button', {
   ml: '$8',
-  color: '$white',
+  color: '$white100',
   fontAg: '18_semibold_100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
@@ -341,7 +341,7 @@ const SName = styled('button', {
 });
 
 const SCardName = styled('button', {
-  color: '$white',
+  color: '$white100',
   fontAg: '14_bold_100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
@@ -400,7 +400,7 @@ const SUserStatus = styled('span', {
         backgroundColor: '$purple100',
       },
       2: {
-        backgroundColor: '$black20',
+        backgroundColor: '$black40',
       },
     },
   },
@@ -430,7 +430,7 @@ const SPhone = styled(Box, {
 });
 
 const SDetailButton = styled('button', {
-  color: '$white',
+  color: '$white100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
   fontAg: '18_semibold_100',
@@ -462,7 +462,7 @@ const SCardButtonContainer = styled(Box, {
 });
 
 const SRoundButton = styled('button', {
-  color: '$white',
+  color: '$white100',
   borderRadius: '32px',
   fontAg: '16_bold_100',
   padding: '$12 $20',
@@ -508,7 +508,7 @@ const SRejectButton = styled(SCardButton, {
 });
 
 const SApproveButton = styled(SCardButton, {
-  color: '$white',
+  color: '$white100',
   backgroundColor: '$purple100',
   borderBottomLeftRadius: '0',
 });
@@ -524,7 +524,7 @@ const SDetailText = styled('p', {
   borderRadius: '19.711px',
   height: '$200',
   fontAg: '16_medium_150',
-  color: '$white',
+  color: '$white100',
   boxSizing: 'border-box',
 });
 

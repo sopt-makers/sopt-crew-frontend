@@ -93,7 +93,7 @@ const SMakeMeetingButton = styled('button', {
   '& > span': {
     ml: '$12',
     fontAg: '18_bold_100',
-    color: '$white',
+    color: '$white100',
   },
   '@mobile': {
     display: 'none',

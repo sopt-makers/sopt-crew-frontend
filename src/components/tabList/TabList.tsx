@@ -51,14 +51,14 @@ const STab = styled('li', {
   cursor: 'pointer',
 
   '&:hover': {
-    color: '$white',
+    color: '$white100',
   },
 
   variants: {
     isSelected: {
       true: {
-        color: '$white',
-        borderBottom: `4px solid $white`,
+        color: '$white100',
+        borderBottom: `4px solid $white100`,
       },
       false: {
         color: '$gray100',

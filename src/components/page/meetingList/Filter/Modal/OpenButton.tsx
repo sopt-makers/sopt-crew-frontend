@@ -61,10 +61,10 @@ const SSelectModalOpenButton = styled(Box, {
   variants: {
     isFilterActive: {
       true: {
-        border: '1px solid $white',
+        border: '1px solid $white100',
       },
       false: {
-        border: '1px solid $black20',
+        border: '1px solid $black40',
       },
     },
   },
@@ -78,7 +78,7 @@ const SSelectModalOpenButton = styled(Box, {
 
 const SLabel = styled('span', {
   fontAg: '18_medium_100',
-  color: '$white',
+  color: '$white100',
   '@mobile': {
     fontAg: '14_medium_100',
   },

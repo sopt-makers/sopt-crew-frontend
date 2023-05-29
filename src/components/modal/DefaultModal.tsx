@@ -64,7 +64,7 @@ const SHeader = styled(Box, {
     width: '100%',
     fontAg: '24_bold_100',
     textAlign: 'center',
-    color: '$white',
+    color: '$white100',
   },
 
   '.close-button': {
