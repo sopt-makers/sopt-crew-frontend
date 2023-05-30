@@ -21,13 +21,11 @@ const StyledGridContainer = styled(Box, {
     columnGap: '10px',
   },
   '@media (max-width: 820px)': {
-    gridTemplateColumns: ' 1fr',
+    gridTemplateColumns: '1fr',
   },
   '@tablet': {
-    gridTemplateColumns: '1fr',
     margin: '16px 0 40px 0',
     rowGap: '16px',
-    columnGap: '11px',
   },
 });
 
