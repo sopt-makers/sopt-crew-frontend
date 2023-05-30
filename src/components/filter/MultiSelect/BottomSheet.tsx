@@ -54,7 +54,7 @@ const SLayout = styled(Flex, {
   transition: 'height 0.5s',
   color: '#fff',
   display: 'none',
-  '@mobile': {
+  '@tablet': {
     display: 'flex',
   },
 });

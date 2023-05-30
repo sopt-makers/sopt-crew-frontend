@@ -80,7 +80,7 @@ export function MeetingListOfApplied() {
 
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_semibold_100',
   },
 });

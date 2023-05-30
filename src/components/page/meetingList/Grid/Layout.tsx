@@ -18,19 +18,16 @@ const StyledGridContainer = styled(Box, {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
   '@media (max-width: 850px)': {
-    gridTemplateColumns: '1fr',
+    columnGap: '10px',
   },
-  '@mobile': {
-    gridTemplateColumns: 'repeat(3, 1fr)',
+  '@media (max-width: 820px)': {
+    gridTemplateColumns: ' 1fr',
+  },
+  '@tablet': {
+    gridTemplateColumns: '1fr',
     margin: '16px 0 40px 0',
-    rowGap: '40px',
+    rowGap: '16px',
     columnGap: '11px',
-  },
-  '@media (max-width: 550px)': {
-    gridTemplateColumns: 'repeat(2, 1fr)',
-  },
-  '@media (max-width: 359px)': {
-    gridTemplateColumns: '1fr',
   },
 });
 

@@ -11,7 +11,7 @@ interface FilterSelectModalProps {
   handleModalClose: () => void;
 }
 function FilterSelectModal({ isModalOpened, handleModalClose }: FilterSelectModalProps) {
-  const filterSectionStyle = { mb: '$48', '@mobile': { mb: '$40' } };
+  const filterSectionStyle = { mb: '$48', '@tablet': { mb: '$40' } };
   return (
     <DefaultModal
       isModalOpened={isModalOpened}

@@ -95,14 +95,14 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$white100',
   },
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
 
 const SMobileButtonContainer = styled(Box, {
   display: 'none',
-  '@mobile': {
+  '@tablet': {
     flexType: 'verticalCenter',
     gap: '16px',
   },
@@ -114,7 +114,7 @@ const SMobileButtonContainer = styled(Box, {
 const SFilterWrapper = styled(Box, {
   mt: '$120',
   mb: '$64',
-  '@mobile': {
+  '@tablet': {
     mt: '$48',
     mb: '$24',
   },

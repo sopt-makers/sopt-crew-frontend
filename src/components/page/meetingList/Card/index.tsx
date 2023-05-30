@@ -18,10 +18,10 @@ function Card({ bottom, meetingData }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
 
   return (
-    <Box as="li">
+    <Box as="li" css={{ width: '100%' }}>
       <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
-          <>
+          <Box css={{ '@tablet': { display: 'flex', width: '100%' } }}>
             <Box css={{ position: 'relative' }}>
               <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
               <SThumbnailImage
@@ -30,66 +30,69 @@ function Card({ bottom, meetingData }: CardProps) {
                 }}
               />
             </Box>
-            <STitleSection>
-              <SCategory>{meetingData.category}</SCategory>
-              {meetingData.isMentorNeeded && <SCategory>멘토 구해요</SCategory>}
-              <STitle>{meetingData.title}</STitle>
-            </STitleSection>
-            <Box
-              css={{
-                '@mobile': {
+            <Box>
+              <STitleSection>
+                <SCategory>{meetingData.category}</SCategory>
+                {meetingData.isMentorNeeded && <SCategory>멘토 구해요</SCategory>}
+                <STitle>{meetingData.title}</STitle>
+              </STitleSection>
+              <Box
+                css={{
+                  '@tablet': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Flex css={{ mb: '$14' }} align="center">
+                  <SProfileWrapper>
+                    {meetingData.user.profileImage ? (
+                      <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
+                    ) : (
+                      <ProfileDefaultIcon width={24} height={24} />
+                    )}
+                  </SProfileWrapper>
+                  <SName>{meetingData.user.name}</SName>
+                </Flex>
+                <SInfoRow>
+                  <SKey>활동 기간</SKey>
+                  <SValue>
+                    {dayjs(meetingData.mStartDate).format('YY.MM.DD')} -{' '}
+                    {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
+                  </SValue>
+                </SInfoRow>
+                <SInfoRow>
+                  <SKey>모집 대상</SKey>
+                  <SValue>
+                    {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
+                    {isAllParts
+                      ? '전체 파트'
+                      : meetingData.joinableParts
+                          .map(part => parsePartValueToLabel(part))
+                          .filter(item => item !== null)
+                          .join(',')}
+                  </SValue>
+                </SInfoRow>
+                <SInfoRow>
+                  <SKey>모집 현황</SKey>
+                  <SValue>
+                    {meetingData.appliedInfo.filter(info => info.status === EApprovalStatus.APPROVE).length}/
+                    {meetingData.capacity}명
+                  </SValue>
+                </SInfoRow>
+              </Box>
+              <Box
+                css={{
                   display: 'none',
-                },
-              }}
-            >
-              <Flex css={{ mb: '$14' }} align="center">
-                <SProfileWrapper>
-                  {meetingData.user.profileImage ? (
-                    <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
-                  ) : (
-                    <ProfileDefaultIcon width={24} height={24} />
-                  )}
-                </SProfileWrapper>
-                <SName>{meetingData.user.name}</SName>
-              </Flex>
-              <SInfoRow>
-                <SKey>활동 기간</SKey>
-                <SValue>
-                  {dayjs(meetingData.mStartDate).format('YY.MM.DD')} - {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
-                </SValue>
-              </SInfoRow>
-              <SInfoRow>
-                <SKey>모집 대상</SKey>
-                <SValue>
-                  {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
-                  {isAllParts
-                    ? '전체 파트'
-                    : meetingData.joinableParts
-                        .map(part => parsePartValueToLabel(part))
-                        .filter(item => item !== null)
-                        .join(',')}
-                </SValue>
-              </SInfoRow>
-              <SInfoRow>
-                <SKey>모집 현황</SKey>
-                <SValue>
-                  {meetingData.appliedInfo.filter(info => info.status === EApprovalStatus.APPROVE).length}/
-                  {meetingData.capacity}명
-                </SValue>
-              </SInfoRow>
+                  '@tablet': {
+                    display: 'flex',
+                  },
+                }}
+              >
+                <SMobileValue>{meetingData.category}</SMobileValue>
+                <SMobileValue>{meetingData.user.name}</SMobileValue>
+              </Box>
             </Box>
-            <Box
-              css={{
-                display: 'none',
-                '@mobile': {
-                  display: 'flex',
-                },
-              }}
-            >
-              <SMobileValue>{meetingData.category}</SMobileValue>
-              <SMobileValue>{meetingData.user.name}</SMobileValue>
-            </Box>
-          </>
+          </Box>
         </a>
       </Link>
       {bottom}
@@ -108,9 +111,9 @@ const SThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-  '@mobile': {
-    width: '162px',
-    height: '111px',
+  '@tablet': {
+    width: '120px',
+    height: '82px',
     borderRadius: '$8',
   },
 });
@@ -135,17 +138,18 @@ const SStatus = styled(Box, {
       },
     },
   },
-  '@mobile': {
-    fontAg: '10_bold_100',
+  '@tablet': {
+    fontStyle: 'B4',
     top: '8px',
     left: '8px',
     borderRadius: '5px',
+    padding: '$2 $6',
   },
 });
 
 const STitleSection = styled(Box, {
   my: '$16',
-  '@mobile': {
+  '@tablet': {
     my: '$8',
   },
 });
@@ -159,7 +163,7 @@ const SCategory = styled('p', {
   px: '$10',
   py: '$3',
   mr: '$5',
-  '@mobile': {
+  '@tablet': {
     mr: '$0',
     display: 'none',
   },
@@ -185,7 +189,7 @@ const STitle = styled('p', {
   maxWidth: '380px',
   fontStyle: 'H2',
   mt: '$8',
-  '@mobile': {
+  '@tablet': {
     fontAg: '14_semibold_140',
     maxWidth: '162px',
   },

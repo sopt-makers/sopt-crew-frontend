@@ -220,7 +220,7 @@ const SListItem = styled(Box, {
   height: '$80',
   mb: '$16',
 
-  '@mobile': {
+  '@tablet': {
     borderRadius: '8px',
     mb: '$10',
     padding: '$16',
@@ -231,7 +231,7 @@ const SListItem = styled(Box, {
 const SDesktopListItem = styled(SListItem, {
   display: 'flex',
 
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
@@ -239,7 +239,7 @@ const SDesktopListItem = styled(SListItem, {
 const SMobileCard = styled(Box, {
   display: 'none',
 
-  '@mobile': {
+  '@tablet': {
     display: 'block',
   },
 });
@@ -268,7 +268,7 @@ const SProfileImage = styled(Box, {
 });
 
 const SGuestProfileImage = styled(SProfileImage, {
-  '@mobile': {
+  '@tablet': {
     width: '$24',
     height: '$24',
     margin: 0,
@@ -304,7 +304,7 @@ const SUserInformation = styled(Box, {
 const SProfile = styled(Box, {
   flexType: 'verticalCenter',
 
-  '@mobile': {
+  '@tablet': {
     flex: 1,
   },
 });
@@ -320,7 +320,7 @@ const SVerticalLine = styled(Box, {
   mr: '$30',
   backgroundColor: '$gray100',
 
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
@@ -334,7 +334,7 @@ const SName = styled('button', {
   textAlign: 'center',
   minWidth: '$48',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '14_bold_100',
     minWidth: 'fit-content',
   },
@@ -357,7 +357,7 @@ const SDate = styled(Box, {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_medium_100',
     color: '$gray80',
     justifyContent: 'space-between',
@@ -369,7 +369,7 @@ const STime = styled(Box, {
   fontAg: '18_semibold_100',
   color: '$gray60',
 
-  '@mobile': {
+  '@tablet': {
     ml: '$4',
     fontAg: '12_medium_100',
     color: '$gray100',
@@ -534,7 +534,7 @@ const SEmptyText = styled('p', {
   textAlign: 'center',
   color: '$gray80',
 
-  '@mobile': {
+  '@tablet': {
     padding: '$100 0',
     fontAg: '14_medium_100',
   },

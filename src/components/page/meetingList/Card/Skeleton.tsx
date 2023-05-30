@@ -40,7 +40,7 @@ export default CardSkeleton;
 
 const SLayout = styled(Box, {
   width: '380px',
-  '@mobile': {
+  '@tablet': {
     width: '162px',
   },
 });
@@ -48,7 +48,7 @@ const SLayout = styled(Box, {
 const BasicSkeleton = styled(Box, {
   backgroundColor: '$black60',
   borderRadius: '6px',
-  '@mobile': {
+  '@tablet': {
     borderRadius: '5px',
   },
 });

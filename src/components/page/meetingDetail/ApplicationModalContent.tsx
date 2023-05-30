@@ -33,7 +33,7 @@ const SApplicationModalContent = styled(Box, {
   padding: '$24 $24 $40 $24',
   borderRadius: '0 0 16px 16px',
 
-  '@mobile': {
+  '@tablet': {
     padding: '0 $16',
   },
 
@@ -57,7 +57,7 @@ const SApplicationModalContent = styled(Box, {
     outline: 'none',
     borderRadius: '10px',
 
-    '@mobile': {
+    '@tablet': {
       height: '$160',
       padding: '$12',
       fontAg: '16_medium_150',
@@ -85,7 +85,7 @@ const SApplicationModalContent = styled(Box, {
       cursor: 'not-allowed',
     },
 
-    '@mobile': {
+    '@tablet': {
       width: '$130',
       padding: '$16 0',
       mt: '$8',

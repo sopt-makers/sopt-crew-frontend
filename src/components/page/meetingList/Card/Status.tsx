@@ -21,7 +21,7 @@ export default Status;
 const SLayout = styled(Flex, {
   fontAg: '16_bold_100',
   marginTop: '24px',
-  '@mobile': {
+  '@tablet': {
     fontAg: '10_bold_100',
     marginTop: '12px',
   },
@@ -33,7 +33,7 @@ const SLabel = styled(Box, {
   borderRadius: '71px',
   marginRight: '8px',
   backgroundColor: '$black80',
-  '@mobile': {
+  '@tablet': {
     padding: '8px 10px',
     marginRight: '6px',
   },

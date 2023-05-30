@@ -53,7 +53,7 @@ const SDialogWrapper = styled(Box, {
   display: 'flex',
   flexDirection: 'column',
 
-  '@mobile': {
+  '@tablet': {
     width: 'calc(100% - 40px)',
     height: '$194',
     padding: '$32',
@@ -67,7 +67,7 @@ const SDialogWrapper = styled(Box, {
     flex: '1',
     flexType: 'center',
 
-    '@mobile': {
+    '@tablet': {
       fontAg: '16_bold_150',
     },
   },
@@ -80,7 +80,7 @@ const SDialogWrapper = styled(Box, {
     textAlign: 'center',
     color: '$white100',
 
-    '@mobile': {
+    '@tablet': {
       width: 'calc(50% - 10px)',
       padding: '$16 0',
       fontAg: '14_bold_100',
