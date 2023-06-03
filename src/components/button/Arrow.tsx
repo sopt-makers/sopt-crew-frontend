@@ -24,7 +24,7 @@ export const ArrowButton = ({
   disabled = false,
   size = 16,
   color = '#fff',
-  disabledColor = '$black20',
+  disabledColor = '$black40',
   strokeWidth = 2,
   ...props
 }: ArrowButtonProps) => {

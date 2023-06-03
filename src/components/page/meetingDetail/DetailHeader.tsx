@@ -14,9 +14,9 @@ import GuestConfirmModal from './GuestConfirmModal';
 import ProfileConfirmModal from './ProfileConfirmModal';
 import ApplicationModalContent from './ApplicationModalContent';
 import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
-import { PostApplicationRequest, MeetingResponse, UpdateInvitationRequest } from '@api/meeting';
+import { PostApplicationRequest, MeetingResponse } from '@api/meeting';
 import { playgroundURL } from '@constants/url';
-import { EApprovalStatus, ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
@@ -40,15 +40,9 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
-  mutateInvitation: UseMutateFunction<{ statusCode: number }, AxiosError, UpdateInvitationRequest>;
 }
 
-const DetailHeader = ({
-  detailData,
-  mutateMeetingDeletion,
-  mutateApplication,
-  mutateInvitation,
-}: DetailHeaderProps) => {
+const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -61,8 +55,6 @@ const DetailHeader = ({
     capacity,
     host: isHost,
     apply: isApplied,
-    approved: isApproved,
-    invite: isInvited,
     isMentorNeeded,
   } = detailData;
   const { data: me } = useQueryMyProfile();
@@ -160,41 +152,6 @@ const DetailHeader = ({
     handleHostModalClose();
   };
 
-  const handleApproveInvitation = () => {
-    mutateInvitation(
-      {
-        id: Number(meetingId),
-        applyId: Number(meetingId),
-        status: EApprovalStatus.APPROVE,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });
-        },
-      }
-    );
-  };
-
-  const handleCancelInvitation = () => {
-    mutateInvitation(
-      {
-        id: Number(meetingId),
-        applyId: Number(meetingId),
-        status: EApprovalStatus.REJECT,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });
-          handleGuestModalClose();
-        },
-      }
-    );
-  };
-
   return (
     <>
       <SDetailHeader>
@@ -228,19 +185,9 @@ const DetailHeader = ({
             </div>
             <ArrowSmallRightIcon />
           </SStatusButton>
-          {!isHost && !isInvited && !isApproved && (
+          {!isHost && (
             <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
               신청{isApplied ? ' 취소' : '하기'}
-            </SGuestButton>
-          )}
-          {!isHost && isInvited && (
-            <SGuestButton isInvited={isInvited} onClick={handleApproveInvitation}>
-              초대 승인하기
-            </SGuestButton>
-          )}
-          {!isHost && isApproved && (
-            <SGuestButton isApproved={isApproved} onClick={handleGuestModalOpen}>
-              승인 취소
             </SGuestButton>
           )}
           {isHost && (
@@ -265,9 +212,9 @@ const DetailHeader = ({
       />
       <GuestConfirmModal
         isModalOpened={isGuestModalOpened}
-        message={`${isApproved ? '승인' : '신청'}을 취소하시겠습니까?`}
+        message="신청을 취소하시겠습니까?"
         handleModalClose={handleGuestModalClose}
-        handleConfirm={isApproved ? handleCancelInvitation : handleCancelApplication}
+        handleConfirm={handleCancelApplication}
       />
       <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
         {modalTitle === '모임 신청하기' && (
@@ -318,15 +265,19 @@ const SAbout = styled(Box, {
   '& > h1': {
     span: {
       color: '$gray80',
-      marginRight: '$8',
+      mr: '$8',
+
+      '@mobile': {
+        mr: '$4',
+      },
     },
 
     fontAg: '34_bold_140',
-    color: '$white',
+    color: '$white100',
     mb: '$20',
 
     '@mobile': {
-      fontAg: '18_bold_140',
+      fontStyle: 'H3',
     },
   },
 });
@@ -339,10 +290,10 @@ const SRecruitStatus = styled(Box, {
   fontAg: '16_bold_100',
 
   '@mobile': {
-    padding: '$5',
+    padding: '$2 $6',
     mr: '$8',
     borderRadius: '5px',
-    fontAg: '10_bold_100',
+    fontStyle: 'B4',
   },
 
   variants: {
@@ -362,15 +313,16 @@ const SRecruitStatus = styled(Box, {
 
 const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
+  color: '$gray60',
 
   '@mobile': {
-    fontAg: '12_semibold_100',
+    fontStyle: 'T6',
   },
 });
 
 const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
-  color: '$white',
+  color: '$white100',
   width: 'fit-content',
 
   img: {
@@ -381,8 +333,8 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
     background: '$black60',
     '@mobile': {
-      width: '$30',
-      height: '$30',
+      width: '$32',
+      height: '$32',
       mr: '$8',
     },
   },
@@ -393,8 +345,8 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
 
     '@mobile': {
-      width: '$30',
-      height: '$30',
+      width: '$32',
+      height: '$32',
       mr: '$8',
     },
   },
@@ -403,9 +355,13 @@ const SProfileAnchor = styled('a', {
     mr: '$16',
 
     '@mobile': {
-      fontAg: '12_semibold_100',
-      mr: '$8',
+      fontStyle: 'T5',
+      mr: '$2',
     },
+  },
+
+  '& > svg:last-child > path': {
+    stroke: `$gray40`,
   },
 });
 
@@ -416,8 +372,8 @@ const SHostWrapper = styled(Box, {
 const Button = styled('button', {
   width: '$300',
   height: '$60',
-  borderRadius: '12px',
-  color: '$white',
+  borderRadius: '8px',
+  color: '$white100',
 });
 
 const SStatusButton = styled(Button, {
@@ -436,15 +392,15 @@ const SStatusButton = styled(Button, {
     mb: '$10',
     textAlign: 'center',
     justifyContent: 'center',
-    fontAg: '14_semibold_100',
+    fontStyle: 'T5',
 
     svg: {
-      ml: '$8',
+      ml: '$2',
     },
   },
 
   'span:first-child': {
-    mr: '$12',
+    mr: '$6',
     color: '$gray80',
   },
 });
@@ -457,8 +413,8 @@ const SGuestButton = styled(Button, {
   '@mobile': {
     width: '100%',
     height: '$46',
-    fontAg: '14_bold_100',
-    padding: '$16 0',
+    fontStyle: 'T5',
+    padding: '$13 0',
   },
 
   '&:disabled': {
@@ -475,11 +431,6 @@ const SGuestButton = styled(Button, {
         backgroundColor: '$purple100',
       },
     },
-    isInvited: {
-      true: {
-        backgroundColor: '$purple100',
-      },
-    },
     isApproved: {
       true: {
         border: `2px solid $black40`,
@@ -491,7 +442,7 @@ const SGuestButton = styled(Button, {
 const SHostButtonContainer = styled(Box, {
   '& > *': {
     width: '$144',
-    color: '$white',
+    color: '$white100',
     padding: '$20 0',
     textAlign: 'center',
     borderRadius: '$50',

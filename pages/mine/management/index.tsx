@@ -188,9 +188,9 @@ const SListTitle = styled(Box, {
 });
 
 const SDownloadButton = styled('button', {
-  color: '$white',
+  color: '$white100',
   fontAg: '18_bold_100',
-  border: '1px solid $white',
+  border: '1px solid $white100',
   borderRadius: '14px',
   padding: '$18 $24 $18 $20',
   flexType: 'verticalCenter',
@@ -231,7 +231,7 @@ const SSelectContainer = styled(Box, {
 const SSelectWrapper = styled(Box, {
   '& button': {
     borderRadius: '14px',
-    border: '1px solid $black20',
+    border: '1px solid $black40',
     backgroundColor: '$black100',
 
     '@mobile': {

@@ -4,18 +4,14 @@ import Carousel from '@components/page/meetingDetail/Carousel';
 import { TabList } from '@components/tabList/TabList';
 import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
-import {
-  useMutationDeleteMeeting,
-  useMutationPostApplication,
-  useMutationUpdateInvitation,
-  useQueryGetMeeting,
-} from '@api/meeting/hooks';
+import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 
 const DetailPage = () => {
   const router = useRouter();
@@ -23,7 +19,6 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const { mutate: mutateUpdateInvitation } = useMutationUpdateInvitation({});
   const tabRef = useRef<HTMLElement[]>([]);
   const detailList = [
     {
@@ -69,20 +64,7 @@ const DetailPage = () => {
   };
 
   const handleContent = (content: string) => {
-    // eslint-disable-next-line no-useless-escape
-    const urlRegex = /(https?:\/\/[^\s\]\)]+)|(www\.[^\s\]\)]+)/g;
-    const fragmentList = content.split(urlRegex);
-    return fragmentList.map((fragment, index) => {
-      if (urlRegex.test(fragment)) {
-        const url = fragment.startsWith('https') ? fragment : `https://${fragment}`;
-        return (
-          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
-            {fragment}
-          </a>
-        );
-      }
-      return fragment;
-    });
+    return parseTextToLink(content);
   };
 
   if (!detailData) {
@@ -96,7 +78,6 @@ const DetailPage = () => {
         detailData={detailData}
         mutateMeetingDeletion={mutateDeleteMeeting}
         mutateApplication={mutatePostApplication}
-        mutateInvitation={mutateUpdateInvitation}
       />
       <TabList text={selectedTab} size="small" onChange={handleChange}>
         {detailList.map(
@@ -141,7 +122,7 @@ const SDetailPage = styled(Box, {
 
 const SDetail = styled('section', {
   scrollMarginTop: '$80',
-  color: '$white',
+  color: '$white100',
   mt: '$120',
 
   '@mobile': {

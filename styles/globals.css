@@ -162,7 +162,7 @@ video {
   border: 0;
   font-size: 100%;
   font-weight: inherit;
-  letter-spacing: normal;
+  letter-spacing: -0.005em;
   vertical-align: baseline;
   text-decoration: none;
   -webkit-font-smoothing: antialiased;

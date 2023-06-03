@@ -59,7 +59,7 @@ const SRecruitmentStatusItem = styled(Box, {
   padding: '$16 $20',
   borderRadius: '12px',
   backgroundColor: '$black60',
-  color: '$white',
+  color: '$white100',
   fontAg: '16_semibold_100',
 
   '&:not(:nth-last-child(-n + 2))': {

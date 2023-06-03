@@ -42,7 +42,7 @@ function Card({ bottom, meetingData }: CardProps) {
                 },
               }}
             >
-              <Flex css={{ mb: '$12' }} align="center">
+              <Flex css={{ mb: '$14' }} align="center">
                 <SProfileWrapper>
                   {meetingData.user.profileImage ? (
                     <SProfile src={getResizedImage(meetingData.user.profileImage, 120)} alt="" />
@@ -103,7 +103,7 @@ const SThumbnailImage = styled('div', {
   width: '380px',
   height: '260px',
   overflow: 'hidden',
-  borderRadius: '$10',
+  borderRadius: '$12',
   backgroundColor: '$black80',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
@@ -120,19 +120,18 @@ const SStatus = styled(Box, {
   top: '16px',
   left: '16px',
   borderRadius: '$8',
-  px: '$8',
-  py: '$4',
-  fontAg: '16_bold_100',
+  padding: '$3 $8',
+  fontStyle: 'T5',
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$black40',
+        backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$purple200',
+        backgroundColor: '$purple100',
       },
       2: {
-        backgroundColor: '$gray80',
+        backgroundColor: '$black60',
       },
     },
   },
@@ -153,12 +152,12 @@ const STitleSection = styled(Box, {
 
 const SCategory = styled('p', {
   display: 'inline-block',
-  fontAg: '15_bold_100',
-  color: '$gray50',
-  border: '1px solid $gray50',
+  fontStyle: 'T6',
+  color: '$gray40',
+  border: '1px solid $gray60',
   borderRadius: '37px',
-  px: '$9',
-  py: '$6',
+  px: '$10',
+  py: '$3',
   mr: '$5',
   '@mobile': {
     mr: '$0',
@@ -167,7 +166,7 @@ const SCategory = styled('p', {
 });
 const SProfileWrapper = styled(Box, {
   flexType: 'verticalCenter',
-  color: '$white',
+  color: '$white100',
   width: 'fit-content',
   mr: '$8',
 });
@@ -180,12 +179,11 @@ const SProfile = styled('img', {
 });
 
 const SName = styled('p', {
-  fontAg: '14_medium_100',
+  fontStyle: 'T5',
 });
 const STitle = styled('p', {
   maxWidth: '380px',
-
-  fontAg: '22_bold_140',
+  fontStyle: 'H2',
   mt: '$8',
   '@mobile': {
     fontAg: '14_semibold_140',
@@ -194,16 +192,16 @@ const STitle = styled('p', {
 });
 const SInfoRow = styled(Flex, {
   '& + &': {
-    mt: '$8',
+    mt: '$4',
   },
 });
 const SInfo = styled('p', {
-  fontAg: '16_medium_100',
+  fontStyle: 'B3',
 });
 const SKey = styled(SInfo, {
   width: '74px',
-  color: '$gray80',
-  mr: '$16',
+  color: '$gray100',
+  mr: '$12',
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {

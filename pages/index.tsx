@@ -17,11 +17,14 @@ import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
 import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
 import { useQueryMyProfile } from '@api/user/hooks';
+import NoticeSlider from '@components/page/meetingList/Slider/NoticeSlider/NoticeSlider';
+import useNotices from '@api/notice/hooks';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
+  const { data: notices } = useNotices();
 
   const handleMakeMeeting = () => {
     if (!me?.hasActivities) {
@@ -56,6 +59,9 @@ const Home: NextPage = () => {
             <span>모임 개설하기</span>
           </SMakeMeetingButton>
         </Flex>
+        <SNoticeWrapper>
+          <NoticeSlider notices={notices} />
+        </SNoticeWrapper>
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
@@ -87,13 +93,13 @@ export default Home;
 
 const SMakeMeetingButton = styled('button', {
   flexType: 'verticalCenter',
-  padding: '$18 $24 $18 $20',
+  padding: '$16 $24 $16 $20',
   background: '$purple100',
-  borderRadius: '12px',
+  borderRadius: '16px',
   '& > span': {
     ml: '$12',
     fontAg: '18_bold_100',
-    color: '$white',
+    color: '$white100',
   },
   '@mobile': {
     display: 'none',
@@ -112,10 +118,17 @@ const SMobileButtonContainer = styled(Box, {
 });
 
 const SFilterWrapper = styled(Box, {
-  mt: '$120',
+  mt: '$40',
   mb: '$64',
   '@mobile': {
-    mt: '$48',
+    mt: '$32',
     mb: '$24',
+  },
+});
+
+const SNoticeWrapper = styled(Box, {
+  mt: '$64',
+  '@mobile': {
+    mt: '$28',
   },
 });

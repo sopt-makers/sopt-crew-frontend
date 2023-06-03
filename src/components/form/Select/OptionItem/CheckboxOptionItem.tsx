@@ -38,6 +38,6 @@ const SCheckboxOptionItem = styled(Box, {
   gap: '10px',
   padding: '16px',
   background: '$black40',
-  color: '$white',
+  color: '$white100',
   fontAg: '16_medium_100',
 });

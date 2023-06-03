@@ -63,7 +63,7 @@ const SEditButton = styled('label', {
   background: '$purple100',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$white',
+  color: '$white100',
   cursor: 'pointer',
 });
 const SInput = styled('input', {
@@ -84,5 +84,5 @@ const SDeleteButton = styled('button', {
   background: '$black40',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$white',
+  color: '$white100',
 });
