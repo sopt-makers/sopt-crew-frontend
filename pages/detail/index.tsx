@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
-import { parseTextToLink } from '@components/util/parseTextToLink';
 
 const DetailPage = () => {
   const router = useRouter();
@@ -64,7 +63,20 @@ const DetailPage = () => {
   };
 
   const handleContent = (content: string) => {
-    return parseTextToLink(content);
+    // eslint-disable-next-line no-useless-escape
+    const urlRegex = /(https?:\/\/[^\s\]\)]+)|(www\.[^\s\]\)]+)/g;
+    const fragmentList = content.split(urlRegex);
+    return fragmentList.map((fragment, index) => {
+      if (urlRegex.test(fragment)) {
+        const url = fragment.startsWith('https') ? fragment : `https://${fragment}`;
+        return (
+          <a key={index} href={url} target="_blank" rel="noopener noreferrer">
+            {fragment}
+          </a>
+        );
+      }
+      return fragment;
+    });
   };
 
   if (!detailData) {
