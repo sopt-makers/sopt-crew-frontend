@@ -27,15 +27,14 @@ export default ManagementButton;
 const SButton = styled(Flex, {
   width: '102px',
   padding: '12px 12px 13px 14px',
-  border: '1px solid $gray100',
   borderRadius: '71px',
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
   background: '$black80',
   '@tablet': {
-    width: '65px',
-    fontAg: '10_bold_100',
-    padding: '5px 6px 6px 10px',
+    width: '73px',
+    fontStyle: 'T6',
+    padding: '6px 6px 6px 12px',
   },
 });
 

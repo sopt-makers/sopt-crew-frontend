@@ -2,8 +2,12 @@ import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 
-function GridLayout({ children }: PropsWithChildren) {
-  return <StyledGridContainer as="ul">{children}</StyledGridContainer>;
+function GridLayout({ children, mobileChildrenType }: PropsWithChildren<{ mobileChildrenType: 'list' | 'card' }>) {
+  return (
+    <StyledGridContainer as="ul" mobileChildrenType={mobileChildrenType}>
+      {children}
+    </StyledGridContainer>
+  );
 }
 
 const StyledGridContainer = styled(Box, {
@@ -23,9 +27,30 @@ const StyledGridContainer = styled(Box, {
   '@media (max-width: 820px)': {
     gridTemplateColumns: '1fr',
   },
-  '@tablet': {
-    margin: '16px 0 40px 0',
-    rowGap: '16px',
+  variants: {
+    mobileChildrenType: {
+      list: {
+        '@tablet': {
+          margin: '16px 0 40px 0',
+          rowGap: '16px',
+        },
+      },
+      card: {
+        '@tablet': {
+          alignItems: 'center',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          margin: '16px 0 40px 0',
+          rowGap: '40px',
+          columnGap: '11px',
+        },
+        '@media (max-width: 550px)': {
+          gridTemplateColumns: 'repeat(2, 1fr)',
+        },
+        '@media (max-width: 359px)': {
+          gridTemplateColumns: '1fr',
+        },
+      },
+    },
   },
 });
 

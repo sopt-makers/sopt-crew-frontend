@@ -51,9 +51,9 @@ const MinePage: NextPage = () => {
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
-                <GridLayout>
+                <GridLayout mobileChildrenType="card">
                   {new Array(6).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} />
+                    <CardSkeleton key={index} mobileCardType="card" />
                   ))}
                 </GridLayout>
               }
@@ -65,9 +65,9 @@ const MinePage: NextPage = () => {
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
-                <GridLayout>
+                <GridLayout mobileChildrenType="card">
                   {new Array(4).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} />
+                    <CardSkeleton key={index} mobileCardType="card" />
                   ))}
                 </GridLayout>
               }

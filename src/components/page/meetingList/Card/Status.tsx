@@ -12,7 +12,7 @@ function Status({ status }: StatusProps) {
   return (
     <SLayout align="center">
       <SLabel>신청현황</SLabel>
-      <span>{APPROVAL_STATUS[status]}</span>
+      <SValue status={status}>{APPROVAL_STATUS[status]}</SValue>
     </SLayout>
   );
 }
@@ -22,19 +22,34 @@ const SLayout = styled(Flex, {
   fontAg: '16_bold_100',
   marginTop: '24px',
   '@tablet': {
-    fontAg: '10_bold_100',
+    fontStyle: 'T6',
     marginTop: '12px',
   },
 });
 const SLabel = styled(Box, {
   flexType: 'center',
   padding: '10px 12px',
-  border: '1px solid $gray100',
   borderRadius: '71px',
   marginRight: '8px',
   backgroundColor: '$black80',
   '@tablet': {
     padding: '8px 10px',
     marginRight: '6px',
+  },
+});
+
+const SValue = styled('span', {
+  variants: {
+    status: {
+      0: {
+        color: '$purple40',
+      },
+      1: {
+        color: '$purple100',
+      },
+      2: {
+        color: '$gray80',
+      },
+    },
   },
 });

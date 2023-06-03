@@ -4,18 +4,19 @@ import { ReactNode } from 'react';
 import { MeetingResponse } from '@api/meeting';
 
 import DesktopSizeCard from './DesktopSizeCard';
-import MobileSizeCard from './MobileSizeCard';
+import MobileSizeCard from './MobileSize';
 
 interface CardProps {
   bottom?: ReactNode;
   meetingData: MeetingResponse;
+  mobileCardType: 'list' | 'card';
 }
 
-function Card({ bottom, meetingData }: CardProps) {
+function Card({ bottom, meetingData, mobileCardType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
 
   return (
-    <Box as="li" css={{ '@tablet': { width: '100%' } }}>
+    <Box as="li" css={{ '@tablet': { width: mobileCardType === 'list' ? '100%' : 'fit-content' } }}>
       <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
           <Box
@@ -37,7 +38,7 @@ function Card({ bottom, meetingData }: CardProps) {
               },
             }}
           >
-            <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} />
+            <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileCardType={mobileCardType} />
           </Box>
         </a>
       </Link>

@@ -19,9 +19,9 @@ export function MeetingListOfAll() {
       <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
       {meetingListData?.meetings.length ? (
         <>
-          <GridLayout>
+          <GridLayout mobileChildrenType="list">
             {meetingListData?.meetings.map(meetingData => (
-              <Card key={meetingData.id} meetingData={meetingData} />
+              <Card key={meetingData.id} meetingData={meetingData} mobileCardType="list" />
             ))}
           </GridLayout>
 
@@ -47,9 +47,14 @@ export function MeetingListOfMine() {
     <main>
       <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
       {mineData?.meetings.length ? (
-        <GridLayout>
+        <GridLayout mobileChildrenType="card">
           {mineData?.meetings.map(meetingData => (
-            <Card key={meetingData.id} meetingData={meetingData} bottom={<ManagementButton id={meetingData.id} />} />
+            <Card
+              key={meetingData.id}
+              meetingData={meetingData}
+              mobileCardType="card"
+              bottom={<ManagementButton id={meetingData.id} />}
+            />
           ))}
         </GridLayout>
       ) : (
@@ -66,9 +71,14 @@ export function MeetingListOfApplied() {
     <main>
       <SMeetingCount>{applyData?.apply.length}개의 모임</SMeetingCount>
       {applyData?.apply.length ? (
-        <GridLayout>
+        <GridLayout mobileChildrenType="card">
           {applyData?.apply.map(applyData => (
-            <Card key={applyData.id} meetingData={applyData.meeting} bottom={<Status status={applyData.status} />} />
+            <Card
+              key={applyData.id}
+              meetingData={applyData.meeting}
+              mobileCardType="card"
+              bottom={<Status status={applyData.status} />}
+            />
           ))}
         </GridLayout>
       ) : (

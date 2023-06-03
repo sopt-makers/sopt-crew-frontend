@@ -1,18 +1,14 @@
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { RECRUITMENT_STATUS } from '@constants/option';
-import { MeetingResponse, parsePartValueToLabel } from '@api/meeting';
+import { parsePartValueToLabel } from '@api/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
+import { MobileSizeCardProps } from '.';
 
-interface CardProps {
-  meetingData: MeetingResponse;
-  isAllParts: boolean;
-}
-
-function MobileSizeCard({ meetingData, isAllParts }: CardProps) {
+function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileCardType'>) {
   return (
     <Box css={{ width: '100%' }}>
       <Flex align="center" css={{ mb: '$16' }}>
@@ -59,7 +55,7 @@ function MobileSizeCard({ meetingData, isAllParts }: CardProps) {
   );
 }
 
-export default MobileSizeCard;
+export default ListType;
 
 const SThumbnailImage = styled('div', {
   width: '120px',
