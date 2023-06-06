@@ -2,11 +2,11 @@ import CardType from './CardType';
 import ListType from './ListType';
 
 export interface MobileSizeSkeletonProps {
-  mobileCardType: 'list' | 'card';
+  mobileType: 'list' | 'card';
 }
 
-function MobileSizeSkeleton({ mobileCardType }: MobileSizeSkeletonProps) {
-  switch (mobileCardType) {
+function MobileSizeSkeleton({ mobileType }: MobileSizeSkeletonProps) {
+  switch (mobileType) {
     case 'list':
       return <ListType />;
     case 'card':

@@ -2,9 +2,9 @@ import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 
-function GridLayout({ children, mobileChildrenType }: PropsWithChildren<{ mobileChildrenType: 'list' | 'card' }>) {
+function GridLayout({ children, mobileType }: PropsWithChildren<{ mobileType: 'list' | 'card' }>) {
   return (
-    <StyledGridContainer as="ul" mobileChildrenType={mobileChildrenType}>
+    <StyledGridContainer as="ul" mobileType={mobileType}>
       {children}
     </StyledGridContainer>
   );
@@ -28,7 +28,7 @@ const StyledGridContainer = styled(Box, {
     gridTemplateColumns: '1fr',
   },
   variants: {
-    mobileChildrenType: {
+    mobileType: {
       list: {
         '@tablet': {
           margin: '16px 0 40px 0',

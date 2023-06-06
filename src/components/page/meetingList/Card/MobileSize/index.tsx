@@ -5,11 +5,11 @@ import ListType from './ListType';
 export interface MobileSizeCardProps {
   meetingData: MeetingResponse;
   isAllParts: boolean;
-  mobileCardType: 'list' | 'card';
+  mobileType: 'list' | 'card';
 }
 
-function MobileSizeCard({ meetingData, isAllParts, mobileCardType }: MobileSizeCardProps) {
-  switch (mobileCardType) {
+function MobileSizeCard({ meetingData, isAllParts, mobileType }: MobileSizeCardProps) {
+  switch (mobileType) {
     case 'list':
       return <ListType meetingData={meetingData} isAllParts={isAllParts} />;
     case 'card':

@@ -8,7 +8,7 @@ import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
 import { MobileSizeCardProps } from '.';
 
-function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileCardType'>) {
+function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileType'>) {
   return (
     <Box css={{ width: '100%' }}>
       <Flex align="center" css={{ mb: '$16' }}>

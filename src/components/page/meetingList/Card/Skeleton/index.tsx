@@ -2,7 +2,7 @@ import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import MobileSizeSkeleton, { MobileSizeSkeletonProps } from './MobileSize';
 
-function CardSkeleton({ mobileCardType }: MobileSizeSkeletonProps) {
+function CardSkeleton({ mobileType }: MobileSizeSkeletonProps) {
   return (
     <>
       <Box className="pc-only">
@@ -23,7 +23,7 @@ function CardSkeleton({ mobileCardType }: MobileSizeSkeletonProps) {
         </SLayout>
       </Box>
       <Box className="mobile-only">
-        <MobileSizeSkeleton mobileCardType={mobileCardType} />
+        <MobileSizeSkeleton mobileType={mobileType} />
       </Box>
     </>
   );

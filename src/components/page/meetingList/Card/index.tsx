@@ -9,14 +9,14 @@ import MobileSizeCard from './MobileSize';
 interface CardProps {
   bottom?: ReactNode;
   meetingData: MeetingResponse;
-  mobileCardType: 'list' | 'card';
+  mobileType: 'list' | 'card';
 }
 
-function Card({ bottom, meetingData, mobileCardType }: CardProps) {
+function Card({ bottom, meetingData, mobileType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
 
   return (
-    <Box as="li" css={{ '@tablet': { width: mobileCardType === 'list' ? '100%' : 'fit-content' } }}>
+    <Box as="li" css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}>
       <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
           <Box
@@ -38,7 +38,7 @@ function Card({ bottom, meetingData, mobileCardType }: CardProps) {
               },
             }}
           >
-            <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileCardType={mobileCardType} />
+            <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
           </Box>
         </a>
       </Link>
