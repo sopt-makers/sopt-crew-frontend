@@ -67,9 +67,9 @@ const Home: NextPage = () => {
         </SFilterWrapper>
         <SSRSafeSuspense
           fallback={
-            <GridLayout mobileChildrenType="list">
+            <GridLayout mobileType="list">
               {new Array(6).fill(null).map((_, index) => (
-                <CardSkeleton key={index} mobileCardType="list" />
+                <CardSkeleton key={index} mobileType="list" />
               ))}
             </GridLayout>
           }
