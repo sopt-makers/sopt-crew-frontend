@@ -48,7 +48,7 @@ const SDialogWrapper = styled(Box, {
   width: '$646',
   boxShadow: '4px 4px 40px #181818',
 
-  '@mobile': {
+  '@tablet': {
     width: 'calc(100% - 40px)',
   },
 });
@@ -74,7 +74,7 @@ const SHeader = styled(Box, {
     backgroundSize: 'cover',
   },
 
-  '@mobile': {
+  '@tablet': {
     borderBottom: 'none',
     padding: '$24',
 

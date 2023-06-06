@@ -22,7 +22,7 @@ const SButton = styled('button', {
   height: '$72',
   cursor: 'pointer',
 
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 

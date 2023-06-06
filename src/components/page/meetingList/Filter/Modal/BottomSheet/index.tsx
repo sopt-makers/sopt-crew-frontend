@@ -11,14 +11,14 @@ interface BottomSheetDialogProps {
 }
 
 function BottomSheet({ isOpen, handleClose }: BottomSheetDialogProps) {
-  const filterSectionStyle = { mb: '$48', '@mobile': { mb: '$40' } };
+  const filterSectionStyle = { mb: '$48', '@tablet': { mb: '$40' } };
 
   return (
     <BottomSheetDialog
       isOpen={isOpen}
       label="필터"
       handleClose={handleClose}
-      headerRight={<InitializationButton css={{ '@mobile': { mt: 0 } }} withText={false} size={16} />}
+      headerRight={<InitializationButton css={{ '@tablet': { mt: 0 } }} withText={false} size={16} />}
     >
       <FilterWrapper>
         <Chip css={filterSectionStyle} filter={CATEGORY_FILTER} />

@@ -52,7 +52,7 @@ export default RecruitmentStatusModalContent;
 const SRecruitmentStatusListWrapper = styled(Box, {
   padding: '$24 $24 0 $24',
 
-  '@mobile': {
+  '@tablet': {
     padding: '$0',
   },
 });
@@ -64,7 +64,7 @@ const SEmptyText = styled('p', {
   color: '$gray80',
   fontAg: '18_semibold_100',
 
-  '@mobile': {
+  '@tablet': {
     height: '$184',
     fontAg: '14_medium_100',
   },
@@ -75,7 +75,7 @@ const SRecruitmentStatusModalBottom = styled(Box, {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
 
-  '@mobile': {
+  '@tablet': {
     margin: '$16 $20 $24 $20',
   },
 });
@@ -84,7 +84,7 @@ const STotal = styled('p', {
   color: '$gray80',
   fontAg: '16_medium_100',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_medium_100',
   },
 });
@@ -96,7 +96,7 @@ const SManagementAnchor = styled('a', {
   position: 'absolute',
   right: '$42',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_semibold_100',
     right: '$20',
   },

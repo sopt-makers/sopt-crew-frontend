@@ -22,7 +22,7 @@ const SMeetingInformationSkeleton = styled(Box, {
   mt: '$64',
   flexType: 'verticalCenter',
 
-  '@mobile': {
+  '@tablet': {
     background: '$black90',
     padding: '$0',
     borderRadius: '8px',
@@ -37,7 +37,7 @@ const SImage = styled(Box, {
   width: '$167',
   height: '$109',
 
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
@@ -45,7 +45,7 @@ const SImage = styled(Box, {
 const STextArea = styled(Box, {
   ml: '$24',
 
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });

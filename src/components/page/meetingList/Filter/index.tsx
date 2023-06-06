@@ -36,7 +36,7 @@ function Filter() {
           css={{
             fontAg: '24_medium_100',
             mt: '$80',
-            '@mobile': { display: 'none' },
+            '@tablet': { display: 'none' },
           }}
         >
           "{search}"에 대한 검색결과입니다.
@@ -57,7 +57,7 @@ const SGuideButton = styled('a', {
   borderRadius: '14px',
   fontAg: '18_medium_100',
   boxSizing: 'border-box',
-  '@mobile': {
+  '@tablet': {
     padding: '$14 $12 $14 $16',
     borderRadius: '10px',
     fontAg: '14_medium_100',

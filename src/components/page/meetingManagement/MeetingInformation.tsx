@@ -47,7 +47,7 @@ const SMeetingInformation = styled('a', {
     flex: '1',
   },
 
-  '@mobile': {
+  '@tablet': {
     marginTop: '$48',
     padding: '$16',
     border: 'none',
@@ -65,7 +65,7 @@ const SImage = styled('img', {
   marginRight: '$35',
   objectFit: 'cover',
 
-  '@mobile': {
+  '@tablet': {
     width: '$103',
     minWidth: '$103',
     height: '$67',
@@ -79,7 +79,7 @@ const SCategory = styled(Box, {
   color: '$gray80',
   mb: '$10',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_bold_100',
   },
 });
@@ -88,7 +88,7 @@ const STitle = styled('p', {
   fontAg: '28_bold_140',
   color: '$white100',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '14_bold_140',
   },
 });

@@ -36,7 +36,7 @@ const SLabel = styled('p', {
   color: '$white100',
   fontAg: '18_bold_100',
   mb: '$20',
-  '@mobile': {
+  '@tablet': {
     fontAg: '14_bold_100',
     mb: '$16',
   },
@@ -46,7 +46,7 @@ const SSwitchWrapper = styled(Flex, {
   borderRadius: '14px',
   width: '163px',
   height: '46px',
-  '@mobile': {
+  '@tablet': {
     width: '124px',
     height: '36px',
     borderRadius: '10px',
@@ -57,7 +57,7 @@ const SToggleDetailWord = styled(Box, {
   color: '$gray60',
   mt: '$1',
   mr: '$15',
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_semibold_100',
     mr: '$8',
   },

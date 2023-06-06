@@ -160,7 +160,7 @@ const SManagementPage = styled(Box, {
   mt: '$100',
   mb: '$180',
 
-  '@mobile': {
+  '@tablet': {
     mt: '$31',
     mb: '$66',
   },
@@ -173,7 +173,7 @@ const SListHeader = styled(Box, {
   mb: '$48',
   position: 'relative',
 
-  '@mobile': {
+  '@tablet': {
     mt: '$40',
     mb: '$24',
   },
@@ -182,7 +182,7 @@ const SListHeader = styled(Box, {
 const SListTitle = styled(Box, {
   fontAg: '32_bold_100',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '18_bold_100',
   },
 });
@@ -199,7 +199,7 @@ const SDownloadButton = styled('button', {
     mr: '$12',
   },
 
-  '@mobile': {
+  '@tablet': {
     border: 'none',
     padding: '$0',
 
@@ -223,7 +223,7 @@ const SSelectContainer = styled(Box, {
     flexType: 'verticalCenter',
   },
 
-  '@mobile': {
+  '@tablet': {
     mb: '$16',
   },
 });
@@ -234,7 +234,7 @@ const SSelectWrapper = styled(Box, {
     border: '1px solid $black40',
     backgroundColor: '$black100',
 
-    '@mobile': {
+    '@tablet': {
       borderRadius: '8px',
       minWidth: '$96',
       height: '$36',
@@ -260,7 +260,7 @@ const SSelectWrapper = styled(Box, {
 });
 
 const SSelectNumberWrapper = styled(SSelectWrapper, {
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
@@ -273,7 +273,7 @@ const SEmptyView = styled(Box, {
   fontAg: '24_medium_100',
   color: '$gray80',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '16_medium_100',
     height: '$556',
   },
@@ -282,7 +282,7 @@ const SEmptyView = styled(Box, {
 const SPaginationWrapper = styled(Box, {
   mt: '$80',
 
-  '@mobile': {
+  '@tablet': {
     mt: '$40',
   },
 });

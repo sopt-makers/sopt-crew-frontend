@@ -29,7 +29,7 @@ const STooltip = styled(Box, {
   fontAg: '14_medium_100',
   cursor: 'default',
 
-  '@mobile': {
+  '@tablet': {
     top: '-2px',
     left: '109px',
     fontAg: '12_medium_100',
@@ -62,7 +62,7 @@ const STooltipDescription = styled(Box, {
   lineHeight: '140%',
 
   '& > p': {
-    '@mobile': {
+    '@tablet': {
       fontSize: '$10',
       lineHeight: '150%',
     },
@@ -72,7 +72,7 @@ const STooltipDescription = styled(Box, {
 const SQuestionMarkIcon = styled(QuestionMarkIcon, {
   marginLeft: '$10',
 
-  '@mobile': {
+  '@tablet': {
     ml: '$6',
     width: '$12',
     height: '$12',

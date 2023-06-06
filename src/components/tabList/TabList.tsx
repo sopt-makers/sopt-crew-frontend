@@ -37,7 +37,7 @@ TabList.Item = TabItem;
 const STabList = styled('ul', {
   display: 'flex',
 
-  '@mobile': {
+  '@tablet': {
     overflowX: 'scroll',
     '-ms-overflow-style': 'none',
     scrollbarWidth: 'none',
@@ -72,7 +72,7 @@ const STab = styled('li', {
         paddingBottom: '$17',
         mr: '$32',
 
-        '@mobile': {
+        '@tablet': {
           fontAg: '16_bold_100',
           paddingBottom: '$10',
           mr: '$16',
@@ -89,7 +89,7 @@ const STab = styled('li', {
         mr: '$20',
         fontStyle: 'H1',
 
-        '@mobile': {
+        '@tablet': {
           fontStyle: 'T3',
           pb: '$6',
           mr: '$12',

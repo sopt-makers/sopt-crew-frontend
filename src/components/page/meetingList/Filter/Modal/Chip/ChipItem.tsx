@@ -44,7 +44,7 @@ const SOption = styled('button', {
     color: '$white100',
   },
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_semibold_100',
     borderRadius: '20px',
     px: '$12',
