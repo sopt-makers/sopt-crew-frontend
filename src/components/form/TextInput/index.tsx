@@ -54,7 +54,7 @@ const SInput = styled('input', {
     color: '$gray100',
   },
 
-  '@mobile': {
+  '@tablet': {
     padding: '16px',
   },
 });

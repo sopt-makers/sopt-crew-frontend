@@ -45,7 +45,7 @@ const SCarousel = styled(Box, {
     mt: '$60',
     mb: '$80',
 
-    '@mobile': {
+    '@tablet': {
       mt: '0',
       mb: '$32',
       width: 'calc(100% + 40px)',
@@ -60,7 +60,7 @@ const SCarousel = styled(Box, {
     maxWidth: '$869',
     borderRadius: '14px',
 
-    '@mobile': {
+    '@tablet': {
       borderRadius: '$0',
     },
   },
@@ -128,7 +128,7 @@ const SImageWrapper = styled(Box, {
     height: '$594',
     margin: '0 auto',
 
-    '@mobile': {
+    '@tablet': {
       height: '$256',
     },
   },

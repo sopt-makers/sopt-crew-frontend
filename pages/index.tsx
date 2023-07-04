@@ -67,9 +67,9 @@ const Home: NextPage = () => {
         </SFilterWrapper>
         <SSRSafeSuspense
           fallback={
-            <GridLayout>
+            <GridLayout mobileType="list">
               {new Array(6).fill(null).map((_, index) => (
-                <CardSkeleton key={index} />
+                <CardSkeleton key={index} mobileType="list" />
               ))}
             </GridLayout>
           }
@@ -101,14 +101,14 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$white100',
   },
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });
 
 const SMobileButtonContainer = styled(Box, {
   display: 'none',
-  '@mobile': {
+  '@tablet': {
     flexType: 'verticalCenter',
     gap: '16px',
   },
@@ -120,7 +120,7 @@ const SMobileButtonContainer = styled(Box, {
 const SFilterWrapper = styled(Box, {
   mt: '$40',
   mb: '$64',
-  '@mobile': {
+  '@tablet': {
     mt: '$32',
     mb: '$24',
   },
@@ -128,7 +128,7 @@ const SFilterWrapper = styled(Box, {
 
 const SNoticeWrapper = styled(Box, {
   mt: '$64',
-  '@mobile': {
+  '@tablet': {
     mt: '$28',
   },
 });

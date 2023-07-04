@@ -51,9 +51,9 @@ const MinePage: NextPage = () => {
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
-                <GridLayout>
+                <GridLayout mobileType="card">
                   {new Array(6).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} />
+                    <CardSkeleton key={index} mobileType="card" />
                   ))}
                 </GridLayout>
               }
@@ -65,9 +65,9 @@ const MinePage: NextPage = () => {
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
-                <GridLayout>
+                <GridLayout mobileType="card">
                   {new Array(4).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} />
+                    <CardSkeleton key={index} mobileType="card" />
                   ))}
                 </GridLayout>
               }
@@ -87,7 +87,7 @@ const STabList = styled(Tab.List, {
   flexType: 'center',
   marginTop: '126px',
   paddingBottom: '64px',
-  '@mobile': {
+  '@tablet': {
     marginTop: '48px',
     paddingBottom: '24px',
   },
@@ -107,7 +107,7 @@ const STab = styled('button', {
       false: { color: '$gray100' },
     },
   },
-  '@mobile': {
+  '@tablet': {
     fontAg: '14_bold_100',
     py: '$12',
   },

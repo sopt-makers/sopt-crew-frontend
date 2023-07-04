@@ -19,7 +19,7 @@ const SItemSkeleton = styled(Box, {
   background: '$black80',
   mb: '$16',
 
-  '@mobile': {
+  '@tablet': {
     height: '$56',
     borderRadius: '10px',
     mb: '$10',

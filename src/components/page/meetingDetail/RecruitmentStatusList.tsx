@@ -33,7 +33,7 @@ const SRecruitmentStatusList = styled(Box, {
   overflowY: 'scroll',
   alignContent: 'flex-start',
 
-  '@mobile': {
+  '@tablet': {
     height: '$160',
     pl: '$20',
     pr: '$6',
@@ -66,7 +66,7 @@ const SRecruitmentStatusItem = styled(Box, {
     mb: '$12',
   },
 
-  '@mobile': {
+  '@tablet': {
     width: 'calc(50% - 4px)',
     height: '$48',
     padding: '$11 $12',
@@ -88,7 +88,7 @@ const SRecruitmentStatusItem = styled(Box, {
     objectFit: 'cover',
     background: '$black40',
 
-    '@mobile': {
+    '@tablet': {
       width: '$26',
       height: '$26',
     },
@@ -98,7 +98,7 @@ const SRecruitmentStatusItem = styled(Box, {
     width: '$32',
     height: '$32',
 
-    '@mobile': {
+    '@tablet': {
       width: '$26',
       height: '$26',
     },
@@ -111,7 +111,7 @@ const SRecruitmentStatusItem = styled(Box, {
     textOverflow: 'ellipsis',
     maxWidth: '$154',
 
-    '@mobile': {
+    '@tablet': {
       maxWidth: '$61',
     },
   },
@@ -119,7 +119,7 @@ const SRecruitmentStatusItem = styled(Box, {
   '&:nth-child(2n)': {
     ml: '$12',
 
-    '@mobile': {
+    '@tablet': {
       ml: '$8',
     },
   },
@@ -141,7 +141,7 @@ const SStatusText = styled(Box, {
     },
   },
 
-  '@mobile': {
+  '@tablet': {
     ml: '$9',
     fontSize: '$10',
   },

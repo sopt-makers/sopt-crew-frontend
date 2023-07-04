@@ -242,7 +242,7 @@ const SDetailHeader = styled(Box, {
   borderBottom: `2px solid $black60`,
   mb: '$40',
 
-  '@mobile': {
+  '@tablet': {
     display: 'block',
     paddingBottom: '0',
     borderBottom: 'none',
@@ -253,7 +253,7 @@ const SDetailHeader = styled(Box, {
 const SAbout = styled(Box, {
   mr: '$90',
 
-  '@mobile': {
+  '@tablet': {
     mr: '$0',
   },
 
@@ -267,7 +267,7 @@ const SAbout = styled(Box, {
       color: '$gray80',
       mr: '$8',
 
-      '@mobile': {
+      '@tablet': {
         mr: '$4',
       },
     },
@@ -276,7 +276,7 @@ const SAbout = styled(Box, {
     color: '$white100',
     mb: '$20',
 
-    '@mobile': {
+    '@tablet': {
       fontStyle: 'H3',
     },
   },
@@ -289,7 +289,7 @@ const SRecruitStatus = styled(Box, {
   borderRadius: '6px',
   fontAg: '16_bold_100',
 
-  '@mobile': {
+  '@tablet': {
     padding: '$2 $6',
     mr: '$8',
     borderRadius: '5px',
@@ -315,7 +315,7 @@ const SPeriod = styled(Box, {
   fontAg: '20_bold_100',
   color: '$gray60',
 
-  '@mobile': {
+  '@tablet': {
     fontStyle: 'T6',
   },
 });
@@ -332,7 +332,7 @@ const SProfileAnchor = styled('a', {
     objectFit: 'cover',
     mr: '$16',
     background: '$black60',
-    '@mobile': {
+    '@tablet': {
       width: '$32',
       height: '$32',
       mr: '$8',
@@ -344,7 +344,7 @@ const SProfileAnchor = styled('a', {
     height: '$60',
     mr: '$16',
 
-    '@mobile': {
+    '@tablet': {
       width: '$32',
       height: '$32',
       mr: '$8',
@@ -354,7 +354,7 @@ const SProfileAnchor = styled('a', {
   '& > span': {
     mr: '$16',
 
-    '@mobile': {
+    '@tablet': {
       fontStyle: 'T5',
       mr: '$2',
     },
@@ -384,7 +384,7 @@ const SStatusButton = styled(Button, {
   backgroundColor: '$black80',
   fontAg: '18_semibold_100',
 
-  '@mobile': {
+  '@tablet': {
     width: '100%',
     height: '$46',
     padding: '$13 0',
@@ -410,7 +410,7 @@ const SGuestButton = styled(Button, {
   padding: '$20 0',
   textAlign: 'center',
 
-  '@mobile': {
+  '@tablet': {
     width: '100%',
     height: '$46',
     fontStyle: 'T5',
@@ -448,7 +448,7 @@ const SHostButtonContainer = styled(Box, {
     borderRadius: '$50',
     fontAg: '20_bold_100',
 
-    '@mobile': {
+    '@tablet': {
       width: 'calc(50% - 3.5px)',
       padding: '$16 0',
       fontAg: '14_bold_100',
@@ -459,7 +459,7 @@ const SHostButtonContainer = styled(Box, {
     border: `2px solid $black40`,
     mr: '$12',
 
-    '@mobile': {
+    '@tablet': {
       mr: '$7',
     },
   },

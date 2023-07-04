@@ -82,7 +82,7 @@ const SOptionList = styled(Listbox.Options, {
   background: '$black40',
   overflow: 'auto',
   zIndex: 100,
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
   '&::-webkit-scrollbar': {

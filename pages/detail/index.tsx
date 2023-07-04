@@ -115,7 +115,7 @@ export default DetailPage;
 const SDetailPage = styled(Box, {
   mb: '$374',
 
-  '@mobile': {
+  '@tablet': {
     mb: '$122',
   },
 });
@@ -125,7 +125,7 @@ const SDetail = styled('section', {
   color: '$white100',
   mt: '$120',
 
-  '@mobile': {
+  '@tablet': {
     mt: '$56',
   },
 });
@@ -134,7 +134,7 @@ const STitle = styled('h2', {
   fontAg: '24_bold_100',
   mb: '$24',
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '16_bold_100',
     mb: '$20',
   },
@@ -148,7 +148,7 @@ const SDescription = styled('p', {
     textDecoration: 'underline',
   },
 
-  '@mobile': {
+  '@tablet': {
     fontAg: '16_medium_150',
   },
 });
@@ -156,14 +156,14 @@ const SDescription = styled('p', {
 const STarget = styled(SDescription, {
   mb: '$24',
 
-  '@mobile': {
+  '@tablet': {
     mb: '$20',
   },
 
   span: {
     fontAg: '22_semibold_150',
 
-    '@mobile': {
+    '@tablet': {
       fontAg: '16_bold_150',
     },
   },

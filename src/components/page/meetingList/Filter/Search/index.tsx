@@ -35,7 +35,7 @@ const SSearchWrapper = styled(Flex, {
   border: '1px solid $black40',
   borderRadius: '14px',
   ml: '$12',
-  '@mobile': {
+  '@tablet': {
     display: 'none',
   },
 });

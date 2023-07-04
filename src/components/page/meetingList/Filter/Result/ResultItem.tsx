@@ -21,7 +21,7 @@ const SResultItemWrapper = styled(Flex, {
   padding: '$8 $10 $8 $12 ',
   whiteSpace: 'nowrap',
   margin: '4px',
-  '@mobile': {
+  '@tablet': {
     border: '1px solid $white100',
     svg: {
       width: '12px',
@@ -30,7 +30,7 @@ const SResultItemWrapper = styled(Flex, {
 });
 const SFilterItemName = styled('p', {
   marginRight: '$8',
-  '@mobile': {
+  '@tablet': {
     fontAg: '12_semibold_100',
   },
 });
