@@ -8,10 +8,12 @@ import Loader from '@components/loader/Loader';
 import InformationPanel from '@components/page/meetingDetail/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/meetingDetail/FeedPanel';
+import { Fragment, useState } from 'react';
 
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
@@ -28,14 +30,14 @@ const DetailPage = () => {
         mutateMeetingDeletion={mutateDeleteMeeting}
         mutateApplication={mutatePostApplication}
       />
-      <Tab.Group
-        onChange={index => {
-          console.log('Changed selected tab to:', index);
-        }}
-      >
+      <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
         <STabList>
-          <STab>피드</STab>
-          <STab>모임 안내</STab>
+          <Tab as={Fragment}>
+            <STabButton isSelected={selectedIndex === 0}>피드</STabButton>
+          </Tab>
+          <Tab as={Fragment}>
+            <STabButton isSelected={selectedIndex === 1}>모임 안내</STabButton>
+          </Tab>
         </STabList>
         <Tab.Panels>
           <Tab.Panel>
@@ -62,14 +64,22 @@ const SDetailPage = styled(Box, {
 
 const STabList = styled(Box, {
   display: 'flex',
+
+  '@tablet': {
+    width: 'calc(100% + 40px)',
+    marginLeft: '-20px',
+  },
+
+  '@mobile': {
+    width: 'calc(100% + 32px)',
+    marginLeft: '-16px',
+  },
 });
 
-const STab = styled(Tab, {
-  pb: '$16',
-  mr: '$20',
+const STabButton = styled('button', {
+  pb: '$24',
+  mr: '$32',
   fontStyle: 'H1',
-  flex: '1',
-  textAlign: 'center',
   color: '$gray100',
 
   '&:hover': {
@@ -78,16 +88,20 @@ const STab = styled(Tab, {
 
   '@tablet': {
     fontStyle: 'T3',
-    pb: '$6',
-    mr: '$12',
+    padding: '$16 0',
+    mr: '$0',
+    flex: '1',
+    textAlign: 'center',
   },
 
-  // 선택된 값 관련 수정 필요
   variants: {
     isSelected: {
       true: {
         color: '$white100',
-        borderBottom: `2px solid $white100`,
+        borderBottom: `4px solid $white100`,
+        '@tablet': {
+          borderWidth: '2px',
+        },
       },
       false: {
         color: '$gray100',
