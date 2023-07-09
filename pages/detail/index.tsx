@@ -12,10 +12,12 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import { useDisplay } from '@hooks/useDisplay';
 
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const { isMobile } = useDisplay();
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
@@ -79,16 +81,18 @@ const DetailPage = () => {
         mutateMeetingDeletion={mutateDeleteMeeting}
         mutateApplication={mutatePostApplication}
       />
-      <TabList text={selectedTab} size="small" onChange={handleChange}>
-        {detailList.map(
-          ({ id, title, content }) =>
-            content && (
-              <TabList.Item key={id} text={title}>
-                {title}
-              </TabList.Item>
-            )
-        )}
-      </TabList>
+      {isMobile && (
+        <TabList text={selectedTab} size="small" onChange={handleChange}>
+          {detailList.map(
+            ({ id, title, content }) =>
+              content && (
+                <TabList.Item key={id} text={title}>
+                  {title}
+                </TabList.Item>
+              )
+          )}
+        </TabList>
+      )}
       {detailList.map(
         ({ id, title, generation, partList, content }) =>
           content && (
