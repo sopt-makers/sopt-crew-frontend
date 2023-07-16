@@ -20,14 +20,7 @@ const SContainer = styled('div', {
   height: '32px',
   borderRadius: '50%',
   overflow: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  img: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
+  flexType: 'center',
 });
 const SImage = styled('img', {
   width: '100%',
