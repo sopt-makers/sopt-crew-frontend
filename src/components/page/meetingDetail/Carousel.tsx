@@ -53,6 +53,11 @@ const SCarousel = styled(Box, {
       marginLeft: '-20px',
       display: 'block',
     },
+
+    '@mobile': {
+      width: 'calc(100% + 32px)',
+      marginLeft: '-16px',
+    },
   },
 
   '.slick-list': {

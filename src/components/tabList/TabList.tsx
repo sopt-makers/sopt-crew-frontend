@@ -74,8 +74,8 @@ const STab = styled('li', {
 
         '@tablet': {
           fontAg: '16_bold_100',
-          paddingBottom: '$10',
-          mr: '$16',
+          padding: '$16 $8',
+          mr: '$8',
           minWidth: 'fit-content',
 
           '&:last-child': {
