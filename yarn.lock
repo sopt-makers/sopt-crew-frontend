@@ -3394,10 +3394,10 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@sopt-makers/playground-common@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@sopt-makers/playground-common/-/playground-common-1.1.0.tgz#b6e7bd7071953776491061c2a74af17cbc1ea97b"
-  integrity sha512-EiBCb5Lfu/hk463TekvWIc2qgkyORTTRuNNjEQpw70zqvPxktsl8gs+691BhP+Q8mZ19j2svRcH1ZLX4dp5Ldw==
+"@sopt-makers/playground-common@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@sopt-makers/playground-common/-/playground-common-1.2.0.tgz#5298343edb207b4278dd77b96d292764e873426f"
+  integrity sha512-0lmL6Vsygj5vx3516M/ZDDBFrW5sivnisWJqbtKDOVPzHrG2LqcyZvEVQTf23MsiXRB8m/hcj5Y/zzJmSrXniQ==
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
