@@ -11,14 +11,14 @@ import FeedPanel from '@components/page/meetingDetail/FeedPanel';
 import { Fragment, useState } from 'react';
 
 const enum SelectedTab {
-  FEED,
   INFORMATION,
+  FEED,
 }
 
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.FEED);
+  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
@@ -38,18 +38,18 @@ const DetailPage = () => {
       <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
         <STabList>
           <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
+            <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
           </Tab>
           <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
+            <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
           </Tab>
         </STabList>
         <Tab.Panels>
           <Tab.Panel>
-            <FeedPanel />
+            <InformationPanel detailData={detailData} />
           </Tab.Panel>
           <Tab.Panel>
-            <InformationPanel detailData={detailData} />
+            <FeedPanel />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
