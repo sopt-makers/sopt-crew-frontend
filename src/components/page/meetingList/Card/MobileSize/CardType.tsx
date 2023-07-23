@@ -12,6 +12,7 @@ function CardType({ meetingData }: Pick<MobileSizeCardProps, 'meetingData'>) {
         <SThumbnailImage
           css={{
             backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 760)})`,
+            backgroundSize: 'cover',
           }}
         />
       </Box>
