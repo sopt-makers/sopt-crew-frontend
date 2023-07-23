@@ -130,6 +130,7 @@ const STitle = styled('h2', {
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
   whiteSpace: 'pre-line',
+  color: '$gray40',
 
   a: {
     textDecoration: 'underline',
@@ -137,7 +138,6 @@ const SDescription = styled('p', {
 
   '@tablet': {
     fontStyle: 'B3',
-    color: '$gray40',
   },
 });
 
