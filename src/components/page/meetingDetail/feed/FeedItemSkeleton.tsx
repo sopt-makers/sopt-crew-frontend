@@ -16,10 +16,10 @@ const FeedItemSkeleton = () => {
       <SContent />
       <SContent />
 
-      <Flex align="center" justify="between" css={{ mt: '$22' }}>
+      <SBottom align="center" justify="between">
         <SComment />
         <SLike />
-      </Flex>
+      </SBottom>
     </SFeedItemSkeleton>
   );
 };
@@ -64,6 +64,16 @@ const SContent = styled(Item, {
   width: '100%',
   height: '$24',
   marginBottom: '8px',
+});
+
+const SBottom = styled(Flex, {
+  mt: '$22',
+
+  '@tablet': {
+    '& > *': {
+      background: '$black80',
+    },
+  },
 });
 
 const SComment = styled(Item, {

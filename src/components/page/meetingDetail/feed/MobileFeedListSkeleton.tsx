@@ -23,9 +23,20 @@ export default MobileFeedListSkeleton;
 
 const SMobileFeedListSkeleton = styled(Box, {
   margin: '0 auto',
+  mt: '$24',
 });
 
 const SLine = styled(Box, {
   height: '8px',
   background: '$black80',
+
+  '@tablet': {
+    width: 'calc(100% + 40px)',
+    marginLeft: '-20px',
+  },
+
+  '@mobile': {
+    width: 'calc(100% + 32px)',
+    marginLeft: '-16px',
+  },
 });
