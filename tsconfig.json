@@ -25,7 +25,8 @@
       "@providers/*": ["src/providers/*"],
       "@type/*": ["src/types/*"],
       "@api/*": ["src/api/*"],
-      "@data/*": ["src/data/*"]
+      "@data/*": ["src/data/*"],
+      "@/*": ["src/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
