@@ -22,7 +22,7 @@ const FeedItem = () => {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto libero sapiente, quis fuga ipsam nulla? Rem
         voluptates beatae similique natus ipsa amet, aliquam, ipsum quia corrupti commodi, quis iusto sit?
       </SContent>
-      <SThumbnail />
+      <SThumbnail src="" alt="" />
 
       <SBottom>
         <div>
@@ -101,6 +101,9 @@ const SContent = styled(Box, {
 const SThumbnail = styled('img', {
   mb: '$20',
   borderRadius: '8px',
+  background: '$black60',
+  width: '100%',
+  height: 'fit-content',
 });
 
 const SBottom = styled(Box, {
