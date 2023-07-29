@@ -2,6 +2,8 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
+import MoreIcon from '@assets/svg/more.svg';
+import LikeIcon from '@assets/svg/like.svg';
 
 const FeedItem = () => {
   return (
@@ -12,7 +14,7 @@ const FeedItem = () => {
           <SName>백지연</SName>
           <STime>1시간 전</STime>
         </Flex>
-        <SMoreButton>더보기 아이콘</SMoreButton>
+        <MoreIcon />
       </STop>
 
       <STitle>제목</STitle>
@@ -32,9 +34,10 @@ const FeedItem = () => {
             <SCommentCount>1</SCommentCount>
           </div>
         </div>
-        <div>
+        <Flex align="center">
+          <LikeIcon />
           <SLikeCount>999+</SLikeCount>
-        </div>
+        </Flex>
       </SBottom>
     </SFeedItem>
   );
@@ -74,10 +77,6 @@ const STime = styled('span', {
   ml: '$8',
   fontStyle: 'T6',
   color: '$gray100',
-});
-
-const SMoreButton = styled('button', {
-  color: '$gray60',
 });
 
 const STitle = styled(Box, {
