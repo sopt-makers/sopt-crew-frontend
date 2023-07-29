@@ -11,7 +11,8 @@
     "wrangler": "wrangler",
     "where": "sh -c 'export IP=`ipconfig getifaddr en0` && echo [info] we are in ... http://${IP}:3000'",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "generate-types": "openapi-typescript ./src/__generated__/open-api-specification.json -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
@@ -24,6 +25,7 @@
     "dayjs": "^1.11.6",
     "nanoid": "^4.0.0",
     "next": "12.3.1",
+    "openapi-fetch": "^0.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.39.1",
@@ -56,6 +58,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.12",
+    "openapi-typescript": "^6.3.9",
     "prettier": "^2.7.1",
     "storybook": "^7.0.23",
     "typescript": "4.8.4",
