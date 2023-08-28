@@ -526,6 +526,7 @@ const SDetailText = styled('p', {
   fontAg: '16_medium_150',
   color: '$white100',
   boxSizing: 'border-box',
+  wordBreak: 'break-word',
 });
 
 const SEmptyText = styled('p', {
