@@ -3,11 +3,13 @@ import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 import MoreIcon from '@assets/svg/more.svg';
-import LikeIcon from '@assets/svg/like.svg';
+import LikeDefaultIcon from '@assets/svg/like_default.svg';
+import LikeActiveIcon from '@assets/svg/like_active.svg';
 import Avatar from '@components/avatar/Avatar';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import { useState } from 'react';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -36,6 +38,7 @@ const FeedItem = ({
   likeCount,
 }: FeedItemProps) => {
   const formattedLikeCount = likeCount > 999 ? '999+' : likeCount;
+  const [like, setLike] = useState(false);
 
   return (
     <SFeedItem>
@@ -56,7 +59,7 @@ const FeedItem = ({
         <Flex align="center">
           <AvatarGroup>
             {commenterThumbnails.map(thumbnail => (
-              <Avatar src={thumbnail} alt="" />
+              <Avatar key={thumbnail} src={thumbnail} alt="" />
             ))}
           </AvatarGroup>
           <SCommentWrapper>
@@ -64,12 +67,11 @@ const FeedItem = ({
             <SCommentCount>{commentCount}</SCommentCount>
           </SCommentWrapper>
         </Flex>
-        <Flex align="center">
-          <SLikeButton onClick={() => console.log('좋아요 토글')}>
-            <LikeIcon />
-          </SLikeButton>
-          <SLikeCount>{formattedLikeCount}</SLikeCount>
-        </Flex>
+
+        <SLikeButton like={like} onClick={() => setLike(prev => !prev)}>
+          {like ? <LikeActiveIcon /> : <LikeDefaultIcon />}
+          {formattedLikeCount}
+        </SLikeButton>
       </SBottom>
     </SFeedItem>
   );
@@ -166,16 +168,25 @@ const SComment = styled('span', {
 const SCommentCount = styled('span', {
   ml: '$4',
   fontStyle: 'H5',
-  color: 'white100',
 });
 
 const SLikeButton = styled('button', {
   display: 'flex',
   alignItems: 'center',
-});
-
-const SLikeCount = styled('span', {
-  ml: '$6',
   fontStyle: 'H5',
-  color: 'white100',
+
+  variants: {
+    like: {
+      true: {
+        color: 'red',
+      },
+      false: {
+        color: '$white100',
+      },
+    },
+  },
+
+  '& > svg': {
+    mr: '$6',
+  },
 });
