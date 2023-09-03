@@ -4,39 +4,69 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 import MoreIcon from '@assets/svg/more.svg';
 import LikeIcon from '@assets/svg/like.svg';
+import Avatar from '@components/avatar/Avatar';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
 
-const FeedItem = () => {
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
+
+interface FeedItemProps {
+  profileImage: string;
+  name: string;
+  title: string;
+  contents: string;
+  images: string[];
+  updatedDate: string;
+  commenterThumbnails: string[];
+  commentCount: number;
+  likeCount: number;
+}
+
+const FeedItem = ({
+  profileImage,
+  name,
+  title,
+  contents,
+  images,
+  updatedDate,
+  commenterThumbnails,
+  commentCount,
+  likeCount,
+}: FeedItemProps) => {
+  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount.toString();
+
   return (
     <SFeedItem>
       <STop>
         <Flex align="center">
-          <SProfileImage src="" alt="" />
-          <SName>백지연</SName>
-          <STime>1시간 전</STime>
+          <SProfileImage src={profileImage} alt="" />
+          <SName>{name}</SName>
+          <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
         <MoreIcon />
       </STop>
 
-      <STitle>제목</STitle>
-      <SContent>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto libero sapiente, quis fuga ipsam nulla? Rem
-        voluptates beatae similique natus ipsa amet, aliquam, ipsum quia corrupti commodi, quis iusto sit?
-      </SContent>
-      <SThumbnail src="" alt="" />
+      <STitle>{title}</STitle>
+      <SContent>{contents}</SContent>
+      <SThumbnail src={images[0]} alt="" />
 
       <SBottom>
-        <div>
-          <SAvatarGroupWrapper>
-            <AvatarGroup />
-          </SAvatarGroupWrapper>
-          <div>
+        <Flex align="center">
+          <AvatarGroup>
+            {commenterThumbnails.map(thumbnail => (
+              <Avatar src={thumbnail} alt="" />
+            ))}
+          </AvatarGroup>
+          <SCommentWrapper>
             <SComment>댓글</SComment>
-            <SCommentCount>1</SCommentCount>
-          </div>
-        </div>
+            <SCommentCount>{commentCount}</SCommentCount>
+          </SCommentWrapper>
+        </Flex>
         <Flex align="center">
           <LikeIcon />
-          <SLikeCount>999+</SLikeCount>
+          <SLikeCount>{formattedLikeCount}</SLikeCount>
         </Flex>
       </SBottom>
     </SFeedItem>
@@ -48,9 +78,12 @@ export default FeedItem;
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
   color: '$white100',
+  minWidth: '$380',
 
   '@tablet': {
     padding: '$24 0 $28 0',
+    margin: '0 auto',
+    minWidth: '100%',
   },
 });
 
@@ -99,11 +132,17 @@ const SContent = styled(Box, {
 });
 
 const SThumbnail = styled('img', {
+  display: 'block',
   mb: '$20',
   borderRadius: '8px',
   background: '$black60',
   width: '100%',
+  maxWidth: '$340',
   height: 'fit-content',
+
+  '@tablet': {
+    maxWidth: '100%',
+  },
 });
 
 const SBottom = styled(Box, {
@@ -111,8 +150,9 @@ const SBottom = styled(Box, {
   justifyContent: 'space-between',
 });
 
-const SAvatarGroupWrapper = styled(Box, {
-  mr: '$8',
+const SCommentWrapper = styled('div', {
+  transform: 'translateX(-66%)',
+  ml: '$8',
 });
 
 const SComment = styled('span', {
