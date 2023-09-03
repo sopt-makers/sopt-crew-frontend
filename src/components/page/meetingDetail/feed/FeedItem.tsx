@@ -35,7 +35,7 @@ const FeedItem = ({
   commentCount,
   likeCount,
 }: FeedItemProps) => {
-  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount.toString();
+  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount;
 
   return (
     <SFeedItem>
@@ -65,7 +65,9 @@ const FeedItem = ({
           </SCommentWrapper>
         </Flex>
         <Flex align="center">
-          <LikeIcon />
+          <SLikeButton onClick={() => console.log('좋아요 토글')}>
+            <LikeIcon />
+          </SLikeButton>
           <SLikeCount>{formattedLikeCount}</SLikeCount>
         </Flex>
       </SBottom>
@@ -78,11 +80,12 @@ export default FeedItem;
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
   color: '$white100',
-  minWidth: '$380',
+  maxWidth: '$380',
 
   '@tablet': {
     padding: '$24 0 $28 0',
     margin: '0 auto',
+    maxWidth: '100%',
     minWidth: '100%',
   },
 });
@@ -164,6 +167,11 @@ const SCommentCount = styled('span', {
   ml: '$4',
   fontStyle: 'H5',
   color: 'white100',
+});
+
+const SLikeButton = styled('button', {
+  display: 'flex',
+  alignItems: 'center',
 });
 
 const SLikeCount = styled('span', {

@@ -22,6 +22,7 @@ const SContainer = styled(Box, {
   height: '752px',
 
   '@tablet': {
-    height: '376px',
+    minHeight: '376px',
+    height: '100%',
   },
 });
