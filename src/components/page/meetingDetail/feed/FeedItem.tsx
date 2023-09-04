@@ -19,9 +19,9 @@ interface FeedItemProps {
   name: string;
   title: string;
   contents: string;
-  images: string[];
+  images?: string[];
   updatedDate: string;
-  commenterThumbnails: string[];
+  commenterThumbnails?: string[];
   commentCount: number;
   likeCount: number;
 }
@@ -53,16 +53,18 @@ const FeedItem = ({
 
       <STitle>{title}</STitle>
       <SContent>{contents}</SContent>
-      <SThumbnail src={images[0]} alt="" />
+      {images && <SThumbnail src={images[0]} alt="" />}
 
       <SBottom>
         <Flex align="center">
-          <AvatarGroup>
-            {commenterThumbnails.map(thumbnail => (
-              <Avatar key={thumbnail} src={thumbnail} alt="" />
-            ))}
-          </AvatarGroup>
-          <SCommentWrapper>
+          {commenterThumbnails && (
+            <AvatarGroup>
+              {commenterThumbnails.map(thumbnail => (
+                <Avatar key={thumbnail} src={thumbnail} alt="" />
+              ))}
+            </AvatarGroup>
+          )}
+          <SCommentWrapper hasComment={commentCount > 0}>
             <SComment>댓글</SComment>
             <SCommentCount>{commentCount}</SCommentCount>
           </SCommentWrapper>
@@ -156,8 +158,14 @@ const SBottom = styled(Box, {
 });
 
 const SCommentWrapper = styled('div', {
-  transform: 'translateX(-66%)',
-  ml: '$8',
+  variants: {
+    hasComment: {
+      true: {
+        transform: 'translateX(-66%)',
+        ml: '$8',
+      },
+    },
+  },
 });
 
 const SComment = styled('span', {
