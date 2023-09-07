@@ -1,8 +1,8 @@
 import { Box } from '@components/box/Box';
 import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
-import ModalBackground from './ModalBackground';
 import { Dialog } from '@headlessui/react';
+import ModalContainer from './ModalContainer';
 
 interface DefaultModalProps {
   isModalOpened: boolean;
@@ -19,19 +19,16 @@ const DefaultModal = ({
   children,
 }: PropsWithChildren<DefaultModalProps>) => {
   return (
-    <Dialog open={isModalOpened} onClose={handleModalClose}>
-      <ModalBackground />
-      <Dialog.Panel>
-        <SDialogWrapper>
-          <SHeader>
-            {titleLeft}
-            <Dialog.Title className="title">{title}</Dialog.Title>
-            <button className="close-button" onClick={handleModalClose} />
-          </SHeader>
-          <div>{children}</div>
-        </SDialogWrapper>
-      </Dialog.Panel>
-    </Dialog>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+      <SDialogWrapper>
+        <SHeader>
+          {titleLeft}
+          <Dialog.Title className="title">{title}</Dialog.Title>
+          <button className="close-button" onClick={handleModalClose} />
+        </SHeader>
+        <div>{children}</div>
+      </SDialogWrapper>
+    </ModalContainer>
   );
 };
 
