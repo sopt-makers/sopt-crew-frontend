@@ -5,9 +5,9 @@ import { styled } from 'stitches.config';
 import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
-import InformationPanel from '@components/page/meetingDetail/information/InformationPanel';
+import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
-import FeedPanel from '@components/page/meetingDetail/feed/FeedPanel';
+import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 
 const enum SelectedTab {
