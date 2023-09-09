@@ -5,6 +5,7 @@ import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import CommentIcon from 'public/assets/svg/comment.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
+import SendIcon from 'public/assets/svg/send.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 
@@ -57,13 +58,23 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
           <span>좋아요 {post.likeCount}</span>
         </CommentLike>
       </CommentLikeWrapper>
+
+      <CommentListWrapper>
+        {/* 댓글 목록 */}
+        <div></div>
+        <CommentInputWrapper>
+          <CommentInput placeholder="댓글 입력" />
+          <SendButton>
+            <SendIcon />
+          </SendButton>
+        </CommentInputWrapper>
+      </CommentListWrapper>
     </Container>
   );
 }
 
 const Container = styled(Box, {
   width: '800px',
-  height: '496px',
   flexShrink: 0,
   borderRadius: '20px',
   border: '1px solid $black60',
@@ -148,9 +159,7 @@ const CommentLikeWrapper = styled('div', {
   color: '$gray08',
   fontStyle: 'T5',
   height: '48px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  flexType: 'center',
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
 });
@@ -166,4 +175,29 @@ const CommentLike = styled('div', {
   color: '$gray80',
   fontStyle: 'T5',
   marginLeft: '4px',
+});
+const CommentListWrapper = styled('div', {
+  padding: '28px 28px 32px 32px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '40px',
+});
+const CommentInputWrapper = styled('div', {
+  flexType: 'verticalCenter',
+  gap: '16px',
+});
+const CommentInput = styled('input', {
+  width: '692px',
+  padding: '14px 24px',
+  borderRadius: '50px',
+  background: '$black60',
+  color: '$gray40',
+  fontStyle: 'B2',
+  '&::placeholder': {
+    color: '$gray60',
+  },
+});
+const SendButton = styled('button', {
+  width: '32px',
+  height: '32px',
 });
