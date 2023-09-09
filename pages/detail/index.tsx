@@ -47,12 +47,15 @@ const DetailPage = () => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
+        <button style={{ color: 'white' }} onClick={handleModalOpen}>
+          모달 오픈
+        </button>
+
         <DetailHeader
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
         />
-        <button onClick={handleModalOpen}>모달 오픈</button>
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>
             <Tab as={Fragment}>
