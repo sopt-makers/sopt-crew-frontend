@@ -78,11 +78,17 @@ function FeedCreate({ handleModalClose }: ModalContentProps) {
                 <STitle>제목</STitle>
               </SGroupInfoSection>
               <SDivider />
+              <STitleInput type="text" placeholder="피드 제목을 입력해주세요." />
+              <SDivider />
+              <SFeedContentTextArea placeholder="피드 내용을 입력해주세요." />
+              <SDivider />
+              <div>asdasd</div>
+              <SDivider />
               <SFormWrapper>
                 {/* <FeedFormPresentation
                   submitButtonLabel={
                     <>
-                      <PlusIcon />
+                      <PlusIcon />ㄴ
                       모임 개설하기
                     </>
                   }
@@ -118,7 +124,7 @@ const SDialogWrapper = styled(Box, {
   maxHeight: '100vh',
   overflow: 'auto scroll',
   '@tablet': {
-    width: 'calc(100% - 40px)',
+    width: '100%',
   },
 });
 
@@ -198,4 +204,20 @@ const STitle = styled('p', {
 const SDivider = styled(Divider, {
   my: '$24',
   backgroundColor: '$black40',
+});
+
+const STitleInput = styled('input', {
+  width: '100%',
+  color: '$white',
+  fontStyle: 'H3',
+});
+
+const SFeedContentTextArea = styled('textarea', {
+  width: '100%',
+  height: '208px',
+  border: 'none',
+  resize: 'none',
+  fontStyle: 'B2',
+  color: '$white',
+  backgroundColor: 'inherit',
 });
