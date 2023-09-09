@@ -1,10 +1,9 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormType, schema } from '@type/form';
+import { ACCEPTED_IMAGE_TYPES, FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createMeeting } from '@api/meeting';
 import { useRouter } from 'next/router';
-import PlusIcon from '@assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import FeedFormPresentation from '@components/form/Presentation/FeedFormPresentation';
@@ -13,6 +12,8 @@ import { ModalContainerProps } from '@components/modal/ModalContainer';
 import CancelIcon from '@assets/svg/x.svg';
 import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
+import ImagePreview from './ImagePreview';
+import CameraIcon from '@assets/svg/camera.svg';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -31,14 +32,8 @@ function FeedCreate({ handleModalClose }: ModalContentProps) {
 
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
-    onError: () => alert('모임을 개설하지 못했습니다.'),
+    onError: () => alert('피드를 개설하지 못했습니다.'),
   });
-
-  const handleChangeImage = (index: number, url: string) => {
-    const files = formMethods.getValues().files.slice();
-    files.splice(index, 1, url);
-    formMethods.setValue('files', files);
-  };
 
   const handleDeleteImage = (index: number) => {
     const files = formMethods.getValues().files.slice();
@@ -47,11 +42,11 @@ function FeedCreate({ handleModalClose }: ModalContentProps) {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    const {
-      data: { meetingId },
-    } = await mutateCreateMeeting(formData);
-    alert('모임을 개설했습니다.');
-    router.push(`/detail?id=${meetingId}`);
+    // const {
+    //   data: { meetingId },
+    // } = await mutateCreateMeeting(formData);
+    // alert('모임을 개설했습니다.');
+    // router.push(`/detail?id=${meetingId}`);
   };
 
   return (
@@ -82,8 +77,49 @@ function FeedCreate({ handleModalClose }: ModalContentProps) {
               <SDivider />
               <SFeedContentTextArea placeholder="피드 내용을 입력해주세요." />
               <SDivider />
-              <div>asdasd</div>
+              <Box
+                css={{
+                  display: 'flex',
+                  gap: '12px',
+                }}
+              >
+                <SImagePreviewHolder>
+                  <ImagePreview
+                    url={
+                      'https://wsrv.nl/?url=https%3A%2F%2Fmakers-web-img.s3.ap-northeast-2.amazonaws.com%2Fmeeting%2F2023%2F09%2F01%2F0896ca6c-9bc6-40c1-9e33-2130058522ff.jpeg&w=760&output=webp'
+                    }
+                    onDelete={handleDeleteImage}
+                  />
+                </SImagePreviewHolder>
+
+                <SImagePreviewHolder>
+                  <ImagePreview
+                    url={
+                      'https://wsrv.nl/?url=https%3A%2F%2Fmakers-web-img.s3.ap-northeast-2.amazonaws.com%2Fmeeting%2F2023%2F09%2F01%2F0896ca6c-9bc6-40c1-9e33-2130058522ff.jpeg&w=760&output=webp'
+                    }
+                    onDelete={handleDeleteImage}
+                  />
+                </SImagePreviewHolder>
+
+                <SImagePreviewHolder>
+                  <ImagePreview
+                    url={
+                      'https://wsrv.nl/?url=https%3A%2F%2Fmakers-web-img.s3.ap-northeast-2.amazonaws.com%2Fmeeting%2F2023%2F09%2F01%2F0896ca6c-9bc6-40c1-9e33-2130058522ff.jpeg&w=760&output=webp'
+                    }
+                    onDelete={handleDeleteImage}
+                  />
+                </SImagePreviewHolder>
+              </Box>
               <SDivider />
+
+              <Box css={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <SFileInputWrapper>
+                  <SFileInput type="file" multiple accept={ACCEPTED_IMAGE_TYPES.join(', ')} />
+                  <CameraIcon />
+                </SFileInputWrapper>
+                <SImageCount>4 / 10</SImageCount>
+              </Box>
+
               <SFormWrapper>
                 {/* <FeedFormPresentation
                   submitButtonLabel={
@@ -220,4 +256,30 @@ const SFeedContentTextArea = styled('textarea', {
   fontStyle: 'B2',
   color: '$white',
   backgroundColor: 'inherit',
+});
+
+const SImagePreviewHolder = styled(Box, {
+  width: '108px',
+  height: '108px',
+});
+
+const SFileInputWrapper = styled('label', {
+  position: 'relative',
+  cursor: 'pointer',
+});
+
+const SFileInput = styled('input', {
+  position: 'absolute',
+  margin: '-1px',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  border: 0,
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+});
+
+const SImageCount = styled('p', {
+  color: '$white100',
+  fontStyle: 'B1',
 });

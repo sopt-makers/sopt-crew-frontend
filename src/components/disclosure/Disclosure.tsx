@@ -1,7 +1,7 @@
 import { Flex } from '@components/util/layout/Flex';
 import { Disclosure as HeadlessDisclosure } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import ArrowIcon from 'public/assets/svg/ic.svg';
+import ArrowIcon from 'public/assets/svg/arrow_down.svg';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 
 interface DisclosureProps {
