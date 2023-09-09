@@ -24,12 +24,12 @@ export const Default: Story = {
       user: {
         id: 1,
         name: '김지민',
-        profileImage: null,
+        profileImage: 'https://mui.com/static/images/avatar/1.jpg',
       },
       viewCount: 1234,
       likeCount: 0,
       isLiked: false,
     },
-    Actions: [],
+    Actions: ['수정', '삭제'],
   },
 };
