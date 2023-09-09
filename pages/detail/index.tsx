@@ -12,6 +12,7 @@ import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
+import { useOverlay } from '@hooks/useOverlay/Index';
 dayjs.locale('ko');
 
 const enum SelectedTab {
@@ -26,6 +27,17 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const overlay = useOverlay();
+
+  const handleModalOpen = () =>
+    overlay.open(({ isOpen, close }) => (
+      <FeedCreateModal
+        isModalOpened={isOpen}
+        handleModalClose={() => {
+          close();
+        }}
+      />
+    ));
 
   if (!detailData) {
     return <Loader />;
@@ -40,6 +52,7 @@ const DetailPage = () => {
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
         />
+        <button onClick={handleModalOpen}>모달 오픈</button>
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>
             <Tab as={Fragment}>
@@ -58,7 +71,6 @@ const DetailPage = () => {
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
-        <FeedCreateModal isModalOpened={true} handleModalClose={() => {}} />
       </SDetailPage>
     </>
   );
