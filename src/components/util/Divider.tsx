@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import { styled } from '@stitches/react';
+import { styled } from 'stitches.config';
 
 export const Divider = styled(Box, {
   width: '100%',

@@ -9,6 +9,10 @@ import InformationPanel from '@components/page/meetingDetail/Information/Informa
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
+dayjs.locale('ko');
 
 const enum SelectedTab {
   FEED,
@@ -28,32 +32,35 @@ const DetailPage = () => {
   }
 
   return (
-    <SDetailPage>
-      <Carousel imageList={detailData?.imageURL} />
-      <DetailHeader
-        detailData={detailData}
-        mutateMeetingDeletion={mutateDeleteMeeting}
-        mutateApplication={mutatePostApplication}
-      />
-      <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
-        <STabList>
-          <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
-          </Tab>
-          <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
-          </Tab>
-        </STabList>
-        <Tab.Panels>
-          <Tab.Panel>
-            <FeedPanel isMember={detailData?.approved || detailData?.host} />
-          </Tab.Panel>
-          <Tab.Panel>
-            <InformationPanel detailData={detailData} />
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
-    </SDetailPage>
+    <>
+      <SDetailPage>
+        <Carousel imageList={detailData?.imageURL} />
+        <DetailHeader
+          detailData={detailData}
+          mutateMeetingDeletion={mutateDeleteMeeting}
+          mutateApplication={mutatePostApplication}
+        />
+        <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
+          <STabList>
+            <Tab as={Fragment}>
+              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
+            </Tab>
+            <Tab as={Fragment}>
+              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
+            </Tab>
+          </STabList>
+          <Tab.Panels>
+            <Tab.Panel>
+              <FeedPanel isMember={detailData?.approved || detailData?.host} />
+            </Tab.Panel>
+            <Tab.Panel>
+              <InformationPanel detailData={detailData} />
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
+        <FeedCreateModal isModalOpened={true} handleModalClose={() => {}} />
+      </SDetailPage>
+    </>
   );
 };
 
