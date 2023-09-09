@@ -41,21 +41,22 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
         <ContentBody>
           <Title>{post.title}</Title>
           <Contents>{post.contents}</Contents>
-          <ViewCount>{post.viewCount}</ViewCount>
+          <ViewCount>조회 {post.viewCount}회</ViewCount>
         </ContentBody>
       </ContentWrapper>
 
-      <div>
-        <div>
-          <CommentIcon />
+      <CommentLikeWrapper>
+        <CommentIcon />
+        <CommentLike>
           {/* TODO: add comment count */}
           <span>댓글 </span>
-        </div>
-        <div>
-          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
+        </CommentLike>
+        <Divider />
+        {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
+        <CommentLike>
           <span>좋아요 {post.likeCount}</span>
-        </div>
-      </div>
+        </CommentLike>
+      </CommentLikeWrapper>
     </Container>
   );
 }
@@ -141,4 +142,28 @@ const MenuItem = styled('button', {
     borderRadius: '0 0 14px 14px ',
     borderTop: 'none',
   },
+});
+
+const CommentLikeWrapper = styled('div', {
+  color: '$gray08',
+  fontStyle: 'T5',
+  height: '48px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderTop: '1px solid $black60',
+  borderBottom: '1px solid $black60',
+});
+
+const Divider = styled('div', {
+  background: '$black60',
+  width: '1px',
+  height: '24px',
+  margin: '12px 159px 12px 171px',
+});
+
+const CommentLike = styled('div', {
+  color: '$gray80',
+  fontStyle: 'T5',
+  marginLeft: '4px',
 });
