@@ -6,7 +6,6 @@ import { createMeeting } from '@api/meeting';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-import FeedFormPresentation from '@components/form/Presentation/FeedFormPresentation';
 import { Box } from '@components/box/Box';
 import { ModalContainerProps } from '@components/modal/ModalContainer';
 import CancelIcon from '@assets/svg/x.svg';
