@@ -10,10 +10,9 @@ const MobileFeedListSkeleton = ({ count }: MobileFeedListSkeletonProps) => {
   return (
     <SMobileFeedListSkeleton>
       {new Array(count).fill('').map((_, i) => (
-        <div key={i}>
+        <SFeedItemWrapper key={i}>
           <FeedItemSkeleton />
-          {i !== count - 1 && <SLine />}
-        </div>
+        </SFeedItemWrapper>
       ))}
     </SMobileFeedListSkeleton>
   );
@@ -26,14 +25,13 @@ const SMobileFeedListSkeleton = styled(Box, {
   mt: '$24',
 });
 
-const SLine = styled(Box, {
-  height: '8px',
-  background: '$black80',
-
-  '@tablet': {
-    width: 'calc(100% + 40px)',
-    marginLeft: '-20px',
+const SFeedItemWrapper = styled('div', {
+  '&:not(:last-child)': {
+    borderBottom: '8px solid $black80',
   },
+
+  width: 'calc(100% + 40px)',
+  marginLeft: '-20px',
 
   '@mobile': {
     width: 'calc(100% + 32px)',

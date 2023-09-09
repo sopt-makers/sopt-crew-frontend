@@ -29,6 +29,7 @@ const stitches = createStitches({
       purple100: '#8040ff',
       purple100_dim: '#282039',
       purple200: '#6633cc',
+      red: '#d70067',
       red100: '#bd372f',
     },
     space: {

@@ -34,7 +34,11 @@ const SFeedItemSkeleton = styled(Box, {
   },
 
   '@tablet': {
-    padding: '$20 0',
+    padding: '$20',
+  },
+
+  '@mobile': {
+    padding: '$20 $16',
   },
 });
 

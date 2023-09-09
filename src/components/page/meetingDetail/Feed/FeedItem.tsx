@@ -186,7 +186,7 @@ const SLikeButton = styled('button', {
   variants: {
     like: {
       true: {
-        color: '#D70067',
+        color: '$red',
       },
       false: {
         color: '$white100',
