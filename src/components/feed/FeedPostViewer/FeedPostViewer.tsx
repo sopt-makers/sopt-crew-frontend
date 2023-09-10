@@ -86,21 +86,21 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
           </RecentFeedLikeCommentWrapper>
         </RecentFeedText>
         <RecentFeedText>
-          <RecentFeedTitle>제목이 완전 길어서 잘리는 것까지 보려고 넣어놓..</RecentFeedTitle>
-          <RecentFeedContent>1번 김현우 2번 오영주 3번 임현주 4번 박지현 5번 기타</RecentFeedContent>
+          <RecentFeedTitle>제목 짧을 때</RecentFeedTitle>
+          <RecentFeedContent>내용도 짧을 때</RecentFeedContent>
           <RecentFeedLikeCommentWrapper>
             <RecentFeedLikeIcon style={{ marginRight: '4px' }} />
-            {182}
+            {0}
             <RecentFeedCommentIcon style={{ marginRight: '4px', marginLeft: '12px' }} />
-            {2}
+            {0}
           </RecentFeedLikeCommentWrapper>
         </RecentFeedText>
         <RecentFeedText>
-          <RecentFeedTitle>제목이 완전 길어서 잘리는 것까지 보려고 넣어놓..</RecentFeedTitle>
-          <RecentFeedContent>1번 김현우 2번 오영주 3번 임현주 4번 박지현 5번 기타</RecentFeedContent>
+          <RecentFeedTitle>제목이 적당한 길이 15-20자 </RecentFeedTitle>
+          <RecentFeedContent>내용은 한 줄만 표시. 최대 길이도 한 줄. 이건 글자수로 몇..</RecentFeedContent>
           <RecentFeedLikeCommentWrapper>
             <RecentFeedLikeIcon style={{ marginRight: '4px' }} />
-            {182}
+            {21}
             <RecentFeedCommentIcon style={{ marginRight: '4px', marginLeft: '12px' }} />
             {2}
           </RecentFeedLikeCommentWrapper>
