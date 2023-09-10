@@ -274,3 +274,7 @@ input[type='number'] {
     display: block;
   }
 }
+
+* {
+  box-sizing: border-box;
+}
