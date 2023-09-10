@@ -6,6 +6,8 @@ import CommentIcon from 'public/assets/svg/comment.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
 import SendIcon from 'public/assets/svg/send.svg';
+import RecentFeedLikeIcon from 'public/assets/svg/recent_feed_like.svg';
+import RecentFeedCommentIcon from 'public/assets/svg/recent_feed_comment.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 
@@ -69,6 +71,40 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
           </SendButton>
         </CommentInputWrapper>
       </CommentListWrapper>
+
+      <RecentFeedWrapper>
+        <RecentFeedHeader>최신 피드</RecentFeedHeader>
+        <RecentFeedText>
+          <RecentFeedTitle>제목이 완전 길어서 잘리는 것까지 보려고 넣어놓..</RecentFeedTitle>
+          <RecentFeedContent>1번 김현우 2번 오영주 3번 임현주 4번 박지현 5번 기타</RecentFeedContent>
+          <RecentFeedLikeCommentWrapper>
+            <RecentFeedLikeIcon style={{ marginRight: '4px' }} />
+            {182}
+            <RecentFeedCommentIcon style={{ marginRight: '4px', marginLeft: '12px' }} />
+            {2}
+          </RecentFeedLikeCommentWrapper>
+        </RecentFeedText>
+        <RecentFeedText>
+          <RecentFeedTitle>제목이 완전 길어서 잘리는 것까지 보려고 넣어놓..</RecentFeedTitle>
+          <RecentFeedContent>1번 김현우 2번 오영주 3번 임현주 4번 박지현 5번 기타</RecentFeedContent>
+          <RecentFeedLikeCommentWrapper>
+            <RecentFeedLikeIcon style={{ marginRight: '4px' }} />
+            {182}
+            <RecentFeedCommentIcon style={{ marginRight: '4px', marginLeft: '12px' }} />
+            {2}
+          </RecentFeedLikeCommentWrapper>
+        </RecentFeedText>
+        <RecentFeedText>
+          <RecentFeedTitle>제목이 완전 길어서 잘리는 것까지 보려고 넣어놓..</RecentFeedTitle>
+          <RecentFeedContent>1번 김현우 2번 오영주 3번 임현주 4번 박지현 5번 기타</RecentFeedContent>
+          <RecentFeedLikeCommentWrapper>
+            <RecentFeedLikeIcon style={{ marginRight: '4px' }} />
+            {182}
+            <RecentFeedCommentIcon style={{ marginRight: '4px', marginLeft: '12px' }} />
+            {2}
+          </RecentFeedLikeCommentWrapper>
+        </RecentFeedText>
+      </RecentFeedWrapper>
     </Container>
   );
 }
@@ -200,4 +236,53 @@ const CommentInput = styled('input', {
 const SendButton = styled('button', {
   width: '32px',
   height: '32px',
+});
+const RecentFeedWrapper = styled('div', {
+  display: 'flex',
+  width: '368px',
+  height: '440px',
+  flexDirection: 'column',
+  alignItems: 'center',
+  flexShrink: '0',
+  borderRadius: '16px',
+  background: '$black80',
+});
+const RecentFeedHeader = styled('div', {
+  color: '$white100',
+  fontStyle: 'H2',
+  alignSelf: 'flex-start',
+  marginBottom: '28px',
+  marginLeft: '24px',
+  marginTop: '32px',
+});
+const RecentFeedText = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  paddingBottom: '16px',
+  marginBottom: '16px',
+  borderBottom: '1px solid $black60',
+  '&:last-child': {
+    borderBottom: 'none',
+    paddingBottom: '0px',
+    marginBottom: '0px',
+  },
+});
+const RecentFeedTitle = styled('div', {
+  width: '320px',
+  color: '$gray40',
+  fontStyle: 'H4',
+  marginBottom: '8px',
+});
+const RecentFeedContent = styled('div', {
+  width: '320px',
+  flexShrink: '0',
+  color: '$gray80',
+  fontStyle: 'B3',
+  marginBottom: '10px',
+});
+const RecentFeedLikeCommentWrapper = styled('div', {
+  display: 'flex',
+  color: '$gray60',
+  fontStyle: 'B4',
 });
