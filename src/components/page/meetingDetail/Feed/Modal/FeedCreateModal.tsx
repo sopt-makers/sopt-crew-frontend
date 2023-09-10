@@ -7,6 +7,8 @@ import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, schema } from './schema';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import ConfirmModal from '@components/modal/ConfirmModal';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -14,6 +16,9 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProps) {
   const router = useRouter();
+
+  const submitCreateFeedOverlay = useOverlay();
+
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
@@ -33,6 +38,19 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
+    submitCreateFeedOverlay.open(({ isOpen, close }) => (
+      <ConfirmModal
+        isModalOpened={isOpen}
+        message="?"
+        handleModalClose={close}
+        cancelButton="돌아가기"
+        confirmButton="확인"
+        handleConfirm={() => {
+          //TODO: 개설 api
+          close();
+        }}
+      />
+    ));
     // const {
     //   data: { meetingId },
     // } = await mutateCreateMeeting(formData);
