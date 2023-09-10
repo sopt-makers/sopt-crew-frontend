@@ -1,14 +1,12 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting } from '@api/meeting';
 import { useRouter } from 'next/router';
-import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
+import { FormType, schema } from './schema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -23,15 +21,15 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createMeeting(formData),
-    onError: () => alert('피드를 개설하지 못했습니다.'),
-  });
+  // const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
+  //   mutationFn: (formData: FormType) => createMeeting(formData),
+  //   onError: () => alert('피드를 개설하지 못했습니다.'),
+  // });
 
   const handleDeleteImage = (index: number) => {
-    const files = formMethods.getValues().files.slice();
-    files.splice(index, 1);
-    formMethods.setValue('files', files);
+    const images = formMethods.getValues().images.slice();
+    images.splice(index, 1);
+    formMethods.setValue('images', images);
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
@@ -57,7 +55,10 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid}
+            disabled={
+              // isSubmitting ||
+              !isValid
+            }
           />
         </FormProvider>
       </SDialogWrapper>

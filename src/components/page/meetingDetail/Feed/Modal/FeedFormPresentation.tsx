@@ -55,8 +55,8 @@ function FeedFormPresentation({
         return;
       }
       const filesCount = imageUrls.length + newFiles.length;
-      if (filesCount > 6) {
-        alert('이미지는 최대 6개까지 업로드 가능합니다.');
+      if (filesCount > 10) {
+        alert('이미지는 최대 10개까지 업로드 가능합니다.');
         return;
       } else {
         const urls = await Promise.all(newFiles.map(async file => await uploadFile(file)));
@@ -100,7 +100,7 @@ function FeedFormPresentation({
         <SFeedContentTextArea placeholder="피드 내용을 입력해주세요." />
         <SDivider />
         <FormController
-          name="files"
+          name="images"
           defaultValue={[]}
           render={({ field: { value: imageUrls, onChange, onBlur }, fieldState: { error } }) => (
             <>
