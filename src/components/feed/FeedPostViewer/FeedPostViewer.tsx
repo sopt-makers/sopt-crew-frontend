@@ -110,6 +110,9 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
   );
 }
 
+const FeedContainer = styled('div', {
+  display: 'flex',
+});
 const Container = styled(Box, {
   width: '800px',
   flexShrink: 0,
@@ -253,11 +256,10 @@ const RecentFeedHeader = styled('div', {
   color: '$white100',
   fontStyle: 'H2',
   alignSelf: 'flex-start',
-  marginBottom: '28px',
-  marginLeft: '24px',
-  marginTop: '32px',
+  margin: '32px 0px 28px 24px',
 });
 const RecentFeedText = styled('div', {
+  width: '320px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -271,13 +273,11 @@ const RecentFeedText = styled('div', {
   },
 });
 const RecentFeedTitle = styled('div', {
-  width: '320px',
   color: '$gray40',
   fontStyle: 'H4',
   marginBottom: '8px',
 });
 const RecentFeedContent = styled('div', {
-  width: '320px',
   flexShrink: '0',
   color: '$gray80',
   fontStyle: 'B3',
@@ -287,7 +287,4 @@ const RecentFeedLikeCommentWrapper = styled('div', {
   display: 'flex',
   color: '$gray60',
   fontStyle: 'B4',
-});
-const FeedContainer = styled('div', {
-  display: 'flex',
 });
