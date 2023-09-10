@@ -94,10 +94,32 @@ function FeedFormPresentation({
           <STitle>{groupInfo.title}</STitle>
         </SGroupInfoSection>
         <SDivider />
-
-        <STitleInput type="text" placeholder="피드 제목을 입력해주세요." />
+        <FormController
+          name="title"
+          defaultValue=""
+          render={({ field: { value: titleValue, onChange, onBlur }, fieldState: { error } }) => (
+            <STitleInput
+              type="text"
+              placeholder="피드 제목을 입력해주세요."
+              value={titleValue}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          )}
+        />
         <SDivider />
-        <SFeedContentTextArea placeholder="피드 내용을 입력해주세요." />
+        <FormController
+          name="contents"
+          defaultValue=""
+          render={({ field: { value: contentsValue, onChange, onBlur }, fieldState: { error } }) => (
+            <SFeedContentTextArea
+              placeholder="피드 내용을 입력해주세요."
+              value={contentsValue}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          )}
+        />
         <SDivider />
         <FormController
           name="images"

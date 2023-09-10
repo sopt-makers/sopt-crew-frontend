@@ -25,7 +25,7 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
   });
 
   const { isValid } = formMethods.formState;
-
+  console.log(isValid);
   // const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
   //   mutationFn: (formData: FormType) => createMeeting(formData),
   //   onError: () => alert('피드를 개설하지 못했습니다.'),
@@ -41,7 +41,7 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
     submitCreateFeedOverlay.open(({ isOpen, close }) => (
       <ConfirmModal
         isModalOpened={isOpen}
-        message="?"
+        message="게시글을 작성하시겠습니까?"
         handleModalClose={close}
         cancelButton="돌아가기"
         confirmButton="확인"
