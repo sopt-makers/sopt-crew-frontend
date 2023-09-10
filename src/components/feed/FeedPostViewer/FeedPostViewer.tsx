@@ -18,60 +18,61 @@ interface FeedPostViewerProps {
 
 export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
   return (
-    <Container>
-      <ContentWrapper>
-        <ContentHeader>
-          <AuthorWrapper>
-            <Avatar src={post.user.profileImage || ''} alt={post.user.name} />
-            <AuthorInfo>
-              <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{post.updatedDate}</UpdatedDate>
-            </AuthorInfo>
-          </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map(Action => (
-                <Menu.Item>
-                  <MenuItem>{Action}</MenuItem>
-                </Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
-        </ContentHeader>
-        <ContentBody>
-          <Title>{post.title}</Title>
-          <Contents>{post.contents}</Contents>
-          <ViewCount>조회 {post.viewCount}회</ViewCount>
-        </ContentBody>
-      </ContentWrapper>
+    <FeedContainer>
+      <Container>
+        <ContentWrapper>
+          <ContentHeader>
+            <AuthorWrapper>
+              <Avatar src={post.user.profileImage || ''} alt={post.user.name} />
+              <AuthorInfo>
+                <AuthorName>{post.user.name}</AuthorName>
+                <UpdatedDate>{post.updatedDate}</UpdatedDate>
+              </AuthorInfo>
+            </AuthorWrapper>
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map(Action => (
+                  <Menu.Item>
+                    <MenuItem>{Action}</MenuItem>
+                  </Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          </ContentHeader>
+          <ContentBody>
+            <Title>{post.title}</Title>
+            <Contents>{post.contents}</Contents>
+            <ViewCount>조회 {post.viewCount}회</ViewCount>
+          </ContentBody>
+        </ContentWrapper>
 
-      <CommentLikeWrapper>
-        <CommentIcon />
-        <CommentLike>
-          {/* TODO: add comment count */}
-          <span>댓글 </span>
-        </CommentLike>
-        <Divider />
-        {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
-        <CommentLike>
-          <span>좋아요 {post.likeCount}</span>
-        </CommentLike>
-      </CommentLikeWrapper>
+        <CommentLikeWrapper>
+          <CommentIcon />
+          <CommentLike>
+            {/* TODO: add comment count */}
+            <span>댓글 </span>
+          </CommentLike>
+          <Divider />
+          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
+          <CommentLike>
+            <span>좋아요 {post.likeCount}</span>
+          </CommentLike>
+        </CommentLikeWrapper>
 
-      <CommentListWrapper>
-        {/* 댓글 목록 */}
-        <div></div>
-        <CommentInputWrapper>
-          <CommentInput placeholder="댓글 입력" />
-          <SendButton>
-            <SendIcon />
-          </SendButton>
-        </CommentInputWrapper>
-      </CommentListWrapper>
-
+        <CommentListWrapper>
+          {/* 댓글 목록 */}
+          <div></div>
+          <CommentInputWrapper>
+            <CommentInput placeholder="댓글 입력" />
+            <SendButton>
+              <SendIcon />
+            </SendButton>
+          </CommentInputWrapper>
+        </CommentListWrapper>
+      </Container>
       <RecentFeedWrapper>
         <RecentFeedHeader>최신 피드</RecentFeedHeader>
         <RecentFeedText>
@@ -105,7 +106,7 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
           </RecentFeedLikeCommentWrapper>
         </RecentFeedText>
       </RecentFeedWrapper>
-    </Container>
+    </FeedContainer>
   );
 }
 
@@ -246,6 +247,7 @@ const RecentFeedWrapper = styled('div', {
   flexShrink: '0',
   borderRadius: '16px',
   background: '$black80',
+  marginLeft: '32px',
 });
 const RecentFeedHeader = styled('div', {
   color: '$white100',
@@ -285,4 +287,7 @@ const RecentFeedLikeCommentWrapper = styled('div', {
   display: 'flex',
   color: '$gray60',
   fontStyle: 'B4',
+});
+const FeedContainer = styled('div', {
+  display: 'flex',
 });
