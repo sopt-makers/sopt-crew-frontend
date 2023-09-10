@@ -241,7 +241,7 @@ const SendButton = styled('button', {
   width: '32px',
   height: '32px',
 });
-const RecentFeedWrapper = styled('div', {
+const RecentFeedWrapper = styled(Box, {
   display: 'flex',
   width: '368px',
   height: '440px',
@@ -252,13 +252,13 @@ const RecentFeedWrapper = styled('div', {
   background: '$black80',
   marginLeft: '32px',
 });
-const RecentFeedHeader = styled('div', {
+const RecentFeedHeader = styled(Box, {
   color: '$white100',
   fontStyle: 'H2',
   alignSelf: 'flex-start',
   margin: '32px 0px 28px 24px',
 });
-const RecentFeedText = styled('div', {
+const RecentFeedText = styled(Box, {
   width: '320px',
   display: 'flex',
   flexDirection: 'column',
@@ -272,18 +272,18 @@ const RecentFeedText = styled('div', {
     marginBottom: '0px',
   },
 });
-const RecentFeedTitle = styled('div', {
+const RecentFeedTitle = styled(Box, {
   color: '$gray40',
   fontStyle: 'H4',
   marginBottom: '8px',
 });
-const RecentFeedContent = styled('div', {
+const RecentFeedContent = styled(Box, {
   flexShrink: '0',
   color: '$gray80',
   fontStyle: 'B3',
   marginBottom: '10px',
 });
-const RecentFeedLikeCommentWrapper = styled('div', {
+const RecentFeedLikeCommentWrapper = styled(Box, {
   display: 'flex',
   color: '$gray60',
   fontStyle: 'B4',
