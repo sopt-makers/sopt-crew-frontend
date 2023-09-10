@@ -11,7 +11,7 @@ import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
+import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedModal/FeedCreateModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
 dayjs.locale('ko');
 
