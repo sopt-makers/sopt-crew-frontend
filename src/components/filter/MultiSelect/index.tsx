@@ -80,7 +80,7 @@ const SSelectWrapper = styled(Box, {
 });
 
 const SSelectDisplay = styled(Flex, {
-  width: '111px',
+  width: '153px',
   border: '1px solid $black40',
   borderRadius: '14px',
   padding: '$18 $20',
@@ -93,8 +93,8 @@ const SSelectDisplay = styled(Flex, {
     },
   },
   '@tablet': {
-    width: '74px',
-    height: '10px',
+    width: '96px',
+    height: '36px',
     padding: '$12 $10',
     borderRadius: '$8',
   },
@@ -174,8 +174,7 @@ const SSelectOverlay = styled(Box, {
     },
   },
   // TODO: 임시 삭제후, select에도 적용 논의
-  // '@tablet': {
-  //   backgroundColor: '$black60',
-  //   opacity: 0.2,
-  // },
+  '@tablet': {
+    backgroundColor: '$black80_trans',
+  },
 });

@@ -25,14 +25,14 @@ function ManagementButton({ id }: ManagementButtonProps) {
 export default ManagementButton;
 
 const SButton = styled(Flex, {
-  width: '102px',
+  width: '128px',
   padding: '12px 12px 13px 14px',
   borderRadius: '71px',
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
   background: '$black80',
   '@tablet': {
-    width: '73px',
+    width: '91px',
     fontStyle: 'T6',
     padding: '6px 6px 6px 12px',
   },

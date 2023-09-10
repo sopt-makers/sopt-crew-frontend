@@ -29,7 +29,6 @@ function Search() {
 
 export default Search;
 const SSearchWrapper = styled(Flex, {
-  width: '198px',
   py: '$15',
   px: '$20',
   border: '1px solid $black40',
