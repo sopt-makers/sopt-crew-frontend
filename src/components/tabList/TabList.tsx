@@ -49,7 +49,7 @@ const STabList = styled('ul', {
 
 const STab = styled('li', {
   cursor: 'pointer',
-
+  borderBottom: '2px solid transparent',
   '&:hover': {
     color: '$white100',
   },
@@ -58,7 +58,7 @@ const STab = styled('li', {
     isSelected: {
       true: {
         color: '$white100',
-        borderBottom: `2px solid $gray40`,
+        borderColor: `$gray40`,
       },
       false: {
         color: '$gray100',

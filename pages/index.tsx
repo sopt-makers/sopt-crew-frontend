@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        <Flex align="center" justify="between">
+        <Flex align="start" justify="between">
           <TabList text="all" size="big">
             <Link href="/" passHref>
               <a>
@@ -93,6 +93,7 @@ export default Home;
 
 const SMakeMeetingButton = styled('button', {
   flexType: 'verticalCenter',
+  boxSizing: 'border-box',
   padding: '$16 $24 $16 $20',
   background: '$purple100',
   borderRadius: '16px',
