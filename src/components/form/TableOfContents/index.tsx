@@ -84,8 +84,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
 export default TableOfContents;
 
 const SContainer = styled('div', {
+  width: '341px',
   padding: '50px 40px 60px',
-  width: '278px',
   height: 'fit-content',
   background: '$black80',
   border: '1px solid $black60',

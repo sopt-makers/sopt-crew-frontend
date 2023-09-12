@@ -36,7 +36,7 @@ const SButton = styled('button', {
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 8,
-  fontAg: '18_medium_100',
+  fontAg: '16_medium_100',
   color: '$white100',
   background: '$black60',
   borderRadius: 10,

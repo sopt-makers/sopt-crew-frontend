@@ -28,7 +28,7 @@ export default BottomSheetButton;
 
 const SButton = styled('button', {
   minWidth: '147px',
-  padding: '16px 20px 16px 16px',
+  padding: '16px 20px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
