@@ -11,6 +11,8 @@ import { ChangeEvent } from 'react';
 import { imageS3Bucket } from '@constants/url';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import FormController from '@components/form/FormController';
+import { ERROR_MESSAGE } from './schema';
+import useToast from '@hooks/useToast';
 
 interface GroupInfo {
   title: string;
@@ -39,6 +41,8 @@ function FeedFormPresentation({
   onSubmit,
   disabled = true,
 }: PresentationProps) {
+  const showToast = useToast();
+
   const onDeleteFile = (index: number) => () => {
     handleDeleteImage(index);
   };
@@ -102,7 +106,15 @@ function FeedFormPresentation({
               type="text"
               placeholder="피드 제목을 입력해주세요."
               value={titleValue}
-              onChange={onChange}
+              onChange={e => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 100) {
+                  onChange(inputValue); // Update the field value
+                } else {
+                  onChange(inputValue.substring(0, 100));
+                  showToast(ERROR_MESSAGE.TITLE.MAX);
+                }
+              }}
               onBlur={onBlur}
             />
           )}
