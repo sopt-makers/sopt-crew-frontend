@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        <Flex align="center" justify="between">
+        <Flex align="start" justify="between">
           <TabList text="all" size="big">
             <Link href="/" passHref>
               <a>
