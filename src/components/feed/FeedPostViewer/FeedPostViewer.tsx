@@ -157,6 +157,7 @@ const BigImage = styled('img', {
   height: '453px',
   objectFit: 'cover',
   borderRadius: '10px',
+  cursor: 'pointer',
 });
 const ImageListWrapper = styled('div', {
   display: 'grid',
@@ -168,6 +169,7 @@ const ImageListItem = styled('img', {
   height: '136px',
   objectFit: 'cover',
   borderRadius: '8px',
+  cursor: 'pointer',
 });
 const ViewCount = styled('span', {
   mt: '$16',
