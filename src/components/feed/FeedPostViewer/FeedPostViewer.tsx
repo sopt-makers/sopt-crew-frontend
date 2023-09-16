@@ -170,7 +170,6 @@ const MenuItem = styled('button', {
     borderTop: 'none',
   },
 });
-
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',
   fontStyle: 'T5',
@@ -179,14 +178,15 @@ const CommentLikeWrapper = styled('div', {
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
 });
-
 const Divider = styled('div', {
   background: '$black60',
   width: '1px',
   height: '24px',
   margin: '12px 159px 12px 171px',
+  '@tablet': {
+    margin: '12px 54px 12px 60px',
+  },
 });
-
 const CommentLike = styled('div', {
   color: '$gray80',
   fontStyle: 'T5',
