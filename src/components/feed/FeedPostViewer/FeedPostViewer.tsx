@@ -79,12 +79,19 @@ const Container = styled(Box, {
   borderRadius: '20px',
   border: '1px solid $black60',
   background: '$black100',
+  '@tablet': {
+    width: '360px',
+    border: 'none',
+  },
 });
 const ContentWrapper = styled('div', {
   padding: '36px 24px 28px 40px',
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
+  '@tablet': {
+    padding: '0px',
+  },
 });
 const ContentHeader = styled('div', {
   display: 'flex',

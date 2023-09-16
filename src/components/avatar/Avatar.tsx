@@ -24,6 +24,10 @@ const SContainer = styled('div', {
   borderRadius: '50%',
   overflow: 'hidden',
   flexType: 'center',
+  '@tablet': {
+    width: '40px',
+    height: '40px',
+  },
 });
 const SImage = styled('img', {
   width: '100%',
