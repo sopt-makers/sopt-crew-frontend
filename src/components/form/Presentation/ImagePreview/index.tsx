@@ -58,12 +58,12 @@ const SBackdrop = styled('div', {
 const SEditButton = styled('label', {
   padding: '8px 10px',
   display: 'flex',
-  jusifyContent: 'center',
+  justifyContent: 'center',
   alignItems: 'center',
-  background: '$purple100',
+  background: '$white100',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$white100',
+  color: '$black100',
   cursor: 'pointer',
 });
 const SInput = styled('input', {

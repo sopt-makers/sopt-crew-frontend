@@ -81,7 +81,8 @@ const SStatus = styled(Box, {
         backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$purple100',
+        backgroundColor: '$orange100',
+        color: '$black100',
       },
       2: {
         backgroundColor: '$black60',
@@ -119,14 +120,14 @@ const STitle = styled('p', {
 
 const SUserInfo = styled('p', {
   fontStyle: 'B4',
-  color: '$gray80',
+  color: '$gray60',
   '& + &': {
     ml: '$4',
   },
 });
 
 const SCategory = styled(SUserInfo, {
-  color: '$purple100',
+  color: '$gray40',
 });
 const SInfoRow = styled(Flex, {
   mt: '$8',

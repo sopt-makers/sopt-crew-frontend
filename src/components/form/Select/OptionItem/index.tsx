@@ -45,7 +45,8 @@ const SOptionItem = styled(Box, {
     selected: {
       true: {
         fontAg: '18_bold_100',
-        color: '$purple100',
+        // 얘 어디서 씀?
+        // color: '$purple100',
       },
     },
   },

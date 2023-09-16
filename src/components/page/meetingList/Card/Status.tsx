@@ -42,13 +42,13 @@ const SValue = styled('span', {
   variants: {
     status: {
       0: {
-        color: '$purple40',
+        color: '$gray80',
       },
       1: {
-        color: '$purple100',
+        color: '$blue50',
       },
       2: {
-        color: '$gray80',
+        color: '$gray100',
       },
     },
   },
