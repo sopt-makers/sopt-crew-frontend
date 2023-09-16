@@ -144,6 +144,7 @@ const ViewCount = styled('span', {
   fontStyle: 'B4',
   '@tablet': {
     mr: '$0',
+    fontStyle: 'C1',
   },
 });
 const MenuItems = styled(Menu.Items, {
