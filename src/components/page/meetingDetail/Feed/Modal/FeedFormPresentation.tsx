@@ -2,12 +2,12 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
 import { Box } from '@components/box/Box';
-import CancelIcon from '@assets/svg/x.svg';
+import CancelIcon from '@assets/svg/x_big_gray.svg';
 import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
 import ImagePreview from './ImagePreview';
 import CameraIcon from '@assets/svg/camera.svg';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { imageS3Bucket } from '@constants/url';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import FormController from '@components/form/FormController';
@@ -43,8 +43,42 @@ function FeedFormPresentation({
 }: PresentationProps) {
   const showToast = useToast();
 
+  // textarea의 높이를 화면의 남은 부분으로 가져가기 위한 로직
+  const [textareaHeightChangeFlag, setTextareaHeightChangeFlag] = useState(false);
+  const textAreaRef = useRef(null);
+  const [remainingHeight, setRemainingHeight] = useState(100);
+  const handleWindowResize = () => {
+    setTextareaHeightChangeFlag(flag => !flag);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const BasicPadding = 90;
+    if (textAreaRef.current) {
+      const allComponentHeights = Array.from(document.querySelectorAll('.calc_target')).reduce(
+        (totalHeight, component) => {
+          const computedStyle = window.getComputedStyle(component);
+          const marginTop = parseInt(computedStyle.marginTop, 10) || 0;
+          const marginBottom = parseInt(computedStyle.marginBottom, 10) || 0;
+          return totalHeight + component.clientHeight + marginTop + marginBottom;
+        },
+        0
+      );
+
+      const availableHeight = window.innerHeight - allComponentHeights - BasicPadding;
+      setRemainingHeight(availableHeight);
+    }
+  }, [textareaHeightChangeFlag]);
+
   const onDeleteFile = (index: number) => () => {
     handleDeleteImage(index);
+    setTextareaHeightChangeFlag(flag => !flag);
   };
 
   const handleAddFiles =
@@ -66,6 +100,7 @@ function FeedFormPresentation({
         const urls = await Promise.all(newFiles.map(async file => await uploadFile(file)));
         onChange([...imageUrls, ...urls]);
       }
+      setTextareaHeightChangeFlag(flag => !flag);
     };
 
   const uploadFile = async (file: File) => {
@@ -81,14 +116,14 @@ function FeedFormPresentation({
   return (
     <SFormContainer>
       <form onSubmit={onSubmit}>
-        <SFormHeader>
+        <SFormHeader className="calc_target">
           <CancelIcon onClick={handleModalClose} />
           <SFormName>{title}</SFormName>
           <SSubmitButton type="submit" disabled={disabled}>
             완료
           </SSubmitButton>
         </SFormHeader>
-        <SGroupInfoSection>
+        <SGroupInfoSection className="calc_target">
           <SThumbnailImage
             css={{
               backgroundImage: `url(${getResizedImage(groupInfo.imageUrl, 168)})`,
@@ -97,14 +132,15 @@ function FeedFormPresentation({
           <SCategory>{groupInfo.category}</SCategory>
           <STitle>{groupInfo.title}</STitle>
         </SGroupInfoSection>
-        <SDivider />
+        <SDivider className="calc_target" />
         <FormController
           name="title"
           defaultValue=""
           render={({ field: { value: titleValue, onChange, onBlur } }) => (
             <STitleInput
+              className="calc_target"
               type="text"
-              placeholder="피드 제목을 입력해주세요."
+              placeholder="제목을 입력해주세요 (최대 100자)"
               value={titleValue}
               onChange={e => {
                 const inputValue = e.target.value;
@@ -125,14 +161,20 @@ function FeedFormPresentation({
           defaultValue=""
           render={({ field: { value: contentsValue, onChange, onBlur } }) => (
             <SFeedContentTextArea
-              placeholder="피드 내용을 입력해주세요."
+              css={{
+                '@tablet': {
+                  height: `${remainingHeight}px`,
+                },
+              }}
+              ref={textAreaRef}
+              placeholder="모임에서 있었던 일들을 자유롭게 공유해주세요"
               value={contentsValue}
               onChange={onChange}
               onBlur={onBlur}
             />
           )}
         />
-        <SDivider />
+        <SDivider className="calc_target" />
         <FormController
           name="images"
           defaultValue={[]}
@@ -140,23 +182,18 @@ function FeedFormPresentation({
             <>
               {!!(imageUrls as string[]).length && (
                 <>
-                  <Box
-                    css={{
-                      display: 'flex',
-                      gap: '12px',
-                    }}
-                  >
+                  <SImageListWrapper className="calc_target">
                     {(imageUrls as string[]).map((url, idx) => (
                       <SImagePreviewHolder key={`${url}-${idx}`}>
                         <ImagePreview url={url} onDelete={onDeleteFile(idx)} />
                       </SImagePreviewHolder>
                     ))}
-                  </Box>
-                  <SDivider />
+                  </SImageListWrapper>
+                  <SImageListDivider className="calc_target" />
                 </>
               )}
 
-              <Box css={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <SImageInputWrapper className="calc_target">
                 <SFileInputWrapper>
                   <SFileInput
                     type="file"
@@ -168,7 +205,7 @@ function FeedFormPresentation({
                   <CameraIcon />
                 </SFileInputWrapper>
                 <SImageCount>{(imageUrls as string[]).length} / 10</SImageCount>
-              </Box>
+              </SImageInputWrapper>
             </>
           )}
         />
@@ -184,10 +221,11 @@ const SFormContainer = styled(Box, {
   padding: '40px 30px 30px',
   background: '$black80',
   borderRadius: '15px',
-
   '@tablet': {
-    padding: '40px 0 0 0',
+    padding: '30px 0 0 0',
     background: '$black100',
+    height: '100vh',
+    borderRadius: '0',
   },
 });
 const SFormName = styled('h1', {
@@ -197,6 +235,7 @@ const SFormName = styled('h1', {
   '@tablet': {
     margin: 0,
     borderBottom: '1px solid $black60',
+    fontStyle: 'T3',
   },
 });
 
@@ -204,6 +243,9 @@ const SFormHeader = styled(Box, {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  '@tablet': {
+    px: '$20',
+  },
 });
 
 const SSubmitButton = styled('button', {
@@ -217,11 +259,17 @@ const SSubmitButton = styled('button', {
       },
     },
   },
+  '@tablet': {
+    fontStyle: 'T4',
+  },
 });
 
 const SGroupInfoSection = styled(Box, {
   mt: '$40',
   flexType: 'verticalCenter',
+  '@tablet': {
+    px: '$20',
+  },
 });
 
 const SThumbnailImage = styled('div', {
@@ -233,29 +281,50 @@ const SThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
+  '@tablet': {
+    width: '40px',
+    height: '40px',
+  },
 });
 
 const SCategory = styled('p', {
   color: '$gray80',
   fontStyle: 'T3',
   ml: '$20',
+  '@tablet': {
+    fontStyle: 'T4',
+    ml: '$12',
+  },
 });
 
 const STitle = styled('p', {
   color: '$white',
   fontStyle: 'T3',
   ml: '$8',
+
+  '@tablet': {
+    fontStyle: 'T4',
+  },
 });
 
 const SDivider = styled(Divider, {
   my: '$24',
   backgroundColor: '$black40',
+  '@tablet': {
+    my: '$20',
+  },
 });
 
 const STitleInput = styled('input', {
   width: '100%',
   color: '$white',
   fontStyle: 'H3',
+
+  '@tablet': {
+    px: '$20',
+    boxSizing: 'border-box',
+    fontStyle: 'H4',
+  },
 });
 
 const SFeedContentTextArea = styled('textarea', {
@@ -266,11 +335,27 @@ const SFeedContentTextArea = styled('textarea', {
   fontStyle: 'B2',
   color: '$white',
   backgroundColor: 'inherit',
+
+  '@tablet': {
+    px: '$20',
+    boxSizing: 'border-box',
+    fontStyle: 'B3',
+  },
+
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
 
 const SImagePreviewHolder = styled(Box, {
   width: '108px',
   height: '108px',
+  mb: '$24',
+  mr: '$12',
+  '@tablet': {
+    width: '84px',
+    height: '84px',
+  },
 });
 
 const SFileInputWrapper = styled('label', {
@@ -290,6 +375,35 @@ const SFileInput = styled('input', {
 });
 
 const SImageCount = styled('p', {
-  color: '$white100',
+  color: '$gray60',
   fontStyle: 'B1',
+});
+
+const SImageInputWrapper = styled(Box, {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  '@tablet': {
+    px: '$16',
+  },
+});
+
+const SImageListWrapper = styled(Box, {
+  display: 'flex',
+  overflowX: 'scroll',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& > div:first-child': {
+    ml: '$16',
+  },
+  '& > div:last-child': {
+    mr: '$16',
+  },
+});
+
+const SImageListDivider = styled(Divider, {
+  mt: '$0',
+  mb: '$24',
+  backgroundColor: '$black40',
 });

@@ -56,4 +56,5 @@ const ToastMessage = styled('p', {
   fontStyle: 'T5',
   color: '$white100',
   ml: '$6',
+  whiteSpace: 'nowrap',
 });
