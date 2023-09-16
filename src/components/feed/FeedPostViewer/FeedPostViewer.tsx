@@ -90,7 +90,7 @@ const ContentWrapper = styled('div', {
   flexDirection: 'column',
   gap: '20px',
   '@tablet': {
-    padding: '0px',
+    padding: '12px 16px 20px 16px',
   },
 });
 const ContentHeader = styled('div', {
@@ -124,18 +124,27 @@ const ContentBody = styled('div', {
 const Title = styled('h2', {
   color: 'white',
   fontStyle: 'H2',
+  '@tablet': {
+    fontStyle: 'H4',
+  },
 });
 const Contents = styled('p', {
   mt: '$12',
   color: '$gray30',
   fontStyle: 'B2',
+  '@tablet': {
+    fontStyle: 'B3',
+  },
 });
 const ViewCount = styled('span', {
   mt: '$16',
-  marginRight: '20px', // TODO: design 체크 필요
+  mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
   color: '$gray100',
   fontStyle: 'B4',
+  '@tablet': {
+    mr: '$0',
+  },
 });
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
