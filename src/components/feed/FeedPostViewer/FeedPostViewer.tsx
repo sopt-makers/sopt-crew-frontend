@@ -71,15 +71,15 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
       </ContentWrapper>
 
       <CommentLikeWrapper>
-        <CommentIcon />
         <CommentLike>
+          <CommentIcon />
           {/* TODO: add comment count */}
-          <span>댓글 </span>
+          <span style={{ marginLeft: '4px' }}>댓글 </span>
         </CommentLike>
         <Divider />
-        {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
         <CommentLike>
-          <span>좋아요 {post.likeCount}</span>
+          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
+          <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
         </CommentLike>
       </CommentLikeWrapper>
 
@@ -231,15 +231,17 @@ const Divider = styled('div', {
   background: '$black60',
   width: '1px',
   height: '24px',
-  margin: '12px 159px 12px 171px',
-  '@tablet': {
-    margin: '12px 54px 12px 60px',
-  },
 });
 const CommentLike = styled('div', {
+  width: '400px',
+  display: 'flex',
+  flexType: 'center',
   color: '$gray80',
   fontStyle: 'T5',
-  marginLeft: '4px',
+  '@tablet': {
+    width: '180px',
+    fontStyle: 'T6',
+  },
 });
 const CommentListWrapper = styled('div', {
   padding: '28px 28px 32px 32px',
