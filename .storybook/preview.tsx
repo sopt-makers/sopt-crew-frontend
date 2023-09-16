@@ -1,4 +1,6 @@
 import type { Preview } from '@storybook/react';
+import { OverlayProvider } from '../src/hooks/useOverlay/OverlayProvider';
+import React from 'react';
 import '../styles/globals.css'
 
 const preview: Preview = {
@@ -20,6 +22,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <OverlayProvider>
+        <Story />
+      </OverlayProvider>
+    ),
+  ],
 };
 
 export default preview;
