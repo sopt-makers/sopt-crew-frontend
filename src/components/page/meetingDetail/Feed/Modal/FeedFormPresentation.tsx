@@ -250,7 +250,7 @@ const SFormHeader = styled(Box, {
 
 const SSubmitButton = styled('button', {
   fontStyle: 'T1',
-  color: '$purple100',
+  color: '$white100',
   variants: {
     disabled: {
       true: {

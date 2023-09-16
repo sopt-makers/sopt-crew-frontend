@@ -115,6 +115,5 @@ const SDialogWrapper = styled(Box, {
     height: '100vh',
     boxShadow: 'none',
     borderRadius: '0',
-    // overflow: 'hidden',
   },
 });
