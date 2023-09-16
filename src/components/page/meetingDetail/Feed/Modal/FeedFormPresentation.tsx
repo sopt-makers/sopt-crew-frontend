@@ -109,10 +109,10 @@ function FeedFormPresentation({
               onChange={e => {
                 const inputValue = e.target.value;
                 if (inputValue.length <= 100) {
-                  onChange(inputValue); // Update the field value
+                  onChange(inputValue);
                 } else {
                   onChange(inputValue.substring(0, 100));
-                  showToast(ERROR_MESSAGE.TITLE.MAX);
+                  showToast({ type: 'error', message: ERROR_MESSAGE.TITLE.MAX });
                 }
               }}
               onBlur={onBlur}

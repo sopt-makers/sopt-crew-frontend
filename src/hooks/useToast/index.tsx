@@ -1,11 +1,11 @@
 import { useOverlay } from '@hooks/useOverlay/Index';
-import Toast from './Toast';
+import Toast, { ToastProps } from './Toast';
 
 function useToast() {
   const overlay = useOverlay();
 
-  const showToast = (message: string) => {
-    overlay.open(({ isOpen, close }) => <Toast isOpen={isOpen} close={close} message={message} />);
+  const showToast = ({ type, message }: Pick<ToastProps, 'message' | 'type'>) => {
+    overlay.open(({ isOpen, close }) => <Toast isOpen={isOpen} close={close} type={type} message={message} />);
   };
 
   return showToast;

@@ -2,14 +2,17 @@ import { Box } from '@components/box/Box';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CautionIcon from '@assets/svg/caution.svg';
-interface ToastProps {
+
+type ToastType = 'error';
+
+export interface ToastProps {
   isOpen: boolean;
   close(): void;
-  type?: 'error';
+  type: ToastType;
   message: string;
 }
 
-function Toast({ isOpen, close, type = 'error', message }: ToastProps) {
+function Toast({ isOpen, close, type, message }: ToastProps) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       close();
