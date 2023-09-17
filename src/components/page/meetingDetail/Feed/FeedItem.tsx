@@ -55,7 +55,12 @@ const FeedItem = ({
 
       <STitle>{truncateText(title, 40)}</STitle>
       <SContent>{truncateText(contents, 70)}</SContent>
-      {images && <SThumbnail src={images[0]} alt="" />}
+      {images && (
+        <SThumbnailWrapper>
+          <SThumbnail src={images[0]} alt="" />
+          {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
+        </SThumbnailWrapper>
+      )}
 
       <SBottom>
         <Flex align="center">
@@ -145,6 +150,10 @@ const SContent = styled(Box, {
   },
 });
 
+const SThumbnailWrapper = styled(Box, {
+  position: 'relative',
+});
+
 const SThumbnail = styled('img', {
   display: 'block',
   mb: '$20',
@@ -156,6 +165,26 @@ const SThumbnail = styled('img', {
 
   '@tablet': {
     maxWidth: '100%',
+  },
+});
+
+const SThumbnailCount = styled(Box, {
+  position: 'absolute',
+  top: '12px',
+  right: '12px',
+  zIndex: 1,
+  backgroundColor: colors.black100,
+  opacity: 0.6,
+  color: colors.gray30,
+  borderRadius: '50%',
+  fontStyle: 'T5',
+  width: '40px',
+  height: '40px',
+  flexType: 'center',
+
+  '@tablet': {
+    width: '36px',
+    height: '36px',
   },
 });
 
