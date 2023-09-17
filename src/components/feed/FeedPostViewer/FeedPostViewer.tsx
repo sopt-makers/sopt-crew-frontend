@@ -42,6 +42,19 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
         <ContentBody>
           <Title>{post.title}</Title>
           <Contents>{post.contents}</Contents>
+          {post.images && (
+            <ImageSection>
+              {post.images.length === 1 ? (
+                <BigImage src={post.images[0]} />
+              ) : (
+                <ImageListWrapper>
+                  {post.images.map((image, index) => (
+                    <ImageListItem key={index} src={image} />
+                  ))}
+                </ImageListWrapper>
+              )}
+            </ImageSection>
+          )}
           <ViewCount>조회 {post.viewCount}회</ViewCount>
         </ContentBody>
       </ContentWrapper>
@@ -122,6 +135,28 @@ const Contents = styled('p', {
   mt: '$12',
   color: '$gray30',
   fontStyle: 'B2',
+});
+const ImageSection = styled('section', {
+  paddingRight: '25px',
+  marginTop: '20px',
+  marginBottom: '12px',
+});
+const BigImage = styled('img', {
+  width: '100%',
+  height: '453px',
+  objectFit: 'cover',
+  borderRadius: '10px',
+});
+const ImageListWrapper = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(5, 1fr)',
+  gap: '8px',
+});
+const ImageListItem = styled('img', {
+  width: '100%',
+  height: '136px',
+  objectFit: 'cover',
+  borderRadius: '8px',
 });
 const ViewCount = styled('span', {
   mt: '$16',
