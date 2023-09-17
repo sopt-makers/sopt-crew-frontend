@@ -139,7 +139,7 @@ const Contents = styled('p', {
 const ImageSection = styled('section', {
   paddingRight: '25px',
   marginTop: '20px',
-  marginBottom: '12px 12px 12px 12px',
+  marginBottom: '12px',
 });
 const BigImage = styled('img', {
   width: '100%',
