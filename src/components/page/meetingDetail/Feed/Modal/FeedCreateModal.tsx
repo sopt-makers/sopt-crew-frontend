@@ -8,23 +8,36 @@ import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, schema } from './schema';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
+import { useMutation } from '@tanstack/react-query';
+import { createPost } from '@api/post';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useRouter } from 'next/router';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProps) {
+interface FeedCreateModalProps extends ModalContainerProps {
+  handleModalExit: () => void;
+}
+
+function FeedCreateModal({ isModalOpened, handleModalExit, handleModalClose }: FeedCreateModalProps) {
   const submitCreateFeedOverlay = useOverlay();
+  const router = useRouter();
+  const id = router.query.id as string;
+  const { data: detailData } = useQueryGetMeeting({ params: { id } });
+
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
 
   const { isValid } = formMethods.formState;
-  // const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
-  //   mutationFn: (formData: FormType) => createMeeting(formData),
-  //   onError: () => alert('피드를 개설하지 못했습니다.'),
-  // });
+
+  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormType) => createPost(formData),
+    onError: () => alert('피드를 개설하지 못했습니다.'),
+  });
 
   const handleDeleteImage = (index: number) => {
     const images = formMethods.getValues().images.slice();
@@ -40,17 +53,18 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
         handleModalClose={close}
         cancelButton="돌아가기"
         confirmButton="확인"
-        handleConfirm={() => {
-          //TODO: 개설 api
-          close();
+        handleConfirm={async () => {
+          const createFeedParameter = { ...formData, meetingId: Number(id) };
+          await mutateCreateFeed(createFeedParameter, {
+            onSuccess: () => {
+              alert('피드를 작성했습니다.');
+              close();
+              handleModalExit();
+            },
+          });
         }}
       />
     ));
-    // const {
-    //   data: { meetingId },
-    // } = await mutateCreateMeeting(formData);
-    // alert('모임을 개설했습니다.');
-    // router.push(`/detail?id=${meetingId}`);
   };
 
   return (
@@ -59,19 +73,15 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
         <FormProvider {...formMethods}>
           <FeedFormPresentation
             groupInfo={{
-              title: '대충 모임 이름',
-              imageUrl:
-                'https://wsrv.nl/?url=https%3A%2F%2Fmakers-web-img.s3.ap-northeast-2.amazonaws.com%2Fmeeting%2F2023%2F09%2F01%2F0896ca6c-9bc6-40c1-9e33-2130058522ff.jpeg&w=760&output=webp',
-              category: '스터디',
+              title: detailData?.title || '',
+              imageUrl: detailData?.imageURL[0].url || '',
+              category: detailData?.category || '',
             }}
             title="피드 작성"
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={
-              // isSubmitting ||
-              !isValid
-            }
+            disabled={isSubmitting || !isValid}
           />
         </FormProvider>
       </SDialogWrapper>

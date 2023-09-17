@@ -101,7 +101,7 @@ function FeedFormPresentation({
         <FormController
           name="title"
           defaultValue=""
-          render={({ field: { value: titleValue, onChange, onBlur }, fieldState: { error } }) => (
+          render={({ field: { value: titleValue, onChange, onBlur } }) => (
             <STitleInput
               type="text"
               placeholder="피드 제목을 입력해주세요."
@@ -123,7 +123,7 @@ function FeedFormPresentation({
         <FormController
           name="contents"
           defaultValue=""
-          render={({ field: { value: contentsValue, onChange, onBlur }, fieldState: { error } }) => (
+          render={({ field: { value: contentsValue, onChange, onBlur } }) => (
             <SFeedContentTextArea
               placeholder="피드 내용을 입력해주세요."
               value={contentsValue}
@@ -136,7 +136,7 @@ function FeedFormPresentation({
         <FormController
           name="images"
           defaultValue={[]}
-          render={({ field: { value: imageUrls, onChange, onBlur }, fieldState: { error } }) => (
+          render={({ field: { value: imageUrls, onChange, onBlur } }) => (
             <>
               {!!(imageUrls as string[]).length && (
                 <>
@@ -199,11 +199,6 @@ const SFormName = styled('h1', {
     borderBottom: '1px solid $black60',
   },
 });
-const SFormWrapper = styled('div', {
-  '@tablet': {
-    paddingTop: '40px',
-  },
-});
 
 const SFormHeader = styled(Box, {
   display: 'flex',
@@ -214,6 +209,14 @@ const SFormHeader = styled(Box, {
 const SSubmitButton = styled('button', {
   fontStyle: 'T1',
   color: '$purple100',
+  variants: {
+    disabled: {
+      true: {
+        color: '$gray100',
+        cursor: 'not-allowed',
+      },
+    },
+  },
 });
 
 const SGroupInfoSection = styled(Box, {

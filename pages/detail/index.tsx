@@ -36,6 +36,9 @@ const DetailPage = () => {
     createFeedOverlay.open(({ isOpen: isCreateModalOpen, close: closeCreateModal }) => (
       <FeedCreateModal
         isModalOpened={isCreateModalOpen}
+        handleModalExit={() => {
+          closeCreateModal();
+        }}
         handleModalClose={() => {
           closeCreateFeedOverlay.open(({ isOpen: isConfirmModalOpen, close: closeConfirmModal }) => (
             <ConfirmModal
