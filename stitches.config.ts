@@ -279,7 +279,7 @@ const stitches = createStitches({
       170: '170%',
       H1: '24px',
       H2: '30px',
-      H3: '18px',
+      H3: '28px',
       H4: '24px',
       H5: '14px',
       T1: '32px',
