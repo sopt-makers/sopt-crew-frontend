@@ -5,12 +5,13 @@ interface AvatarProps {
   src: string;
   alt: string;
   sx?: CSSProperties;
+  className?: string;
   Overlay?: React.ReactNode;
 }
 
-export default function Avatar({ src, alt, sx, Overlay }: AvatarProps) {
+export default function Avatar({ src, alt, sx, className, Overlay }: AvatarProps) {
   return (
-    <SContainer style={sx}>
+    <SContainer style={sx} className={className}>
       {Overlay}
       <SImage src={src} alt={alt} />
     </SContainer>

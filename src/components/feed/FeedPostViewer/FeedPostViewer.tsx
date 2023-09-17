@@ -30,7 +30,7 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
       <ContentWrapper>
         <ContentHeader>
           <AuthorWrapper>
-            <Avatar src={post.user.profileImage || ''} alt={post.user.name} />
+            <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
               <UpdatedDate>{post.updatedDate}</UpdatedDate>
@@ -103,12 +103,19 @@ const Container = styled(Box, {
   borderRadius: '20px',
   border: '1px solid $black60',
   background: '$black100',
+  '@tablet': {
+    width: '360px',
+    border: 'none',
+  },
 });
 const ContentWrapper = styled('div', {
   padding: '36px 24px 28px 40px',
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
+  '@tablet': {
+    padding: '12px 16px 20px 16px',
+  },
 });
 const ContentHeader = styled('div', {
   display: 'flex',
@@ -141,11 +148,17 @@ const ContentBody = styled('div', {
 const Title = styled('h2', {
   color: 'white',
   fontStyle: 'H2',
+  '@tablet': {
+    fontStyle: 'H4',
+  },
 });
 const Contents = styled('p', {
   mt: '$12',
   color: '$gray30',
   fontStyle: 'B2',
+  '@tablet': {
+    fontStyle: 'B3',
+  },
 });
 const ImageSection = styled('section', {
   paddingRight: '25px',
@@ -173,10 +186,14 @@ const ImageListItem = styled('img', {
 });
 const ViewCount = styled('span', {
   mt: '$16',
-  marginRight: '20px', // TODO: design 체크 필요
+  mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
   color: '$gray100',
   fontStyle: 'B4',
+  '@tablet': {
+    mr: '$0',
+    fontStyle: 'C1',
+  },
 });
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
@@ -202,7 +219,6 @@ const MenuItem = styled('button', {
     borderTop: 'none',
   },
 });
-
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',
   fontStyle: 'T5',
@@ -211,14 +227,15 @@ const CommentLikeWrapper = styled('div', {
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
 });
-
 const Divider = styled('div', {
   background: '$black60',
   width: '1px',
   height: '24px',
   margin: '12px 159px 12px 171px',
+  '@tablet': {
+    margin: '12px 54px 12px 60px',
+  },
 });
-
 const CommentLike = styled('div', {
   color: '$gray80',
   fontStyle: 'T5',
@@ -248,4 +265,10 @@ const CommentInput = styled('input', {
 const SendButton = styled('button', {
   width: '32px',
   height: '32px',
+});
+const SAvatar = styled(Avatar, {
+  '@tablet': {
+    width: '40px',
+    height: '40px',
+  },
 });
