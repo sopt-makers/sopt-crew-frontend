@@ -107,7 +107,13 @@ const SDialogWrapper = styled(Box, {
   boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
   maxHeight: '100vh',
   overflow: 'auto scroll',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
   '@tablet': {
     width: '100%',
+    height: '100vh',
+    boxShadow: 'none',
+    borderRadius: '0',
   },
 });
