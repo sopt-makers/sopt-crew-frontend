@@ -104,7 +104,7 @@ const Container = styled(Box, {
   border: '1px solid $black60',
   background: '$black100',
   '@tablet': {
-    width: '360px',
+    width: '100%',
     border: 'none',
   },
 });
@@ -239,7 +239,7 @@ const CommentLike = styled('div', {
   color: '$gray80',
   fontStyle: 'T5',
   '@tablet': {
-    width: '180px',
+    width: '50%',
     fontStyle: 'T6',
   },
 });
