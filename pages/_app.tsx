@@ -15,6 +15,7 @@ import ChannelService from '@utils/ChannelService';
 import { api, playgroundApi } from '@api/index';
 import { fetchMyProfile } from '@api/user';
 import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
+import AmplitudeProvider from '@providers/AmplitudeProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -110,16 +111,18 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <OverlayProvider>
-          {isServiceReady ? (
-            <>
-              <Header />
-              <Component {...pageProps} />
-            </>
-          ) : (
-            <Loader />
-          )}
-        </OverlayProvider>
+        <AmplitudeProvider>
+          <OverlayProvider>
+            {isServiceReady ? (
+              <>
+                <Header />
+                <Component {...pageProps} />
+              </>
+            ) : (
+              <Loader />
+            )}
+          </OverlayProvider>
+        </AmplitudeProvider>
       </Box>
     </QueryClientProvider>
   );
