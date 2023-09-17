@@ -1,7 +1,6 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
@@ -15,17 +14,13 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 });
 
 function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProps) {
-  const router = useRouter();
-
   const submitCreateFeedOverlay = useOverlay();
-
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
   });
 
   const { isValid } = formMethods.formState;
-  console.log(isValid);
   // const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
   //   mutationFn: (formData: FormType) => createMeeting(formData),
   //   onError: () => alert('피드를 개설하지 못했습니다.'),
