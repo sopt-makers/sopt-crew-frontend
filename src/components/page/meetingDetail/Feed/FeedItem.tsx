@@ -11,6 +11,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useState } from 'react';
 import { colors } from '@sopt-makers/colors';
+import truncateText from '@utils/truncateText';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -52,8 +53,8 @@ const FeedItem = ({
         {/* <MoreIcon /> */}
       </STop>
 
-      <STitle>{title}</STitle>
-      <SContent>{contents}</SContent>
+      <STitle>{truncateText(title, 40)}</STitle>
+      <SContent>{truncateText(contents, 70)}</SContent>
       {images && <SThumbnail src={images[0]} alt="" />}
 
       <SBottom>
