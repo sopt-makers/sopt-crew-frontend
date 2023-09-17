@@ -20,7 +20,7 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
       <ContentWrapper>
         <ContentHeader>
           <AuthorWrapper>
-            <Avatar src={post.user.profileImage || ''} alt={post.user.name} />
+            <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
               <UpdatedDate>{post.updatedDate}</UpdatedDate>
@@ -217,4 +217,10 @@ const CommentInput = styled('input', {
 const SendButton = styled('button', {
   width: '32px',
   height: '32px',
+});
+const SAvatar = styled(Avatar, {
+  '@tablet': {
+    width: '40px',
+    height: '40px',
+  },
 });
