@@ -164,6 +164,9 @@ const ImageSection = styled('section', {
   paddingRight: '25px',
   marginTop: '20px',
   marginBottom: '12px',
+  '@tablet': {
+    paddingRight: 0,
+  },
 });
 const BigImage = styled('img', {
   width: '100%',
@@ -171,6 +174,9 @@ const BigImage = styled('img', {
   objectFit: 'cover',
   borderRadius: '10px',
   cursor: 'pointer',
+  '@tablet': {
+    height: '219px',
+  },
 });
 const ImageListWrapper = styled('div', {
   display: 'grid',
