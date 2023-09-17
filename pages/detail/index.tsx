@@ -13,6 +13,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
+import ConfirmModal from '@components/modal/ConfirmModal';
+
 dayjs.locale('ko');
 
 const enum SelectedTab {
@@ -27,14 +29,27 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const overlay = useOverlay();
+  const createFeedOverlay = useOverlay();
+  const closeCreateFeedOverlay = useOverlay();
 
-  const handleModalOpen = () =>
-    overlay.open(({ isOpen, close }) => (
+  const handleCreateFeedOpen = () =>
+    createFeedOverlay.open(({ isOpen: isCreateModalOpen, close: closeCreateModal }) => (
       <FeedCreateModal
-        isModalOpened={isOpen}
+        isModalOpened={isCreateModalOpen}
         handleModalClose={() => {
-          close();
+          closeCreateFeedOverlay.open(({ isOpen: isConfirmModalOpen, close: closeConfirmModal }) => (
+            <ConfirmModal
+              isModalOpened={isConfirmModalOpen}
+              message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
+              handleModalClose={closeConfirmModal}
+              cancelButton="돌아가기"
+              confirmButton="그만두기"
+              handleConfirm={() => {
+                closeConfirmModal();
+                closeCreateModal();
+              }}
+            />
+          ));
         }}
       />
     ));
@@ -47,7 +62,7 @@ const DetailPage = () => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
-        <button style={{ color: 'white' }} onClick={handleModalOpen}>
+        <button style={{ color: 'white' }} onClick={handleCreateFeedOpen}>
           모달 오픈
         </button>
 
