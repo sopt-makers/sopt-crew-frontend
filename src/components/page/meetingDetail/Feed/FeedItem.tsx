@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useState } from 'react';
+import { colors } from '@sopt-makers/colors';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -59,8 +60,13 @@ const FeedItem = ({
         <Flex align="center">
           {commenterThumbnails && (
             <AvatarGroup>
-              {commenterThumbnails.map(thumbnail => (
-                <Avatar key={thumbnail} src={thumbnail} alt="" />
+              {commenterThumbnails.slice(0, 3).map((thumbnail, index) => (
+                <Avatar
+                  key={`${thumbnail}-${index}`}
+                  src={thumbnail}
+                  alt=""
+                  Overlay={commenterThumbnails.length > 3 && index === 2 && <SOverlay>+</SOverlay>}
+                />
               ))}
             </AvatarGroup>
           )}
@@ -197,4 +203,13 @@ const SLikeButton = styled('button', {
   '& > svg': {
     mr: '$6',
   },
+});
+
+const SOverlay = styled(Box, {
+  position: 'absolute',
+  background: colors.black100,
+  opacity: 0.7,
+  width: '100%',
+  height: '100%',
+  flexType: 'center',
 });
