@@ -182,6 +182,11 @@ const ImageListWrapper = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(5, 1fr)',
   gap: '8px',
+  '@tablet': {
+    display: 'flex',
+    overflow: 'scroll',
+    gap: '6px',
+  },
 });
 const ImageListItem = styled('img', {
   width: '100%',
@@ -189,6 +194,9 @@ const ImageListItem = styled('img', {
   objectFit: 'cover',
   borderRadius: '8px',
   cursor: 'pointer',
+  '@tablet': {
+    height: '144px',
+  },
 });
 const ViewCount = styled('span', {
   mt: '$16',
