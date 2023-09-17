@@ -82,12 +82,12 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <>
                   {status === EApprovalStatus.WAITING && (
                     <>
-                      <SPurpleButton
+                      <SWhiteButton
                         disabled={isMutateLoading}
                         onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
                       >
                         승인
-                      </SPurpleButton>
+                      </SWhiteButton>
                       <SGrayButton
                         disabled={isMutateLoading}
                         onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
@@ -397,7 +397,7 @@ const SUserStatus = styled('span', {
         backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$purple100',
+        backgroundColor: '$blue50',
       },
       2: {
         backgroundColor: '$black40',
@@ -478,9 +478,10 @@ const SGrayButton = styled(SRoundButton, {
   backgroundColor: '$black40',
 });
 
-const SPurpleButton = styled(SRoundButton, {
+const SWhiteButton = styled(SRoundButton, {
   mr: '$8',
-  backgroundColor: '$purple100',
+  backgroundColor: '$white100',
+  color: '$black100',
 });
 
 const SCardButton = styled('button', {
@@ -508,8 +509,8 @@ const SRejectButton = styled(SCardButton, {
 });
 
 const SApproveButton = styled(SCardButton, {
-  color: '$white100',
-  backgroundColor: '$purple100',
+  color: '$black100',
+  backgroundColor: '$white100',
   borderBottomLeftRadius: '0',
 });
 

@@ -133,7 +133,7 @@ const SStatusText = styled(Box, {
   variants: {
     isApproved: {
       true: {
-        color: '$purple100',
+        color: '$blue50',
       },
       false: {
         color: '$gray100',

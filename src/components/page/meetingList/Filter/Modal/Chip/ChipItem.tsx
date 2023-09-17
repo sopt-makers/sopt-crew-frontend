@@ -28,20 +28,25 @@ const SOption = styled('button', {
   py: '$14',
   borderRadius: '10px',
   mr: '$8',
+
   variants: {
     isSelected: {
       true: {
-        backgroundColor: '$purple200',
-        color: '$white100',
+        backgroundColor: '$white100',
+        color: '$black100',
       },
       false: {
         backgroundColor: '$black100',
         color: '$gray100',
+        '&:hover': {
+          color: '$white100',
+        },
+        '@tablet': {
+          backgroundColor: '$black40',
+          color: '$gray60',
+        },
       },
     },
-  },
-  '&:hover': {
-    color: '$white100',
   },
 
   '@tablet': {

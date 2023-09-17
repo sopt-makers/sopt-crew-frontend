@@ -90,6 +90,7 @@ const SDialogWrapper = styled(Box, {
   },
 
   'button:last-child': {
-    backgroundColor: '$purple100',
+    backgroundColor: '$white100',
+    color: '$black100',
   },
 });

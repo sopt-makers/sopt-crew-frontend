@@ -302,7 +302,8 @@ const SRecruitStatus = styled(Box, {
         backgroundColor: '$black40',
       },
       1: {
-        backgroundColor: '$purple100',
+        backgroundColor: '$orange100',
+        color: '$black100',
       },
       2: {
         backgroundColor: '$gray60',
@@ -409,7 +410,7 @@ const SGuestButton = styled(Button, {
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
-
+  color: '$black100',
   '@tablet': {
     width: '100%',
     height: '$46',
@@ -418,7 +419,9 @@ const SGuestButton = styled(Button, {
   },
 
   '&:disabled': {
-    opacity: 0.35,
+    opacity: '0.35',
+    backgroundColor: '$black40',
+    color: '$gray30',
     cursor: 'not-allowed',
   },
 
@@ -426,13 +429,15 @@ const SGuestButton = styled(Button, {
     isApplied: {
       true: {
         border: `2px solid $black40`,
+        color: '$white100',
       },
       false: {
-        backgroundColor: '$purple100',
+        backgroundColor: '$white100',
       },
     },
     isApproved: {
       true: {
+        color: '$white100',
         border: `2px solid $black40`,
       },
     },
@@ -466,6 +471,7 @@ const SHostButtonContainer = styled(Box, {
 
   a: {
     display: 'inline-block',
-    backgroundColor: '$purple100',
+    backgroundColor: '$white100',
+    color: '$black100',
   },
 });

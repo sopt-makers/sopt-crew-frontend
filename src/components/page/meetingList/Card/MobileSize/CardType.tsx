@@ -51,7 +51,8 @@ const SStatus = styled(Box, {
         backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$purple100',
+        backgroundColor: '$orange100',
+        color: '$black100',
       },
       2: {
         backgroundColor: '$black60',

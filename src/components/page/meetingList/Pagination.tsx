@@ -66,8 +66,8 @@ const SPageLink = styled('li', {
   variants: {
     isCurrent: {
       true: {
-        color: '$white100',
-        backgroundColor: '$purple100',
+        color: '$black100',
+        backgroundColor: '$white100',
         borderRadius: '20px',
       },
     },

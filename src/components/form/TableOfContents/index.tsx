@@ -118,7 +118,6 @@ const SCount = styled(Box, {
   fontSize: '12px',
   lineHeight: '100%',
   textAlign: 'center',
-  color: '$purple100',
   background: '$black60',
   borderRadius: '6px',
 });
