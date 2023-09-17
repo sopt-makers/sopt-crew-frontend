@@ -2,7 +2,7 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
-import MoreIcon from '@assets/svg/more.svg';
+// import MoreIcon from '@assets/svg/more.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
 import Avatar from '@components/avatar/Avatar';
@@ -49,7 +49,7 @@ const FeedItem = ({
           <SName>{name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
-        <MoreIcon />
+        {/* <MoreIcon /> */}
       </STop>
 
       <STitle>{title}</STitle>
