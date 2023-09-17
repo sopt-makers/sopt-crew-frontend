@@ -15,6 +15,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
+import PostHeaderArrowIcon from 'public/assets/svg/post_arrow_left.svg?v2';
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
@@ -31,74 +32,82 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
   };
 
   return (
-    <Container>
-      <ContentWrapper>
-        <ContentHeader>
-          <AuthorWrapper>
-            <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
-            <AuthorInfo>
-              <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{dayjs(post.updatedDate).fromNow()}</UpdatedDate>
-            </AuthorInfo>
-          </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map(Action => (
-                <Menu.Item>
-                  <MenuItem>{Action}</MenuItem>
-                </Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
-        </ContentHeader>
-        <ContentBody>
-          <Title>{post.title}</Title>
-          <Contents>{post.contents}</Contents>
-          {post.images && (
-            <ImageSection>
-              {post.images.length === 1 ? (
-                <BigImage src={post.images[0]} onClick={handleClickImage(post.images, 0)} />
-              ) : (
-                <ImageListWrapper>
-                  {post.images.map((image, index) => (
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    <ImageListItem key={index} src={image} onClick={handleClickImage(post.images!, index)} />
-                  ))}
-                </ImageListWrapper>
-              )}
-            </ImageSection>
-          )}
-          <ViewCount>조회 {post.viewCount}회</ViewCount>
-        </ContentBody>
-      </ContentWrapper>
+    <>
+      <PostHeader>
+        <PostHeaderIconWrapper>
+          <PostHeaderArrowIcon style={{ marginRight: '8px' }} />
+        </PostHeaderIconWrapper>
+        피드
+      </PostHeader>
+      <Container>
+        <ContentWrapper>
+          <ContentHeader>
+            <AuthorWrapper>
+              <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
+              <AuthorInfo>
+                <AuthorName>{post.user.name}</AuthorName>
+                <UpdatedDate>{dayjs(post.updatedDate).fromNow()}</UpdatedDate>
+              </AuthorInfo>
+            </AuthorWrapper>
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map(Action => (
+                  <Menu.Item>
+                    <MenuItem>{Action}</MenuItem>
+                  </Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          </ContentHeader>
+          <ContentBody>
+            <Title>{post.title}</Title>
+            <Contents>{post.contents}</Contents>
+            {post.images && (
+              <ImageSection>
+                {post.images.length === 1 ? (
+                  <BigImage src={post.images[0]} onClick={handleClickImage(post.images, 0)} />
+                ) : (
+                  <ImageListWrapper>
+                    {post.images.map((image, index) => (
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      <ImageListItem key={index} src={image} onClick={handleClickImage(post.images!, index)} />
+                    ))}
+                  </ImageListWrapper>
+                )}
+              </ImageSection>
+            )}
+            <ViewCount>조회 {post.viewCount}회</ViewCount>
+          </ContentBody>
+        </ContentWrapper>
 
-      <CommentLikeWrapper>
-        <CommentLike>
-          <CommentIcon />
-          {/* TODO: add comment count */}
-          <span style={{ marginLeft: '4px' }}>댓글 </span>
-        </CommentLike>
-        <Divider />
-        <CommentLike>
-          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
-          <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
-        </CommentLike>
-      </CommentLikeWrapper>
+        <CommentLikeWrapper>
+          <CommentLike>
+            <CommentIcon />
+            {/* TODO: add comment count */}
+            <span style={{ marginLeft: '4px' }}>댓글 </span>
+          </CommentLike>
+          <Divider />
+          <CommentLike>
+            {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
+            <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
+          </CommentLike>
+        </CommentLikeWrapper>
 
-      <CommentListWrapper>
-        {/* 댓글 목록 */}
-        <div></div>
-        <CommentInputWrapper>
-          <CommentInput placeholder="댓글 입력" />
-          <SendButton>
-            <SendIcon />
-          </SendButton>
-        </CommentInputWrapper>
-      </CommentListWrapper>
-    </Container>
+        <CommentListWrapper>
+          {/* 댓글 목록 */}
+          <div></div>
+          <CommentInputWrapper>
+            <CommentInput placeholder="댓글 입력" />
+            <SendButton>
+              <SendIcon />
+            </SendButton>
+          </CommentInputWrapper>
+        </CommentListWrapper>
+      </Container>
+    </>
   );
 }
 
@@ -291,5 +300,26 @@ const SAvatar = styled(Avatar, {
   '@tablet': {
     width: '40px',
     height: '40px',
+  },
+});
+const PostHeader = styled('div', {
+  height: '88px',
+  color: '$white',
+  background: '$black100',
+  display: 'flex',
+  alignItems: 'center',
+  fontStyle: 'H1',
+  paddingBottom: '$8',
+  '@tablet': {
+    height: '56px',
+    fontStyle: 'H2',
+    mb: '$0',
+  },
+});
+const PostHeaderIconWrapper = styled('div', {
+  display: 'none',
+  '@tablet': {
+    display: 'flex',
+    alignItems: 'center',
   },
 });
