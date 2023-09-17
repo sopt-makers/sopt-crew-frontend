@@ -15,6 +15,7 @@
     "generate-types": "openapi-typescript ./src/__generated__/open-api-specification.json -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.3.0",
     "@headlessui/react": "^1.7.3",
     "@hookform/resolvers": "^2.9.10",
     "@sentry/nextjs": "^7.51.0",
