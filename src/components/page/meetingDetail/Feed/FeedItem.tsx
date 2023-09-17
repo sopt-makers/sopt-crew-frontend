@@ -10,7 +10,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useState } from 'react';
-import { colors } from '@sopt-makers/colors';
 import truncateText from '@utils/truncateText';
 
 dayjs.extend(relativeTime);
@@ -173,9 +172,9 @@ const SThumbnailCount = styled(Box, {
   top: '12px',
   right: '12px',
   zIndex: 1,
-  backgroundColor: colors.black100,
+  backgroundColor: '$black100',
   opacity: 0.6,
-  color: colors.gray30,
+  color: '$gray30',
   borderRadius: '50%',
   fontStyle: 'T5',
   width: '40px',
@@ -237,7 +236,7 @@ const SLikeButton = styled('button', {
 
 const SOverlay = styled(Box, {
   position: 'absolute',
-  background: colors.black100,
+  background: '$black100',
   opacity: 0.7,
   width: '100%',
   height: '100%',
