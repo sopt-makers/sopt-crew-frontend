@@ -34,9 +34,6 @@ const SOption = styled('button', {
       true: {
         backgroundColor: '$white100',
         color: '$black100',
-        '&:hover': {
-          color: '$black100',
-        },
       },
       false: {
         backgroundColor: '$black100',
