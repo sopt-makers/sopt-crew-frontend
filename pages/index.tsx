@@ -19,6 +19,7 @@ import WriteIcon from '@assets/svg/write.svg';
 import { useQueryMyProfile } from '@api/user/hooks';
 import NoticeSlider from '@components/page/meetingList/Slider/NoticeSlider/NoticeSlider';
 import useNotices from '@api/notice/hooks';
+import logAmplitudeEvent from '@utils/logAmplitudeEvent';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const Home: NextPage = () => {
       handleModalOpen();
       return;
     }
+    logAmplitudeEvent('Click-makeGroup');
     router.push('/make');
   };
 

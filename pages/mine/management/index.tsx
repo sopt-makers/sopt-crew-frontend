@@ -26,6 +26,7 @@ import {
 } from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
+import logAmplitudeEvent from '@utils/logAmplitudeEvent';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -58,6 +59,7 @@ const ManagementPage = () => {
 
   const handleCSVDownload = () => {
     downloadCSVMutate(id);
+    logAmplitudeEvent('Click-csvDownload');
   };
 
   return (
