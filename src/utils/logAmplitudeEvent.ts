@@ -6,7 +6,7 @@ export interface AmplitudeCustomConfig {
   deps?: DependencyList;
 }
 
-export default async function logAmplitudeEvent(
+export default function logAmplitudeEvent(
   eventName: string,
   params?: Record<string, unknown>,
   config?: AmplitudeCustomConfig

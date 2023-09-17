@@ -5,7 +5,7 @@ type EventProperties = {
   [key: string]: string | number | boolean | undefined;
 };
 
-export default async function useAmplitudeEvent(
+export default function useAmplitudeEvent(
   eventName: string,
   eventProperties?: EventProperties,
   config?: AmplitudeCustomConfig
