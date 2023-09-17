@@ -68,7 +68,7 @@ function FeedCreateModal({ isModalOpened, handleModalExit, handleModalClose }: F
   };
 
   return (
-    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose} isHeadlessUi={false}>
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
