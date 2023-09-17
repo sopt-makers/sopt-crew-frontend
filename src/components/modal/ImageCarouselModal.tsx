@@ -33,7 +33,7 @@ export default function ImageCarouselModal({ isOpen, close, images, startIndex =
         <Container>
           {/* top 고정 요소 */}
           {/* eslint-disable-next-line prettier/prettier */}
-          <Counter>{currentIndex}/{images.length}</Counter>
+          <Counter>{currentIndex} / {images.length}</Counter>
           <CloseButton onClick={close}>
             <CloseIcon />
           </CloseButton>
@@ -83,6 +83,12 @@ const Counter = styled('div', {
   left: '48px',
   color: 'white',
   fontStyle: 'T1',
+  '@tablet': {
+    top: '8px',
+    left: '16px',
+    fontStyle: 'H3',
+    lineHeight: '28px',
+  },
 });
 const CloseButton = styled('button', {
   position: 'absolute',
@@ -92,6 +98,10 @@ const CloseButton = styled('button', {
   height: '24px',
   border: 'none',
   outline: 'none',
+  '@tablet': {
+    top: '10px',
+    right: '13px',
+  },
 });
 const CarouselContainer = styled('div', {
   overflow: 'hidden',
@@ -121,4 +131,7 @@ const ArrowButton = styled('button', {
   flexShrink: 0,
   borderRadius: '20px',
   background: '$black80',
+  '@tablet': {
+    display: 'none',
+  },
 });

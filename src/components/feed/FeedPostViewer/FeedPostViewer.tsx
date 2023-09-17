@@ -164,6 +164,9 @@ const ImageSection = styled('section', {
   paddingRight: '25px',
   marginTop: '20px',
   marginBottom: '12px',
+  '@tablet': {
+    paddingRight: 0,
+  },
 });
 const BigImage = styled('img', {
   width: '100%',
@@ -171,11 +174,19 @@ const BigImage = styled('img', {
   objectFit: 'cover',
   borderRadius: '10px',
   cursor: 'pointer',
+  '@tablet': {
+    height: '219px',
+  },
 });
 const ImageListWrapper = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(5, 1fr)',
   gap: '8px',
+  '@tablet': {
+    display: 'flex',
+    overflow: 'scroll',
+    gap: '6px',
+  },
 });
 const ImageListItem = styled('img', {
   width: '100%',
@@ -183,6 +194,9 @@ const ImageListItem = styled('img', {
   objectFit: 'cover',
   borderRadius: '8px',
   cursor: 'pointer',
+  '@tablet': {
+    height: '144px',
+  },
 });
 const ViewCount = styled('span', {
   mt: '$16',
