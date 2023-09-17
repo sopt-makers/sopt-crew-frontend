@@ -10,6 +10,11 @@ import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
@@ -33,7 +38,7 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{post.updatedDate}</UpdatedDate>
+              <UpdatedDate>{dayjs(post.updatedDate).fromNow()}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
           <Menu as="div" style={{ position: 'relative' }}>
