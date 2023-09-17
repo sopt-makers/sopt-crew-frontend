@@ -1,9 +1,9 @@
 import logAmplitudeEvent, { AmplitudeCustomConfig } from '@utils/logAmplitudeEvent';
 import { useEffect } from 'react';
 
-type EventProperties = {
+interface EventProperties {
   [key: string]: string | number | boolean | undefined;
-};
+}
 
 export default function useAmplitudeEvent(
   eventName: string,
