@@ -8,6 +8,8 @@ import LikeFillIcon from 'public/assets/svg/like_fill.svg';
 import SendIcon from 'public/assets/svg/send.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import ImageCarouselModal from '@components/modal/ImageCarouselModal';
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
@@ -15,6 +17,14 @@ interface FeedPostViewerProps {
 }
 
 export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
+  const overlay = useOverlay();
+
+  const handleClickImage = (images: string[], startIndex: number) => () => {
+    overlay.open(({ isOpen, close }) => (
+      <ImageCarouselModal isOpen={isOpen} close={close} images={images} startIndex={startIndex} />
+    ));
+  };
+
   return (
     <Container>
       <ContentWrapper>
@@ -45,11 +55,12 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
           {post.images && (
             <ImageSection>
               {post.images.length === 1 ? (
-                <BigImage src={post.images[0]} />
+                <BigImage src={post.images[0]} onClick={handleClickImage(post.images, 0)} />
               ) : (
                 <ImageListWrapper>
                   {post.images.map((image, index) => (
-                    <ImageListItem key={index} src={image} />
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    <ImageListItem key={index} src={image} onClick={handleClickImage(post.images!, index)} />
                   ))}
                 </ImageListWrapper>
               )}
@@ -146,6 +157,7 @@ const BigImage = styled('img', {
   height: '453px',
   objectFit: 'cover',
   borderRadius: '10px',
+  cursor: 'pointer',
 });
 const ImageListWrapper = styled('div', {
   display: 'grid',
@@ -157,6 +169,7 @@ const ImageListItem = styled('img', {
   height: '136px',
   objectFit: 'cover',
   borderRadius: '8px',
+  cursor: 'pointer',
 });
 const ViewCount = styled('span', {
   mt: '$16',

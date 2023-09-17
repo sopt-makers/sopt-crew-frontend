@@ -6969,6 +6969,24 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
+embla-carousel-react@^8.0.0-rc13:
+  version "8.0.0-rc13"
+  resolved "https://registry.yarnpkg.com/embla-carousel-react/-/embla-carousel-react-8.0.0-rc13.tgz#faf388744d8261b0dda0dfe33bf3cd4b84ac891e"
+  integrity sha512-Yq8TXVtTTPIF5dmLzedamS2h+gDEY56x1kp6W4g+phL7DyLV2KJKHCUvfeRlVsbG90Q0if27IIUUNKKNLfN7mQ==
+  dependencies:
+    embla-carousel "8.0.0-rc13"
+    embla-carousel-reactive-utils "8.0.0-rc13"
+
+embla-carousel-reactive-utils@8.0.0-rc13:
+  version "8.0.0-rc13"
+  resolved "https://registry.yarnpkg.com/embla-carousel-reactive-utils/-/embla-carousel-reactive-utils-8.0.0-rc13.tgz#383271c9cd20b20fb71328ddd3aa546978a7a542"
+  integrity sha512-sH8JRUYTjSAeEJw01YWPLjBOHOCnl9GuqLJKWqMxkYJAluUbB/koshjeewa78und6pZkWUsHUYv/dm0YJ4ZdHg==
+
+embla-carousel@8.0.0-rc13:
+  version "8.0.0-rc13"
+  resolved "https://registry.yarnpkg.com/embla-carousel/-/embla-carousel-8.0.0-rc13.tgz#2b3e7100f86492f3eae1409ee8bbb343de448931"
+  integrity sha512-77U2nJRl5YtKCXiVuUqD4U8FQSqDjwVdNPO3KoOgi5WfVHnKgMn0bVOLOd3ehCPGyB/r1Mqd1Gbcwhip7bedlw==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
