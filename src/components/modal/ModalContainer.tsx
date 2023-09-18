@@ -2,7 +2,6 @@ import { PropsWithChildren, useEffect } from 'react';
 import ModalBackground from './ModalBackground';
 import { Dialog } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import Show from '@components/util/Show';
 
 export interface ModalContainerProps {
