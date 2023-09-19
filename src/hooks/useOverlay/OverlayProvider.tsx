@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { createContext, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 export const OverlayContext = createContext<{
   mount(id: string, element: ReactNode): void;
@@ -10,6 +10,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 export function OverlayProvider({ children }: PropsWithChildren) {
   const [overlayById, setOverlayById] = useState<Map<string, ReactNode>>(new Map());
+  const isOpenModals = overlayById.size !== 0;
+
+  useEffect(() => {
+    if (isOpenModals) {
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }
+  }, [overlayById]);
 
   const mount = useCallback((id: string, element: ReactNode) => {
     setOverlayById(overlayById => {

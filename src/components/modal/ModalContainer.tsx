@@ -16,16 +16,6 @@ const ModalContainer = ({
   isHeadlessUi = true,
   children,
 }: PropsWithChildren<ModalContainerProps>) => {
-  useEffect(() => {
-    if (!isHeadlessUi && isModalOpened) {
-      document.body.style.overflow = 'hidden';
-
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }
-  }, [isHeadlessUi, isModalOpened]);
-
   return (
     <Show
       when={isHeadlessUi}
