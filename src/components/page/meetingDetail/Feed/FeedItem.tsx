@@ -11,6 +11,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useState } from 'react';
 import truncateText from '@utils/truncateText';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -38,7 +40,7 @@ const FeedItem = ({
   commentCount,
   likeCount,
 }: FeedItemProps) => {
-  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount;
+  const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
   return (
@@ -52,11 +54,11 @@ const FeedItem = ({
         {/* <MoreIcon /> */}
       </STop>
 
-      <STitle>{truncateText(title, 40)}</STitle>
-      <SContent>{truncateText(contents, 70)}</SContent>
+      <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
+      <SContent>{truncateText(contents, CARD_CONTENT_MAX_LENGTH)}</SContent>
       {images && (
         <SThumbnailWrapper>
-          <SThumbnail src={images[0]} alt="" />
+          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
           {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
         </SThumbnailWrapper>
       )}
@@ -65,12 +67,15 @@ const FeedItem = ({
         <Flex align="center">
           {commenterThumbnails && (
             <AvatarGroup>
-              {commenterThumbnails.slice(0, 3).map((thumbnail, index) => (
+              {commenterThumbnails.slice(0, AVATAR_MAX_LENGTH).map((thumbnail, index) => (
                 <Avatar
                   key={`${thumbnail}-${index}`}
                   src={thumbnail}
                   alt=""
-                  Overlay={commenterThumbnails.length > 3 && index === 2 && <SOverlay>+</SOverlay>}
+                  Overlay={
+                    commenterThumbnails.length > AVATAR_MAX_LENGTH &&
+                    index === AVATAR_MAX_LENGTH - 1 && <SOverlay>+</SOverlay>
+                  }
                 />
               ))}
             </AvatarGroup>
