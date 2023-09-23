@@ -22,7 +22,7 @@ const enum SelectedTab {
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
+  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.FEED);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
@@ -51,8 +51,7 @@ const DetailPage = () => {
           </STabList>
           <Tab.Panels>
             <Tab.Panel>
-              {/* <FeedPanel isMember={detailData?.approved || detailData?.host} /> */}
-              <FeedPanel />
+              <FeedPanel isMember={detailData?.approved || detailData?.host} />
             </Tab.Panel>
             <Tab.Panel>
               <InformationPanel detailData={detailData} />
