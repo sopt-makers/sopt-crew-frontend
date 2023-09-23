@@ -20,7 +20,7 @@ export function OverlayProvider({ children }: PropsWithChildren) {
         document.body.style.overflow = 'auto';
       };
     }
-  }, [overlayById]);
+  }, [isOpenModals]);
 
   const mount = useCallback((id: string, element: ReactNode) => {
     setOverlayById(overlayById => {
