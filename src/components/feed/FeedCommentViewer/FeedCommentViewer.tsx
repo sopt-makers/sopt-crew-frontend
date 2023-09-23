@@ -3,8 +3,8 @@ import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import { Menu } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema';
-import LikeIcon from 'public/assets/svg/v2/like_in_comment.svg';
-import LikeFillIcon from 'public/assets/svg/v2/like_fill_in_comment.svg';
+import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
+import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -69,7 +69,7 @@ const AuthorWrapper = styled('div', {
 const Name = styled('span', {
   display: 'inline-block',
   marginLeft: '8px',
-  color: '$purple100',
+  color: '$gray30',
   fontStyle: 'T5',
 });
 const Date = styled('span', {
