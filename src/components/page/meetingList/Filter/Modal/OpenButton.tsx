@@ -15,10 +15,10 @@ import {
 import { parseBool } from '@utils/parseBool';
 
 function FilterModalOpenButton() {
-  const { isMobile } = useDisplay();
+  const { isTablet } = useDisplay();
   const [isModalOpened, setIsModalOpened] = useSessionStorage('filter&sort', false);
-  const isModalOpen = useMemo(() => (isMobile ? false : isModalOpened), [isModalOpened, isMobile]);
-  const isBottomSheetOpen = useMemo(() => (!isMobile ? false : isModalOpened), [isModalOpened, isMobile]);
+  const isModalOpen = useMemo(() => (isTablet ? false : isModalOpened), [isModalOpened, isTablet]);
+  const isBottomSheetOpen = useMemo(() => (!isTablet ? false : isModalOpened), [isModalOpened, isTablet]);
 
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
@@ -40,7 +40,7 @@ function FilterModalOpenButton() {
         className="filter-button"
       >
         <SLabel>필터</SLabel>
-        <EqualizerIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
+        <EqualizerIcon width={isTablet ? 16 : 24} height={isTablet ? 16 : 24} />
       </SSelectModalOpenButton>
 
       <FilterSelectModal isModalOpened={isModalOpen} handleModalClose={() => setIsModalOpened(false)} />

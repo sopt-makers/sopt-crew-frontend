@@ -2,34 +2,18 @@
 
 import { FontAg, FontStyle } from '@constants/font';
 import { createStitches, CSS, PropertyValue, ScaleValue } from '@stitches/react';
-
+import { colors } from '@sopt-makers/colors';
 const stitches = createStitches({
   theme: {
     colors: {
       transparent: 'transparent',
-      white: '#fff',
-      white100: '#fcfcfc',
-      gray10: '#f7f8fa',
-      gray20: '#eeeff1',
-      gray30: '#ced1d2',
-      gray40: '#c0c5c9',
       gray50: '#d4d4d4',
-      gray60: '#989ba0',
-      gray80: '#808388',
-      gray100: '#606265',
       black: '#000',
-      black40: '#3c3d40',
-      black60: '#2c2d2e',
       black60_trans: 'rgba(24,24,24,0.6)',
-      black80: '#1c1d1e',
       black80_trans: 'rgba(24,24,24,0.8)',
       black90: '#1c1d1e',
-      black100: '#0f1010',
-      purple40: '#c6a9ff',
-      purple100: '#8040ff',
-      purple100_dim: '#282039',
-      purple200: '#6633cc',
-      red100: '#bd372f',
+      red: '#d70067',
+      ...colors,
     },
     space: {
       auto: 'auto',
@@ -219,10 +203,12 @@ const stitches = createStitches({
       70: '70px',
       72: '72px',
       80: '80px',
+      85: '85px',
       90: '90px',
       96: '96px',
       99: '99px',
       103: '103px',
+      108: '108px',
       109: '109px',
       120: '120px',
       122: '122px',
@@ -254,6 +240,7 @@ const stitches = createStitches({
       298: '298px',
       300: '300px',
       320: '320px',
+      340: '340px',
       348: '348px',
       380: '380px',
       508: '508px',
@@ -261,6 +248,7 @@ const stitches = createStitches({
       556: '556px',
       594: '594px',
       646: '646px',
+      768: '768px',
       820: '820px',
       869: '869px',
     },

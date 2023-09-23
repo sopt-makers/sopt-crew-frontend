@@ -14,3 +14,11 @@ declare module '*.svg?rect' {
   const src: string;
   export default ReactComponent;
 }
+
+declare module '*.svg?v2' {
+  import React = require('react');
+
+  export const ReactComponent: REact.FC<React.SVGProps<SVGSVGElement>>;
+  const src: string;
+  export default ReactComponent;
+}

@@ -1,4 +1,6 @@
+import { paths } from '@/__generated__/schema';
 import axios from 'axios';
+import createClient from 'openapi-fetch';
 
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
@@ -18,3 +20,5 @@ export const api = axios.create({
 export const playgroundApi = axios.create({
   baseURL: playgroundBaseURL,
 });
+
+export const apiV2 = createClient<paths>({ baseUrl: baseURL });

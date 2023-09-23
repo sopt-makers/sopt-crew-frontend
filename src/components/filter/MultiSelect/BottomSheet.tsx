@@ -79,8 +79,8 @@ const SListItemWrapper = styled('ul', {
 const SCloseButton = styled('button', {
   width: '100%',
   height: '50px',
-  backgroundColor: '$purple100',
-  color: '$white100',
+  backgroundColor: '$white100',
+  color: '$black100',
   fontAg: '16_bold_100',
   textAlign: 'center',
 });

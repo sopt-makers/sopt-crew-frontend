@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +13,8 @@ import Loader from '@components/loader/Loader';
 import ChannelService from '@utils/ChannelService';
 import { api, playgroundApi } from '@api/index';
 import { fetchMyProfile } from '@api/user';
+import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
+import SEO from '@components/seo/SEO';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -74,9 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Head>
-        <title>SOPT Playground</title>
-      </Head>
+      <SEO />
       <Script
         id="gtag-base"
         strategy="afterInteractive"
@@ -109,14 +108,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        {isServiceReady ? (
-          <>
-            <Header />
-            <Component {...pageProps} />
-          </>
-        ) : (
-          <Loader />
-        )}
+        <OverlayProvider>
+          {isServiceReady ? (
+            <>
+              <Header />
+              <Component {...pageProps} />
+            </>
+          ) : (
+            <Loader />
+          )}
+        </OverlayProvider>
       </Box>
     </QueryClientProvider>
   );

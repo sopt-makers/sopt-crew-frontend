@@ -5,14 +5,18 @@ import { styled } from 'stitches.config';
 import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
-import InformationPanel from '@components/page/meetingDetail/InformationPanel';
+import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
-import FeedPanel from '@components/page/meetingDetail/FeedPanel';
+import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
 
 const enum SelectedTab {
-  INFORMATION,
   FEED,
+  INFORMATION,
 }
 
 const DetailPage = () => {
@@ -28,32 +32,35 @@ const DetailPage = () => {
   }
 
   return (
-    <SDetailPage>
-      <Carousel imageList={detailData?.imageURL} />
-      <DetailHeader
-        detailData={detailData}
-        mutateMeetingDeletion={mutateDeleteMeeting}
-        mutateApplication={mutatePostApplication}
-      />
-      <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
-        <STabList>
-          <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
-          </Tab>
-          <Tab as={Fragment}>
-            <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
-          </Tab>
-        </STabList>
-        <Tab.Panels>
-          <Tab.Panel>
-            <InformationPanel detailData={detailData} />
-          </Tab.Panel>
-          <Tab.Panel>
-            <FeedPanel />
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
-    </SDetailPage>
+    <>
+      <SDetailPage>
+        <Carousel imageList={detailData?.imageURL} />
+        <DetailHeader
+          detailData={detailData}
+          mutateMeetingDeletion={mutateDeleteMeeting}
+          mutateApplication={mutatePostApplication}
+        />
+        <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
+          <STabList>
+            <Tab as={Fragment}>
+              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
+            </Tab>
+            <Tab as={Fragment}>
+              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
+            </Tab>
+          </STabList>
+          <Tab.Panels>
+            <Tab.Panel>
+              {/* <FeedPanel isMember={detailData?.approved || detailData?.host} /> */}
+              <FeedPanel />
+            </Tab.Panel>
+            <Tab.Panel>
+              <InformationPanel detailData={detailData} />
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
+      </SDetailPage>
+    </>
   );
 };
 

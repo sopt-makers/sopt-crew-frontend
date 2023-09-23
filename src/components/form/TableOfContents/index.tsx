@@ -84,8 +84,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
 export default TableOfContents;
 
 const SContainer = styled('div', {
+  width: '341px',
   padding: '50px 40px 60px',
-  width: '278px',
   height: 'fit-content',
   background: '$black80',
   border: '1px solid $black60',
@@ -118,7 +118,6 @@ const SCount = styled(Box, {
   fontSize: '12px',
   lineHeight: '100%',
   textAlign: 'center',
-  color: '$purple100',
   background: '$black60',
   borderRadius: '6px',
 });

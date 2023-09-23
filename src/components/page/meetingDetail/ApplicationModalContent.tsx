@@ -65,7 +65,7 @@ const SApplicationModalContent = styled(Box, {
   },
 
   'textarea:focus': {
-    boxShadow: `0 0 0 1px #8040ff`,
+    boxShadow: `0 0 0 1px #C0C5C9`,
   },
 
   button: {
@@ -77,8 +77,8 @@ const SApplicationModalContent = styled(Box, {
     borderRadius: '12px',
     textAlign: 'center',
     fontAg: '18_bold_100',
-    color: '$white100',
-    backgroundColor: '$purple100',
+    color: '$black100',
+    backgroundColor: '$white100',
 
     '&:disabled': {
       opacity: 0.35,

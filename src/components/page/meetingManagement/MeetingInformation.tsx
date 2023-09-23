@@ -97,7 +97,7 @@ const SRecruitingStatus = styled('span', {
   variants: {
     isRecruiting: {
       true: {
-        color: '$purple100',
+        color: '$orange100',
       },
       false: {
         color: '$gray80',

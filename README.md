@@ -1,4 +1,4 @@
-# SOPT Crew Product <img src="https://user-images.githubusercontent.com/58380158/228783681-abf6e13f-b274-4150-a043-32161b7539ad.png" align="left" width="100" />
+# SOPT Crew Product <img src="https://github.com/sopt-makers/sopt-crew-frontend/assets/58380158/485fa458-b78f-4fba-aa83-5f230d3e4beb" align="left" width="100" />
 > SOPT 구성원들이 하나로 모일 수 있는 모임 서비스
 
 <img src="https://user-images.githubusercontent.com/58380158/228786812-912b193e-11d2-4b95-8e1f-38a04177c9f4.png" />

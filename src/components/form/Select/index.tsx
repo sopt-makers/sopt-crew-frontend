@@ -4,9 +4,9 @@ import BaseSelect from './BaseSelect/BaseSelect';
 import { MultipleSelectProps, SelectProps } from './types/props';
 
 function Select(props: SelectProps | MultipleSelectProps) {
-  const { isMobile } = useDisplay();
+  const { isTablet } = useDisplay();
 
-  return <div>{isMobile ? <BottomSheetSelect {...props} /> : <BaseSelect {...props} />}</div>;
+  return <div>{isTablet ? <BottomSheetSelect {...props} /> : <BaseSelect {...props} />}</div>;
 }
 
 export default Select;
