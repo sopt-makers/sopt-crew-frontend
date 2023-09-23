@@ -2,7 +2,7 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
-import MoreIcon from '@assets/svg/more.svg';
+// import MoreIcon from '@assets/svg/more.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
 import Avatar from '@components/avatar/Avatar';
@@ -10,6 +10,9 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useState } from 'react';
+import truncateText from '@utils/truncateText';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -37,7 +40,7 @@ const FeedItem = ({
   commentCount,
   likeCount,
 }: FeedItemProps) => {
-  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount;
+  const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
   return (
@@ -48,19 +51,32 @@ const FeedItem = ({
           <SName>{name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
-        <MoreIcon />
+        {/* <MoreIcon /> */}
       </STop>
 
-      <STitle>{title}</STitle>
-      <SContent>{contents}</SContent>
-      {images && <SThumbnail src={images[0]} alt="" />}
+      <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
+      <SContent>{truncateText(contents, CARD_CONTENT_MAX_LENGTH)}</SContent>
+      {images && (
+        <SThumbnailWrapper>
+          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
+          {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
+        </SThumbnailWrapper>
+      )}
 
       <SBottom>
         <Flex align="center">
           {commenterThumbnails && (
             <AvatarGroup>
-              {commenterThumbnails.map(thumbnail => (
-                <Avatar key={thumbnail} src={thumbnail} alt="" />
+              {commenterThumbnails.slice(0, AVATAR_MAX_LENGTH).map((thumbnail, index) => (
+                <Avatar
+                  key={`${thumbnail}-${index}`}
+                  src={thumbnail}
+                  alt=""
+                  Overlay={
+                    commenterThumbnails.length > AVATAR_MAX_LENGTH &&
+                    index === AVATAR_MAX_LENGTH - 1 && <SOverlay>+</SOverlay>
+                  }
+                />
               ))}
             </AvatarGroup>
           )}
@@ -138,6 +154,10 @@ const SContent = styled(Box, {
   },
 });
 
+const SThumbnailWrapper = styled(Box, {
+  position: 'relative',
+});
+
 const SThumbnail = styled('img', {
   display: 'block',
   mb: '$20',
@@ -149,6 +169,26 @@ const SThumbnail = styled('img', {
 
   '@tablet': {
     maxWidth: '100%',
+  },
+});
+
+const SThumbnailCount = styled(Box, {
+  position: 'absolute',
+  top: '12px',
+  right: '12px',
+  zIndex: 1,
+  backgroundColor: '$black100',
+  opacity: 0.6,
+  color: '$gray30',
+  borderRadius: '50%',
+  fontStyle: 'T5',
+  width: '40px',
+  height: '40px',
+  flexType: 'center',
+
+  '@tablet': {
+    width: '36px',
+    height: '36px',
   },
 });
 
@@ -197,4 +237,13 @@ const SLikeButton = styled('button', {
   '& > svg': {
     mr: '$6',
   },
+});
+
+const SOverlay = styled(Box, {
+  position: 'absolute',
+  background: '$black100',
+  opacity: 0.7,
+  width: '100%',
+  height: '100%',
+  flexType: 'center',
 });
