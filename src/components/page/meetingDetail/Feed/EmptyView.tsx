@@ -1,21 +1,21 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
-interface EmptyViewProps {
-  isMember: boolean;
-}
+// interface EmptyViewProps {
+//   isMember: boolean;
+// }
 
-const EmptyView = ({ isMember }: EmptyViewProps) => {
+const EmptyView = () => {
   return (
     <SContent>
       <p>아직 작성된 피드가 없어요.</p>
 
-      {isMember && (
+      {/* {isMember && (
         <>
           <p>첫번째 작성자가 되어볼까요?</p>
           <button>작성하러 가기</button>
         </>
-      )}
+      )} */}
     </SContent>
   );
 };
