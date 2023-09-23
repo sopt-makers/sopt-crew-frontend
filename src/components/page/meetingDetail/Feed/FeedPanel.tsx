@@ -3,14 +3,14 @@ import React from 'react';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 
-interface FeedPanelProps {
-  isMember: boolean;
-}
+// interface FeedPanelProps {
+//   isMember: boolean;
+// }
 
-const FeedPanel = ({ isMember }: FeedPanelProps) => {
+const FeedPanel = () => {
   return (
     <SContainer>
-      <EmptyView isMember={isMember} />
+      <EmptyView />
     </SContainer>
   );
 };
