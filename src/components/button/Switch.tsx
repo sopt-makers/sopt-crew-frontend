@@ -34,7 +34,7 @@ const SSwitch = styled('button', {
   variants: {
     checked: {
       true: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$blue50',
         '& > div': {
           transform: 'translate3d(12px,0,0)',
         },

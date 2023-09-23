@@ -11,9 +11,6 @@ import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
-import ConfirmModal from '@components/modal/ConfirmModal';
 
 dayjs.locale('ko');
 
@@ -29,33 +26,6 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const createFeedOverlay = useOverlay();
-  const closeCreateFeedOverlay = useOverlay();
-
-  const handleCreateFeedOpen = () =>
-    createFeedOverlay.open(({ isOpen: isCreateModalOpen, close: closeCreateModal }) => (
-      <FeedCreateModal
-        isModalOpened={isCreateModalOpen}
-        handleModalExit={() => {
-          closeCreateModal();
-        }}
-        handleModalClose={() => {
-          closeCreateFeedOverlay.open(({ isOpen: isConfirmModalOpen, close: closeConfirmModal }) => (
-            <ConfirmModal
-              isModalOpened={isConfirmModalOpen}
-              message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
-              handleModalClose={closeConfirmModal}
-              cancelButton="돌아가기"
-              confirmButton="그만두기"
-              handleConfirm={() => {
-                closeConfirmModal();
-                closeCreateModal();
-              }}
-            />
-          ));
-        }}
-      />
-    ));
 
   if (!detailData) {
     return <Loader />;
@@ -65,10 +35,6 @@ const DetailPage = () => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
-        <button style={{ color: 'white' }} onClick={handleCreateFeedOpen}>
-          모달 오픈
-        </button>
-
         <DetailHeader
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
