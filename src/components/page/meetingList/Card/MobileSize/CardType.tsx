@@ -81,6 +81,7 @@ const STitle = styled('p', {
   '@tablet': {
     fontAg: '14_semibold_140',
     maxWidth: '162px',
+    minHeight: '40px',
   },
 });
 
