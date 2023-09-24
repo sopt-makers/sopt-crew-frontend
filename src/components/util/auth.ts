@@ -1,6 +1,6 @@
 import { playgroundLink } from '@sopt-makers/playground-common';
-import { api, playgroundApi } from '@api/index';
 import { getCrewToken } from '@api/auth';
+import { crewToken, playgroundToken } from '@/stores/tokenStore';
 
 // NOTE: playground token 다루는 로직은 추후 다 제거되어야 함
 export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
@@ -29,12 +29,23 @@ export const getCrewServiceToken = async (playgroundToken: string) => {
 };
 
 export const setAccessTokens = async () => {
-  const playgroundToken = getPlaygroundToken();
-  if (!playgroundToken) {
+  // NOTE: development 환경에서는 테스트 토큰을 사용한다.
+  if (process.env.NODE_ENV === 'development') {
+    crewToken.set(
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi7J207J6s7ZuIIiwiaWQiOjI1NywiaWF0IjoxNjgxODE5NTcxLCJleHAiOjE3MTc4MTk1NzF9.JVG-xzOVikIbX7vj_cZig_TTHxM-EzMgjO-_VGRbLTs'
+    );
+    playgroundToken.set(
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMyIsImV4cCI6MTY4MjI0NzIzNn0.jPK_OTNXVNvnVFkbdme6tfABsdryUFgXEYOYGCAxdPc'
+    );
+    return;
+  }
+
+  const _playgroundToken = getPlaygroundToken();
+  if (!_playgroundToken) {
     return redirectToLoginPage();
   }
-  const crewToken = await getCrewServiceToken(playgroundToken);
+  const _crewToken = await getCrewServiceToken(_playgroundToken);
 
-  api.defaults.headers.common['Authorization'] = `Bearer ${crewToken}`;
-  playgroundApi.defaults.headers.common['Authorization'] = playgroundToken;
+  crewToken.set(_crewToken);
+  playgroundToken.set(_playgroundToken);
 };
