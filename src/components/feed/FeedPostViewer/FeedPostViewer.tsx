@@ -13,8 +13,8 @@ import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import { useRouter } from 'next/router';
 dayjs.extend(relativeTime);
@@ -30,19 +30,19 @@ interface FeedPostViewerProps {
 export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
   const overlay = useOverlay();
   const { query } = useRouter();
+  const { POST } = apiV2.get();
 
-  console.log('post isliked');
-  const { mutate, data } = useMutation({
-    mutationFn: () =>
-      apiV2.POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+    },
   });
 
-  console.log(data);
-
   const handleLike = () => {
-    mutate({
-      isLiked: true,
-    });
+    mutate();
   };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
