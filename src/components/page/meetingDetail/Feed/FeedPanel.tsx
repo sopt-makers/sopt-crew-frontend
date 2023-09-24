@@ -50,6 +50,7 @@ const SContainer = styled(Box, {
 });
 
 const SFeedContainer = styled(Box, {
+  marginTop: '$56',
   width: '100%',
   display: 'grid',
   gap: '30px',
