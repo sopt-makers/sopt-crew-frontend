@@ -10,6 +10,15 @@ import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
 import { fromNow } from '@utils/dayjs';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { apiV2 } from '@api/index';
+import { useRouter } from 'next/router';
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
@@ -20,6 +29,21 @@ interface FeedPostViewerProps {
 
 export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
   const overlay = useOverlay();
+  const { query } = useRouter();
+
+  console.log('post isliked');
+  const { mutate, data } = useMutation({
+    mutationFn: () =>
+      apiV2.POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
+  });
+
+  console.log(data);
+
+  const handleLike = () => {
+    mutate({
+      isLiked: true,
+    });
+  };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
     overlay.open(({ isOpen, close }) => (
@@ -79,7 +103,7 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
           <span style={{ marginLeft: '4px' }}>댓글 </span>
         </CommentLike>
         <Divider />
-        <CommentLike>
+        <CommentLike onClick={handleLike}>
           {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
           <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
         </CommentLike>
