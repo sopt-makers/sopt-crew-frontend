@@ -13,13 +13,13 @@ import { useState } from 'react';
 import truncateText from '@utils/truncateText';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
+import { UserResponse } from '@api/user';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedItemProps {
-  profileImage: string;
-  name: string;
+  user: UserResponse;
   title: string;
   contents: string;
   images?: string[];
@@ -30,8 +30,7 @@ interface FeedItemProps {
 }
 
 const FeedItem = (post: FeedItemProps) => {
-  const { profileImage, name, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount } =
-    post;
+  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount } = post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
@@ -39,8 +38,8 @@ const FeedItem = (post: FeedItemProps) => {
     <SFeedItem>
       <STop>
         <Flex align="center">
-          <SProfileImage src={profileImage} alt="" />
-          <SName>{name}</SName>
+          <SProfileImage src={user.profileImage} alt="" />
+          <SName>{user.name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
         {/* <MoreIcon /> */}
