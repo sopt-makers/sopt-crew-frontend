@@ -5,7 +5,6 @@ import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import CommentIcon from 'public/assets/svg/comment.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
-import SendIcon from 'public/assets/svg/send.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
@@ -19,9 +18,10 @@ dayjs.locale('ko');
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
   Actions: React.ReactNode[];
+  CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
+export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPostViewerProps) {
   const overlay = useOverlay();
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
@@ -91,12 +91,7 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
       <CommentListWrapper>
         {/* 댓글 목록 */}
         <div></div>
-        <CommentInputWrapper>
-          <CommentInput placeholder="댓글 입력" />
-          <SendButton>
-            <SendIcon />
-          </SendButton>
-        </CommentInputWrapper>
+        {CommentInput}
       </CommentListWrapper>
     </Container>
   );
@@ -267,25 +262,6 @@ const CommentListWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
-});
-const CommentInputWrapper = styled('div', {
-  flexType: 'verticalCenter',
-  gap: '16px',
-});
-const CommentInput = styled('input', {
-  width: '692px',
-  padding: '14px 24px',
-  borderRadius: '50px',
-  background: '$black60',
-  color: '$gray40',
-  fontStyle: 'B2',
-  '&::placeholder': {
-    color: '$gray60',
-  },
-});
-const SendButton = styled('button', {
-  width: '32px',
-  height: '32px',
 });
 const SAvatar = styled(Avatar, {
   '@tablet': {
