@@ -29,17 +29,9 @@ interface FeedItemProps {
   likeCount: number;
 }
 
-const FeedItem = ({
-  profileImage,
-  name,
-  title,
-  contents,
-  images,
-  updatedDate,
-  commenterThumbnails,
-  commentCount,
-  likeCount,
-}: FeedItemProps) => {
+const FeedItem = (post: FeedItemProps) => {
+  const { profileImage, name, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount } =
+    post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
@@ -100,13 +92,12 @@ export default FeedItem;
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
   color: '$white100',
-  maxWidth: '$380',
+  width: '$380',
 
   '@tablet': {
     padding: '$24 0 $28 0',
     margin: '0 auto',
-    maxWidth: '100%',
-    minWidth: '100%',
+    width: '100%',
   },
 });
 
