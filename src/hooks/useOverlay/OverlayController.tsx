@@ -17,7 +17,9 @@ export const OverlayController = forwardRef(function OverlayController(
 ) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClose = useCallback(() => setIsOpen(false), []);
+  const handleClose = useCallback(() => {
+    setIsOpen(false), onExit();
+  }, []);
 
   useImperativeHandle(
     ref,

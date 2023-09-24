@@ -1,8 +1,11 @@
 import { Box } from '@components/box/Box';
+import { ComponentProps } from 'react';
 import { styled } from 'stitches.config';
 
-const ModalBackground = () => {
-  return <SModalBackground />;
+type ModalBackgroundProps = ComponentProps<typeof Box>;
+
+const ModalBackground = (props: ModalBackgroundProps) => {
+  return <SModalBackground {...props} />;
 };
 
 export default ModalBackground;

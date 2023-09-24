@@ -6,26 +6,24 @@ import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, schema } from './schema';
-import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '@api/post';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
+import useModal from '@hooks/useModal';
+import { useEffect } from 'react';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-interface FeedCreateModalProps extends ModalContainerProps {
-  handleModalExit: () => void;
-}
-
-function FeedCreateModal({ isModalOpened, handleModalExit, handleModalClose }: FeedCreateModalProps) {
-  const submitCreateFeedOverlay = useOverlay();
+function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProps) {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
+  const exitModal = useModal();
+  const submitModal = useModal();
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',
@@ -45,30 +43,27 @@ function FeedCreateModal({ isModalOpened, handleModalExit, handleModalClose }: F
     formMethods.setValue('images', images);
   };
 
-  const onSubmit: SubmitHandler<FormType> = async formData => {
-    submitCreateFeedOverlay.open(({ isOpen, close }) => (
-      <ConfirmModal
-        isModalOpened={isOpen}
-        message="게시글을 작성하시겠습니까?"
-        handleModalClose={close}
-        cancelButton="돌아가기"
-        confirmButton="확인"
-        handleConfirm={async () => {
-          const createFeedParameter = { ...formData, meetingId: Number(id) };
-          await mutateCreateFeed(createFeedParameter, {
-            onSuccess: () => {
-              alert('피드를 작성했습니다.');
-              close();
-              handleModalExit();
-            },
-          });
-        }}
-      />
-    ));
+  const handleSubmitClick: SubmitHandler<FormType> = () => {
+    submitModal.handleModalOpen();
   };
 
+  const onSubmit = async () => {
+    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(id) };
+    await mutateCreateFeed(createFeedParameter, {
+      onSuccess: () => {
+        alert('피드를 작성했습니다.');
+        submitModal.handleModalClose();
+        handleModalClose();
+      },
+    });
+  };
+
+  useEffect(() => {
+    formMethods.reset();
+  }, [isModalOpened]);
+
   return (
-    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
@@ -80,11 +75,30 @@ function FeedCreateModal({ isModalOpened, handleModalExit, handleModalClose }: F
             title="피드 작성"
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
+            onSubmit={formMethods.handleSubmit(handleSubmitClick)}
             disabled={isSubmitting || !isValid}
           />
         </FormProvider>
       </SDialogWrapper>
+      <ConfirmModal
+        isModalOpened={exitModal.isModalOpened}
+        message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
+        handleModalClose={exitModal.handleModalClose}
+        cancelButton="돌아가기"
+        confirmButton="그만두기"
+        handleConfirm={() => {
+          exitModal.handleModalClose();
+          handleModalClose();
+        }}
+      />
+      <ConfirmModal
+        isModalOpened={submitModal.isModalOpened}
+        message="게시글을 작성하시겠습니까?"
+        handleModalClose={submitModal.handleModalClose}
+        cancelButton="돌아가기"
+        confirmButton="확인"
+        handleConfirm={onSubmit}
+      />
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <DevTool control={formMethods.control} />
