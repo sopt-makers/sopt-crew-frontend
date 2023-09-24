@@ -4,8 +4,8 @@ import { getInfinitePosts } from '.';
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['getInfiniteFeeds', take, meetingId],
-    queryFn: ({ pageParam = 1 }) => getInfinitePosts(pageParam, take, meetingId),
-    getNextPageParam: lastPage => lastPage?.meta?.hasNextPage ?? undefined,
+    queryFn: ({ pageParam }) => getInfinitePosts(pageParam ?? 1, take, meetingId),
+    getNextPageParam: (lastPage, allPages) => (lastPage?.posts?.length === 0 ? undefined : allPages.length + 1),
     enabled: !!meetingId,
     select: data => ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
