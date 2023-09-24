@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from './FeedItem';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
+import { TAKE_COUNT } from '@constants/feed';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -14,14 +15,8 @@ interface FeedPanelProps {
 const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
-  const TAKE_COUNT = 3;
-
   const { data, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
-
-  const { setTarget } = useIntersectionObserver({
-    hasNextPage,
-    fetchNextPage,
-  });
+  const { setTarget } = useIntersectionObserver({ hasNextPage, fetchNextPage });
 
   return (
     <>

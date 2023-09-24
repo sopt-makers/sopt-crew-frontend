@@ -8,7 +8,11 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     getNextPageParam: (lastPage, allPages) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return lastPage?.data?.posts?.length === 0 ? undefined : allPages.length + 1;
+      const posts = lastPage?.data?.posts;
+      if (!posts || posts.length === 0) {
+        return undefined;
+      }
+      return allPages.length + 1;
     },
     enabled: !!meetingId,
     select: data => ({
