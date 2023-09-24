@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getInfinitePosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
-  const { data } = useInfiniteQuery({
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['getInfiniteFeeds', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getInfinitePosts(pageParam, take, meetingId),
     getNextPageParam: lastPage => lastPage?.meta?.hasNextPage ?? undefined,
@@ -15,5 +15,5 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     }),
   });
 
-  return { data };
+  return { data, hasNextPage, fetchNextPage };
 };

@@ -5,6 +5,7 @@ import EmptyView from './EmptyView';
 import { useRouter } from 'next/router';
 import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from './FeedItem';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -13,26 +14,29 @@ interface FeedPanelProps {
 const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
-  const take = 10;
+  const TAKE_COUNT = 3;
 
-  const { data } = useInfinitePosts(take, Number(meetingId));
+  const { data, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+
+  const { setTarget } = useIntersectionObserver({
+    hasNextPage,
+    fetchNextPage,
+  });
 
   return (
     <>
-      {data?.pages.map(post => {
-        if (!post)
-          return (
-            <SContainer>
-              <EmptyView isMember={isMember} />
-            </SContainer>
-          );
-      })}
+      {!data?.pages[0] && (
+        <SContainer>
+          <EmptyView isMember={isMember} />
+        </SContainer>
+      )}
 
       <SFeedContainer>
         {data?.pages.map(post => {
           if (post) return <FeedItem key={post.id} {...post} />;
         })}
       </SFeedContainer>
+      <div ref={setTarget} />
     </>
   );
 };
@@ -50,14 +54,15 @@ const SContainer = styled(Box, {
 });
 
 const SFeedContainer = styled(Box, {
-  marginTop: '$56',
-  width: '100%',
   display: 'grid',
   gap: '30px',
   gridTemplateColumns: '1fr 1fr 1fr',
+  marginTop: '$56',
+  width: '100%',
 
   '@tablet': {
     display: 'flex',
     flexDirection: 'column',
+    marginTop: 0,
   },
 });
