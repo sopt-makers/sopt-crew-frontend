@@ -7,8 +7,9 @@ import { useRouter } from 'next/router';
 
 export default function PostPage() {
   const { query } = useRouter();
+  const { GET } = apiV2.get();
   const data = useQuery({
-    queryFn: () => apiV2.GET('/post/v1/{postId}', { params: { path: { postId: Number(query.id as string) } } }),
+    queryFn: () => GET('/post/v1/{postId}', { params: { path: { postId: Number(query.id as string) } } }),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     select: res => res.data.data,
