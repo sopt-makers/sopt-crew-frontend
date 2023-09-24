@@ -92,12 +92,11 @@ export default FeedItem;
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
   color: '$white100',
-  width: '$380',
+  width: '100%',
 
   '@tablet': {
     padding: '$24 0 $28 0',
     margin: '0 auto',
-    width: '100%',
   },
 });
 
