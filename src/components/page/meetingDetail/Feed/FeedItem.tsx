@@ -5,6 +5,7 @@ import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -38,7 +39,9 @@ const FeedItem = (post: FeedItemProps) => {
     <SFeedItem>
       <STop>
         <Flex align="center">
-          <SProfileImage src={user.profileImage} alt="" />
+          <SProfileImage>
+            {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+          </SProfileImage>
           <SName>{user.name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
@@ -105,12 +108,18 @@ const STop = styled(Box, {
   mb: '$12',
 });
 
-const SProfileImage = styled('img', {
+const SProfileImage = styled('div', {
   width: '$32',
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
   background: '$black60',
+  overflow: 'hidden',
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
 });
 
 const SName = styled('span', {
