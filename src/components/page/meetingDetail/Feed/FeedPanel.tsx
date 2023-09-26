@@ -15,19 +15,20 @@ interface FeedPanelProps {
 const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
-  const { data, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+  const { data: postsData, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
   const { setTarget } = useIntersectionObserver({ hasNextPage, fetchNextPage });
+  const isEmpty = !postsData?.pages[0];
 
   return (
     <>
-      {!data?.pages[0] && (
+      {isEmpty && (
         <SContainer>
           <EmptyView isMember={isMember} />
         </SContainer>
       )}
 
       <SFeedContainer>
-        {data?.pages.map(post => {
+        {postsData?.pages.map(post => {
           if (post) return <FeedItem key={post.id} {...post} />;
         })}
       </SFeedContainer>

@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getInfinitePosts } from '.';
+import { getPosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['getInfinitePosts', take, meetingId],
-    queryFn: ({ pageParam = 1 }) => getInfinitePosts(pageParam, take, meetingId),
+    queryKey: ['getPosts', take, meetingId],
+    queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

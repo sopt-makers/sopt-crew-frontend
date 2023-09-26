@@ -39,9 +39,9 @@ const FeedItem = (post: FeedItemProps) => {
     <SFeedItem>
       <STop>
         <Flex align="center">
-          <SProfileImage>
-            {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
-          </SProfileImage>
+          <SProfileImageWrapper>
+            {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+          </SProfileImageWrapper>
           <SName>{user.name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
@@ -108,18 +108,19 @@ const STop = styled(Box, {
   mb: '$12',
 });
 
-const SProfileImage = styled('div', {
+const SProfileImageWrapper = styled('div', {
   width: '$32',
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
   background: '$black60',
   overflow: 'hidden',
-  img: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-  },
+});
+
+const SProfileImage = styled('img', {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });
 
 const SName = styled('span', {

@@ -6,7 +6,7 @@ export const createPost = async (formData: FormType) => {
   return data;
 };
 
-export const getInfinitePosts = async (page: number, take: number, meetingId: number) => {
+export const getPosts = async (page: number, take: number, meetingId: number) => {
   const { data } = await apiV2.GET('/post/v1', { params: { query: { page, take, meetingId } } });
   return data;
 };
