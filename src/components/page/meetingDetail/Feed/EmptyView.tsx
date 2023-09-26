@@ -1,53 +1,32 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import { useOverlay } from '@hooks/useOverlay/Index';
 import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
-import ConfirmModal from '@components/modal/ConfirmModal';
+import useModal from '@hooks/useModal';
 
 interface EmptyViewProps {
   isMember: boolean;
 }
 
 const EmptyView = ({ isMember }: EmptyViewProps) => {
-  const createFeedOverlay = useOverlay();
-  const closeCreateFeedOverlay = useOverlay();
-
-  const handleCreateFeedOpen = () =>
-    createFeedOverlay.open(({ isOpen: isCreateModalOpen, close: closeCreateModal }) => (
-      <FeedCreateModal
-        isModalOpened={isCreateModalOpen}
-        handleModalExit={() => {
-          closeCreateModal();
-        }}
-        handleModalClose={() => {
-          closeCreateFeedOverlay.open(({ isOpen: isConfirmModalOpen, close: closeConfirmModal }) => (
-            <ConfirmModal
-              isModalOpened={isConfirmModalOpen}
-              message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
-              handleModalClose={closeConfirmModal}
-              cancelButton="돌아가기"
-              confirmButton="그만두기"
-              handleConfirm={() => {
-                closeConfirmModal();
-                closeCreateModal();
-              }}
-            />
-          ));
-        }}
-      />
-    ));
+  const feedCreateModal = useModal();
 
   return (
-    <SContent>
-      <p>아직 작성된 피드가 없어요.</p>
+    <>
+      <SContent>
+        <p>아직 작성된 피드가 없어요.</p>
 
-      {isMember && (
-        <>
-          <p>첫번째 작성자가 되어볼까요?</p>
-          <button onClick={handleCreateFeedOpen}>작성하러 가기</button>
-        </>
-      )}
-    </SContent>
+        {isMember && (
+          <>
+            <p>첫번째 작성자가 되어볼까요?</p>
+            <button onClick={feedCreateModal.handleModalOpen}>작성하러 가기</button>
+          </>
+        )}
+      </SContent>
+      <FeedCreateModal
+        isModalOpened={feedCreateModal.isModalOpened}
+        handleModalClose={feedCreateModal.handleModalClose}
+      />
+    </>
   );
 };
 

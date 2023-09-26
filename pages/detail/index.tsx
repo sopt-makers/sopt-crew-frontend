@@ -35,6 +35,7 @@ const DetailPage = () => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
+
         <DetailHeader
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}

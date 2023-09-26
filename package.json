@@ -17,6 +17,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.3",
     "@hookform/resolvers": "^2.9.10",
+    "@nanostores/react": "^0.7.1",
     "@sentry/nextjs": "^7.51.0",
     "@sopt-makers/colors": "^1.0.0",
     "@sopt-makers/playground-common": "^1.2.2",
@@ -26,6 +27,7 @@
     "dayjs": "^1.11.6",
     "embla-carousel-react": "^8.0.0-rc13",
     "nanoid": "^4.0.0",
+    "nanostores": "^0.9.3",
     "next": "12.3.1",
     "openapi-fetch": "^0.7.1",
     "react": "18.2.0",
