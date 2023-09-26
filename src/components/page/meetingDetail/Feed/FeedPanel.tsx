@@ -1,5 +1,5 @@
 import { Box } from '@components/box/Box';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import { useRouter } from 'next/router';
@@ -16,8 +16,18 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
   const { data: postsData, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
-  const { setTarget } = useIntersectionObserver({ hasNextPage, fetchNextPage });
   const isEmpty = !postsData?.pages[0];
+  const onIntersect = useCallback<IntersectionObserverCallback>(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+    },
+    [hasNextPage, fetchNextPage]
+  );
+  const { setTarget } = useIntersectionObserver({ onIntersect });
 
   return (
     <>
