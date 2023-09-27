@@ -20,6 +20,9 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
       // @ts-ignore
       pages: data.pages.flatMap(page => page?.data?.posts),
       pageParams: data.pageParams,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      total: data.pages[0]?.data.meta.itemCount,
     }),
   });
 
