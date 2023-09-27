@@ -13,10 +13,8 @@ import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiV2 } from '@api/index';
 import { useRouter } from 'next/router';
-import { produce } from 'immer';
+import { useMutationPostLike } from '@api/post/hooks';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -28,35 +26,10 @@ interface FeedPostViewerProps {
 }
 
 export default function FeedPostViewer({ post, Actions, CommentInput, CommentList }: FeedPostViewerProps) {
-  type postType = {
-    data: {
-      data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
-    };
-  };
-
   const overlay = useOverlay();
   const { query } = useRouter();
-  const { POST } = apiV2.get();
 
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: () => POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
-    onMutate: async () => {
-      const previousPost = queryClient.getQueryData(['post', query.id]) as postType;
-
-      const newLikeCount = previousPost.data.data.isLiked
-        ? previousPost.data.data.likeCount - 1
-        : previousPost.data.data.likeCount + 1;
-
-      const data = produce(previousPost, (draft: postType) => {
-        draft.data.data.isLiked = !previousPost.data.data.isLiked;
-        draft.data.data.likeCount = newLikeCount;
-      });
-
-      queryClient.setQueryData(['post', query.id], data);
-    },
-  });
+  const { mutate } = useMutationPostLike(query.id as string);
 
   const handleLikeButton = () => {
     mutate();
@@ -67,8 +40,6 @@ export default function FeedPostViewer({ post, Actions, CommentInput, CommentLis
       <ImageCarouselModal isOpen={isOpen} close={close} images={images} startIndex={startIndex} />
     ));
   };
-
-  console.log(post);
 
   return (
     <Container>
