@@ -22,6 +22,7 @@ export default function PostPage() {
     // @ts-ignore
     select: res => res.data.data,
     enabled: !!query.id,
+    refetchOnWindowFocus: false,
   });
 
   const commentQuery = useQuery({

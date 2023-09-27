@@ -34,14 +34,32 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
 
   const queryClient = useQueryClient();
 
+  console.log(post);
+
   const { mutate } = useMutation({
     mutationFn: () => POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+    onMutate: async () => {
+      const previousPost = queryClient.getQueryData(['post', query.id]);
+
+      const newLikeCount = previousPost?.data?.data?.isLiked
+        ? previousPost?.data?.data?.likeCount - 1
+        : previousPost?.data?.data?.likeCount + 1;
+
+      const newPost = {
+        ...previousPost?.data?.data,
+        isLiked: !previousPost?.data?.data?.isLiked,
+        likeCount: newLikeCount,
+      };
+
+      queryClient.setQueryData(['post', query.id], { ...previousPost, data: { ...previousPost?.data, data: newPost } });
     },
   });
 
-  const handleLike = () => {
+  // onMutate 함수 정의
+
+  const handleLikeClick = () => {
+    // queryClient 에 있는 cache 를 이용하기_2번째 방법
+    //함수 호출
     mutate();
   };
 
@@ -103,9 +121,18 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
           <span style={{ marginLeft: '4px' }}>댓글 </span>
         </CommentLike>
         <Divider />
-        <CommentLike onClick={handleLike}>
-          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
-          <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
+        <CommentLike>
+          {post.isLiked ? (
+            <>
+              <LikeFillIcon onClick={handleLikeClick} style={{ cursor: 'pointer' }} />
+              <span style={{ marginLeft: '4px', color: '#D70067' }}>좋아요 {post.likeCount}</span>
+            </>
+          ) : (
+            <>
+              <LikeIcon onClick={handleLikeClick} style={{ cursor: 'pointer' }} />
+              <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
+            </>
+          )}
         </CommentLike>
       </CommentLikeWrapper>
 
