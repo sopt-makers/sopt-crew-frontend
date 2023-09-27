@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getPosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
@@ -26,5 +26,5 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     }),
   });
 
-  return { data, hasNextPage, fetchNextPage };
+  return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
 };

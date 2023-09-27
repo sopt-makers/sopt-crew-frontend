@@ -10,6 +10,8 @@ import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import useModal from '@hooks/useModal';
 import FeedCreateModal from './Modal/FeedCreateModal';
 import { useDisplay } from '@hooks/useDisplay';
+import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
+import DesktopFeedListSkeleton from './Skeleton/DesktopFeedListSkeleton';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -20,7 +22,12 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateModal = useModal();
   const { isTablet } = useDisplay();
-  const { data: postsData, fetchNextPage, hasNextPage } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+  const {
+    data: postsData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -58,6 +65,9 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         })}
       </SFeedContainer>
       <div ref={setTarget} />
+
+      {isFetchingNextPage &&
+        (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={2} column={3} />)}
 
       <FeedCreateModal
         isModalOpened={feedCreateModal.isModalOpened}
