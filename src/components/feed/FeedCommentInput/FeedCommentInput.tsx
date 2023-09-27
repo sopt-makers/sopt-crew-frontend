@@ -3,7 +3,7 @@ import SendIcon from 'public/assets/svg/send.svg';
 import React, { useState } from 'react';
 
 interface FeedCommentInputProps {
-  onSubmit: (comment: string) => void;
+  onSubmit: (comment: string) => Promise<void>;
   disabled?: boolean;
 }
 
@@ -18,7 +18,7 @@ export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInpu
     event.preventDefault();
 
     if (!comment.trim()) return;
-    onSubmit(comment);
+    onSubmit(comment).then(() => setComment(''));
   };
 
   return (
