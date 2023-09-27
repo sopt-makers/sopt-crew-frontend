@@ -13,8 +13,7 @@ import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import { useEffect, useState } from 'react';
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import { useRouter } from 'next/router';
 import { produce } from 'immer';
@@ -28,7 +27,13 @@ interface FeedPostViewerProps {
   CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
+export default function FeedPostViewer({ post, Actions, CommentInput, CommentList }: FeedPostViewerProps) {
+  type postType = {
+    data: {
+      data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+    };
+  };
+
   const overlay = useOverlay();
   const { query } = useRouter();
   const { POST } = apiV2.get();
@@ -38,27 +43,22 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
   const { mutate } = useMutation({
     mutationFn: () => POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(['post', query.id])?.data?.data;
+      const previousPost = queryClient.getQueryData(['post', query.id]) as postType;
 
-      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
+      const newLikeCount = previousPost.data.data.isLiked
+        ? previousPost.data.data.likeCount - 1
+        : previousPost.data.data.likeCount + 1;
 
-      const data = produce(
-        previousPost,
-        (draft: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']) => {
-          draft.isLiked = !previousPost.isLiked;
-          draft.likeCount = newLikeCount;
-        }
-      );
+      const data = produce(previousPost, (draft: postType) => {
+        draft.data.data.isLiked = !previousPost.data.data.isLiked;
+        draft.data.data.likeCount = newLikeCount;
+      });
 
-      queryClient.setQueryData(['post', query.id], { data: { data } });
+      queryClient.setQueryData(['post', query.id], data);
     },
   });
 
-  // onMutate 함수 정의
-
-  const handleLikeClick = () => {
-    // queryClient 에 있는 cache 를 이용하기_2번째 방법
-    //함수 호출
+  const handleLikeButton = () => {
     mutate();
   };
 
@@ -125,12 +125,12 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
         <CommentLike>
           {post.isLiked ? (
             <>
-              <LikeFillIcon onClick={handleLikeClick} style={{ cursor: 'pointer' }} />
+              <LikeFillIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
               <span style={{ marginLeft: '4px', color: '#D70067' }}>좋아요 {post.likeCount}</span>
             </>
           ) : (
             <>
-              <LikeIcon onClick={handleLikeClick} style={{ cursor: 'pointer' }} />
+              <LikeIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
               <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
             </>
           )}
