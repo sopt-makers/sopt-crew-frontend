@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from './FeedItem';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
-import { TAKE_COUNT } from '@constants/feed';
+import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import useModal from '@hooks/useModal';
 import FeedCreateModal from './Modal/FeedCreateModal';
 import { useDisplay } from '@hooks/useDisplay';
@@ -24,7 +24,8 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const count = postsData?.total;
+  const postCount = postsData?.total;
+  const formattedPostCount = postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
   const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
     if (isIntersecting && hasNextPage) {
       fetchNextPage();
@@ -40,10 +41,10 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SContainer>
       )}
 
-      {count && (
+      {postCount && (
         <SHeader>
           <p>
-            🔥 지금까지 쌓인 피드 <SCount>{count}</SCount>개
+            🔥 지금까지 쌓인 피드 <SCount>{formattedPostCount}</SCount>개
           </p>
           {isMember && (
             <SButton onClick={feedCreateModal.handleModalOpen}>{isTablet ? '+ 작성' : '나도 작성하기'}</SButton>
