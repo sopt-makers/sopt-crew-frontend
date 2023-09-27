@@ -12,6 +12,7 @@ import FeedCreateModal from './Modal/FeedCreateModal';
 import { useDisplay } from '@hooks/useDisplay';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
 import DesktopFeedListSkeleton from './Skeleton/DesktopFeedListSkeleton';
+import Link from 'next/link';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -61,7 +62,14 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
       <SFeedContainer>
         {postsData?.pages.map(post => {
-          if (post) return <FeedItem key={post.id} {...post} />;
+          if (post)
+            return (
+              <Link href={`/post?id=${post.id}`}>
+                <a>
+                  <FeedItem key={post.id} {...post} />
+                </a>
+              </Link>
+            );
         })}
       </SFeedContainer>
       <div ref={setTarget} />
