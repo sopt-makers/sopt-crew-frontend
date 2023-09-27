@@ -26,18 +26,20 @@ export default function FeedCommentViewer({ comment, isMine, Actions }: FeedComm
           </Name>
           <Date>{fromNow(comment.updatedDate)}</Date>
         </AuthorWrapper>
-        <Menu as="div" style={{ position: 'relative' }}>
-          <Menu.Button>
-            <MenuIcon />
-          </Menu.Button>
-          <MenuItems>
-            {Actions.map((Action, index) => (
-              <Menu.Item key={index}>
-                <MenuItem>{Action}</MenuItem>
-              </Menu.Item>
-            ))}
-          </MenuItems>
-        </Menu>
+        {isMine && (
+          <Menu as="div" style={{ position: 'relative' }}>
+            <Menu.Button>
+              <MenuIcon />
+            </Menu.Button>
+            <MenuItems>
+              {Actions.map((Action, index) => (
+                <Menu.Item key={index}>
+                  <MenuItem>{Action}</MenuItem>
+                </Menu.Item>
+              ))}
+            </MenuItems>
+          </Menu>
+        )}
       </CommentHeader>
 
       <CommentBody>
