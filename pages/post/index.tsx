@@ -15,7 +15,7 @@ export default function PostPage() {
 
   const { data: me } = useQueryMyProfile();
 
-  const data = useQuery({
+  const postQuery = useQuery({
     queryKey: ['/post/v1/{postId}', query.id],
     queryFn: () => GET('/post/v1/{postId}', { params: { path: { postId: Number(query.id as string) } } }),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -43,7 +43,7 @@ export default function PostPage() {
   };
 
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-  const post = data.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  const post = postQuery.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
 
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
   const comments = (commentQuery.data as paths['/comment/v1']['get']['responses']['200']['content']['application/json'])
