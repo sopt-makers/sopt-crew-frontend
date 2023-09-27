@@ -18,10 +18,11 @@ dayjs.locale('ko');
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
   Actions: React.ReactNode[];
+  CommentList: React.ReactNode;
   CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPostViewerProps) {
+export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
   const overlay = useOverlay();
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
@@ -89,8 +90,7 @@ export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPost
       </CommentLikeWrapper>
 
       <CommentListWrapper>
-        {/* 댓글 목록 */}
-        <div></div>
+        {CommentList}
         {CommentInput}
       </CommentListWrapper>
     </Container>
