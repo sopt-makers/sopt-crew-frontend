@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import { useRouter } from 'next/router';
+import { produce } from 'immer';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -34,24 +35,22 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
 
   const queryClient = useQueryClient();
 
-  console.log(post);
-
   const { mutate } = useMutation({
     mutationFn: () => POST('/post/v1/{postId}/like', { params: { path: { postId: Number(query.id as string) } } }),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(['post', query.id]);
+      const previousPost = queryClient.getQueryData(['post', query.id])?.data?.data;
 
-      const newLikeCount = previousPost?.data?.data?.isLiked
-        ? previousPost?.data?.data?.likeCount - 1
-        : previousPost?.data?.data?.likeCount + 1;
+      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
 
-      const newPost = {
-        ...previousPost?.data?.data,
-        isLiked: !previousPost?.data?.data?.isLiked,
-        likeCount: newLikeCount,
-      };
+      const data = produce(
+        previousPost,
+        (draft: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']) => {
+          draft.isLiked = !previousPost.isLiked;
+          draft.likeCount = newLikeCount;
+        }
+      );
 
-      queryClient.setQueryData(['post', query.id], { ...previousPost, data: { ...previousPost?.data, data: newPost } });
+      queryClient.setQueryData(['post', query.id], { data: { data } });
     },
   });
 
@@ -68,6 +67,8 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
       <ImageCarouselModal isOpen={isOpen} close={close} images={images} startIndex={startIndex} />
     ));
   };
+
+  console.log(post);
 
   return (
     <Container>
