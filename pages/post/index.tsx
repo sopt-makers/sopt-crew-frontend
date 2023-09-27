@@ -40,6 +40,7 @@ export default function PostPage() {
 
   const handleCreateComment = async (comment: string) => {
     await mutateAsync(comment);
+    commentQuery.refetch();
   };
 
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
