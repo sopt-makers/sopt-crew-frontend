@@ -31,8 +31,8 @@ export default function FeedCommentViewer({ comment, isMine, Actions }: FeedComm
             <MenuIcon />
           </Menu.Button>
           <MenuItems>
-            {Actions.map(Action => (
-              <Menu.Item>
+            {Actions.map((Action, index) => (
+              <Menu.Item key={index}>
                 <MenuItem>{Action}</MenuItem>
               </Menu.Item>
             ))}
