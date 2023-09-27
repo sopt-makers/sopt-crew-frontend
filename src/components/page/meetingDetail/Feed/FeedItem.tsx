@@ -200,7 +200,6 @@ const SCommentWrapper = styled('div', {
   variants: {
     hasComment: {
       true: {
-        transform: 'translateX(-66%)',
         ml: '$8',
       },
     },
