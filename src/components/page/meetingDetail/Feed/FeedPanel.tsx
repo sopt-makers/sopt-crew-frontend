@@ -64,9 +64,9 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         {postsData?.pages.map(post => {
           if (post)
             return (
-              <Link href={`/post?id=${post.id}`}>
+              <Link href={`/post?id=${post.id}`} key={post.id}>
                 <a>
-                  <FeedItem key={post.id} {...post} />
+                  <FeedItem {...post} />
                 </a>
               </Link>
             );
