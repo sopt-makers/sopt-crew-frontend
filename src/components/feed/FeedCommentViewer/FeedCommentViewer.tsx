@@ -5,6 +5,7 @@ import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
+import { fromNow } from '@utils/dayjs';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -23,7 +24,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions }: FeedComm
             {comment.user.name}
             {isMine ? '(글쓴이)' : ''}
           </Name>
-          <Date>{comment.updatedDate}</Date>
+          <Date>{fromNow(comment.updatedDate)}</Date>
         </AuthorWrapper>
         <Menu as="div" style={{ position: 'relative' }}>
           <Menu.Button>
