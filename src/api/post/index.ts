@@ -1,4 +1,4 @@
-import { FormType } from '@components/page/meetingDetail/Feed/Modal/schema';
+import { FormType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
 
 export const createPost = async (formData: FormType) => {
