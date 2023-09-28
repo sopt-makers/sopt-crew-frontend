@@ -2,9 +2,6 @@ import { paths } from '@/__generated__/schema';
 import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
-import CommentIcon from 'public/assets/svg/comment.svg';
-import LikeIcon from 'public/assets/svg/like.svg';
-import LikeFillIcon from 'public/assets/svg/like_fill.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
@@ -13,27 +10,25 @@ import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import { useRouter } from 'next/router';
-import { useMutationPostLike } from '@api/post/hooks';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
   Actions: React.ReactNode[];
+  CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
   CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions, CommentInput, CommentList }: FeedPostViewerProps) {
+export default function FeedPostViewer({
+  post,
+  Actions,
+  CommentLikeSection,
+  CommentList,
+  CommentInput,
+}: FeedPostViewerProps) {
   const overlay = useOverlay();
-  const { query } = useRouter();
-
-  const { mutate } = useMutationPostLike(query.id as string);
-
-  const handleLikeButton = () => {
-    mutate();
-  };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
     overlay.open(({ isOpen, close }) => (
@@ -86,27 +81,7 @@ export default function FeedPostViewer({ post, Actions, CommentInput, CommentLis
         </ContentBody>
       </ContentWrapper>
 
-      <CommentLikeWrapper>
-        <CommentLike>
-          <CommentIcon />
-          {/* TODO: add comment count */}
-          <span style={{ marginLeft: '4px' }}>댓글 </span>
-        </CommentLike>
-        <Divider />
-        <CommentLike>
-          {post.isLiked ? (
-            <>
-              <LikeFillIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
-              <span style={{ marginLeft: '4px', color: '#D70067' }}>좋아요 {post.likeCount}</span>
-            </>
-          ) : (
-            <>
-              <LikeIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
-              <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
-            </>
-          )}
-        </CommentLike>
-      </CommentLikeWrapper>
+      <CommentLikeWrapper>{CommentLikeSection}</CommentLikeWrapper>
 
       <CommentListWrapper>
         {CommentList}
@@ -259,22 +234,6 @@ const CommentLikeWrapper = styled('div', {
   flexType: 'center',
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
-});
-const Divider = styled('div', {
-  background: '$black60',
-  width: '1px',
-  height: '24px',
-});
-const CommentLike = styled('div', {
-  width: '400px',
-  display: 'flex',
-  flexType: 'center',
-  color: '$gray80',
-  fontStyle: 'T5',
-  '@tablet': {
-    width: '50%',
-    fontStyle: 'T6',
-  },
 });
 const CommentListWrapper = styled('div', {
   padding: '28px 28px 32px 32px',
