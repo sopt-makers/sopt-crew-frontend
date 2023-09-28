@@ -1,8 +1,9 @@
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { getPost, deleteComment, getPosts } from '.';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
 import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment, getPosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -30,6 +31,22 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   });
 
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
+};
+
+interface UseQueryGetPostParams {
+  params: {
+    id: string;
+  };
+}
+
+export const useQueryGetPost = ({ params }: UseQueryGetPostParams) => {
+  const { id } = params;
+  return useQuery({
+    queryKey: ['getFeed', id],
+    queryFn: () => getPost(id),
+    enabled: !!id,
+    select: data => data.data,
+  });
 };
 
 type postType = {

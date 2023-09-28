@@ -9,21 +9,21 @@ import { FormType, feedSchema } from './feedSchema';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '@api/post';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 import useModal from '@hooks/useModal';
 import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { useQueryGetPost } from '@api/post/hooks';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-interface CreateModalProps extends ModalContainerProps {
-  meetingId: string;
+interface UpdateModal extends ModalContainerProps {
+  feedId: string;
 }
 
-function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
-  const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
+function FeedEditModal({ isModalOpened, feedId, handleModalClose }: UpdateModal) {
+  const { data: postData } = useQueryGetPost({ params: { id: feedId } });
   const exitModal = useModal();
   const submitModal = useModal();
 
@@ -36,7 +36,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createPost(formData),
-    onError: () => alert('피드를 개설하지 못했습니다.'),
+    onError: () => alert('피드를 수정하지 못했습니다.'),
   });
 
   const handleDeleteImage = (index: number) => {
@@ -50,10 +50,10 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   };
 
   const onSubmit = async () => {
-    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
+    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(feedId) };
     await mutateCreateFeed(createFeedParameter, {
       onSuccess: () => {
-        alert('피드를 작성했습니다.');
+        alert('피드를 수정했습니다.');
         submitModal.handleModalClose();
         handleModalClose();
       },
@@ -61,8 +61,13 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   };
 
   useEffect(() => {
-    formMethods.reset();
-  }, [formMethods, isModalOpened]);
+    if (!postData) return;
+    formMethods.reset({
+      title: postData.title,
+      contents: postData.contents,
+      images: postData.images,
+    });
+  }, [formMethods, isModalOpened, postData]);
 
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
@@ -70,11 +75,11 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
         <FormProvider {...formMethods}>
           <FeedFormPresentation
             groupInfo={{
-              title: detailData?.title || '',
-              imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
-              category: detailData?.category || '',
+              title: postData?.meeting?.title || '',
+              imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
+              category: postData?.meeting?.category || '',
             }}
-            title="피드 작성"
+            title="피드 수정"
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
             onSubmit={formMethods.handleSubmit(handleSubmitClick)}
@@ -84,7 +89,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       </SDialogWrapper>
       <ConfirmModal
         isModalOpened={exitModal.isModalOpened}
-        message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
+        message={`수정을 취소하시겠습니까?`}
         handleModalClose={exitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="그만두기"
@@ -95,7 +100,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       />
       <ConfirmModal
         isModalOpened={submitModal.isModalOpened}
-        message="게시글을 작성하시겠습니까?"
+        message="게시글을 수정하시겠습니까?"
         handleModalClose={submitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="확인"
@@ -108,7 +113,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   );
 }
 
-export default FeedCreateModal;
+export default FeedEditModal;
 
 const SDialogWrapper = styled(Box, {
   position: 'fixed',
