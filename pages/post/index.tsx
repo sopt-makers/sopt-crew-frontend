@@ -12,6 +12,7 @@ import { useMutationPostLike } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
+import useCommentMutation from '@hooks/useComment/useCommentMutation';
 
 export default function PostPage() {
   const { query } = useRouter();
@@ -35,6 +36,9 @@ export default function PostPage() {
     mutationKey: ['/comment/v1'],
     mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
   });
+
+  const { mutate: toggleCommentLike } = useCommentMutation();
+  const handleClickCommentLike = (commentId: number) => () => toggleCommentLike(commentId);
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
@@ -84,6 +88,7 @@ export default function PostPage() {
                 comment={comment}
                 Actions={['수정', '삭제']}
                 isMine={comment.user.id === me?.id}
+                onClickLike={handleClickCommentLike(comment.id)}
               />
             ))}
             {commentQuery.hasNextPage && <div ref={setTarget} />}
