@@ -7,6 +7,7 @@ import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
 import ConfirmModal from '@components/modal/ConfirmModal';
+import { useState } from 'react';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -17,11 +18,17 @@ interface FeedCommentViewerProps {
 }
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
+  const [isModalOpened, setIsModalOpened] = useState(false);
   const handleModalClose = () => {
-    console.log('close');
+    setIsModalOpened(false);
   };
   const handleConfirm = () => {
     console.log('confirm');
+  };
+  const handleMenuItemClick = (Action: React.ReactNode) => {
+    if (Action === '삭제') {
+      setIsModalOpened(true);
+    }
   };
 
   return (
@@ -43,7 +50,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
             <MenuItems>
               {Actions.map((Action, index) => (
                 <Menu.Item key={index}>
-                  <MenuItem>{Action}</MenuItem>
+                  <MenuItem onClick={() => handleMenuItemClick(Action)}>{Action}</MenuItem>
                 </Menu.Item>
               ))}
             </MenuItems>
@@ -61,7 +68,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
         </CommentLikeWrapper>
       </CommentBody>
       <ConfirmModal
-        isModalOpened={true}
+        isModalOpened={isModalOpened}
         message="댓글을 삭제하시겠습니까?"
         cancelButton="돌아가기"
         confirmButton="삭제하기"
