@@ -13,6 +13,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
 import DesktopFeedListSkeleton from './Skeleton/DesktopFeedListSkeleton';
 import Link from 'next/link';
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -41,6 +42,18 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   };
   const { setTarget } = useIntersectionObserver({ onIntersect });
 
+  const Posts = (Component: React.ElementType, props = {}) => (
+    <Component {...props}>
+      {postsData?.pages.map(post => (
+        <Link href={`/post?id=${post.id}`} key={post.id}>
+          <a>
+            <FeedItem {...post} />
+          </a>
+        </Link>
+      ))}
+    </Component>
+  );
+
   return (
     <>
       {isEmpty && (
@@ -60,18 +73,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SHeader>
       )}
 
-      <SFeedContainer>
-        {postsData?.pages.map(post => {
-          if (post)
-            return (
-              <Link href={`/post?id=${post.id}`} key={post.id}>
-                <a>
-                  <FeedItem {...post} />
-                </a>
-              </Link>
-            );
-        })}
-      </SFeedContainer>
+      {isTablet ? Posts(SMobileContainer) : Posts(SDesktopContainer, { gap: 30 })}
       <div ref={setTarget} />
 
       {isFetchingNextPage &&
@@ -97,18 +99,17 @@ const SContainer = styled(Box, {
   },
 });
 
-const SFeedContainer = styled(Box, {
-  display: 'grid',
-  gap: '30px',
-  gridTemplateColumns: '1fr 1fr 1fr',
+const SDesktopContainer = styled(MasonryInfiniteGrid, {
   marginTop: '$32',
-  width: '100%',
-
-  '@tablet': {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: 0,
+  a: {
+    width: 'calc(calc(100% - 60px) / 3)',
   },
+});
+
+const SMobileContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: 0,
 });
 
 const SHeader = styled('div', {
