@@ -6,13 +6,27 @@ import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
+import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentViewer';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 export default function PostPage() {
   const { query } = useRouter();
   const { GET, POST } = apiV2.get();
 
-  const data = useQuery({
+  const { data: me } = useQueryMyProfile();
+
+  const postQuery = useQuery({
+    queryKey: ['/post/v1/{postId}', query.id],
     queryFn: () => GET('/post/v1/{postId}', { params: { path: { postId: Number(query.id as string) } } }),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    select: res => res.data.data,
+    enabled: !!query.id,
+  });
+
+  const commentQuery = useQuery({
+    queryKey: ['/comment/v1', query.id],
+    queryFn: () => GET('/comment/v1', { params: { query: { postId: Number(query.id as string) } } }),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     select: res => res.data.data,
@@ -26,10 +40,15 @@ export default function PostPage() {
 
   const handleCreateComment = async (comment: string) => {
     await mutateAsync(comment);
+    commentQuery.refetch();
   };
 
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-  const post = data.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  const post = postQuery.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+
+  // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
+  const comments = (commentQuery.data as paths['/comment/v1']['get']['responses']['200']['content']['application/json'])
+    ?.comments;
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -39,6 +58,14 @@ export default function PostPage() {
       <FeedPostViewer
         post={post}
         Actions={['수정', '삭제']}
+        CommentList={comments.map(comment => (
+          <FeedCommentViewer
+            key={comment.id}
+            comment={comment}
+            Actions={['수정', '삭제']}
+            isMine={comment.user.id === me?.id}
+          />
+        ))}
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
       />
     </div>

@@ -9,19 +9,16 @@ import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
+import { fromNow } from '@utils/dayjs';
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
   Actions: React.ReactNode[];
+  CommentList: React.ReactNode;
   CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPostViewerProps) {
+export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
   const overlay = useOverlay();
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
@@ -38,7 +35,7 @@ export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPost
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{dayjs(post.updatedDate).fromNow()}</UpdatedDate>
+              <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
           <Menu as="div" style={{ position: 'relative' }}>
@@ -46,8 +43,8 @@ export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPost
               <MenuIcon />
             </Menu.Button>
             <MenuItems>
-              {Actions.map(Action => (
-                <Menu.Item>
+              {Actions.map((Action, index) => (
+                <Menu.Item key={index}>
                   <MenuItem>{Action}</MenuItem>
                 </Menu.Item>
               ))}
@@ -89,8 +86,7 @@ export default function FeedPostViewer({ post, Actions, CommentInput }: FeedPost
       </CommentLikeWrapper>
 
       <CommentListWrapper>
-        {/* 댓글 목록 */}
-        <div></div>
+        {CommentList}
         {CommentInput}
       </CommentListWrapper>
     </Container>
