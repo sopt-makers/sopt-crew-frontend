@@ -30,6 +30,8 @@ const SButton = styled('button', {
     display: 'block',
     margin: '0 auto',
     padding: '$24',
+    width: '100%',
+    height: '100%',
   },
 
   '& path': {

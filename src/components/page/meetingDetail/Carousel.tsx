@@ -11,7 +11,6 @@ interface CarouselProps {
 
 const Carousel = ({ imageList }: CarouselProps) => {
   const settings = {
-    autoplay: true,
     prevArrow: <NextArrow className="prev" />,
     nextArrow: <NextArrow className="next" />,
     responsive: [

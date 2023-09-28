@@ -5,6 +5,7 @@ import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -13,13 +14,13 @@ import { useState } from 'react';
 import truncateText from '@utils/truncateText';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
+import { UserResponse } from '@api/user';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedItemProps {
-  profileImage: string;
-  name: string;
+  user: UserResponse;
   title: string;
   contents: string;
   images?: string[];
@@ -29,17 +30,8 @@ interface FeedItemProps {
   likeCount: number;
 }
 
-const FeedItem = ({
-  profileImage,
-  name,
-  title,
-  contents,
-  images,
-  updatedDate,
-  commenterThumbnails,
-  commentCount,
-  likeCount,
-}: FeedItemProps) => {
+const FeedItem = (post: FeedItemProps) => {
+  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount } = post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
@@ -47,8 +39,10 @@ const FeedItem = ({
     <SFeedItem>
       <STop>
         <Flex align="center">
-          <SProfileImage src={profileImage} alt="" />
-          <SName>{name}</SName>
+          <SProfileImageWrapper>
+            {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+          </SProfileImageWrapper>
+          <SName>{user.name}</SName>
           <STime>{dayjs(updatedDate).fromNow()}</STime>
         </Flex>
         {/* <MoreIcon /> */}
@@ -100,13 +94,11 @@ export default FeedItem;
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
   color: '$white100',
-  maxWidth: '$380',
+  width: '100%',
 
   '@tablet': {
     padding: '$24 0 $28 0',
     margin: '0 auto',
-    maxWidth: '100%',
-    minWidth: '100%',
   },
 });
 
@@ -116,12 +108,19 @@ const STop = styled(Box, {
   mb: '$12',
 });
 
-const SProfileImage = styled('img', {
+const SProfileImageWrapper = styled('div', {
   width: '$32',
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
   background: '$black60',
+  overflow: 'hidden',
+});
+
+const SProfileImage = styled('img', {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });
 
 const SName = styled('span', {
