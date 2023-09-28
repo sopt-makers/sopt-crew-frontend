@@ -1,13 +1,17 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import useModal from '@hooks/useModal';
+import { useRouter } from 'next/router';
 
 interface EmptyViewProps {
   isMember: boolean;
 }
 
 const EmptyView = ({ isMember }: EmptyViewProps) => {
+  const { query } = useRouter();
+  const meetingId = query?.id as string;
+
   const feedCreateModal = useModal();
 
   return (
@@ -24,6 +28,7 @@ const EmptyView = ({ isMember }: EmptyViewProps) => {
         )}
       </SContent>
       <FeedCreateModal
+        meetingId={meetingId}
         isModalOpened={feedCreateModal.isModalOpened}
         handleModalClose={feedCreateModal.handleModalClose}
       />
