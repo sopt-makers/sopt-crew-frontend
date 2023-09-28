@@ -12,9 +12,10 @@ interface FeedCommentViewerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number];
   isMine?: boolean;
   Actions: React.ReactNode[];
+  onClickLike: () => void;
 }
 
-export default function FeedCommentViewer({ comment, isMine, Actions }: FeedCommentViewerProps) {
+export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
   return (
     <Container>
       <CommentHeader>
@@ -45,7 +46,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions }: FeedComm
       <CommentBody>
         <CommentContents>{comment.contents}</CommentContents>
         <CommentLikeWrapper>
-          <LikeWrapper>
+          <LikeWrapper onClick={onClickLike}>
             <LikeIconWrapper>{comment.isLiked ? <LikeFillIcon /> : <LikeIcon />}</LikeIconWrapper>
             <LikeCount>{comment.likeCount}</LikeCount>
           </LikeWrapper>
