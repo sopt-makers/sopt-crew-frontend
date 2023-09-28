@@ -6,6 +6,7 @@ import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
+import ConfirmModal from '@components/modal/ConfirmModal';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -16,6 +17,13 @@ interface FeedCommentViewerProps {
 }
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
+  const handleModalClose = () => {
+    console.log('close');
+  };
+  const handleConfirm = () => {
+    console.log('confirm');
+  };
+
   return (
     <Container>
       <CommentHeader>
@@ -52,6 +60,14 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
           </LikeWrapper>
         </CommentLikeWrapper>
       </CommentBody>
+      <ConfirmModal
+        isModalOpened={true}
+        message="댓글을 삭제하시겠습니까?"
+        cancelButton="돌아가기"
+        confirmButton="삭제하기"
+        handleModalClose={handleModalClose}
+        handleConfirm={handleConfirm}
+      ></ConfirmModal>
     </Container>
   );
 }
