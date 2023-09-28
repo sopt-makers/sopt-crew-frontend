@@ -42,17 +42,13 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   };
   const { setTarget } = useIntersectionObserver({ onIntersect });
 
-  const Posts = (Component: React.ElementType, props = {}) => (
-    <Component {...props}>
-      {postsData?.pages.map(post => (
-        <Link href={`/post?id=${post.id}`} key={post.id}>
-          <a>
-            <FeedItem {...post} />
-          </a>
-        </Link>
-      ))}
-    </Component>
-  );
+  const renderedPosts = postsData?.pages.map(post => (
+    <Link href={`/post?id=${post.id}`} key={post.id}>
+      <a>
+        <FeedItem {...post} />
+      </a>
+    </Link>
+  ));
 
   return (
     <>
@@ -73,7 +69,13 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SHeader>
       )}
 
-      {isTablet ? Posts(SMobileContainer) : Posts(SDesktopContainer, { gap: 30 })}
+      {isTablet ? (
+        <SMobileContainer>{renderedPosts}</SMobileContainer>
+      ) : (
+        <SDesktopContainer align="left" gap={30}>
+          {renderedPosts}
+        </SDesktopContainer>
+      )}
       <div ref={setTarget} />
 
       {isFetchingNextPage &&
@@ -102,7 +104,7 @@ const SContainer = styled(Box, {
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
   marginTop: '$32',
   a: {
-    width: 'calc(calc(100% - 60px) / 3)',
+    minWidth: 'calc(calc(100% - 60px) / 3)',
   },
 });
 
