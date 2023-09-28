@@ -8,6 +8,8 @@ import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useState } from 'react';
+import { useDeleteComment } from '@api/post/hooks';
+import { useRouter } from 'next/router';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -19,11 +21,14 @@ interface FeedCommentViewerProps {
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const { query } = useRouter();
+  const { mutate } = useDeleteComment(comment.id, query.id as string);
   const handleModalClose = () => {
     setIsModalOpened(false);
   };
   const handleConfirm = () => {
-    console.log('confirm');
+    mutate();
+    setIsModalOpened(false);
   };
   const handleMenuItemClick = (Action: React.ReactNode) => {
     if (Action === '삭제') {

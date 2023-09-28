@@ -1,9 +1,8 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getPosts } from '.';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
 import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteComment, getPosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -58,6 +57,17 @@ export const useMutationPostLike = (queryId: string) => {
       });
 
       queryClient.setQueryData(['/post/v1/{postId}', queryId], data);
+    },
+  });
+};
+
+export const useDeleteComment = (commentId: number, queryId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['deleteComment', commentId],
+    mutationFn: () => deleteComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/comment/v1', queryId] });
     },
   });
 };
