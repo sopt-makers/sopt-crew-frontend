@@ -93,11 +93,15 @@ export default FeedItem;
 
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
+  background: '#171818',
+  borderRadius: '12px',
   color: '$white100',
   width: '100%',
 
   '@tablet': {
     padding: '$24 0 $28 0',
+    background: 'transparent',
+    borderRadius: 0,
     margin: '0 auto',
   },
 });
