@@ -10,6 +10,8 @@ import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentVie
 import { useQueryMyProfile } from '@api/user/hooks';
 import { useMutationPostLike } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
+import useComment from '@hooks/useComment';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 
 export default function PostPage() {
   const { query } = useRouter();
@@ -27,18 +29,15 @@ export default function PostPage() {
     refetchOnWindowFocus: false,
   });
 
-  const commentQuery = useQuery({
-    queryKey: ['/comment/v1', query.id],
-    queryFn: () => GET('/comment/v1', { params: { query: { postId: Number(query.id as string) } } }),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    select: res => res.data.data,
-    enabled: !!query.id,
-  });
+  const commentQuery = useComment();
 
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
     mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
   });
 
   const handleCreateComment = async (comment: string) => {
@@ -51,9 +50,14 @@ export default function PostPage() {
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
   const post = postQuery.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
 
-  // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-  const comments = (commentQuery.data as paths['/comment/v1']['get']['responses']['200']['content']['application/json'])
-    ?.comments;
+  const comments = commentQuery.data?.pages
+    // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    .flatMap(page => page.data?.data?.comments)
+    // NOTE: flatMap시 배열 아이템으로 undefined 타입이 함께 잡혀서 custom type guard 적용해서 필터링해주자
+    // eslint-disable-next-line prettier/prettier
+    .filter((comment): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number] => !!comment);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -72,14 +76,19 @@ export default function PostPage() {
             onClickLike={togglePostLike}
           />
         }
-        CommentList={comments?.map(comment => (
-          <FeedCommentViewer
-            key={comment.id}
-            comment={comment}
-            Actions={['수정', '삭제']}
-            isMine={comment.user.id === me?.id}
-          />
-        ))}
+        CommentList={
+          <>
+            {comments?.map(comment => (
+              <FeedCommentViewer
+                key={comment.id}
+                comment={comment}
+                Actions={['수정', '삭제']}
+                isMine={comment.user.id === me?.id}
+              />
+            ))}
+            {commentQuery.hasNextPage && <div ref={setTarget} />}
+          </>
+        }
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
       />
     </div>
