@@ -26,7 +26,7 @@
       "@type/*": ["src/types/*"],
       "@api/*": ["src/api/*"],
       "@data/*": ["src/data/*"],
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
