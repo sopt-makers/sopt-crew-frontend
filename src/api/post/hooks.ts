@@ -40,10 +40,10 @@ export const useMutationPostLike = (queryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['postLike'],
+    mutationKey: ['/post/v1/{postId}', queryId],
     mutationFn: () => postLike(queryId),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(['post', queryId]) as postType;
+      const previousPost = queryClient.getQueryData(['/post/v1/{postId}', queryId]) as postType;
 
       const newLikeCount = previousPost.data.data.isLiked
         ? previousPost.data.data.likeCount - 1
@@ -54,7 +54,7 @@ export const useMutationPostLike = (queryId: string) => {
         draft.data.data.likeCount = newLikeCount;
       });
 
-      queryClient.setQueryData(['post', queryId], data);
+      queryClient.setQueryData(['/post/v1/{postId}', queryId], data);
     },
   });
 };

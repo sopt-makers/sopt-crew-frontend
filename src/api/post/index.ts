@@ -12,5 +12,5 @@ export const getPosts = async (page: number, take: number, meetingId: number) =>
 };
 export const postLike = async (queryId: string) => {
   const { POST } = apiV2.get();
-  return await POST('/post/v1/{postId}/like', { params: { path: { postId: Number(queryId as string) } } });
+  return await POST('/post/v1/{postId}/like', { params: { path: { postId: Number(queryId) } } });
 };
