@@ -10,7 +10,7 @@ import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentVie
 import { useQueryMyProfile } from '@api/user/hooks';
 import { useMutationPostLike } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
-import useComment from '@hooks/useComment';
+import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 
 export default function PostPage() {
