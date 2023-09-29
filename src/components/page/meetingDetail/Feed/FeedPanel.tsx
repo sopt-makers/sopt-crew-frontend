@@ -11,7 +11,6 @@ import useModal from '@hooks/useModal';
 import FeedCreateModal from './Modal/FeedCreateModal';
 import { useDisplay } from '@hooks/useDisplay';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import DesktopFeedListSkeleton from './Skeleton/DesktopFeedListSkeleton';
 import Link from 'next/link';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 
@@ -78,8 +77,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
       )}
       <div ref={setTarget} />
 
-      {isFetchingNextPage &&
-        (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={2} column={3} />)}
+      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
 
       <FeedCreateModal
         isModalOpened={feedCreateModal.isModalOpened}
