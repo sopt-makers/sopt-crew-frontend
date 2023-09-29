@@ -5,6 +5,12 @@ import { postLike } from '.';
 import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
 
+interface UseQueryGetPostParams {
+  params: {
+    id: string;
+  };
+}
+
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
