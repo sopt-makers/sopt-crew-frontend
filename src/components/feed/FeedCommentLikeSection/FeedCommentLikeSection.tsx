@@ -24,17 +24,8 @@ export default function FeedCommentLikeSection({
       </CommentWrapper>
       <Divider />
       <LikeWrapper onClick={onClickLike}>
-        {isLiked ? (
-          <>
-            <LikeFillIcon />
-            <span style={{ marginLeft: '4px', color: '#D70067' }}>좋아요 {likeCount}</span>
-          </>
-        ) : (
-          <>
-            <LikeIcon />
-            <span style={{ marginLeft: '4px' }}>좋아요 {likeCount}</span>
-          </>
-        )}
+        {isLiked ? <LikeFillIcon /> : <LikeIcon />}
+        <Like isLiked={isLiked}>좋아요 {likeCount}</Like>
       </LikeWrapper>
     </>
   );
@@ -58,4 +49,15 @@ const CommentWrapper = styled('div', {
 });
 const LikeWrapper = styled(CommentWrapper, {
   cursor: 'pointer',
+  userSelect: 'none',
+});
+const Like = styled('span', {
+  marginLeft: '4px',
+  variants: {
+    isLiked: {
+      true: {
+        color: '#D70067',
+      },
+    },
+  },
 });
