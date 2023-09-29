@@ -13,6 +13,7 @@ const EmptyView = ({ isMember }: EmptyViewProps) => {
   return (
     <>
       <SContent>
+        <SEmoji>👀</SEmoji>
         <p>아직 작성된 피드가 없어요.</p>
 
         {isMember && (
@@ -56,5 +57,13 @@ const SContent = styled(Box, {
       borderRadius: '8px',
       fontStyle: 'H4',
     },
+  },
+});
+
+const SEmoji = styled('p', {
+  mb: '$20',
+
+  '@tablet': {
+    mb: '$12',
   },
 });

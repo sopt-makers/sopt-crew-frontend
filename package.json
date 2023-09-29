@@ -15,6 +15,7 @@
     "generate-types": "openapi-typescript ./src/__generated__/open-api-specification.json -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
+    "@egjs/react-infinitegrid": "^4.10.1",
     "@headlessui/react": "^1.7.3",
     "@hookform/resolvers": "^2.9.10",
     "@nanostores/react": "^0.7.1",
