@@ -39,6 +39,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
     mutationFn: (formData: FormType) => editPost(postId, formData),
     onSuccess: () => {
       queryClient.invalidateQueries(['getPost', postId]);
+      queryClient.invalidateQueries(['getPosts']);
       alert('피드를 수정했습니다.');
       submitModal.handleModalClose();
       handleModalClose();
