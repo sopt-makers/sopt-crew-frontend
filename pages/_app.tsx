@@ -20,7 +20,16 @@ import { useStore } from '@nanostores/react';
 setAccessTokens();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
   const router = useRouter();
   const _crewToken = useStore(crewToken);
   const _playgroundToken = useStore(playgroundToken);

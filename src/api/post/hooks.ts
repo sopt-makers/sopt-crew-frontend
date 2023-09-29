@@ -41,7 +41,6 @@ export const useQueryGetPost = (postId: string) => {
     // @ts-ignore
     select: res => res.data.data,
     enabled: !!postId,
-    refetchOnWindowFocus: false,
   });
 };
 
