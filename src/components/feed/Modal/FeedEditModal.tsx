@@ -8,22 +8,22 @@ import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, feedSchema } from './feedSchema';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { useMutation } from '@tanstack/react-query';
-import { createPost } from '@api/post';
 import useModal from '@hooks/useModal';
 import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { useQueryGetPost } from '@api/post/hooks';
+import { editPost } from '@api/post';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-interface UpdateModal extends ModalContainerProps {
-  feedId: string;
+interface EditModal extends ModalContainerProps {
+  postId: string;
 }
 
-function FeedEditModal({ isModalOpened, feedId, handleModalClose }: UpdateModal) {
-  const { data: postData } = useQueryGetPost({ params: { id: feedId } });
+function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
+  const { data: postData } = useQueryGetPost({ params: { id: postId } });
   const exitModal = useModal();
   const submitModal = useModal();
 
@@ -34,8 +34,8 @@ function FeedEditModal({ isModalOpened, feedId, handleModalClose }: UpdateModal)
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createPost(formData),
+  const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormType) => editPost(postId, formData),
     onError: () => alert('피드를 수정하지 못했습니다.'),
   });
 
@@ -50,8 +50,8 @@ function FeedEditModal({ isModalOpened, feedId, handleModalClose }: UpdateModal)
   };
 
   const onSubmit = async () => {
-    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(feedId) };
-    await mutateCreateFeed(createFeedParameter, {
+    const editFeedParameter = { ...formMethods.getValues(), meetingId: Number(postId) };
+    await mutateEditFeed(editFeedParameter, {
       onSuccess: () => {
         alert('피드를 수정했습니다.');
         submitModal.handleModalClose();

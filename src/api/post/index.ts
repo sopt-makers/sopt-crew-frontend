@@ -20,6 +20,15 @@ export const createPost = async (formData: FormType) => {
   const { data } = await api.post<Data<{ postId: number }>>('/post/v1', formData);
   return data;
 };
+
+export const editPost = async (postId: string, formData: FormType) => {
+  const { data } = await api.put<Data<Pick<PostResponse, 'id' | 'title' | 'contents' | 'updatedDate' | 'images'>>>(
+    `/post/v1/${postId}`,
+    formData
+  );
+  return data;
+};
+
 export const getPosts = async (page: number, take: number, meetingId: number) => {
   const { GET } = apiV2.get();
   const { data } = await GET('/post/v1', { params: { query: { page, take, meetingId } } });
