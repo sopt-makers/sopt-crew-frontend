@@ -30,6 +30,11 @@ const FeedItem = (post: FeedItemProps) => {
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const [like, setLike] = useState(false);
 
+  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setLike(prev => !prev);
+  };
+
   return (
     <SFeedItem>
       <STop>
@@ -75,7 +80,7 @@ const FeedItem = (post: FeedItemProps) => {
           </SCommentWrapper>
         </Flex>
 
-        <SLikeButton like={like} onClick={() => setLike(prev => !prev)}>
+        <SLikeButton like={like} onClick={e => handleLikeClick(e)}>
           {like ? <LikeActiveIcon /> : <LikeDefaultIcon />}
           {formattedLikeCount}
         </SLikeButton>
