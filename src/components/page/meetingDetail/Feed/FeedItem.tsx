@@ -7,7 +7,6 @@ import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import { useState } from 'react';
 import truncateText from '@utils/truncateText';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
@@ -15,6 +14,7 @@ import { UserResponse } from '@api/user';
 import { fromNow } from '@utils/dayjs';
 
 interface FeedItemProps {
+  id: number;
   user: UserResponse;
   title: string;
   contents: string;
@@ -23,16 +23,17 @@ interface FeedItemProps {
   commenterThumbnails?: string[];
   commentCount: number;
   likeCount: number;
+  isLiked: boolean;
 }
 
 const FeedItem = (post: FeedItemProps) => {
-  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount } = post;
+  const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
+    post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
-  const [like, setLike] = useState(false);
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setLike(prev => !prev);
+    console.log(id);
   };
 
   return (
@@ -50,7 +51,7 @@ const FeedItem = (post: FeedItemProps) => {
 
       <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
       <SContent>{truncateText(contents, CARD_CONTENT_MAX_LENGTH)}</SContent>
-      {images && (
+      {images && images[THUMBNAIL_IMAGE_INDEX] && (
         <SThumbnailWrapper>
           <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
           {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
@@ -80,8 +81,8 @@ const FeedItem = (post: FeedItemProps) => {
           </SCommentWrapper>
         </Flex>
 
-        <SLikeButton like={like} onClick={e => handleLikeClick(e)}>
-          {like ? <LikeActiveIcon /> : <LikeDefaultIcon />}
+        <SLikeButton like={isLiked} onClick={handleLikeClick}>
+          {isLiked ? <LikeActiveIcon /> : <LikeDefaultIcon />}
           {formattedLikeCount}
         </SLikeButton>
       </SBottom>
@@ -169,6 +170,8 @@ const SThumbnail = styled('img', {
   width: '100%',
   maxWidth: '$340',
   height: 'fit-content',
+  aspectRatio: '4 / 3',
+  objectFit: 'cover',
 
   '@tablet': {
     maxWidth: '100%',
