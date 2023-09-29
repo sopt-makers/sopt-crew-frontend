@@ -8,6 +8,8 @@ import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentViewer';
 import { useQueryMyProfile } from '@api/user/hooks';
+import { useMutationPostLike } from '@api/post/hooks';
+import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 
 export default function PostPage() {
   const { query } = useRouter();
@@ -44,6 +46,8 @@ export default function PostPage() {
     commentQuery.refetch();
   };
 
+  const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
+
   // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
   const post = postQuery.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
 
@@ -59,6 +63,15 @@ export default function PostPage() {
       <FeedPostViewer
         post={post}
         Actions={['수정', '삭제']}
+        CommentLikeSection={
+          <FeedCommentLikeSection
+            isLiked={post.isLiked}
+            // TODO: pagination 적용된 걸 토대로 total을 보여줘야 함.
+            commentCount={10}
+            likeCount={post.likeCount}
+            onClickLike={togglePostLike}
+          />
+        }
         CommentList={comments?.map(comment => (
           <FeedCommentViewer
             key={comment.id}
