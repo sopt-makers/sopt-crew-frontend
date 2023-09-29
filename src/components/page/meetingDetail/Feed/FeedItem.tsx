@@ -7,17 +7,12 @@ import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 import { useState } from 'react';
 import truncateText from '@utils/truncateText';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
 import { UserResponse } from '@api/user';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
+import { fromNow } from '@utils/dayjs';
 
 interface FeedItemProps {
   user: UserResponse;
@@ -43,7 +38,7 @@ const FeedItem = (post: FeedItemProps) => {
             {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
           </SProfileImageWrapper>
           <SName>{user.name}</SName>
-          <STime>{dayjs(updatedDate).fromNow()}</STime>
+          <STime>{fromNow(updatedDate)}</STime>
         </Flex>
         {/* <MoreIcon /> */}
       </STop>
