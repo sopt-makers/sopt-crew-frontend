@@ -11,10 +11,13 @@ import { useQueryMyProfile } from '@api/user/hooks';
 import { useMutationPostLike } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
-import useCommentMutation from '@hooks/useComment/useCommentMutation';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import { useDeleteComment } from '@api/post/hooks';
 
 export default function PostPage() {
+  const overlay = useOverlay();
   const { query } = useRouter();
   const { GET, POST } = apiV2.get();
 
@@ -37,12 +40,7 @@ export default function PostPage() {
     mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
   });
 
-  const { mutate: toggleCommentLike } = useCommentMutation();
-  const handleClickCommentLike = (commentId: number) => () => toggleCommentLike(commentId);
-
-  const { setTarget } = useIntersectionObserver({
-    onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
-  });
+  const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
   const handleCreateComment = async (comment: string) => {
     await mutateAsync(comment);
@@ -82,20 +80,32 @@ export default function PostPage() {
             onClickLike={togglePostLike}
           />
         }
-        CommentList={
-          <>
-            {comments?.map(comment => (
-              <FeedCommentViewer
-                key={comment.id}
-                comment={comment}
-                Actions={['수정', '삭제']}
-                isMine={comment.user.id === me?.id}
-                onClickLike={handleClickCommentLike(comment.id)}
-              />
-            ))}
-            {commentQuery.hasNextPage && <div ref={setTarget} />}
-          </>
-        }
+        CommentList={comments?.map(comment => (
+          <FeedCommentViewer
+            key={comment.id}
+            comment={comment}
+            Actions={[
+              <FeedActionButton>수정</FeedActionButton>,
+              <FeedActionButton
+                onClick={() =>
+                  overlay.open(({ isOpen, close }) => (
+                    // eslint-disable-next-line prettier/prettier
+                    <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
+                      handleModalClose={close}
+                      handleConfirm={() => {
+                        mutateDeleteComment(comment.id);
+                        close();
+                      }}
+                    />
+                  ))
+                }
+              >
+                삭제
+              </FeedActionButton>,
+            ]}
+            isMine={comment.user.id === me?.id}
+          />
+        ))}
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
       />
     </div>
