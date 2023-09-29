@@ -20,19 +20,19 @@ interface FeedCommentViewerProps {
 }
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
   const { query } = useRouter();
   const { mutate } = useDeleteComment(comment.id, query.id as string);
-  const handleModalClose = () => {
-    setIsModalOpened(false);
+  const handleDeleteModalClose = () => {
+    setIsDeleteModalOpened(false);
   };
-  const handleConfirm = () => {
+  const handleDeleteConfirm = () => {
     mutate();
-    setIsModalOpened(false);
+    setIsDeleteModalOpened(false);
   };
   const handleMenuItemClick = (Action: React.ReactNode) => {
     if (Action === '삭제') {
-      setIsModalOpened(true);
+      setIsDeleteModalOpened(true);
     }
   };
 
@@ -73,12 +73,12 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
         </CommentLikeWrapper>
       </CommentBody>
       <ConfirmModal
-        isModalOpened={isModalOpened}
+        isModalOpened={isDeleteModalOpened}
         message="댓글을 삭제하시겠습니까?"
         cancelButton="돌아가기"
         confirmButton="삭제하기"
-        handleModalClose={handleModalClose}
-        handleConfirm={handleConfirm}
+        handleModalClose={handleDeleteModalClose}
+        handleConfirm={handleDeleteConfirm}
       ></ConfirmModal>
     </Container>
   );
