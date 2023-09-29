@@ -22,6 +22,7 @@ export default function PostPage() {
     // @ts-ignore
     select: res => res.data.data,
     enabled: !!query.id,
+    refetchOnWindowFocus: false,
   });
 
   const commentQuery = useQuery({
@@ -58,7 +59,7 @@ export default function PostPage() {
       <FeedPostViewer
         post={post}
         Actions={['수정', '삭제']}
-        CommentList={comments.map(comment => (
+        CommentList={comments?.map(comment => (
           <FeedCommentViewer
             key={comment.id}
             comment={comment}

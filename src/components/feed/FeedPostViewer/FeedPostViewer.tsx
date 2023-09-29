@@ -10,6 +10,13 @@ import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
 import { fromNow } from '@utils/dayjs';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+import { useRouter } from 'next/router';
+import { useMutationPostLike } from '@api/post/hooks';
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
@@ -18,8 +25,15 @@ interface FeedPostViewerProps {
   CommentInput: React.ReactNode;
 }
 
-export default function FeedPostViewer({ post, Actions, CommentList, CommentInput }: FeedPostViewerProps) {
+export default function FeedPostViewer({ post, Actions, CommentInput, CommentList }: FeedPostViewerProps) {
   const overlay = useOverlay();
+  const { query } = useRouter();
+
+  const { mutate } = useMutationPostLike(query.id as string);
+
+  const handleLikeButton = () => {
+    mutate();
+  };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
     overlay.open(({ isOpen, close }) => (
@@ -80,8 +94,17 @@ export default function FeedPostViewer({ post, Actions, CommentList, CommentInpu
         </CommentLike>
         <Divider />
         <CommentLike>
-          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
-          <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
+          {post.isLiked ? (
+            <>
+              <LikeFillIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
+              <span style={{ marginLeft: '4px', color: '#D70067' }}>좋아요 {post.likeCount}</span>
+            </>
+          ) : (
+            <>
+              <LikeIcon onClick={handleLikeButton} style={{ cursor: 'pointer' }} />
+              <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
+            </>
+          )}
         </CommentLike>
       </CommentLikeWrapper>
 

@@ -1,5 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getPosts } from '.';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postLike } from '.';
+import { produce } from 'immer';
+import { paths } from '@/__generated__/schema';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
@@ -24,4 +28,33 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   });
 
   return { data, hasNextPage, fetchNextPage };
+};
+
+type postType = {
+  data: {
+    data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  };
+};
+
+export const useMutationPostLike = (queryId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['/post/v1/{postId}', queryId],
+    mutationFn: () => postLike(queryId),
+    onMutate: async () => {
+      const previousPost = queryClient.getQueryData(['/post/v1/{postId}', queryId]) as postType;
+
+      const newLikeCount = previousPost.data.data.isLiked
+        ? previousPost.data.data.likeCount - 1
+        : previousPost.data.data.likeCount + 1;
+
+      const data = produce(previousPost, (draft: postType) => {
+        draft.data.data.isLiked = !previousPost.data.data.isLiked;
+        draft.data.data.likeCount = newLikeCount;
+      });
+
+      queryClient.setQueryData(['/post/v1/{postId}', queryId], data);
+    },
+  });
 };
