@@ -57,8 +57,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   };
 
   const onSubmit = async () => {
-    const editFeedParameter = { ...formMethods.getValues(), meetingId: Number(postId) };
-    await mutateEditFeed(editFeedParameter);
+    await mutateEditFeed(formMethods.getValues());
   };
 
   useEffect(() => {
