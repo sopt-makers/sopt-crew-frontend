@@ -36,6 +36,11 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createPost(formData),
+    onSuccess: () => {
+      alert('피드를 작성했습니다.');
+      submitModal.handleModalClose();
+      handleModalClose();
+    },
     onError: () => alert('피드를 개설하지 못했습니다.'),
   });
 
@@ -51,13 +56,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   const onSubmit = async () => {
     const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
-    await mutateCreateFeed(createFeedParameter, {
-      onSuccess: () => {
-        alert('피드를 작성했습니다.');
-        submitModal.handleModalClose();
-        handleModalClose();
-      },
-    });
+    await mutateCreateFeed(createFeedParameter);
   };
 
   useEffect(() => {

@@ -42,7 +42,7 @@ interface UseQueryGetPostParams {
 export const useQueryGetPost = ({ params }: UseQueryGetPostParams) => {
   const { id } = params;
   return useQuery({
-    queryKey: ['getFeed', id],
+    queryKey: ['getPost', id],
     queryFn: () => getPost(id),
     enabled: !!id,
     select: data => data.data,

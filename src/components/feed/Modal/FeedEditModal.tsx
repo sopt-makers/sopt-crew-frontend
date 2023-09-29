@@ -7,7 +7,7 @@ import ModalContainer, { ModalContainerProps } from '@components/modal/ModalCont
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, feedSchema } from './feedSchema';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useModal from '@hooks/useModal';
 import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
@@ -23,6 +23,7 @@ interface EditModal extends ModalContainerProps {
 }
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
+  const queryClient = useQueryClient();
   const { data: postData } = useQueryGetPost({ params: { id: postId } });
   const exitModal = useModal();
   const submitModal = useModal();
@@ -36,6 +37,12 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
 
   const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => editPost(postId, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getPost', postId]);
+      alert('피드를 수정했습니다.');
+      submitModal.handleModalClose();
+      handleModalClose();
+    },
     onError: () => alert('피드를 수정하지 못했습니다.'),
   });
 
@@ -51,13 +58,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
 
   const onSubmit = async () => {
     const editFeedParameter = { ...formMethods.getValues(), meetingId: Number(postId) };
-    await mutateEditFeed(editFeedParameter, {
-      onSuccess: () => {
-        alert('피드를 수정했습니다.');
-        submitModal.handleModalClose();
-        handleModalClose();
-      },
-    });
+    await mutateEditFeed(editFeedParameter);
   };
 
   useEffect(() => {
