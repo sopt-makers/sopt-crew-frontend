@@ -39,7 +39,7 @@ export const useQueryGetPost = (postId: string) => {
     queryFn: () => getPost(postId),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    select: res => res.data.data,
+    select: res => res.data,
     enabled: !!postId,
   });
 };
