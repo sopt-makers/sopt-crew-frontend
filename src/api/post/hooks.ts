@@ -5,12 +5,6 @@ import { postLike } from '.';
 import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
 
-interface UseQueryGetPostParams {
-  params: {
-    id: string;
-  };
-}
-
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
@@ -39,19 +33,15 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
 };
 
-interface UseQueryGetPostParams {
-  params: {
-    id: string;
-  };
-}
-
-export const useQueryGetPost = ({ params }: UseQueryGetPostParams) => {
-  const { id } = params;
+export const useQueryGetPost = (postId: string) => {
   return useQuery({
-    queryKey: ['getPost', id],
-    queryFn: () => getPost(id),
-    enabled: !!id,
-    select: data => data.data,
+    queryKey: ['getPost', postId],
+    queryFn: () => getPost(postId),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    select: res => res.data.data,
+    enabled: !!postId,
+    refetchOnWindowFocus: false,
   });
 };
 

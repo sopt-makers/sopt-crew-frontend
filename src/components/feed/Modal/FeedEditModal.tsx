@@ -24,7 +24,7 @@ interface EditModal extends ModalContainerProps {
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const queryClient = useQueryClient();
-  const { data: postData } = useQueryGetPost({ params: { id: postId } });
+  const { data: postData } = useQueryGetPost(postId);
   const exitModal = useModal();
   const submitModal = useModal();
 

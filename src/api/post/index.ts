@@ -36,7 +36,8 @@ export const getPosts = async (page: number, take: number, meetingId: number) =>
 };
 
 export const getPost = async (postId: string) => {
-  const { data } = await api.get<Data<PostResponse>>(`/post/v1/${postId}`);
+  const { GET } = apiV2.get();
+  const { data } = await GET('/post/v1/{postId}', { params: { path: { postId: Number(postId) } } });
   return data;
 };
 
