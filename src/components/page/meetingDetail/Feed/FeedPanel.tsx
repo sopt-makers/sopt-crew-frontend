@@ -7,12 +7,12 @@ import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from './FeedItem';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
-import useModal from '@hooks/useModal';
-import FeedCreateModal from './Modal/FeedCreateModal';
 import { useDisplay } from '@hooks/useDisplay';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
 import Link from 'next/link';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
+import { useOverlay } from '@hooks/useOverlay/Index';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -21,7 +21,8 @@ interface FeedPanelProps {
 const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
-  const feedCreateModal = useModal();
+  const feedCreateOverlay = useOverlay();
+
   const { isTablet } = useDisplay();
   const {
     data: postsData,
@@ -40,6 +41,12 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     }
   };
   const { setTarget } = useIntersectionObserver({ onIntersect });
+
+  const handleModalOpen = () => {
+    feedCreateOverlay.open(({ isOpen, close }) => {
+      return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
+    });
+  };
 
   const renderedPosts = postsData?.pages.map(post => (
     <Link href={`/post?id=${post.id}`} key={post.id}>
@@ -62,9 +69,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
           <p>
             🔥 지금까지 쌓인 피드 <SCount>{formattedPostCount}</SCount>개
           </p>
-          {isMember && (
-            <SButton onClick={feedCreateModal.handleModalOpen}>{isTablet ? '+ 작성' : '나도 작성하기'}</SButton>
-          )}
+          {isMember && <SButton onClick={handleModalOpen}>{isTablet ? '+ 작성' : '나도 작성하기'}</SButton>}
         </SHeader>
       )}
 
@@ -78,11 +83,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
       <div ref={setTarget} />
 
       {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-
-      <FeedCreateModal
-        isModalOpened={feedCreateModal.isModalOpened}
-        handleModalClose={feedCreateModal.handleModalClose}
-      />
     </>
   );
 };
