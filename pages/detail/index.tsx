@@ -27,7 +27,7 @@ const DetailPage = () => {
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
 
-  if (!detailData) {
+  if (!detailData || !id) {
     return <Loader />;
   }
 
