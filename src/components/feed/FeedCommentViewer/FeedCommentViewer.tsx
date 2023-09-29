@@ -122,6 +122,7 @@ const CommentLikeWrapper = styled('div', {
 const LikeWrapper = styled('div', {
   flexType: 'verticalCenter',
   gap: '4px',
+  userSelect: 'none',
 });
 const LikeIconWrapper = styled('div', {
   width: '20px',
