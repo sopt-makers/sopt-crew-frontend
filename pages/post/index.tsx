@@ -74,8 +74,10 @@ export default function PostPage() {
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
-            // TODO: pagination 적용된 걸 토대로 total을 보여줘야 함.
-            commentCount={10}
+            // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount}
             likeCount={post.likeCount}
             onClickLike={togglePostLike}
           />
