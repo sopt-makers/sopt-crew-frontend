@@ -104,7 +104,7 @@ const SContainer = styled(Box, {
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
   marginTop: '$32',
   a: {
-    minWidth: 'calc(calc(100% - 60px) / 3)',
+    width: 'calc(calc(100% - 60px) / 3)',
   },
 });
 
@@ -118,6 +118,7 @@ const SHeader = styled('div', {
   flexType: 'center',
   padding: '$31 0',
   fontStyle: 'H1',
+  color: '$gray40',
 
   '@tablet': {
     padding: '$16 $20',
@@ -131,7 +132,7 @@ const SHeader = styled('div', {
 });
 
 const SCount = styled('span', {
-  color: '$orange100',
+  color: '$white100',
 });
 
 const SButton = styled('button', {
