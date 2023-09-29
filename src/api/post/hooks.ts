@@ -14,7 +14,6 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
       }
       return allPages.length + 1;
     },
-    enabled: !!meetingId,
     select: data => ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
