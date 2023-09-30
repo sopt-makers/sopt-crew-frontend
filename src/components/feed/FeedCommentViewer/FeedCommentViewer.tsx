@@ -9,7 +9,7 @@ import { fromNow } from '@utils/dayjs';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
-  comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number];
+  comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine?: boolean;
   Actions: React.ReactNode[];
   onClickLike?: () => void;

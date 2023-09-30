@@ -49,9 +49,12 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   };
 
   const renderedPosts = postsData?.pages.map(post => (
-    <Link href={`/post?id=${post.id}`} key={post.id}>
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    <Link href={`/post?id=${post!.id}`} key={post!.id}>
       <a>
-        <FeedItem {...post} />
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+        <FeedItem {...post!} />
       </a>
     </Link>
   ));

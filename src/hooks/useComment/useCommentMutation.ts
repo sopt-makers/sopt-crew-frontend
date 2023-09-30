@@ -18,7 +18,7 @@ export default function useCommentMutation() {
 
       const previousComments = queryClient.getQueryData(['/comment/v1', query.id]);
 
-      type Comments = paths['/comment/v1']['get']['responses']['200']['content']['application/json'];
+      type Comments = paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data'];
       queryClient.setQueryData<InfiniteData<{ data: { data: Comments } }>>(['/comment/v1', query.id], oldData => {
         const newData = produce(oldData, draft => {
           draft?.pages?.forEach(page => {
