@@ -61,11 +61,10 @@ export const useMutationPostLike = (queryId: string) => {
   });
 };
 
-export const useDeleteComment = (commentId: number, queryId: string) => {
+export const useDeleteComment = (queryId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['deleteComment', commentId],
-    mutationFn: () => deleteComment(commentId),
+    mutationFn: (commentId: number) => deleteComment(commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/comment/v1', queryId] });
     },

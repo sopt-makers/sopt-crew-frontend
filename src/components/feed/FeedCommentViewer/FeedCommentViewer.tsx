@@ -6,10 +6,6 @@ import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useState } from 'react';
-import { useDeleteComment } from '@api/post/hooks';
-import { useRouter } from 'next/router';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -20,22 +16,6 @@ interface FeedCommentViewerProps {
 }
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
-  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
-  const { query } = useRouter();
-  const { mutate } = useDeleteComment(comment.id, query.id as string);
-  const handleDeleteModalClose = () => {
-    setIsDeleteModalOpened(false);
-  };
-  const handleDeleteConfirm = () => {
-    mutate();
-    setIsDeleteModalOpened(false);
-  };
-  const handleMenuItemClick = (Action: React.ReactNode) => {
-    if (Action === '삭제') {
-      setIsDeleteModalOpened(true);
-    }
-  };
-
   return (
     <Container>
       <CommentHeader>
@@ -54,9 +34,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
             </Menu.Button>
             <MenuItems>
               {Actions.map((Action, index) => (
-                <Menu.Item key={index}>
-                  <MenuItem onClick={() => handleMenuItemClick(Action)}>{Action}</MenuItem>
-                </Menu.Item>
+                <Menu.Item key={index}>{Action}</Menu.Item>
               ))}
             </MenuItems>
           </Menu>
@@ -72,14 +50,6 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
           </LikeWrapper>
         </CommentLikeWrapper>
       </CommentBody>
-      <ConfirmModal
-        isModalOpened={isDeleteModalOpened}
-        message="댓글을 삭제하시겠습니까?"
-        cancelButton="돌아가기"
-        confirmButton="삭제하기"
-        handleModalClose={handleDeleteModalClose}
-        handleConfirm={handleDeleteConfirm}
-      ></ConfirmModal>
     </Container>
   );
 }
@@ -115,23 +85,6 @@ const MenuItems = styled(Menu.Items, {
   top: 0,
   right: '100%', // TODO: design 체크 필요
 });
-const MenuItem = styled('button', {
-  flexType: 'center',
-  width: '147px',
-  padding: '8px 16px',
-  color: '$white100',
-  background: '$black80',
-  fontStyle: 'B3',
-  border: '1px solid $black40',
-  '&:first-child': {
-    borderRadius: '14px 14px 0 0',
-    borderBottom: 'none',
-  },
-  '&:last-child': {
-    borderRadius: '0 0 14px 14px ',
-    borderTop: 'none',
-  },
-});
 const CommentBody = styled('div', {
   paddingLeft: '40px',
   paddingRight: '20px',
@@ -151,6 +104,7 @@ const LikeWrapper = styled('div', {
   flexType: 'verticalCenter',
   gap: '4px',
   userSelect: 'none',
+  cursor: 'pointer',
 });
 const LikeIconWrapper = styled('div', {
   width: '20px',
