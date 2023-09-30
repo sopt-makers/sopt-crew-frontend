@@ -7,6 +7,9 @@ import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
 import ConfirmModal from '@components/modal/ConfirmModal';
+import { useState } from 'react';
+import { useDeleteComment } from '@api/post/hooks';
+import { useRouter } from 'next/router';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -17,11 +20,20 @@ interface FeedCommentViewerProps {
 }
 
 export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
-  const handleModalClose = () => {
-    console.log('close');
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
+  const { query } = useRouter();
+  const { mutate } = useDeleteComment(comment.id, query.id as string);
+  const handleDeleteModalClose = () => {
+    setIsDeleteModalOpened(false);
   };
-  const handleConfirm = () => {
-    console.log('confirm');
+  const handleDeleteConfirm = () => {
+    mutate();
+    setIsDeleteModalOpened(false);
+  };
+  const handleMenuItemClick = (Action: React.ReactNode) => {
+    if (Action === '삭제') {
+      setIsDeleteModalOpened(true);
+    }
   };
 
   return (
@@ -43,7 +55,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
             <MenuItems>
               {Actions.map((Action, index) => (
                 <Menu.Item key={index}>
-                  <MenuItem>{Action}</MenuItem>
+                  <MenuItem onClick={() => handleMenuItemClick(Action)}>{Action}</MenuItem>
                 </Menu.Item>
               ))}
             </MenuItems>
@@ -61,12 +73,12 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
         </CommentLikeWrapper>
       </CommentBody>
       <ConfirmModal
-        isModalOpened={true}
+        isModalOpened={isDeleteModalOpened}
         message="댓글을 삭제하시겠습니까?"
         cancelButton="돌아가기"
         confirmButton="삭제하기"
-        handleModalClose={handleModalClose}
-        handleConfirm={handleConfirm}
+        handleModalClose={handleDeleteModalClose}
+        handleConfirm={handleDeleteConfirm}
       ></ConfirmModal>
     </Container>
   );
