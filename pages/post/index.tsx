@@ -1,24 +1,19 @@
-import { paths } from '@/__generated__/schema';
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
-import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentViewer';
 import { useQueryMyProfile } from '@api/user/hooks';
 import { useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
-import { useDeleteComment } from '@api/post/hooks';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import useCommentMutation from '@hooks/useComment/useCommentMutation';
+import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
+import { paths } from '@/__generated__/schema';
 
 export default function PostPage() {
-  const overlay = useOverlay();
   const { query } = useRouter();
   const { POST } = apiV2.get();
 
@@ -30,7 +25,7 @@ export default function PostPage() {
 
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
-    mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
+    mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post!.id, contents: comment } }),
   });
 
   const { mutate: toggleCommentLike } = useCommentMutation();
@@ -40,8 +35,6 @@ export default function PostPage() {
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
   });
 
-  const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
-
   const handleCreateComment = async (comment: string) => {
     await mutateAsync(comment);
     commentQuery.refetch();
@@ -49,20 +42,14 @@ export default function PostPage() {
 
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
 
-  // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-  const post = postQuery.data as paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  const post = postQuery.data;
 
   const comments = commentQuery.data?.pages
-    // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     .flatMap(page => page.data?.data?.comments)
-    // NOTE: flatMap시 배열 아이템으로 undefined 타입이 함께 잡혀서 custom type guard 적용해서 필터링해주자
-    // eslint-disable-next-line prettier/prettier
     .filter(
       (
         comment
-      ): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number] =>
+      ): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number] =>
         !!comment
     );
 
@@ -77,10 +64,7 @@ export default function PostPage() {
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
-            // TODO: 자동으로 타입 추론 되게끔 endpoint 수정 필요
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount}
+            commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
             likeCount={post.likeCount}
             onClickLike={togglePostLike}
           />
@@ -88,28 +72,9 @@ export default function PostPage() {
         CommentList={
           <>
             {comments?.map(comment => (
-              <FeedCommentViewer
+              <FeedCommentContainer
                 key={comment.id}
                 comment={comment}
-                Actions={[
-                  <FeedActionButton>수정</FeedActionButton>,
-                  <FeedActionButton
-                    onClick={() =>
-                      overlay.open(({ isOpen, close }) => (
-                        // eslint-disable-next-line prettier/prettier
-                    <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
-                      handleModalClose={close}
-                          handleConfirm={() => {
-                            mutateDeleteComment(comment.id);
-                            close();
-                          }}
-                        />
-                      ))
-                    }
-                  >
-                    삭제
-                  </FeedActionButton>,
-                ]}
                 isMine={comment.user.id === me?.id}
                 onClickLike={handleClickCommentLike(comment.id)}
               />

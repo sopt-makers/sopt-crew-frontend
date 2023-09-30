@@ -22,6 +22,7 @@ export const Default: Story = {
       updatedDate: '2시간 전',
       user: {
         id: 1,
+        orgId: 10,
         name: '김지민',
         profileImage: 'https://mui.com/static/images/avatar/1.jpg',
       },

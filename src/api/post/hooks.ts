@@ -10,8 +10,6 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     queryKey: ['getPosts', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       const posts = lastPage?.data?.posts;
       if (!posts || posts.length === 0) {
         return undefined;
@@ -20,12 +18,8 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     },
     enabled: !!meetingId,
     select: data => ({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       pages: data.pages.flatMap(page => page?.data?.posts),
       pageParams: data.pageParams,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       total: data.pages[0]?.data.meta.itemCount,
     }),
   });
@@ -37,15 +31,13 @@ export const useQueryGetPost = (postId: string) => {
   return useQuery({
     queryKey: ['getPost', postId],
     queryFn: () => getPost(postId),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    select: res => res.data,
+    select: res => res?.data,
     enabled: !!postId,
   });
 };
 
 type postType = {
-  data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
 };
 
 export const useMutationPostLike = (queryId: string) => {
