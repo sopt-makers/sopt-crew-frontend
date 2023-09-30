@@ -134,7 +134,7 @@ const SDialogWrapper = styled(Box, {
   },
   '@tablet': {
     width: '100%',
-    height: '100vh',
+    height: '100%',
     boxShadow: 'none',
     borderRadius: '0',
   },
