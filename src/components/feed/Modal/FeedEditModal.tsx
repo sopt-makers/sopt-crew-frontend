@@ -66,7 +66,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
     formMethods.reset({
       title: postData.title,
       contents: postData.contents,
-      images: postData.images,
+      images: postData.images || [],
     });
   }, [formMethods, isModalOpened, postData]);
 
