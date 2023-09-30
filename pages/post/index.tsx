@@ -15,6 +15,7 @@ import ConfirmModal from '@components/modal/ConfirmModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import { useDeleteComment } from '@api/post/hooks';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -38,6 +39,10 @@ export default function PostPage() {
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
     mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
+  });
+
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
   });
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
@@ -80,32 +85,37 @@ export default function PostPage() {
             onClickLike={togglePostLike}
           />
         }
-        CommentList={comments?.map(comment => (
-          <FeedCommentViewer
-            key={comment.id}
-            comment={comment}
-            Actions={[
-              <FeedActionButton>수정</FeedActionButton>,
-              <FeedActionButton
-                onClick={() =>
-                  overlay.open(({ isOpen, close }) => (
-                    // eslint-disable-next-line prettier/prettier
+        CommentList={
+          <>
+            {comments?.map(comment => (
+              <FeedCommentViewer
+                key={comment.id}
+                comment={comment}
+                Actions={[
+                  <FeedActionButton>수정</FeedActionButton>,
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
                     <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
                       handleModalClose={close}
-                      handleConfirm={() => {
-                        mutateDeleteComment(comment.id);
-                        close();
-                      }}
-                    />
-                  ))
-                }
-              >
-                삭제
-              </FeedActionButton>,
-            ]}
-            isMine={comment.user.id === me?.id}
-          />
-        ))}
+                          handleConfirm={() => {
+                            mutateDeleteComment(comment.id);
+                            close();
+                          }}
+                        />
+                      ))
+                    }
+                  >
+                    삭제
+                  </FeedActionButton>,
+                ]}
+                isMine={comment.user.id === me?.id}
+              />
+            ))}
+            {commentQuery.hasNextPage && <div ref={setTarget} />}
+          </>
+        }
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
       />
     </div>
