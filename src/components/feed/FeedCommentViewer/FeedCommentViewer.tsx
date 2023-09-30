@@ -6,16 +6,18 @@ import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
+import React from 'react';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine?: boolean;
+  Content: React.ReactNode;
   Actions: React.ReactNode[];
   onClickLike?: () => void;
 }
 
-export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
+export default function FeedCommentViewer({ comment, isMine, Content, Actions, onClickLike }: FeedCommentViewerProps) {
   return (
     <Container>
       <CommentHeader>
@@ -42,7 +44,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
       </CommentHeader>
 
       <CommentBody>
-        <CommentContents>{comment.contents}</CommentContents>
+        <CommentContents>{Content}</CommentContents>
         <CommentLikeWrapper>
           <LikeWrapper onClick={onClickLike}>
             <LikeIconWrapper>{comment.isLiked ? <LikeFillIcon /> : <LikeIcon />}</LikeIconWrapper>
@@ -92,7 +94,7 @@ const CommentBody = styled('div', {
   flexDirection: 'column',
   gap: '8px',
 });
-const CommentContents = styled('p', {
+const CommentContents = styled('div', {
   color: '$gray30',
   fontStyle: 'B2',
 });
