@@ -12,7 +12,7 @@
     "where": "sh -c 'export IP=`ipconfig getifaddr en0` && echo [info] we are in ... http://${IP}:3000'",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-types": "openapi-typescript ./src/__generated__/open-api-specification.json -o ./src/__generated__/schema.d.ts"
+    "generate-types": "openapi-typescript https://crew.api.dev.sopt.org/api-docs-json -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
     "@egjs/react-infinitegrid": "^4.10.1",
