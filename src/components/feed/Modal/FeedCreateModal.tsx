@@ -7,7 +7,7 @@ import ModalContainer, { ModalContainerProps } from '@components/modal/ModalCont
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, feedSchema } from './feedSchema';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createPost } from '@api/post';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
 import useModal from '@hooks/useModal';
@@ -23,6 +23,7 @@ interface CreateModalProps extends ModalContainerProps {
 }
 
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
+  const queryClient = useQueryClient();
   const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
   const exitModal = useModal();
   const submitModal = useModal();
@@ -37,6 +38,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createPost(formData),
     onSuccess: () => {
+      queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
       submitModal.handleModalClose();
       handleModalClose();
