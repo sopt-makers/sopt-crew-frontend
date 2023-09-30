@@ -1,11 +1,19 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, forwardRef } from 'react';
 import { styled } from 'stitches.config';
 
 type FeedActionButtonProps = React.HTMLAttributes<HTMLButtonElement>;
 
-export default function FeedActionButton({ children, ...rest }: PropsWithChildren<FeedActionButtonProps>) {
-  return <MenuItem {...rest}>{children}</MenuItem>;
-}
+const FeedActionButton = forwardRef<HTMLButtonElement, PropsWithChildren<FeedActionButtonProps>>(
+  ({ children, ...rest }, ref) => {
+    return (
+      <MenuItem ref={ref} {...rest}>
+        {children}
+      </MenuItem>
+    );
+  }
+);
+
+export default FeedActionButton;
 
 const MenuItem = styled('button', {
   flexType: 'center',
