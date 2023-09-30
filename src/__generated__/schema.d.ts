@@ -1130,6 +1130,8 @@ export interface components {
     PostV1GetPostsResponsePostUserDto: {
       /** @description 작성자 고유 ID */
       id: number;
+      /** @description 작성자 playground 고유 ID */
+      orgId: number;
       /** @description 작성자 명 */
       name: string;
       /** @description 작성자 프로필 */
@@ -1169,10 +1171,26 @@ export interface components {
     PostV1GetPostResponseUserDto: {
       /** @description 작성자 고유 ID */
       id: number;
+      /** @description 작성자 playground 고유 ID */
+      orgId: number;
       /** @description 작성자 명 */
       name: string;
       /** @description 작성자 프로필 */
       profileImage: string | null;
+    };
+    PostV1GetPostResponseImageUrlDto: {
+      id: number;
+      url: string;
+    };
+    PostV1GetPostResponseMeetingDto: {
+      /** @description 모임 고유 ID */
+      id: number;
+      /** @description 모임 제목 */
+      title: string;
+      /** @description 모임 이미지 */
+      imageURL: components["schemas"]["PostV1GetPostResponseImageUrlDto"][];
+      /** @description 모임 카테고리 */
+      category: string;
     };
     PostV1GetPostResponseDto: {
       /** @description 게시글 고유 ID */
@@ -1190,6 +1208,8 @@ export interface components {
       images: string[] | null;
       /** @description 작성자 정보 */
       user: components["schemas"]["PostV1GetPostResponseUserDto"];
+      /** @description 미팅 정보 */
+      meeting: components["schemas"]["PostV1GetPostResponseMeetingDto"];
       /** @description 조회수 */
       viewCount: number;
       /** @description 좋아요 수 */
@@ -1258,6 +1278,8 @@ export interface components {
     CommentV1GetCommentsResponseCommentUserDto: {
       /** @description 작성자 고유 ID */
       id: number;
+      /** @description 작성자 playground 고유 ID */
+      orgId: number;
       /** @description 작성자 명 */
       name: string;
       /** @description 작성자 프로필 */
@@ -1728,7 +1750,7 @@ export interface operations {
       };
     };
     responses: {
-      204: never;
+      200: never;
       /** @description "이미지 파일이 없습니다." or "한 개 이상의 파트를 입력해주세요" or "조건에 맞는 모임이 없습니다." */
       400: {
         content: {
