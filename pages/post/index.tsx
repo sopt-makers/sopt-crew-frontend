@@ -12,10 +12,15 @@ import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import useCommentMutation from '@hooks/useComment/useCommentMutation';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import { paths } from '@/__generated__/schema';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import ConfirmModal from '@components/modal/ConfirmModal';
 
 export default function PostPage() {
-  const { query } = useRouter();
-  const { POST } = apiV2.get();
+  const overlay = useOverlay();
+  const router = useRouter();
+  const query = router.query;
+  const { POST, DELETE } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
@@ -42,6 +47,11 @@ export default function PostPage() {
 
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
 
+  const { mutate: mutateDeletePost } = useMutation({
+    mutationFn: () => DELETE('/post/v1/{postId}', { params: { path: { postId: post!.id } } }),
+    onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
+  });
+
   const post = postQuery.data;
 
   const comments = commentQuery.data?.pages
@@ -60,7 +70,22 @@ export default function PostPage() {
     <div>
       <FeedPostViewer
         post={post}
-        Actions={['수정', '삭제']}
+        Actions={[
+          <FeedActionButton>수정</FeedActionButton>,
+          <FeedActionButton
+            onClick={() => {
+              overlay.open(({ isOpen, close }) => (
+                // eslint-disable-next-line prettier/prettier
+                <ConfirmModal isModalOpened={isOpen} message="게시글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기"
+                  handleModalClose={close}
+                  handleConfirm={mutateDeletePost}
+                />
+              ));
+            }}
+          >
+            삭제
+          </FeedActionButton>,
+        ]}
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}

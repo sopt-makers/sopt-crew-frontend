@@ -53,9 +53,7 @@ export default function FeedPostViewer({
             </Menu.Button>
             <MenuItems>
               {Actions.map((Action, index) => (
-                <Menu.Item key={index}>
-                  <MenuItem>{Action}</MenuItem>
-                </Menu.Item>
+                <Menu.Item key={index}>{Action}</Menu.Item>
               ))}
             </MenuItems>
           </Menu>
@@ -207,25 +205,6 @@ const MenuItems = styled(Menu.Items, {
   position: 'absolute',
   top: 0,
   right: '100%', // TODO: design 체크 필요
-});
-const MenuItem = styled('button', {
-  display: 'flex',
-  width: '147px',
-  padding: '8px 16px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  color: '$white100',
-  background: '$black80',
-  fontStyle: 'B3',
-  border: '1px solid $black40',
-  '&:first-child': {
-    borderRadius: '14px 14px 0 0',
-    borderBottom: 'none',
-  },
-  '&:last-child': {
-    borderRadius: '0 0 14px 14px ',
-    borderTop: 'none',
-  },
 });
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',
