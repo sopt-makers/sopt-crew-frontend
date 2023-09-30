@@ -10,6 +10,8 @@ import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import { playgroundURL } from '@constants/url';
+import { playgroundLink } from '@sopt-makers/playground-common';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -40,7 +42,7 @@ export default function FeedPostViewer({
     <Container>
       <ContentWrapper>
         <ContentHeader>
-          <AuthorWrapper>
+          <AuthorWrapper href={`${playgroundURL}${playgroundLink.memberDetail(post.user.orgId)}`}>
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
@@ -116,7 +118,7 @@ const ContentHeader = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
 });
-const AuthorWrapper = styled('div', {
+const AuthorWrapper = styled('a', {
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
