@@ -16,6 +16,7 @@ import { useOverlay } from '@hooks/useOverlay/Index';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import { useDeleteComment } from '@api/post/hooks';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
+import useCommentMutation from '@hooks/useComment/useCommentMutation';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -40,6 +41,9 @@ export default function PostPage() {
     mutationKey: ['/comment/v1'],
     mutationFn: (comment: string) => POST('/comment/v1', { body: { postId: post.id, contents: comment } }),
   });
+
+  const { mutate: toggleCommentLike } = useCommentMutation();
+  const handleClickCommentLike = (commentId: number) => () => toggleCommentLike(commentId);
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
@@ -111,6 +115,7 @@ export default function PostPage() {
                   </FeedActionButton>,
                 ]}
                 isMine={comment.user.id === me?.id}
+                onClickLike={handleClickCommentLike(comment.id)}
               />
             ))}
             {commentQuery.hasNextPage && <div ref={setTarget} />}

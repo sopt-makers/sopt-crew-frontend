@@ -104,6 +104,7 @@ const LikeWrapper = styled('div', {
   flexType: 'verticalCenter',
   gap: '4px',
   userSelect: 'none',
+  cursor: 'pointer',
 });
 const LikeIconWrapper = styled('div', {
   width: '20px',
