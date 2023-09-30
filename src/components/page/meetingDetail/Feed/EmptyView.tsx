@@ -1,14 +1,24 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
-import FeedCreateModal from '@components/page/meetingDetail/Feed/Modal/FeedCreateModal';
-import useModal from '@hooks/useModal';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
+import { useRouter } from 'next/router';
+import { useOverlay } from '@hooks/useOverlay/Index';
 
 interface EmptyViewProps {
   isMember: boolean;
 }
 
 const EmptyView = ({ isMember }: EmptyViewProps) => {
-  const feedCreateModal = useModal();
+  const { query } = useRouter();
+  const meetingId = query?.id as string;
+
+  const feedCreateOverlay = useOverlay();
+
+  const handleModalOpen = () => {
+    feedCreateOverlay.open(({ isOpen, close }) => {
+      return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
+    });
+  };
 
   return (
     <>
@@ -19,14 +29,10 @@ const EmptyView = ({ isMember }: EmptyViewProps) => {
         {isMember && (
           <>
             <p>첫번째 작성자가 되어볼까요?</p>
-            <button onClick={feedCreateModal.handleModalOpen}>작성하러 가기</button>
+            <button onClick={handleModalOpen}>작성하러 가기</button>
           </>
         )}
       </SContent>
-      <FeedCreateModal
-        isModalOpened={feedCreateModal.isModalOpened}
-        handleModalClose={feedCreateModal.handleModalClose}
-      />
     </>
   );
 };

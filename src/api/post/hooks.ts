@@ -1,8 +1,9 @@
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { getPost, deleteComment, getPosts } from '.';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
 import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteComment, getPosts } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -32,31 +33,40 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
 };
 
+export const useQueryGetPost = (postId: string) => {
+  return useQuery({
+    queryKey: ['getPost', postId],
+    queryFn: () => getPost(postId),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    select: res => res.data,
+    enabled: !!postId,
+  });
+};
+
 type postType = {
-  data: {
-    data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
-  };
+  data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
 };
 
 export const useMutationPostLike = (queryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['/post/v1/{postId}', queryId],
+    mutationKey: ['getPost', queryId],
     mutationFn: () => postLike(queryId),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(['/post/v1/{postId}', queryId]) as postType;
+      const previousPost = queryClient.getQueryData(['getPost', queryId]) as postType;
 
-      const newLikeCount = previousPost.data.data.isLiked
-        ? previousPost.data.data.likeCount - 1
-        : previousPost.data.data.likeCount + 1;
+      const newLikeCount = previousPost.data.isLiked
+        ? previousPost.data.likeCount - 1
+        : previousPost.data.likeCount + 1;
 
       const data = produce(previousPost, (draft: postType) => {
-        draft.data.data.isLiked = !previousPost.data.data.isLiked;
-        draft.data.data.likeCount = newLikeCount;
+        draft.data.isLiked = !previousPost.data.isLiked;
+        draft.data.likeCount = newLikeCount;
       });
 
-      queryClient.setQueryData(['/post/v1/{postId}', queryId], data);
+      queryClient.setQueryData(['getPost', queryId], data);
     },
   });
 };

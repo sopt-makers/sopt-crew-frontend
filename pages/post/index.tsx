@@ -1,14 +1,13 @@
 import { paths } from '@/__generated__/schema';
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import FeedCommentViewer from '@components/feed/FeedCommentViewer/FeedCommentViewer';
 import { useQueryMyProfile } from '@api/user/hooks';
-import { useMutationPostLike } from '@api/post/hooks';
+import { useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -21,19 +20,11 @@ import useCommentMutation from '@hooks/useComment/useCommentMutation';
 export default function PostPage() {
   const overlay = useOverlay();
   const { query } = useRouter();
-  const { GET, POST } = apiV2.get();
+  const { POST } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
-  const postQuery = useQuery({
-    queryKey: ['/post/v1/{postId}', query.id],
-    queryFn: () => GET('/post/v1/{postId}', { params: { path: { postId: Number(query.id as string) } } }),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    select: res => res.data.data,
-    enabled: !!query.id,
-    refetchOnWindowFocus: false,
-  });
+  const postQuery = useQueryGetPost(query.id as string);
 
   const commentQuery = useComment();
 
@@ -68,7 +59,12 @@ export default function PostPage() {
     .flatMap(page => page.data?.data?.comments)
     // NOTE: flatMap시 배열 아이템으로 undefined 타입이 함께 잡혀서 custom type guard 적용해서 필터링해주자
     // eslint-disable-next-line prettier/prettier
-    .filter((comment): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number] => !!comment);
+    .filter(
+      (
+        comment
+      ): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number] =>
+        !!comment
+    );
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
