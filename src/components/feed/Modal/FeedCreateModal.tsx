@@ -83,6 +83,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
+            userId={me?.id}
             groupInfo={{
               title: detailData?.title || '',
               imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',

@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { useQueryGetPost } from '@api/post/hooks';
 import { editPost } from '@api/post';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -27,6 +28,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const { data: postData } = useQueryGetPost(postId);
   const exitModal = useModal();
   const submitModal = useModal();
+  const { data: me } = useQueryMyProfile();
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',
@@ -75,6 +77,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
+            userId={me?.id}
             groupInfo={{
               title: postData?.meeting?.title || '',
               imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
