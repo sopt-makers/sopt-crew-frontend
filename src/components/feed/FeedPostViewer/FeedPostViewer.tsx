@@ -102,9 +102,11 @@ const Container = styled(Box, {
   borderRadius: '20px',
   border: '1px solid $black60',
   background: '$black100',
+  mb: '$80',
   '@tablet': {
     width: '100%',
     border: 'none',
+    mb: 0,
   },
 });
 const ContentWrapper = styled('div', {
