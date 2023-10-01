@@ -47,7 +47,7 @@ export default function FeedCommentContainer({ comment, isMine, onClickLike }: F
           onClick={() =>
             overlay.open(({ isOpen, close }) => (
               // eslint-disable-next-line prettier/prettier
-              <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기"
+            <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
                 handleModalClose={close}
                 handleConfirm={() => {
                   mutateDeleteComment(comment.id);
