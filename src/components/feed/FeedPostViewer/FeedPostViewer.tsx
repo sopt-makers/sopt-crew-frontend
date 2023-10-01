@@ -14,7 +14,7 @@ dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedPostViewerProps {
-  post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
   Actions: React.ReactNode[];
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;

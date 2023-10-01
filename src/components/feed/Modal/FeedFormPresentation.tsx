@@ -11,8 +11,9 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { imageS3Bucket } from '@constants/url';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import FormController from '@components/form/FormController';
-import { ERROR_MESSAGE } from './schema';
+import { ERROR_MESSAGE } from './feedSchema';
 import useToast from '@hooks/useToast';
+import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
 
 interface GroupInfo {
   title: string;
@@ -144,10 +145,10 @@ function FeedFormPresentation({
               value={titleValue}
               onChange={e => {
                 const inputValue = e.target.value;
-                if (inputValue.length <= 100) {
+                if (inputValue.length <= FORM_TITLE_MAX_LENGTH) {
                   onChange(inputValue);
                 } else {
-                  onChange(inputValue.substring(0, 100));
+                  onChange(inputValue.substring(0, FORM_TITLE_MAX_LENGTH));
                   showToast({ type: 'error', message: ERROR_MESSAGE.TITLE.MAX });
                 }
               }}

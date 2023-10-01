@@ -6,16 +6,18 @@ import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
+import React from 'react';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
-  comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['comments'][number];
+  comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine?: boolean;
+  Content: React.ReactNode;
   Actions: React.ReactNode[];
   onClickLike?: () => void;
 }
 
-export default function FeedCommentViewer({ comment, isMine, Actions, onClickLike }: FeedCommentViewerProps) {
+export default function FeedCommentViewer({ comment, isMine, Content, Actions, onClickLike }: FeedCommentViewerProps) {
   return (
     <Container>
       <CommentHeader>
@@ -34,9 +36,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
             </Menu.Button>
             <MenuItems>
               {Actions.map((Action, index) => (
-                <Menu.Item key={index}>
-                  <MenuItem>{Action}</MenuItem>
-                </Menu.Item>
+                <Menu.Item key={index}>{Action}</Menu.Item>
               ))}
             </MenuItems>
           </Menu>
@@ -44,7 +44,7 @@ export default function FeedCommentViewer({ comment, isMine, Actions, onClickLik
       </CommentHeader>
 
       <CommentBody>
-        <CommentContents>{comment.contents}</CommentContents>
+        <CommentContents>{Content}</CommentContents>
         <CommentLikeWrapper>
           <LikeWrapper onClick={onClickLike}>
             <LikeIconWrapper>{comment.isLiked ? <LikeFillIcon /> : <LikeIcon />}</LikeIconWrapper>
@@ -87,23 +87,6 @@ const MenuItems = styled(Menu.Items, {
   top: 0,
   right: '100%', // TODO: design 체크 필요
 });
-const MenuItem = styled('button', {
-  flexType: 'center',
-  width: '147px',
-  padding: '8px 16px',
-  color: '$white100',
-  background: '$black80',
-  fontStyle: 'B3',
-  border: '1px solid $black40',
-  '&:first-child': {
-    borderRadius: '14px 14px 0 0',
-    borderBottom: 'none',
-  },
-  '&:last-child': {
-    borderRadius: '0 0 14px 14px ',
-    borderTop: 'none',
-  },
-});
 const CommentBody = styled('div', {
   paddingLeft: '40px',
   paddingRight: '20px',
@@ -111,7 +94,7 @@ const CommentBody = styled('div', {
   flexDirection: 'column',
   gap: '8px',
 });
-const CommentContents = styled('p', {
+const CommentContents = styled('div', {
   color: '$gray30',
   fontStyle: 'B2',
 });
@@ -123,6 +106,7 @@ const LikeWrapper = styled('div', {
   flexType: 'verticalCenter',
   gap: '4px',
   userSelect: 'none',
+  cursor: 'pointer',
 });
 const LikeIconWrapper = styled('div', {
   width: '20px',

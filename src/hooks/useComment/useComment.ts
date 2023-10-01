@@ -11,22 +11,12 @@ export default function useComment() {
     queryFn: ({ pageParam = 1 }) =>
       GET('/comment/v1', { params: { query: { postId: Number(query.id as string), page: pageParam } } }),
     getNextPageParam: lastPage => {
-      // TODO: 서버 스키마 변경 후 수정 필요
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       if (!lastPage.data?.data?.meta.hasNextPage) return;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return (lastPage?.data?.data?.meta.page as number) + 1;
+      return (lastPage.data.data.meta.page as number) + 1;
     },
     getPreviousPageParam: firstPage => {
-      // TODO: 서버 스키마 변경 후 수정 필요
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       if (!firstPage.data?.data?.meta.hasPreviousPage) return;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return (firstPage?.data?.data?.meta.page as number) - 1;
+      return (firstPage.data.data.meta.page as number) - 1;
     },
     enabled: !!query.id,
   });

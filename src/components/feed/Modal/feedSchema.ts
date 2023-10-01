@@ -10,15 +10,11 @@ export const ERROR_MESSAGE = {
   },
 };
 
-export const schema = z.object({
+export const feedSchema = z.object({
   title: z.string().max(100, { message: ERROR_MESSAGE.TITLE.MAX }).min(1, { message: ERROR_MESSAGE.TITLE.MIN }),
 
   contents: z.string().min(1, { message: ERROR_MESSAGE.CONTENTS.MIN }),
   images: z.array(z.string()),
 });
 
-export type FormType = z.infer<typeof schema>;
-
-export const MAX_FILE_SIZE = 5 * 1024 ** 2; // 5MB
-
-export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+export type FormType = z.infer<typeof feedSchema>;

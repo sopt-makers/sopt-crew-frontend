@@ -5,36 +5,46 @@ import dynamic from 'next/dynamic';
 import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
-import { FormType, schema } from './schema';
+import { FormType, feedSchema } from './feedSchema';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import { useMutation } from '@tanstack/react-query';
-import { createPost } from '@api/post';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
-import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useModal from '@hooks/useModal';
 import { useEffect } from 'react';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { useQueryGetPost } from '@api/post/hooks';
+import { editPost } from '@api/post';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProps) {
-  const router = useRouter();
-  const id = router.query.id as string;
-  const { data: detailData } = useQueryGetMeeting({ params: { id } });
+interface EditModal extends ModalContainerProps {
+  postId: string;
+}
+
+function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
+  const queryClient = useQueryClient();
+  const { data: postData } = useQueryGetPost(postId);
   const exitModal = useModal();
   const submitModal = useModal();
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',
-    resolver: zodResolver(schema),
+    resolver: zodResolver(feedSchema),
   });
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createPost(formData),
-    onError: () => alert('피드를 개설하지 못했습니다.'),
+  const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormType) => editPost(postId, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getPost', postId]);
+      queryClient.invalidateQueries(['getPosts']);
+      alert('피드를 수정했습니다.');
+      submitModal.handleModalClose();
+      handleModalClose();
+    },
+    onError: () => alert('피드를 수정하지 못했습니다.'),
   });
 
   const handleDeleteImage = (index: number) => {
@@ -48,19 +58,17 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
   };
 
   const onSubmit = async () => {
-    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(id) };
-    await mutateCreateFeed(createFeedParameter, {
-      onSuccess: () => {
-        alert('피드를 작성했습니다.');
-        submitModal.handleModalClose();
-        handleModalClose();
-      },
-    });
+    await mutateEditFeed(formMethods.getValues());
   };
 
   useEffect(() => {
-    formMethods.reset();
-  }, [isModalOpened]);
+    if (!postData) return;
+    formMethods.reset({
+      title: postData.title,
+      contents: postData.contents,
+      images: postData.images || [],
+    });
+  }, [formMethods, isModalOpened, postData]);
 
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
@@ -68,11 +76,11 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
         <FormProvider {...formMethods}>
           <FeedFormPresentation
             groupInfo={{
-              title: detailData?.title || '',
-              imageUrl: detailData?.imageURL[0].url || '',
-              category: detailData?.category || '',
+              title: postData?.meeting?.title || '',
+              imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
+              category: postData?.meeting?.category || '',
             }}
-            title="피드 작성"
+            title="피드 수정"
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
             onSubmit={formMethods.handleSubmit(handleSubmitClick)}
@@ -82,7 +90,7 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
       </SDialogWrapper>
       <ConfirmModal
         isModalOpened={exitModal.isModalOpened}
-        message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
+        message={`수정을 취소하시겠습니까?`}
         handleModalClose={exitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="그만두기"
@@ -93,7 +101,7 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
       />
       <ConfirmModal
         isModalOpened={submitModal.isModalOpened}
-        message="게시글을 작성하시겠습니까?"
+        message="게시글을 수정하시겠습니까?"
         handleModalClose={submitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="확인"
@@ -106,7 +114,7 @@ function FeedCreateModal({ isModalOpened, handleModalClose }: ModalContainerProp
   );
 }
 
-export default FeedCreateModal;
+export default FeedEditModal;
 
 const SDialogWrapper = styled(Box, {
   position: 'fixed',
@@ -126,7 +134,7 @@ const SDialogWrapper = styled(Box, {
   },
   '@tablet': {
     width: '100%',
-    height: '100vh',
+    height: '100%',
     boxShadow: 'none',
     borderRadius: '0',
   },

@@ -10,17 +10,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 export function OverlayProvider({ children }: PropsWithChildren) {
   const [overlayById, setOverlayById] = useState<Map<string, ReactNode>>(new Map());
-  const isOpenModals = overlayById.size !== 0;
-
-  useEffect(() => {
-    if (isOpenModals) {
-      document.body.style.overflow = 'hidden';
-
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }
-  }, [isOpenModals]);
 
   const mount = useCallback((id: string, element: ReactNode) => {
     setOverlayById(overlayById => {
