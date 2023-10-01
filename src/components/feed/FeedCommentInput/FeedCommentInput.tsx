@@ -36,6 +36,7 @@ const Container = styled('form', {
   gap: '16px',
 });
 const CommentInput = styled('input', {
+  minWidth: 0,
   width: '692px',
   padding: '14px 24px',
   borderRadius: '50px',
