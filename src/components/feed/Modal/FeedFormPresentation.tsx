@@ -235,7 +235,6 @@ const SFormName = styled('h1', {
 
   '@tablet': {
     margin: 0,
-    borderBottom: '1px solid $black60',
     fontStyle: 'T3',
   },
 });
