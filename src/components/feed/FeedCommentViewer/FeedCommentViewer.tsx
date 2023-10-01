@@ -99,6 +99,7 @@ const CommentBody = styled('div', {
 const CommentContents = styled('div', {
   color: '$gray30',
   fontStyle: 'B2',
+  whiteSpace: 'pre-wrap',
 });
 const CommentLikeWrapper = styled('div', {
   flexType: 'verticalCenter',
