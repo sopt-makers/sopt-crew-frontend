@@ -94,6 +94,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     })();
   }, [isServiceReady]);
 
+  useEffect(() => {
+    return () => {
+      ampli.flush();
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SEO />
