@@ -10,6 +10,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
@@ -25,6 +27,8 @@ export default function FeedCommentContainer({ comment, isMine, isPosterComment,
   const { query } = useRouter();
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
+
+  const { data: meeting } = useQueryGetMeeting({ params: { id: String(query.id) } });
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
@@ -49,7 +53,11 @@ export default function FeedCommentContainer({ comment, isMine, isPosterComment,
           onClick={() =>
             overlay.open(({ isOpen, close }) => (
               // eslint-disable-next-line prettier/prettier
-            <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
+              <ConfirmModal
+                isModalOpened={isOpen}
+                message="댓글을 삭제하시겠습니까?"
+                cancelButton="돌아가기"
+                confirmButton="삭제하기"
                 handleModalClose={close}
                 handleConfirm={() => {
                   mutateDeleteComment(comment.id);
@@ -75,7 +83,10 @@ export default function FeedCommentContainer({ comment, isMine, isPosterComment,
       }
       isMine={isMine}
       isPosterComment={isPosterComment}
-      onClickLike={onClickLike}
+      onClickLike={() => {
+        ampli.clickCommentLike({ crew_status: meeting?.approved });
+        onClickLike();
+      }}
     />
   );
 }

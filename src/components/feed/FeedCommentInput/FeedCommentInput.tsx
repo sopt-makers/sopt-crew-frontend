@@ -1,6 +1,11 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
 import React, { useState } from 'react';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useRouter } from 'next/router';
+import { ampli } from '@/ampli';
+import { useDisplay } from '@hooks/useDisplay';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 interface FeedCommentInputProps {
   onSubmit: (comment: string) => Promise<void>;
@@ -8,7 +13,11 @@ interface FeedCommentInputProps {
 }
 
 export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInputProps) {
+  const { query } = useRouter();
+  const { isMobile } = useDisplay();
   const [comment, setComment] = useState('');
+  const { data: meeting } = useQueryGetMeeting({ params: { id: String(query.id) } });
+  const { data: me } = useQueryMyProfile();
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length === 0) {
@@ -23,6 +32,11 @@ export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInpu
     event.preventDefault();
 
     if (!comment.trim()) return;
+    ampli.completedCommentPosting({
+      crew_status: meeting?.approved,
+      platform_type: isMobile ? 'MO' : 'PC',
+      user_id: Number(me?.orgId),
+    });
     onSubmit(comment).then(() => setComment(''));
   };
 
