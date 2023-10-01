@@ -106,7 +106,7 @@ const Container = styled(Box, {
   '@tablet': {
     width: '100%',
     border: 'none',
-    mb: 0,
+    mb: '$0',
   },
 });
 const ContentWrapper = styled('div', {
