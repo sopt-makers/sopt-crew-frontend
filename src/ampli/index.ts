@@ -118,11 +118,258 @@ export interface IdentifyProperties {
   user_id?: string;
 }
 
+export interface AttachFeedPhotoProperties {
+  /**
+   * 어떤 플랫폼으로 접속했는지를 의미합니다.
+   */
+  platform_type?: string;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
+export interface ClickCarouselArrowProperties {
+  /**
+   * 모임 상세에 추가된 이미지의 총 개수를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   * | Min Value | 1 |
+   * | Max Value | 6 |
+   */
+  image_total?: number;
+}
+
+export interface ClickCommentLikeProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFeedCardProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+  /**
+   * 모임 피드에 작성된 댓글 및 대댓글 개수의 총합을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  feed_comment_total?: number;
+  /**
+   * 모임 피드의 고유한 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  feed_id?: number;
+  /**
+   * 모임 피드에 첨부된 이미지 개수의 총합을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  feed_image_total?: number;
+  /**
+   * 모임 피드에 클릭된 총 좋아요 개수의 총 합을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  feed_like_total?: number;
+  /**
+   * 모임 피드의 제목을 의미합니다.
+   */
+  feed_title?: string;
+  /**
+   * 모임 피드를 업로드 완료한 시간을 의미합니다.
+   */
+  feed_upload?: any;
+  /**
+   * 모임의 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_id?: number;
+  /**
+   * 어떤 플랫폼으로 접속했는지를 의미합니다.
+   */
+  platform_type?: string;
+}
+
+export interface ClickFeeddatailImageProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFeeddetailLikeProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFeeddetatilProfileProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFeedlistLikeProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFeedPostingProperties {
+  /**
+   * 모임의 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_id?: number;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
+export interface ClickFeedProfileProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
+export interface ClickFilterCategoryProperties {
+  /**
+   * 모임 카테고리를 의미합니다.
+   */
+  group_category?: string;
+}
+
+export interface ClickFilterGenerationProperties {
+  /**
+   * 모임의 모집 대상이 활동기수인지 아닌지를 의미합니다.
+   */
+  group_generation?: boolean;
+}
+
+export interface ClickFilterOnProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickFilterPartProperties {
+  /**
+   * 모임의 모집 대상 파트를 의미합니다.
+   */
+  group_part?: string;
+}
+
+export interface ClickFilterStatusProperties {
+  /**
+   * 모임의 모집 상태를 의미합니다.
+   */
+  group_status?: string;
+}
+
 export interface ClickNavbarGroupProperties {
   /**
    * 모임 서비스 내의 탭 영역 메뉴명을 의미합니다.
    */
   menu: string;
+}
+
+export interface ClickNoticeOnProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface CompletedCommentPostingProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+  /**
+   * 어떤 플랫폼으로 접속했는지를 의미합니다.
+   */
+  platform_type?: string;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
+export interface CompletedFeedPostingProperties {
+  /**
+   * 모임 피드를 업로드 완료한 시간을 의미합니다.
+   */
+  feed_upload?: any;
+  /**
+   * 어떤 플랫폼으로 접속했는지를 의미합니다.
+   */
+  platform_type?: string;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
+export interface CompletedFeedPostingCanceledProperties {
+  /**
+   * 어떤 플랫폼으로 접속했는지를 의미합니다.
+   */
+  platform_type?: string;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
 }
 
 export class Identify implements BaseEvent {
@@ -135,11 +382,201 @@ export class Identify implements BaseEvent {
   }
 }
 
+export class AttachFeedPhoto implements BaseEvent {
+  event_type = 'Attach-feedPhoto';
+
+  constructor(
+    public event_properties?: AttachFeedPhotoProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickCarouselArrow implements BaseEvent {
+  event_type = 'Click-carouselArrow';
+
+  constructor(
+    public event_properties?: ClickCarouselArrowProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickCommentLike implements BaseEvent {
+  event_type = 'Click-commentLike';
+
+  constructor(
+    public event_properties?: ClickCommentLikeProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeedCard implements BaseEvent {
+  event_type = 'Click-feedCard';
+
+  constructor(
+    public event_properties?: ClickFeedCardProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeeddatailImage implements BaseEvent {
+  event_type = 'Click-feeddatailImage';
+
+  constructor(
+    public event_properties?: ClickFeeddatailImageProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeeddetailLike implements BaseEvent {
+  event_type = 'Click-feeddetailLike';
+
+  constructor(
+    public event_properties?: ClickFeeddetailLikeProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeeddetatilProfile implements BaseEvent {
+  event_type = 'Click-feeddetatilProfile';
+
+  constructor(
+    public event_properties?: ClickFeeddetatilProfileProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeedlistLike implements BaseEvent {
+  event_type = 'Click-feedlistLike';
+
+  constructor(
+    public event_properties?: ClickFeedlistLikeProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeedPosting implements BaseEvent {
+  event_type = 'Click-feedPosting';
+
+  constructor(
+    public event_properties?: ClickFeedPostingProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeedProfile implements BaseEvent {
+  event_type = 'Click-feedProfile';
+
+  constructor(
+    public event_properties?: ClickFeedProfileProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFilterCategory implements BaseEvent {
+  event_type = 'Click-filterCategory';
+
+  constructor(
+    public event_properties?: ClickFilterCategoryProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFilterGeneration implements BaseEvent {
+  event_type = 'Click-filterGeneration';
+
+  constructor(
+    public event_properties?: ClickFilterGenerationProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFilterOn implements BaseEvent {
+  event_type = 'Click-filterOn';
+
+  constructor(
+    public event_properties?: ClickFilterOnProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFilterPart implements BaseEvent {
+  event_type = 'Click-filterPart';
+
+  constructor(
+    public event_properties?: ClickFilterPartProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFilterStatus implements BaseEvent {
+  event_type = 'Click-filterStatus';
+
+  constructor(
+    public event_properties?: ClickFilterStatusProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
 export class ClickNavbarGroup implements BaseEvent {
   event_type = 'Click-navbarGroup';
 
   constructor(
     public event_properties: ClickNavbarGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickNoticeOn implements BaseEvent {
+  event_type = 'Click-noticeOn';
+
+  constructor(
+    public event_properties?: ClickNoticeOnProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CompletedCommentPosting implements BaseEvent {
+  event_type = 'Completed-commentPosting';
+
+  constructor(
+    public event_properties?: CompletedCommentPostingProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CompletedFeedPosting implements BaseEvent {
+  event_type = 'Completed-feedPosting';
+
+  constructor(
+    public event_properties?: CompletedFeedPostingProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CompletedFeedPostingCanceled implements BaseEvent {
+  event_type = 'Completed-feedPostingCanceled';
+
+  constructor(
+    public event_properties?: CompletedFeedPostingCanceledProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -263,6 +700,261 @@ export class Ampli {
   }
 
   /**
+   * Attach-feedPhoto
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Attach-feedPhoto)
+   *
+   * 사진 첨부를 클릭하여 완료한 경우
+   *
+   * @param properties The event's properties (e.g. platform_type)
+   * @param options Amplitude event options.
+   */
+  attachFeedPhoto(
+    properties?: AttachFeedPhotoProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new AttachFeedPhoto(properties), options);
+  }
+
+  /**
+   * Click-carouselArrow
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-carouselArrow)
+   *
+   * 모임 상세 뷰 캐로셀 내 애로우 클릭
+   *
+   * @param properties The event's properties (e.g. image_total)
+   * @param options Amplitude event options.
+   */
+  clickCarouselArrow(
+    properties?: ClickCarouselArrowProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickCarouselArrow(properties), options);
+  }
+
+  /**
+   * Click-commentLike
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-commentLike)
+   *
+   * 피드 댓글의 좋아요 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickCommentLike(
+    properties?: ClickCommentLikeProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickCommentLike(properties), options);
+  }
+
+  /**
+   * Click-feedCard
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedCard)
+   *
+   * 피드 리스트에 포함된 카드 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeedCard(
+    properties?: ClickFeedCardProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedCard(properties), options);
+  }
+
+  /**
+   * Click-feeddatailImage
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feeddatailImage)
+   *
+   * 피드 상세 뷰 내 이미지 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeeddatailImage(
+    properties?: ClickFeeddatailImageProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeeddatailImage(properties), options);
+  }
+
+  /**
+   * Click-feeddetailLike
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feeddetailLike)
+   *
+   * 피드 상세 뷰 내 좋아요 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeeddetailLike(
+    properties?: ClickFeeddetailLikeProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeeddetailLike(properties), options);
+  }
+
+  /**
+   * Click-feeddetatilProfile
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feeddetatilProfile)
+   *
+   * 피드 상세 뷰 내 작성자 프로필 영역 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeeddetatilProfile(
+    properties?: ClickFeeddetatilProfileProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeeddetatilProfile(properties), options);
+  }
+
+  /**
+   * Click-feedlistLike
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedlistLike)
+   *
+   * 피드 리스트 뷰 내 카드에 포함된 좋아요 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeedlistLike(
+    properties?: ClickFeedlistLikeProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedlistLike(properties), options);
+  }
+
+  /**
+   * Click-feedPosting
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedPosting)
+   *
+   * \[피드 작성하기\] CTA 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. group_id)
+   * @param options Amplitude event options.
+   */
+  clickFeedPosting(
+    properties?: ClickFeedPostingProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedPosting(properties), options);
+  }
+
+  /**
+   * Click-feedProfile
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedProfile)
+   *
+   * 피드 리스트 뷰 내 카드에 포함된 작성자 프로필 영역 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickFeedProfile(
+    properties?: ClickFeedProfileProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedProfile(properties), options);
+  }
+
+  /**
+   * Click-filterCategory
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-filterCategory)
+   *
+   * 필터 모달 내 카테고리 선택
+   *
+   * @param properties The event's properties (e.g. group_category)
+   * @param options Amplitude event options.
+   */
+  clickFilterCategory(
+    properties?: ClickFilterCategoryProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFilterCategory(properties), options);
+  }
+
+  /**
+   * Click-filterGeneration
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-filterGeneration)
+   *
+   * 필터 모달 내 대상 기수의 활동 기수만 옵션 선택 유무
+   *
+   * @param properties The event's properties (e.g. group_generation)
+   * @param options Amplitude event options.
+   */
+  clickFilterGeneration(
+    properties?: ClickFilterGenerationProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFilterGeneration(properties), options);
+  }
+
+  /**
+   * Click-filterOn
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-filterOn)
+   *
+   * \[필터\] 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickFilterOn(
+    properties?: ClickFilterOnProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFilterOn(properties), options);
+  }
+
+  /**
+   * Click-filterPart
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-filterPart)
+   *
+   * 필터 모달 내 대상 파트 선택
+   *
+   * @param properties The event's properties (e.g. group_part)
+   * @param options Amplitude event options.
+   */
+  clickFilterPart(
+    properties?: ClickFilterPartProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFilterPart(properties), options);
+  }
+
+  /**
+   * Click-filterStatus
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-filterStatus)
+   *
+   * 필터 모달 내 모집 상태 선택
+   *
+   * @param properties The event's properties (e.g. group_status)
+   * @param options Amplitude event options.
+   */
+  clickFilterStatus(
+    properties?: ClickFilterStatusProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFilterStatus(properties), options);
+  }
+
+  /**
    * Click-navbarGroup
    *
    * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-navbarGroup)
@@ -277,6 +969,74 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickNavbarGroup(properties), options);
+  }
+
+  /**
+   * Click-noticeOn
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-noticeOn)
+   *
+   * 공지사항 토글 활성화 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickNoticeOn(
+    properties?: ClickNoticeOnProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickNoticeOn(properties), options);
+  }
+
+  /**
+   * Completed-commentPosting
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Completed-commentPosting)
+   *
+   * 피드 댓글 포스팅 완료
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  completedCommentPosting(
+    properties?: CompletedCommentPostingProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CompletedCommentPosting(properties), options);
+  }
+
+  /**
+   * Completed-feedPosting
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Completed-feedPosting)
+   *
+   * 피드 작성을 완료한 후 포스팅까지 마친 경우
+   *
+   * @param properties The event's properties (e.g. feed_upload)
+   * @param options Amplitude event options.
+   */
+  completedFeedPosting(
+    properties?: CompletedFeedPostingProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CompletedFeedPosting(properties), options);
+  }
+
+  /**
+   * Completed-feedPostingCanceled
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Completed-feedPostingCanceled)
+   *
+   * 피드 작성 중 이탈한 경우
+   *
+   * @param properties The event's properties (e.g. platform_type)
+   * @param options Amplitude event options.
+   */
+  completedFeedPostingCanceled(
+    properties?: CompletedFeedPostingCanceledProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CompletedFeedPostingCanceled(properties), options);
   }
 }
 
