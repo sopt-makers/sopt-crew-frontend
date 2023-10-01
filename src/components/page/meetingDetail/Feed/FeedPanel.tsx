@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
+import { Divider } from '@components/util/Divider';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -50,13 +51,16 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const renderedPosts = postsData?.pages.map(post => (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    <Link href={`/post?id=${post!.id}`} key={post!.id}>
-      <a>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
-        <FeedItem {...post!} />
-      </a>
-    </Link>
+    <>
+      <Link href={`/post?id=${post!.id}`} key={post!.id}>
+        <a>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
+          <FeedItem {...post!} />
+        </a>
+      </Link>
+      <SDivider />
+    </>
   ));
 
   return (
@@ -149,5 +153,15 @@ const SButton = styled('button', {
     ml: '$20',
     padding: '$6 $12',
     borderRadius: '8px',
+  },
+});
+
+const SDivider = styled(Divider, {
+  display: 'none',
+  '@tablet': {
+    display: 'block',
+    width: '100vw',
+    height: '8px',
+    marginLeft: '-20px',
   },
 });
