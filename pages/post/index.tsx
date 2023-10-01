@@ -75,7 +75,8 @@ export default function PostPage() {
               <FeedCommentContainer
                 key={comment.id}
                 comment={comment}
-                isMine={comment.user.id === post.user.id}
+                isMine={comment.user.id === me?.id}
+                isPostWriter={post.user.id === me?.id}
                 onClickLike={handleClickCommentLike(comment.id)}
               />
             ))}
