@@ -19,6 +19,7 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
+import React from 'react';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -130,6 +131,13 @@ export default function PostPage() {
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
         onClickImage={() => {
           ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
+        }}
+        // NOTE: link 클릭하면 이동해버리기 때문에 이벤트 로깅이 잘 되지 않는다. 이를 방지하기 위해 로깅 이후에 이동하도록 하자.
+        onClickAuthor={async (e: React.MouseEvent<HTMLAnchorElement>) => {
+          const href = e.currentTarget.href;
+          e.preventDefault();
+          await ampli.clickFeeddetatilProfile({ crew_status: meeting?.approved }).promise;
+          window.location.assign(href);
         }}
       />
     </Container>
