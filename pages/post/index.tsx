@@ -17,6 +17,8 @@ import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -25,6 +27,7 @@ export default function PostPage() {
   const { POST, DELETE } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
+  const { data: meeting } = useQueryGetMeeting({ params: { id: query.id as string } });
 
   const postQuery = useQueryGetPost(query.id as string);
 
@@ -120,6 +123,9 @@ export default function PostPage() {
           </>
         }
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
+        onClickImage={() => {
+          ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
+        }}
       />
     </Container>
   );
