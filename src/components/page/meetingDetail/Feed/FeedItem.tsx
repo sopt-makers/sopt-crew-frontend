@@ -44,7 +44,6 @@ const FeedItem = (post: FeedItemProps) => {
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(id);
     mutate();
   };
 
