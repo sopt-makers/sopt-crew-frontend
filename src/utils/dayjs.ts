@@ -18,3 +18,5 @@ dayjs.updateLocale('ko', {
 
 // NOTE: 댓글 작성 후 간헐적으로 작성 시간이 현재 시간보다 이후 시간으로 표기되는 이슈가 있어서 1초를 뺴준다.
 export const fromNow = (date: string) => dayjs(date).subtract(1, 's').fromNow();
+
+export const formatDate = (date?: string) => dayjs(date).format('YYYY-MM-DD HH:mm:ss');

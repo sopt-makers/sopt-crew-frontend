@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { ampli } from '@/ampli';
 import { useQueryMyProfile } from '@api/user/hooks';
+import { formatDate } from '@utils/dayjs';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -30,6 +31,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();
+  const platform = window.innerWidth > 768 ? 'PC' : 'MO';
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',
@@ -62,6 +64,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const onSubmit = async () => {
     const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
     await mutateCreateFeed(createFeedParameter);
+    ampli.completedFeedPosting({ user_id: me?.id, platform_type: platform, feed_upload: formatDate() });
   };
 
   useEffect(() => {
@@ -70,7 +73,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   useEffect(() => {
     return () => {
-      ampli.completedFeedPostingCanceled({ user_id: me?.id, platform_type: window.innerWidth > 768 ? 'PC' : 'MO' });
+      ampli.completedFeedPostingCanceled({ user_id: me?.id, platform_type: platform });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
