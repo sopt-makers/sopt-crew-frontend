@@ -151,7 +151,7 @@ const SContent = styled(Box, {
   mb: '$20',
   color: '$gray40',
   fontStyle: 'B2',
-
+  whiteSpace: 'pre-wrap',
   '@tablet': {
     fontStyle: 'B3',
   },

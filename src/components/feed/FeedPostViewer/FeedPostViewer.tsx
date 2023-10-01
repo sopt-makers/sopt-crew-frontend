@@ -154,6 +154,7 @@ const Contents = styled('p', {
   mt: '$12',
   color: '$gray30',
   fontStyle: 'B2',
+  whiteSpace: 'pre-wrap',
   '@tablet': {
     fontStyle: 'B3',
   },
