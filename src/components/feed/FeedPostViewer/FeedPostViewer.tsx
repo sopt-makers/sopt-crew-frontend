@@ -159,7 +159,7 @@ const Contents = styled('p', {
   },
 });
 const ImageSection = styled('section', {
-  paddingRight: '25px',
+  paddingRight: '16px',
   marginTop: '20px',
   marginBottom: '12px',
   '@tablet': {
