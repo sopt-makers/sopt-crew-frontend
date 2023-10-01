@@ -109,7 +109,6 @@ const SFeedItem = styled(Box, {
   borderRadius: '12px',
   color: '$white100',
   width: '100%',
-
   '@tablet': {
     padding: '$24 0 $28 0',
     background: 'transparent',
