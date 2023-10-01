@@ -7,6 +7,8 @@ import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
 import React from 'react';
+import { playgroundURL } from '@constants/url';
+import { playgroundLink } from '@sopt-makers/playground-common';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -21,7 +23,7 @@ export default function FeedCommentViewer({ comment, isMine, Content, Actions, o
   return (
     <Container>
       <CommentHeader>
-        <AuthorWrapper>
+        <AuthorWrapper href={`${playgroundURL}${playgroundLink.memberDetail(comment.user.orgId)}`}>
           <Avatar src={comment.user.profileImage || ''} alt={comment.user.name} sx={{ width: 28, height: 28 }} />
           <Name>
             {comment.user.name}
@@ -67,7 +69,7 @@ const CommentHeader = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
 });
-const AuthorWrapper = styled('div', {
+const AuthorWrapper = styled('a', {
   flexType: 'verticalCenter',
 });
 const Name = styled('span', {
