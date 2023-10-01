@@ -14,12 +14,12 @@ import { parseTextToLink } from '@components/util/parseTextToLink';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine: boolean;
-  isPostWriter: boolean;
+  isPosterComment: boolean;
   onClickLike: () => void;
 }
 
 // eslint-disable-next-line prettier/prettier
-export default function FeedCommentContainer({ comment, isMine, isPostWriter, onClickLike }: FeedCommentContainerProps) {
+export default function FeedCommentContainer({ comment, isMine, isPosterComment, onClickLike }: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
   const { query } = useRouter();
@@ -74,7 +74,7 @@ export default function FeedCommentContainer({ comment, isMine, isPostWriter, on
         )
       }
       isMine={isMine}
-      isPostWriter={isPostWriter}
+      isPosterComment={isPosterComment}
       onClickLike={onClickLike}
     />
   );
