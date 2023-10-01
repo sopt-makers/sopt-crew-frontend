@@ -38,8 +38,6 @@ export default function FeedCommentContainer({ comment, isMine, isPostWriter, on
     setEditMode(false);
   };
 
-  console.log(isPostWriter);
-
   return (
     <FeedCommentViewer
       key={comment.id}
