@@ -137,7 +137,7 @@ const SCount = styled('span', {
 });
 
 const SButton = styled('button', {
-  backgroundColor: '$black40',
+  backgroundColor: '$orange100',
   fontStyle: 'H2',
   ml: '$48',
   color: '$white',
@@ -145,7 +145,6 @@ const SButton = styled('button', {
   borderRadius: '14px',
 
   '@tablet': {
-    backgroundColor: '$orange100',
     fontStyle: 'T5',
     ml: '$20',
     padding: '$6 $12',
