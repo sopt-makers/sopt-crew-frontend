@@ -68,6 +68,11 @@ export default function PostPage() {
         !!comment
     );
 
+  const handleClickPostLike = () => {
+    ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
+    togglePostLike();
+  };
+
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
 
@@ -105,7 +110,7 @@ export default function PostPage() {
             isLiked={post.isLiked}
             commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
             likeCount={post.likeCount}
-            onClickLike={togglePostLike}
+            onClickLike={handleClickPostLike}
           />
         }
         CommentList={
