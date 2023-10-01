@@ -112,7 +112,7 @@ export default function PostPage() {
                 key={comment.id}
                 comment={comment}
                 isMine={comment.user.id === me?.id}
-                isPostWriter={post.user.id === me?.id}
+                isPosterComment={post.user.id === comment.user.id}
                 onClickLike={handleClickCommentLike(comment.id)}
               />
             ))}

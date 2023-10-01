@@ -14,7 +14,7 @@ interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine?: boolean;
-  isPostWriter: boolean;
+  isPosterComment: boolean;
   Content: React.ReactNode;
   Actions: React.ReactNode[];
   onClickLike?: () => void;
@@ -23,7 +23,7 @@ interface FeedCommentViewerProps {
 export default function FeedCommentViewer({
   comment,
   isMine,
-  isPostWriter,
+  isPosterComment,
   Content,
   Actions,
   onClickLike,
@@ -35,7 +35,7 @@ export default function FeedCommentViewer({
           <Avatar src={comment.user.profileImage || ''} alt={comment.user.name} sx={{ width: 28, height: 28 }} />
           <Name>
             {comment.user.name}
-            {isPostWriter ? '(글쓴이)' : ''}
+            {isPosterComment ? '(글쓴이)' : ''}
           </Name>
           <Date>{fromNow(comment.updatedDate)}</Date>
         </AuthorWrapper>
