@@ -16,6 +16,7 @@ import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { styled } from 'stitches.config';
+import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -73,7 +74,15 @@ export default function PostPage() {
         post={post}
         isMine={post.user.id === me?.id}
         Actions={[
-          <FeedActionButton>수정</FeedActionButton>,
+          <FeedActionButton
+            onClick={() =>
+              overlay.open(({ isOpen, close }) => (
+                <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
+              ))
+            }
+          >
+            수정
+          </FeedActionButton>,
           <FeedActionButton
             onClick={() => {
               overlay.open(({ isOpen, close }) => (
