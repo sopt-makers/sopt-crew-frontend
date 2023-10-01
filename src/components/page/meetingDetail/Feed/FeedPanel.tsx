@@ -50,6 +50,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const renderedPosts = postsData?.pages.map(post => (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     <Link href={`/post?id=${post!.id}`} key={post!.id}>
       <a>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -113,6 +114,17 @@ const SMobileContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   marginTop: 0,
+  '& a:not(:first-child)::before': {
+    content: '',
+    display: 'none',
+    '@tablet': {
+      display: 'block',
+      width: '100vw',
+      height: '8px',
+      marginLeft: 'calc(50% - 50vw)',
+      background: '$black80',
+    },
+  },
 });
 
 const SHeader = styled('div', {
