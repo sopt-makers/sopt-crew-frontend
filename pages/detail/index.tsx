@@ -22,10 +22,12 @@ const enum SelectedTab {
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.FEED);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const [selectedIndex, setSelectedIndex] = useState(
+    detailData?.status === 2 ? SelectedTab.FEED : SelectedTab.INFORMATION
+  );
 
   if (!detailData) {
     return <Loader />;
