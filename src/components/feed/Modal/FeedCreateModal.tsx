@@ -13,6 +13,8 @@ import { useQueryGetMeeting } from '@api/meeting/hooks';
 import useModal from '@hooks/useModal';
 import { useEffect } from 'react';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { ampli } from '@/ampli';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -25,6 +27,7 @@ interface CreateModalProps extends ModalContainerProps {
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
   const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
+  const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();
 
@@ -64,6 +67,13 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   useEffect(() => {
     formMethods.reset();
   }, [formMethods, isModalOpened]);
+
+  useEffect(() => {
+    return () => {
+      ampli.completedFeedPostingCanceled({ user_id: me?.id, platform_type: window.innerWidth > 768 ? 'PC' : 'MO' });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
