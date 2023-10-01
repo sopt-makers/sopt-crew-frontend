@@ -112,7 +112,7 @@ const ContentWrapper = styled('div', {
   flexDirection: 'column',
   gap: '20px',
   '@tablet': {
-    padding: '12px 16px 20px 16px',
+    padding: '0 0 20px 0',
   },
 });
 const ContentHeader = styled('div', {
@@ -219,12 +219,20 @@ const CommentLikeWrapper = styled('div', {
   flexType: 'center',
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
+  '@tablet': {
+    width: '100vw',
+    marginLeft: 'calc(50% - 50vw)',
+  },
 });
 const CommentListWrapper = styled('div', {
   padding: '28px 28px 32px 32px',
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
+  '@tablet': {
+    padding: '24px 0 32px 0',
+    gap: '36px',
+  },
 });
 const SAvatar = styled(Avatar, {
   '@tablet': {
