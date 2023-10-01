@@ -116,7 +116,7 @@ const SCategory = styled('p', {
   display: 'inline-block',
   fontStyle: 'T6',
   color: '$gray40',
-  border: '1px solid $gray60',
+  border: '1px solid $black60',
   borderRadius: '37px',
   px: '$10',
   py: '$3',
