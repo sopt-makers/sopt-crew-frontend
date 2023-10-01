@@ -15,6 +15,7 @@ dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
+  isMine?: boolean;
   Actions: React.ReactNode[];
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
@@ -23,6 +24,7 @@ interface FeedPostViewerProps {
 
 export default function FeedPostViewer({
   post,
+  isMine,
   Actions,
   CommentLikeSection,
   CommentList,
@@ -47,16 +49,18 @@ export default function FeedPostViewer({
               <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map((Action, index) => (
-                <Menu.Item key={index}>{Action}</Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
+          {isMine && (
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map((Action, index) => (
+                  <Menu.Item key={index}>{Action}</Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          )}
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>

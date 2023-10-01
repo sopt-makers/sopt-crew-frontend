@@ -70,6 +70,7 @@ export default function PostPage() {
     <div>
       <FeedPostViewer
         post={post}
+        isMine={post.user.id === me?.id}
         Actions={[
           <FeedActionButton>수정</FeedActionButton>,
           <FeedActionButton
