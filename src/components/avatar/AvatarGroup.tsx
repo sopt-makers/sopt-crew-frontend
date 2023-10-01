@@ -19,6 +19,6 @@ const SContainer = styled('div', {
 });
 const SAvatarWrapper = styled('div', {
   '& > div': {
-    border: '3px solid $black100',
+    border: '3px solid #171818',
   },
 });

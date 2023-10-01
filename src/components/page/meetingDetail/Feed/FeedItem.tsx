@@ -251,4 +251,5 @@ const SOverlay = styled(Box, {
   width: '100%',
   height: '100%',
   flexType: 'center',
+  color: '$white100',
 });
