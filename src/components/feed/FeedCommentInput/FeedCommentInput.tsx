@@ -41,7 +41,7 @@ const CommentInput = styled('input', {
   padding: '14px 24px',
   borderRadius: '50px',
   background: '$black60',
-  color: '$gray40',
+  color: '$white100',
   fontStyle: 'B2',
   '&::placeholder': {
     color: '$gray60',
