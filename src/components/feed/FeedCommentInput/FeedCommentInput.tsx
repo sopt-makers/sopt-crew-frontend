@@ -10,7 +10,12 @@ interface FeedCommentInputProps {
 export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInputProps) {
   const [comment, setComment] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length === 0) {
+      e.target.style.height = 'auto';
+    } else {
+      e.target.style.height = `${e.target.scrollHeight}px`;
+    }
     setComment(e.target.value);
   };
 
@@ -23,7 +28,7 @@ export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInpu
 
   return (
     <Container>
-      <CommentInput value={comment} onChange={handleChange} placeholder="댓글 입력" />
+      <CommentInput value={comment} onChange={handleChange} placeholder="댓글 입력" rows={1} />
       <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
         <SendIcon />
       </SendButton>
@@ -35,16 +40,26 @@ const Container = styled('form', {
   flexType: 'verticalCenter',
   gap: '16px',
 });
-const CommentInput = styled('input', {
+const CommentInput = styled('textarea', {
   minWidth: 0,
   width: '692px',
+  height: '54px',
+  maxHeight: '120px',
   padding: '14px 24px',
-  borderRadius: '50px',
+  borderRadius: '25px',
   background: '$black60',
   color: '$white100',
   fontStyle: 'B2',
+  border: 'none',
+  outline: 'none',
+  resize: 'none',
   '&::placeholder': {
     color: '$gray60',
+  },
+  '@tablet': {
+    height: '48px',
+    padding: '12px 24px',
+    fontStyle: 'B3',
   },
 });
 const SendButton = styled('button', {
