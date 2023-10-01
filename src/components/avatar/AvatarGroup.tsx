@@ -20,6 +20,6 @@ const SAvatarWrapper = styled('div', {
     marginLeft: '-16px',
   },
   '& > div': {
-    border: '3px solid $black100',
+    border: '3px solid #171818',
   },
 });

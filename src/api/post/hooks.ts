@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getPost, deleteComment, getPosts } from '.';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
@@ -25,6 +25,41 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   });
 
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
+};
+
+export const useMutationUpdateLike = (take: number, meetingId: number, postId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => postLike(String(postId)),
+    onMutate: async () => {
+      await queryClient.cancelQueries(['getPosts', take, meetingId]);
+
+      type Post = paths['/post/v1']['get']['responses']['200']['content']['application/json']['data'];
+      const previousPosts = queryClient.getQueryData(['getPosts', take, meetingId]);
+
+      queryClient.setQueryData<InfiniteData<{ data: Post }>>(['getPosts', take, meetingId], oldData => {
+        const newData = produce(oldData, draft => {
+          draft?.pages.forEach(page => {
+            page.data.posts.forEach(post => {
+              if (post.id === postId) {
+                post.likeCount = post.isLiked ? post.likeCount - 1 : post.likeCount + 1;
+                post.isLiked = !post.isLiked;
+              }
+            });
+          });
+        });
+        return newData;
+      });
+      return { previousPosts };
+    },
+    onError: (err, _, context) => {
+      queryClient.setQueryData(['getPosts', take, meetingId], context?.previousPosts);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getPosts']);
+    },
+  });
 };
 
 export const useQueryGetPost = (postId: string) => {

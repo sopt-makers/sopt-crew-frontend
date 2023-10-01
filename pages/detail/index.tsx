@@ -11,6 +11,7 @@ import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import { ERecruitmentStatus } from '@constants/option';
 
 dayjs.locale('ko');
 
@@ -22,10 +23,12 @@ const enum SelectedTab {
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.FEED);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const [selectedIndex, setSelectedIndex] = useState(
+    detailData?.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION
+  );
 
   if (!detailData) {
     return <Loader />;

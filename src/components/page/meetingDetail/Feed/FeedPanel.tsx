@@ -67,7 +67,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SContainer>
       )}
 
-      {postCount && (
+      {postCount > 0 && (
         <SHeader>
           <p>
             🔥 지금까지 쌓인 피드 <SCount>{formattedPostCount}</SCount>개
