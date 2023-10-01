@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getPost, deleteComment, getPosts, PageResponse } from '.';
+import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { getPost, deleteComment, getPosts } from '.';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
 import { produce } from 'immer';
@@ -35,28 +35,27 @@ export const useMutationUpdateLike = (take: number, meetingId: number, postId: n
     onMutate: async () => {
       await queryClient.cancelQueries(['getPosts', take, meetingId]);
 
-      const page = queryClient.getQueryData<PageResponse>(['getPosts', take, meetingId]);
+      type Post = paths['/post/v1']['get']['responses']['200']['content']['application/json']['data'];
+      const previousPosts = queryClient.getQueryData(['getPosts', take, meetingId]);
 
-      if (page?.data?.posts) {
-        const currentPostIndex = page.data.posts.findIndex(post => post.id === postId);
-
-        if (currentPostIndex !== -1) {
-          const updatedPage = { ...page };
-          updatedPage.data.posts[currentPostIndex] = {
-            ...updatedPage.data.posts[currentPostIndex],
-            likeCount: updatedPage.data.posts[currentPostIndex].isLiked
-              ? updatedPage.data.posts[currentPostIndex].likeCount - 1
-              : updatedPage.data.posts[currentPostIndex].likeCount + 1,
-            isLiked: !updatedPage.data.posts[currentPostIndex].isLiked,
-          };
-
-          queryClient.setQueryData(['getPosts', take, meetingId], updatedPage);
-        }
-
-        return { previousPage: page };
-      }
+      queryClient.setQueryData<InfiniteData<{ data: Post }>>(['getPosts', take, meetingId], oldData => {
+        const newData = produce(oldData, draft => {
+          draft?.pages.forEach(page => {
+            page.data.posts.forEach(post => {
+              if (post.id === postId) {
+                post.likeCount = post.isLiked ? post.likeCount - 1 : post.likeCount + 1;
+                post.isLiked = !post.isLiked;
+              }
+            });
+          });
+        });
+        return newData;
+      });
+      return { previousPosts };
     },
-
+    onError: (err, _, context) => {
+      queryClient.setQueryData(['getPosts', take, meetingId], context?.previousPosts);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(['getPosts']);
     },
