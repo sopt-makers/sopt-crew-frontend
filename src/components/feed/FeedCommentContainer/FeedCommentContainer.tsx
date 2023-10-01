@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
@@ -67,7 +68,7 @@ export default function FeedCommentContainer({ comment, isMine, onClickLike }: F
             onSubmit={handleSubmitComment}
           />
         ) : (
-          comment.contents
+          parseTextToLink(comment.contents)
         )
       }
       isMine={isMine}

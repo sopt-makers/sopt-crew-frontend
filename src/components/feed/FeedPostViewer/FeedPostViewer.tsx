@@ -12,6 +12,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -66,7 +67,7 @@ export default function FeedPostViewer({
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>
-          <Contents>{post.contents}</Contents>
+          <Contents>{parseTextToLink(post.contents)}</Contents>
           {post.images && (
             <ImageSection>
               {post.images.length === 1 ? (
