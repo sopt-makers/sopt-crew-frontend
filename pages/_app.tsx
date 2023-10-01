@@ -75,14 +75,24 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [isServiceReady]);
 
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
-      ampli.load({
-        client: {
-          apiKey: process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY,
-        },
-      });
-    }
-  }, []);
+    if (!isServiceReady) return;
+
+    (async function initAmplitude() {
+      if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+        await ampli.load({
+          client: {
+            apiKey: process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY,
+            configuration: {
+              defaultTracking: true,
+              minIdLength: 1,
+            },
+          },
+        }).promise;
+        const { data: user } = await fetchMyProfile();
+        ampli.identify(String(user.data.id));
+      }
+    })();
+  }, [isServiceReady]);
 
   return (
     <QueryClientProvider client={queryClient}>
