@@ -15,6 +15,7 @@
     "generate-types": "openapi-typescript https://crew.api.dev.sopt.org/api-docs-json -o ./src/__generated__/schema.d.ts"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.3.2",
     "@egjs/react-infinitegrid": "^4.10.1",
     "@headlessui/react": "^1.7.3",
     "@hookform/resolvers": "^2.9.10",
