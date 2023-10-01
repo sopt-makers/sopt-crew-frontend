@@ -9,9 +9,17 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
 import truncateText from '@utils/truncateText';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
-import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH, LIKE_MAX_COUNT } from '@constants/feed';
+import {
+  AVATAR_MAX_LENGTH,
+  CARD_CONTENT_MAX_LENGTH,
+  CARD_TITLE_MAX_LENGTH,
+  LIKE_MAX_COUNT,
+  TAKE_COUNT,
+} from '@constants/feed';
 import { UserResponse } from '@api/user';
 import { fromNow } from '@utils/dayjs';
+import { useMutationUpdateLike } from '@api/post/hooks';
+import { useRouter } from 'next/router';
 
 interface FeedItemProps {
   id: number;
@@ -30,10 +38,14 @@ const FeedItem = (post: FeedItemProps) => {
   const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
     post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
+  const router = useRouter();
+  const meetingId = router.query.id as string;
+  const { mutate } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId), id);
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log(id);
+    mutate();
   };
 
   return (

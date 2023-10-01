@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getPost, deleteComment, getPosts } from '.';
+import { getPost, deleteComment, getPosts, PageResponse } from '.';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike } from '.';
 import { produce } from 'immer';
@@ -25,6 +25,42 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   });
 
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
+};
+
+export const useMutationUpdateLike = (take: number, meetingId: number, postId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => postLike(String(postId)),
+    onMutate: async () => {
+      await queryClient.cancelQueries(['getPosts', take, meetingId]);
+
+      const page = queryClient.getQueryData<PageResponse>(['getPosts', take, meetingId]);
+
+      if (page?.data?.posts) {
+        const currentPostIndex = page.data.posts.findIndex(post => post.id === postId);
+
+        if (currentPostIndex !== -1) {
+          const updatedPage = { ...page };
+          updatedPage.data.posts[currentPostIndex] = {
+            ...updatedPage.data.posts[currentPostIndex],
+            likeCount: updatedPage.data.posts[currentPostIndex].isLiked
+              ? updatedPage.data.posts[currentPostIndex].likeCount - 1
+              : updatedPage.data.posts[currentPostIndex].likeCount + 1,
+            isLiked: !updatedPage.data.posts[currentPostIndex].isLiked,
+          };
+
+          queryClient.setQueryData(['getPosts', take, meetingId], updatedPage);
+        }
+
+        return { previousPage: page };
+      }
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getPosts']);
+    },
+  });
 };
 
 export const useQueryGetPost = (postId: string) => {

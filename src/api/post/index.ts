@@ -16,6 +16,20 @@ export interface PostResponse {
   meeting: Pick<MeetingResponse, 'id' | 'title' | 'imageURL' | 'category'>;
 }
 
+export interface PageResponse {
+  data: {
+    posts: PostResponse[];
+    meta: {
+      page: number;
+      take: number;
+      itemCount: number;
+      pageCount: number;
+      hasPreviousPage: boolean;
+      hasNextPage: boolean;
+    };
+  };
+}
+
 export const createPost = async (formData: FormType) => {
   const { data } = await api.post<Data<{ postId: number }>>('/post/v1', formData);
   return data;
