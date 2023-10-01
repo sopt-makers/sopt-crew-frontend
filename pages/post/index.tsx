@@ -15,6 +15,7 @@ import { paths } from '@/__generated__/schema';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
+import { styled } from 'stitches.config';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -67,7 +68,7 @@ export default function PostPage() {
   if (!post) return <Loader />;
 
   return (
-    <div>
+    <Container>
       <FeedPostViewer
         post={post}
         isMine={post.user.id === me?.id}
@@ -110,6 +111,10 @@ export default function PostPage() {
         }
         CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
       />
-    </div>
+    </Container>
   );
 }
+
+const Container = styled('div', {
+  flexType: 'horizontalCenter',
+});
