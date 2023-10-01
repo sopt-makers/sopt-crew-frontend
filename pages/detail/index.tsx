@@ -11,7 +11,7 @@ import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { ERecruitmentStatus } from '@constants/option';
 
 dayjs.locale('ko');
 
