@@ -11,6 +11,7 @@ import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
 import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 
 dayjs.locale('ko');
 
@@ -26,7 +27,7 @@ const DetailPage = () => {
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const [selectedIndex, setSelectedIndex] = useState(
-    detailData?.status === 2 ? SelectedTab.FEED : SelectedTab.INFORMATION
+    detailData?.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION
   );
 
   if (!detailData) {
