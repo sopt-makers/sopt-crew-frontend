@@ -118,7 +118,7 @@ function FeedFormPresentation({
     <SFormContainer>
       <form onSubmit={onSubmit}>
         <SFormHeader className="calc_target">
-          <CancelIcon onClick={handleModalClose} />
+          <SCancelIcon onClick={handleModalClose} />
           <SFormName>{title}</SFormName>
           <SSubmitButton type="submit" disabled={disabled}>
             완료
@@ -246,6 +246,10 @@ const SFormHeader = styled(Box, {
   '@tablet': {
     px: '$20',
   },
+});
+
+const SCancelIcon = styled(CancelIcon, {
+  cursor: 'pointer',
 });
 
 const SSubmitButton = styled('button', {
