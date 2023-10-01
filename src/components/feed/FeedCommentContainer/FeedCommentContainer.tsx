@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
@@ -46,7 +47,11 @@ export default function FeedCommentContainer({ comment, isMine, onClickLike }: F
           onClick={() =>
             overlay.open(({ isOpen, close }) => (
               // eslint-disable-next-line prettier/prettier
-            <ConfirmModal isModalOpened={isOpen} message="댓글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기" 
+              <ConfirmModal
+                isModalOpened={isOpen}
+                message="댓글을 삭제하시겠습니까?"
+                cancelButton="돌아가기"
+                confirmButton="삭제하기"
                 handleModalClose={close}
                 handleConfirm={() => {
                   mutateDeleteComment(comment.id);
@@ -67,7 +72,7 @@ export default function FeedCommentContainer({ comment, isMine, onClickLike }: F
             onSubmit={handleSubmitComment}
           />
         ) : (
-          comment.contents
+          parseTextToLink(comment.contents)
         )
       }
       isMine={isMine}
