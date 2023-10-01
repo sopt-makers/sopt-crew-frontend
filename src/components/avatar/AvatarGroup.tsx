@@ -5,9 +5,7 @@ export default function AvatarGroup({ children }: PropsWithChildren) {
   return (
     <SContainer>
       {Children.map(children, (child, index) => (
-        <SAvatarWrapper key={index} style={{ transform: `translateX(-${33 * index}%)` }}>
-          {child}
-        </SAvatarWrapper>
+        <SAvatarWrapper key={index}>{child}</SAvatarWrapper>
       ))}
     </SContainer>
   );
@@ -18,6 +16,9 @@ const SContainer = styled('div', {
   alignItems: 'center',
 });
 const SAvatarWrapper = styled('div', {
+  '&:not(:first-child)': {
+    marginLeft: '-16px',
+  },
   '& > div': {
     border: '3px solid $black100',
   },
