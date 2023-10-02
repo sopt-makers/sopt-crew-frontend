@@ -20,10 +20,12 @@ import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
 import React from 'react';
+import { useDisplay } from '@hooks/useDisplay';
 
 export default function PostPage() {
   const overlay = useOverlay();
   const router = useRouter();
+  const { isMobile } = useDisplay();
   const query = router.query;
   const { POST, DELETE } = apiV2.get();
 
@@ -46,6 +48,8 @@ export default function PostPage() {
   });
 
   const handleCreateComment = async (comment: string) => {
+    // eslint-disable-next-line prettier/prettier
+    ampli.completedCommentPosting({ crew_status: meeting?.approved, platform_type: isMobile ? 'MO' : 'PC', user_id: Number(me?.orgId) });
     await mutateAsync(comment);
     commentQuery.refetch();
   };
