@@ -14,6 +14,7 @@ import FormController from '@components/form/FormController';
 import { ERROR_MESSAGE } from './feedSchema';
 import useToast from '@hooks/useToast';
 import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
+import { ampli } from '@/ampli';
 
 interface GroupInfo {
   title: string;
@@ -22,6 +23,7 @@ interface GroupInfo {
 }
 
 interface PresentationProps {
+  userId?: number;
   groupInfo: GroupInfo;
   title: string;
   handleModalClose: () => void;
@@ -35,6 +37,7 @@ interface FileChangeHandler {
 }
 
 function FeedFormPresentation({
+  userId,
   groupInfo,
   title,
   handleModalClose,
@@ -102,6 +105,7 @@ function FeedFormPresentation({
         onChange([...imageUrls, ...urls]);
       }
       setTextareaHeightChangeFlag(flag => !flag);
+      ampli.attachFeedPhoto({ user_id: userId, platform_type: window.innerWidth > 768 ? 'PC' : 'MO' });
     };
 
   const uploadFile = async (file: File) => {
