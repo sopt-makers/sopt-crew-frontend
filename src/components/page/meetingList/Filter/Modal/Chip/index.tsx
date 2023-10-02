@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { FilterType } from '@constants/option';
 import { useMultiQueryString } from '@hooks/queryString';
 import { CSSType, styled } from 'stitches.config';
@@ -28,7 +27,7 @@ function Chip({ css, filter }: ChipProps) {
 }
 
 export default Chip;
-const SChipWrapper = styled(Box, {});
+const SChipWrapper = styled('div', {});
 const SLabel = styled('p', {
   color: '$white100',
   fontAg: '18_bold_100',

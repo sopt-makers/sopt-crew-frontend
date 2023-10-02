@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import Textarea from '@components/form/Textarea';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
@@ -29,7 +28,7 @@ const ApplicationModalContent = ({ handleApplicationButton, disabled }: Applicat
 
 export default ApplicationModalContent;
 
-const SApplicationModalContent = styled(Box, {
+const SApplicationModalContent = styled('div', {
   padding: '$24 $24 $40 $24',
   borderRadius: '0 0 16px 16px',
 

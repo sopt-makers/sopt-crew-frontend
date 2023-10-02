@@ -1,6 +1,5 @@
 import { styled } from 'stitches.config';
 import FeedItemSkeleton from './FeedItemSkeleton';
-import { Box } from '@components/box/Box';
 
 interface MobileFeedListSkeletonProps {
   count: number;
@@ -20,7 +19,7 @@ const MobileFeedListSkeleton = ({ count }: MobileFeedListSkeletonProps) => {
 
 export default MobileFeedListSkeleton;
 
-const SMobileFeedListSkeleton = styled(Box, {
+const SMobileFeedListSkeleton = styled('div', {
   margin: '0 auto',
   mt: '$24',
 });

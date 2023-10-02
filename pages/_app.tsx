@@ -3,10 +3,9 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { theme } from 'stitches.config';
+import { styled, theme } from 'stitches.config';
 import '../styles/globals.css';
 import Header from '@components/header/Header';
-import { Box } from '@components/box/Box';
 import { GTM_ID, pageview } from '@utils/gtm';
 import { setAccessTokens } from '@components/util/auth';
 import Loader from '@components/loader/Loader';
@@ -116,25 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           `,
         }}
       />
-      <Box
-        css={{
-          minHeight: '100vh',
-          color: theme.colors.white,
-          mx: '$auto',
-          marginTop: '100px',
-          '@desktop': {
-            maxWidth: '1260px',
-            px: '$30',
-          },
-          '@tablet': {
-            px: '$20',
-          },
-          '@mobile': {
-            marginTop: '70px',
-            px: '$16',
-          },
-        }}
-      >
+      <Layout>
         <OverlayProvider>
           {isServiceReady ? (
             <>
@@ -145,9 +126,27 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Loader />
           )}
         </OverlayProvider>
-      </Box>
+      </Layout>
     </QueryClientProvider>
   );
 }
 
 export default MyApp;
+
+const Layout = styled('div', {
+  minHeight: '100vh',
+  color: theme.colors.white,
+  mx: '$auto',
+  marginTop: '100px',
+  '@desktop': {
+    maxWidth: '1260px',
+    px: '$30',
+  },
+  '@tablet': {
+    px: '$20',
+  },
+  '@mobile': {
+    marginTop: '70px',
+    px: '$16',
+  },
+});

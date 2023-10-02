@@ -1,8 +1,7 @@
-import { Box } from '@components/box/Box';
 import { ComponentProps } from 'react';
 import { styled } from 'stitches.config';
 
-type ModalBackgroundProps = ComponentProps<typeof Box>;
+type ModalBackgroundProps = ComponentProps<typeof SModalBackground>;
 
 const ModalBackground = (props: ModalBackgroundProps) => {
   return <SModalBackground {...props} />;
@@ -10,7 +9,7 @@ const ModalBackground = (props: ModalBackgroundProps) => {
 
 export default ModalBackground;
 
-const SModalBackground = styled(Box, {
+const SModalBackground = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

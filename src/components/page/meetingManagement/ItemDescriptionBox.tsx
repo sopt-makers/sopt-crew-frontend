@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
 const ItemDescriptionBox = () => {
@@ -18,7 +17,7 @@ const ItemDescriptionBox = () => {
 
 export default ItemDescriptionBox;
 
-const SItemDescriptionBox = styled(Box, {
+const SItemDescriptionBox = styled('div', {
   minWidth: 'fit-content',
   border: '1px solid $black40',
   borderRadius: '15px',
@@ -34,11 +33,11 @@ const SItemDescriptionBox = styled(Box, {
   },
 });
 
-const SLeft = styled(Box, {
+const SLeft = styled('div', {
   flexType: 'verticalCenter',
 });
 
-const Item = styled(Box, {
+const Item = styled('div', {
   textAlign: 'center',
 });
 
@@ -62,7 +61,7 @@ const SDate = styled(Item, {
   width: '$168',
 });
 
-const SManagement = styled(Box, {
+const SManagement = styled('div', {
   minWidth: '$28',
   mr: '$66',
 });

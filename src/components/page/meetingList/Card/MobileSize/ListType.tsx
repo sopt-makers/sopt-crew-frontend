@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { RECRUITMENT_STATUS } from '@constants/option';
 import { parsePartValueToLabel } from '@api/meeting';
@@ -10,17 +9,17 @@ import { MobileSizeCardProps } from '.';
 
 function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileType'>) {
   return (
-    <Box css={{ width: '100%' }}>
+    <Container>
       <Flex align="center" css={{ mb: '$16' }}>
-        <Box css={{ position: 'relative' }}>
+        <ImageWrapper>
           <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
           <SThumbnailImage
             css={{
               backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 760)})`,
             }}
           />
-        </Box>
-        <Box css={{ ml: '$12' }}>
+        </ImageWrapper>
+        <InfoGroup>
           <STitleSection>
             <STitle>{meetingData.title}</STitle>
           </STitleSection>
@@ -48,15 +47,21 @@ function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobile
             <SUserInfo>|</SUserInfo>
             <SCategory>{meetingData.category}</SCategory>
           </Flex>
-        </Box>
+        </InfoGroup>
       </Flex>
       <Divider />
-    </Box>
+    </Container>
   );
 }
 
 export default ListType;
 
+const Container = styled('div', {
+  width: '100%',
+});
+const ImageWrapper = styled('div', {
+  position: 'relative',
+});
 const SThumbnailImage = styled('div', {
   width: '120px',
   height: '82px',
@@ -68,7 +73,7 @@ const SThumbnailImage = styled('div', {
   backgroundRepeat: 'no-repeat',
 });
 
-const SStatus = styled(Box, {
+const SStatus = styled('div', {
   position: 'absolute',
   fontStyle: 'B4',
   top: '8px',
@@ -90,12 +95,14 @@ const SStatus = styled(Box, {
     },
   },
 });
-
-const STitleSection = styled(Box, {
+const InfoGroup = styled('div', {
+  ml: '$12',
+});
+const STitleSection = styled('div', {
   my: '$8',
 });
 
-const SProfileWrapper = styled(Box, {
+const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
   color: '$white100',
   width: 'fit-content',

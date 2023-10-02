@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { RECRUITMENT_STATUS } from '@constants/option';
 import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
@@ -6,8 +5,8 @@ import { MobileSizeCardProps } from '.';
 
 function CardType({ meetingData }: Pick<MobileSizeCardProps, 'meetingData'>) {
   return (
-    <Box>
-      <Box css={{ position: 'relative' }}>
+    <div>
+      <ImageWrapper>
         <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
         <SThumbnailImage
           css={{
@@ -15,30 +14,28 @@ function CardType({ meetingData }: Pick<MobileSizeCardProps, 'meetingData'>) {
             backgroundSize: 'cover',
           }}
         />
-      </Box>
+      </ImageWrapper>
       <STitleSection>
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
-      <Box
-        css={{
-          display: 'flex',
-        }}
-      >
+      <MobileWrapper>
         <SMobileValue>{meetingData.category}</SMobileValue>
         <SMobileValue>{meetingData.user.name}</SMobileValue>
-      </Box>
-    </Box>
+      </MobileWrapper>
+    </div>
   );
 }
 export default CardType;
-
+const ImageWrapper = styled('div', {
+  position: 'relative',
+});
 const SThumbnailImage = styled('div', {
   width: '162px',
   height: '111px',
   borderRadius: '$8',
 });
 
-const SStatus = styled(Box, {
+const SStatus = styled('div', {
   position: 'absolute',
   top: '16px',
   left: '16px',
@@ -67,7 +64,7 @@ const SStatus = styled(Box, {
   },
 });
 
-const STitleSection = styled(Box, {
+const STitleSection = styled('div', {
   my: '$16',
   '@tablet': {
     my: '$8',
@@ -84,7 +81,9 @@ const STitle = styled('p', {
     minHeight: '40px',
   },
 });
-
+const MobileWrapper = styled('div', {
+  display: 'flex',
+});
 const SMobileValue = styled('p', {
   fontAg: '12_medium_100',
   color: '$gray80',

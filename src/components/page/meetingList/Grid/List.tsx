@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useQueryMeetingListOfAll } from '@api/meeting/hooks';
 import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/user/hooks';

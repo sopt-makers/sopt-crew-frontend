@@ -1,5 +1,4 @@
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import QuestionMarkIcon from '@assets/svg/question_mark.svg?rect';
 
 const MentorTooltip = () => {
@@ -18,7 +17,7 @@ const MentorTooltip = () => {
 
 export default MentorTooltip;
 
-const STooltip = styled(Box, {
+const STooltip = styled('div', {
   position: 'absolute',
   top: '$13',
   left: '176px',
@@ -52,11 +51,11 @@ const STooltip = styled(Box, {
   },
 });
 
-const STooltipTitle = styled(Box, {
+const STooltipTitle = styled('div', {
   flexType: 'verticalCenter',
 });
 
-const STooltipDescription = styled(Box, {
+const STooltipDescription = styled('div', {
   display: 'none',
   mt: '$14',
   lineHeight: '140%',

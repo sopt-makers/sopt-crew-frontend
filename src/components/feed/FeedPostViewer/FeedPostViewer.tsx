@@ -3,7 +3,6 @@ import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
 import { fromNow } from '@utils/dayjs';
@@ -104,7 +103,7 @@ export default function FeedPostViewer({
   );
 }
 
-const Container = styled(Box, {
+const Container = styled('div', {
   width: '800px',
   flexShrink: 0,
   borderRadius: '20px',

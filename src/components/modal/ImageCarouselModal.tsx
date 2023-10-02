@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import ModalContainer from './ModalContainer';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -58,7 +57,7 @@ export default function ImageCarouselModal({ isOpen, close, images, startIndex =
     </ModalContainer>
   );
 }
-const ModalWrapper = styled(Box, {
+const ModalWrapper = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

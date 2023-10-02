@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import DefaultModal from '@components/modal/DefaultModal';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import { styled } from 'stitches.config';
@@ -30,7 +29,7 @@ function FilterSelectModal({ isModalOpened, handleModalClose }: FilterSelectModa
 }
 export default FilterSelectModal;
 
-const SSelectWrapper = styled(Box, {
+const SSelectWrapper = styled('div', {
   px: '$40',
   pt: '$32',
 });

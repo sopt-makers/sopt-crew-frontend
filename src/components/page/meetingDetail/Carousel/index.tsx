@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
@@ -38,7 +37,7 @@ const Carousel = ({ imageList }: CarouselProps) => {
 
 export default Carousel;
 
-const SCarousel = styled(Box, {
+const SCarousel = styled('div', {
   '.slick-slider': {
     flexType: 'center',
     mt: '$60',
@@ -125,7 +124,7 @@ const SCarousel = styled(Box, {
   },
 });
 
-const SImageWrapper = styled(Box, {
+const SImageWrapper = styled('div', {
   img: {
     objectFit: 'cover',
     width: '100%',

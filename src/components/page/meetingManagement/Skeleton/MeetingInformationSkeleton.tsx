@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
 const MeetingInformationSkeleton = () => {
@@ -15,7 +14,7 @@ const MeetingInformationSkeleton = () => {
 
 export default MeetingInformationSkeleton;
 
-const SMeetingInformationSkeleton = styled(Box, {
+const SMeetingInformationSkeleton = styled('div', {
   background: '$black80',
   padding: '$32',
   borderRadius: '20px',
@@ -31,7 +30,7 @@ const SMeetingInformationSkeleton = styled(Box, {
   },
 });
 
-const SImage = styled(Box, {
+const SImage = styled('div', {
   background: '$black40',
   borderRadius: '14px',
   width: '$167',
@@ -42,7 +41,7 @@ const SImage = styled(Box, {
   },
 });
 
-const STextArea = styled(Box, {
+const STextArea = styled('div', {
   ml: '$24',
 
   '@tablet': {
@@ -50,7 +49,7 @@ const STextArea = styled(Box, {
   },
 });
 
-const SLine = styled(Box, {
+const SLine = styled('div', {
   height: '$27',
   background: '$black40',
   borderRadius: '6px',

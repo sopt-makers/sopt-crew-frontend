@@ -3,7 +3,6 @@ import { Dialog } from '@headlessui/react';
 import { PropsWithChildren, ReactNode } from 'react';
 import BottomSheetButton from './BottomSheetButton';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 
 interface BottomSheetDialogProps {
   isOpen: boolean;
@@ -40,7 +39,7 @@ function BottomSheetDialog({
 export default BottomSheetDialog;
 BottomSheetDialog.Button = BottomSheetButton;
 
-const SModalBackground = styled(Box, {
+const SModalBackground = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

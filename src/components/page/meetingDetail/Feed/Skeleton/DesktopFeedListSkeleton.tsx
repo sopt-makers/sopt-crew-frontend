@@ -1,6 +1,5 @@
 import { styled } from 'stitches.config';
 import FeedItemSkeleton from './FeedItemSkeleton';
-import { Box } from '@components/box/Box';
 
 interface DesktopFeedListSkeletonProps {
   row: number;
@@ -25,7 +24,7 @@ const DesktopFeedListSkeleton = ({ row, column }: DesktopFeedListSkeletonProps) 
 
 export default DesktopFeedListSkeleton;
 
-const SDesktopFeedListSkeleton = styled(Box, {
+const SDesktopFeedListSkeleton = styled('div', {
   display: 'grid',
   gap: '24px 30px',
   margin: '0 auto',

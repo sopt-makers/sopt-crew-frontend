@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { useRouter } from 'next/router';
@@ -39,7 +38,7 @@ const EmptyView = ({ isMember }: EmptyViewProps) => {
 
 export default EmptyView;
 
-const SContent = styled(Box, {
+const SContent = styled('div', {
   flexType: 'center',
   flexDirection: 'column',
   color: '$gray40',
