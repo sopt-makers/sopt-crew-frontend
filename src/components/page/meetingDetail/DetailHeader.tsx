@@ -306,7 +306,7 @@ const SRecruitStatus = styled(Box, {
         color: '$black100',
       },
       2: {
-        backgroundColor: '$gray60',
+        backgroundColor: '$black60',
       },
     },
   },

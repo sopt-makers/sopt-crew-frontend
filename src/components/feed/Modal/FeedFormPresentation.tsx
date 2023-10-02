@@ -11,8 +11,10 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { imageS3Bucket } from '@constants/url';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import FormController from '@components/form/FormController';
-import { ERROR_MESSAGE } from './schema';
+import { ERROR_MESSAGE } from './feedSchema';
 import useToast from '@hooks/useToast';
+import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
+import { ampli } from '@/ampli';
 
 interface GroupInfo {
   title: string;
@@ -21,6 +23,7 @@ interface GroupInfo {
 }
 
 interface PresentationProps {
+  userId?: number;
   groupInfo: GroupInfo;
   title: string;
   handleModalClose: () => void;
@@ -34,6 +37,7 @@ interface FileChangeHandler {
 }
 
 function FeedFormPresentation({
+  userId,
   groupInfo,
   title,
   handleModalClose,
@@ -101,6 +105,7 @@ function FeedFormPresentation({
         onChange([...imageUrls, ...urls]);
       }
       setTextareaHeightChangeFlag(flag => !flag);
+      ampli.attachFeedPhoto({ user_id: userId, platform_type: window.innerWidth > 768 ? 'PC' : 'MO' });
     };
 
   const uploadFile = async (file: File) => {
@@ -117,7 +122,7 @@ function FeedFormPresentation({
     <SFormContainer>
       <form onSubmit={onSubmit}>
         <SFormHeader className="calc_target">
-          <CancelIcon onClick={handleModalClose} />
+          <SCancelIcon onClick={handleModalClose} />
           <SFormName>{title}</SFormName>
           <SSubmitButton type="submit" disabled={disabled}>
             완료
@@ -144,10 +149,10 @@ function FeedFormPresentation({
               value={titleValue}
               onChange={e => {
                 const inputValue = e.target.value;
-                if (inputValue.length <= 100) {
+                if (inputValue.length <= FORM_TITLE_MAX_LENGTH) {
                   onChange(inputValue);
                 } else {
-                  onChange(inputValue.substring(0, 100));
+                  onChange(inputValue.substring(0, FORM_TITLE_MAX_LENGTH));
                   showToast({ type: 'error', message: ERROR_MESSAGE.TITLE.MAX });
                 }
               }}
@@ -234,7 +239,6 @@ const SFormName = styled('h1', {
 
   '@tablet': {
     margin: 0,
-    borderBottom: '1px solid $black60',
     fontStyle: 'T3',
   },
 });
@@ -246,6 +250,10 @@ const SFormHeader = styled(Box, {
   '@tablet': {
     px: '$20',
   },
+});
+
+const SCancelIcon = styled(CancelIcon, {
+  cursor: 'pointer',
 });
 
 const SSubmitButton = styled('button', {

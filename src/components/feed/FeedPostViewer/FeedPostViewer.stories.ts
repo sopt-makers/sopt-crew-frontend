@@ -15,6 +15,8 @@ type Story = StoryObj<typeof FeedPostViewer>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     post: {
       id: 1,
       title: '하트시그널 시즌 1부터 시즌 4까지 중에 가장 인기가 많았던 출연자는?',
@@ -28,6 +30,7 @@ export const Default: Story = {
       ],
       user: {
         id: 1,
+        orgId: 10,
         name: '김지민',
         profileImage: 'https://mui.com/static/images/avatar/1.jpg',
       },

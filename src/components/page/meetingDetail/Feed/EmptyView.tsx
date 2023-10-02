@@ -1,22 +1,39 @@
 import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
+import { useRouter } from 'next/router';
+import { useOverlay } from '@hooks/useOverlay/Index';
 
-// interface EmptyViewProps {
-//   isMember: boolean;
-// }
+interface EmptyViewProps {
+  isMember: boolean;
+}
 
-const EmptyView = () => {
+const EmptyView = ({ isMember }: EmptyViewProps) => {
+  const { query } = useRouter();
+  const meetingId = query?.id as string;
+
+  const feedCreateOverlay = useOverlay();
+
+  const handleModalOpen = () => {
+    feedCreateOverlay.open(({ isOpen, close }) => {
+      return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
+    });
+  };
+
   return (
-    <SContent>
-      <p>아직 작성된 피드가 없어요.</p>
+    <>
+      <SContent>
+        <SEmoji>👀</SEmoji>
+        <p>아직 작성된 피드가 없어요.</p>
 
-      {/* {isMember && (
-        <>
-          <p>첫번째 작성자가 되어볼까요?</p>
-          <button>작성하러 가기</button>
-        </>
-      )} */}
-    </SContent>
+        {isMember && (
+          <>
+            <p>첫번째 작성자가 되어볼까요?</p>
+            <button onClick={handleModalOpen}>작성하러 가기</button>
+          </>
+        )}
+      </SContent>
+    </>
   );
 };
 
@@ -46,5 +63,13 @@ const SContent = styled(Box, {
       borderRadius: '8px',
       fontStyle: 'H4',
     },
+  },
+});
+
+const SEmoji = styled('p', {
+  mb: '$20',
+
+  '@tablet': {
+    mb: '$12',
   },
 });

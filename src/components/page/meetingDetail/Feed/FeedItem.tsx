@@ -2,21 +2,34 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
-import MoreIcon from '@assets/svg/more.svg';
+// import MoreIcon from '@assets/svg/more.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
-import { useState } from 'react';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
+import truncateText from '@utils/truncateText';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import {
+  AVATAR_MAX_LENGTH,
+  CARD_CONTENT_MAX_LENGTH,
+  CARD_TITLE_MAX_LENGTH,
+  LIKE_MAX_COUNT,
+  TAKE_COUNT,
+} from '@constants/feed';
+import { UserResponse } from '@api/user';
+import { fromNow } from '@utils/dayjs';
+import { useMutationUpdateLike } from '@api/post/hooks';
+import { useRouter } from 'next/router';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import Link from 'next/link';
+import { playgroundURL } from '@constants/url';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { useDisplay } from '@hooks/useDisplay';
 
 interface FeedItemProps {
-  profileImage: string;
-  name: string;
+  id: number;
+  user: UserResponse;
   title: string;
   contents: string;
   images?: string[];
@@ -24,44 +37,86 @@ interface FeedItemProps {
   commenterThumbnails?: string[];
   commentCount: number;
   likeCount: number;
+  isLiked: boolean;
 }
 
-const FeedItem = ({
-  profileImage,
-  name,
-  title,
-  contents,
-  images,
-  updatedDate,
-  commenterThumbnails,
-  commentCount,
-  likeCount,
-}: FeedItemProps) => {
-  const formattedLikeCount = likeCount > 999 ? '999+' : likeCount;
-  const [like, setLike] = useState(false);
+const FeedItem = (post: FeedItemProps) => {
+  const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
+    post;
+  const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
+  const router = useRouter();
+  const meetingId = router.query.id as string;
+  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
+  const { mutate } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId), id);
+  const { isMobile } = useDisplay();
 
+  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutate();
+    ampli.clickFeedlistLike({ crew_status: meeting?.approved });
+  };
   return (
-    <SFeedItem>
+    <SFeedItem
+      onClick={() =>
+        ampli.clickFeedCard({
+          feed_id: id,
+          feed_upload: updatedDate,
+          feed_title: title,
+          feed_image_total: images ? images.length : 0,
+          feed_comment_total: commentCount,
+          feed_like_total: likeCount,
+          group_id: Number(meetingId),
+          crew_status: meeting?.approved,
+          platform_type: isMobile ? 'MO' : 'PC',
+        })
+      }
+    >
       <STop>
         <Flex align="center">
-          <SProfileImage src={profileImage} alt="" />
-          <SName>{name}</SName>
-          <STime>{dayjs(updatedDate).fromNow()}</STime>
+          <SProfileButton
+            onClick={e => {
+              e.preventDefault();
+              ampli.clickFeedProfile({ crew_status: meeting?.approved });
+              router.push(`${playgroundURL}${playgroundLink.memberDetail(user.orgId)}`);
+            }}
+          >
+            <SProfileImageWrapper>
+              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+            </SProfileImageWrapper>
+            <SName>{user.name}</SName>
+          </SProfileButton>
+          <STime>{fromNow(updatedDate)}</STime>
         </Flex>
-        <MoreIcon />
+        {/* <MoreIcon /> */}
       </STop>
 
-      <STitle>{title}</STitle>
-      <SContent>{contents}</SContent>
-      {images && <SThumbnail src={images[0]} alt="" />}
+      <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
+      <SContent>{truncateText(contents, CARD_CONTENT_MAX_LENGTH)}</SContent>
+      {images && images[THUMBNAIL_IMAGE_INDEX] && (
+        <SThumbnailWrapper>
+          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
+          {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
+        </SThumbnailWrapper>
+      )}
 
       <SBottom>
         <Flex align="center">
           {commenterThumbnails && (
             <AvatarGroup>
-              {commenterThumbnails.map(thumbnail => (
-                <Avatar key={thumbnail} src={thumbnail} alt="" />
-              ))}
+              {[...commenterThumbnails]
+                ?.sort()
+                .slice(0, AVATAR_MAX_LENGTH)
+                .map((thumbnail, index) => (
+                  <Avatar
+                    key={`${thumbnail}-${index}`}
+                    src={thumbnail}
+                    alt=""
+                    Overlay={
+                      commenterThumbnails.length > AVATAR_MAX_LENGTH &&
+                      index === AVATAR_MAX_LENGTH - 1 && <SOverlay>+</SOverlay>
+                    }
+                  />
+                ))}
             </AvatarGroup>
           )}
           <SCommentWrapper hasComment={commentCount > 0}>
@@ -70,8 +125,8 @@ const FeedItem = ({
           </SCommentWrapper>
         </Flex>
 
-        <SLikeButton like={like} onClick={() => setLike(prev => !prev)}>
-          {like ? <LikeActiveIcon /> : <LikeDefaultIcon />}
+        <SLikeButton like={isLiked} onClick={handleLikeClick}>
+          {isLiked ? <LikeActiveIcon /> : <LikeDefaultIcon />}
           {formattedLikeCount}
         </SLikeButton>
       </SBottom>
@@ -83,14 +138,15 @@ export default FeedItem;
 
 const SFeedItem = styled(Box, {
   padding: '$24 $20 $28 $20',
+  background: '#171818',
+  borderRadius: '12px',
   color: '$white100',
-  maxWidth: '$380',
-
+  width: '100%',
   '@tablet': {
     padding: '$24 0 $28 0',
+    background: 'transparent',
+    borderRadius: 0,
     margin: '0 auto',
-    maxWidth: '100%',
-    minWidth: '100%',
   },
 });
 
@@ -100,12 +156,24 @@ const STop = styled(Box, {
   mb: '$12',
 });
 
-const SProfileImage = styled('img', {
+const SProfileButton = styled('button', {
+  flexType: 'verticalCenter',
+  color: '$white100',
+});
+
+const SProfileImageWrapper = styled('div', {
   width: '$32',
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
   background: '$black60',
+  overflow: 'hidden',
+});
+
+const SProfileImage = styled('img', {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 });
 
 const SName = styled('span', {
@@ -132,10 +200,14 @@ const SContent = styled(Box, {
   mb: '$20',
   color: '$gray40',
   fontStyle: 'B2',
-
+  whiteSpace: 'pre-wrap',
   '@tablet': {
     fontStyle: 'B3',
   },
+});
+
+const SThumbnailWrapper = styled(Box, {
+  position: 'relative',
 });
 
 const SThumbnail = styled('img', {
@@ -146,9 +218,31 @@ const SThumbnail = styled('img', {
   width: '100%',
   maxWidth: '$340',
   height: 'fit-content',
+  aspectRatio: '4 / 3',
+  objectFit: 'cover',
 
   '@tablet': {
     maxWidth: '100%',
+  },
+});
+
+const SThumbnailCount = styled(Box, {
+  position: 'absolute',
+  top: '12px',
+  right: '12px',
+  zIndex: 1,
+  backgroundColor: '$black100',
+  opacity: 0.6,
+  color: '$gray30',
+  borderRadius: '50%',
+  fontStyle: 'T5',
+  width: '40px',
+  height: '40px',
+  flexType: 'center',
+
+  '@tablet': {
+    width: '36px',
+    height: '36px',
   },
 });
 
@@ -161,7 +255,6 @@ const SCommentWrapper = styled('div', {
   variants: {
     hasComment: {
       true: {
-        transform: 'translateX(-66%)',
         ml: '$8',
       },
     },
@@ -197,4 +290,14 @@ const SLikeButton = styled('button', {
   '& > svg': {
     mr: '$6',
   },
+});
+
+const SOverlay = styled(Box, {
+  position: 'absolute',
+  background: '$black100',
+  opacity: 0.7,
+  width: '100%',
+  height: '100%',
+  flexType: 'center',
+  color: '$white100',
 });

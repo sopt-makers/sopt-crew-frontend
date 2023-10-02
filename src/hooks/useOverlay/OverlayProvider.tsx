@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { createContext, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 export const OverlayContext = createContext<{
   mount(id: string, element: ReactNode): void;

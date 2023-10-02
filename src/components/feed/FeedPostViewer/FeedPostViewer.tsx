@@ -2,29 +2,45 @@ import { paths } from '@/__generated__/schema';
 import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
-import CommentIcon from 'public/assets/svg/comment.svg';
-import LikeIcon from 'public/assets/svg/like.svg';
-import LikeFillIcon from 'public/assets/svg/like_fill.svg';
-import SendIcon from 'public/assets/svg/send.svg';
 import { styled } from 'stitches.config';
 import { Box } from '@components/box/Box';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
+import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import { playgroundURL } from '@constants/url';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedPostViewerProps {
-  post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json'];
+  post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
+  isMine?: boolean;
   Actions: React.ReactNode[];
+  CommentLikeSection: React.ReactNode;
+  CommentList: React.ReactNode;
+  CommentInput: React.ReactNode;
+  onClickImage?: () => void;
+  onClickAuthor?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
+export default function FeedPostViewer({
+  post,
+  isMine,
+  Actions,
+  CommentLikeSection,
+  CommentList,
+  CommentInput,
+  onClickImage,
+  onClickAuthor,
+}: FeedPostViewerProps) {
   const overlay = useOverlay();
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
+    onClickImage?.();
     overlay.open(({ isOpen, close }) => (
       <ImageCarouselModal isOpen={isOpen} close={close} images={images} startIndex={startIndex} />
     ));
@@ -34,29 +50,32 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
     <Container>
       <ContentWrapper>
         <ContentHeader>
-          <AuthorWrapper>
+          <AuthorWrapper
+            href={`${playgroundURL}${playgroundLink.memberDetail(post.user.orgId)}`}
+            onClick={onClickAuthor}
+          >
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{dayjs(post.updatedDate).fromNow()}</UpdatedDate>
+              <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map(Action => (
-                <Menu.Item>
-                  <MenuItem>{Action}</MenuItem>
-                </Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
+          {isMine && (
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map((Action, index) => (
+                  <Menu.Item key={index}>{Action}</Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          )}
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>
-          <Contents>{post.contents}</Contents>
+          <Contents>{parseTextToLink(post.contents)}</Contents>
           {post.images && (
             <ImageSection>
               {post.images.length === 1 ? (
@@ -75,28 +94,11 @@ export default function FeedPostViewer({ post, Actions }: FeedPostViewerProps) {
         </ContentBody>
       </ContentWrapper>
 
-      <CommentLikeWrapper>
-        <CommentLike>
-          <CommentIcon />
-          {/* TODO: add comment count */}
-          <span style={{ marginLeft: '4px' }}>댓글 </span>
-        </CommentLike>
-        <Divider />
-        <CommentLike>
-          {post.isLiked ? <LikeFillIcon /> : <LikeIcon />}
-          <span style={{ marginLeft: '4px' }}>좋아요 {post.likeCount}</span>
-        </CommentLike>
-      </CommentLikeWrapper>
+      <CommentLikeWrapper>{CommentLikeSection}</CommentLikeWrapper>
 
       <CommentListWrapper>
-        {/* 댓글 목록 */}
-        <div></div>
-        <CommentInputWrapper>
-          <CommentInput placeholder="댓글 입력" />
-          <SendButton>
-            <SendIcon />
-          </SendButton>
-        </CommentInputWrapper>
+        {CommentList}
+        {CommentInput}
       </CommentListWrapper>
     </Container>
   );
@@ -108,9 +110,11 @@ const Container = styled(Box, {
   borderRadius: '20px',
   border: '1px solid $black60',
   background: '$black100',
+  mb: '$80',
   '@tablet': {
     width: '100%',
     border: 'none',
+    mb: '$0',
   },
 });
 const ContentWrapper = styled('div', {
@@ -119,7 +123,7 @@ const ContentWrapper = styled('div', {
   flexDirection: 'column',
   gap: '20px',
   '@tablet': {
-    padding: '12px 16px 20px 16px',
+    padding: '0 0 20px 0',
   },
 });
 const ContentHeader = styled('div', {
@@ -127,7 +131,7 @@ const ContentHeader = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
 });
-const AuthorWrapper = styled('div', {
+const AuthorWrapper = styled('a', {
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
@@ -161,12 +165,13 @@ const Contents = styled('p', {
   mt: '$12',
   color: '$gray30',
   fontStyle: 'B2',
+  whiteSpace: 'pre-wrap',
   '@tablet': {
     fontStyle: 'B3',
   },
 });
 const ImageSection = styled('section', {
-  paddingRight: '25px',
+  paddingRight: '16px',
   marginTop: '20px',
   marginBottom: '12px',
   '@tablet': {
@@ -219,25 +224,6 @@ const MenuItems = styled(Menu.Items, {
   top: 0,
   right: '100%', // TODO: design 체크 필요
 });
-const MenuItem = styled('button', {
-  display: 'flex',
-  width: '147px',
-  padding: '8px 16px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  color: '$white100',
-  background: '$black80',
-  fontStyle: 'B3',
-  border: '1px solid $black40',
-  '&:first-child': {
-    borderRadius: '14px 14px 0 0',
-    borderBottom: 'none',
-  },
-  '&:last-child': {
-    borderRadius: '0 0 14px 14px ',
-    borderTop: 'none',
-  },
-});
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',
   fontStyle: 'T5',
@@ -245,21 +231,9 @@ const CommentLikeWrapper = styled('div', {
   flexType: 'center',
   borderTop: '1px solid $black60',
   borderBottom: '1px solid $black60',
-});
-const Divider = styled('div', {
-  background: '$black60',
-  width: '1px',
-  height: '24px',
-});
-const CommentLike = styled('div', {
-  width: '400px',
-  display: 'flex',
-  flexType: 'center',
-  color: '$gray80',
-  fontStyle: 'T5',
   '@tablet': {
-    width: '50%',
-    fontStyle: 'T6',
+    width: '100vw',
+    marginLeft: 'calc(50% - 50vw)',
   },
 });
 const CommentListWrapper = styled('div', {
@@ -267,25 +241,10 @@ const CommentListWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
-});
-const CommentInputWrapper = styled('div', {
-  flexType: 'verticalCenter',
-  gap: '16px',
-});
-const CommentInput = styled('input', {
-  width: '692px',
-  padding: '14px 24px',
-  borderRadius: '50px',
-  background: '$black60',
-  color: '$gray40',
-  fontStyle: 'B2',
-  '&::placeholder': {
-    color: '$gray60',
+  '@tablet': {
+    padding: '24px 0 32px 0',
+    gap: '36px',
   },
-});
-const SendButton = styled('button', {
-  width: '32px',
-  height: '32px',
 });
 const SAvatar = styled(Avatar, {
   '@tablet': {

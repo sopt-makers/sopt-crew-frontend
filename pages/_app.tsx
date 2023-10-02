@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { theme } from 'stitches.config';
 import '../styles/globals.css';
@@ -11,15 +11,30 @@ import { GTM_ID, pageview } from '@utils/gtm';
 import { setAccessTokens } from '@components/util/auth';
 import Loader from '@components/loader/Loader';
 import ChannelService from '@utils/ChannelService';
-import { api, playgroundApi } from '@api/index';
 import { fetchMyProfile } from '@api/user';
 import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
 import SEO from '@components/seo/SEO';
+import { crewToken, playgroundToken } from '@/stores/tokenStore';
+import { useStore } from '@nanostores/react';
+import { ampli } from '../src/ampli';
+
+setAccessTokens();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
   const router = useRouter();
-  const [isServiceReady, setIsServiceReady] = useState(false);
+  const _crewToken = useStore(crewToken);
+  const _playgroundToken = useStore(playgroundToken);
+  const isServiceReady = _crewToken && _playgroundToken;
 
   useEffect(() => {
     router.events.on('routeChangeComplete', pageview);
@@ -27,20 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', pageview);
     };
   }, [router.events]);
-
-  useEffect(() => {
-    // NOTE: development 환경에서는 테스트 토큰을 사용한다.
-    if (process.env.NODE_ENV === 'development') {
-      api.defaults.headers.common['Authorization'] =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi7J207J6s7ZuIIiwiaWQiOjI1NywiaWF0IjoxNjgxODE5NTcxLCJleHAiOjE3MTc4MTk1NzF9.JVG-xzOVikIbX7vj_cZig_TTHxM-EzMgjO-_VGRbLTs';
-      playgroundApi.defaults.headers.common['Authorization'] =
-        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMyIsImV4cCI6MTY4MjI0NzIzNn0.jPK_OTNXVNvnVFkbdme6tfABsdryUFgXEYOYGCAxdPc';
-      setIsServiceReady(true);
-      return;
-    }
-    // NOTE: NODE_ENV가 production 환경에서는 로컬스토리지에 저장된 토큰을 가져와 사용
-    setAccessTokens().then(() => setIsServiceReady(true));
-  }, []);
 
   useEffect(() => {
     if (!isServiceReady) return;
@@ -72,6 +73,32 @@ function MyApp({ Component, pageProps }: AppProps) {
       channelTalk.shutdown();
     };
   }, [isServiceReady]);
+
+  useEffect(() => {
+    if (!isServiceReady) return;
+
+    (async function initAmplitude() {
+      if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+        await ampli.load({
+          client: {
+            apiKey: process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY,
+            configuration: {
+              defaultTracking: true,
+              minIdLength: 1,
+            },
+          },
+        }).promise;
+        const { data: user } = await fetchMyProfile();
+        ampli.identify(user.data.orgId);
+      }
+    })();
+  }, [isServiceReady]);
+
+  useEffect(() => {
+    return () => {
+      ampli.flush();
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

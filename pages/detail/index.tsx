@@ -8,9 +8,10 @@ import Loader from '@components/loader/Loader';
 import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import { ERecruitmentStatus } from '@constants/option';
 
 dayjs.locale('ko');
 
@@ -22,10 +23,16 @@ const enum SelectedTab {
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
+
+  useEffect(() => {
+    if (detailData) {
+      setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
+    }
+  }, [detailData]);
 
   if (!detailData) {
     return <Loader />;
@@ -35,6 +42,7 @@ const DetailPage = () => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
+
         <DetailHeader
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
@@ -51,8 +59,7 @@ const DetailPage = () => {
           </STabList>
           <Tab.Panels>
             <Tab.Panel>
-              {/* <FeedPanel isMember={detailData?.approved || detailData?.host} /> */}
-              <FeedPanel />
+              <FeedPanel isMember={detailData?.approved || detailData?.host} />
             </Tab.Panel>
             <Tab.Panel>
               <InformationPanel detailData={detailData} />

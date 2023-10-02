@@ -33,6 +33,27 @@ const config: StorybookConfig = {
           },
         },
         {
+          resourceQuery: /v2/, // *.svg?v2
+          use: {
+            loader: '@svgr/webpack',
+            options: {
+              svgo: true,
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: 'preset-default',
+                    params: {
+                      overrides: {
+                        removeViewBox: false,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
           use: '@svgr/webpack',
         },
       ],

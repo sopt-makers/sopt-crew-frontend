@@ -1,6 +1,8 @@
 import { paths } from '@/__generated__/schema';
 import axios from 'axios';
 import createClient from 'openapi-fetch';
+import { computed } from 'nanostores';
+import { crewToken, playgroundToken } from '@/stores/tokenStore';
 
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
@@ -17,8 +19,21 @@ export const api = axios.create({
   baseURL,
 });
 
+crewToken.subscribe(newToken => {
+  api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+});
+
 export const playgroundApi = axios.create({
   baseURL: playgroundBaseURL,
 });
 
-export const apiV2 = createClient<paths>({ baseUrl: baseURL });
+playgroundToken.subscribe(newToken => {
+  playgroundApi.defaults.headers.common['Authorization'] = newToken;
+});
+
+export const apiV2 = computed(crewToken, currentToken =>
+  createClient<paths>({
+    baseUrl: baseURL,
+    headers: currentToken ? { Authorization: `Bearer ${currentToken}` } : {},
+  })
+);

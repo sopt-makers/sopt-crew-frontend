@@ -5,11 +5,7 @@ import { CreateOverlayElement } from './types';
 
 let elementId = 1;
 
-interface Options {
-  exitOnUnmount?: boolean;
-}
-
-export function useOverlay({ exitOnUnmount = true }: Options = {}) {
+export function useOverlay() {
   const context = useContext(OverlayContext);
 
   if (context == null) {
@@ -23,11 +19,9 @@ export function useOverlay({ exitOnUnmount = true }: Options = {}) {
 
   useEffect(() => {
     return () => {
-      if (exitOnUnmount) {
-        unmount(id);
-      }
+      unmount(id);
     };
-  }, [exitOnUnmount, id, unmount]);
+  }, [id, unmount]);
 
   return useMemo(
     () => ({
@@ -46,9 +40,6 @@ export function useOverlay({ exitOnUnmount = true }: Options = {}) {
       },
       close: () => {
         overlayRef.current?.close();
-      },
-      exit: () => {
-        unmount(id);
       },
     }),
     [id, mount, unmount]
