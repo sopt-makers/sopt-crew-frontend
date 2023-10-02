@@ -8,7 +8,7 @@ import Loader from '@components/loader/Loader';
 import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { ERecruitmentStatus } from '@constants/option';
@@ -26,9 +26,13 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const [selectedIndex, setSelectedIndex] = useState(
-    detailData?.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION
-  );
+  const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
+
+  useEffect(() => {
+    if (detailData) {
+      setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
+    }
+  }, [detailData]);
 
   if (!detailData) {
     return <Loader />;
