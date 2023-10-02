@@ -109,7 +109,7 @@ const CarouselContainer = styled('div', {
 const CarouselScrollContainer = styled('div', {
   display: 'flex',
   maxWidth: '1280px',
-  height: '100vh',
+  height: '100%',
   maxHeight: '600px',
 });
 const CarouselItem = styled('div', {
