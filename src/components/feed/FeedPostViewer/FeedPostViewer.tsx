@@ -24,6 +24,7 @@ interface FeedPostViewerProps {
   CommentList: React.ReactNode;
   CommentInput: React.ReactNode;
   onClickImage?: () => void;
+  onClickAuthor?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export default function FeedPostViewer({
@@ -34,6 +35,7 @@ export default function FeedPostViewer({
   CommentList,
   CommentInput,
   onClickImage,
+  onClickAuthor,
 }: FeedPostViewerProps) {
   const overlay = useOverlay();
 
@@ -48,7 +50,10 @@ export default function FeedPostViewer({
     <Container>
       <ContentWrapper>
         <ContentHeader>
-          <AuthorWrapper href={`${playgroundURL}${playgroundLink.memberDetail(post.user.orgId)}`}>
+          <AuthorWrapper
+            href={`${playgroundURL}${playgroundLink.memberDetail(post.user.orgId)}`}
+            onClick={onClickAuthor}
+          >
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
