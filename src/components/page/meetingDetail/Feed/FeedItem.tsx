@@ -201,6 +201,7 @@ const SContent = styled(Box, {
   color: '$gray40',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
+  wordBreak: 'break-all',
   '@tablet': {
     fontStyle: 'B3',
   },
