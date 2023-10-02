@@ -16,6 +16,7 @@ import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
 import SEO from '@components/seo/SEO';
 import { crewToken, playgroundToken } from '@/stores/tokenStore';
 import { useStore } from '@nanostores/react';
+import { ampli } from '../src/ampli';
 
 setAccessTokens();
 
@@ -72,6 +73,32 @@ function MyApp({ Component, pageProps }: AppProps) {
       channelTalk.shutdown();
     };
   }, [isServiceReady]);
+
+  useEffect(() => {
+    if (!isServiceReady) return;
+
+    (async function initAmplitude() {
+      if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+        await ampli.load({
+          client: {
+            apiKey: process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY,
+            configuration: {
+              defaultTracking: true,
+              minIdLength: 1,
+            },
+          },
+        }).promise;
+        const { data: user } = await fetchMyProfile();
+        ampli.identify(user.data.orgId);
+      }
+    })();
+  }, [isServiceReady]);
+
+  useEffect(() => {
+    return () => {
+      ampli.flush();
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

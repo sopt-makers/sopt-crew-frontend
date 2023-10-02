@@ -23,6 +23,7 @@ interface FeedPostViewerProps {
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
   CommentInput: React.ReactNode;
+  onClickImage?: () => void;
 }
 
 export default function FeedPostViewer({
@@ -32,10 +33,12 @@ export default function FeedPostViewer({
   CommentLikeSection,
   CommentList,
   CommentInput,
+  onClickImage,
 }: FeedPostViewerProps) {
   const overlay = useOverlay();
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
+    onClickImage?.();
     overlay.open(({ isOpen, close }) => (
       <ImageCarouselModal isOpen={isOpen} close={close} images={images} startIndex={startIndex} />
     ));
