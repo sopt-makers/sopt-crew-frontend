@@ -46,7 +46,6 @@ const FeedItem = (post: FeedItemProps) => {
     e.preventDefault();
     mutate();
   };
-
   return (
     <SFeedItem>
       <STop>
@@ -73,17 +72,20 @@ const FeedItem = (post: FeedItemProps) => {
         <Flex align="center">
           {commenterThumbnails && (
             <AvatarGroup>
-              {commenterThumbnails.slice(0, AVATAR_MAX_LENGTH).map((thumbnail, index) => (
-                <Avatar
-                  key={`${thumbnail}-${index}`}
-                  src={thumbnail}
-                  alt=""
-                  Overlay={
-                    commenterThumbnails.length > AVATAR_MAX_LENGTH &&
-                    index === AVATAR_MAX_LENGTH - 1 && <SOverlay>+</SOverlay>
-                  }
-                />
-              ))}
+              {[...commenterThumbnails]
+                ?.sort()
+                .slice(0, AVATAR_MAX_LENGTH)
+                .map((thumbnail, index) => (
+                  <Avatar
+                    key={`${thumbnail}-${index}`}
+                    src={thumbnail}
+                    alt=""
+                    Overlay={
+                      commenterThumbnails.length > AVATAR_MAX_LENGTH &&
+                      index === AVATAR_MAX_LENGTH - 1 && <SOverlay>+</SOverlay>
+                    }
+                  />
+                ))}
             </AvatarGroup>
           )}
           <SCommentWrapper hasComment={commentCount > 0}>
