@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { getResizedImage } from '@utils/image';
 
 interface AvatarProps {
   src?: string;
@@ -14,7 +15,7 @@ export default function Avatar({ src, alt, sx, className, Overlay }: AvatarProps
   return (
     <SContainer style={sx} className={className}>
       {Overlay}
-      {src ? <SImage src={src} alt={alt} /> : <ProfileDefaultIcon />}
+      {src ? <SImage src={getResizedImage(src, 32)} alt={alt} /> : <ProfileDefaultIcon />}
     </SContainer>
   );
 }
