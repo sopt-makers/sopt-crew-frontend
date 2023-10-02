@@ -10,8 +10,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { parseTextToLink } from '@components/util/parseTextToLink';
-import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
@@ -27,8 +25,6 @@ export default function FeedCommentContainer({ comment, isMine, isPosterComment,
   const { query } = useRouter();
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
-
-  const { data: meeting } = useQueryGetMeeting({ params: { id: String(query.id) } });
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
@@ -83,10 +79,7 @@ export default function FeedCommentContainer({ comment, isMine, isPosterComment,
       }
       isMine={isMine}
       isPosterComment={isPosterComment}
-      onClickLike={() => {
-        ampli.clickCommentLike({ crew_status: meeting?.approved });
-        onClickLike();
-      }}
+      onClickLike={onClickLike}
     />
   );
 }
