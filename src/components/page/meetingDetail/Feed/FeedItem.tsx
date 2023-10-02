@@ -21,7 +21,6 @@ import { useMutationUpdateLike } from '@api/post/hooks';
 import { useRouter } from 'next/router';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import Link from 'next/link';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { useDisplay } from '@hooks/useDisplay';

@@ -24,13 +24,13 @@ export function MeetingListOfAll() {
             ))}
           </GridLayout>
 
-          <Box css={{ my: '$80' }}>
+          <PaginationWrapper>
             <Pagination
               totalPagesLength={meetingListData?.meta.pageCount}
               currentPageIndex={Number(page)}
               changeCurrentPage={setPage}
             />
-          </Box>
+          </PaginationWrapper>
         </>
       ) : (
         <EmptyView message="검색 결과가 없습니다." />
@@ -38,6 +38,9 @@ export function MeetingListOfAll() {
     </main>
   );
 }
+const PaginationWrapper = styled('div', {
+  my: '$80',
+});
 
 export function MeetingListOfMine() {
   const { data: mineData } = useQueryMeetingListOfMine();
