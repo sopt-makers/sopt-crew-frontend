@@ -64,7 +64,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const onSubmit = async () => {
     const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
     await mutateCreateFeed(createFeedParameter);
-    ampli.completedFeedPosting({ user_id: me?.id, platform_type: platform, feed_upload: formatDate() });
+    ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   useEffect(() => {
     return () => {
-      ampli.completedFeedPostingCanceled({ user_id: me?.id, platform_type: platform });
+      ampli.completedFeedPostingCanceled({ user_id: Number(me?.orgId), platform_type: platform });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,7 +83,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
-            userId={me?.id}
+            userId={Number(me?.orgId)}
             groupInfo={{
               title: detailData?.title || '',
               imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',

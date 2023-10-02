@@ -77,7 +77,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
       <SDialogWrapper>
         <FormProvider {...formMethods}>
           <FeedFormPresentation
-            userId={me?.id}
+            userId={Number(me?.orgId)}
             groupInfo={{
               title: postData?.meeting?.title || '',
               imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
