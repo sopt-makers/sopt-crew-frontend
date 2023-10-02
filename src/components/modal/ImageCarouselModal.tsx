@@ -67,7 +67,7 @@ const ModalWrapper = styled(Box, {
   zIndex: '$2',
   backgroundColor: '#181818',
   width: '100%',
-  height: '100vh',
+  height: '100%',
 });
 const Container = styled('div', {
   position: 'relative',
@@ -109,7 +109,7 @@ const CarouselContainer = styled('div', {
 const CarouselScrollContainer = styled('div', {
   display: 'flex',
   maxWidth: '1280px',
-  height: '100vh',
+  height: '100%',
   maxHeight: '600px',
 });
 const CarouselItem = styled('div', {

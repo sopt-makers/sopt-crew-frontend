@@ -484,7 +484,7 @@ const SWhiteButton = styled(SRoundButton, {
   color: '$black100',
 });
 
-const SCardButton = styled('button', {
+const buttonStyles = {
   width: '50%',
   padding: '$13 0',
   textAlign: 'center',
@@ -502,19 +502,22 @@ const SCardButton = styled('button', {
       },
     },
   },
-});
+} as const;
 
-const SRejectButton = styled(SCardButton, {
+const SRejectButton = styled('button', {
+  ...buttonStyles,
   borderBottomRightRadius: '0',
 });
 
-const SApproveButton = styled(SCardButton, {
+const SApproveButton = styled('button', {
+  ...buttonStyles,
   color: '$black100',
   backgroundColor: '$white100',
   borderBottomLeftRadius: '0',
 });
 
-const SCancelButton = styled(SCardButton, {
+const SCancelButton = styled('button', {
+  ...buttonStyles,
   width: '100%',
 });
 
