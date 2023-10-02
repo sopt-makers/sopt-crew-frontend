@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }).promise;
         const { data: user } = await fetchMyProfile();
-        ampli.identify(String(user.data.id));
+        ampli.identify(user.data.orgId);
       }
     })();
   }, [isServiceReady]);
