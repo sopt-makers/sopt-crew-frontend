@@ -41,7 +41,10 @@ export default function PostPage() {
   });
 
   const { mutate: toggleCommentLike } = useCommentMutation();
-  const handleClickCommentLike = (commentId: number) => () => toggleCommentLike(commentId);
+  const handleClickCommentLike = (commentId: number) => () => {
+    ampli.clickCommentLike({ crew_status: meeting?.approved });
+    toggleCommentLike(commentId);
+  };
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
