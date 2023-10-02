@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
+import { ampli } from '@/ampli';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -24,6 +26,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const feedCreateOverlay = useOverlay();
 
   const { isTablet } = useDisplay();
+  const { data: me } = useQueryMyProfile();
   const {
     data: postsData,
     fetchNextPage,
@@ -43,6 +46,9 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const { setTarget } = useIntersectionObserver({ onIntersect });
 
   const handleModalOpen = () => {
+    if (me?.orgId) {
+      ampli.clickFeedPosting({ user_id: Number(me?.orgId), group_id: Number(meetingId) });
+    }
     feedCreateOverlay.open(({ isOpen, close }) => {
       return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
     });

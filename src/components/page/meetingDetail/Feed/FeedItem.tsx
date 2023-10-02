@@ -20,6 +20,12 @@ import { UserResponse } from '@api/user';
 import { fromNow } from '@utils/dayjs';
 import { useMutationUpdateLike } from '@api/post/hooks';
 import { useRouter } from 'next/router';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import Link from 'next/link';
+import { playgroundURL } from '@constants/url';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { useDisplay } from '@hooks/useDisplay';
 
 interface FeedItemProps {
   id: number;
@@ -40,21 +46,46 @@ const FeedItem = (post: FeedItemProps) => {
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
   const router = useRouter();
   const meetingId = router.query.id as string;
+  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
   const { mutate } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId), id);
+  const { isMobile } = useDisplay();
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     mutate();
+    ampli.clickFeedlistLike({ crew_status: meeting?.approved });
   };
 
   return (
-    <SFeedItem>
+    <SFeedItem
+      onClick={() =>
+        ampli.clickFeedCard({
+          feed_id: id,
+          feed_upload: updatedDate,
+          feed_title: title,
+          feed_image_total: images ? images.length : 0,
+          feed_comment_total: commentCount,
+          feed_like_total: likeCount,
+          group_id: Number(meetingId),
+          crew_status: meeting?.approved,
+          platform_type: isMobile ? 'MO' : 'PC',
+        })
+      }
+    >
       <STop>
         <Flex align="center">
-          <SProfileImageWrapper>
-            {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
-          </SProfileImageWrapper>
-          <SName>{user.name}</SName>
+          <SProfileButton
+            onClick={e => {
+              e.preventDefault();
+              ampli.clickFeedProfile({ crew_status: meeting?.approved });
+              router.push(`${playgroundURL}${playgroundLink.memberDetail(user.orgId)}`);
+            }}
+          >
+            <SProfileImageWrapper>
+              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+            </SProfileImageWrapper>
+            <SName>{user.name}</SName>
+          </SProfileButton>
           <STime>{fromNow(updatedDate)}</STime>
         </Flex>
         {/* <MoreIcon /> */}
@@ -121,6 +152,11 @@ const STop = styled(Box, {
   display: 'flex',
   justifyContent: 'space-between',
   mb: '$12',
+});
+
+const SProfileButton = styled('button', {
+  flexType: 'verticalCenter',
+  color: '$white100',
 });
 
 const SProfileImageWrapper = styled('div', {
