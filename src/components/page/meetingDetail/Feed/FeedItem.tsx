@@ -21,7 +21,6 @@ import { useMutationUpdateLike } from '@api/post/hooks';
 import { useRouter } from 'next/router';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { useDisplay } from '@hooks/useDisplay';
 
@@ -75,7 +74,7 @@ const FeedItem = (post: FeedItemProps) => {
             onClick={e => {
               e.preventDefault();
               ampli.clickFeedProfile({ crew_status: meeting?.approved });
-              router.push(`${playgroundURL}${playgroundLink.memberDetail(user.orgId)}`);
+              window.location.href = `${playgroundLink.memberDetail(user.orgId)}`;
             }}
           >
             <SProfileImageWrapper>
