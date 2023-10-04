@@ -38,15 +38,17 @@ export default function NoticeSlider({ notices }: NoticeSliderProps) {
       afterChange={updateCurrentIndex}
     >
       {notices ? (
-        notices.map(notice => (
-          <Disclosure
-            key={notice.id}
-            title={notice.title}
-            subTitle={notice.subTitle}
-            contents={notice.contents}
-            createdDate={dayjs(notice.createdDate).format('YYYY.MM.DD')}
-          />
-        ))
+        notices
+          .map(notice => (
+            <Disclosure
+              key={notice.id}
+              title={notice.title}
+              subTitle={notice.subTitle}
+              contents={notice.contents}
+              createdDate={dayjs(notice.createdDate).format('YYYY.MM.DD')}
+            />
+          ))
+          .reverse()
       ) : (
         // to minimize CLS, put a placeholder
         <SPlaceholder />
