@@ -134,6 +134,7 @@ const SDescription = styled('p', {
 
   a: {
     textDecoration: 'underline',
+    wordBreak: 'break-all',
   },
 
   '@tablet': {
