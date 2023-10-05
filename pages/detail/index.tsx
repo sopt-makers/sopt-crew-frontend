@@ -10,7 +10,7 @@ import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { ERecruitmentStatus } from '@constants/option';
-import MeetingDetailPanel from '@components/page/meetingDetail/MeetingDetailPanel';
+import MeetingController from '@components/page/meetingDetail/MeetingController';
 
 dayjs.locale('ko');
 
@@ -42,7 +42,7 @@ const DetailPage = () => {
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
 
-        <MeetingDetailPanel
+        <MeetingController
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}

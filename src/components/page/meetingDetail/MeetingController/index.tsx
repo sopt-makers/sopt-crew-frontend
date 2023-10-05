@@ -41,7 +41,7 @@ interface DetailHeaderProps {
   >;
 }
 
-const MeetingDetailPanel = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
+const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -232,7 +232,7 @@ const MeetingDetailPanel = ({ detailData, mutateMeetingDeletion, mutateApplicati
   );
 };
 
-export default MeetingDetailPanel;
+export default MeetingController;
 
 const SPanelWrapper = styled('div', {
   flexType: 'verticalCenter',
