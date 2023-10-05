@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { CSSType, styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 
 export interface Option {
   label: string;
@@ -34,7 +33,7 @@ function OptionItem({ css, option }: OptionItemProps) {
 
 export default OptionItem;
 
-const SOptionItem = styled(Box, {
+const SOptionItem = styled('div', {
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',

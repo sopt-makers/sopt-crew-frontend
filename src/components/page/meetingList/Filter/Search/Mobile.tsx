@@ -1,5 +1,4 @@
 import SearchIcon from '@assets/svg/search.svg';
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import useBooleanState from '@hooks/useBooleanState';
@@ -43,7 +42,7 @@ function SearchMobile() {
 
 export default SearchMobile;
 
-const SLayout = styled(Box, {
+const SLayout = styled('div', {
   width: 0,
   height: '100vh',
   visibility: 'hidden',

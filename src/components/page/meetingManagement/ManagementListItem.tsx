@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import useModal from '@hooks/useModal';
-import { Box } from '@components/box/Box';
 import DefaultModal from '@components/modal/DefaultModal';
 import { ApplicationData } from '@api/meeting';
 import { useMutationUpdateApplication } from '@api/meeting/hooks';
@@ -210,7 +209,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
 
 export default ManagementListItem;
 
-const SListItem = styled(Box, {
+const SListItem = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   borderRadius: '20px',
@@ -236,7 +235,7 @@ const SDesktopListItem = styled(SListItem, {
   },
 });
 
-const SMobileCard = styled(Box, {
+const SMobileCard = styled('div', {
   display: 'none',
 
   '@tablet': {
@@ -244,7 +243,7 @@ const SMobileCard = styled(Box, {
   },
 });
 
-const SCardContent = styled(Box, {
+const SCardContent = styled('div', {
   display: 'flex',
   height: '$80',
   padding: '$20',
@@ -253,7 +252,7 @@ const SCardContent = styled(Box, {
   borderTopRightRadius: '8px',
 });
 
-const SProfileImage = styled(Box, {
+const SProfileImage = styled('div', {
   width: '$32',
   height: '$32',
   background: '$black40',
@@ -280,7 +279,7 @@ const SGuestProfileImage = styled(SProfileImage, {
   },
 });
 
-const SCardUserInformation = styled(Box, {
+const SCardUserInformation = styled('div', {
   flex: 1,
   '& > div': {
     flexType: 'verticalCenter',
@@ -290,18 +289,18 @@ const SCardUserInformation = styled(Box, {
   },
 });
 
-const SCardApplicationInformation = styled(Box, {
+const SCardApplicationInformation = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
 });
 
-const SUserInformation = styled(Box, {
+const SUserInformation = styled('div', {
   flexType: 'verticalCenter',
   width: '100%',
 });
 
-const SProfile = styled(Box, {
+const SProfile = styled('div', {
   flexType: 'verticalCenter',
 
   '@tablet': {
@@ -313,7 +312,7 @@ const SDesktopProfile = styled(SProfile, {
   width: '$163',
 });
 
-const SVerticalLine = styled(Box, {
+const SVerticalLine = styled('div', {
   width: '$1',
   height: '$12',
   ml: '$30',
@@ -348,12 +347,12 @@ const SCardName = styled('button', {
   mr: '$4',
 });
 
-const SDateAndTime = styled(Box, {
+const SDateAndTime = styled('div', {
   flexType: 'horizontalCenter',
   width: '$168',
 });
 
-const SDate = styled(Box, {
+const SDate = styled('div', {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
 
@@ -364,7 +363,7 @@ const SDate = styled(Box, {
   },
 });
 
-const STime = styled(Box, {
+const STime = styled('div', {
   ml: '$8',
   fontAg: '18_semibold_100',
   color: '$gray60',
@@ -376,7 +375,7 @@ const STime = styled(Box, {
   },
 });
 
-const SCardDateAndTime = styled(Box, {
+const SCardDateAndTime = styled('div', {
   display: 'flex',
   gap: '$4',
   mt: '$13',
@@ -412,19 +411,19 @@ const SCardUserStatus = styled(SUserStatus, {
   fontAg: '10_bold_100',
 });
 
-const SGeneration = styled(Box, {
+const SGeneration = styled('div', {
   width: '$166',
   textAlign: 'center',
 });
 
-const SCardGenerationAndPhone = styled(Box, {
+const SCardGenerationAndPhone = styled('div', {
   mt: '$8',
   fontAg: '12_medium_100',
   color: '$gray60',
   whiteSpace: 'pre',
 });
 
-const SPhone = styled(Box, {
+const SPhone = styled('div', {
   width: '$166',
   textAlign: 'center',
 });
@@ -451,12 +450,12 @@ const SCardDetailButton = styled('button', {
   },
 });
 
-const SButtonContainer = styled(Box, {
+const SButtonContainer = styled('div', {
   mr: '$8',
   minWidth: 'fit-content',
 });
 
-const SCardButtonContainer = styled(Box, {
+const SCardButtonContainer = styled('div', {
   flexType: 'verticalCenter',
   mb: '$16',
 });

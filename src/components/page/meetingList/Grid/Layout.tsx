@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { PropsWithChildren } from 'react';
 import { styled } from 'stitches.config';
 
@@ -10,7 +9,7 @@ function GridLayout({ children, mobileType }: PropsWithChildren<{ mobileType: 'l
   );
 }
 
-const StyledGridContainer = styled(Box, {
+const StyledGridContainer = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   columnGap: '30px',

@@ -1,11 +1,10 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import MobileSizeSkeleton, { MobileSizeSkeletonProps } from './MobileSize';
 
 function CardSkeleton({ mobileType }: MobileSizeSkeletonProps) {
   return (
     <>
-      <Box className="pc-only">
+      <div className="pc-only">
         <SLayout>
           <SBasicSkeleton
             css={{
@@ -21,24 +20,24 @@ function CardSkeleton({ mobileType }: MobileSizeSkeletonProps) {
           <SDetailInfoSkeleton css={{ width: '160px', height: '20px' }} />
           <SDetailInfoSkeleton css={{ width: '120px', height: '20px' }} />
         </SLayout>
-      </Box>
-      <Box className="mobile-only">
+      </div>
+      <div className="mobile-only">
         <MobileSizeSkeleton mobileType={mobileType} />
-      </Box>
+      </div>
     </>
   );
 }
 
 export default CardSkeleton;
 
-export const SLayout = styled(Box, {
+export const SLayout = styled('div', {
   width: '380px',
   '@tablet': {
     width: '162px',
   },
 });
 
-export const SBasicSkeleton = styled(Box, {
+export const SBasicSkeleton = styled('div', {
   backgroundColor: '$black60',
   borderRadius: '6px',
   '@tablet': {

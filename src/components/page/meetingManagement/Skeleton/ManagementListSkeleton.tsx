@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
 const ManagementListSkeleton = () => {
@@ -13,7 +12,7 @@ const ManagementListSkeleton = () => {
 
 export default ManagementListSkeleton;
 
-const SItemSkeleton = styled(Box, {
+const SItemSkeleton = styled('div', {
   height: '$80',
   borderRadius: '20px',
   background: '$black80',

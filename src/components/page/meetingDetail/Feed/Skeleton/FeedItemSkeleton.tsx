@@ -1,5 +1,4 @@
 import { Flex } from '@components/util/layout/Flex';
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 
 const FeedItemSkeleton = () => {
@@ -26,7 +25,7 @@ const FeedItemSkeleton = () => {
 
 export default FeedItemSkeleton;
 
-const SFeedItemSkeleton = styled(Box, {
+const SFeedItemSkeleton = styled('div', {
   '@desktop': {
     padding: '$24 $20 $28 $20',
     background: '#171818',
@@ -42,7 +41,7 @@ const SFeedItemSkeleton = styled(Box, {
   },
 });
 
-const Item = styled(Box, {
+const Item = styled('div', {
   background: '$black60',
   borderRadius: '8px',
 });

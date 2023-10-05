@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { styled } from 'stitches.config';
 import { ApplyResponse } from '@api/user';
-import { Box } from '@components/box/Box';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 
@@ -49,7 +48,7 @@ const RecruitmentStatusModalContent = ({
 
 export default RecruitmentStatusModalContent;
 
-const SRecruitmentStatusListWrapper = styled(Box, {
+const SRecruitmentStatusListWrapper = styled('div', {
   padding: '$24 $24 0 $24',
 
   '@tablet': {
@@ -70,7 +69,7 @@ const SEmptyText = styled('p', {
   },
 });
 
-const SRecruitmentStatusModalBottom = styled(Box, {
+const SRecruitmentStatusModalBottom = styled('div', {
   margin: '$24 $42 $44 $30',
   flexType: 'verticalCenter',
   justifyContent: 'space-between',

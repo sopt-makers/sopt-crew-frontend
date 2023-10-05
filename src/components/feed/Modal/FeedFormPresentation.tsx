@@ -1,7 +1,6 @@
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
-import { Box } from '@components/box/Box';
 import CancelIcon from '@assets/svg/x_big_gray.svg';
 import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
@@ -221,7 +220,7 @@ function FeedFormPresentation({
 
 export default FeedFormPresentation;
 
-const SFormContainer = styled(Box, {
+const SFormContainer = styled('div', {
   width: '100%',
   padding: '40px 30px 30px',
   background: '$black80',
@@ -243,7 +242,7 @@ const SFormName = styled('h1', {
   },
 });
 
-const SFormHeader = styled(Box, {
+const SFormHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -272,7 +271,7 @@ const SSubmitButton = styled('button', {
   },
 });
 
-const SGroupInfoSection = styled(Box, {
+const SGroupInfoSection = styled('div', {
   mt: '$40',
   flexType: 'verticalCenter',
   '@tablet': {
@@ -355,7 +354,7 @@ const SFeedContentTextArea = styled('textarea', {
   },
 });
 
-const SImagePreviewHolder = styled(Box, {
+const SImagePreviewHolder = styled('div', {
   width: '108px',
   height: '108px',
   mb: '$24',
@@ -387,7 +386,7 @@ const SImageCount = styled('p', {
   fontStyle: 'B1',
 });
 
-const SImageInputWrapper = styled(Box, {
+const SImageInputWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -396,7 +395,7 @@ const SImageInputWrapper = styled(Box, {
   },
 });
 
-const SImageListWrapper = styled(Box, {
+const SImageListWrapper = styled('div', {
   display: 'flex',
   overflowX: 'scroll',
   '&::-webkit-scrollbar': {

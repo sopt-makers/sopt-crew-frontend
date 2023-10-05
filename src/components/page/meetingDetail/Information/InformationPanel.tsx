@@ -8,7 +8,6 @@ dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { useRef, useState } from 'react';
 import { MeetingResponse } from '@api/meeting';
-import { Box } from '@components/box/Box';
 
 interface InformationPanelProps {
   detailData: MeetingResponse;
@@ -101,7 +100,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
 
 export default InformationPanel;
 
-const SInformationPanel = styled(Box, {
+const SInformationPanel = styled('div', {
   '@tablet': {
     mt: '$8',
   },

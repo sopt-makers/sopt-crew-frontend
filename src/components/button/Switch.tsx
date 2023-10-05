@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
 import { Fragment } from 'react';
 import { CSSType, styled } from 'stitches.config';
@@ -43,7 +42,7 @@ const SSwitch = styled('button', {
   },
 });
 
-const SThumb = styled(Box, {
+const SThumb = styled('div', {
   position: 'absolute',
   top: '2px',
   left: '2px',

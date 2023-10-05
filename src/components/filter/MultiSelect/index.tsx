@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MouseEventHandler } from 'react';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import ArrowIcon from '@assets/svg/arrow_small_right.svg';
 import { Flex } from '@components/util/layout/Flex';
 import SelectComboBoxItem from './SelectComboBoxItem';
@@ -69,7 +68,7 @@ function MultiSelect({ selectListData, selectedValues, addValue, deleteValue }: 
 }
 export default MultiSelect;
 
-const SSelectWrapper = styled(Box, {
+const SSelectWrapper = styled('div', {
   position: 'relative',
   '& + &': {
     ml: '$12',
@@ -125,7 +124,7 @@ const SCategory = styled('span', {
     fontAg: '12_semibold_100',
   },
 });
-const SSelectBoxList = styled(Box, {
+const SSelectBoxList = styled('div', {
   width: '100%',
   position: 'absolute',
   border: '1px solid $black40',
@@ -159,7 +158,7 @@ const SelectOverlay = ({ onClick, isVisible }: OverlayProps) => {
   return <SSelectOverlay isVisible={isVisible} onClick={onClick} />;
 };
 
-const SSelectOverlay = styled(Box, {
+const SSelectOverlay = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

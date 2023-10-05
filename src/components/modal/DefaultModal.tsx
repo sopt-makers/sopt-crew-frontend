@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
 import { Dialog } from '@headlessui/react';
@@ -34,7 +33,7 @@ const DefaultModal = ({
 
 export default DefaultModal;
 
-const SDialogWrapper = styled(Box, {
+const SDialogWrapper = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',
@@ -50,7 +49,7 @@ const SDialogWrapper = styled(Box, {
   },
 });
 
-const SHeader = styled(Box, {
+const SHeader = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   height: '$100',

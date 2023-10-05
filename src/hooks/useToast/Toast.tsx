@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CautionIcon from '@assets/svg/caution.svg';
@@ -31,7 +30,7 @@ function Toast({ isOpen, close, type, message }: ToastProps) {
 
 export default Toast;
 
-const ToastContainer = styled(Box, {
+const ToastContainer = styled('div', {
   flexType: 'verticalCenter',
   position: 'fixed',
   bottom: '-50px',

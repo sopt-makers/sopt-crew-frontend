@@ -3,7 +3,6 @@ import { FormType } from '@type/form';
 import { styled } from 'stitches.config';
 import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
 import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
-import { Box } from '@components/box/Box';
 
 interface TableOfContentsProps {
   label: string;
@@ -111,7 +110,7 @@ const SLabel = styled('h2', {
   lineHeight: '100%',
   color: '$white100',
 });
-const SCount = styled(Box, {
+const SCount = styled('div', {
   width: '$60',
   padding: '$6 0',
   fontWeight: '600',

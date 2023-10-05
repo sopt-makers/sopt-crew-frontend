@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import EqualizerIcon from '@assets/svg/equalizer.svg?rect';
 import FilterSelectModal from '.';
@@ -51,7 +50,7 @@ function FilterModalOpenButton() {
 }
 export default FilterModalOpenButton;
 
-const SSelectModalOpenButton = styled(Box, {
+const SSelectModalOpenButton = styled('div', {
   width: '159px',
   py: '$15',
   px: '$20',

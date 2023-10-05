@@ -1,5 +1,4 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import { Box } from '@components/box/Box';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
 import { ApplyResponse } from '@api/user';
 import { styled } from 'stitches.config';
@@ -26,7 +25,7 @@ const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps
 
 export default RecruitmentStatusList;
 
-const SRecruitmentStatusList = styled(Box, {
+const SRecruitmentStatusList = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   height: '$219',
@@ -51,7 +50,7 @@ const SRecruitmentStatusList = styled(Box, {
   },
 });
 
-const SRecruitmentStatusItem = styled(Box, {
+const SRecruitmentStatusItem = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   width: 'calc(50% - 11px)',
@@ -125,7 +124,7 @@ const SRecruitmentStatusItem = styled(Box, {
   },
 });
 
-const SStatusText = styled(Box, {
+const SStatusText = styled('div', {
   ml: '$14',
   color: '$gray100',
   fontAg: '14_medium_100',
