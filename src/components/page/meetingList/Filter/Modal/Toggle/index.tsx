@@ -4,6 +4,7 @@ import { useIsOnlyActiveGenerationParams } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';
 import { CSSType, styled } from 'stitches.config';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
+import { ampli } from '@/ampli';
 interface ToggleProps {
   css?: CSSType;
   label: string;
@@ -11,6 +12,12 @@ interface ToggleProps {
 
 function Toggle({ css, label }: ToggleProps) {
   const { value: isOnlyActiveGeneration, setValue } = useIsOnlyActiveGenerationParams();
+  const handleChange = () => {
+    const value = !parseBool(isOnlyActiveGeneration);
+    ampli.clickFilterGeneration({ group_generation: value });
+    setValue(String(value));
+  };
+
   return (
     <HeadlessSwitch.Group>
       <ToggleWrapper css={{ ...css }}>
@@ -19,10 +26,7 @@ function Toggle({ css, label }: ToggleProps) {
           <SToggleDetailWord isOnlyActiveGeneration={parseBool(isOnlyActiveGeneration)}>
             <HeadlessSwitch.Label>활동 기수만</HeadlessSwitch.Label>
           </SToggleDetailWord>
-          <Switch
-            checked={parseBool(isOnlyActiveGeneration || '')}
-            onChange={() => setValue(String(!parseBool(isOnlyActiveGeneration)))}
-          />
+          <Switch checked={parseBool(isOnlyActiveGeneration || '')} onChange={handleChange} />
         </SSwitchWrapper>
       </ToggleWrapper>
     </HeadlessSwitch.Group>
