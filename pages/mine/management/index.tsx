@@ -53,7 +53,19 @@ const ManagementPage = () => {
 
   const handleChangeSelectOption =
     (setValue: (value: string | number) => void, optionList: Option[]) => (changeOption: Option) => {
-      setValue(optionList.findIndex(option => option.value === changeOption.value));
+      const changeOptionValue = String(changeOption.value);
+
+      switch (optionList) {
+        case numberOptionList:
+          ampli.filterListOptionManagement({ manage_listing_no: changeOptionValue });
+          console.log('number option');
+          break;
+        case sortOptionList:
+          ampli.filterManagementListOrder({ manage_sort: changeOptionValue });
+          break;
+      }
+
+      setValue(optionList.findIndex(option => option.value === changeOptionValue));
     };
 
   const handleCSVDownload = () => {
