@@ -98,6 +98,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
       return;
     }
     if (!isApplied) {
+      ampli.clickRegisterGroup({ user_id: Number(me.orgId) });
       handleDefaultModalOpen();
       setModalTitle('모임 신청하기');
       return;
