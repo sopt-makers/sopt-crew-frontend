@@ -432,7 +432,7 @@ export interface ClickOwnerProfileProperties {
   group_owner_id?: number;
 }
 
-export interface ClickPagenationArrowProperties {
+export interface ClickPaginationArrowProperties {
   /**
    * 모임 리스트 내 페이지를 의미합니다.
    *
@@ -443,7 +443,7 @@ export interface ClickPagenationArrowProperties {
   page?: number;
 }
 
-export interface ClickPagenationNumberProperties {
+export interface ClickPaginationNumberProperties {
   /**
    * 모임 리스트 내 페이지를 의미합니다.
    *
@@ -882,21 +882,21 @@ export class ClickOwnerProfile implements BaseEvent {
   }
 }
 
-export class ClickPagenationArrow implements BaseEvent {
-  event_type = 'Click-pagenationArrow';
+export class ClickPaginationArrow implements BaseEvent {
+  event_type = 'Click-paginationArrow';
 
   constructor(
-    public event_properties?: ClickPagenationArrowProperties,
+    public event_properties?: ClickPaginationArrowProperties,
   ) {
     this.event_properties = event_properties;
   }
 }
 
-export class ClickPagenationNumber implements BaseEvent {
-  event_type = 'Click-pagenationNumber';
+export class ClickPaginationNumber implements BaseEvent {
+  event_type = 'Click-paginationNumber';
 
   constructor(
-    public event_properties?: ClickPagenationNumberProperties,
+    public event_properties?: ClickPaginationNumberProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1577,37 +1577,37 @@ export class Ampli {
   }
 
   /**
-   * Click-pagenationArrow
+   * Click-paginationArrow
    *
-   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-pagenationArrow)
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-paginationArrow)
    *
    * 하단 페이지네이션 영역 중 애로우 클릭
    *
    * @param properties The event's properties (e.g. page)
    * @param options Amplitude event options.
    */
-  clickPagenationArrow(
-    properties?: ClickPagenationArrowProperties,
+  clickPaginationArrow(
+    properties?: ClickPaginationArrowProperties,
     options?: EventOptions,
   ) {
-    return this.track(new ClickPagenationArrow(properties), options);
+    return this.track(new ClickPaginationArrow(properties), options);
   }
 
   /**
-   * Click-pagenationNumber
+   * Click-paginationNumber
    *
-   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-pagenationNumber)
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-paginationNumber)
    *
    * 하단 페이지네이션 영역 중 페이지 클릭
    *
    * @param properties The event's properties (e.g. page)
    * @param options Amplitude event options.
    */
-  clickPagenationNumber(
-    properties?: ClickPagenationNumberProperties,
+  clickPaginationNumber(
+    properties?: ClickPaginationNumberProperties,
     options?: EventOptions,
   ) {
-    return this.track(new ClickPagenationNumber(properties), options);
+    return this.track(new ClickPaginationNumber(properties), options);
   }
 
   /**

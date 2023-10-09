@@ -3,6 +3,7 @@ import { bindThePages } from '@utils/bindThePages';
 import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
 import { ArrowButton } from '@components/button/Arrow';
+import { ampli } from '@/ampli';
 interface PaginationProps {
   totalPagesLength?: number;
   currentPageIndex?: number;
@@ -10,21 +11,34 @@ interface PaginationProps {
 }
 
 function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentPage }: PaginationProps) {
+  const path = window.location.pathname;
+  const isMainPage = path === '/group' || path === '/group/';
   const BUNDLE_SIZE = 5;
 
   const [pagesIndex, setPagesIndex] = useState(0);
 
   const pagesBundle = bindThePages(totalPagesLength, BUNDLE_SIZE);
+
   const prevBundle = () => {
     const prevBundleLastPage = Math.floor((currentPageIndex - 1) / BUNDLE_SIZE) * BUNDLE_SIZE;
+    if (isMainPage) {
+      ampli.clickPaginationArrow({ page: prevBundleLastPage });
+    }
     changeCurrentPage(prevBundleLastPage);
   };
+
   const nextBundle = () => {
     const nextBundleFirstPage = Math.ceil(currentPageIndex / BUNDLE_SIZE) * BUNDLE_SIZE + 1;
+    if (isMainPage) {
+      ampli.clickPaginationArrow({ page: nextBundleFirstPage });
+    }
     changeCurrentPage(nextBundleFirstPage);
   };
 
   const handlePageLinkClick = (item: number) => {
+    if (isMainPage) {
+      ampli.clickPaginationNumber({ page: item });
+    }
     changeCurrentPage(item);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
