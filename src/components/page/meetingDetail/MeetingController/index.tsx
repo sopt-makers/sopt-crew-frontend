@@ -169,7 +169,10 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
             {title}
           </h1>
           <SHostWrapper>
-            <SProfileAnchor href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}>
+            <SProfileAnchor
+              href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
+              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
+            >
               {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
