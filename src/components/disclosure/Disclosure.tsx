@@ -22,7 +22,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
               <STitle>{title}</STitle>
               <SSubTitle>{subTitle}</SSubTitle>
             </STitleWrapper>
-            <HeadlessDisclosure.Button onClick={() => !open && ampli.clickNoticeOn()}>
+            <HeadlessDisclosure.Button onClick={() => (!open ? ampli.clickNoticeOn() : ampli.clickNoticeOff())}>
               <SArrowIcon isOpen={open} />
             </HeadlessDisclosure.Button>
           </STitleContainer>

@@ -403,6 +403,15 @@ export interface ClickNavbarGroupProperties {
   menu: string;
 }
 
+export interface ClickNoticeOffProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
 export interface ClickNoticeOnProperties {
   /**
    * | Rule | Value |
@@ -834,6 +843,16 @@ export class ClickNavbarGroup implements BaseEvent {
 
   constructor(
     public event_properties: ClickNavbarGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickNoticeOff implements BaseEvent {
+  event_type = 'Click-noticeOff';
+
+  constructor(
+    public event_properties?: ClickNoticeOffProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1500,6 +1519,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickNavbarGroup(properties), options);
+  }
+
+  /**
+   * Click-noticeOff
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-noticeOff)
+   *
+   * 공지사항 토글 비활성화 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickNoticeOff(
+    properties?: ClickNoticeOffProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickNoticeOff(properties), options);
   }
 
   /**
