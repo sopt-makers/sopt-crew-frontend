@@ -22,6 +22,7 @@ import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
 import alertErrorMessage from '@utils/alertErrorMessage';
 import { useQueryMyProfile } from '@api/user/hooks';
+import { ampli } from '@/ampli';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -50,6 +51,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     title,
     user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
+    approved,
     approvedApplyCount,
     capacity,
     host: isHost,
@@ -85,6 +87,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRecruitmentStatusModal = () => {
+    ampli.clickMemberStatus({ crew_status: approved || isHost });
     handleDefaultModalOpen();
     setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
   };
