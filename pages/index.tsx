@@ -5,7 +5,6 @@ import { styled } from 'stitches.config';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
@@ -106,7 +105,7 @@ const SMakeMeetingButton = styled('button', {
   },
 });
 
-const SMobileButtonContainer = styled(Box, {
+const SMobileButtonContainer = styled('div', {
   display: 'none',
   '@tablet': {
     flexType: 'verticalCenter',
@@ -117,7 +116,7 @@ const SMobileButtonContainer = styled(Box, {
   },
 });
 
-const SFilterWrapper = styled(Box, {
+const SFilterWrapper = styled('div', {
   mt: '$40',
   mb: '$64',
   '@tablet': {
@@ -126,7 +125,7 @@ const SFilterWrapper = styled(Box, {
   },
 });
 
-const SNoticeWrapper = styled(Box, {
+const SNoticeWrapper = styled('div', {
   mt: '$64',
   '@tablet': {
     mt: '$28',

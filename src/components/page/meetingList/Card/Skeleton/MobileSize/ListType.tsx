@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Divider } from '@components/util/Divider';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
@@ -15,14 +14,14 @@ function ListType() {
             borderRadius: '$8',
           }}
         />
-        <Box css={{ ml: '$12' }}>
+        <InfoGroup>
           <SBasicSkeleton css={{ width: '190px', height: '14px', mb: '$8' }} />
           <SBasicSkeleton css={{ width: '150px', height: '12px', mb: '$10' }} />
           <Flex align="center">
             <SDetailInfoSkeleton css={{ width: '$20', height: '$20', borderRadius: '50%', mr: '$8', mb: '$0' }} />
             <SDetailInfoSkeleton css={{ width: '70px', height: '$18', mb: '$0' }} />
           </Flex>
-        </Box>
+        </InfoGroup>
       </Flex>
       <Divider />
     </SListLayout>
@@ -31,6 +30,9 @@ function ListType() {
 
 export default ListType;
 
-const SListLayout = styled(Box, {
+const SListLayout = styled('div', {
   width: '100%',
+});
+const InfoGroup = styled('div', {
+  ml: '$12',
 });

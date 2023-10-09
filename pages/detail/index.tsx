@@ -1,5 +1,3 @@
-import { Box } from '@components/box/Box';
-import DetailHeader from '@components/page/meetingDetail/DetailHeader';
 import Carousel from '@components/page/meetingDetail/Carousel';
 import { styled } from 'stitches.config';
 import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
@@ -12,6 +10,7 @@ import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { ERecruitmentStatus } from '@constants/option';
+import MeetingController from '@components/page/meetingDetail/MeetingController';
 
 dayjs.locale('ko');
 
@@ -43,7 +42,7 @@ const DetailPage = () => {
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
 
-        <DetailHeader
+        <MeetingController
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
@@ -73,7 +72,7 @@ const DetailPage = () => {
 
 export default DetailPage;
 
-const SDetailPage = styled(Box, {
+const SDetailPage = styled('div', {
   mb: '$374',
 
   '@tablet': {
@@ -81,7 +80,7 @@ const SDetailPage = styled(Box, {
   },
 });
 
-const STabList = styled(Box, {
+const STabList = styled('div', {
   display: 'flex',
 
   '@tablet': {

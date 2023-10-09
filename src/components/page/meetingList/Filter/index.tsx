@@ -1,5 +1,4 @@
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
@@ -30,18 +29,7 @@ function Filter() {
 
       <Result />
 
-      {!!search && (
-        <Box
-          as="p"
-          css={{
-            fontAg: '24_medium_100',
-            mt: '$80',
-            '@tablet': { display: 'none' },
-          }}
-        >
-          "{search}"에 대한 검색결과입니다.
-        </Box>
-      )}
+      {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
     </>
   );
 }
@@ -66,4 +54,10 @@ const SGuideButton = styled('a', {
   path: {
     stroke: '$white100',
   },
+});
+
+const SearchResultMessage = styled('p', {
+  fontAg: '24_medium_100',
+  mt: '$80',
+  '@tablet': { display: 'none' },
 });

@@ -7,13 +7,12 @@ import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
-import { Box } from '@components/box/Box';
 import DefaultModal from '@components/modal/DefaultModal';
-import HostConfirmModal from './HostConfirmModal';
-import GuestConfirmModal from './GuestConfirmModal';
-import ProfileConfirmModal from './ProfileConfirmModal';
-import ApplicationModalContent from './ApplicationModalContent';
-import RecruitmentStatusModalContent from './RecruitmentStatusModalContent';
+import HostConfirmModal from './Modal/Confirm/HostConfirmModal';
+import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
+import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
+import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
+import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 import { PostApplicationRequest, MeetingResponse } from '@api/meeting';
 import { playgroundURL } from '@constants/url';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
@@ -42,7 +41,7 @@ interface DetailHeaderProps {
   >;
 }
 
-const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
+const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -154,7 +153,7 @@ const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: 
 
   return (
     <>
-      <SDetailHeader>
+      <SPanelWrapper>
         <SAbout>
           <div>
             <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
@@ -199,7 +198,7 @@ const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: 
             </SHostButtonContainer>
           )}
         </div>
-      </SDetailHeader>
+      </SPanelWrapper>
       <HostConfirmModal
         isModalOpened={isHostModalOpened}
         handleModalClose={handleHostModalClose}
@@ -233,9 +232,9 @@ const DetailHeader = ({ detailData, mutateMeetingDeletion, mutateApplication }: 
   );
 };
 
-export default DetailHeader;
+export default MeetingController;
 
-const SDetailHeader = styled(Box, {
+const SPanelWrapper = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   pb: '$120',
@@ -250,7 +249,7 @@ const SDetailHeader = styled(Box, {
   },
 });
 
-const SAbout = styled(Box, {
+const SAbout = styled('div', {
   mr: '$90',
 
   '@tablet': {
@@ -282,7 +281,7 @@ const SAbout = styled(Box, {
   },
 });
 
-const SRecruitStatus = styled(Box, {
+const SRecruitStatus = styled('div', {
   width: 'fit-content',
   padding: '$7 $8',
   mr: '$12',
@@ -312,7 +311,7 @@ const SRecruitStatus = styled(Box, {
   },
 });
 
-const SPeriod = styled(Box, {
+const SPeriod = styled('div', {
   fontAg: '20_bold_100',
   color: '$gray60',
 
@@ -366,7 +365,7 @@ const SProfileAnchor = styled('a', {
   },
 });
 
-const SHostWrapper = styled(Box, {
+const SHostWrapper = styled('div', {
   position: 'relative',
 });
 
@@ -444,7 +443,7 @@ const SGuestButton = styled(Button, {
   },
 });
 
-const SHostButtonContainer = styled(Box, {
+const SHostButtonContainer = styled('div', {
   '& > *': {
     width: '$144',
     color: '$white100',

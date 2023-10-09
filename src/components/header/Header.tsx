@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
 import { ACCESS_TOKEN_KEY } from '@components/util/auth';
 import { useQueryMyProfile } from '@api/user/hooks';
@@ -50,7 +49,7 @@ const Header: FC = () => {
 
 export default Header;
 
-const HeaderWrapper = styled(Box, {
+const HeaderWrapper = styled('div', {
   position: 'fixed',
   top: 0,
   left: 0,

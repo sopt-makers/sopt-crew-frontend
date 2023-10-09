@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import React from 'react';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
@@ -99,7 +98,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
 export default FeedPanel;
 
-const SContainer = styled(Box, {
+const SContainer = styled('div', {
   flexType: 'center',
   minHeight: '752px',
 

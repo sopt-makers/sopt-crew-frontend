@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import Switch from '@components/button/Switch';
 import { Flex } from '@components/util/layout/Flex';
 import { useIsOnlyActiveGenerationParams } from '@hooks/queryString/custom';
@@ -31,7 +30,7 @@ function Toggle({ css, label }: ToggleProps) {
 }
 
 export default Toggle;
-const ToggleWrapper = styled(Box, {});
+const ToggleWrapper = styled('div', {});
 const SLabel = styled('p', {
   color: '$white100',
   fontAg: '18_bold_100',
@@ -52,7 +51,7 @@ const SSwitchWrapper = styled(Flex, {
     borderRadius: '10px',
   },
 });
-const SToggleDetailWord = styled(Box, {
+const SToggleDetailWord = styled('div', {
   fontAg: '16_medium_100',
   color: '$gray60',
   mt: '$1',

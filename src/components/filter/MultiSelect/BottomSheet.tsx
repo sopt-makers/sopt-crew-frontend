@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
@@ -19,14 +18,14 @@ function SelectBottomSheet({
 }: PropsWithChildren<SelectBottomSheetProps>) {
   return (
     <SLayout direction="column" justify="between" isVisible={isVisible}>
-      <Box css={{ width: '100%' }}>
+      <SelectSection>
         <Flex css={{ px: '$28' }} align="center" justify="between">
-          <Box>{headerLeft}</Box>
+          <div>{headerLeft}</div>
           <SLabel as="p">{label}</SLabel>
-          <Box>{headerRight}</Box>
+          <div>{headerRight}</div>
         </Flex>
         <SListItemWrapper>{children}</SListItemWrapper>
-      </Box>
+      </SelectSection>
       <SCloseButton onClick={handleClose}>확인</SCloseButton>
     </SLayout>
   );
@@ -59,7 +58,11 @@ const SLayout = styled(Flex, {
   },
 });
 
-const SLabel = styled(Box, {
+const SelectSection = styled('div', {
+  width: '100%',
+});
+
+const SLabel = styled('div', {
   my: '$24',
   textAlign: 'center',
   fontAg: '16_bold_100',

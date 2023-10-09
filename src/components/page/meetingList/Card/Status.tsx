@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { APPROVAL_STATUS } from '@constants/option';
 import { ApplicationStatusType } from '@api/user';
@@ -26,7 +25,7 @@ const SLayout = styled(Flex, {
     marginTop: '12px',
   },
 });
-const SLabel = styled(Box, {
+const SLabel = styled('div', {
   flexType: 'center',
   padding: '10px 12px',
   borderRadius: '71px',

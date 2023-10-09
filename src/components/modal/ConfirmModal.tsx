@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { styled } from 'stitches.config';
 import { Dialog } from '@headlessui/react';
 import ModalContainer from './ModalContainer';
@@ -35,7 +34,7 @@ const ConfirmModal = ({
 
 export default ConfirmModal;
 
-const SDialogWrapper = styled(Box, {
+const SDialogWrapper = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

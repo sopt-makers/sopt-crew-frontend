@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import BottomSheetDialog from '@components/form/Select/BottomSheetSelect/BottomSheetDialog';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import { styled } from 'stitches.config';
@@ -32,6 +31,6 @@ function BottomSheet({ isOpen, handleClose }: BottomSheetDialogProps) {
 
 export default BottomSheet;
 
-const FilterWrapper = styled(Box, {
+const FilterWrapper = styled('div', {
   px: '$20',
 });

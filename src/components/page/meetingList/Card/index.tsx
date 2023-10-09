@@ -1,10 +1,10 @@
-import { Box } from '@components/box/Box';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { MeetingResponse } from '@api/meeting';
 
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
+import { styled } from 'stitches.config';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -16,35 +16,35 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
 
   return (
-    <Box as="li" css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}>
+    <CardWrapper css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}>
       <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
-          <Box
-            css={{
-              '@tablet': {
-                display: 'none',
-              },
-            }}
-          >
+          <DesktopOnly>
             <DesktopSizeCard meetingData={meetingData} isAllParts={isAllParts} />
-          </Box>
+          </DesktopOnly>
 
-          <Box
-            css={{
-              display: 'none',
-              '@tablet': {
-                display: 'flex',
-                width: '100%',
-              },
-            }}
-          >
+          <MobileOnly>
             <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
-          </Box>
+          </MobileOnly>
         </a>
       </Link>
       {bottom}
-    </Box>
+    </CardWrapper>
   );
 }
 
 export default Card;
+
+const CardWrapper = styled('li', {});
+const DesktopOnly = styled('div', {
+  '@tablet': {
+    display: 'none',
+  },
+});
+const MobileOnly = styled('div', {
+  display: 'none',
+  '@tablet': {
+    display: 'flex',
+    width: '100%',
+  },
+});

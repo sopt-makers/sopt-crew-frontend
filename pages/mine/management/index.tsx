@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import { TabList } from '@components/tabList/TabList';
-import ManagementListSkeleton from '@components/page/meetingManagement/ManagementListSkeleton';
-import MeetingInformationSkeleton from '@components/page/meetingManagement/MeetingInformationSkeleton';
+import ManagementListSkeleton from '@components/page/meetingManagement/Skeleton/ManagementListSkeleton';
+import MeetingInformationSkeleton from '@components/page/meetingManagement/Skeleton/MeetingInformationSkeleton';
 import ManagementListItem from '@components/page/meetingManagement/ManagementListItem';
 import MeetingInformation from '@components/page/meetingManagement/MeetingInformation';
 import Select from '@components/form/Select';
@@ -156,7 +155,7 @@ const ManagementPage = () => {
 
 export default ManagementPage;
 
-const SManagementPage = styled(Box, {
+const SManagementPage = styled('div', {
   mt: '$100',
   mb: '$180',
 
@@ -166,7 +165,7 @@ const SManagementPage = styled(Box, {
   },
 });
 
-const SListHeader = styled(Box, {
+const SListHeader = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   mt: '$64',
@@ -179,7 +178,7 @@ const SListHeader = styled(Box, {
   },
 });
 
-const SListTitle = styled(Box, {
+const SListTitle = styled('div', {
   fontAg: '32_bold_100',
 
   '@tablet': {
@@ -213,7 +212,7 @@ const SDownloadButton = styled('button', {
   },
 });
 
-const SSelectContainer = styled(Box, {
+const SSelectContainer = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   mb: '$36',
@@ -228,7 +227,7 @@ const SSelectContainer = styled(Box, {
   },
 });
 
-const SSelectWrapper = styled(Box, {
+const SSelectWrapper = styled('div', {
   '& button': {
     borderRadius: '14px',
     border: '1px solid $black40',
@@ -265,7 +264,7 @@ const SSelectNumberWrapper = styled(SSelectWrapper, {
   },
 });
 
-const SEmptyView = styled(Box, {
+const SEmptyView = styled('div', {
   flexType: 'center',
   height: '$820',
   borderRadius: '10px',
@@ -279,7 +278,7 @@ const SEmptyView = styled(Box, {
   },
 });
 
-const SPaginationWrapper = styled(Box, {
+const SPaginationWrapper = styled('div', {
   mt: '$80',
 
   '@tablet': {

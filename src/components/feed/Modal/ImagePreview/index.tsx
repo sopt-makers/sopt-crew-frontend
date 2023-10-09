@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 import CancelIcon from '@assets/svg/x.svg';
@@ -26,7 +25,7 @@ export default function ImagePreview({ url, onDelete }: ImagePreviewProps) {
   );
 }
 
-const SContainer = styled(Box, {
+const SContainer = styled('div', {
   position: 'relative',
   width: '100%',
   height: '100%',
@@ -36,7 +35,7 @@ const SContainer = styled(Box, {
   overflow: 'hidden',
 });
 
-const SBackdrop = styled(Box, {
+const SBackdrop = styled('div', {
   position: 'absolute',
   width: '100%',
   height: '100%',

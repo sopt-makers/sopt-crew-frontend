@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
@@ -14,15 +13,15 @@ interface CardProps {
 
 function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
   return (
-    <Box>
-      <Box css={{ position: 'relative' }}>
+    <div>
+      <ImageWrapper>
         <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
         <SThumbnailImage
           css={{
             backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 760)})`,
           }}
         />
-      </Box>
+      </ImageWrapper>
 
       <STitleSection>
         <SCategory>{meetingData.category}</SCategory>
@@ -65,12 +64,14 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
           {meetingData.capacity}명
         </SValue>
       </SInfoRow>
-    </Box>
+    </div>
   );
 }
 
 export default DesktopSizeCard;
-
+const ImageWrapper = styled('div', {
+  position: 'relative',
+});
 const SThumbnailImage = styled('div', {
   width: '380px',
   height: '260px',
@@ -82,7 +83,7 @@ const SThumbnailImage = styled('div', {
   backgroundRepeat: 'no-repeat',
 });
 
-const SStatus = styled(Box, {
+const SStatus = styled('div', {
   position: 'absolute',
   top: '16px',
   left: '16px',
@@ -105,7 +106,7 @@ const SStatus = styled(Box, {
   },
 });
 
-const STitleSection = styled(Box, {
+const STitleSection = styled('div', {
   my: '$16',
   '@tablet': {
     my: '$8',
@@ -122,7 +123,7 @@ const SCategory = styled('p', {
   py: '$3',
   mr: '$5',
 });
-const SProfileWrapper = styled(Box, {
+const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
   color: '$white100',
   width: 'fit-content',

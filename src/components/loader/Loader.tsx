@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { keyframes, styled } from 'stitches.config';
 
 const Loader = () => {
@@ -19,7 +18,7 @@ const jump = keyframes({
   '100%': { transform: 'translateY(0px)' },
 });
 
-const SLoaderWrapper = styled(Box, {
+const SLoaderWrapper = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',

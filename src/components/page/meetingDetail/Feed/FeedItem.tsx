@@ -1,5 +1,4 @@
 import AvatarGroup from '@components/avatar/AvatarGroup';
-import { Box } from '@components/box/Box';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
@@ -134,7 +133,7 @@ const FeedItem = (post: FeedItemProps) => {
 
 export default FeedItem;
 
-const SFeedItem = styled(Box, {
+const SFeedItem = styled('div', {
   padding: '$24 $20 $28 $20',
   background: '#171818',
   borderRadius: '12px',
@@ -148,7 +147,7 @@ const SFeedItem = styled(Box, {
   },
 });
 
-const STop = styled(Box, {
+const STop = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   mb: '$12',
@@ -185,7 +184,7 @@ const STime = styled('span', {
   color: '$gray100',
 });
 
-const STitle = styled(Box, {
+const STitle = styled('div', {
   mb: '$8',
   fontStyle: 'H3',
 
@@ -194,7 +193,7 @@ const STitle = styled(Box, {
   },
 });
 
-const SContent = styled(Box, {
+const SContent = styled('div', {
   mb: '$20',
   color: '$gray40',
   fontStyle: 'B2',
@@ -205,7 +204,7 @@ const SContent = styled(Box, {
   },
 });
 
-const SThumbnailWrapper = styled(Box, {
+const SThumbnailWrapper = styled('div', {
   position: 'relative',
 });
 
@@ -225,7 +224,7 @@ const SThumbnail = styled('img', {
   },
 });
 
-const SThumbnailCount = styled(Box, {
+const SThumbnailCount = styled('div', {
   position: 'absolute',
   top: '12px',
   right: '12px',
@@ -245,7 +244,7 @@ const SThumbnailCount = styled(Box, {
   },
 });
 
-const SBottom = styled(Box, {
+const SBottom = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
 });
@@ -291,7 +290,7 @@ const SLikeButton = styled('button', {
   },
 });
 
-const SOverlay = styled(Box, {
+const SOverlay = styled('div', {
   position: 'absolute',
   background: '$black100',
   opacity: 0.7,

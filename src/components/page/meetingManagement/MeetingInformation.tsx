@@ -1,4 +1,3 @@
-import { Box } from '@components/box/Box';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
@@ -74,7 +73,7 @@ const SImage = styled('img', {
   },
 });
 
-const SCategory = styled(Box, {
+const SCategory = styled('div', {
   fontAg: '24_semibold_100',
   color: '$gray80',
   mb: '$10',

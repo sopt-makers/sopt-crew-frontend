@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 import { Listbox } from '@headlessui/react';
 import { styled } from 'stitches.config';
-import { Box } from '@components/box/Box';
 import CheckSelectedIcon from '@assets/svg/checkBox/selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/unselected.svg';
 
@@ -30,7 +29,7 @@ function CheckboxOptionItem({ option }: CheckboxOptionItemProps) {
 
 export default CheckboxOptionItem;
 
-const SCheckboxOptionItem = styled(Box, {
+const SCheckboxOptionItem = styled('div', {
   minWidth: '147px',
   cursor: 'pointer',
   display: 'flex',

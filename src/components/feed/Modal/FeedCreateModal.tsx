@@ -2,7 +2,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dynamic from 'next/dynamic';
-import { Box } from '@components/box/Box';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormType, feedSchema } from './feedSchema';
@@ -125,7 +124,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
 export default FeedCreateModal;
 
-const SDialogWrapper = styled(Box, {
+const SDialogWrapper = styled('div', {
   position: 'fixed',
   top: '50%',
   left: '50%',
