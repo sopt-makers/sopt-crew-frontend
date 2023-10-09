@@ -766,6 +766,10 @@ export class ClickMakebymeGroup implements BaseEvent {
   }
 }
 
+export class ClickManageGroup implements BaseEvent {
+  event_type = 'Click-manageGroup';
+}
+
 export class ClickManagementListProfile implements BaseEvent {
   event_type = 'Click-managementListProfile';
 
@@ -1360,6 +1364,21 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickMakebymeGroup(properties), options);
+  }
+
+  /**
+   * Click-manageGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-manageGroup)
+   *
+   * \[신청자 관리\] 클릭
+   *
+   * @param options Amplitude event options.
+   */
+  clickManageGroup(
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickManageGroup(), options);
   }
 
   /**
