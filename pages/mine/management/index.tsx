@@ -57,8 +57,7 @@ const ManagementPage = () => {
 
       switch (optionList) {
         case numberOptionList:
-          ampli.filterListOptionManagement({ manage_listing_no: changeOptionValue });
-          console.log('number option');
+          ampli.filterListOptionManagement({ manage_listing_no: Number(changeOptionValue) });
           break;
         case sortOptionList:
           ampli.filterManagementListOrder({ manage_sort: changeOptionValue });

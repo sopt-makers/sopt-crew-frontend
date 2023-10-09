@@ -593,8 +593,12 @@ export interface CompletedRegisterGroupProperties {
 export interface FilterListOptionManagementProperties {
   /**
    * 모임 관리자의 모임 신청자 리스트 조회 옵션을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
    */
-  manage_listing_no?: string;
+  manage_listing_no?: number;
 }
 
 export interface FilterManagementListOrderProperties {
