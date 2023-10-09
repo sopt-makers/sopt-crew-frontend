@@ -5,6 +5,8 @@ import { MeetingResponse } from '@api/meeting';
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
+import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
+import { ampli } from '@/ampli';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -16,7 +18,20 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
 
   return (
-    <CardWrapper css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}>
+    <CardWrapper
+      css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
+      onClick={() => {
+        ampli.clickGroupCard({
+          group_id: meetingData.id,
+          group_status: RECRUITMENT_STATUS[meetingData.status],
+          group_category: meetingData.category,
+          group_title: meetingData.title,
+          group_owner_id: Number(meetingData.user.orgId),
+          group_part: meetingData.joinableParts.map(part => PART_OPTIONS[PART_VALUES.indexOf(part)]).join(', '),
+          group_generation: meetingData.canJoinOnlyActiveGeneration,
+        });
+      }}
+    >
       <Link href={`/detail?id=${meetingData.id}`} passHref>
         <a>
           <DesktopOnly>
