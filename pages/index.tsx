@@ -18,6 +18,7 @@ import WriteIcon from '@assets/svg/write.svg';
 import { useQueryMyProfile } from '@api/user/hooks';
 import NoticeSlider from '@components/page/meetingList/Slider/NoticeSlider/NoticeSlider';
 import useNotices from '@api/notice/hooks';
+import { ampli } from '@/ampli';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -39,12 +40,20 @@ const Home: NextPage = () => {
         <Flex align="start" justify="between">
           <TabList text="all" size="big">
             <Link href="/" passHref>
-              <a>
+              <a
+                onClick={() => {
+                  ampli.clickNavbarGroup({ menu: '전체 모임' });
+                }}
+              >
                 <TabList.Item text="all">전체 모임</TabList.Item>
               </a>
             </Link>
             <Link href="/mine" passHref>
-              <a>
+              <a
+                onClick={() => {
+                  ampli.clickNavbarGroup({ menu: '내 모임' });
+                }}
+              >
                 <TabList.Item text="mine">내 모임</TabList.Item>
               </a>
             </Link>
