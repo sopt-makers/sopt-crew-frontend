@@ -12,6 +12,7 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import { AxiosError } from 'axios';
 import alertErrorMessage from '@utils/alertErrorMessage';
+import { ampli } from '@/ampli';
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -28,7 +29,8 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
   const queryClient = useQueryClient();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
-  const moveToMemberDetailPage = (id: string) => {
+  const handleProfileClick = (id: string) => {
+    ampli.clickManagementListProfile();
     window.location.href = `${playgroundLink.memberDetail(id)}`;
   };
 
@@ -65,7 +67,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 <SProfileImage>
                   {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
                 </SProfileImage>
-                <SName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SName>
+                <SName onClick={() => handleProfileClick(user.orgId)}>{user.name}</SName>
                 <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
               </SDesktopProfile>
               <SGeneration>{user.activities[0].generation}기</SGeneration>
@@ -119,7 +121,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
             <SCardContent>
               <SCardUserInformation>
                 <div>
-                  <SCardName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SCardName>
+                  <SCardName onClick={() => handleProfileClick(user.orgId)}>{user.name}</SCardName>
                   <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
                 </div>
                 <SCardGenerationAndPhone>
@@ -186,7 +188,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               <SGuestProfileImage>
                 {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
               </SGuestProfileImage>
-              <SName onClick={() => moveToMemberDetailPage(user.orgId)}>{user.name}</SName>
+              <SName onClick={() => handleProfileClick(user.orgId)}>{user.name}</SName>
             </SProfile>
             <SVerticalLine />
             <SDate>{date}</SDate>
