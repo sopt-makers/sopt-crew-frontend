@@ -41,10 +41,20 @@ const MinePage: NextPage = () => {
       <Tab.Group selectedIndex={Number(selectedMeetingType)} onChange={setSelectedMeetingType}>
         <STabList>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedMeetingType) === MeetingType.MADE}>내가 만든 모임</STab>
+            <STab
+              isSelected={Number(selectedMeetingType) === MeetingType.MADE}
+              onClick={() => ampli.clickMakebymeGroup()}
+            >
+              내가 만든 모임
+            </STab>
           </Tab>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}>내가 신청한 모임</STab>
+            <STab
+              isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}
+              onClick={() => ampli.clickRegisteredGroup()}
+            >
+              내가 신청한 모임
+            </STab>
           </Tab>
         </STabList>
 
