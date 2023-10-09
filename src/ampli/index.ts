@@ -355,6 +355,15 @@ export interface ClickMakebymeGroupProperties {
   url?: string;
 }
 
+export interface ClickMakeGroupProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
 export interface ClickManagementListProfileProperties {
   /**
    * | Rule | Value |
@@ -761,6 +770,16 @@ export class ClickMakebymeGroup implements BaseEvent {
 
   constructor(
     public event_properties?: ClickMakebymeGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickMakeGroup implements BaseEvent {
+  event_type = 'Click-makeGroup';
+
+  constructor(
+    public event_properties?: ClickMakeGroupProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1364,6 +1383,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickMakebymeGroup(properties), options);
+  }
+
+  /**
+   * Click-makeGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-makeGroup)
+   *
+   * \[+모임 개설하기\] 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickMakeGroup(
+    properties?: ClickMakeGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickMakeGroup(properties), options);
   }
 
   /**

@@ -31,6 +31,7 @@ const Home: NextPage = () => {
       handleModalOpen();
       return;
     }
+    ampli.clickMakeGroup();
     router.push('/make');
   };
 
