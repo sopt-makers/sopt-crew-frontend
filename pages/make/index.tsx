@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import PlusIcon from '@assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { ampli } from '@/ampli';
+
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -41,6 +43,7 @@ const MakePage = () => {
     const {
       data: { meetingId },
     } = await mutateCreateMeeting(formData);
+    ampli.completedMakeGroup();
     alert('모임을 개설했습니다.');
     router.push(`/detail?id=${meetingId}`);
   };
