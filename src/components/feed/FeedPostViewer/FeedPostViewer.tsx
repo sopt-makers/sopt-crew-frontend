@@ -165,6 +165,9 @@ const Contents = styled('p', {
   color: '$gray30',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
+  a: {
+    wordBreak: 'break-all',
+  },
   '@tablet': {
     fontStyle: 'B3',
   },
