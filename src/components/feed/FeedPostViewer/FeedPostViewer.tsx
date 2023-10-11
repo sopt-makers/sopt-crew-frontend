@@ -75,7 +75,7 @@ export default function FeedPostViewer({
         <ContentBody>
           <Title>{post.title}</Title>
           <Contents>{parseTextToLink(post.contents)}</Contents>
-          {post.images && (
+          {post.images && post.images.length > 0 && (
             <ImageSection>
               {post.images.length === 1 ? (
                 <BigImage src={post.images[0]} onClick={handleClickImage(post.images, 0)} />
@@ -196,8 +196,13 @@ const ImageListWrapper = styled('div', {
   gap: '8px',
   '@tablet': {
     display: 'flex',
-    overflow: 'scroll',
     gap: '6px',
+    overflowX: 'scroll',
+    '-ms-overflow-style': 'none',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
 });
 const ImageListItem = styled('img', {
