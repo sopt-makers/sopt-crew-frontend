@@ -107,9 +107,10 @@ const CarouselContainer = styled('div', {
 });
 const CarouselScrollContainer = styled('div', {
   display: 'flex',
+  alignItems: 'center',
   maxWidth: '1280px',
   height: '100%',
-  maxHeight: '600px',
+  maxHeight: '100vh',
 });
 const CarouselItem = styled('div', {
   flexType: 'center',
@@ -117,11 +118,14 @@ const CarouselItem = styled('div', {
   height: '100%',
   flex: '0 0 100%',
   minWidth: 0,
+  overflow: 'hidden',
 });
 const Image = styled('img', {
-  width: '100%',
+  width: 'fit-content',
+  maxWidth: '100%',
   height: '100%',
-  objectFit: 'contain',
+  maxHeight: '100vh',
+  objectFit: 'cover',
 });
 const ArrowButton = styled('button', {
   flexType: 'center',
