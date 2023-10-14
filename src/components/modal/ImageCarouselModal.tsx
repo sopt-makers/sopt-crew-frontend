@@ -32,9 +32,7 @@ export default function ImageCarouselModal({ isOpen, close, images, startIndex =
         <Container>
           {/* top 고정 요소 */}
           {/* eslint-disable-next-line prettier/prettier */}
-          <Counter>
-            {currentIndex} / {images.length}
-          </Counter>
+          <Counter>{currentIndex} / {images.length}</Counter>
           <CloseButton onClick={close}>
             <CloseIcon />
           </CloseButton>
