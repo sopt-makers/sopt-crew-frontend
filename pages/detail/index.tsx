@@ -27,19 +27,33 @@ const DetailPage = () => {
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
-  useEffect(() => {
-    if (detailData) {
-      setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
+  const updateURL = (index: number) => {
+    const newQueryParams = { ...router.query };
+
+    switch (index) {
+      case SelectedTab.FEED:
+        newQueryParams.tab = 'feed';
+        break;
+      case SelectedTab.INFORMATION:
+        newQueryParams.tab = 'information';
+        break;
     }
-  }, [detailData]);
+
+    router.push({ pathname: router.pathname, query: newQueryParams }, undefined, { shallow: true });
+  };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const paramValue = urlSearchParams.get('tab');
-    if (paramValue === 'feed') {
-      setSelectedIndex(SelectedTab.FEED);
+    switch (router.query.tab) {
+      case 'feed':
+        setSelectedIndex(SelectedTab.FEED);
+        break;
+      case 'information':
+        setSelectedIndex(SelectedTab.INFORMATION);
+        break;
+      default:
+        setSelectedIndex(detailData?.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
     }
-  }, []);
+  }, [detailData, router.query.tab]);
 
   if (!detailData) {
     return <Loader />;
@@ -55,7 +69,7 @@ const DetailPage = () => {
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
         />
-        <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
+        <Tab.Group selectedIndex={selectedIndex} onChange={updateURL}>
           <STabList>
             <Tab as={Fragment}>
               <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>

@@ -19,7 +19,7 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 
 export default function PostPage() {
@@ -80,20 +80,6 @@ export default function PostPage() {
     ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
     togglePostLike();
   };
-
-  useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      const params = new URLSearchParams(window.location.search);
-      params.set('tab', 'feed');
-      window.history.replaceState(event.state, '', `${window.location.pathname}?${params}`);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
