@@ -33,6 +33,14 @@ const DetailPage = () => {
     }
   }, [detailData]);
 
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const paramValue = urlSearchParams.get('tab');
+    if (paramValue === 'feed') {
+      setSelectedIndex(SelectedTab.FEED);
+    }
+  }, []);
+
   if (!detailData) {
     return <Loader />;
   }
