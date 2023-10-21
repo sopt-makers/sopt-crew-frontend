@@ -12,6 +12,7 @@ import {
   useStatusParams,
 } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';
+import { ampli } from '@/ampli';
 
 function FilterModalOpenButton() {
   const { isTablet } = useDisplay();
@@ -29,12 +30,18 @@ function FilterModalOpenButton() {
     part.length === 0 &&
     !parseBool(isOnlyActiveGeneration)
   );
+
+  const handleButtonClick = () => {
+    ampli.clickFilterOn();
+    setIsModalOpened(true);
+  };
+
   return (
     <>
       <SSelectModalOpenButton
         as="button"
         type="button"
-        onClick={() => setIsModalOpened(true)}
+        onClick={handleButtonClick}
         isFilterActive={isFilterActive}
         className="filter-button"
       >

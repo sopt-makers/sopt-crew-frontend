@@ -25,6 +25,7 @@ import {
 } from '@api/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
+import { ampli } from '@/ampli';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -52,7 +53,18 @@ const ManagementPage = () => {
 
   const handleChangeSelectOption =
     (setValue: (value: string | number) => void, optionList: Option[]) => (changeOption: Option) => {
-      setValue(optionList.findIndex(option => option.value === changeOption.value));
+      const changeOptionValue = String(changeOption.value);
+
+      switch (optionList) {
+        case numberOptionList:
+          ampli.filterListOptionManagement({ manage_listing_no: Number(changeOptionValue) });
+          break;
+        case sortOptionList:
+          ampli.filterManagementListOrder({ manage_sort: changeOptionValue });
+          break;
+      }
+
+      setValue(optionList.findIndex(option => option.value === changeOptionValue));
     };
 
   const handleCSVDownload = () => {
@@ -63,12 +75,12 @@ const ManagementPage = () => {
     <SManagementPage>
       <TabList text="mine" size="big">
         <Link href="/" passHref>
-          <a>
+          <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
             <TabList.Item text="all">전체 모임</TabList.Item>
           </a>
         </Link>
         <Link href="/mine" passHref>
-          <a>
+          <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
             <TabList.Item text="mine">내 모임</TabList.Item>
           </a>
         </Link>

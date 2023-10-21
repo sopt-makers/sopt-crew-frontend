@@ -3,6 +3,7 @@ import { Disclosure as HeadlessDisclosure } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import ArrowIcon from 'public/assets/svg/arrow_down.svg';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import { ampli } from '@/ampli';
 
 interface DisclosureProps {
   title: string;
@@ -21,7 +22,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
               <STitle>{title}</STitle>
               <SSubTitle>{subTitle}</SSubTitle>
             </STitleWrapper>
-            <HeadlessDisclosure.Button>
+            <HeadlessDisclosure.Button onClick={() => (!open ? ampli.clickNoticeOn() : ampli.clickNoticeOff())}>
               <SArrowIcon isOpen={open} />
             </HeadlessDisclosure.Button>
           </STitleContainer>
