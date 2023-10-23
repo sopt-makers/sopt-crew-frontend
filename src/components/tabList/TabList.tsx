@@ -58,7 +58,7 @@ const STab = styled('li', {
     isSelected: {
       true: {
         color: '$gray10',
-        borderColor: `$gray40`,
+        borderColor: `$gray200`,
       },
       false: {
         color: '$gray100',

@@ -49,10 +49,10 @@ const SStatus = styled('div', {
       },
       1: {
         backgroundColor: '$secondary',
-        color: '$black100',
+        color: '$gray950',
       },
       2: {
-        backgroundColor: '$black60',
+        backgroundColor: '$gray700',
       },
     },
   },
@@ -86,7 +86,7 @@ const MobileWrapper = styled('div', {
 });
 const SMobileValue = styled('p', {
   fontAg: '12_medium_100',
-  color: '$gray80',
+  color: '$gray400',
   '& + &': {
     ml: '$8',
   },

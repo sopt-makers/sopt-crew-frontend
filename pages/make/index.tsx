@@ -91,12 +91,12 @@ const SContainer = styled('div', {
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '44px 40px 56px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '15px',
 
   '@tablet': {
     padding: '40px 0 0 0',
-    background: '$black100',
+    background: '$gray950',
   },
 });
 const SFormName = styled('h1', {
@@ -107,7 +107,7 @@ const SFormName = styled('h1', {
   '@tablet': {
     margin: 0,
     paddingBottom: '40px',
-    borderBottom: '1px solid $black60',
+    borderBottom: '1px solid $gray700',
   },
 });
 const SFormWrapper = styled('div', {

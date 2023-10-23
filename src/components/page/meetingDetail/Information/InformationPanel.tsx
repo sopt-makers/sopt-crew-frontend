@@ -129,7 +129,7 @@ const STitle = styled('h2', {
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
   whiteSpace: 'pre-line',
-  color: '$gray40',
+  color: '$gray200',
 
   a: {
     textDecoration: 'underline',

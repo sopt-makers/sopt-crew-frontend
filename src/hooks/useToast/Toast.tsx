@@ -35,7 +35,7 @@ const ToastContainer = styled('div', {
   position: 'fixed',
   bottom: '-50px',
   left: '50%',
-  backgroundColor: '$black60',
+  backgroundColor: '$gray700',
   padding: '12px 20px 12px 16px',
   borderRadius: '2000px',
   zIndex: 999,

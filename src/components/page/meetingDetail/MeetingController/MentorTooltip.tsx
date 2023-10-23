@@ -21,7 +21,7 @@ const STooltip = styled('div', {
   position: 'absolute',
   top: '$13',
   left: '176px',
-  backgroundColor: '$black40',
+  backgroundColor: '$gray600',
   width: 'max-content',
   padding: '$12 $14',
   borderRadius: '10px',
@@ -47,7 +47,7 @@ const STooltip = styled('div', {
     right: '100%',
     border: 'solid transparent',
     borderWidth: '3.5px 9px',
-    borderRightColor: '$black40',
+    borderRightColor: '$gray600',
   },
 });
 

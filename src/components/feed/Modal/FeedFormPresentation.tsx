@@ -223,11 +223,11 @@ export default FeedFormPresentation;
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '40px 30px 30px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '15px',
   '@tablet': {
     padding: '30px 0 0 0',
-    background: '$black100',
+    background: '$gray950',
     height: '100vh',
     borderRadius: '0',
   },
@@ -284,7 +284,7 @@ const SThumbnailImage = styled('div', {
   height: '56px',
   borderRadius: '$6',
   overflow: 'hidden',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
@@ -295,7 +295,7 @@ const SThumbnailImage = styled('div', {
 });
 
 const SCategory = styled('p', {
-  color: '$gray80',
+  color: '$gray400',
   fontStyle: 'T3',
   ml: '$20',
   '@tablet': {
@@ -316,7 +316,7 @@ const STitle = styled('p', {
 
 const SDivider = styled(Divider, {
   my: '$24',
-  backgroundColor: '$black40',
+  backgroundColor: '$gray600',
   '@tablet': {
     my: '$20',
   },
@@ -412,5 +412,5 @@ const SImageListWrapper = styled('div', {
 const SImageListDivider = styled(Divider, {
   mt: '$0',
   mb: '$24',
-  backgroundColor: '$black40',
+  backgroundColor: '$gray600',
 });

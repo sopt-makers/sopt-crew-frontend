@@ -48,16 +48,16 @@ const SOption = styled('button', {
     isSelected: {
       true: {
         backgroundColor: '$gray10',
-        color: '$black100',
+        color: '$gray950',
       },
       false: {
-        backgroundColor: '$black100',
+        backgroundColor: '$gray950',
         color: '$gray100',
         '&:hover': {
           color: '$gray10',
         },
         '@tablet': {
-          backgroundColor: '$black40',
+          backgroundColor: '$gray600',
           color: '$gray60',
         },
       },

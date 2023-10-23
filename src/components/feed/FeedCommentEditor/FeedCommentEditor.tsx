@@ -31,10 +31,10 @@ const EditorContainer = styled('div', {
   flexDirection: 'column',
   borderRadius: '8px',
   border: `1px solid $white`,
-  background: '$black100',
+  background: '$gray950',
 });
 const Editor = styled('textarea', {
-  color: '$gray40',
+  color: '$gray200',
   fontStyle: 'B2',
   background: 'transparent',
   border: 'none',
@@ -51,7 +51,7 @@ const CancelButton = styled('button', {
   padding: '4px 12px',
   flexType: 'center',
   borderRadius: '8px',
-  background: '$black60',
+  background: '$gray700',
   color: '$gray10',
   fontStyle: 'T5',
 });
@@ -60,6 +60,6 @@ const SubmitButton = styled('button', {
   flexType: 'center',
   background: '$gray10',
   borderRadius: '8px',
-  color: '$black100',
+  color: '$gray950',
   fontStyle: 'T5',
 });

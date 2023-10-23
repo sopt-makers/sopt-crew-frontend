@@ -447,7 +447,7 @@ const Button = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   gap: '12px',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '10px',
   fontAg: '18_bold_100',
   color: '$gray10',
@@ -461,7 +461,7 @@ const Button = styled('button', {
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
   background: '$gray10',
-  color: '$black100',
+  color: '$gray950',
   '&:disabled': {
     cursor: 'not-allowed',
     opacity: 0.35,

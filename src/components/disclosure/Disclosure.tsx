@@ -42,7 +42,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
 
 const Container = styled('div', {
   padding: '48px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '20px',
   '@mobile': {
     padding: '24px 16px',
@@ -91,7 +91,7 @@ const SArrowIcon = styled(ArrowIcon, {
 const SDivider = styled('div', {
   height: '1px',
   margin: '36px 0 32px 0',
-  background: '$black40',
+  background: '$gray600',
   '@mobile': {
     margin: '20px 0',
   },

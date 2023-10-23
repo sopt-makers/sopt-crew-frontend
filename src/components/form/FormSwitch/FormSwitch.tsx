@@ -24,7 +24,7 @@ const SSwitchWrapper = styled('div', {
   gap: '8px',
   fontAg: '16_medium_100',
   color: '$gray100',
-  background: '$black60',
+  background: '$gray700',
   borderRadius: '10px',
   variants: {
     checked: {

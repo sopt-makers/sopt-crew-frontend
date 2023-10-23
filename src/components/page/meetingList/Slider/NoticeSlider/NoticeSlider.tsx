@@ -60,7 +60,7 @@ export default function NoticeSlider({ notices }: NoticeSliderProps) {
 const SDot = styled('div', {
   width: '16px',
   height: '4px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '10px',
   cursor: 'pointer',
   variants: {

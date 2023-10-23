@@ -44,7 +44,7 @@ const SDialogWrapper = styled('div', {
   height: '$298',
   padding: '$48 $69',
   borderRadius: '20px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   boxShadow: '4px 4px 40px #181818',
   display: 'flex',
   flexDirection: 'column',
@@ -84,12 +84,12 @@ const SDialogWrapper = styled('div', {
   },
 
   'button:first-child': {
-    backgroundColor: '$black40',
+    backgroundColor: '$gray600',
     mr: '$20',
   },
 
   'button:last-child': {
     backgroundColor: '$gray10',
-    color: '$black100',
+    color: '$gray950',
   },
 });

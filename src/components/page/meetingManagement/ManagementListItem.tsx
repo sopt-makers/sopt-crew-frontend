@@ -220,7 +220,7 @@ const SListItem = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   borderRadius: '20px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   padding: '$24',
   minWidth: 'fit-content',
   height: '$80',
@@ -254,7 +254,7 @@ const SCardContent = styled('div', {
   display: 'flex',
   height: '$80',
   padding: '$20',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   borderTopLeftRadius: '8px',
   borderTopRightRadius: '8px',
 });
@@ -262,7 +262,7 @@ const SCardContent = styled('div', {
 const SProfileImage = styled('div', {
   width: '$32',
   height: '$32',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '$round',
   ml: '$4',
   overflow: 'hidden',
@@ -365,7 +365,7 @@ const SDate = styled('div', {
 
   '@tablet': {
     fontAg: '12_medium_100',
-    color: '$gray80',
+    color: '$gray400',
     justifyContent: 'space-between',
   },
 });
@@ -406,7 +406,7 @@ const SUserStatus = styled('span', {
         backgroundColor: '$success',
       },
       2: {
-        backgroundColor: '$black40',
+        backgroundColor: '$gray600',
       },
     },
   },
@@ -450,7 +450,7 @@ const SCardDetailButton = styled('button', {
   mt: '$3',
   height: 'fit-content',
   fontAg: '12_medium_100',
-  color: '$gray80',
+  color: '$gray400',
 
   '& > span': {
     mr: '$2',
@@ -481,13 +481,13 @@ const SRoundButton = styled('button', {
 });
 
 const SGrayButton = styled(SRoundButton, {
-  backgroundColor: '$black40',
+  backgroundColor: '$gray600',
 });
 
 const SWhiteButton = styled(SRoundButton, {
   mr: '$8',
   backgroundColor: '$gray10',
-  color: '$black100',
+  color: '$gray950',
 });
 
 const buttonStyles = {
@@ -495,9 +495,9 @@ const buttonStyles = {
   padding: '$13 0',
   textAlign: 'center',
   fontAg: '14_semibold_100',
-  color: '$gray80',
-  backgroundColor: '$black80',
-  borderTop: '1px solid $black40',
+  color: '$gray400',
+  backgroundColor: '$gray800',
+  borderTop: '1px solid $gray600',
   borderBottomLeftRadius: '8px',
   borderBottomRightRadius: '8px',
   variants: {
@@ -517,7 +517,7 @@ const SRejectButton = styled('button', {
 
 const SApproveButton = styled('button', {
   ...buttonStyles,
-  color: '$black100',
+  color: '$gray950',
   backgroundColor: '$gray10',
   borderBottomLeftRadius: '0',
 });
@@ -528,7 +528,7 @@ const SCancelButton = styled('button', {
 });
 
 const SDetailText = styled('p', {
-  backgroundColor: '$black60',
+  backgroundColor: '$gray700',
   margin: '$24',
   padding: '$16',
   borderRadius: '19.711px',
@@ -543,7 +543,7 @@ const SEmptyText = styled('p', {
   padding: '$104 0 $124 0',
   fontAg: '20_medium_100',
   textAlign: 'center',
-  color: '$gray80',
+  color: '$gray400',
 
   '@tablet': {
     padding: '$100 0',

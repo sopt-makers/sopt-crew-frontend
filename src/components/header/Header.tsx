@@ -57,7 +57,7 @@ const HeaderWrapper = styled('div', {
   zIndex: '$1',
 
   '& > header': {
-    backgroundColor: '$black100',
+    backgroundColor: '$gray950',
   },
 });
 

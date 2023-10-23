@@ -70,7 +70,7 @@ const SSelectModalOpenButton = styled('div', {
         border: '1px solid $gray10',
       },
       false: {
-        border: '1px solid $black40',
+        border: '1px solid $gray600',
       },
     },
   },

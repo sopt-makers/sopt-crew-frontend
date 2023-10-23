@@ -242,8 +242,8 @@ const SSelectContainer = styled('div', {
 const SSelectWrapper = styled('div', {
   '& button': {
     borderRadius: '14px',
-    border: '1px solid $black40',
-    backgroundColor: '$black100',
+    border: '1px solid $gray600',
+    backgroundColor: '$gray950',
 
     '@tablet': {
       borderRadius: '8px',
@@ -255,14 +255,14 @@ const SSelectWrapper = styled('div', {
   },
 
   '& ul': {
-    background: '$black100',
+    background: '$gray950',
     position: 'absolute',
     top: '$50',
     minWidth: '$147',
   },
 
   '& div': {
-    background: '$black100',
+    background: '$gray950',
   },
 
   '& + &': {
@@ -280,9 +280,9 @@ const SEmptyView = styled('div', {
   flexType: 'center',
   height: '$820',
   borderRadius: '10px',
-  border: `1px solid $black40`,
+  border: `1px solid $gray600`,
   fontAg: '24_medium_100',
-  color: '$gray80',
+  color: '$gray400',
 
   '@tablet': {
     fontAg: '16_medium_100',

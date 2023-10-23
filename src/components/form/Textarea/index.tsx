@@ -46,7 +46,7 @@ const STextarea = styled('textarea', {
   padding: '16px 20px 20px 16px',
   fontAg: '16_medium_150',
   color: '$gray10',
-  background: '$black60',
+  background: '$gray700',
   border: 'none',
   resize: 'none',
   borderRadius: 10,

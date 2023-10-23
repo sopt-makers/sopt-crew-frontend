@@ -32,7 +32,9 @@ export default function ImageCarouselModal({ isOpen, close, images, startIndex =
         <Container>
           {/* top 고정 요소 */}
           {/* eslint-disable-next-line prettier/prettier */}
-          <Counter>{currentIndex} / {images.length}</Counter>
+          <Counter>
+            {currentIndex} / {images.length}
+          </Counter>
           <CloseButton onClick={close}>
             <CloseIcon />
           </CloseButton>
@@ -133,7 +135,7 @@ const ArrowButton = styled('button', {
   height: '72px',
   flexShrink: 0,
   borderRadius: '20px',
-  background: '$black80',
+  background: '$gray800',
   '@tablet': {
     display: 'none',
   },

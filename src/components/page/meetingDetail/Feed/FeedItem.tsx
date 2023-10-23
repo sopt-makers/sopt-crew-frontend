@@ -163,7 +163,7 @@ const SProfileImageWrapper = styled('div', {
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
-  background: '$black60',
+  background: '$gray700',
   overflow: 'hidden',
 });
 
@@ -195,7 +195,7 @@ const STitle = styled('div', {
 
 const SContent = styled('div', {
   mb: '$20',
-  color: '$gray40',
+  color: '$gray200',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-all',
@@ -212,7 +212,7 @@ const SThumbnail = styled('img', {
   display: 'block',
   mb: '$20',
   borderRadius: '8px',
-  background: '$black60',
+  background: '$gray700',
   width: '100%',
   maxWidth: '$340',
   height: 'fit-content',
@@ -229,7 +229,7 @@ const SThumbnailCount = styled('div', {
   top: '12px',
   right: '12px',
   zIndex: 1,
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   opacity: 0.6,
   color: '$gray100',
   borderRadius: '50%',
@@ -261,7 +261,7 @@ const SCommentWrapper = styled('div', {
 
 const SComment = styled('span', {
   fontStyle: 'T5',
-  color: '$gray40',
+  color: '$gray200',
 });
 
 const SCommentCount = styled('span', {
@@ -292,7 +292,7 @@ const SLikeButton = styled('button', {
 
 const SOverlay = styled('div', {
   position: 'absolute',
-  background: '$black100',
+  background: '$gray950',
   opacity: 0.7,
   width: '100%',
   height: '100%',

@@ -50,7 +50,7 @@ const SLayout = styled('div', {
   top: '56px',
   right: 0,
   zIndex: 5,
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   transition: 'width 0.5s',
   variants: {
     isVisible: {
@@ -71,7 +71,7 @@ const SSearchWrapper = styled(Flex, {
   width: '100%',
   py: '$13',
   px: '$24',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   borderRadius: '59px',
   boxSizing: 'border-box',
 

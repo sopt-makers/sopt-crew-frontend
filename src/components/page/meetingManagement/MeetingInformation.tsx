@@ -37,9 +37,9 @@ export default MeetingInformation;
 const SMeetingInformation = styled('a', {
   flexType: 'verticalCenter',
   marginTop: '$64',
-  background: '$black80',
+  background: '$gray800',
   padding: '$32 $26 $32 $29',
-  border: `1px solid $black40`,
+  border: `1px solid $gray600`,
   borderRadius: '24px',
 
   '& > div': {
@@ -75,7 +75,7 @@ const SImage = styled('img', {
 
 const SCategory = styled('div', {
   fontAg: '24_semibold_100',
-  color: '$gray80',
+  color: '$gray400',
   mb: '$10',
 
   '@tablet': {
@@ -99,7 +99,7 @@ const SRecruitingStatus = styled('span', {
         color: '$orange400',
       },
       false: {
-        color: '$gray80',
+        color: '$gray400',
       },
     },
   },

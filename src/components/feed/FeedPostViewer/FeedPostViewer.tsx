@@ -107,8 +107,8 @@ const Container = styled('div', {
   width: '800px',
   flexShrink: 0,
   borderRadius: '20px',
-  border: '1px solid $black60',
-  background: '$black100',
+  border: '1px solid $gray700',
+  background: '$gray950',
   mb: '$80',
   '@tablet': {
     width: '100%',
@@ -229,8 +229,8 @@ const CommentLikeWrapper = styled('div', {
   fontStyle: 'T5',
   height: '48px',
   flexType: 'center',
-  borderTop: '1px solid $black60',
-  borderBottom: '1px solid $black60',
+  borderTop: '1px solid $gray700',
+  borderBottom: '1px solid $gray700',
   '@tablet': {
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',

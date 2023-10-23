@@ -86,8 +86,8 @@ const SContainer = styled('div', {
   width: '341px',
   padding: '50px 40px 60px',
   height: 'fit-content',
-  background: '$black80',
-  border: '1px solid $black60',
+  background: '$gray800',
+  border: '1px solid $gray700',
   borderRadius: '15px',
   position: 'sticky',
   top: '$80',
@@ -102,7 +102,7 @@ const SListHeader = styled('div', {
   alignItems: 'center',
   marginBottom: '$36',
   paddingBottom: '$36',
-  borderBottom: '1.5px solid $black60',
+  borderBottom: '1.5px solid $gray700',
 });
 const SLabel = styled('h2', {
   fontWeight: '700',
@@ -117,7 +117,7 @@ const SCount = styled('div', {
   fontSize: '12px',
   lineHeight: '100%',
   textAlign: 'center',
-  background: '$black60',
+  background: '$gray700',
   borderRadius: '6px',
 });
 const SItemList = styled('ul', {

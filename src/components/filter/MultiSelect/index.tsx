@@ -80,7 +80,7 @@ const SSelectWrapper = styled('div', {
 
 const SSelectDisplay = styled(Flex, {
   width: '153px',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '14px',
   padding: '$18 $20',
   cursor: 'pointer',
@@ -127,11 +127,11 @@ const SCategory = styled('span', {
 const SSelectBoxList = styled('div', {
   width: '100%',
   position: 'absolute',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '$10',
   padding: '$8 $16',
   top: '63px',
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   zIndex: '$2',
   '& li': {
     height: '50px',

@@ -38,7 +38,7 @@ const SButton = styled('button', {
   gap: 8,
   fontAg: '16_medium_100',
   color: '$gray10',
-  background: '$black60',
+  background: '$gray700',
   borderRadius: 10,
   variants: {
     isNotSelected: {

@@ -40,8 +40,8 @@ const SLayout = styled(Flex, {
   left: 0,
   width: '100vw',
   height: '0px',
-  backgroundColor: '$black80',
-  boxShadow: '4px 4px 40px $black80',
+  backgroundColor: '$gray800',
+  boxShadow: '4px 4px 40px $gray800',
   borderRadius: '20px 20px 0px 0px',
   zIndex: '$2',
   variants: {
@@ -72,7 +72,7 @@ const SListItemWrapper = styled('ul', {
   '& li': {
     height: '48px',
     px: '$16',
-    borderBottom: '1px solid $black40',
+    borderBottom: '1px solid $gray600',
   },
   '& li:last-child': {
     borderBottom: 'none',
@@ -83,7 +83,7 @@ const SCloseButton = styled('button', {
   width: '100%',
   height: '50px',
   backgroundColor: '$gray10',
-  color: '$black100',
+  color: '$gray950',
   fontAg: '16_bold_100',
   textAlign: 'center',
 });

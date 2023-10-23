@@ -13,7 +13,7 @@ export default EmptyView;
 
 const Wrapper = styled(Flex.Center, {
   height: '820px',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '10px',
   my: '$24',
   '@tablet': {
@@ -23,7 +23,7 @@ const Wrapper = styled(Flex.Center, {
 
 const Message = styled('p', {
   fontAg: '24_medium_100',
-  color: '$gray80',
+  color: '$gray400',
   '@tablet': {
     fontAg: '16_medium_100',
   },

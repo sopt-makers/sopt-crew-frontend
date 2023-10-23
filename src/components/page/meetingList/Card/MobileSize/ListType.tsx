@@ -67,7 +67,7 @@ const SThumbnailImage = styled('div', {
   height: '82px',
   borderRadius: '$8',
   overflow: 'hidden',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
@@ -87,10 +87,10 @@ const SStatus = styled('div', {
       },
       1: {
         backgroundColor: '$secondary',
-        color: '$black100',
+        color: '$gray950',
       },
       2: {
-        backgroundColor: '$black60',
+        backgroundColor: '$gray700',
       },
     },
   },
@@ -113,7 +113,7 @@ const SProfile = styled('img', {
   height: '$20',
   borderRadius: '50%',
   objectFit: 'cover',
-  background: '$black60',
+  background: '$gray700',
 });
 
 const STitle = styled('p', {
@@ -134,7 +134,7 @@ const SUserInfo = styled('p', {
 });
 
 const SCategory = styled(SUserInfo, {
-  color: '$gray40',
+  color: '$gray200',
 });
 const SInfoRow = styled(Flex, {
   mt: '$8',

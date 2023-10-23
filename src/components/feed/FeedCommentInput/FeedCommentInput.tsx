@@ -47,7 +47,7 @@ const CommentInput = styled('textarea', {
   maxHeight: '120px',
   padding: '14px 24px',
   borderRadius: '25px',
-  background: '$black60',
+  background: '$gray700',
   color: '$gray10',
   fontStyle: 'B2',
   border: 'none',

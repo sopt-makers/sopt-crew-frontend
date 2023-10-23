@@ -15,7 +15,7 @@ export default ManagementListSkeleton;
 const SItemSkeleton = styled('div', {
   height: '$80',
   borderRadius: '20px',
-  background: '$black80',
+  background: '$gray800',
   mb: '$16',
 
   '@tablet': {

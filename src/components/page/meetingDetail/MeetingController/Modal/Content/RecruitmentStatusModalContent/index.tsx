@@ -61,7 +61,7 @@ const SEmptyText = styled('p', {
   flexType: 'center',
   width: '100%',
   height: '$280',
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '18_semibold_100',
 
   '@tablet': {
@@ -81,7 +81,7 @@ const SRecruitmentStatusModalBottom = styled('div', {
 });
 
 const STotal = styled('p', {
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '16_medium_100',
 
   '@tablet': {

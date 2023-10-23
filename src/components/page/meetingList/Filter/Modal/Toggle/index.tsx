@@ -45,7 +45,7 @@ const SLabel = styled('p', {
   },
 });
 const SSwitchWrapper = styled(Flex, {
-  background: '$black100',
+  background: '$gray950',
   borderRadius: '14px',
   width: '163px',
   height: '46px',

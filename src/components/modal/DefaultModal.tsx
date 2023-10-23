@@ -40,7 +40,7 @@ const SDialogWrapper = styled('div', {
   transform: 'translate(-50%, -50%)',
   zIndex: '$2',
   borderRadius: '20px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   width: '$646',
   boxShadow: '4px 4px 40px #181818',
 
@@ -54,7 +54,7 @@ const SHeader = styled('div', {
   justifyContent: 'space-between',
   height: '$100',
   padding: '$40 $40 $36 $40',
-  borderBottom: `1px solid $black40`,
+  borderBottom: `1px solid $gray600`,
 
   '.title': {
     width: '100%',
