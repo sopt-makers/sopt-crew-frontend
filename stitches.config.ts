@@ -7,11 +7,13 @@ const stitches = createStitches({
   theme: {
     colors: {
       transparent: 'transparent',
-      gray50: '#d4d4d4',
-      black: '#000',
+      gray40: '#c0c5c9',
+      black40: '#3c3d40',
+      black60: '#2c2d2e',
       black60_trans: 'rgba(24,24,24,0.6)',
+      black80: '#1c1d1e',
       black80_trans: 'rgba(24,24,24,0.8)',
-      black90: '#1c1d1e',
+      black100: '#0f1010',
       red: '#d70067',
       ...colors,
     },
