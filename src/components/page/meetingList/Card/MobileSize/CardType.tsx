@@ -45,7 +45,7 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray500',
       },
       1: {
         backgroundColor: '$secondary',

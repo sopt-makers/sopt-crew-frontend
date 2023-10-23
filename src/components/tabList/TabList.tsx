@@ -61,7 +61,7 @@ const STab = styled('li', {
         borderColor: `$gray200`,
       },
       false: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
 

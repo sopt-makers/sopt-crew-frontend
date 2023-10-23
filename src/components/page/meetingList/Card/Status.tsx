@@ -47,7 +47,7 @@ const SValue = styled('span', {
         color: '$success',
       },
       2: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },

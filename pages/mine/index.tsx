@@ -115,7 +115,7 @@ const STab = styled('button', {
         color: '$gray10',
         backgroundColor: '$gray600',
       },
-      false: { color: '$gray100' },
+      false: { color: '$gray500' },
     },
   },
   '@tablet': {

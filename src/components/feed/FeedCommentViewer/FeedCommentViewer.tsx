@@ -89,7 +89,7 @@ const Name = styled('span', {
 const Date = styled('span', {
   display: 'inline-block',
   marginLeft: '4px',
-  color: '$gray100',
+  color: '$gray500',
   fontStyle: 'T6',
 });
 const MenuItems = styled(Menu.Items, {

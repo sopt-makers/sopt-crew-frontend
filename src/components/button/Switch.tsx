@@ -27,7 +27,7 @@ const SSwitch = styled('button', {
   width: '28px',
   height: '16px',
   border: 'none',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
   borderRadius: '20px',
   cursor: 'pointer',
   variants: {

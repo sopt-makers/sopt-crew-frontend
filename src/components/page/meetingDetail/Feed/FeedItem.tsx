@@ -181,7 +181,7 @@ const SName = styled('span', {
 const STime = styled('span', {
   ml: '$8',
   fontStyle: 'T6',
-  color: '$gray100',
+  color: '$gray500',
 });
 
 const STitle = styled('div', {

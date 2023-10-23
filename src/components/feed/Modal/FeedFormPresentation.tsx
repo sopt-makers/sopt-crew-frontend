@@ -261,7 +261,7 @@ const SSubmitButton = styled('button', {
   variants: {
     disabled: {
       true: {
-        color: '$gray100',
+        color: '$gray500',
         cursor: 'not-allowed',
       },
     },

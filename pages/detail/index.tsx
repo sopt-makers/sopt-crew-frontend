@@ -98,7 +98,7 @@ const STabButton = styled('button', {
   pb: '$24',
   mr: '$32',
   fontStyle: 'H1',
-  color: '$gray100',
+  color: '$gray500',
 
   '&:hover': {
     color: '$gray10',
@@ -122,7 +122,7 @@ const STabButton = styled('button', {
         },
       },
       false: {
-        color: '$gray100',
+        color: '$gray500',
         paddingBottom: '$28',
         '@tablet': {
           paddingBottom: '$18',

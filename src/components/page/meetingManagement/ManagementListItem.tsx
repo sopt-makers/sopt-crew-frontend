@@ -324,7 +324,7 @@ const SVerticalLine = styled('div', {
   height: '$12',
   ml: '$30',
   mr: '$30',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
 
   '@tablet': {
     display: 'none',
@@ -378,7 +378,7 @@ const STime = styled('div', {
   '@tablet': {
     ml: '$4',
     fontAg: '12_medium_100',
-    color: '$gray100',
+    color: '$gray500',
   },
 });
 
@@ -387,7 +387,7 @@ const SCardDateAndTime = styled('div', {
   gap: '$4',
   mt: '$13',
   fontAg: '10_medium_100',
-  color: '$gray100',
+  color: '$gray500',
 });
 
 const SUserStatus = styled('span', {
@@ -395,12 +395,12 @@ const SUserStatus = styled('span', {
   ml: '$10',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
 
   variants: {
     status: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray500',
       },
       1: {
         backgroundColor: '$success',

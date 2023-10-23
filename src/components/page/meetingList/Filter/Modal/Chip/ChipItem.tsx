@@ -52,7 +52,7 @@ const SOption = styled('button', {
       },
       false: {
         backgroundColor: '$gray950',
-        color: '$gray100',
+        color: '$gray500',
         '&:hover': {
           color: '$gray10',
         },

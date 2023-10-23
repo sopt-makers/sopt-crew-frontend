@@ -126,7 +126,7 @@ const SRecruitmentStatusItem = styled('div', {
 
 const SStatusText = styled('div', {
   ml: '$14',
-  color: '$gray100',
+  color: '$gray500',
   fontAg: '14_medium_100',
 
   variants: {
@@ -135,7 +135,7 @@ const SStatusText = styled('div', {
         color: '$success',
       },
       false: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },

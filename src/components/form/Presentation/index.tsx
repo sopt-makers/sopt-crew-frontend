@@ -404,7 +404,7 @@ const SFileInputWrapper = styled('div', {
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
-  color: '$gray100',
+  color: '$gray500',
   gap: '12px',
 });
 const SApplicationField = styled('div', {

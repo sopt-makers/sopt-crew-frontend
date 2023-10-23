@@ -83,7 +83,7 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray500',
       },
       1: {
         backgroundColor: '$secondary',
@@ -144,7 +144,7 @@ const SInfo = styled('p', {
   fontStyle: 'T6',
 });
 const SKey = styled(SInfo, {
-  color: '$gray100',
+  color: '$gray500',
   mr: '$4',
   whiteSpace: 'nowrap',
 });

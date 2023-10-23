@@ -113,7 +113,7 @@ const SInfo = styled(Flex, {
 });
 const SCreatedAt = styled('span', {
   fontStyle: 'T6',
-  color: '$gray100',
+  color: '$gray500',
   '@mobile': {
     fontStyle: 'C1',
   },

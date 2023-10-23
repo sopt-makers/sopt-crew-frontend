@@ -155,7 +155,7 @@ const SInfo = styled('p', {
 });
 const SKey = styled(SInfo, {
   width: '74px',
-  color: '$gray100',
+  color: '$gray500',
   mr: '$12',
   whiteSpace: 'nowrap',
 });
