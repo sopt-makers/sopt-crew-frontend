@@ -108,7 +108,7 @@ const SLabel = styled('h2', {
   fontWeight: '700',
   fontSize: '24px',
   lineHeight: '100%',
-  color: '$white100',
+  color: '$gray10',
 });
 const SCount = styled('div', {
   width: '$60',
@@ -134,5 +134,5 @@ const SItem = styled('li', {
 const SItemLabel = styled('span', {
   display: 'inline-block',
   fontAg: '16_medium_100',
-  color: '$white100',
+  color: '$gray10',
 });

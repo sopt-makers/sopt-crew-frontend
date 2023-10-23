@@ -34,7 +34,7 @@ const SButton = styled('button', {
   justifyContent: 'space-between',
   gap: 8,
   fontAg: '16_medium_100',
-  color: '$white100',
+  color: '$gray10',
   background: '$black60',
   borderRadius: 10,
   variants: {
@@ -60,7 +60,7 @@ const SArrowDownIcon = styled(ArrowSmallDownIcon, {
       },
       false: {
         '& path': {
-          stroke: '$white100',
+          stroke: '$gray10',
         },
       },
     },

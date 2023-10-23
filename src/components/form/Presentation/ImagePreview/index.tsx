@@ -60,7 +60,7 @@ const SEditButton = styled('label', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  background: '$white100',
+  background: '$gray10',
   borderRadius: '6px',
   fontAg: '16_bold_100',
   color: '$black100',
@@ -84,5 +84,5 @@ const SDeleteButton = styled('button', {
   background: '$black40',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$white100',
+  color: '$gray10',
 });

@@ -83,7 +83,7 @@ const AuthorWrapper = styled('a', {
 const Name = styled('span', {
   display: 'inline-block',
   marginLeft: '8px',
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'T5',
 });
 const Date = styled('span', {
@@ -105,7 +105,7 @@ const CommentBody = styled('div', {
   gap: '8px',
 });
 const CommentContents = styled('div', {
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-all',

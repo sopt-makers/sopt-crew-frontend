@@ -53,7 +53,7 @@ const ToastContainer = styled('div', {
 
 const ToastMessage = styled('p', {
   fontStyle: 'T5',
-  color: '$white100',
+  color: '$gray10',
   ml: '$6',
   whiteSpace: 'nowrap',
 });

@@ -85,7 +85,7 @@ const SCategory = styled('div', {
 
 const STitle = styled('p', {
   fontAg: '28_bold_140',
-  color: '$white100',
+  color: '$gray10',
 
   '@tablet': {
     fontAg: '14_bold_140',
@@ -96,7 +96,7 @@ const SRecruitingStatus = styled('span', {
   variants: {
     isRecruiting: {
       true: {
-        color: '$orange100',
+        color: '$orange400',
       },
       false: {
         color: '$gray80',

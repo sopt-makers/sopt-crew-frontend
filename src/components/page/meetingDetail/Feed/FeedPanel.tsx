@@ -150,11 +150,11 @@ const SHeader = styled('div', {
 });
 
 const SCount = styled('span', {
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SButton = styled('button', {
-  backgroundColor: '$orange100',
+  backgroundColor: '$secondary',
   fontStyle: 'H2',
   ml: '$48',
   color: '$white',

@@ -101,7 +101,7 @@ const STabButton = styled('button', {
   color: '$gray100',
 
   '&:hover': {
-    color: '$white100',
+    color: '$gray10',
   },
 
   '@tablet': {
@@ -115,8 +115,8 @@ const STabButton = styled('button', {
   variants: {
     isSelected: {
       true: {
-        color: '$white100',
-        borderBottom: `4px solid $white100`,
+        color: '$gray10',
+        borderBottom: `4px solid $gray10`,
         '@tablet': {
           borderWidth: '2px',
         },

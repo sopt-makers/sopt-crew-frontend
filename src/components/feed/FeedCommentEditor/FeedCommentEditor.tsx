@@ -52,13 +52,13 @@ const CancelButton = styled('button', {
   flexType: 'center',
   borderRadius: '8px',
   background: '$black60',
-  color: '$white100',
+  color: '$gray10',
   fontStyle: 'T5',
 });
 const SubmitButton = styled('button', {
   padding: '4px 12px',
   flexType: 'center',
-  background: '$white100',
+  background: '$gray10',
   borderRadius: '8px',
   color: '$black100',
   fontStyle: 'T5',

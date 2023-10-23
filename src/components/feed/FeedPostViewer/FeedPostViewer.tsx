@@ -142,7 +142,7 @@ const AuthorInfo = styled('div', {
   gap: '2px',
 });
 const AuthorName = styled('span', {
-  color: '$white100',
+  color: '$gray10',
   fontStyle: 'H5',
 });
 const UpdatedDate = styled('span', {
@@ -162,7 +162,7 @@ const Title = styled('h2', {
 });
 const Contents = styled('p', {
   mt: '$12',
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',

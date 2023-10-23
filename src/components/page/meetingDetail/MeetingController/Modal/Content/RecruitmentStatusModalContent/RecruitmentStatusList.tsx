@@ -58,7 +58,7 @@ const SRecruitmentStatusItem = styled('div', {
   padding: '$16 $20',
   borderRadius: '12px',
   backgroundColor: '$black60',
-  color: '$white100',
+  color: '$gray10',
   fontAg: '16_semibold_100',
 
   '&:not(:nth-last-child(-n + 2))': {
@@ -132,7 +132,7 @@ const SStatusText = styled('div', {
   variants: {
     isApproved: {
       true: {
-        color: '$blue50',
+        color: '$success',
       },
       false: {
         color: '$gray100',

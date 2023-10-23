@@ -108,7 +108,7 @@ const SInformationPanel = styled('div', {
 
 const SDetail = styled('section', {
   scrollMarginTop: '$80',
-  color: '$white100',
+  color: '$gray10',
   mt: '$120',
 
   '@tablet': {

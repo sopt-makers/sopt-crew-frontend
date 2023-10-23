@@ -58,7 +58,7 @@ const SDialogWrapper = styled('div', {
   '.title': {
     fontAg: '24_bold_150',
     textAlign: 'center',
-    color: '$white100',
+    color: '$gray10',
     whiteSpace: 'pre-wrap',
     flex: '1',
     flexType: 'center',
@@ -74,7 +74,7 @@ const SDialogWrapper = styled('div', {
     borderRadius: '10px',
     fontAg: '20_bold_100',
     textAlign: 'center',
-    color: '$white100',
+    color: '$gray10',
 
     '@tablet': {
       width: 'calc(50% - 10px)',
@@ -89,7 +89,7 @@ const SDialogWrapper = styled('div', {
   },
 
   'button:last-child': {
-    backgroundColor: '$white100',
+    backgroundColor: '$gray10',
     color: '$black100',
   },
 });

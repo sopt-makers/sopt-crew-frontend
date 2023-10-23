@@ -234,7 +234,7 @@ const SFormContainer = styled('div', {
 });
 const SFormName = styled('h1', {
   fontStyle: 'H1',
-  color: '$white100',
+  color: '$gray10',
 
   '@tablet': {
     margin: 0,
@@ -257,7 +257,7 @@ const SCancelIcon = styled(CancelIcon, {
 
 const SSubmitButton = styled('button', {
   fontStyle: 'T1',
-  color: '$white100',
+  color: '$gray10',
   variants: {
     disabled: {
       true: {

@@ -86,7 +86,7 @@ const SStatus = styled('div', {
         backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$orange100',
+        backgroundColor: '$secondary',
         color: '$black100',
       },
       2: {
@@ -104,7 +104,7 @@ const STitleSection = styled('div', {
 
 const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
   width: 'fit-content',
   mr: '$8',
 });

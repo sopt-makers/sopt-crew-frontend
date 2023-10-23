@@ -47,7 +47,7 @@ const SInput = styled('input', {
   display: 'flex',
   alignItems: 'center',
   fontAg: '16_medium_100',
-  color: '$white100',
+  color: '$gray10',
   background: '$black60',
   borderRadius: 10,
   '&::placeholder': {

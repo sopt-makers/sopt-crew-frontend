@@ -162,7 +162,7 @@ const SFormContainer = styled('div', {
 });
 const SFormName = styled('h1', {
   fontAg: '24_bold_100',
-  color: '$white100',
+  color: '$gray10',
   marginBottom: '90px',
 
   '@tablet': {

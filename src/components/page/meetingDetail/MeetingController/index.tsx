@@ -279,7 +279,7 @@ const SAbout = styled('div', {
     },
 
     fontAg: '34_bold_140',
-    color: '$white100',
+    color: '$gray10',
     mb: '$20',
 
     '@tablet': {
@@ -308,7 +308,7 @@ const SRecruitStatus = styled('div', {
         backgroundColor: '$black40',
       },
       1: {
-        backgroundColor: '$orange100',
+        backgroundColor: '$secondary',
         color: '$black100',
       },
       2: {
@@ -329,7 +329,7 @@ const SPeriod = styled('div', {
 
 const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
   width: 'fit-content',
 
   img: {
@@ -380,7 +380,7 @@ const Button = styled('button', {
   width: '$300',
   height: '$60',
   borderRadius: '8px',
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SStatusButton = styled(Button, {
@@ -427,7 +427,7 @@ const SGuestButton = styled(Button, {
   '&:disabled': {
     opacity: '0.35',
     backgroundColor: '$black40',
-    color: '$gray30',
+    color: '$gray100',
     cursor: 'not-allowed',
   },
 
@@ -435,15 +435,15 @@ const SGuestButton = styled(Button, {
     isApplied: {
       true: {
         border: `2px solid $black40`,
-        color: '$white100',
+        color: '$gray10',
       },
       false: {
-        backgroundColor: '$white100',
+        backgroundColor: '$gray10',
       },
     },
     isApproved: {
       true: {
-        color: '$white100',
+        color: '$gray10',
         border: `2px solid $black40`,
       },
     },
@@ -453,7 +453,7 @@ const SGuestButton = styled(Button, {
 const SHostButtonContainer = styled('div', {
   '& > *': {
     width: '$144',
-    color: '$white100',
+    color: '$gray10',
     padding: '$20 0',
     textAlign: 'center',
     borderRadius: '$50',
@@ -477,7 +477,7 @@ const SHostButtonContainer = styled('div', {
 
   a: {
     display: 'inline-block',
-    backgroundColor: '$white100',
+    backgroundColor: '$gray10',
     color: '$black100',
   },
 });

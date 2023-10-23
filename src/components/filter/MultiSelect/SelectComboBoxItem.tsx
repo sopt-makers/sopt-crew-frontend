@@ -34,7 +34,7 @@ export default SelectComboBoxItem;
 const SCheckbox = styled('input', {
   width: '16px',
   height: '16px',
-  border: '1px solid $white100',
+  border: '1px solid $gray10',
   borderRadius: '4px',
   mr: '$10',
   '& + label': {

@@ -81,7 +81,7 @@ const SPageLink = styled('li', {
     isCurrent: {
       true: {
         color: '$black100',
-        backgroundColor: '$white100',
+        backgroundColor: '$gray10',
         borderRadius: '20px',
       },
     },

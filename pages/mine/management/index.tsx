@@ -199,9 +199,9 @@ const SListTitle = styled('div', {
 });
 
 const SDownloadButton = styled('button', {
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_bold_100',
-  border: '1px solid $white100',
+  border: '1px solid $gray10',
   borderRadius: '14px',
   padding: '$18 $24 $18 $20',
   flexType: 'verticalCenter',

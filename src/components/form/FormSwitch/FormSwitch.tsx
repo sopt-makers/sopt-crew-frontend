@@ -29,7 +29,7 @@ const SSwitchWrapper = styled('div', {
   variants: {
     checked: {
       true: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },

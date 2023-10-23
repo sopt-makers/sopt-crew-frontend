@@ -137,7 +137,7 @@ const SFeedItem = styled('div', {
   padding: '$24 $20 $28 $20',
   background: '#171818',
   borderRadius: '12px',
-  color: '$white100',
+  color: '$gray10',
   width: '100%',
   '@tablet': {
     padding: '$24 0 $28 0',
@@ -155,7 +155,7 @@ const STop = styled('div', {
 
 const SProfileButton = styled('button', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SProfileImageWrapper = styled('div', {
@@ -231,7 +231,7 @@ const SThumbnailCount = styled('div', {
   zIndex: 1,
   backgroundColor: '$black100',
   opacity: 0.6,
-  color: '$gray30',
+  color: '$gray100',
   borderRadius: '50%',
   fontStyle: 'T5',
   width: '40px',
@@ -280,7 +280,7 @@ const SLikeButton = styled('button', {
         color: '$red',
       },
       false: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },
@@ -297,5 +297,5 @@ const SOverlay = styled('div', {
   width: '100%',
   height: '100%',
   flexType: 'center',
-  color: '$white100',
+  color: '$gray10',
 });

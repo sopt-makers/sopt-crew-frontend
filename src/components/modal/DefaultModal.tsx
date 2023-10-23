@@ -60,7 +60,7 @@ const SHeader = styled('div', {
     width: '100%',
     fontAg: '24_bold_100',
     textAlign: 'center',
-    color: '$white100',
+    color: '$gray10',
   },
 
   '.close-button': {

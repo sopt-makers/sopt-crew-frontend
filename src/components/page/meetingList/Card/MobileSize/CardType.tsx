@@ -48,7 +48,7 @@ const SStatus = styled('div', {
         backgroundColor: '$gray100',
       },
       1: {
-        backgroundColor: '$orange100',
+        backgroundColor: '$secondary',
         color: '$black100',
       },
       2: {

@@ -47,14 +47,14 @@ const SOption = styled('button', {
   variants: {
     isSelected: {
       true: {
-        backgroundColor: '$white100',
+        backgroundColor: '$gray10',
         color: '$black100',
       },
       false: {
         backgroundColor: '$black100',
         color: '$gray100',
         '&:hover': {
-          color: '$white100',
+          color: '$gray10',
         },
         '@tablet': {
           backgroundColor: '$black40',

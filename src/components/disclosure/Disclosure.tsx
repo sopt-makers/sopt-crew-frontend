@@ -99,7 +99,7 @@ const SDivider = styled('div', {
 const SContents = styled('div', {
   padding: '0 4px',
   fontStyle: 'B2',
-  color: '$gray30',
+  color: '$gray100',
   whiteSpace: 'pre-line',
   '@mobile': {
     fontStyle: 'B4',

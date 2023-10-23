@@ -22,7 +22,6 @@ const SMeetingInformationSkeleton = styled('div', {
   flexType: 'verticalCenter',
 
   '@tablet': {
-    background: '$black90',
     padding: '$0',
     borderRadius: '8px',
     mt: '$48',

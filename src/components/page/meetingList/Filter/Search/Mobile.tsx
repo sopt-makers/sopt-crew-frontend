@@ -82,7 +82,7 @@ const SSearchWrapper = styled(Flex, {
 
 const SSearchInput = styled('input', {
   width: '100%',
-  color: '$white100',
+  color: '$gray10',
   fontAg: '16_medium_100',
   ml: '$10',
   '&::placeholder': {
@@ -92,7 +92,7 @@ const SSearchInput = styled('input', {
 
 const SCancelButton = styled('button', {
   flexType: 'center',
-  color: '$white100',
+  color: '$gray10',
   margin: '0 $24 0 $16',
   whiteSpace: 'nowrap',
 });

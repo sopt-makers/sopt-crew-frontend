@@ -67,7 +67,7 @@ const SDot = styled('div', {
     active: {
       true: {
         // 임시지정ㄴ
-        background: '$white100',
+        background: '$gray10',
       },
     },
   },

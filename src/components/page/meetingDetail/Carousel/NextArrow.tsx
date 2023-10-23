@@ -49,7 +49,7 @@ const SButton = styled('button', {
     backgroundColor: '$black80',
     borderRadius: '20px',
     path: {
-      stroke: '$white100',
+      stroke: '$gray10',
     },
   },
 });
