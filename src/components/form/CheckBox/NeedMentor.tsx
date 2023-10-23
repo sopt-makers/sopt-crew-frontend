@@ -33,8 +33,7 @@ const SCheckIcon = styled(CheckIcon, {
   color: '$gray300',
   variants: {
     active: {
-      // 임의처리
-      true: { color: '$gray30' },
+      true: { color: '$gray10' },
     },
   },
 });
@@ -44,8 +43,7 @@ const SNeedMentorLabel = styled('span', {
   color: '$gray300',
   variants: {
     active: {
-      // 임의처리
-      true: { color: '$gray30' },
+      true: { color: '$gray10' },
     },
   },
   cursor: 'pointer',
