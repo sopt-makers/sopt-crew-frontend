@@ -146,7 +146,7 @@ const AuthorName = styled('span', {
   fontStyle: 'H5',
 });
 const UpdatedDate = styled('span', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B4',
 });
 const ContentBody = styled('div', {

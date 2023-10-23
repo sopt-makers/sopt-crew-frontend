@@ -67,7 +67,7 @@ const STitle = styled('h1', {
 });
 const SSubTitle = styled('h4', {
   fontStyle: 'T4',
-  color: 'gray60',
+  color: 'gray300',
   '@mobile': {
     fontStyle: 'B4',
   },
@@ -120,7 +120,7 @@ const SCreatedAt = styled('span', {
 });
 const SDate = styled('span', {
   fontStyle: 'B4',
-  color: '$gray60',
+  color: '$gray300',
   '@mobile': {
     fontStyle: 'C1',
   },

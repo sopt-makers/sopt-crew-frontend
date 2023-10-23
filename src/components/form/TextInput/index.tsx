@@ -51,7 +51,7 @@ const SInput = styled('input', {
   background: '$gray700',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray100',
+    color: '$gray500',
   },
 
   '@tablet': {

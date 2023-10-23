@@ -58,7 +58,7 @@ const SOption = styled('button', {
         },
         '@tablet': {
           backgroundColor: '$gray600',
-          color: '$gray60',
+          color: '$gray300',
         },
       },
     },

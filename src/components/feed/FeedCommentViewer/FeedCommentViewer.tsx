@@ -123,9 +123,9 @@ const LikeWrapper = styled('div', {
 const LikeIconWrapper = styled('div', {
   width: '20px',
   height: '20px',
-  color: '$gray60',
+  color: '$gray300',
 });
 const LikeCount = styled('span', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B4',
 });

@@ -43,7 +43,7 @@ const SButton = styled('button', {
   variants: {
     isNotSelected: {
       true: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },
@@ -58,7 +58,7 @@ const SArrowDownIcon = styled(ArrowSmallDownIcon, {
     isNotSelected: {
       true: {
         '& path': {
-          stroke: '$gray100',
+          stroke: '$gray500',
         },
       },
       false: {

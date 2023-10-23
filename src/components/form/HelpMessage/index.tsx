@@ -15,5 +15,5 @@ const SHelpMessage = styled('span', {
   marginBottom: 18,
   display: 'inline-block',
   fontAg: '14_medium_100',
-  color: '$gray100',
+  color: '$gray500',
 });

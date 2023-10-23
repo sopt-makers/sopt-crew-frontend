@@ -382,7 +382,7 @@ const SFileInput = styled('input', {
 });
 
 const SImageCount = styled('p', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B1',
 });
 

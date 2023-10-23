@@ -320,7 +320,7 @@ const SRecruitStatus = styled('div', {
 
 const SPeriod = styled('div', {
   fontAg: '20_bold_100',
-  color: '$gray60',
+  color: '$gray300',
 
   '@tablet': {
     fontStyle: 'T6',

@@ -127,7 +127,7 @@ const STitle = styled('p', {
 
 const SUserInfo = styled('p', {
   fontStyle: 'B4',
-  color: '$gray60',
+  color: '$gray300',
   '& + &': {
     ml: '$4',
   },
@@ -149,6 +149,6 @@ const SKey = styled(SInfo, {
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
-  color: '$gray60',
+  color: '$gray300',
   wordBreak: 'keep-all',
 });

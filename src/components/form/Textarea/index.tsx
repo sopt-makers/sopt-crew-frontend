@@ -51,7 +51,7 @@ const STextarea = styled('textarea', {
   resize: 'none',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray100',
+    color: '$gray500',
   },
 });
 const SBottomContainer = styled('div', {
@@ -64,11 +64,11 @@ const STextCount = styled('span', {
   width: '100%',
   textAlign: 'right',
   fontAg: '12_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   variants: {
     overflow: {
       true: {
-        color: '$red100',
+        color: '$error',
       },
     },
   },

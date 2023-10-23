@@ -373,7 +373,7 @@ const SDate = styled('div', {
 const STime = styled('div', {
   ml: '$8',
   fontAg: '18_semibold_100',
-  color: '$gray60',
+  color: '$gray300',
 
   '@tablet': {
     ml: '$4',
@@ -426,7 +426,7 @@ const SGeneration = styled('div', {
 const SCardGenerationAndPhone = styled('div', {
   mt: '$8',
   fontAg: '12_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   whiteSpace: 'pre',
 });
 

@@ -57,7 +57,7 @@ const SSwitchWrapper = styled(Flex, {
 });
 const SToggleDetailWord = styled('div', {
   fontAg: '16_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   mt: '$1',
   mr: '$15',
   '@tablet': {

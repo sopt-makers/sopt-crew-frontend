@@ -93,7 +93,7 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray600',
       },
       1: {
         backgroundColor: '$secondary',
@@ -160,5 +160,5 @@ const SKey = styled(SInfo, {
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
-  color: '$gray60',
+  color: '$gray300',
 });
