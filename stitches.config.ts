@@ -9,7 +9,6 @@ const stitches = createStitches({
       transparent: 'transparent',
       black60_trans: 'rgba(24,24,24,0.6)',
       black80_trans: 'rgba(24,24,24,0.8)',
-      black100: '#0f1012',
       red: '#d70067',
       ...colors,
     },
