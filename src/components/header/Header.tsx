@@ -55,10 +55,6 @@ const HeaderWrapper = styled('div', {
   left: 0,
   width: '100%',
   zIndex: '$1',
-
-  '& > header': {
-    backgroundColor: '$gray950',
-  },
 });
 
 const SDesktopHeaderWrapper = styled(HeaderWrapper, {
