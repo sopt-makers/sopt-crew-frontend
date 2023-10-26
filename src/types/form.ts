@@ -42,13 +42,13 @@ export const schema = z.object({
       .min(1, {
         message: '모임 소개를 입력해주세요.',
       })
-      .max(300, { message: '300자 까지 입력 가능합니다.' }),
+      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     processDesc: z
       .string()
       .min(1, {
         message: '진행 방식 소개를 입력해주세요.',
       })
-      .max(300, { message: '300자 까지 입력 가능합니다.' }),
+      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     mStartDate: z
       .string()
       .min(10, { message: '활동 기간을 입력해주세요.' })
@@ -68,7 +68,7 @@ export const schema = z.object({
       .min(1, {
         message: '개설자 소개를 입력해주세요.',
       })
-      .max(300, { message: '300자 까지 입력 가능합니다.' }),
+      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
     joinableParts: z
@@ -84,8 +84,8 @@ export const schema = z.object({
       .min(1, {
         message: '상세 내용을 작성해주세요.',
       })
-      .max(300, { message: '300자 까지 입력 가능합니다.' }),
-    note: z.string().max(300, { message: '300자 까지 입력 가능합니다.' }).optional().nullable(),
+      .max(600, { message: '600자 까지 입력 가능합니다.' }),
+    note: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }).optional().nullable(),
   }),
 });
 
