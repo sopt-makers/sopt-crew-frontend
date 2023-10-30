@@ -1,6 +1,7 @@
-import { usePageParams } from '@hooks/queryString/custom';
 import { useQueryMeetingListOfAll } from '@api/meeting/hooks';
 import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/user/hooks';
+import { usePageParams } from '@hooks/queryString/custom';
+import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
@@ -11,7 +12,8 @@ import GridLayout from './Layout';
 
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
-  const { data: meetingListData } = useQueryMeetingListOfAll();
+  const { data: meetingListData, isLoading } = useQueryMeetingListOfAll();
+  useScrollRestorationAfterLoading(isLoading);
 
   return (
     <main>
@@ -43,8 +45,8 @@ const PaginationWrapper = styled('div', {
 });
 
 export function MeetingListOfMine() {
-  const { data: mineData } = useQueryMeetingListOfMine();
-
+  const { data: mineData, isLoading } = useQueryMeetingListOfMine();
+  useScrollRestorationAfterLoading(isLoading);
   return (
     <main>
       <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
@@ -67,7 +69,8 @@ export function MeetingListOfMine() {
 }
 
 export function MeetingListOfApplied() {
-  const { data: applyData } = useQueryMeetingListOfApplied();
+  const { data: applyData, isLoading } = useQueryMeetingListOfApplied();
+  useScrollRestorationAfterLoading(isLoading);
 
   return (
     <main>
