@@ -122,6 +122,7 @@ const SMobileContainer = styled('div', {
   '& a:not(:first-child)::before': {
     content: '',
     display: 'none',
+
     '@tablet': {
       display: 'block',
       width: '100vw',
