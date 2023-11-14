@@ -76,12 +76,12 @@ const SPageLink = styled('li', {
   height: '40px',
   fontStyle: 'H3',
   cursor: 'pointer',
-  color: '$gray40',
+  color: '$gray200',
   variants: {
     isCurrent: {
       true: {
-        color: '$black100',
-        backgroundColor: '$white100',
+        color: '$gray950',
+        backgroundColor: '$gray10',
         borderRadius: '20px',
       },
     },

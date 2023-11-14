@@ -131,7 +131,7 @@ const SDialogWrapper = styled('div', {
   transform: 'translate(-50%, -50%)',
   zIndex: '$2',
   borderRadius: '20px',
-  backgroundColor: '$black60',
+  backgroundColor: '$gray700',
   width: '100%',
   maxWidth: '$768',
   boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',

@@ -122,12 +122,13 @@ const SMobileContainer = styled('div', {
   '& a:not(:first-child)::before': {
     content: '',
     display: 'none',
+
     '@tablet': {
       display: 'block',
       width: '100vw',
       height: '8px',
       marginLeft: 'calc(50% - 50vw)',
-      background: '$black80',
+      background: '$gray800',
     },
   },
 });
@@ -136,12 +137,12 @@ const SHeader = styled('div', {
   flexType: 'center',
   padding: '$31 0',
   fontStyle: 'H1',
-  color: '$gray40',
+  color: '$gray200',
 
   '@tablet': {
     padding: '$16 $20',
     fontStyle: 'H5',
-    backgroundColor: '$black80',
+    backgroundColor: '$gray800',
     mt: '$28',
     borderRadius: '12px',
     flexType: 'verticalCenter',
@@ -150,11 +151,11 @@ const SHeader = styled('div', {
 });
 
 const SCount = styled('span', {
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SButton = styled('button', {
-  backgroundColor: '$orange100',
+  backgroundColor: '$secondary',
   fontStyle: 'H2',
   ml: '$48',
   color: '$white',

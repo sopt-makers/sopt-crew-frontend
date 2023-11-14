@@ -27,13 +27,13 @@ const SSwitch = styled('button', {
   width: '28px',
   height: '16px',
   border: 'none',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
   borderRadius: '20px',
   cursor: 'pointer',
   variants: {
     checked: {
       true: {
-        backgroundColor: '$blue50',
+        backgroundColor: '$success',
         '& > div': {
           transform: 'translate3d(12px,0,0)',
         },
@@ -49,6 +49,6 @@ const SThumb = styled('div', {
   width: '12px',
   height: '12px',
   borderRadius: '50%',
-  backgroundColor: '$white100',
+  backgroundColor: '$gray10',
   transition: 'transform 0.3s',
 });

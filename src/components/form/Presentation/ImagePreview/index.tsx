@@ -60,10 +60,10 @@ const SEditButton = styled('label', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  background: '$white100',
+  background: '$gray10',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$black100',
+  color: '$gray950',
   cursor: 'pointer',
 });
 const SInput = styled('input', {
@@ -81,8 +81,8 @@ const SDeleteButton = styled('button', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '6px',
   fontAg: '16_bold_100',
-  color: '$white100',
+  color: '$gray10',
 });

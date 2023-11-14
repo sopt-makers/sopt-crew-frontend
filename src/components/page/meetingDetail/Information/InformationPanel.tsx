@@ -108,7 +108,7 @@ const SInformationPanel = styled('div', {
 
 const SDetail = styled('section', {
   scrollMarginTop: '$80',
-  color: '$white100',
+  color: '$gray10',
   mt: '$120',
 
   '@tablet': {
@@ -129,7 +129,7 @@ const STitle = styled('h2', {
 const SDescription = styled('p', {
   fontAg: '22_regular_170',
   whiteSpace: 'pre-line',
-  color: '$gray40',
+  color: '$gray200',
 
   a: {
     textDecoration: 'underline',

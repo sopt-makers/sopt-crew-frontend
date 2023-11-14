@@ -26,7 +26,7 @@ const SMobileFeedListSkeleton = styled('div', {
 
 const SFeedItemWrapper = styled('div', {
   '&:not(:last-child)': {
-    borderBottom: '8px solid $black80',
+    borderBottom: '8px solid $gray800',
   },
 
   width: 'calc(100% + 40px)',

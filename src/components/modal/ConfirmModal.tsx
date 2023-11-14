@@ -44,7 +44,7 @@ const SDialogWrapper = styled('div', {
   height: '$298',
   padding: '$48 $69',
   borderRadius: '20px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   boxShadow: '4px 4px 40px #181818',
   display: 'flex',
   flexDirection: 'column',
@@ -58,7 +58,7 @@ const SDialogWrapper = styled('div', {
   '.title': {
     fontAg: '24_bold_150',
     textAlign: 'center',
-    color: '$white100',
+    color: '$gray10',
     whiteSpace: 'pre-wrap',
     flex: '1',
     flexType: 'center',
@@ -74,7 +74,7 @@ const SDialogWrapper = styled('div', {
     borderRadius: '10px',
     fontAg: '20_bold_100',
     textAlign: 'center',
-    color: '$white100',
+    color: '$gray10',
 
     '@tablet': {
       width: 'calc(50% - 10px)',
@@ -84,12 +84,12 @@ const SDialogWrapper = styled('div', {
   },
 
   'button:first-child': {
-    backgroundColor: '$black40',
+    backgroundColor: '$gray600',
     mr: '$20',
   },
 
   'button:last-child': {
-    backgroundColor: '$white100',
-    color: '$black100',
+    backgroundColor: '$gray10',
+    color: '$gray950',
   },
 });

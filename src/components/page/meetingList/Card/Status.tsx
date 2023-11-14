@@ -30,7 +30,7 @@ const SLabel = styled('div', {
   padding: '10px 12px',
   borderRadius: '71px',
   marginRight: '8px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   '@tablet': {
     padding: '8px 10px',
     marginRight: '6px',
@@ -41,13 +41,13 @@ const SValue = styled('span', {
   variants: {
     status: {
       0: {
-        color: '$gray80',
+        color: '$gray400',
       },
       1: {
-        color: '$blue50',
+        color: '$success',
       },
       2: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },

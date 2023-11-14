@@ -220,7 +220,7 @@ const SListItem = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   borderRadius: '20px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   padding: '$24',
   minWidth: 'fit-content',
   height: '$80',
@@ -254,7 +254,7 @@ const SCardContent = styled('div', {
   display: 'flex',
   height: '$80',
   padding: '$20',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   borderTopLeftRadius: '8px',
   borderTopRightRadius: '8px',
 });
@@ -262,7 +262,7 @@ const SCardContent = styled('div', {
 const SProfileImage = styled('div', {
   width: '$32',
   height: '$32',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '$round',
   ml: '$4',
   overflow: 'hidden',
@@ -324,7 +324,7 @@ const SVerticalLine = styled('div', {
   height: '$12',
   ml: '$30',
   mr: '$30',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
 
   '@tablet': {
     display: 'none',
@@ -333,7 +333,7 @@ const SVerticalLine = styled('div', {
 
 const SName = styled('button', {
   ml: '$8',
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_semibold_100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
@@ -347,7 +347,7 @@ const SName = styled('button', {
 });
 
 const SCardName = styled('button', {
-  color: '$white100',
+  color: '$gray10',
   fontAg: '14_bold_100',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
@@ -365,7 +365,7 @@ const SDate = styled('div', {
 
   '@tablet': {
     fontAg: '12_medium_100',
-    color: '$gray80',
+    color: '$gray400',
     justifyContent: 'space-between',
   },
 });
@@ -373,12 +373,12 @@ const SDate = styled('div', {
 const STime = styled('div', {
   ml: '$8',
   fontAg: '18_semibold_100',
-  color: '$gray60',
+  color: '$gray300',
 
   '@tablet': {
     ml: '$4',
     fontAg: '12_medium_100',
-    color: '$gray100',
+    color: '$gray500',
   },
 });
 
@@ -387,7 +387,7 @@ const SCardDateAndTime = styled('div', {
   gap: '$4',
   mt: '$13',
   fontAg: '10_medium_100',
-  color: '$gray100',
+  color: '$gray500',
 });
 
 const SUserStatus = styled('span', {
@@ -395,18 +395,18 @@ const SUserStatus = styled('span', {
   ml: '$10',
   borderRadius: '4px',
   fontAg: '12_semibold_100',
-  backgroundColor: '$gray100',
+  backgroundColor: '$gray500',
 
   variants: {
     status: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray500',
       },
       1: {
-        backgroundColor: '$blue50',
+        backgroundColor: '$success',
       },
       2: {
-        backgroundColor: '$black40',
+        backgroundColor: '$gray600',
       },
     },
   },
@@ -426,7 +426,7 @@ const SGeneration = styled('div', {
 const SCardGenerationAndPhone = styled('div', {
   mt: '$8',
   fontAg: '12_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   whiteSpace: 'pre',
 });
 
@@ -436,7 +436,7 @@ const SPhone = styled('div', {
 });
 
 const SDetailButton = styled('button', {
-  color: '$white100',
+  color: '$gray10',
   textDecoration: 'underline',
   textUnderlinePosition: 'under',
   fontAg: '18_semibold_100',
@@ -450,7 +450,7 @@ const SCardDetailButton = styled('button', {
   mt: '$3',
   height: 'fit-content',
   fontAg: '12_medium_100',
-  color: '$gray80',
+  color: '$gray400',
 
   '& > span': {
     mr: '$2',
@@ -468,7 +468,7 @@ const SCardButtonContainer = styled('div', {
 });
 
 const SRoundButton = styled('button', {
-  color: '$white100',
+  color: '$gray10',
   borderRadius: '32px',
   fontAg: '16_bold_100',
   padding: '$12 $20',
@@ -481,13 +481,13 @@ const SRoundButton = styled('button', {
 });
 
 const SGrayButton = styled(SRoundButton, {
-  backgroundColor: '$black40',
+  backgroundColor: '$gray600',
 });
 
 const SWhiteButton = styled(SRoundButton, {
   mr: '$8',
-  backgroundColor: '$white100',
-  color: '$black100',
+  backgroundColor: '$gray10',
+  color: '$gray950',
 });
 
 const buttonStyles = {
@@ -495,9 +495,9 @@ const buttonStyles = {
   padding: '$13 0',
   textAlign: 'center',
   fontAg: '14_semibold_100',
-  color: '$gray80',
-  backgroundColor: '$black80',
-  borderTop: '1px solid $black40',
+  color: '$gray400',
+  backgroundColor: '$gray800',
+  borderTop: '1px solid $gray600',
   borderBottomLeftRadius: '8px',
   borderBottomRightRadius: '8px',
   variants: {
@@ -517,8 +517,8 @@ const SRejectButton = styled('button', {
 
 const SApproveButton = styled('button', {
   ...buttonStyles,
-  color: '$black100',
-  backgroundColor: '$white100',
+  color: '$gray950',
+  backgroundColor: '$gray10',
   borderBottomLeftRadius: '0',
 });
 
@@ -528,13 +528,13 @@ const SCancelButton = styled('button', {
 });
 
 const SDetailText = styled('p', {
-  backgroundColor: '$black60',
+  backgroundColor: '$gray700',
   margin: '$24',
   padding: '$16',
   borderRadius: '19.711px',
   height: '$200',
   fontAg: '16_medium_150',
-  color: '$white100',
+  color: '$gray10',
   boxSizing: 'border-box',
   wordBreak: 'break-word',
 });
@@ -543,7 +543,7 @@ const SEmptyText = styled('p', {
   padding: '$104 0 $124 0',
   fontAg: '20_medium_100',
   textAlign: 'center',
-  color: '$gray80',
+  color: '$gray400',
 
   '@tablet': {
     padding: '$100 0',

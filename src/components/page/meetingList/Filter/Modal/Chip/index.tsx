@@ -32,7 +32,7 @@ export default Chip;
 
 const SChipWrapper = styled('div', {});
 const SLabel = styled('p', {
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_bold_100',
   mb: '$20',
   '@tablet': {

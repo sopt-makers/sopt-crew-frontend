@@ -107,8 +107,8 @@ const Container = styled('div', {
   width: '800px',
   flexShrink: 0,
   borderRadius: '20px',
-  border: '1px solid $black60',
-  background: '$black100',
+  border: '1px solid $gray700',
+  background: '$gray950',
   mb: '$80',
   '@tablet': {
     width: '100%',
@@ -142,11 +142,11 @@ const AuthorInfo = styled('div', {
   gap: '2px',
 });
 const AuthorName = styled('span', {
-  color: '$white100',
+  color: '$gray10',
   fontStyle: 'H5',
 });
 const UpdatedDate = styled('span', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B4',
 });
 const ContentBody = styled('div', {
@@ -162,7 +162,7 @@ const Title = styled('h2', {
 });
 const Contents = styled('p', {
   mt: '$12',
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',
@@ -217,7 +217,7 @@ const ViewCount = styled('span', {
   mt: '$16',
   mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
-  color: '$gray100',
+  color: '$gray500',
   fontStyle: 'B4',
   '@tablet': {
     mr: '$0',
@@ -234,8 +234,8 @@ const CommentLikeWrapper = styled('div', {
   fontStyle: 'T5',
   height: '48px',
   flexType: 'center',
-  borderTop: '1px solid $black60',
-  borderBottom: '1px solid $black60',
+  borderTop: '1px solid $gray700',
+  borderBottom: '1px solid $gray700',
   '@tablet': {
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',

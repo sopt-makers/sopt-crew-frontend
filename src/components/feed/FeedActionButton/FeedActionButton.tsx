@@ -19,10 +19,10 @@ const MenuItem = styled('button', {
   flexType: 'center',
   width: '147px',
   padding: '8px 16px',
-  color: '$white100',
-  background: '$black80',
+  color: '$gray10',
+  background: '$gray800',
   fontStyle: 'B3',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   '&:first-child': {
     borderRadius: '14px 14px 0 0',
     borderBottom: 'none',

@@ -31,7 +31,7 @@ export default Search;
 const SSearchWrapper = styled(Flex, {
   py: '$15',
   px: '$20',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '14px',
   ml: '$12',
   '@tablet': {
@@ -41,7 +41,7 @@ const SSearchWrapper = styled(Flex, {
 
 const SSearchInput = styled('input', {
   width: '160px',
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_medium_100',
 
   '&::placeholder': {

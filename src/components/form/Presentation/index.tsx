@@ -404,7 +404,7 @@ const SFileInputWrapper = styled('div', {
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
-  color: '$gray100',
+  color: '$gray500',
   gap: '12px',
 });
 const SApplicationField = styled('div', {
@@ -447,10 +447,10 @@ const Button = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   gap: '12px',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '10px',
   fontAg: '18_bold_100',
-  color: '$white100',
+  color: '$gray10',
 
   '@tablet': {
     gap: '10px',
@@ -460,8 +460,8 @@ const Button = styled('button', {
 });
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
-  background: '$white100',
-  color: '$black100',
+  background: '$gray10',
+  color: '$gray950',
   '&:disabled': {
     cursor: 'not-allowed',
     opacity: 0.35,

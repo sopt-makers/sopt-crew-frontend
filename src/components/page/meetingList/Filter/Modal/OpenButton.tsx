@@ -67,10 +67,10 @@ const SSelectModalOpenButton = styled('div', {
   variants: {
     isFilterActive: {
       true: {
-        border: '1px solid $white100',
+        border: '1px solid $gray10',
       },
       false: {
-        border: '1px solid $black40',
+        border: '1px solid $gray600',
       },
     },
   },
@@ -84,7 +84,7 @@ const SSelectModalOpenButton = styled('div', {
 
 const SLabel = styled('span', {
   fontAg: '18_medium_100',
-  color: '$white100',
+  color: '$gray10',
   '@tablet': {
     fontAg: '14_medium_100',
   },

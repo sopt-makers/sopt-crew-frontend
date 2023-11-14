@@ -50,7 +50,7 @@ const SLayout = styled('div', {
   top: '56px',
   right: 0,
   zIndex: 5,
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   transition: 'width 0.5s',
   variants: {
     isVisible: {
@@ -71,7 +71,7 @@ const SSearchWrapper = styled(Flex, {
   width: '100%',
   py: '$13',
   px: '$24',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   borderRadius: '59px',
   boxSizing: 'border-box',
 
@@ -82,7 +82,7 @@ const SSearchWrapper = styled(Flex, {
 
 const SSearchInput = styled('input', {
   width: '100%',
-  color: '$white100',
+  color: '$gray10',
   fontAg: '16_medium_100',
   ml: '$10',
   '&::placeholder': {
@@ -92,7 +92,7 @@ const SSearchInput = styled('input', {
 
 const SCancelButton = styled('button', {
   flexType: 'center',
-  color: '$white100',
+  color: '$gray10',
   margin: '0 $24 0 $16',
   whiteSpace: 'nowrap',
 });
