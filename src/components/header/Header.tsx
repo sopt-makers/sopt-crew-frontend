@@ -16,7 +16,7 @@ const Header: FC = () => {
   const user = me ? { id: `${me.orgId}`, name: me.name, image: me.profileImage ?? undefined } : null;
 
   const logout = () => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    sessionStorage.removeItem(ACCESS_TOKEN_KEY);
     window.location.href = `${playgroundLink.login()}`;
   };
 
