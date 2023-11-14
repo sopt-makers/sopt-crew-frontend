@@ -7,12 +7,12 @@ export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 export const CREW_ACCESS_TOKEN_KEY = 'crewServiceAccessToken';
 
 export const redirectToLoginPage = () => {
-  sessionStorage.setItem('lastUnauthorizedPath', window.location.href);
+  localStorage.setItem('lastUnauthorizedPath', window.location.href);
   window.location.href = `${playgroundLink.login()}`;
 };
 
 export const getPlaygroundToken = () => {
-  return sessionStorage.getItem(ACCESS_TOKEN_KEY);
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
 };
 
 export const getCrewServiceToken = async (playgroundToken: string) => {
