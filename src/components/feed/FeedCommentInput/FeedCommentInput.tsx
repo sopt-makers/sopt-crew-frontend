@@ -47,14 +47,14 @@ const CommentInput = styled('textarea', {
   maxHeight: '120px',
   padding: '14px 24px',
   borderRadius: '25px',
-  background: '$black60',
-  color: '$white100',
+  background: '$gray700',
+  color: '$gray10',
   fontStyle: 'B2',
   border: 'none',
   outline: 'none',
   resize: 'none',
   '&::placeholder': {
-    color: '$gray60',
+    color: '$gray300',
   },
   '@tablet': {
     height: '48px',

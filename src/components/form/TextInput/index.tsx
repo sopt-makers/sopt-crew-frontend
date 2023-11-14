@@ -47,11 +47,11 @@ const SInput = styled('input', {
   display: 'flex',
   alignItems: 'center',
   fontAg: '16_medium_100',
-  color: '$white100',
-  background: '$black60',
+  color: '$gray10',
+  background: '$gray700',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray100',
+    color: '$gray500',
   },
 
   '@tablet': {

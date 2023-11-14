@@ -32,7 +32,7 @@ export default function FeedCommentLikeSection({
 }
 
 const Divider = styled('div', {
-  background: '$black60',
+  background: '$gray700',
   width: '1px',
   height: '24px',
 });
@@ -40,7 +40,7 @@ const CommentWrapper = styled('div', {
   width: '400px',
   display: 'flex',
   flexType: 'center',
-  color: '$gray80',
+  color: '$gray400',
   fontStyle: 'T5',
   '@tablet': {
     width: '50%',

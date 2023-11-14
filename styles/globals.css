@@ -73,7 +73,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background-color: var(--colors-black100);
+  background-color: var(--colors-gray950);
 }
 
 html,

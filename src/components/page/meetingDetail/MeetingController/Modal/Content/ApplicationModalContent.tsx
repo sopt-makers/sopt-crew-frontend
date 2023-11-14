@@ -59,8 +59,8 @@ const SApplicationModalContent = styled('div', {
     width: '100%',
     height: '$200',
     fontAg: '16_medium_150',
-    color: '$white100',
-    backgroundColor: '$black60',
+    color: '$gray10',
+    backgroundColor: '$gray700',
     outline: 'none',
     borderRadius: '10px',
 
@@ -84,8 +84,8 @@ const SApplicationModalContent = styled('div', {
     borderRadius: '12px',
     textAlign: 'center',
     fontAg: '18_bold_100',
-    color: '$black100',
-    backgroundColor: '$white100',
+    color: '$gray950',
+    backgroundColor: '$gray10',
 
     '&:disabled': {
       opacity: 0.35,

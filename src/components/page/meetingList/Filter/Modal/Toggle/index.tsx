@@ -36,7 +36,7 @@ function Toggle({ css, label }: ToggleProps) {
 export default Toggle;
 const ToggleWrapper = styled('div', {});
 const SLabel = styled('p', {
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_bold_100',
   mb: '$20',
   '@tablet': {
@@ -45,7 +45,7 @@ const SLabel = styled('p', {
   },
 });
 const SSwitchWrapper = styled(Flex, {
-  background: '$black100',
+  background: '$gray950',
   borderRadius: '14px',
   width: '163px',
   height: '46px',
@@ -57,7 +57,7 @@ const SSwitchWrapper = styled(Flex, {
 });
 const SToggleDetailWord = styled('div', {
   fontAg: '16_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   mt: '$1',
   mr: '$15',
   '@tablet': {
@@ -67,7 +67,7 @@ const SToggleDetailWord = styled('div', {
   variants: {
     isOnlyActiveGeneration: {
       true: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },

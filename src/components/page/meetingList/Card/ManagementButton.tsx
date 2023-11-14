@@ -31,7 +31,7 @@ const SButton = styled(Flex, {
   borderRadius: '71px',
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
-  background: '$black80',
+  background: '$gray800',
   '@tablet': {
     width: '91px',
     fontStyle: 'T6',

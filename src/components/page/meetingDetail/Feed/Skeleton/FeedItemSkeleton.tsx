@@ -42,7 +42,7 @@ const SFeedItemSkeleton = styled('div', {
 });
 
 const Item = styled('div', {
-  background: '$black60',
+  background: '$gray700',
   borderRadius: '8px',
 });
 
@@ -74,7 +74,7 @@ const SBottom = styled(Flex, {
 
   '@tablet': {
     '& > *': {
-      background: '$black80',
+      background: '$gray800',
     },
   },
 });

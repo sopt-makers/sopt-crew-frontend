@@ -46,7 +46,7 @@ export default InitializationButton;
 
 const InitializationText = styled('span', {
   fontAg: '18_medium_100',
-  color: '$white100',
+  color: '$gray10',
   ml: '$6',
   whiteSpace: 'nowrap',
   '@tablet': {

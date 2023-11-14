@@ -39,9 +39,9 @@ export default Filter;
 const SGuideButton = styled('a', {
   flexType: 'verticalCenter',
   gap: '$8',
-  color: '$white100',
+  color: '$gray10',
   padding: '$18 $20',
-  border: '1px solid $white100',
+  border: '1px solid $gray10',
   borderRadius: '14px',
   fontAg: '18_medium_100',
   boxSizing: 'border-box',
@@ -52,7 +52,7 @@ const SGuideButton = styled('a', {
   },
 
   path: {
-    stroke: '$white100',
+    stroke: '$gray10',
   },
 });
 

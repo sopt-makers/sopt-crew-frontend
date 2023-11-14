@@ -77,7 +77,7 @@ const SThumbnailImage = styled('div', {
   height: '260px',
   overflow: 'hidden',
   borderRadius: '$12',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
@@ -93,14 +93,14 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray600',
       },
       1: {
-        backgroundColor: '$orange100',
-        color: '$black100',
+        backgroundColor: '$secondary',
+        color: '$gray950',
       },
       2: {
-        backgroundColor: '$black60',
+        backgroundColor: '$gray700',
       },
     },
   },
@@ -116,8 +116,8 @@ const STitleSection = styled('div', {
 const SCategory = styled('p', {
   display: 'inline-block',
   fontStyle: 'T6',
-  color: '$gray40',
-  border: '1px solid $black60',
+  color: '$gray200',
+  border: '1px solid $gray700',
   borderRadius: '37px',
   px: '$10',
   py: '$3',
@@ -125,7 +125,7 @@ const SCategory = styled('p', {
 });
 const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
   width: 'fit-content',
   mr: '$8',
 });
@@ -134,7 +134,7 @@ const SProfile = styled('img', {
   height: '$24',
   borderRadius: '50%',
   objectFit: 'cover',
-  background: '$black60',
+  background: '$gray700',
 });
 
 const SName = styled('p', {
@@ -155,10 +155,10 @@ const SInfo = styled('p', {
 });
 const SKey = styled(SInfo, {
   width: '74px',
-  color: '$gray100',
+  color: '$gray500',
   mr: '$12',
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
-  color: '$gray60',
+  color: '$gray300',
 });

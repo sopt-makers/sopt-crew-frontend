@@ -34,13 +34,13 @@ const SButton = styled('button', {
   justifyContent: 'space-between',
   gap: 8,
   fontAg: '16_medium_100',
-  color: '$white100',
-  background: '$black60',
+  color: '$gray10',
+  background: '$gray700',
   borderRadius: 10,
   variants: {
     isNotSelected: {
       true: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },
@@ -55,12 +55,12 @@ const SArrowDownIcon = styled(ArrowSmallDownIcon, {
     isNotSelected: {
       true: {
         '& path': {
-          stroke: '$gray100',
+          stroke: '$gray500',
         },
       },
       false: {
         '& path': {
-          stroke: '$white100',
+          stroke: '$gray10',
         },
       },
     },

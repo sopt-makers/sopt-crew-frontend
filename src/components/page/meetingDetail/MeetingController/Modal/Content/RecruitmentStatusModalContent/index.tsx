@@ -61,7 +61,7 @@ const SEmptyText = styled('p', {
   flexType: 'center',
   width: '100%',
   height: '$280',
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '18_semibold_100',
 
   '@tablet': {
@@ -81,7 +81,7 @@ const SRecruitmentStatusModalBottom = styled('div', {
 });
 
 const STotal = styled('p', {
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '16_medium_100',
 
   '@tablet': {
@@ -91,7 +91,7 @@ const STotal = styled('p', {
 
 const SManagementAnchor = styled('a', {
   fontAg: '16_semibold_100',
-  color: '$white100',
+  color: '$gray10',
   flexType: 'verticalCenter',
   position: 'absolute',
   right: '$42',

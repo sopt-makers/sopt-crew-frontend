@@ -80,14 +80,14 @@ const SSelectWrapper = styled('div', {
 
 const SSelectDisplay = styled(Flex, {
   width: '153px',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '14px',
   padding: '$18 $20',
   cursor: 'pointer',
   variants: {
     isSelected: {
       true: {
-        border: '1px solid $white100',
+        border: '1px solid $gray10',
       },
     },
   },
@@ -112,11 +112,11 @@ const SArrowIcon = styled(ArrowIcon, {
 
 const SCategory = styled('span', {
   fontAg: '18_medium_100',
-  color: '$white100',
+  color: '$gray10',
   variants: {
     isSelected: {
       true: {
-        color: '1px solid $white100',
+        color: '1px solid $gray10',
       },
     },
   },
@@ -127,11 +127,11 @@ const SCategory = styled('span', {
 const SSelectBoxList = styled('div', {
   width: '100%',
   position: 'absolute',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: '$10',
   padding: '$8 $16',
   top: '63px',
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   zIndex: '$2',
   '& li': {
     height: '50px',

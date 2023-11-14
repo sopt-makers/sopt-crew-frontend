@@ -23,13 +23,13 @@ const SSwitchWrapper = styled('div', {
   alignItems: 'center',
   gap: '8px',
   fontAg: '16_medium_100',
-  color: '$gray100',
-  background: '$black60',
+  color: '$gray500',
+  background: '$gray700',
   borderRadius: '10px',
   variants: {
     checked: {
       true: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },

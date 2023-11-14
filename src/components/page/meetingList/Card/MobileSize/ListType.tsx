@@ -67,7 +67,7 @@ const SThumbnailImage = styled('div', {
   height: '82px',
   borderRadius: '$8',
   overflow: 'hidden',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
@@ -83,14 +83,14 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray100',
+        backgroundColor: '$gray500',
       },
       1: {
-        backgroundColor: '$orange100',
-        color: '$black100',
+        backgroundColor: '$secondary',
+        color: '$gray950',
       },
       2: {
-        backgroundColor: '$black60',
+        backgroundColor: '$gray700',
       },
     },
   },
@@ -104,7 +104,7 @@ const STitleSection = styled('div', {
 
 const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
   width: 'fit-content',
   mr: '$8',
 });
@@ -113,7 +113,7 @@ const SProfile = styled('img', {
   height: '$20',
   borderRadius: '50%',
   objectFit: 'cover',
-  background: '$black60',
+  background: '$gray700',
 });
 
 const STitle = styled('p', {
@@ -127,14 +127,14 @@ const STitle = styled('p', {
 
 const SUserInfo = styled('p', {
   fontStyle: 'B4',
-  color: '$gray60',
+  color: '$gray300',
   '& + &': {
     ml: '$4',
   },
 });
 
 const SCategory = styled(SUserInfo, {
-  color: '$gray40',
+  color: '$gray200',
 });
 const SInfoRow = styled(Flex, {
   mt: '$8',
@@ -144,11 +144,11 @@ const SInfo = styled('p', {
   fontStyle: 'T6',
 });
 const SKey = styled(SInfo, {
-  color: '$gray100',
+  color: '$gray500',
   mr: '$4',
   whiteSpace: 'nowrap',
 });
 const SValue = styled(SInfo, {
-  color: '$gray60',
+  color: '$gray300',
   wordBreak: 'keep-all',
 });

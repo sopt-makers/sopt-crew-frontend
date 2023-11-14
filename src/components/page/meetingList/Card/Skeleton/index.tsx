@@ -38,7 +38,7 @@ export const SLayout = styled('div', {
 });
 
 export const SBasicSkeleton = styled('div', {
-  backgroundColor: '$black60',
+  backgroundColor: '$gray700',
   borderRadius: '6px',
   '@tablet': {
     borderRadius: '5px',
@@ -46,6 +46,6 @@ export const SBasicSkeleton = styled('div', {
 });
 
 export const SDetailInfoSkeleton = styled(SBasicSkeleton, {
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   mb: '$12',
 });

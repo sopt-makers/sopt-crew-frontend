@@ -30,22 +30,20 @@ const SNeedMentorField = styled('label', {
 const SCheckIcon = styled(CheckIcon, {
   width: '12px',
   height: '12px',
-  color: '$gray60',
+  color: '$gray300',
   variants: {
     active: {
-      // 임의처리
-      true: { color: '$white100' },
+      true: { color: '$gray10' },
     },
   },
 });
 const SNeedMentorLabel = styled('span', {
   fontAg: '12_medium_100',
   lineHeight: '180%',
-  color: '$gray60',
+  color: '$gray300',
   variants: {
     active: {
-      // 임의처리
-      true: { color: '$white100' },
+      true: { color: '$gray10' },
     },
   },
   cursor: 'pointer',

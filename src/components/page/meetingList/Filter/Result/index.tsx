@@ -55,7 +55,7 @@ export default Result;
 const SResultWrapper = styled(Flex, {
   marginTop: '24px',
   padding: '20px 24px',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   borderRadius: '10px',
   '@tablet': {
     padding: '12px 20px',

@@ -54,7 +54,7 @@ const SImage = styled('img', {
 
 const SDeleteButton = styled('button', {
   display: 'inline',
-  color: '$white100',
+  color: '$gray10',
   position: 'absolute',
   right: '8px',
   top: '8px',
