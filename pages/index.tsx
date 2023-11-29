@@ -27,12 +27,11 @@ const Home: NextPage = () => {
 
   const renderedPosts = postsData?.pages.map(post => (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-
-    <Link href={`/post?id=${post!.id}`} key={post!.id}>
+    <Link href={`/post?id=${post?.id}`} key={post?.id}>
       <a>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/* @ts-ignore */}
-        <FeedItem {...post!} />
+        <FeedItem {...post} />
       </a>
     </Link>
   ));
