@@ -64,6 +64,10 @@ export default function PostPage() {
     onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
   });
 
+  const { mutate: mutateReportPost } = useMutation({
+    mutationFn: (postId: number) => POST('/post/v1/{postId}/report', { params: { path: { postId } } }),
+  });
+
   const post = postQuery.data;
   const { data: meeting } = useQueryGetMeeting({ params: { id: String(post?.meeting.id) } });
 
@@ -84,35 +88,58 @@ export default function PostPage() {
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
 
+  const isMine = post.user.id === me?.id;
+
   return (
     <Container>
       <FeedPostViewer
         post={post}
-        isMine={post.user.id === me?.id}
-        Actions={[
-          <FeedActionButton
-            onClick={() =>
-              overlay.open(({ isOpen, close }) => (
-                <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
-              ))
-            }
-          >
-            수정
-          </FeedActionButton>,
-          <FeedActionButton
-            onClick={() => {
-              overlay.open(({ isOpen, close }) => (
-                // eslint-disable-next-line prettier/prettier
+        // TODO: Actions 합성하는 부분 추상화 한번 더 하자. 너무 verbose 하다.
+        Actions={
+          isMine
+            ? [
+                <FeedActionButton
+                  onClick={() =>
+                    overlay.open(({ isOpen, close }) => (
+                      <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
+                    ))
+                  }
+                >
+                  수정
+                </FeedActionButton>,
+                <FeedActionButton
+                  onClick={() => {
+                    overlay.open(({ isOpen, close }) => (
+                      // eslint-disable-next-line prettier/prettier
                 <ConfirmModal isModalOpened={isOpen} message="게시글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기"
-                  handleModalClose={close}
-                  handleConfirm={mutateDeletePost}
-                />
-              ));
-            }}
-          >
-            삭제
-          </FeedActionButton>,
-        ]}
+                        handleModalClose={close}
+                        handleConfirm={mutateDeletePost}
+                      />
+                    ));
+                  }}
+                >
+                  삭제
+                </FeedActionButton>,
+              ]
+            : [
+                <FeedActionButton
+                  onClick={() => {
+                    overlay.open(({ isOpen, close }) => (
+                      // eslint-disable-next-line prettier/prettier
+                      <ConfirmModal isModalOpened={isOpen} message="게시글을 신고하시겠습니까?" cancelButton="돌아가기" confirmButton="신고하기"
+                        handleModalClose={close}
+                        handleConfirm={() => {
+                          mutateReportPost(post.id);
+                          close();
+                        }}
+                      />
+                    ));
+                  }}
+                >
+                  신고
+                </FeedActionButton>,
+              ]
+        }
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
