@@ -57,7 +57,7 @@ export const Arrow = ({
   return (
     <SArrow
       css={mergeCss(
-        { svg: { width: `${size}px`, height: `${size}px` }, path: { strokeWidth: strokeWidth, stroke: color } },
+        { width: `${size}px`, height: `${size}px`, path: { strokeWidth: strokeWidth, stroke: color } },
         { ...css }
       )}
       direction={direction}

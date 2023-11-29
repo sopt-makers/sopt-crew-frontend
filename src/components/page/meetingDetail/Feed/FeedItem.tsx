@@ -10,6 +10,7 @@ import LikeActiveIcon from '@assets/svg/like_active.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
+import { Arrow } from '@components/button/Arrow';
 import {
   AVATAR_MAX_LENGTH,
   CARD_CONTENT_MAX_LENGTH,
@@ -68,6 +69,14 @@ const FeedItem = (post: FeedItemProps) => {
         })
       }
     >
+      <GroupInfoWrapper>
+        <div>
+          <GroupType>스터디</GroupType>
+          <GroupName>언젠가 노마드</GroupName>
+        </div>
+        {/*<ArrowSmallRightIcon />*/}
+        <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />
+      </GroupInfoWrapper>
       <STop>
         <Flex align="center">
           <SProfileButton
@@ -149,6 +158,26 @@ const SFeedItem = styled('div', {
     borderRadius: 0,
     margin: '0 auto',
   },
+});
+
+const GroupInfoWrapper = styled('div', {
+  display: 'flex',
+  background: '$gray800',
+  borderRadius: '8px',
+  height: '46px',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  fontStyle: 'T5',
+  padding: '$0 $12',
+});
+
+const GroupType = styled('span', {
+  color: '$secondary',
+  mr: '$6',
+});
+
+const GroupName = styled('span', {
+  color: '$gray30',
 });
 
 const STop = styled('div', {
