@@ -20,7 +20,10 @@ const enum MeetingType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>('meetingType', MeetingType.MADE);
+  const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>(
+    'meetingType',
+    MeetingType.APPLIED
+  );
 
   return (
     <div>
@@ -59,37 +62,23 @@ const MinePage: NextPage = () => {
         <STabList>
           <Tab as={Fragment}>
             <STab
-              isSelected={Number(selectedMeetingType) === MeetingType.MADE}
-              onClick={() => ampli.clickMakebymeGroup()}
-            >
-              내가 만든 모임
-            </STab>
-          </Tab>
-          <Tab as={Fragment}>
-            <STab
               isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}
               onClick={() => ampli.clickRegisteredGroup()}
             >
               내가 신청한 모임
             </STab>
           </Tab>
+          <Tab as={Fragment}>
+            <STab
+              isSelected={Number(selectedMeetingType) === MeetingType.MADE}
+              onClick={() => ampli.clickMakebymeGroup()}
+            >
+              내가 만든 모임
+            </STab>
+          </Tab>
         </STabList>
 
         <Tab.Panels>
-          <Tab.Panel>
-            <SSRSafeSuspense
-              fallback={
-                <GridLayout mobileType="card">
-                  {new Array(6).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} mobileType="card" />
-                  ))}
-                </GridLayout>
-              }
-            >
-              <MeetingListOfMine />
-            </SSRSafeSuspense>
-          </Tab.Panel>
-
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
@@ -101,6 +90,20 @@ const MinePage: NextPage = () => {
               }
             >
               <MeetingListOfApplied />
+            </SSRSafeSuspense>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout mobileType="card">
+                  {new Array(6).fill(null).map((_, index) => (
+                    <CardSkeleton key={index} mobileType="card" />
+                  ))}
+                </GridLayout>
+              }
+            >
+              <MeetingListOfMine />
             </SSRSafeSuspense>
           </Tab.Panel>
         </Tab.Panels>
