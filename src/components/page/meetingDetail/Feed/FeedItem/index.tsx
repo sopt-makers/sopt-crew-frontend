@@ -10,7 +10,6 @@ import LikeActiveIcon from '@assets/svg/like_active.svg';
 import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import { Arrow } from '@components/button/Arrow';
 import {
   AVATAR_MAX_LENGTH,
   CARD_CONTENT_MAX_LENGTH,
@@ -25,7 +24,7 @@ import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
 
-interface FeedItemProps {
+interface PostProps {
   id: number;
   user: UserResponse;
   title: string;
@@ -38,7 +37,12 @@ interface FeedItemProps {
   isLiked: boolean;
 }
 
-const FeedItem = (post: FeedItemProps) => {
+interface FeedItemProps {
+  post: PostProps;
+  HeaderSection?: React.ReactNode;
+}
+
+const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
   const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
     post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
@@ -69,18 +73,7 @@ const FeedItem = (post: FeedItemProps) => {
         })
       }
     >
-      <GroupInfoWrapper>
-        <div
-          style={{
-            width: '90%',
-            display: 'flex',
-          }}
-        >
-          <GroupType>스터디</GroupType>
-          <GroupName>언젠가 노마드asdkljhq,wmehlkasndmqhjwalkd;lakjd</GroupName>
-        </div>
-        <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />
-      </GroupInfoWrapper>
+      {HeaderSection}
       <STop>
         <Flex align="center">
           <SProfileButton
@@ -162,32 +155,6 @@ const SFeedItem = styled('div', {
     borderRadius: 0,
     margin: '0 auto',
   },
-});
-
-const GroupInfoWrapper = styled('div', {
-  display: 'flex',
-  background: '$gray800',
-  borderRadius: '8px',
-  height: '46px',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  fontStyle: 'T5',
-  padding: '$0 $12',
-  mb: '$20',
-});
-
-const GroupType = styled('p', {
-  color: '$secondary',
-  mr: '$6',
-});
-
-const GroupName = styled('p', {
-  width: '80%',
-  color: '$gray30',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  wordBreak: 'break-all',
 });
 
 const STop = styled('div', {

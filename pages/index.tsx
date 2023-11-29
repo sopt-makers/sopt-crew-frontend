@@ -31,7 +31,7 @@ const Home: NextPage = () => {
       <a>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/* @ts-ignore */}
-        <FeedItem {...post} />
+        <FeedItem post={post} />
       </a>
     </Link>
   ));
