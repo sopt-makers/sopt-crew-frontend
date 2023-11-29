@@ -39,7 +39,7 @@ const Home: NextPage = () => {
     <>
       <div>
         <Flex align="start" justify="between">
-          <TabList text="feedAll" size="big">
+          <TabList text="groupAll" size="big">
             <Link href="/" passHref>
               <a
                 onClick={() => {
