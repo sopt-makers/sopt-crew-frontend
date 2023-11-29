@@ -2,12 +2,14 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
-import LikeDefaultIcon from '@assets/svg/like_default.svg';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useMutationUpdateLike } from '@api/post/hooks';
+import { UserResponse } from '@api/user';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
+import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import truncateText from '@utils/truncateText';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import {
   AVATAR_MAX_LENGTH,
   CARD_CONTENT_MAX_LENGTH,
@@ -15,14 +17,12 @@ import {
   LIKE_MAX_COUNT,
   TAKE_COUNT,
 } from '@constants/feed';
-import { UserResponse } from '@api/user';
-import { fromNow } from '@utils/dayjs';
-import { useMutationUpdateLike } from '@api/post/hooks';
-import { useRouter } from 'next/router';
-import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
-import { playgroundLink } from '@sopt-makers/playground-common';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { useDisplay } from '@hooks/useDisplay';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { fromNow } from '@utils/dayjs';
+import truncateText from '@utils/truncateText';
+import { useRouter } from 'next/router';
 
 interface FeedItemProps {
   id: number;
@@ -139,6 +139,10 @@ const SFeedItem = styled('div', {
   borderRadius: '12px',
   color: '$gray10',
   width: '100%',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-10px)',
+  },
   '@tablet': {
     padding: '$24 0 $28 0',
     background: 'transparent',
