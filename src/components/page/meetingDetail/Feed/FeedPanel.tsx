@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
-import GroupInfo from './FeedItem/GroupInfo';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
 
 interface FeedPanelProps {
@@ -64,7 +63,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
       <a>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/* @ts-ignore */}
-        <FeedItem post={post} HeaderSection={<GroupInfo />} />
+        <FeedItem post={post} />
       </a>
     </Link>
   ));
