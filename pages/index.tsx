@@ -14,6 +14,8 @@ import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
+
+  // TODO: 전체 모임 피드 api 나오면 교체 예정
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfinitePosts(TAKE_COUNT, 89);
 
   const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
