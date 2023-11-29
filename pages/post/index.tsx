@@ -1,6 +1,7 @@
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
 import { useRouter } from 'next/router';
+import useToast from '@hooks/useToast';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
@@ -24,6 +25,7 @@ import { useDisplay } from '@hooks/useDisplay';
 
 export default function PostPage() {
   const overlay = useOverlay();
+  const showToast = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
@@ -64,9 +66,21 @@ export default function PostPage() {
     onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
   });
 
-  const { mutate: mutateReportPost } = useMutation({
+  const { mutateAsync: mutateReportPost } = useMutation({
     mutationFn: (postId: number) => POST('/post/v1/{postId}/report', { params: { path: { postId } } }),
   });
+  const handleConfirmReportPost =
+    ({ postId, callback }: { postId: number; callback: () => void }) =>
+    async () => {
+      const { error } = await mutateReportPost(postId);
+      if (error) {
+        showToast({ type: 'error', message: error.message });
+        callback();
+        return;
+      }
+      showToast({ type: 'info', message: '게시글을 신고했습니다' });
+      callback();
+    };
 
   const post = postQuery.data;
   const { data: meeting } = useQueryGetMeeting({ params: { id: String(post?.meeting.id) } });
@@ -128,10 +142,7 @@ export default function PostPage() {
                       // eslint-disable-next-line prettier/prettier
                       <ConfirmModal isModalOpened={isOpen} message="게시글을 신고하시겠습니까?" cancelButton="돌아가기" confirmButton="신고하기"
                         handleModalClose={close}
-                        handleConfirm={() => {
-                          mutateReportPost(post.id);
-                          close();
-                        }}
+                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
                       />
                     ));
                   }}
