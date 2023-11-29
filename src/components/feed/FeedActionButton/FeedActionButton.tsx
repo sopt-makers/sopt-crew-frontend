@@ -31,4 +31,8 @@ const MenuItem = styled('button', {
     borderRadius: '0 0 14px 14px ',
     borderTop: 'none',
   },
+  '&:only-child': {
+    borderRadius: '14px',
+    border: '1px solid $gray600',
+  },
 });
