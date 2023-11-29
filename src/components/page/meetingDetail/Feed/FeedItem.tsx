@@ -70,11 +70,15 @@ const FeedItem = (post: FeedItemProps) => {
       }
     >
       <GroupInfoWrapper>
-        <div>
+        <div
+          style={{
+            width: '90%',
+            display: 'flex',
+          }}
+        >
           <GroupType>스터디</GroupType>
-          <GroupName>언젠가 노마드</GroupName>
+          <GroupName>언젠가 노마드asdkljhq,wmehlkasndmqhjwalkd;lakjd</GroupName>
         </div>
-        {/*<ArrowSmallRightIcon />*/}
         <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />
       </GroupInfoWrapper>
       <STop>
@@ -143,7 +147,7 @@ const FeedItem = (post: FeedItemProps) => {
 export default FeedItem;
 
 const SFeedItem = styled('div', {
-  padding: '$24 $20 $28 $20',
+  padding: '$20 $20 $28 $20',
   background: '#171818',
   borderRadius: '12px',
   color: '$gray10',
@@ -169,21 +173,28 @@ const GroupInfoWrapper = styled('div', {
   justifyContent: 'space-between',
   fontStyle: 'T5',
   padding: '$0 $12',
+  mb: '$20',
 });
 
-const GroupType = styled('span', {
+const GroupType = styled('p', {
   color: '$secondary',
   mr: '$6',
 });
 
-const GroupName = styled('span', {
+const GroupName = styled('p', {
+  width: '80%',
   color: '$gray30',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-all',
 });
 
 const STop = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   mb: '$12',
+  mt: '$4',
 });
 
 const SProfileButton = styled('button', {
