@@ -138,10 +138,8 @@ const Layout = styled('div', {
   color: theme.colors.white,
   mx: '$auto',
   marginTop: '100px',
-  '@desktop': {
-    maxWidth: '1260px',
-    px: '$30',
-  },
+  maxWidth: '1260px',
+  px: '$30',
   '@tablet': {
     px: '$20',
   },
