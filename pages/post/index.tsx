@@ -85,7 +85,7 @@ export default function PostPage() {
     };
 
   const post = postQuery.data;
-  const { data: meeting } = useQueryGetMeeting({ params: { id: String(post?.meeting.id) } });
+  const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
   const comments = commentQuery.data?.pages
     .flatMap(page => page.data?.data?.comments)
