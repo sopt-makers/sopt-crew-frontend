@@ -2,7 +2,7 @@ import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
 import { useRouter } from 'next/router';
 import useToast from '@hooks/useToast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import { useQueryMyProfile } from '@api/user/hooks';
@@ -22,6 +22,8 @@ import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
 import React from 'react';
 import { useDisplay } from '@hooks/useDisplay';
+import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
+import Link from 'next/link';
 
 export default function PostPage() {
   const overlay = useOverlay();
@@ -29,7 +31,7 @@ export default function PostPage() {
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
-  const { POST, DELETE } = apiV2.get();
+  const { POST, DELETE, GET } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
@@ -98,6 +100,14 @@ export default function PostPage() {
     ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
     togglePostLike();
   };
+
+  const meetingId = meeting?.id;
+  const { data: posts } = useQuery({
+    queryKey: ['/post/v1', meetingId],
+    queryFn: () => GET('/post/v1', { params: { query: { meetingId: meetingId as number } } }).then(res => res.data),
+    enabled: !!meetingId,
+  });
+  const postsInMeeting = posts?.data.posts.filter(_post => _post.id !== post?.id).slice(0, 3);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -185,10 +195,63 @@ export default function PostPage() {
           window.location.assign(href);
         }}
       />
+      <FeedListContainer>
+        <FeedListWrapper>
+          <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
+          <FeedList>
+            {postsInMeeting?.map(post => (
+              <Link key={post.id} href={`/post?id=${post.id}`}>
+                <a>
+                  {/* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */}
+                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                  {/* @ts-ignore */}
+                  <FeedItem post={post} />
+                </a>
+              </Link>
+            ))}
+          </FeedList>
+        </FeedListWrapper>
+        <FeedListWrapper>
+          <FeedListTitle>SOPT 모임들의 전체 피드</FeedListTitle>
+          <FeedList>{/* TODO: 전체 모임 피드 */}</FeedList>
+        </FeedListWrapper>
+      </FeedListContainer>
     </Container>
   );
 }
 
 const Container = styled('div', {
   flexType: 'horizontalCenter',
+  gap: '40px',
+  '@laptop': {
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 0,
+  },
+});
+const FeedListContainer = styled('div', {
+  width: '380px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '80px',
+  '@laptop': {
+    width: '800px',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: '20px',
+  },
+  '@tablet': {
+    display: 'none',
+  },
+});
+const FeedListWrapper = styled('div', {});
+const FeedListTitle = styled('h3', {
+  marginBottom: '24px',
+  color: '$white',
+  fontStyle: 'T4',
+});
+const FeedList = styled('ul', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px',
 });
