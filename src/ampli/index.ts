@@ -216,6 +216,21 @@ export interface ClickFeedCardProperties {
   platform_type?: string;
 }
 
+export interface ClickFeedCardGroupLabelProperties {
+  /**
+   * 모임의 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_id?: number;
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
+}
+
 export interface ClickFeeddatailImageProperties {
   /**
    * 모임의 소속 구성원 여부를 의미합니다.
@@ -676,11 +691,25 @@ export class ClickCommentLike implements BaseEvent {
   }
 }
 
+export class ClickFeedAction implements BaseEvent {
+  event_type = 'Click-feedAction';
+}
+
 export class ClickFeedCard implements BaseEvent {
   event_type = 'Click-feedCard';
 
   constructor(
     public event_properties?: ClickFeedCardProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickFeedCardGroupLabel implements BaseEvent {
+  event_type = 'Click-feedCardGroupLabel';
+
+  constructor(
+    public event_properties?: ClickFeedCardGroupLabelProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1199,6 +1228,21 @@ export class Ampli {
   }
 
   /**
+   * Click-feedAction
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedAction)
+   *
+   * 피드 뷰에서 플로팅 CTA를 클릭한 경우
+   *
+   * @param options Amplitude event options.
+   */
+  clickFeedAction(
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedAction(), options);
+  }
+
+  /**
    * Click-feedCard
    *
    * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedCard)
@@ -1213,6 +1257,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickFeedCard(properties), options);
+  }
+
+  /**
+   * Click-feedCardGroupLabel
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-feedCardGroupLabel)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. group_id)
+   * @param options Amplitude event options.
+   */
+  clickFeedCardGroupLabel(
+    properties?: ClickFeedCardGroupLabelProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedCardGroupLabel(properties), options);
   }
 
   /**
