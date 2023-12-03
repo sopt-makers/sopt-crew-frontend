@@ -42,29 +42,17 @@ const Home: NextPage = () => {
         <Flex align="start" justify="between">
           <TabList text="feedAll" size="big">
             <Link href="/" passHref>
-              <a
-                onClick={() => {
-                  ampli.clickNavbarGroup({ menu: '모임 피드' });
-                }}
-              >
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
                 <TabList.Item text="feedAll">모임 피드</TabList.Item>
               </a>
             </Link>
             <Link href="/list" passHref>
-              <a
-                onClick={() => {
-                  ampli.clickNavbarGroup({ menu: '전체 모임' });
-                }}
-              >
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
                 <TabList.Item text="groupAll">전체 모임</TabList.Item>
               </a>
             </Link>
             <Link href="/mine" passHref>
-              <a
-                onClick={() => {
-                  ampli.clickNavbarGroup({ menu: '내 모임' });
-                }}
-              >
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
                 <TabList.Item text="mine">내 모임</TabList.Item>
               </a>
             </Link>
