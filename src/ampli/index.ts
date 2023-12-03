@@ -207,6 +207,10 @@ export interface ClickFeedCardProperties {
    */
   group_id?: number;
   /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
+  /**
    * 어떤 플랫폼으로 접속했는지를 의미합니다.
    */
   platform_type?: string;
@@ -238,6 +242,10 @@ export interface ClickFeedlistLikeProperties {
    * 모임의 소속 구성원 여부를 의미합니다.
    */
   crew_status?: boolean;
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
 }
 
 export interface ClickFeedPostingProperties {
@@ -249,6 +257,10 @@ export interface ClickFeedPostingProperties {
    * | Type | integer |
    */
   group_id?: number;
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
   /**
    * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
    *
@@ -264,6 +276,10 @@ export interface ClickFeedProfileProperties {
    * 모임의 소속 구성원 여부를 의미합니다.
    */
   crew_status?: boolean;
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
 }
 
 export interface ClickFilterCategoryProperties {
@@ -356,6 +372,10 @@ export interface ClickMakebymeGroupProperties {
 }
 
 export interface ClickMakeGroupProperties {
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
   /**
    * | Rule | Value |
    * |---|---|
@@ -538,6 +558,10 @@ export interface CompletedFeedPostingProperties {
    */
   feed_upload?: any;
   /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
+  /**
    * 어떤 플랫폼으로 접속했는지를 의미합니다.
    */
   platform_type?: string;
@@ -552,6 +576,10 @@ export interface CompletedFeedPostingProperties {
 }
 
 export interface CompletedFeedPostingCanceledProperties {
+  /**
+   * 모임 서비스 내 액션들의 /path location을 의미합니다.
+   */
+  location?: string;
   /**
    * 어떤 플랫폼으로 접속했는지를 의미합니다.
    */
@@ -1415,7 +1443,7 @@ export class Ampli {
    *
    * \[+모임 개설하기\] 버튼 클릭
    *
-   * @param properties The event's properties (e.g. url)
+   * @param properties The event's properties (e.g. location)
    * @param options Amplitude event options.
    */
   clickMakeGroup(
@@ -1702,7 +1730,7 @@ export class Ampli {
    *
    * 피드 작성 중 이탈한 경우
    *
-   * @param properties The event's properties (e.g. platform_type)
+   * @param properties The event's properties (e.g. location)
    * @param options Amplitude event options.
    */
   completedFeedPostingCanceled(

@@ -46,7 +46,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const handleModalOpen = () => {
     if (me?.orgId) {
-      ampli.clickFeedPosting({ user_id: Number(me?.orgId), group_id: Number(meetingId) });
+      ampli.clickFeedPosting({ user_id: Number(me?.orgId), group_id: Number(meetingId), location: router.pathname });
     }
     feedCreateOverlay.open(({ isOpen, close }) => {
       return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
