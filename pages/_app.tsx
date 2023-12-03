@@ -137,7 +137,7 @@ const Layout = styled('div', {
   minHeight: '100vh',
   color: theme.colors.white,
   mx: '$auto',
-  marginTop: '100px',
+  marginTop: '128px',
   maxWidth: '1260px',
   px: '$30',
   '@tablet': {
