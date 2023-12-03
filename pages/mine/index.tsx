@@ -2,16 +2,17 @@ import type { NextPage } from 'next';
 
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
-import Link from 'next/link';
 import { Tab } from '@headlessui/react';
-import { styled } from 'stitches.config';
-import { Fragment } from 'react';
 import useSessionStorage from '@hooks/useSessionStorage';
+import Link from 'next/link';
+import { Fragment } from 'react';
+import { styled } from 'stitches.config';
 
-import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
-import GridLayout from '@components/page/meetingList/Grid/Layout';
+import { ampli } from '@/ampli';
 import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
+import GridLayout from '@components/page/meetingList/Grid/Layout';
+import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
+import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
 const enum MeetingType {
   MADE,
@@ -19,19 +20,27 @@ const enum MeetingType {
 }
 
 const MinePage: NextPage = () => {
-  const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>('meetingType', MeetingType.MADE);
+  const [selectedMeetingType, setSelectedMeetingType] = useSessionStorage<MeetingType>(
+    'meetingType',
+    MeetingType.APPLIED
+  );
 
   return (
     <div>
       <Flex align="center" justify="between">
         <TabList text="mine" size="big">
           <Link href="/" passHref>
-            <a>
-              <TabList.Item text="all">전체 모임</TabList.Item>
+            <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+              <TabList.Item text="feedAll">모임 피드</TabList.Item>
+            </a>
+          </Link>
+          <Link href="/list" passHref>
+            <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+              <TabList.Item text="groupAll">전체 모임</TabList.Item>
             </a>
           </Link>
           <Link href="/mine" passHref>
-            <a>
+            <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
               <TabList.Item text="mine">내 모임</TabList.Item>
             </a>
           </Link>
@@ -40,28 +49,24 @@ const MinePage: NextPage = () => {
       <Tab.Group selectedIndex={Number(selectedMeetingType)} onChange={setSelectedMeetingType}>
         <STabList>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedMeetingType) === MeetingType.MADE}>내가 만든 모임</STab>
+            <STab
+              isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}
+              onClick={() => ampli.clickRegisteredGroup()}
+            >
+              내가 신청한 모임
+            </STab>
           </Tab>
           <Tab as={Fragment}>
-            <STab isSelected={Number(selectedMeetingType) === MeetingType.APPLIED}>내가 신청한 모임</STab>
+            <STab
+              isSelected={Number(selectedMeetingType) === MeetingType.MADE}
+              onClick={() => ampli.clickMakebymeGroup()}
+            >
+              내가 만든 모임
+            </STab>
           </Tab>
         </STabList>
 
         <Tab.Panels>
-          <Tab.Panel>
-            <SSRSafeSuspense
-              fallback={
-                <GridLayout mobileType="card">
-                  {new Array(6).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} mobileType="card" />
-                  ))}
-                </GridLayout>
-              }
-            >
-              <MeetingListOfMine />
-            </SSRSafeSuspense>
-          </Tab.Panel>
-
           <Tab.Panel>
             <SSRSafeSuspense
               fallback={
@@ -73,6 +78,20 @@ const MinePage: NextPage = () => {
               }
             >
               <MeetingListOfApplied />
+            </SSRSafeSuspense>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <SSRSafeSuspense
+              fallback={
+                <GridLayout mobileType="card">
+                  {new Array(6).fill(null).map((_, index) => (
+                    <CardSkeleton key={index} mobileType="card" />
+                  ))}
+                </GridLayout>
+              }
+            >
+              <MeetingListOfMine />
             </SSRSafeSuspense>
           </Tab.Panel>
         </Tab.Panels>
@@ -101,10 +120,10 @@ const STab = styled('button', {
   variants: {
     isSelected: {
       true: {
-        color: '$white100',
-        backgroundColor: '$black40',
+        color: '$gray10',
+        backgroundColor: '$gray600',
       },
-      false: { color: '$gray100' },
+      false: { color: '$gray500' },
     },
   },
   '@tablet': {

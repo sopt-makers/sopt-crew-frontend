@@ -3,6 +3,7 @@ import { Disclosure as HeadlessDisclosure } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import ArrowIcon from 'public/assets/svg/arrow_down.svg';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import { ampli } from '@/ampli';
 
 interface DisclosureProps {
   title: string;
@@ -21,7 +22,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
               <STitle>{title}</STitle>
               <SSubTitle>{subTitle}</SSubTitle>
             </STitleWrapper>
-            <HeadlessDisclosure.Button>
+            <HeadlessDisclosure.Button onClick={() => (!open ? ampli.clickNoticeOn() : ampli.clickNoticeOff())}>
               <SArrowIcon isOpen={open} />
             </HeadlessDisclosure.Button>
           </STitleContainer>
@@ -41,7 +42,7 @@ export default function Disclosure({ title, subTitle, contents, createdDate }: D
 
 const Container = styled('div', {
   padding: '48px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '20px',
   '@mobile': {
     padding: '24px 16px',
@@ -66,7 +67,7 @@ const STitle = styled('h1', {
 });
 const SSubTitle = styled('h4', {
   fontStyle: 'T4',
-  color: 'gray60',
+  color: 'gray300',
   '@mobile': {
     fontStyle: 'B4',
   },
@@ -90,7 +91,7 @@ const SArrowIcon = styled(ArrowIcon, {
 const SDivider = styled('div', {
   height: '1px',
   margin: '36px 0 32px 0',
-  background: '$black40',
+  background: '$gray600',
   '@mobile': {
     margin: '20px 0',
   },
@@ -98,7 +99,7 @@ const SDivider = styled('div', {
 const SContents = styled('div', {
   padding: '0 4px',
   fontStyle: 'B2',
-  color: '$gray30',
+  color: '$gray100',
   whiteSpace: 'pre-line',
   '@mobile': {
     fontStyle: 'B4',
@@ -112,14 +113,14 @@ const SInfo = styled(Flex, {
 });
 const SCreatedAt = styled('span', {
   fontStyle: 'T6',
-  color: '$gray100',
+  color: '$gray500',
   '@mobile': {
     fontStyle: 'C1',
   },
 });
 const SDate = styled('span', {
   fontStyle: 'B4',
-  color: '$gray60',
+  color: '$gray300',
   '@mobile': {
     fontStyle: 'C1',
   },

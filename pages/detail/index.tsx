@@ -120,10 +120,10 @@ const STabButton = styled('button', {
   pb: '$24',
   mr: '$32',
   fontStyle: 'H1',
-  color: '$gray100',
+  color: '$gray500',
 
   '&:hover': {
-    color: '$white100',
+    color: '$gray10',
   },
 
   '@tablet': {
@@ -137,14 +137,14 @@ const STabButton = styled('button', {
   variants: {
     isSelected: {
       true: {
-        color: '$white100',
-        borderBottom: `4px solid $white100`,
+        color: '$gray10',
+        borderBottom: `4px solid $gray10`,
         '@tablet': {
           borderWidth: '2px',
         },
       },
       false: {
-        color: '$gray100',
+        color: '$gray500',
         paddingBottom: '$28',
         '@tablet': {
           paddingBottom: '$18',

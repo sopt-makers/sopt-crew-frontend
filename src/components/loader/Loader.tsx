@@ -30,7 +30,7 @@ const SLoaderWrapper = styled('div', {
     width: '$15',
     height: '$15',
     // 임시지정ㄴ
-    backgroundColor: '$white100',
+    backgroundColor: '$gray10',
     borderRadius: '100%',
   },
 

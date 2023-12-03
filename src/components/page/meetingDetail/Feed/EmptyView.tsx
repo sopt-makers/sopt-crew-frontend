@@ -41,7 +41,7 @@ export default EmptyView;
 const SContent = styled('div', {
   flexType: 'center',
   flexDirection: 'column',
-  color: '$gray40',
+  color: '$gray200',
   fontStyle: 'T1',
 
   '@tablet': {
@@ -49,7 +49,7 @@ const SContent = styled('div', {
   },
 
   button: {
-    background: '$black40',
+    background: '$gray600',
     color: '$white',
     mt: '$48',
     padding: '16px 35.5px',

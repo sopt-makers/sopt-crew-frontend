@@ -22,6 +22,7 @@ import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
 import alertErrorMessage from '@utils/alertErrorMessage';
 import { useQueryMyProfile } from '@api/user/hooks';
+import { ampli } from '@/ampli';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -50,6 +51,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     title,
     user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
+    approved,
     approvedApplyCount,
     capacity,
     host: isHost,
@@ -85,6 +87,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRecruitmentStatusModal = () => {
+    ampli.clickMemberStatus({ crew_status: approved || isHost });
     handleDefaultModalOpen();
     setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
   };
@@ -95,6 +98,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
       return;
     }
     if (!isApplied) {
+      ampli.clickRegisterGroup({ user_id: Number(me.orgId) });
       handleDefaultModalOpen();
       setModalTitle('모임 신청하기');
       return;
@@ -166,7 +170,10 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
             {title}
           </h1>
           <SHostWrapper>
-            <SProfileAnchor href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}>
+            <SProfileAnchor
+              href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
+              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
+            >
               {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
               <ArrowSmallRightIcon />
@@ -238,7 +245,7 @@ const SPanelWrapper = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
   pb: '$120',
-  borderBottom: `2px solid $black60`,
+  borderBottom: `2px solid $gray700`,
   mb: '$40',
 
   '@tablet': {
@@ -263,7 +270,7 @@ const SAbout = styled('div', {
 
   '& > h1': {
     span: {
-      color: '$gray80',
+      color: '$gray400',
       mr: '$8',
 
       '@tablet': {
@@ -272,7 +279,7 @@ const SAbout = styled('div', {
     },
 
     fontAg: '34_bold_140',
-    color: '$white100',
+    color: '$gray10',
     mb: '$20',
 
     '@tablet': {
@@ -298,14 +305,14 @@ const SRecruitStatus = styled('div', {
   variants: {
     status: {
       0: {
-        backgroundColor: '$black40',
+        backgroundColor: '$gray600',
       },
       1: {
-        backgroundColor: '$orange100',
-        color: '$black100',
+        backgroundColor: '$secondary',
+        color: '$gray950',
       },
       2: {
-        backgroundColor: '$black60',
+        backgroundColor: '$gray700',
       },
     },
   },
@@ -313,7 +320,7 @@ const SRecruitStatus = styled('div', {
 
 const SPeriod = styled('div', {
   fontAg: '20_bold_100',
-  color: '$gray60',
+  color: '$gray300',
 
   '@tablet': {
     fontStyle: 'T6',
@@ -322,7 +329,7 @@ const SPeriod = styled('div', {
 
 const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
   width: 'fit-content',
 
   img: {
@@ -331,7 +338,7 @@ const SProfileAnchor = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     mr: '$16',
-    background: '$black60',
+    background: '$gray700',
     '@tablet': {
       width: '$32',
       height: '$32',
@@ -361,7 +368,7 @@ const SProfileAnchor = styled('a', {
   },
 
   '& > svg:last-child > path': {
-    stroke: `$gray40`,
+    stroke: `$gray200`,
   },
 });
 
@@ -373,7 +380,7 @@ const Button = styled('button', {
   width: '$300',
   height: '$60',
   borderRadius: '8px',
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SStatusButton = styled(Button, {
@@ -381,7 +388,7 @@ const SStatusButton = styled(Button, {
   justifyContent: 'space-between',
   padding: '$21 $20',
   mb: '$16',
-  backgroundColor: '$black80',
+  backgroundColor: '$gray800',
   fontAg: '18_semibold_100',
 
   '@tablet': {
@@ -401,7 +408,7 @@ const SStatusButton = styled(Button, {
 
   'span:first-child': {
     mr: '$6',
-    color: '$gray80',
+    color: '$gray400',
   },
 });
 
@@ -409,7 +416,7 @@ const SGuestButton = styled(Button, {
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
-  color: '$black100',
+  color: '$gray950',
   '@tablet': {
     width: '100%',
     height: '$46',
@@ -419,25 +426,25 @@ const SGuestButton = styled(Button, {
 
   '&:disabled': {
     opacity: '0.35',
-    backgroundColor: '$black40',
-    color: '$gray30',
+    backgroundColor: '$gray600',
+    color: '$gray100',
     cursor: 'not-allowed',
   },
 
   variants: {
     isApplied: {
       true: {
-        border: `2px solid $black40`,
-        color: '$white100',
+        border: `2px solid $gray600`,
+        color: '$gray10',
       },
       false: {
-        backgroundColor: '$white100',
+        backgroundColor: '$gray10',
       },
     },
     isApproved: {
       true: {
-        color: '$white100',
-        border: `2px solid $black40`,
+        color: '$gray10',
+        border: `2px solid $gray600`,
       },
     },
   },
@@ -446,7 +453,7 @@ const SGuestButton = styled(Button, {
 const SHostButtonContainer = styled('div', {
   '& > *': {
     width: '$144',
-    color: '$white100',
+    color: '$gray10',
     padding: '$20 0',
     textAlign: 'center',
     borderRadius: '$50',
@@ -460,7 +467,7 @@ const SHostButtonContainer = styled('div', {
   },
 
   button: {
-    border: `2px solid $black40`,
+    border: `2px solid $gray600`,
     mr: '$12',
 
     '@tablet': {
@@ -470,7 +477,7 @@ const SHostButtonContainer = styled('div', {
 
   a: {
     display: 'inline-block',
-    backgroundColor: '$white100',
-    color: '$black100',
+    backgroundColor: '$gray10',
+    color: '$gray950',
   },
 });

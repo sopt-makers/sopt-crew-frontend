@@ -17,7 +17,6 @@ dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
-  isMine?: boolean;
   Actions: React.ReactNode[];
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
@@ -28,7 +27,6 @@ interface FeedPostViewerProps {
 
 export default function FeedPostViewer({
   post,
-  isMine,
   Actions,
   CommentLikeSection,
   CommentList,
@@ -59,23 +57,21 @@ export default function FeedPostViewer({
               <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
-          {isMine && (
-            <Menu as="div" style={{ position: 'relative' }}>
-              <Menu.Button>
-                <MenuIcon />
-              </Menu.Button>
-              <MenuItems>
-                {Actions.map((Action, index) => (
-                  <Menu.Item key={index}>{Action}</Menu.Item>
-                ))}
-              </MenuItems>
-            </Menu>
-          )}
+          <Menu as="div" style={{ position: 'relative' }}>
+            <Menu.Button>
+              <MenuIcon />
+            </Menu.Button>
+            <MenuItems>
+              {Actions.map((Action, index) => (
+                <Menu.Item key={index}>{Action}</Menu.Item>
+              ))}
+            </MenuItems>
+          </Menu>
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>
           <Contents>{parseTextToLink(post.contents)}</Contents>
-          {post.images && (
+          {post.images && post.images.length > 0 && (
             <ImageSection>
               {post.images.length === 1 ? (
                 <BigImage src={post.images[0]} onClick={handleClickImage(post.images, 0)} />
@@ -107,8 +103,8 @@ const Container = styled('div', {
   width: '800px',
   flexShrink: 0,
   borderRadius: '20px',
-  border: '1px solid $black60',
-  background: '$black100',
+  border: '1px solid $gray700',
+  background: '$gray950',
   mb: '$80',
   '@tablet': {
     width: '100%',
@@ -142,11 +138,11 @@ const AuthorInfo = styled('div', {
   gap: '2px',
 });
 const AuthorName = styled('span', {
-  color: '$white100',
+  color: '$gray10',
   fontStyle: 'H5',
 });
 const UpdatedDate = styled('span', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B4',
 });
 const ContentBody = styled('div', {
@@ -162,12 +158,10 @@ const Title = styled('h2', {
 });
 const Contents = styled('p', {
   mt: '$12',
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
-  a: {
-    wordBreak: 'break-all',
-  },
+  wordBreak: 'break-word',
   '@tablet': {
     fontStyle: 'B3',
   },
@@ -196,8 +190,13 @@ const ImageListWrapper = styled('div', {
   gap: '8px',
   '@tablet': {
     display: 'flex',
-    overflow: 'scroll',
     gap: '6px',
+    overflowX: 'scroll',
+    '-ms-overflow-style': 'none',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
 });
 const ImageListItem = styled('img', {
@@ -214,7 +213,7 @@ const ViewCount = styled('span', {
   mt: '$16',
   mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
-  color: '$gray100',
+  color: '$gray500',
   fontStyle: 'B4',
   '@tablet': {
     mr: '$0',
@@ -231,8 +230,8 @@ const CommentLikeWrapper = styled('div', {
   fontStyle: 'T5',
   height: '48px',
   flexType: 'center',
-  borderTop: '1px solid $black60',
-  borderBottom: '1px solid $black60',
+  borderTop: '1px solid $gray700',
+  borderBottom: '1px solid $gray700',
   '@tablet': {
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',

@@ -15,14 +15,14 @@ function ResultItem({ selectedOption, deleteValue }: { selectedOption: string; d
 export default ResultItem;
 
 const SResultItemWrapper = styled(Flex, {
-  backgroundColor: '$black100',
-  border: '1px solid $black40',
+  backgroundColor: '$gray950',
+  border: '1px solid $gray600',
   borderRadius: '44px',
   padding: '$8 $10 $8 $12 ',
   whiteSpace: 'nowrap',
   margin: '4px',
   '@tablet': {
-    border: '1px solid $white100',
+    border: '1px solid $gray10',
     svg: {
       width: '12px',
     },

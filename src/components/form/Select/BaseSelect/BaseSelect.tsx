@@ -76,10 +76,10 @@ const SOptionList = styled(Listbox.Options, {
   padding: '8px 0px',
   display: 'flex',
   flexDirection: 'column',
-  border: '1px solid $black40',
+  border: '1px solid $gray600',
   borderRadius: 10,
   mt: '$8',
-  background: '$black40',
+  background: '$gray600',
   overflow: 'auto',
   zIndex: 100,
   '@tablet': {

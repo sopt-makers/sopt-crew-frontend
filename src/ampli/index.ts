@@ -303,11 +303,113 @@ export interface ClickFilterStatusProperties {
   group_status?: string;
 }
 
+export interface ClickGroupCardProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+  /**
+   * 모임 카테고리를 의미합니다.
+   */
+  group_category?: string;
+  /**
+   * 모임의 모집 대상이 활동기수인지 아닌지를 의미합니다.
+   */
+  group_generation?: boolean;
+  /**
+   * 모임의 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_id?: number;
+  /**
+   * 모임의 개설자 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_owner_id?: number;
+  /**
+   * 모임의 모집 대상 파트를 의미합니다.
+   */
+  group_part?: string;
+  /**
+   * 모임의 모집 상태를 의미합니다.
+   */
+  group_status?: string;
+  /**
+   * 모임의 이름을 의미합니다.
+   */
+  group_title?: string;
+}
+
+export interface ClickMakebymeGroupProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickMakeGroupProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickManagementListProfileProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickManagementListPromiseProperties {
+  /**
+   * 모임 신청 당시 다짐의 작성 여부를 의미합니다.
+   */
+  submit_promise?: boolean;
+}
+
+export interface ClickMemberManagementProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickMemberStatusProperties {
+  /**
+   * 모임의 소속 구성원 여부를 의미합니다.
+   */
+  crew_status?: boolean;
+}
+
 export interface ClickNavbarGroupProperties {
   /**
    * 모임 서비스 내의 탭 영역 메뉴명을 의미합니다.
    */
   menu: string;
+}
+
+export interface ClickNoticeOffProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
 }
 
 export interface ClickNoticeOnProperties {
@@ -317,6 +419,98 @@ export interface ClickNoticeOnProperties {
    * | Regex |  |
    */
   url?: string;
+}
+
+export interface ClickOwnerProfileProperties {
+  /**
+   * 모임의 개설자 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_owner_id?: number;
+}
+
+export interface ClickPaginationArrowProperties {
+  /**
+   * 모임 리스트 내 페이지를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  page?: number;
+}
+
+export interface ClickPaginationNumberProperties {
+  /**
+   * 모임 리스트 내 페이지를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  page?: number;
+}
+
+export interface ClickRegisteredGroupProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface ClickRegisteredGroupCardProperties {
+  /**
+   * 모임 카테고리를 의미합니다.
+   */
+  group_category?: string;
+  /**
+   * 모임의 모집 대상이 활동기수인지 아닌지를 의미합니다.
+   */
+  group_generation?: boolean;
+  /**
+   * 모임의 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_id?: number;
+  /**
+   * 모임의 개설자 id값을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  group_owner_id?: number;
+  /**
+   * 모임의 모집 대상 파트를 의미합니다.
+   */
+  group_part?: string;
+  /**
+   * 모임의 모집 상태를 의미합니다.
+   */
+  group_status?: string;
+  /**
+   * 모임의 이름을 의미합니다.
+   */
+  group_title?: string;
+}
+
+export interface ClickRegisterGroupProperties {
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
 }
 
 export interface CompletedCommentPostingProperties {
@@ -370,6 +564,48 @@ export interface CompletedFeedPostingCanceledProperties {
    * | Type | integer |
    */
   user_id?: number;
+}
+
+export interface CompletedMakeGroupProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Regex |  |
+   */
+  url?: string;
+}
+
+export interface CompletedRegisterGroupProperties {
+  /**
+   * 모임 신청 당시 다짐의 작성 여부를 의미합니다.
+   */
+  submit_promise?: boolean;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
+export interface FilterListOptionManagementProperties {
+  /**
+   * 모임 관리자의 모임 신청자 리스트 조회 옵션을 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  manage_listing_no?: number;
+}
+
+export interface FilterManagementListOrderProperties {
+  /**
+   * 모임 관리자의 모임 신청자 리스트 정렬 옵션을 의미합니다.
+   */
+  manage_sort?: string;
 }
 
 export class Identify implements BaseEvent {
@@ -532,6 +768,80 @@ export class ClickFilterStatus implements BaseEvent {
   }
 }
 
+export class ClickGroupCard implements BaseEvent {
+  event_type = 'Click-groupCard';
+
+  constructor(
+    public event_properties?: ClickGroupCardProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickMakebymeGroup implements BaseEvent {
+  event_type = 'Click-makebymeGroup';
+
+  constructor(
+    public event_properties?: ClickMakebymeGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickMakeGroup implements BaseEvent {
+  event_type = 'Click-makeGroup';
+
+  constructor(
+    public event_properties?: ClickMakeGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickManageGroup implements BaseEvent {
+  event_type = 'Click-manageGroup';
+}
+
+export class ClickManagementListProfile implements BaseEvent {
+  event_type = 'Click-managementListProfile';
+
+  constructor(
+    public event_properties?: ClickManagementListProfileProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickManagementListPromise implements BaseEvent {
+  event_type = 'Click-managementListPromise';
+
+  constructor(
+    public event_properties?: ClickManagementListPromiseProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickMemberManagement implements BaseEvent {
+  event_type = 'Click-memberManagement';
+
+  constructor(
+    public event_properties?: ClickMemberManagementProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickMemberStatus implements BaseEvent {
+  event_type = 'Click-memberStatus';
+
+  constructor(
+    public event_properties?: ClickMemberStatusProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
 export class ClickNavbarGroup implements BaseEvent {
   event_type = 'Click-navbarGroup';
 
@@ -542,11 +852,81 @@ export class ClickNavbarGroup implements BaseEvent {
   }
 }
 
+export class ClickNoticeOff implements BaseEvent {
+  event_type = 'Click-noticeOff';
+
+  constructor(
+    public event_properties?: ClickNoticeOffProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
 export class ClickNoticeOn implements BaseEvent {
   event_type = 'Click-noticeOn';
 
   constructor(
     public event_properties?: ClickNoticeOnProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickOwnerProfile implements BaseEvent {
+  event_type = 'Click-ownerProfile';
+
+  constructor(
+    public event_properties?: ClickOwnerProfileProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickPaginationArrow implements BaseEvent {
+  event_type = 'Click-paginationArrow';
+
+  constructor(
+    public event_properties?: ClickPaginationArrowProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickPaginationNumber implements BaseEvent {
+  event_type = 'Click-paginationNumber';
+
+  constructor(
+    public event_properties?: ClickPaginationNumberProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickRegisteredGroup implements BaseEvent {
+  event_type = 'Click-registeredGroup';
+
+  constructor(
+    public event_properties?: ClickRegisteredGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickRegisteredGroupCard implements BaseEvent {
+  event_type = 'Click-registeredGroupCard';
+
+  constructor(
+    public event_properties?: ClickRegisteredGroupCardProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickRegisterGroup implements BaseEvent {
+  event_type = 'Click-registerGroup';
+
+  constructor(
+    public event_properties?: ClickRegisterGroupProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -577,6 +957,46 @@ export class CompletedFeedPostingCanceled implements BaseEvent {
 
   constructor(
     public event_properties?: CompletedFeedPostingCanceledProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CompletedMakeGroup implements BaseEvent {
+  event_type = 'Completed-makeGroup';
+
+  constructor(
+    public event_properties?: CompletedMakeGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CompletedRegisterGroup implements BaseEvent {
+  event_type = 'Completed-registerGroup';
+
+  constructor(
+    public event_properties?: CompletedRegisterGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class FilterListOptionManagement implements BaseEvent {
+  event_type = 'Filter-listOptionManagement';
+
+  constructor(
+    public event_properties?: FilterListOptionManagementProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class FilterManagementListOrder implements BaseEvent {
+  event_type = 'Filter-managementListOrder';
+
+  constructor(
+    public event_properties?: FilterManagementListOrderProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -955,6 +1375,140 @@ export class Ampli {
   }
 
   /**
+   * Click-groupCard
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-groupCard)
+   *
+   * 전체 모임 리스트 내 모임 카드 클릭 유저의 모임 멤버 유무에 따른 방문 데이터 수집
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickGroupCard(
+    properties?: ClickGroupCardProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickGroupCard(properties), options);
+  }
+
+  /**
+   * Click-makebymeGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-makebymeGroup)
+   *
+   * \[내가 만든 모임\] 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickMakebymeGroup(
+    properties?: ClickMakebymeGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickMakebymeGroup(properties), options);
+  }
+
+  /**
+   * Click-makeGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-makeGroup)
+   *
+   * \[+모임 개설하기\] 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickMakeGroup(
+    properties?: ClickMakeGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickMakeGroup(properties), options);
+  }
+
+  /**
+   * Click-manageGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-manageGroup)
+   *
+   * \[신청자 관리\] 클릭
+   *
+   * @param options Amplitude event options.
+   */
+  clickManageGroup(
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickManageGroup(), options);
+  }
+
+  /**
+   * Click-managementListProfile
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-managementListProfile)
+   *
+   * 리스트 내 프로필 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickManagementListProfile(
+    properties?: ClickManagementListProfileProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickManagementListProfile(properties), options);
+  }
+
+  /**
+   * Click-managementListPromise
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-managementListPromise)
+   *
+   * 리스트 내 신청내역 클릭 및 조회
+   *
+   * @param properties The event's properties (e.g. submit_promise)
+   * @param options Amplitude event options.
+   */
+  clickManagementListPromise(
+    properties?: ClickManagementListPromiseProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickManagementListPromise(properties), options);
+  }
+
+  /**
+   * Click-memberManagement
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-memberManagement)
+   *
+   * 모임 상세 내 /management로 접근하는 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickMemberManagement(
+    properties?: ClickMemberManagementProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickMemberManagement(properties), options);
+  }
+
+  /**
+   * Click-memberStatus
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-memberStatus)
+   *
+   * 모집 현황 클릭
+   *
+   * @param properties The event's properties (e.g. crew_status)
+   * @param options Amplitude event options.
+   */
+  clickMemberStatus(
+    properties?: ClickMemberStatusProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickMemberStatus(properties), options);
+  }
+
+  /**
    * Click-navbarGroup
    *
    * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-navbarGroup)
@@ -972,6 +1526,23 @@ export class Ampli {
   }
 
   /**
+   * Click-noticeOff
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-noticeOff)
+   *
+   * 공지사항 토글 비활성화 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickNoticeOff(
+    properties?: ClickNoticeOffProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickNoticeOff(properties), options);
+  }
+
+  /**
    * Click-noticeOn
    *
    * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-noticeOn)
@@ -986,6 +1557,108 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickNoticeOn(properties), options);
+  }
+
+  /**
+   * Click-ownerProfile
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-ownerProfile)
+   *
+   * 모임 상세 내 개설자 프로필 클릭
+   *
+   * @param properties The event's properties (e.g. group_owner_id)
+   * @param options Amplitude event options.
+   */
+  clickOwnerProfile(
+    properties?: ClickOwnerProfileProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickOwnerProfile(properties), options);
+  }
+
+  /**
+   * Click-paginationArrow
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-paginationArrow)
+   *
+   * 하단 페이지네이션 영역 중 애로우 클릭
+   *
+   * @param properties The event's properties (e.g. page)
+   * @param options Amplitude event options.
+   */
+  clickPaginationArrow(
+    properties?: ClickPaginationArrowProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickPaginationArrow(properties), options);
+  }
+
+  /**
+   * Click-paginationNumber
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-paginationNumber)
+   *
+   * 하단 페이지네이션 영역 중 페이지 클릭
+   *
+   * @param properties The event's properties (e.g. page)
+   * @param options Amplitude event options.
+   */
+  clickPaginationNumber(
+    properties?: ClickPaginationNumberProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickPaginationNumber(properties), options);
+  }
+
+  /**
+   * Click-registeredGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-registeredGroup)
+   *
+   * \[내가 신청한 모임\] 클릭
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  clickRegisteredGroup(
+    properties?: ClickRegisteredGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickRegisteredGroup(properties), options);
+  }
+
+  /**
+   * Click-registeredGroupCard
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-registeredGroupCard)
+   *
+   * 내가 신청한 모임의 모임 카드 클릭
+   *
+   * @param properties The event's properties (e.g. group_category)
+   * @param options Amplitude event options.
+   */
+  clickRegisteredGroupCard(
+    properties?: ClickRegisteredGroupCardProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickRegisteredGroupCard(properties), options);
+  }
+
+  /**
+   * Click-registerGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-registerGroup)
+   *
+   * \[신청하기\] 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. user_id)
+   * @param options Amplitude event options.
+   */
+  clickRegisterGroup(
+    properties?: ClickRegisterGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickRegisterGroup(properties), options);
   }
 
   /**
@@ -1037,6 +1710,74 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new CompletedFeedPostingCanceled(properties), options);
+  }
+
+  /**
+   * Completed-makeGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Completed-makeGroup)
+   *
+   * 모임 개설이 완료된 케이스
+   *
+   * @param properties The event's properties (e.g. url)
+   * @param options Amplitude event options.
+   */
+  completedMakeGroup(
+    properties?: CompletedMakeGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CompletedMakeGroup(properties), options);
+  }
+
+  /**
+   * Completed-registerGroup
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Completed-registerGroup)
+   *
+   * 모임 신청하기 모달 내 \[신청하기\] 버튼 클릭
+   *
+   * @param properties The event's properties (e.g. submit_promise)
+   * @param options Amplitude event options.
+   */
+  completedRegisterGroup(
+    properties?: CompletedRegisterGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CompletedRegisterGroup(properties), options);
+  }
+
+  /**
+   * Filter-listOptionManagement
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Filter-listOptionManagement)
+   *
+   * 리스트 뷰에서 몇명까지 볼 것인지 선택한 옵션
+   *
+   * @param properties The event's properties (e.g. manage_listing_no)
+   * @param options Amplitude event options.
+   */
+  filterListOptionManagement(
+    properties?: FilterListOptionManagementProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new FilterListOptionManagement(properties), options);
+  }
+
+  /**
+   * Filter-managementListOrder
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Filter-managementListOrder)
+   *
+   * 최신순 ↔ 오래된순
+   *
+   * @param properties The event's properties (e.g. manage_sort)
+   * @param options Amplitude event options.
+   */
+  filterManagementListOrder(
+    properties?: FilterManagementListOrderProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new FilterManagementListOrder(properties), options);
   }
 }
 

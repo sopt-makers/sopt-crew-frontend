@@ -1,15 +1,22 @@
 import React from 'react';
 import { styled } from 'stitches.config';
 import ArrowBigLeftIcon from '@assets/svg/arrow_big_left.svg';
+import { ampli } from '@/ampli';
 
 interface NextArrowProps {
   className: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  total: number;
 }
 
-const NextArrow = ({ className, onClick }: NextArrowProps) => {
+const NextArrow = ({ className, onClick, total }: NextArrowProps) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    ampli.clickCarouselArrow({ image_total: total });
+    onClick?.(e);
+  };
+
   return (
-    <SButton className={className} onClick={onClick}>
+    <SButton className={className} onClick={e => handleClick(e)}>
       <ArrowBigLeftIcon />
     </SButton>
   );
@@ -35,14 +42,14 @@ const SButton = styled('button', {
   },
 
   '& path': {
-    stroke: '$black40',
+    stroke: '$gray600',
   },
 
   '&:hover': {
-    backgroundColor: '$black80',
+    backgroundColor: '$gray800',
     borderRadius: '20px',
     path: {
-      stroke: '$white100',
+      stroke: '$gray10',
     },
   },
 });

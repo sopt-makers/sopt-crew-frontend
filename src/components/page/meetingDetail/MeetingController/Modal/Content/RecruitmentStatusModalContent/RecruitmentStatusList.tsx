@@ -45,7 +45,7 @@ const SRecruitmentStatusList = styled('div', {
 
   '&::-webkit-scrollbar-thumb': {
     height: '$125',
-    background: '$gray40',
+    background: '$gray200',
     borderRadius: '6px',
   },
 });
@@ -57,8 +57,8 @@ const SRecruitmentStatusItem = styled('div', {
   height: '$64',
   padding: '$16 $20',
   borderRadius: '12px',
-  backgroundColor: '$black60',
-  color: '$white100',
+  backgroundColor: '$gray700',
+  color: '$gray10',
   fontAg: '16_semibold_100',
 
   '&:not(:nth-last-child(-n + 2))': {
@@ -85,7 +85,7 @@ const SRecruitmentStatusItem = styled('div', {
     height: '$32',
     borderRadius: '$round',
     objectFit: 'cover',
-    background: '$black40',
+    background: '$gray600',
 
     '@tablet': {
       width: '$26',
@@ -126,16 +126,16 @@ const SRecruitmentStatusItem = styled('div', {
 
 const SStatusText = styled('div', {
   ml: '$14',
-  color: '$gray100',
+  color: '$gray500',
   fontAg: '14_medium_100',
 
   variants: {
     isApproved: {
       true: {
-        color: '$blue50',
+        color: '$success',
       },
       false: {
-        color: '$gray100',
+        color: '$gray500',
       },
     },
   },

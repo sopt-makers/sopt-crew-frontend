@@ -1,3 +1,5 @@
+import { ampli } from '@/ampli';
+import { useQueryMyProfile } from '@api/user/hooks';
 import Textarea from '@components/form/Textarea';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
@@ -9,6 +11,12 @@ interface ApplicationModalContentProps {
 
 const ApplicationModalContent = ({ handleApplicationButton, disabled }: ApplicationModalContentProps) => {
   const [textareaValue, setTextareaValue] = useState('');
+  const { data: me } = useQueryMyProfile();
+
+  const handleClick = () => {
+    ampli.completedRegisterGroup({ user_id: Number(me?.orgId), submit_promise: textareaValue ? true : false });
+    handleApplicationButton(textareaValue);
+  };
 
   return (
     <SApplicationModalContent>
@@ -19,7 +27,7 @@ const ApplicationModalContent = ({ handleApplicationButton, disabled }: Applicat
         maxLength={150}
         error={textareaValue.length >= 150 ? '150자 까지 입력할 수 있습니다.' : ''}
       />
-      <button disabled={disabled} onClick={() => handleApplicationButton(textareaValue)}>
+      <button disabled={disabled} onClick={handleClick}>
         신청하기
       </button>
     </SApplicationModalContent>
@@ -51,8 +59,8 @@ const SApplicationModalContent = styled('div', {
     width: '100%',
     height: '$200',
     fontAg: '16_medium_150',
-    color: '$white100',
-    backgroundColor: '$black60',
+    color: '$gray10',
+    backgroundColor: '$gray700',
     outline: 'none',
     borderRadius: '10px',
 
@@ -76,8 +84,8 @@ const SApplicationModalContent = styled('div', {
     borderRadius: '12px',
     textAlign: 'center',
     fontAg: '18_bold_100',
-    color: '$black100',
-    backgroundColor: '$white100',
+    color: '$gray950',
+    backgroundColor: '$gray10',
 
     '&:disabled': {
       opacity: 0.35,

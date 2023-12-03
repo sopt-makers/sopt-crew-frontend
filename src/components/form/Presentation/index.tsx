@@ -221,7 +221,7 @@ function Presentation({
         <FormController
           name="detail.desc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="모임을 소개해주세요" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="모임을 소개해주세요" maxLength={1000} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -234,7 +234,7 @@ function Presentation({
         <FormController
           name="detail.processDesc"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="진행 방식을 소개해주세요" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="진행 방식을 소개해주세요" maxLength={1000} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -295,7 +295,7 @@ function Presentation({
             render={({ field, fieldState: { error } }) => (
               <Textarea
                 placeholder="개설자를 소개해주세요, 멘토가 필요하다면 멘토 구해요를 체크해주세요"
-                maxLength={300}
+                maxLength={1000}
                 error={error?.message}
                 {...field}
               />
@@ -344,7 +344,7 @@ function Presentation({
                     )}
                   ></FormController>
                 </STargetFieldWrapper>
-                <Textarea placeholder="이런 분을 찾아요" maxLength={300} error={errorMessage()} {...field} />
+                <Textarea placeholder="이런 분을 찾아요" maxLength={600} error={errorMessage()} {...field} />
               </>
             );
           }}
@@ -357,7 +357,7 @@ function Presentation({
         <FormController
           name="detail.note"
           render={({ field, fieldState: { error } }) => (
-            <Textarea placeholder="유의사항을 알려주세요" maxLength={300} error={error?.message} {...field} />
+            <Textarea placeholder="유의사항을 알려주세요" maxLength={1000} error={error?.message} {...field} />
           )}
         ></FormController>
       </div>
@@ -404,7 +404,7 @@ const SFileInputWrapper = styled('div', {
 });
 const SApplicationFieldWrapper = styled('div', {
   display: 'flex',
-  color: '$gray100',
+  color: '$gray500',
   gap: '12px',
 });
 const SApplicationField = styled('div', {
@@ -447,10 +447,10 @@ const Button = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   gap: '12px',
-  background: '$black40',
+  background: '$gray600',
   borderRadius: '10px',
   fontAg: '18_bold_100',
-  color: '$white100',
+  color: '$gray10',
 
   '@tablet': {
     gap: '10px',
@@ -460,8 +460,8 @@ const Button = styled('button', {
 });
 const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
-  background: '$white100',
-  color: '$black100',
+  background: '$gray10',
+  color: '$gray950',
   '&:disabled': {
     cursor: 'not-allowed',
     opacity: 0.35,

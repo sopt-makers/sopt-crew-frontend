@@ -1,14 +1,29 @@
+import { ampli } from '@/ampli';
+import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import { styled } from 'stitches.config';
 
 interface ChipItemProps {
+  label: string;
   value: string;
   isSelected: boolean;
   addValue: (val: string) => void;
   deleteValue: (val: string) => void;
 }
 
-function ChipItem({ value, isSelected, addValue, deleteValue }: ChipItemProps) {
+function ChipItem({ label, value, isSelected, addValue, deleteValue }: ChipItemProps) {
   const toggle = () => {
+    switch (label) {
+      case CATEGORY_FILTER.label:
+        ampli.clickFilterCategory({ group_category: value });
+        break;
+      case STATUS_FILTER.label:
+        ampli.clickFilterStatus({ group_status: value });
+        break;
+      case PART_FILTER.label:
+        ampli.clickFilterPart({ group_part: value });
+        break;
+    }
+
     if (isSelected) return deleteValue(value);
     return addValue(value);
   };
@@ -32,18 +47,18 @@ const SOption = styled('button', {
   variants: {
     isSelected: {
       true: {
-        backgroundColor: '$white100',
-        color: '$black100',
+        backgroundColor: '$gray10',
+        color: '$gray950',
       },
       false: {
-        backgroundColor: '$black100',
-        color: '$gray100',
+        backgroundColor: '$gray950',
+        color: '$gray500',
         '&:hover': {
-          color: '$white100',
+          color: '$gray10',
         },
         '@tablet': {
-          backgroundColor: '$black40',
-          color: '$gray60',
+          backgroundColor: '$gray600',
+          color: '$gray300',
         },
       },
     },

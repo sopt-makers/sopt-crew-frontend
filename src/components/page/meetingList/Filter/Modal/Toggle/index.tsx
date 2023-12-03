@@ -4,6 +4,7 @@ import { useIsOnlyActiveGenerationParams } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';
 import { CSSType, styled } from 'stitches.config';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
+import { ampli } from '@/ampli';
 interface ToggleProps {
   css?: CSSType;
   label: string;
@@ -11,6 +12,12 @@ interface ToggleProps {
 
 function Toggle({ css, label }: ToggleProps) {
   const { value: isOnlyActiveGeneration, setValue } = useIsOnlyActiveGenerationParams();
+  const handleChange = () => {
+    const value = !parseBool(isOnlyActiveGeneration);
+    ampli.clickFilterGeneration({ group_generation: value });
+    setValue(String(value));
+  };
+
   return (
     <HeadlessSwitch.Group>
       <ToggleWrapper css={{ ...css }}>
@@ -19,10 +26,7 @@ function Toggle({ css, label }: ToggleProps) {
           <SToggleDetailWord isOnlyActiveGeneration={parseBool(isOnlyActiveGeneration)}>
             <HeadlessSwitch.Label>활동 기수만</HeadlessSwitch.Label>
           </SToggleDetailWord>
-          <Switch
-            checked={parseBool(isOnlyActiveGeneration || '')}
-            onChange={() => setValue(String(!parseBool(isOnlyActiveGeneration)))}
-          />
+          <Switch checked={parseBool(isOnlyActiveGeneration || '')} onChange={handleChange} />
         </SSwitchWrapper>
       </ToggleWrapper>
     </HeadlessSwitch.Group>
@@ -32,7 +36,7 @@ function Toggle({ css, label }: ToggleProps) {
 export default Toggle;
 const ToggleWrapper = styled('div', {});
 const SLabel = styled('p', {
-  color: '$white100',
+  color: '$gray10',
   fontAg: '18_bold_100',
   mb: '$20',
   '@tablet': {
@@ -41,7 +45,7 @@ const SLabel = styled('p', {
   },
 });
 const SSwitchWrapper = styled(Flex, {
-  background: '$black100',
+  background: '$gray950',
   borderRadius: '14px',
   width: '163px',
   height: '46px',
@@ -53,7 +57,7 @@ const SSwitchWrapper = styled(Flex, {
 });
 const SToggleDetailWord = styled('div', {
   fontAg: '16_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   mt: '$1',
   mr: '$15',
   '@tablet': {
@@ -63,7 +67,7 @@ const SToggleDetailWord = styled('div', {
   variants: {
     isOnlyActiveGeneration: {
       true: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },

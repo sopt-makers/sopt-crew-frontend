@@ -3,6 +3,7 @@ import { styled } from 'stitches.config';
 import { ApplyResponse } from '@api/user';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import { ampli } from '@/ampli';
 
 interface RecruitmentStatusModalContentProps {
   meetingId: number;
@@ -34,7 +35,7 @@ const RecruitmentStatusModalContent = ({
           {total > 0 && <STotal>총 {total}명 신청</STotal>}
           {(isHost || isApplied) && (
             <Link href={`/mine/management?id=${meetingId}`} passHref>
-              <SManagementAnchor>
+              <SManagementAnchor onClick={() => ampli.clickMemberManagement()}>
                 {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
                 <ArrowSmallRightIcon />
               </SManagementAnchor>
@@ -60,7 +61,7 @@ const SEmptyText = styled('p', {
   flexType: 'center',
   width: '100%',
   height: '$280',
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '18_semibold_100',
 
   '@tablet': {
@@ -80,7 +81,7 @@ const SRecruitmentStatusModalBottom = styled('div', {
 });
 
 const STotal = styled('p', {
-  color: '$gray80',
+  color: '$gray400',
   fontAg: '16_medium_100',
 
   '@tablet': {
@@ -90,7 +91,7 @@ const STotal = styled('p', {
 
 const SManagementAnchor = styled('a', {
   fontAg: '16_semibold_100',
-  color: '$white100',
+  color: '$gray10',
   flexType: 'verticalCenter',
   position: 'absolute',
   right: '$42',

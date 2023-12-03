@@ -9,9 +9,11 @@ interface CarouselProps {
 }
 
 const Carousel = ({ imageList }: CarouselProps) => {
+  const imageListLength = imageList.length;
+
   const settings = {
-    prevArrow: <NextArrow className="prev" />,
-    nextArrow: <NextArrow className="next" />,
+    prevArrow: <NextArrow className="prev" total={imageListLength} />,
+    nextArrow: <NextArrow className="next" total={imageListLength} />,
     responsive: [
       {
         breakpoint: 768,
@@ -120,7 +122,7 @@ const SCarousel = styled('div', {
   },
 
   '.slick-dots .slick-active button:before': {
-    backgroundColor: '$white100',
+    backgroundColor: '$gray10',
   },
 });
 

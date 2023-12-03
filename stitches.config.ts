@@ -7,11 +7,8 @@ const stitches = createStitches({
   theme: {
     colors: {
       transparent: 'transparent',
-      gray50: '#d4d4d4',
-      black: '#000',
       black60_trans: 'rgba(24,24,24,0.6)',
       black80_trans: 'rgba(24,24,24,0.8)',
-      black90: '#1c1d1e',
       red: '#d70067',
       ...colors,
     },
@@ -299,7 +296,8 @@ const stitches = createStitches({
     small_mobile: '(max-width: 375px)',
     mobile: '(max-width: 414px)',
     tablet: '(max-width: 768px)',
-    desktop: '(min-width: 768px)',
+    laptop: '(max-width: 1259px)',
+    // default is desktop
   },
   utils: {
     size: (value: number) => ({

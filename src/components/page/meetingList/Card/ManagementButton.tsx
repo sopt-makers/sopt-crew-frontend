@@ -3,6 +3,7 @@ import { styled } from 'stitches.config';
 import ArrowSmallRight from '@assets/svg/arrow_small_right.svg';
 import Link from 'next/link';
 import ArrowMobileRight from '@assets/svg/arrow_mobile_right.svg';
+import { ampli } from '@/ampli';
 
 interface ManagementButtonProps {
   id: number;
@@ -11,7 +12,7 @@ interface ManagementButtonProps {
 function ManagementButton({ id }: ManagementButtonProps) {
   return (
     <Link href={`/mine/management?id=${id}`} passHref>
-      <SAnchor>
+      <SAnchor onClick={() => ampli.clickManageGroup()}>
         <SButton align="center" justify="between">
           <p>신청자 관리</p>
           <ArrowMobileRight className="mobile-only" />
@@ -30,7 +31,7 @@ const SButton = styled(Flex, {
   borderRadius: '71px',
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
-  background: '$black80',
+  background: '$gray800',
   '@tablet': {
     width: '91px',
     fontStyle: 'T6',
@@ -41,4 +42,5 @@ const SButton = styled(Flex, {
 const SAnchor = styled('a', {
   display: 'block',
   mt: '$16',
+  width: 'fit-content',
 });

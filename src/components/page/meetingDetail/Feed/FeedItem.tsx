@@ -2,12 +2,14 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
-import LikeDefaultIcon from '@assets/svg/like_default.svg';
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useMutationUpdateLike } from '@api/post/hooks';
+import { UserResponse } from '@api/user';
 import LikeActiveIcon from '@assets/svg/like_active.svg';
+import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import truncateText from '@utils/truncateText';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import {
   AVATAR_MAX_LENGTH,
   CARD_CONTENT_MAX_LENGTH,
@@ -15,14 +17,12 @@ import {
   LIKE_MAX_COUNT,
   TAKE_COUNT,
 } from '@constants/feed';
-import { UserResponse } from '@api/user';
-import { fromNow } from '@utils/dayjs';
-import { useMutationUpdateLike } from '@api/post/hooks';
-import { useRouter } from 'next/router';
-import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
-import { playgroundLink } from '@sopt-makers/playground-common';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { useDisplay } from '@hooks/useDisplay';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { fromNow } from '@utils/dayjs';
+import truncateText from '@utils/truncateText';
+import { useRouter } from 'next/router';
 
 interface FeedItemProps {
   id: number;
@@ -137,8 +137,12 @@ const SFeedItem = styled('div', {
   padding: '$24 $20 $28 $20',
   background: '#171818',
   borderRadius: '12px',
-  color: '$white100',
+  color: '$gray10',
   width: '100%',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-10px)',
+  },
   '@tablet': {
     padding: '$24 0 $28 0',
     background: 'transparent',
@@ -155,7 +159,7 @@ const STop = styled('div', {
 
 const SProfileButton = styled('button', {
   flexType: 'verticalCenter',
-  color: '$white100',
+  color: '$gray10',
 });
 
 const SProfileImageWrapper = styled('div', {
@@ -163,7 +167,7 @@ const SProfileImageWrapper = styled('div', {
   height: '$32',
   objectFit: 'cover',
   borderRadius: '$round',
-  background: '$black60',
+  background: '$gray700',
   overflow: 'hidden',
 });
 
@@ -181,7 +185,7 @@ const SName = styled('span', {
 const STime = styled('span', {
   ml: '$8',
   fontStyle: 'T6',
-  color: '$gray100',
+  color: '$gray500',
 });
 
 const STitle = styled('div', {
@@ -195,7 +199,7 @@ const STitle = styled('div', {
 
 const SContent = styled('div', {
   mb: '$20',
-  color: '$gray40',
+  color: '$gray200',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-all',
@@ -212,7 +216,7 @@ const SThumbnail = styled('img', {
   display: 'block',
   mb: '$20',
   borderRadius: '8px',
-  background: '$black60',
+  background: '$gray700',
   width: '100%',
   maxWidth: '$340',
   height: 'fit-content',
@@ -229,9 +233,9 @@ const SThumbnailCount = styled('div', {
   top: '12px',
   right: '12px',
   zIndex: 1,
-  backgroundColor: '$black100',
+  backgroundColor: '$gray950',
   opacity: 0.6,
-  color: '$gray30',
+  color: '$gray100',
   borderRadius: '50%',
   fontStyle: 'T5',
   width: '40px',
@@ -261,7 +265,7 @@ const SCommentWrapper = styled('div', {
 
 const SComment = styled('span', {
   fontStyle: 'T5',
-  color: '$gray40',
+  color: '$gray200',
 });
 
 const SCommentCount = styled('span', {
@@ -280,7 +284,7 @@ const SLikeButton = styled('button', {
         color: '$red',
       },
       false: {
-        color: '$white100',
+        color: '$gray10',
       },
     },
   },
@@ -292,10 +296,10 @@ const SLikeButton = styled('button', {
 
 const SOverlay = styled('div', {
   position: 'absolute',
-  background: '$black100',
+  background: '$gray950',
   opacity: 0.7,
   width: '100%',
   height: '100%',
   flexType: 'center',
-  color: '$white100',
+  color: '$gray10',
 });

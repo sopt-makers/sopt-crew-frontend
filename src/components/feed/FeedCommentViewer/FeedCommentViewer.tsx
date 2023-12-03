@@ -83,13 +83,13 @@ const AuthorWrapper = styled('a', {
 const Name = styled('span', {
   display: 'inline-block',
   marginLeft: '8px',
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'T5',
 });
 const Date = styled('span', {
   display: 'inline-block',
   marginLeft: '4px',
-  color: '$gray100',
+  color: '$gray500',
   fontStyle: 'T6',
 });
 const MenuItems = styled(Menu.Items, {
@@ -105,7 +105,7 @@ const CommentBody = styled('div', {
   gap: '8px',
 });
 const CommentContents = styled('div', {
-  color: '$gray30',
+  color: '$gray100',
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-all',
@@ -123,9 +123,9 @@ const LikeWrapper = styled('div', {
 const LikeIconWrapper = styled('div', {
   width: '20px',
   height: '20px',
-  color: '$gray60',
+  color: '$gray300',
 });
 const LikeCount = styled('span', {
-  color: '$gray60',
+  color: '$gray300',
   fontStyle: 'B4',
 });

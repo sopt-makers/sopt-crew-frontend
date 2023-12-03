@@ -26,12 +26,9 @@ const FeedItemSkeleton = () => {
 export default FeedItemSkeleton;
 
 const SFeedItemSkeleton = styled('div', {
-  '@desktop': {
-    padding: '$24 $20 $28 $20',
-    background: '#171818',
-    borderRadius: '12px',
-  },
-
+  padding: '$24 $20 $28 $20',
+  background: '#171818',
+  borderRadius: '12px',
   '@tablet': {
     padding: '$20',
   },
@@ -42,7 +39,7 @@ const SFeedItemSkeleton = styled('div', {
 });
 
 const Item = styled('div', {
-  background: '$black60',
+  background: '$gray700',
   borderRadius: '8px',
 });
 
@@ -74,7 +71,7 @@ const SBottom = styled(Flex, {
 
   '@tablet': {
     '& > *': {
-      background: '$black80',
+      background: '$gray800',
     },
   },
 });

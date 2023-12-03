@@ -45,13 +45,13 @@ const STextarea = styled('textarea', {
   minHeight: '157px',
   padding: '16px 20px 20px 16px',
   fontAg: '16_medium_150',
-  color: '$white100',
-  background: '$black60',
+  color: '$gray10',
+  background: '$gray700',
   border: 'none',
   resize: 'none',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray100',
+    color: '$gray500',
   },
 });
 const SBottomContainer = styled('div', {
@@ -64,11 +64,11 @@ const STextCount = styled('span', {
   width: '100%',
   textAlign: 'right',
   fontAg: '12_medium_100',
-  color: '$gray60',
+  color: '$gray300',
   variants: {
     overflow: {
       true: {
-        color: '$red100',
+        color: '$error',
       },
     },
   },

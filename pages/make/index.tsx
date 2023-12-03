@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import PlusIcon from '@assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { ampli } from '@/ampli';
+
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -41,6 +43,7 @@ const MakePage = () => {
     const {
       data: { meetingId },
     } = await mutateCreateMeeting(formData);
+    ampli.completedMakeGroup();
     alert('모임을 개설했습니다.');
     router.push(`/detail?id=${meetingId}`);
   };
@@ -88,23 +91,23 @@ const SContainer = styled('div', {
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '44px 40px 56px',
-  background: '$black80',
+  background: '$gray800',
   borderRadius: '15px',
 
   '@tablet': {
     padding: '40px 0 0 0',
-    background: '$black100',
+    background: '$gray950',
   },
 });
 const SFormName = styled('h1', {
   fontAg: '24_bold_100',
-  color: '$white100',
+  color: '$gray10',
   marginBottom: '90px',
 
   '@tablet': {
     margin: 0,
     paddingBottom: '40px',
-    borderBottom: '1px solid $black60',
+    borderBottom: '1px solid $gray700',
   },
 });
 const SFormWrapper = styled('div', {
