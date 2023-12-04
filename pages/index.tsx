@@ -29,9 +29,18 @@ const Home: NextPage = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     <Link href={`/post?id=${post?.id}`} key={post?.id}>
       <a>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
-        <FeedItem post={post} HeaderSection={<MeetingInfo id={89} title={'asdasd'} category={'스터디'} />} />
+        <FeedItem
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /* @ts-ignore */
+          post={post}
+          HeaderSection={
+            <MeetingInfo
+              meetingInfo={
+                (post as any)?.meeting || { id: 89, title: '오늘밤 난 바람났어 강동 멋쟁이', category: '스터디' }
+              }
+            />
+          }
+        />
       </a>
     </Link>
   ));

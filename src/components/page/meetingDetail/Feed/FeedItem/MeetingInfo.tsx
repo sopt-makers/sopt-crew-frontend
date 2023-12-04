@@ -3,12 +3,14 @@ import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 
 interface MeetingInfoProps {
-  id: number;
-  title: string;
-  category: string;
+  meetingInfo: {
+    id: number;
+    title: string;
+    category: string;
+  };
 }
 
-function MeetingInfo({ id, title, category }: MeetingInfoProps) {
+function MeetingInfo({ meetingInfo }: MeetingInfoProps) {
   const router = useRouter();
   return (
     <Container
@@ -16,12 +18,12 @@ function MeetingInfo({ id, title, category }: MeetingInfoProps) {
         e.preventDefault();
         e.stopPropagation();
         // TODO: id값을 어떻게 넘겨줄지 고민해보기
-        router.push(`/detail?id=${id}`);
+        router.push(`/detail?id=${meetingInfo.id}`);
       }}
     >
       <MeetingInfoWrapper>
-        <MeetingType>{category}</MeetingType>
-        <MeetingName>{title}</MeetingName>
+        <MeetingType>{meetingInfo.category}</MeetingType>
+        <MeetingName>{meetingInfo.title}</MeetingName>
       </MeetingInfoWrapper>
       <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />
     </Container>
