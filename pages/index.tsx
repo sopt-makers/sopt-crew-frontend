@@ -1,6 +1,7 @@
 import { ampli } from '@/ampli';
 import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
+import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
@@ -24,14 +25,13 @@ const Home: NextPage = () => {
     }
   };
   const { setTarget } = useIntersectionObserver({ onIntersect });
-
   const renderedPosts = postsData?.pages.map(post => (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     <Link href={`/post?id=${post?.id}`} key={post?.id}>
       <a>
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/* @ts-ignore */}
-        <FeedItem post={post} />
+        <FeedItem post={post} HeaderSection={<MeetingInfo id={89} title={'asdasd'} category={'스터디'} />} />
       </a>
     </Link>
   ));
