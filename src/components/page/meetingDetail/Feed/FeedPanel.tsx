@@ -1,19 +1,19 @@
-import React from 'react';
+import { ampli } from '@/ampli';
+import { useInfinitePosts } from '@api/post/hooks';
+import { useQueryMyProfile } from '@api/user/hooks';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
+import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
+import { useDisplay } from '@hooks/useDisplay';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
-import { useRouter } from 'next/router';
-import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from './FeedItem';
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
-import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
-import { useDisplay } from '@hooks/useDisplay';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import Link from 'next/link';
-import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
-import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/user/hooks';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -31,7 +31,10 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+  useScrollRestorationAfterLoading(isLoading);
+
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
