@@ -57,7 +57,7 @@ const OptionOpenButton = styled('button', {
   variants: {
     isActive: {
       true: {
-        transform: 'rotate(45deg)',
+        transform: 'rotate(-45deg)',
       },
     },
   },
