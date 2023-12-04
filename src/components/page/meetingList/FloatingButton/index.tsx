@@ -7,7 +7,13 @@ function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
   return (
     <>
-      {isActive && <ModalBackground />}
+      <ModalBackground
+        css={{
+          background: isActive ? '$grayAlpha800' : 'rgba(0, 0, 0, 0)',
+          transition: 'all 0.3s ease',
+          pointerEvents: isActive ? 'auto' : 'none',
+        }}
+      />
       <Container isActive={isActive}>
         <OptionOpenButton isActive={isActive} onClick={() => setIsActive(isActive => !isActive)}>
           <Icon isActive={isActive} />
