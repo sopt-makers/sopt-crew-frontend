@@ -3,6 +3,7 @@ import { useInfinitePosts } from '@api/post/hooks';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
+import FloatingButton from '@components/page/meetingList/FloatingButton';
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
         <div ref={setTarget} />
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+        <FloatingButton />
       </div>
     </>
   );
