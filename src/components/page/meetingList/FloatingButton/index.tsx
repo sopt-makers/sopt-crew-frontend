@@ -43,6 +43,12 @@ const Container = styled('div', {
       },
     },
   },
+
+  '@tablet': {
+    width: '48px',
+    height: '48px',
+    borderRadius: '18px',
+  },
 });
 
 const OptionOpenButton = styled('button', {
@@ -78,5 +84,9 @@ const Icon = styled(Plus, {
         },
       },
     },
+  },
+  '@tablet': {
+    width: '24px',
+    height: '24px',
   },
 });
