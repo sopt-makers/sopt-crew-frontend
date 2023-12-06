@@ -1,18 +1,18 @@
+import { editPost } from '@api/post';
+import { useQueryGetPost } from '@api/post/hooks';
+import { useQueryMyProfile } from '@api/user/hooks';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useModal from '@hooks/useModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import { zodResolver } from '@hookform/resolvers/zod';
-import dynamic from 'next/dynamic';
-import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
-import { FormType, feedSchema } from './feedSchema';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import useModal from '@hooks/useModal';
-import { useEffect } from 'react';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
-import { useQueryGetPost } from '@api/post/hooks';
-import { editPost } from '@api/post';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { FormEditType, feedEditSchema } from './feedSchema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -29,15 +29,15 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const submitModal = useModal();
   const { data: me } = useQueryMyProfile();
 
-  const formMethods = useForm<FormType>({
+  const formMethods = useForm<FormEditType>({
     mode: 'onChange',
-    resolver: zodResolver(feedSchema),
+    resolver: zodResolver(feedEditSchema),
   });
 
   const { isValid } = formMethods.formState;
 
   const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => editPost(postId, formData),
+    mutationFn: (formData: FormEditType) => editPost(postId, formData),
     onSuccess: () => {
       queryClient.invalidateQueries(['getPost', postId]);
       queryClient.invalidateQueries(['getPosts']);
@@ -54,7 +54,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
     formMethods.setValue('images', images);
   };
 
-  const handleSubmitClick: SubmitHandler<FormType> = () => {
+  const handleSubmitClick: SubmitHandler<FormEditType> = () => {
     submitModal.handleModalOpen();
   };
 

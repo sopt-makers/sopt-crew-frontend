@@ -1,21 +1,21 @@
+import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { createPost } from '@api/post';
+import { useQueryMyProfile } from '@api/user/hooks';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
+import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useModal from '@hooks/useModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { formatDate } from '@utils/dayjs';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import { zodResolver } from '@hookform/resolvers/zod';
-import dynamic from 'next/dynamic';
-import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import FeedFormPresentation from './FeedFormPresentation';
-import { FormType, feedSchema } from './feedSchema';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createPost } from '@api/post';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
-import useModal from '@hooks/useModal';
-import { useEffect } from 'react';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
-import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/user/hooks';
-import { formatDate } from '@utils/dayjs';
-import { useRouter } from 'next/router';
+import { FormCreateType, feedCreateSchema } from './feedSchema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -34,15 +34,15 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const submitModal = useModal();
   const platform = window.innerWidth > 768 ? 'PC' : 'MO';
 
-  const formMethods = useForm<FormType>({
+  const formMethods = useForm<FormCreateType>({
     mode: 'onChange',
-    resolver: zodResolver(feedSchema),
+    resolver: zodResolver(feedCreateSchema),
   });
 
   const { isValid } = formMethods.formState;
-
+  console.log(formMethods.getValues('meetingId'));
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createPost(formData),
+    mutationFn: (formData: FormCreateType) => createPost(formData),
     onSuccess: () => {
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
@@ -58,12 +58,12 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     formMethods.setValue('images', images);
   };
 
-  const handleSubmitClick: SubmitHandler<FormType> = () => {
+  const handleSubmitClick: SubmitHandler<FormCreateType> = () => {
     submitModal.handleModalOpen();
   };
 
   const onSubmit = async () => {
-    const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
+    const createFeedParameter = { ...formMethods.getValues() };
     await mutateCreateFeed(createFeedParameter);
     ampli.completedFeedPosting({
       user_id: Number(me?.orgId),
@@ -74,7 +74,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   };
 
   useEffect(() => {
-    formMethods.reset();
+    formMethods.reset({ meetingId: Number(meetingId) });
   }, [formMethods, isModalOpened]);
 
   useEffect(() => {
