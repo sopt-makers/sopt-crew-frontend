@@ -3,11 +3,12 @@ import SendIcon from 'public/assets/svg/send.svg';
 import React, { useState } from 'react';
 
 interface FeedCommentInputProps {
+  writerName: string;
   onSubmit: (comment: string) => Promise<void>;
   disabled?: boolean;
 }
 
-export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInputProps) {
+export default function FeedCommentInput({ writerName, onSubmit, disabled }: FeedCommentInputProps) {
   const [comment, setComment] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,7 +29,12 @@ export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInpu
 
   return (
     <Container>
-      <CommentInput value={comment} onChange={handleChange} placeholder="댓글 입력" rows={1} />
+      <CommentInput
+        value={comment}
+        onChange={handleChange}
+        placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
+        rows={1}
+      />
       <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
         <SendIcon />
       </SendButton>

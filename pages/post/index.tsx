@@ -183,7 +183,9 @@ export default function PostPage() {
             {commentQuery.hasNextPage && <div ref={setTarget} />}
           </>
         }
-        CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
+        CommentInput={
+          <FeedCommentInput writerName={post.user.name} onSubmit={handleCreateComment} disabled={isCreatingComment} />
+        }
         onClickImage={() => {
           ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
         }}
