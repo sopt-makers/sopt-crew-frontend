@@ -40,7 +40,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   });
 
   const { isValid } = formMethods.formState;
-  console.log(formMethods.getValues('meetingId'));
+
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => createPost(formData),
     onSuccess: () => {
