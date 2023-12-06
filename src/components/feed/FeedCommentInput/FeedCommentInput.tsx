@@ -67,6 +67,9 @@ const CommentInput = styled('textarea', {
   '&::placeholder': {
     color: '$gray300',
   },
+  '&:focus': {
+    outline: '1px solid $gray200',
+  },
   '@tablet': {
     fontStyle: 'B3',
   },
