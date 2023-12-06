@@ -48,7 +48,7 @@ const CommentWrapper = styled('button', {
   width: '400px',
   display: 'flex',
   flexType: 'center',
-  color: '$gray400',
+  color: '$gray300',
   fontStyle: 'T5',
   '@tablet': {
     width: '50%',

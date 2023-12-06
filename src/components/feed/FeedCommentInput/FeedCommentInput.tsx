@@ -54,11 +54,11 @@ const Container = styled('form', {
 const CommentInput = styled('textarea', {
   minWidth: 0,
   width: '692px',
-  height: '54px',
+  height: '48px',
   maxHeight: '120px',
-  padding: '14px 24px',
-  borderRadius: '25px',
-  background: '$gray700',
+  padding: '11px 16px',
+  borderRadius: '10px',
+  background: '$gray800',
   color: '$gray10',
   fontStyle: 'B2',
   border: 'none',
@@ -68,8 +68,6 @@ const CommentInput = styled('textarea', {
     color: '$gray300',
   },
   '@tablet': {
-    height: '48px',
-    padding: '12px 24px',
     fontStyle: 'B3',
   },
 });

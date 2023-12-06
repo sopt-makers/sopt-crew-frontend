@@ -236,7 +236,7 @@ const ViewCount = styled('span', {
   mt: '$16',
   mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
-  color: '$gray500',
+  color: '$gray200',
   fontStyle: 'B4',
   '@tablet': {
     mr: '$0',
