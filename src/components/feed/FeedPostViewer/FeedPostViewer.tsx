@@ -3,6 +3,7 @@ import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
 import ShareIcon from 'public/assets/svg/share.svg';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
+import ArrowIcon from '@assets/svg/arrow_card.svg';
 import { styled } from 'stitches.config';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
@@ -118,7 +119,7 @@ export default function FeedPostViewer({
               {/* TODO: API 배포 후 모임 소개 수정 예정 */}
               <GroupDescription>모임 소개</GroupDescription>
             </GroupInformation>
-            <div>아이콘</div>
+            <ArrowIcon />
           </GroupButton>
         </Link>
       </ContentWrapper>
@@ -203,6 +204,7 @@ const GroupButton = styled('a', {
   },
   '@tablet': {
     height: 'fit-content',
+    padding: '$14 $12',
   },
 });
 const GroupThumbnail = styled('img', {
@@ -221,7 +223,10 @@ const GroupInformation = styled('div', {
   gap: '8px',
   color: '$gray100',
   'span + span': {
-    marginLeft: '8px',
+    marginLeft: '$8',
+    '@tablet': {
+      marginLeft: '$6',
+    },
   },
   'span:first-child': {
     color: '$secondary',
