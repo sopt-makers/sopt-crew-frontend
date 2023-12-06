@@ -1,6 +1,7 @@
 import { paths } from '@/__generated__/schema';
 import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
+import ShareIcon from 'public/assets/svg/share.svg';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import { styled } from 'stitches.config';
 import { useOverlay } from '@hooks/useOverlay/Index';
@@ -12,6 +13,8 @@ import 'dayjs/locale/ko';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import useToast from '@hooks/useToast';
+
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -35,6 +38,17 @@ export default function FeedPostViewer({
   onClickAuthor,
 }: FeedPostViewerProps) {
   const overlay = useOverlay();
+  const showToast = useToast();
+
+  const handleClickShare = async () => {
+    const link = window.location.href;
+    try {
+      await navigator.clipboard.writeText(link);
+      showToast({ type: 'info', message: '링크를 복사했어요.' });
+    } catch (e) {
+      showToast({ type: 'error', message: '링크 복사에 실패했어요. 다시 시도해 주세요.' });
+    }
+  };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
     onClickImage?.();
@@ -57,16 +71,21 @@ export default function FeedPostViewer({
               <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map((Action, index) => (
-                <Menu.Item key={index}>{Action}</Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
+          <ButtonContainer>
+            <button onClick={handleClickShare}>
+              <ShareIcon />
+            </button>
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map((Action, index) => (
+                  <Menu.Item key={index}>{Action}</Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          </ButtonContainer>
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>
@@ -125,6 +144,10 @@ const ContentHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+});
+const ButtonContainer = styled('div', {
+  display: 'flex',
+  gap: '12px',
 });
 const AuthorWrapper = styled('a', {
   display: 'flex',
