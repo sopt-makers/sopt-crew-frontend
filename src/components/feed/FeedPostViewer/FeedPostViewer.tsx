@@ -14,6 +14,7 @@ import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import useToast from '@hooks/useToast';
+import Link from 'next/link';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -106,6 +107,20 @@ export default function FeedPostViewer({
           )}
           <ViewCount>조회 {post.viewCount}회</ViewCount>
         </ContentBody>
+        <Link href={`/detail?id=${post.meeting.id}`} passHref>
+          <GroupButton>
+            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
+            <GroupInformation>
+              <div>
+                <span>{post.meeting.category}</span>
+                <span>{post.meeting.title}</span>
+              </div>
+              {/* TODO: API 배포 후 모임 소개 수정 예정 */}
+              <GroupDescription>모임 소개</GroupDescription>
+            </GroupInformation>
+            <div>아이콘</div>
+          </GroupButton>
+        </Link>
       </ContentWrapper>
 
       <CommentLikeWrapper>{CommentLikeSection}</CommentLikeWrapper>
@@ -132,11 +147,12 @@ const Container = styled('div', {
   },
 });
 const ContentWrapper = styled('div', {
-  padding: '36px 24px 28px 40px',
+  padding: '32px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '20px',
+  gap: '24px',
   '@tablet': {
+    gap: '16px',
     padding: '0 0 20px 0',
   },
 });
@@ -172,6 +188,53 @@ const ContentBody = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 });
+const GroupButton = styled('a', {
+  display: 'flex',
+  gap: '$16',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: '$gray800',
+  width: '100%',
+  height: '102px',
+  padding: '$18 $20',
+  borderRadius: '12px',
+  '&:hover': {
+    outline: '1px solid $gray500',
+  },
+  '@tablet': {
+    height: 'fit-content',
+  },
+});
+const GroupThumbnail = styled('img', {
+  width: '88px',
+  height: '100%',
+  objectFit: 'cover',
+  borderRadius: '8px',
+  '@tablet': {
+    display: 'none',
+  },
+});
+const GroupInformation = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  flex: '1',
+  gap: '8px',
+  color: '$gray100',
+  'span + span': {
+    marginLeft: '8px',
+  },
+  'span:first-child': {
+    color: '$secondary',
+  },
+  'span:last-child': {
+    color: '$gray30',
+  },
+});
+const GroupDescription = styled('p', {
+  '@tablet': {
+    display: 'none',
+  },
+});
 const Title = styled('h2', {
   color: 'white',
   fontStyle: 'H2',
@@ -190,11 +253,9 @@ const Contents = styled('p', {
   },
 });
 const ImageSection = styled('section', {
-  paddingRight: '16px',
-  marginTop: '20px',
-  marginBottom: '12px',
+  margin: '24px 0',
   '@tablet': {
-    paddingRight: 0,
+    margin: '16px 0',
   },
 });
 const BigImage = styled('img', {
@@ -233,13 +294,10 @@ const ImageListItem = styled('img', {
   },
 });
 const ViewCount = styled('span', {
-  mt: '$16',
-  mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
   color: '$gray200',
   fontStyle: 'B4',
   '@tablet': {
-    mr: '$0',
     fontStyle: 'C1',
   },
 });
