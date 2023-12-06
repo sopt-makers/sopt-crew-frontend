@@ -55,7 +55,7 @@ const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     mutate();
-    ampli.clickFeedlistLike({ crew_status: meeting?.approved });
+    ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
   };
   return (
     <SFeedItem
@@ -70,6 +70,7 @@ const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
           group_id: Number(meetingId),
           crew_status: meeting?.approved,
           platform_type: isMobile ? 'MO' : 'PC',
+          location: router.pathname,
         })
       }
     >
@@ -79,7 +80,7 @@ const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
           <SProfileButton
             onClick={e => {
               e.preventDefault();
-              ampli.clickFeedProfile({ crew_status: meeting?.approved });
+              ampli.clickFeedProfile({ crew_status: meeting?.approved, location: router.pathname });
               window.location.href = `${playgroundLink.memberDetail(user.orgId)}`;
             }}
           >

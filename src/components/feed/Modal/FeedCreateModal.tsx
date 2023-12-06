@@ -15,6 +15,7 @@ import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { ampli } from '@/ampli';
 import { useQueryMyProfile } from '@api/user/hooks';
 import { formatDate } from '@utils/dayjs';
+import { useRouter } from 'next/router';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -26,6 +27,7 @@ interface CreateModalProps extends ModalContainerProps {
 
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
@@ -63,7 +65,12 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const onSubmit = async () => {
     const createFeedParameter = { ...formMethods.getValues(), meetingId: Number(meetingId) };
     await mutateCreateFeed(createFeedParameter);
-    ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
+    ampli.completedFeedPosting({
+      user_id: Number(me?.orgId),
+      platform_type: platform,
+      feed_upload: formatDate(),
+      location: router.pathname,
+    });
   };
 
   useEffect(() => {
@@ -72,7 +79,11 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   useEffect(() => {
     return () => {
-      ampli.completedFeedPostingCanceled({ user_id: Number(me?.orgId), platform_type: platform });
+      ampli.completedFeedPostingCanceled({
+        user_id: Number(me?.orgId),
+        platform_type: platform,
+        location: router.pathname,
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
