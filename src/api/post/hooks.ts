@@ -1,12 +1,10 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getPost, deleteComment, getPosts } from '.';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postLike } from '.';
-import { produce } from 'immer';
 import { paths } from '@/__generated__/schema';
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { produce } from 'immer';
+import { deleteComment, getPost, getPosts, postLike } from '.';
 
 export const useInfinitePosts = (take: number, meetingId: number) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
@@ -24,7 +22,7 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
     }),
   });
 
-  return { data, hasNextPage, fetchNextPage, isFetchingNextPage };
+  return { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading };
 };
 
 export const useMutationUpdateLike = (take: number, meetingId: number, postId: number) => {

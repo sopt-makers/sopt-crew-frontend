@@ -24,7 +24,7 @@ import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
 
-interface FeedItemProps {
+interface PostProps {
   id: number;
   user: UserResponse;
   title: string;
@@ -37,7 +37,12 @@ interface FeedItemProps {
   isLiked: boolean;
 }
 
-const FeedItem = (post: FeedItemProps) => {
+interface FeedItemProps {
+  post: PostProps;
+  HeaderSection?: React.ReactNode;
+}
+
+const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
   const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
     post;
   const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
@@ -69,6 +74,7 @@ const FeedItem = (post: FeedItemProps) => {
         })
       }
     >
+      {HeaderSection}
       <STop>
         <Flex align="center">
           <SProfileButton
@@ -135,7 +141,7 @@ const FeedItem = (post: FeedItemProps) => {
 export default FeedItem;
 
 const SFeedItem = styled('div', {
-  padding: '$24 $20 $28 $20',
+  padding: '$20 $20 $28 $20',
   background: '#171818',
   borderRadius: '12px',
   color: '$gray10',
@@ -156,6 +162,7 @@ const STop = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   mb: '$12',
+  mt: '$4',
 });
 
 const SProfileButton = styled('button', {
