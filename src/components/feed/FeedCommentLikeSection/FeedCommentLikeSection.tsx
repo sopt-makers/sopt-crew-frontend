@@ -2,6 +2,7 @@ import { styled } from 'stitches.config';
 import CommentIcon from 'public/assets/svg/comment.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
+import { useState } from 'react';
 
 interface FeedCommentLikeSectionProps {
   isLiked: boolean;
@@ -16,6 +17,7 @@ export default function FeedCommentLikeSection({
   likeCount,
   onClickLike,
 }: FeedCommentLikeSectionProps) {
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <>
       <CommentWrapper>
@@ -23,8 +25,12 @@ export default function FeedCommentLikeSection({
         <span style={{ marginLeft: '4px' }}>댓글 {commentCount}</span>
       </CommentWrapper>
       <Divider />
-      <LikeWrapper onClick={onClickLike}>
-        {isLiked ? <LikeFillIcon /> : <LikeIcon />}
+      <LikeWrapper
+        onClick={onClickLike}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {isLiked || isHovered ? <LikeFillIcon /> : <LikeIcon />}
         <Like isLiked={isLiked}>좋아요 {likeCount}</Like>
       </LikeWrapper>
     </>
@@ -50,6 +56,9 @@ const CommentWrapper = styled('div', {
 const LikeWrapper = styled(CommentWrapper, {
   cursor: 'pointer',
   userSelect: 'none',
+  '&:hover': {
+    color: '#D70067',
+  },
 });
 const Like = styled('span', {
   marginLeft: '4px',
