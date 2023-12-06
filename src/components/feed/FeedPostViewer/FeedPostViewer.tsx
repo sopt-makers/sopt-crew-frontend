@@ -236,6 +236,14 @@ const GroupInformation = styled('div', {
   },
 });
 const GroupDescription = styled('p', {
+  height: '$40',
+  overflow: 'hidden',
+  whiteSpace: 'normal',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-all',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
   '@tablet': {
     display: 'none',
   },
