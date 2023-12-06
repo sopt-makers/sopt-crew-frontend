@@ -8,6 +8,7 @@ interface FeedCommentLikeSectionProps {
   isLiked: boolean;
   commentCount: number;
   likeCount: number;
+  onClickComment: () => void;
   onClickLike: () => void;
 }
 
@@ -15,12 +16,13 @@ export default function FeedCommentLikeSection({
   isLiked,
   commentCount,
   likeCount,
+  onClickComment,
   onClickLike,
 }: FeedCommentLikeSectionProps) {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <>
-      <CommentWrapper>
+      <CommentWrapper onClick={onClickComment}>
         <CommentIcon />
         <span style={{ marginLeft: '4px' }}>댓글 {commentCount}</span>
       </CommentWrapper>
@@ -42,7 +44,7 @@ const Divider = styled('div', {
   width: '1px',
   height: '24px',
 });
-const CommentWrapper = styled('div', {
+const CommentWrapper = styled('button', {
   width: '400px',
   display: 'flex',
   flexType: 'center',

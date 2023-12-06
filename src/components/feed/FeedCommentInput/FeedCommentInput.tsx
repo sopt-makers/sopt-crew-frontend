@@ -1,6 +1,6 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 
 interface FeedCommentInputProps {
   writerName: string;
@@ -8,39 +8,44 @@ interface FeedCommentInputProps {
   disabled?: boolean;
 }
 
-export default function FeedCommentInput({ writerName, onSubmit, disabled }: FeedCommentInputProps) {
-  const [comment, setComment] = useState('');
+const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
+  ({ writerName, onSubmit, disabled }, ref) => {
+    const [comment, setComment] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length === 0) {
-      e.target.style.height = 'auto';
-    } else {
-      e.target.style.height = `${e.target.scrollHeight}px`;
-    }
-    setComment(e.target.value);
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (e.target.value.length === 0) {
+        e.target.style.height = 'auto';
+      } else {
+        e.target.style.height = `${e.target.scrollHeight}px`;
+      }
+      setComment(e.target.value);
+    };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
 
-    if (!comment.trim()) return;
-    onSubmit(comment).then(() => setComment(''));
-  };
+      if (!comment.trim()) return;
+      onSubmit(comment).then(() => setComment(''));
+    };
 
-  return (
-    <Container>
-      <CommentInput
-        value={comment}
-        onChange={handleChange}
-        placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
-        rows={1}
-      />
-      <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
-        <SendIcon />
-      </SendButton>
-    </Container>
-  );
-}
+    return (
+      <Container>
+        <CommentInput
+          ref={ref}
+          value={comment}
+          onChange={handleChange}
+          placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
+          rows={1}
+        />
+        <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
+          <SendIcon />
+        </SendButton>
+      </Container>
+    );
+  }
+);
+
+export default FeedCommentInput;
 
 const Container = styled('form', {
   flexType: 'verticalCenter',
