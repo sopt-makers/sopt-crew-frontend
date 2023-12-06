@@ -1,6 +1,8 @@
 import { styled } from 'stitches.config';
 import CommentIcon from 'public/assets/svg/comment.svg';
+import CommentHoverIcon from 'public/assets/svg/comment_hover.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
+import LikeHoverIcon from 'public/assets/svg/like_hover.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
 import { useState } from 'react';
 
@@ -19,20 +21,26 @@ export default function FeedCommentLikeSection({
   onClickComment,
   onClickLike,
 }: FeedCommentLikeSectionProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isLikeHovered, setIsLikeHovered] = useState(false);
+  const [isCommentHovered, setIsCommentHovered] = useState(false);
+
   return (
     <>
-      <CommentWrapper onClick={onClickComment}>
-        <CommentIcon />
+      <CommentWrapper
+        onClick={onClickComment}
+        onMouseEnter={() => setIsCommentHovered(true)}
+        onMouseLeave={() => setIsCommentHovered(false)}
+      >
+        {isCommentHovered ? <CommentHoverIcon /> : <CommentIcon />}
         <span style={{ marginLeft: '4px' }}>댓글 {commentCount}</span>
       </CommentWrapper>
       <Divider />
       <LikeWrapper
         onClick={onClickLike}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={() => setIsLikeHovered(true)}
+        onMouseLeave={() => setIsLikeHovered(false)}
       >
-        {isLiked || isHovered ? <LikeFillIcon /> : <LikeIcon />}
+        {isLiked ? <LikeFillIcon /> : isLikeHovered ? <LikeHoverIcon /> : <LikeIcon />}
         <Like isLiked={isLiked}>좋아요 {likeCount}</Like>
       </LikeWrapper>
     </>
@@ -58,9 +66,6 @@ const CommentWrapper = styled('button', {
 const LikeWrapper = styled(CommentWrapper, {
   cursor: 'pointer',
   userSelect: 'none',
-  '&:hover': {
-    color: '#D70067',
-  },
 });
 const Like = styled('span', {
   marginLeft: '4px',
