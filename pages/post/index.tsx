@@ -212,7 +212,7 @@ export default function PostPage() {
           </FeedList>
         </FeedListWrapper>
         <FeedListWrapper>
-          <FeedListTitle>SOPT 모임들의 전체 피드</FeedListTitle>
+          <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
           <FeedList>{/* TODO: 전체 모임 피드 */}</FeedList>
         </FeedListWrapper>
       </FeedListContainer>
