@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
 import { useInfinitePosts } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/user/hooks';
-import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
+import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
@@ -52,7 +52,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
       ampli.clickFeedPosting({ user_id: Number(me?.orgId), group_id: Number(meetingId), location: router.pathname });
     }
     feedCreateOverlay.open(({ isOpen, close }) => {
-      return <FeedCreateWithSelectMeetingModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
+      return <FeedCreateModal meetingId={meetingId} isModalOpened={isOpen} handleModalClose={close} />;
     });
   };
 
