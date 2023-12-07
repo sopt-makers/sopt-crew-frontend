@@ -113,8 +113,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(formMethods.formState.isValid);
-  console.log(formMethods.getValues());
+
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
       <SDialogWrapper>
