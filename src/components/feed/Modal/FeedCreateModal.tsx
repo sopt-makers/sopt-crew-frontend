@@ -49,7 +49,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       submitModal.handleModalClose();
       handleModalClose();
     },
-    onError: () => alert('피드를 개설하지 못했습니다.'),
+    onError: () => alert('피드 작성에 실패했습니다.'),
   });
 
   const handleDeleteImage = (index: number) => {
