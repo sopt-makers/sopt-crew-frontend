@@ -140,23 +140,26 @@ function FeedFormPresentation({
             완료
           </SSubmitButton>
         </SFormHeader>
-        {attendGroupsInfo?.length === 0 && groupInfo ? (
-          <SGroupInfoSection className="calc_target">
-            <SThumbnailImage
-              css={{
-                backgroundImage: `url(${getResizedImage(groupInfo.imageUrl, 168)})`,
-              }}
+        <div className="calc_target">
+          {attendGroupsInfo?.length === 0 && groupInfo ? (
+            <SGroupInfoSection>
+              <SThumbnailImage
+                css={{
+                  backgroundImage: `url(${getResizedImage(groupInfo.imageUrl, 168)})`,
+                }}
+              />
+              <SCategory>{groupInfo.category}</SCategory>
+              <STitle>{groupInfo.title}</STitle>{' '}
+            </SGroupInfoSection>
+          ) : (
+            <SelectMeeting
+              selectMeetingInfo={selectedMeeting}
+              meetingList={attendGroupsInfo}
+              onClick={handleSelectMeeting}
             />
-            <SCategory>{groupInfo.category}</SCategory>
-            <STitle>{groupInfo.title}</STitle>{' '}
-          </SGroupInfoSection>
-        ) : (
-          <SelectMeeting
-            selectMeetingInfo={selectedMeeting}
-            meetingList={attendGroupsInfo}
-            onClick={handleSelectMeeting}
-          />
-        )}
+          )}
+        </div>
+
         <SDivider className="calc_target" />
         <FormController
           name="title"
@@ -180,7 +183,7 @@ function FeedFormPresentation({
             />
           )}
         />
-        <SDivider />
+        <SDivider className="calc_target" />
         <FormController
           name="contents"
           defaultValue=""
