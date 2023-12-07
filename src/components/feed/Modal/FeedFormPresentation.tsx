@@ -1,32 +1,37 @@
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
-import CancelIcon from '@assets/svg/x_big_gray.svg';
-import { getResizedImage } from '@utils/image';
-import { Divider } from '@components/util/Divider';
-import ImagePreview from './ImagePreview';
-import CameraIcon from '@assets/svg/camera.svg';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { imageS3Bucket } from '@constants/url';
-import { getPresignedUrl, uploadImage } from '@api/meeting';
-import FormController from '@components/form/FormController';
-import { ERROR_MESSAGE } from './feedSchema';
-import useToast from '@hooks/useToast';
-import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
 import { ampli } from '@/ampli';
+import { getPresignedUrl, uploadImage } from '@api/meeting';
+import CameraIcon from '@assets/svg/camera.svg';
+import CancelIcon from '@assets/svg/x_big_gray.svg';
+import FormController from '@components/form/FormController';
+import { Divider } from '@components/util/Divider';
+import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
+import { imageS3Bucket } from '@constants/url';
+import useToast from '@hooks/useToast';
+import { getResizedImage } from '@utils/image';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import ImagePreview from './ImagePreview';
+import SelectMeeting from './SelectMeeting';
+import { ERROR_MESSAGE } from './feedSchema';
 
-interface GroupInfo {
+export interface GroupInfo {
+  id?: number;
   title: string;
   imageUrl: string;
   category: string;
+  contents?: string;
 }
 
 interface PresentationProps {
   userId?: number;
-  groupInfo: GroupInfo;
+  groupInfo?: GroupInfo;
+  attendGroupsInfo?: GroupInfo[];
   title: string;
   handleModalClose: () => void;
   handleDeleteImage: (index: number) => void;
+  setMeetingInfo?: (meeting: GroupInfo) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled: boolean;
 }
@@ -38,9 +43,11 @@ interface FileChangeHandler {
 function FeedFormPresentation({
   userId,
   groupInfo,
+  attendGroupsInfo = [],
   title,
   handleModalClose,
   handleDeleteImage,
+  setMeetingInfo,
   onSubmit,
   disabled = true,
 }: PresentationProps) {
@@ -50,6 +57,7 @@ function FeedFormPresentation({
   const [textareaHeightChangeFlag, setTextareaHeightChangeFlag] = useState(false);
   const textAreaRef = useRef(null);
   const [remainingHeight, setRemainingHeight] = useState(100);
+  const [selectedMeeting, setSelectedMeeting] = useState<GroupInfo | undefined>(undefined);
   const handleWindowResize = () => {
     setTextareaHeightChangeFlag(flag => !flag);
   };
@@ -117,6 +125,11 @@ function FeedFormPresentation({
     return imageUrls;
   };
 
+  const handleSelectMeeting = (meeting: GroupInfo) => {
+    setSelectedMeeting(meeting);
+    setMeetingInfo?.(meeting);
+  };
+
   return (
     <SFormContainer>
       <form onSubmit={onSubmit}>
@@ -127,15 +140,23 @@ function FeedFormPresentation({
             완료
           </SSubmitButton>
         </SFormHeader>
-        <SGroupInfoSection className="calc_target">
-          <SThumbnailImage
-            css={{
-              backgroundImage: `url(${getResizedImage(groupInfo.imageUrl, 168)})`,
-            }}
+        {attendGroupsInfo?.length === 0 && groupInfo ? (
+          <SGroupInfoSection className="calc_target">
+            <SThumbnailImage
+              css={{
+                backgroundImage: `url(${getResizedImage(groupInfo.imageUrl, 168)})`,
+              }}
+            />
+            <SCategory>{groupInfo.category}</SCategory>
+            <STitle>{groupInfo.title}</STitle>{' '}
+          </SGroupInfoSection>
+        ) : (
+          <SelectMeeting
+            selectMeetingInfo={selectedMeeting}
+            meetingList={attendGroupsInfo}
+            onClick={handleSelectMeeting}
           />
-          <SCategory>{groupInfo.category}</SCategory>
-          <STitle>{groupInfo.title}</STitle>
-        </SGroupInfoSection>
+        )}
         <SDivider className="calc_target" />
         <FormController
           name="title"
@@ -305,9 +326,14 @@ const SCategory = styled('p', {
 });
 
 const STitle = styled('p', {
+  maxWidth: '70%',
   color: '$white',
   fontStyle: 'T3',
   ml: '$8',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-all',
 
   '@tablet': {
     fontStyle: 'T4',

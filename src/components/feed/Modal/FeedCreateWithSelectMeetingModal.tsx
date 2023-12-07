@@ -1,20 +1,17 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 import { createPost } from '@api/post';
 import { useQueryMyProfile } from '@api/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import FeedFormPresentation from './FeedFormPresentation';
+import FeedFormPresentation, { GroupInfo } from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
@@ -24,11 +21,51 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 interface CreateModalProps extends ModalContainerProps {
   meetingId: string;
 }
+const mockAttendGroupsInfo: GroupInfo[] = [
+  {
+    id: 63,
+    title: '모임 이름',
+    imageUrl:
+      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
+    category: '카테고리',
+    contents: '모임 소개',
+  },
+  {
+    id: 2,
+    title: '모임 이름2',
+    imageUrl:
+      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
+    category: '카테고리',
+    contents: '모임 소개',
+  },
+  {
+    id: 3,
+    title: '모임 이름3',
+    imageUrl:
+      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
+    category: '카테고리',
+    contents: '모임 소개',
+  },
+  {
+    id: 4,
+    title: '모임 이름4',
+    imageUrl:
+      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
+    category: '카테고리',
+    contents: '모임 소개',
+  },
+  {
+    id: 5,
+    title: '모임 이름5',
+    imageUrl:
+      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
+    category: '카테고리',
+    contents: '모임 소개',
+  },
+];
 
-function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
+function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
-  const router = useRouter();
-  const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();
@@ -65,25 +102,14 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const onSubmit = async () => {
     const createFeedParameter = { ...formMethods.getValues() };
     await mutateCreateFeed(createFeedParameter);
-    ampli.completedFeedPosting({
-      user_id: Number(me?.orgId),
-      platform_type: platform,
-      feed_upload: formatDate(),
-      location: router.pathname,
-    });
+    ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
   };
 
-  useEffect(() => {
-    formMethods.reset({ meetingId: Number(meetingId) });
-  }, [formMethods, isModalOpened]);
+  useEffect(() => {}, [formMethods, isModalOpened]);
 
   useEffect(() => {
     return () => {
-      ampli.completedFeedPostingCanceled({
-        user_id: Number(me?.orgId),
-        platform_type: platform,
-        location: router.pathname,
-      });
+      ampli.completedFeedPostingCanceled({ user_id: Number(me?.orgId), platform_type: platform });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,14 +120,17 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
         <FormProvider {...formMethods}>
           <FeedFormPresentation
             userId={Number(me?.orgId)}
-            groupInfo={{
-              title: detailData?.title || '',
-              imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
-              category: detailData?.category || '',
-            }}
+            attendGroupsInfo={mockAttendGroupsInfo}
             title="피드 작성"
             handleDeleteImage={handleDeleteImage}
             handleModalClose={handleModalClose}
+            setMeetingInfo={meetingInfo =>
+              formMethods.setValue('meetingId', meetingInfo?.id as unknown as number, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              })
+            }
             onSubmit={formMethods.handleSubmit(handleSubmitClick)}
             disabled={isSubmitting || !isValid}
           />
@@ -133,7 +162,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   );
 }
 
-export default FeedCreateModal;
+export default FeedCreateWithSelectMeetingModal;
 
 const SDialogWrapper = styled('div', {
   position: 'fixed',
