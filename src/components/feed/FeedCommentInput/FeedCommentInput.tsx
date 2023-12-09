@@ -1,5 +1,6 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
+import SendFillIcon from 'public/assets/svg/send_fill.svg';
 import React, { forwardRef, useState } from 'react';
 
 interface FeedCommentInputProps {
@@ -11,6 +12,7 @@ interface FeedCommentInputProps {
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
   ({ writerName, onSubmit, disabled }, ref) => {
     const [comment, setComment] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (e.target.value.length === 0) {
@@ -29,16 +31,18 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     };
 
     return (
-      <Container>
+      <Container isFocused={isFocused}>
         <CommentInput
           ref={ref}
           value={comment}
           onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
           rows={1}
         />
         <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
-          <SendIcon />
+          {isFocused ? <SendFillIcon /> : <SendIcon />}
         </SendButton>
       </Container>
     );
@@ -48,12 +52,23 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
 export default FeedCommentInput;
 
 const Container = styled('form', {
+  background: '$gray800',
   flexType: 'verticalCenter',
-  gap: '16px',
+  borderRadius: '10px',
+  variants: {
+    isFocused: {
+      true: {
+        outline: '1px solid $gray200',
+      },
+      false: {
+        outline: 'none',
+      },
+    },
+  },
 });
 const CommentInput = styled('textarea', {
   minWidth: 0,
-  width: '692px',
+  width: '100%',
   height: '48px',
   maxHeight: '120px',
   padding: '11px 16px',
@@ -67,14 +82,14 @@ const CommentInput = styled('textarea', {
   '&::placeholder': {
     color: '$gray300',
   },
-  '&:focus': {
-    outline: '1px solid $gray200',
-  },
   '@tablet': {
     fontStyle: 'B3',
   },
 });
 const SendButton = styled('button', {
-  width: '32px',
-  height: '32px',
+  width: '48px',
+  height: '48px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
