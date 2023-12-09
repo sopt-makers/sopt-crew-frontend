@@ -47,6 +47,9 @@ const Container = styled('div', {
   '&:hover': {
     border: '1px solid $gray500',
   },
+  '@tablet': {
+    background: '$gray900',
+  },
 });
 
 const MeetingInfoWrapper = styled('div', {

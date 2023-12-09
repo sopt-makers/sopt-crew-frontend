@@ -1,11 +1,15 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+const blacklist = ['/post'];
+
 export default function useScrollRestoration() {
   const router = useRouter();
 
   useEffect(() => {
     if (!('scrollRestoration' in window.history)) return;
+
+    if (blacklist.includes(router.pathname)) return;
 
     window.history.scrollRestoration = 'manual';
 
