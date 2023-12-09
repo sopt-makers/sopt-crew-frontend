@@ -25,42 +25,64 @@ function SelectMeeting({ selectMeetingInfo, meetingList, onClick }: SelectMeetin
   };
 
   return (
-    <Container>
-      <InfoWrapper onClick={handleSelectClick}>
-        {selectMeetingInfo ? (
-          <>
-            <SThumbnailImage
-              css={{
-                backgroundImage: `url(${getResizedImage(selectMeetingInfo.imageUrl, 168)})`,
-              }}
-            />
-            <SCategory>{selectMeetingInfo.category}</SCategory>
-            <STitle>{selectMeetingInfo.title}</STitle>{' '}
-          </>
-        ) : (
-          <STitle css={{ p: '$0' }}>어떤 모임의 피드를 작성할까요?</STitle>
-        )}
-
-        <Arrow direction={isSelectOpen ? 'top' : 'bottom'} css={{ margin: '0 0 0 6px' }} />
-      </InfoWrapper>
+    <>
       <ModalBackground
-        onClick={isSelectOpen ? handleSelectClick : () => {}}
+        onClick={handleSelectClick}
         css={{
-          background: 'rgba(0, 0, 0, 0)',
+          background: isSelectOpen ? '$grayAlpha800' : 'rgba(0, 0, 0, 0)',
           transition: 'all 0.3s ease',
           pointerEvents: isSelectOpen ? 'auto' : 'none',
         }}
       />
-      <SelectWrapper isSelectOpen={isSelectOpen}>
-        {meetingList.map(meetingInfo => (
-          <SelectMeetingOptionItem
-            meetingInfo={meetingInfo}
-            isSelected={selectMeetingInfo?.id === meetingInfo.id}
-            onClick={handleSelectItemClick}
-          />
-        ))}
-      </SelectWrapper>
-    </Container>
+      <SelectMobileLayout isSelectOpen={isSelectOpen}>
+        <SelectMobileTitle>어떤 모임의 피드를 작성할까요?</SelectMobileTitle>
+        <SelectMobileListWrapper>
+          {meetingList.map(meetingInfo => (
+            <SelectMeetingOptionItem
+              meetingInfo={meetingInfo}
+              isSelected={selectMeetingInfo?.id === meetingInfo.id}
+              onClick={handleSelectItemClick}
+            />
+          ))}
+        </SelectMobileListWrapper>
+      </SelectMobileLayout>
+      <Container>
+        <InfoWrapper onClick={handleSelectClick}>
+          {selectMeetingInfo ? (
+            <>
+              <SThumbnailImage
+                css={{
+                  backgroundImage: `url(${getResizedImage(selectMeetingInfo.imageUrl, 168)})`,
+                }}
+              />
+              <SCategory>{selectMeetingInfo.category}</SCategory>
+              <STitle>{selectMeetingInfo.title}</STitle>{' '}
+            </>
+          ) : (
+            <STitle css={{ p: '$0' }}>어떤 모임의 피드를 작성할까요?</STitle>
+          )}
+
+          <Arrow direction={isSelectOpen ? 'top' : 'bottom'} css={{ margin: '0 0 0 6px' }} />
+        </InfoWrapper>
+        <ModalBackground
+          onClick={isSelectOpen ? handleSelectClick : () => {}}
+          css={{
+            background: 'rgba(0, 0, 0, 0)',
+            transition: 'all 0.3s ease',
+            pointerEvents: isSelectOpen ? 'auto' : 'none',
+          }}
+        />
+        <SelectDesktopLayout isSelectOpen={isSelectOpen}>
+          {meetingList.map(meetingInfo => (
+            <SelectMeetingOptionItem
+              meetingInfo={meetingInfo}
+              isSelected={selectMeetingInfo?.id === meetingInfo.id}
+              onClick={handleSelectItemClick}
+            />
+          ))}
+        </SelectDesktopLayout>
+      </Container>
+    </>
   );
 }
 
@@ -118,7 +140,7 @@ const STitle = styled('p', {
   },
 });
 
-const SelectWrapper = styled('div', {
+const SelectDesktopLayout = styled('div', {
   position: 'absolute',
   top: '120%',
   left: 0,
@@ -144,4 +166,55 @@ const SelectWrapper = styled('div', {
       },
     },
   },
+  '@tablet': {
+    display: 'none',
+  },
+});
+
+const SelectMobileTitle = styled('p', {
+  color: '$gray10',
+  fontStyle: 'T4',
+  ml: '$16',
+  mr: '$16',
+  mb: '$12',
+});
+
+const SelectMobileLayout = styled('div', {
+  position: 'absolute',
+  display: 'none',
+
+  bottom: '20px',
+  left: '20px',
+  right: '20px',
+  pt: '$24',
+  pb: '$16',
+  height: '400px',
+  overflow: 'hidden',
+
+  backgroundColor: '$gray700',
+  borderRadius: '16px',
+  zIndex: '$3',
+  transition: 'all 0.3s ease-in-out',
+  variants: {
+    isSelectOpen: {
+      true: {
+        height: '400px',
+      },
+      false: {
+        height: '0px',
+        p: '$0',
+      },
+    },
+  },
+  '@tablet': {
+    display: 'block',
+    position: 'absolute',
+  },
+});
+
+const SelectMobileListWrapper = styled('div', {
+  height: '324px',
+  overflowX: 'hidden',
+  overflowY: 'auto',
+  p: '$8',
 });

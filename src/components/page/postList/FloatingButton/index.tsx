@@ -1,14 +1,19 @@
 import Plus from '@assets/svg/plus.svg?rect';
+import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 import ModalBackground from '@components/modal/ModalBackground';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
-import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
+
+  const handleButtonClick = () => setIsActive(isActive => !isActive);
+  const handleOptionClose = () => setIsActive(false);
+
   return (
     <>
       <ModalBackground
+        onClick={handleOptionClose}
         css={{
           background: isActive ? '$grayAlpha800' : 'rgba(0, 0, 0, 0)',
           transition: 'all 0.3s ease',
@@ -16,7 +21,7 @@ function FloatingButton() {
         }}
       />
       <Container isActive={isActive}>
-        <OptionOpenButton isActive={isActive} onClick={() => setIsActive(isActive => !isActive)}>
+        <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
           <Icon isActive={isActive} />
         </OptionOpenButton>
         <FloatingButtonModal isActive={isActive} />

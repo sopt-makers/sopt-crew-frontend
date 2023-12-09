@@ -42,6 +42,10 @@ const Container = styled('div', {
   fontStyle: 'T5',
   padding: '$0 $12',
   mb: '$20',
+  border: '1px solid $gray800',
+  '&:hover': {
+    border: '1px solid $gray500',
+  },
 });
 
 const MeetingInfoWrapper = styled('div', {
