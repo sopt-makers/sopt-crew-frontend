@@ -88,7 +88,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
               handleDeleteImage={handleDeleteImage}
               handleModalClose={handleModalClose}
               setMeetingInfo={meetingInfo =>
-                formMethods.setValue('meetingId', meetingInfo?.id as unknown as number, {
+                formMethods.setValue('meetingId', meetingInfo?.id as number, {
                   shouldValidate: true,
                   shouldDirty: true,
                   shouldTouch: true,
