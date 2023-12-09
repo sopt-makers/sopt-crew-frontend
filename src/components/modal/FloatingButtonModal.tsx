@@ -1,18 +1,38 @@
-import React from 'react';
-import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import { fetchMeetingListOfUserAttend } from '@api/user';
+import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
-import { styled } from 'stitches.config';
-import { keyframes } from 'stitches.config';
+import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
+  const router = useRouter();
+
+  const overlay = useOverlay();
+  const queryClient = useQueryClient();
+  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
+    onSuccess: data => {
+      queryClient.setQueryData(['fetchMeetingList', 'all'], data);
+      // TODO: 모임이 없을때 있을떄 분기처리 필요.
+      overlay.open(({ isOpen, close }) => (
+        <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+      ));
+    },
+  });
+
+  const handleFeedCreateButtonClick = () => fetchUserAttendMeetingListMutate();
+  const handleGroupCreateButtonClick = () => router.push('/make');
+
   return (
     <Container isActive={isActive}>
-      <Button>
+      <Button onClick={handleGroupCreateButtonClick}>
         <GroupIcon style={{ marginRight: '4px' }} />
         모임 개설
       </Button>
-      <Button>
+      <Button onClick={handleFeedCreateButtonClick}>
         <FeedIcon style={{ marginRight: '4px' }} />
         피드 작성
       </Button>
