@@ -230,29 +230,31 @@ export default function PostPage() {
         }}
       />
       <FeedListContainer>
-        <FeedListWrapper>
-          <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
-          <FeedList>
-            {postsInMeeting?.map(post => {
-              if (!post) return;
-              return (
-                <Link key={post.id} href={`/post?id=${post.id}`}>
-                  <a>
-                    <FeedItem
-                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
-                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                      /* @ts-ignore */
-                      post={post}
-                      meetingId={meetingId}
-                      // eslint-disable-next-line prettier/prettier
+        {postsInMeeting && postsInMeeting.length > 0 && (
+          <FeedListWrapper>
+            <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
+            <FeedList>
+              {postsInMeeting?.map(post => {
+                if (!post) return;
+                return (
+                  <Link key={post.id} href={`/post?id=${post.id}`}>
+                    <a>
+                      <FeedItem
+                        /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                        /* @ts-ignore */
+                        post={post}
+                        meetingId={meetingId}
+                        // eslint-disable-next-line prettier/prettier
                       LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleClickLike(post.id)(mutateLike)} />}
-                    />
-                  </a>
-                </Link>
-              );
-            })}
-          </FeedList>
-        </FeedListWrapper>
+                      />
+                    </a>
+                  </Link>
+                );
+              })}
+            </FeedList>
+          </FeedListWrapper>
+        )}
         <FeedListWrapper>
           <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
           <FeedList>
@@ -311,6 +313,9 @@ const FeedListTitle = styled('h3', {
   marginBottom: '24px',
   color: '$white',
   fontStyle: 'T4',
+  fontSize: '20px',
+  fontWeight: 600,
+  lineHeight: '30px',
 });
 const FeedList = styled('ul', {
   display: 'flex',
