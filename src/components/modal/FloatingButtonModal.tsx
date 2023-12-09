@@ -18,24 +18,13 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
   const queryClient = useQueryClient();
   const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
     onSuccess: data => {
+      handleOptionClose();
       queryClient.setQueryData(['fetchMeetingList', 'all'], data);
       if (data.data.length === 0) {
-        overlay.open(({ isOpen, close }) => (
-          <NoJoinedGroupModal
-            isModalOpened={isOpen}
-            handleModalClose={() => {
-              close(), handleOptionClose();
-            }}
-          />
-        ));
+        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
       } else {
         overlay.open(({ isOpen, close }) => (
-          <FeedCreateWithSelectMeetingModal
-            isModalOpened={isOpen}
-            handleModalClose={() => {
-              close(), handleOptionClose();
-            }}
-          />
+          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
         ));
       }
     },
@@ -101,6 +90,7 @@ const Container = styled('div', {
       false: {
         animation: `${fadeOut} 200ms ease-out`,
         opacity: '0',
+        display: 'none',
       },
     },
   },

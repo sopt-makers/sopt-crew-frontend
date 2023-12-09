@@ -47,7 +47,7 @@ const Container = styled('div', {
   borderRadius: '20px',
   flexType: 'center',
   background: '$white',
-  zIndex: '$3',
+  zIndex: '$2',
   transition: 'all 0.3s ease',
   variants: {
     isActive: {
