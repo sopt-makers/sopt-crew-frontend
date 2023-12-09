@@ -116,8 +116,7 @@ export default function FeedPostViewer({
                 <span>{post.meeting.category}</span>
                 <span>{post.meeting.title}</span>
               </div>
-              {/* TODO: API 배포 후 모임 소개 수정 예정 */}
-              <GroupDescription>모임 소개</GroupDescription>
+              <GroupDescription>{post.meeting.desc}</GroupDescription>
             </GroupInformation>
             <ArrowIcon />
           </GroupButton>
@@ -170,7 +169,7 @@ const ButtonContainer = styled('div', {
 const AuthorWrapper = styled('a', {
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '16px',
 });
 const AuthorInfo = styled('div', {
   display: 'flex',
@@ -180,11 +179,23 @@ const AuthorInfo = styled('div', {
 });
 const AuthorName = styled('span', {
   color: '$gray10',
-  fontStyle: 'H5',
+  fontWeight: '600',
+  fontSize: '16px',
+  lineHeight: '22px',
+  '@tablet': {
+    fontSize: '14px',
+    lineHeight: '18px',
+  },
 });
 const UpdatedDate = styled('span', {
   color: '$gray300',
-  fontStyle: 'B4',
+  fontWeight: '600',
+  fontSize: '14px',
+  lineHeight: '18px',
+  '@tablet': {
+    fontSize: '12px',
+    lineHeight: '16px',
+  },
 });
 const ContentBody = styled('div', {
   display: 'flex',
@@ -205,7 +216,7 @@ const GroupButton = styled('a', {
   },
   '@tablet': {
     height: 'fit-content',
-    padding: '$14 $12',
+    padding: '$14 $12 $14 $14',
   },
 });
 const GroupThumbnail = styled('img', {
@@ -223,6 +234,17 @@ const GroupInformation = styled('div', {
   flex: '1',
   gap: '8px',
   color: '$gray100',
+  fontSize: '13px',
+  lineHeight: '20px',
+  span: {
+    fontWeight: '600',
+    fontSize: '16px',
+    lineHeight: '22px',
+    '@tablet': {
+      fontSize: '14px',
+      lineHeight: '18px',
+    },
+  },
   'span + span': {
     marginLeft: '$8',
     '@tablet': {
@@ -343,6 +365,8 @@ const CommentListWrapper = styled('div', {
   },
 });
 const SAvatar = styled(Avatar, {
+  width: '44px',
+  height: '44px',
   '@tablet': {
     width: '40px',
     height: '40px',

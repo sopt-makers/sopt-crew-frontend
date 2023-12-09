@@ -308,14 +308,17 @@ const FeedListContainer = styled('div', {
     display: 'none',
   },
 });
-const FeedListWrapper = styled('div', {});
+const FeedListWrapper = styled('div', {
+  '&:last-child': {
+    marginBottom: '140px',
+  },
+});
 const FeedListTitle = styled('h3', {
+  fontSize: '20px',
+  fontWeight: '600',
+  lineHeight: '30px',
   marginBottom: '24px',
   color: '$white',
-  fontStyle: 'T4',
-  fontSize: '20px',
-  fontWeight: 600,
-  lineHeight: '30px',
 });
 const FeedList = styled('ul', {
   display: 'flex',
