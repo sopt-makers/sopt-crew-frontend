@@ -2,11 +2,11 @@ import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
 import { useRouter } from 'next/router';
 import useToast from '@hooks/useToast';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import { useQueryMyProfile } from '@api/user/hooks';
-import { useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
+import { useInfinitePosts, useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
@@ -32,7 +32,7 @@ export default function PostPage() {
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
-  const { POST, DELETE, GET } = apiV2.get();
+  const { POST, DELETE } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
@@ -110,12 +110,8 @@ export default function PostPage() {
   };
 
   const meetingId = meeting?.id;
-  const { data: posts } = useQuery({
-    queryKey: ['/post/v1', meetingId],
-    queryFn: () => GET('/post/v1', { params: { query: { meetingId: meetingId as number } } }).then(res => res.data),
-    enabled: !!meetingId,
-  });
-  const postsInMeeting = posts?.data.posts.filter(_post => _post.id !== post?.id).slice(0, 3);
+  const { data: posts } = useInfinitePosts(4, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
+  const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -216,7 +212,8 @@ export default function PostPage() {
           <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
           <FeedList>
             {postsInMeeting?.map(post => (
-              <Link key={post.id} href={`/post?id=${post.id}`}>
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              <Link key={post!.id} href={`/post?id=${post!.id}`}>
                 <a>
                   {/* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */}
                   {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
