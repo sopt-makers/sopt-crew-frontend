@@ -30,7 +30,7 @@ function FloatingButton() {
         <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
           <Icon isActive={isActive} />
         </OptionOpenButton>
-        <FloatingButtonModal isActive={isActive} />
+        <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
       </Container>
     </>
   );

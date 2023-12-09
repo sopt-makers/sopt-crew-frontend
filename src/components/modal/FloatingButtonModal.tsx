@@ -10,8 +10,8 @@ import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 import NoJoinedGroupModal from './NoJoinedGroupModal';
 
-const FloatingButtonModal = (props: { isActive: boolean }) => {
-  const { isActive } = props;
+const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () => void }) => {
+  const { isActive, handleOptionClose } = props;
   const router = useRouter();
   const overlay = useOverlay();
   const { data: me } = useQueryMyProfile();
@@ -19,11 +19,23 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
     onSuccess: data => {
       queryClient.setQueryData(['fetchMeetingList', 'all'], data);
-      if (data.data.data.length === 0) {
-        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+      if (data.data.length === 0) {
+        overlay.open(({ isOpen, close }) => (
+          <NoJoinedGroupModal
+            isModalOpened={isOpen}
+            handleModalClose={() => {
+              close(), handleOptionClose();
+            }}
+          />
+        ));
       } else {
         overlay.open(({ isOpen, close }) => (
-          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+          <FeedCreateWithSelectMeetingModal
+            isModalOpened={isOpen}
+            handleModalClose={() => {
+              close(), handleOptionClose();
+            }}
+          />
         ));
       }
     },
