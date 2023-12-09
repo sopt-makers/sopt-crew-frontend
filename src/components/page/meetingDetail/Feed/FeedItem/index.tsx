@@ -166,7 +166,7 @@ const STime = styled('span', {
 const STitle = styled('div', {
   mb: '$8',
   fontStyle: 'H3',
-
+  wordBreak: 'break-all',
   '@tablet': {
     fontStyle: 'H4',
   },
