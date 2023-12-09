@@ -31,9 +31,6 @@ export const editPost = async (postId: string, formData: FormEditType) => {
 
 export const getPosts = async (page: number, take: number, meetingId?: number) => {
   const { GET } = apiV2.get();
-  // TODO: type 에러 뜸. 수정 필요, meetingId가 더이상 required가 아님
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const { data } = await GET('/post/v1', { params: { query: { page, take, meetingId } } });
   return data;
 };

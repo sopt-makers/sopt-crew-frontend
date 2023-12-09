@@ -1137,6 +1137,12 @@ export interface components {
       /** @description 작성자 프로필 */
       profileImage: string | null;
     };
+    PostV1GetPostsResponsePostMeetingDto: {
+      id: number;
+      title: string;
+      /** @enum {string} */
+      category: "스터디" | "강연" | "번개" | "행사";
+    };
     PostV1GetPostsResponsePostDto: {
       /** @description 게시글 고유 ID */
       id: number;
@@ -1161,6 +1167,7 @@ export interface components {
       commentCount: number;
       /** @description 댓글 작성자 썸네일 리스트 */
       commenterThumbnails: string[];
+      meeting: components["schemas"]["PostV1GetPostsResponsePostMeetingDto"];
     };
     PostV1GetPostsResponseDto: {
       /** @description 게시물 목록 */
@@ -1191,6 +1198,8 @@ export interface components {
       imageURL: components["schemas"]["PostV1GetPostResponseImageUrlDto"][];
       /** @description 모임 카테고리 */
       category: string;
+      /** @description 모임 소개 */
+      desc: string;
     };
     PostV1GetPostResponseDto: {
       /** @description 게시글 고유 ID */
@@ -1993,7 +2002,7 @@ export interface operations {
   /** 모임 게시글 목록 조회 */
   PostV1Controller_getPosts: {
     parameters: {
-      query: {
+      query?: {
         /**
          * @description 각 페이지
          * @example 1
@@ -2002,7 +2011,7 @@ export interface operations {
         /** @example 12 */
         take?: number;
         /** @description 모임 id */
-        meetingId: number;
+        meetingId?: number | null;
       };
     };
     responses: {
