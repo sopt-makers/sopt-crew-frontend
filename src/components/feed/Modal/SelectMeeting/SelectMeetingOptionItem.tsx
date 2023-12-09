@@ -33,16 +33,15 @@ const SelectItemWrapper = styled('div', {
   display: 'flex',
   padding: '10px 12px',
   borderRadius: '6px',
-  backgroundColor: '$gray600',
   mb: '$4',
   cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: '$gray600',
+  },
   variants: {
     isSelected: {
       true: {
         backgroundColor: '$gray600',
-      },
-      false: {
-        backgroundColor: 'transparent',
       },
     },
   },
