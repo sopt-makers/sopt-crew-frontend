@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useOverlay } from '@hooks/useOverlay/Index';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
@@ -6,11 +6,15 @@ import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
-  const [isCreateGroupClicked, setIsCreateGroupClicked] = useState(false);
+
+  const overlay = useOverlay();
+  const handleNoJoinedModalClose = () =>
+    overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+
   return (
     <>
       <Container isActive={isActive}>
-        <Button onClick={() => setIsCreateGroupClicked(true)}>
+        <Button onClick={handleNoJoinedModalClose}>
           <GroupIcon style={{ marginRight: '4px' }} />
           모임 개설
         </Button>
@@ -19,7 +23,6 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
           피드 작성
         </Button>
       </Container>
-      {isCreateGroupClicked && <NoJoinedGroupModal />}
     </>
   );
 };
