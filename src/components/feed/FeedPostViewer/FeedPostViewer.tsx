@@ -116,8 +116,7 @@ export default function FeedPostViewer({
                 <span>{post.meeting.category}</span>
                 <span>{post.meeting.title}</span>
               </div>
-              {/* TODO: API 배포 후 모임 소개 수정 예정 */}
-              <GroupDescription>모임 소개</GroupDescription>
+              <GroupDescription>{post.meeting.desc}</GroupDescription>
             </GroupInformation>
             <ArrowIcon />
           </GroupButton>
@@ -223,6 +222,17 @@ const GroupInformation = styled('div', {
   flex: '1',
   gap: '8px',
   color: '$gray100',
+  fontSize: '13px',
+  lineHeight: '20px',
+  span: {
+    fontWeight: '600',
+    fontSize: '16px',
+    lineHeight: '22px',
+    '@tablet': {
+      fontSize: '14px',
+      lineHeight: '18px',
+    },
+  },
   'span + span': {
     marginLeft: '$8',
     '@tablet': {
