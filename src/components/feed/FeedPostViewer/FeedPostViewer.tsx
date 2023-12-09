@@ -212,7 +212,7 @@ const GroupButton = styled('a', {
   },
   '@tablet': {
     height: 'fit-content',
-    padding: '$14 $12',
+    padding: '$14 $12 $14 $14',
   },
 });
 const GroupThumbnail = styled('img', {
