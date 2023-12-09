@@ -28,7 +28,7 @@ const fadeIn = keyframes({
 });
 
 const fadeOut = keyframes({
-  from: { opacity: '1', transform: 'translateY(0px)' },
+  from: { transform: 'translateY(0px)' },
   to: { opacity: '0', transform: 'translateY(7px)' },
 });
 
