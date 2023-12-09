@@ -317,7 +317,6 @@ const FeedListTitle = styled('h3', {
   lineHeight: '30px',
   marginBottom: '24px',
   color: '$white',
-  fontStyle: 'T4',
 });
 const FeedList = styled('ul', {
   display: 'flex',
