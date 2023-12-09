@@ -136,6 +136,7 @@ export default function FeedPostViewer({
 
 const Container = styled('div', {
   width: '800px',
+  height: '100%',
   flexShrink: 0,
   borderRadius: '20px',
   border: '1px solid $gray700',
