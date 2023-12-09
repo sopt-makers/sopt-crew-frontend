@@ -27,7 +27,10 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
       event.preventDefault();
 
       if (!comment.trim()) return;
-      onSubmit(comment).then(() => setComment(''));
+      onSubmit(comment).then(() => {
+        setComment('');
+        setIsFocused(false);
+      });
     };
 
     return (
@@ -37,7 +40,6 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
           value={comment}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
           rows={1}
         />
