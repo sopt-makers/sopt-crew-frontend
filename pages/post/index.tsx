@@ -218,7 +218,7 @@ export default function PostPage() {
                   {/* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */}
                   {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                   {/* @ts-ignore */}
-                  <FeedItem post={post} />
+                  <FeedItem post={post} meetingId={meetingId} />
                 </a>
               </Link>
             ))}
