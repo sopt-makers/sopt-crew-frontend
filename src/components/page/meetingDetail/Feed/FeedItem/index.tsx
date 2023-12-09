@@ -142,7 +142,7 @@ export default FeedItem;
 
 const SFeedItem = styled('div', {
   padding: '$20 $20 $28 $20',
-  background: '#171818',
+  background: '$gray900',
   borderRadius: '12px',
   color: '$gray10',
   width: '100%',
