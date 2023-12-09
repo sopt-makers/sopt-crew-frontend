@@ -149,7 +149,7 @@ function FeedFormPresentation({
                 }}
               />
               <SCategory>{groupInfo.category}</SCategory>
-              <STitle>{groupInfo.title}</STitle>{' '}
+              <STitle>{groupInfo.title}</STitle>
             </SGroupInfoSection>
           ) : (
             <SelectMeeting
