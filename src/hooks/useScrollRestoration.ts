@@ -1,7 +1,7 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const blacklist = ['/post'];
+const blacklist = ['/post', '/make'];
 
 export default function useScrollRestoration() {
   const router = useRouter();
