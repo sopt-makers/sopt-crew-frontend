@@ -1,3 +1,4 @@
+import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
 import { api, PromiseResponse } from '..';
 import { MeetingResponse } from '../meeting';
 
@@ -40,14 +41,6 @@ interface MeetingListOfMineResponse {
   meetings: MeetingResponse[];
 }
 
-interface MeetingListOfUserAttendResponse {
-  id: number;
-  title: string;
-  contents: string;
-  imageUrl: string;
-  category: string;
-}
-
 export const fetchMeetingListOfApplied = async () => {
   return api.get<PromiseResponse<MeetingListOfAppliedResponse>>('/users/apply');
 };
@@ -61,5 +54,5 @@ export const fetchMyProfile = async () => {
 };
 
 export const fetchMeetingListOfUserAttend = async () => {
-  return api.get<PromiseResponse<MeetingListOfUserAttendResponse[]>>('/users/v2/meeting/all');
+  return api.get<PromiseResponse<GroupInfo[]>>('/users/v2/meeting/all');
 };
