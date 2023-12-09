@@ -169,7 +169,7 @@ const ButtonContainer = styled('div', {
 const AuthorWrapper = styled('a', {
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '16px',
 });
 const AuthorInfo = styled('div', {
   display: 'flex',
@@ -179,11 +179,19 @@ const AuthorInfo = styled('div', {
 });
 const AuthorName = styled('span', {
   color: '$gray10',
-  fontStyle: 'H5',
+  fontWeight: '600',
+  fontSize: '16px',
+  lineHeight: '22px',
+  '@tablet': {
+    fontSize: '12px',
+    lineHeight: '16px',
+  },
 });
 const UpdatedDate = styled('span', {
   color: '$gray300',
-  fontStyle: 'B4',
+  fontWeight: '600',
+  fontSize: '14x',
+  lineHeight: '18px',
 });
 const ContentBody = styled('div', {
   display: 'flex',
@@ -353,6 +361,8 @@ const CommentListWrapper = styled('div', {
   },
 });
 const SAvatar = styled(Avatar, {
+  width: '44px',
+  height: '44px',
   '@tablet': {
     width: '40px',
     height: '40px',
