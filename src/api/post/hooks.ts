@@ -25,12 +25,12 @@ export const useInfinitePosts = (take: number, meetingId: number) => {
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading };
 };
 
-export const useMutationUpdateLike = (take: number, meetingId: number, postId: number) => {
+export const useMutationUpdateLike = (take: number, meetingId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => postLike(String(postId)),
-    onMutate: async () => {
+    mutationFn: (postId: number) => postLike(String(postId)),
+    onMutate: async postId => {
       await queryClient.cancelQueries(['getPosts', take, meetingId]);
 
       type Post = paths['/post/v1']['get']['responses']['200']['content']['application/json']['data'];
