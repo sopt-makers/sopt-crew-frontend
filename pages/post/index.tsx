@@ -20,12 +20,13 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
 import LikeButton from '@components/button/LikeButton';
 import { TAKE_COUNT } from '@constants/feed';
+import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -114,13 +115,25 @@ export default function PostPage() {
   const meetingId = meeting?.id;
   const { data: posts } = useInfinitePosts(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
   const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
-
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
-  const handleLikeClick = (postId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    mutateLike(postId);
-    ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
-  };
+
+  const handleClickLike =
+    (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
+      mutateCb(postId);
+    };
+
+  // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
+  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+  const { data: allPosts, hasNextPage, fetchNextPage } = useInfinitePosts(TAKE_COUNT);
+  const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
+  // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.
+  useEffect(() => {
+    if (!hasNextPage) return;
+    // 정책) 전체 모임 게시글 5개 불러올 때 까지 페이지네이션 한다.
+    if (allMeetingPosts?.length !== 5) fetchNextPage();
+  }, [hasNextPage, allMeetingPosts, fetchNextPage]);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -232,7 +245,7 @@ export default function PostPage() {
                       post={post}
                       meetingId={meetingId}
                       // eslint-disable-next-line prettier/prettier
-                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />}
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleClickLike(post.id)(mutateLike)} />}
                     />
                   </a>
                 </Link>
@@ -242,7 +255,27 @@ export default function PostPage() {
         </FeedListWrapper>
         <FeedListWrapper>
           <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
-          <FeedList>{/* TODO: 전체 모임 피드 */}</FeedList>
+          <FeedList>
+            {allMeetingPosts?.map(post => {
+              if (!post) return;
+              return (
+                <Link key={post.id} href={`/post?id=${post.id}`}>
+                  <a>
+                    <FeedItem
+                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      meetingId={meetingId}
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      // eslint-disable-next-line prettier/prettier
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)} />}
+                    />
+                  </a>
+                </Link>
+              );
+            })}
+          </FeedList>
         </FeedListWrapper>
       </FeedListContainer>
     </Container>

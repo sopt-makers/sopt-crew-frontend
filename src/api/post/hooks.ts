@@ -25,7 +25,7 @@ export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boo
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading };
 };
 
-export const useMutationUpdateLike = (take: number, meetingId: number) => {
+export const useMutationUpdateLike = (take: number, meetingId?: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
