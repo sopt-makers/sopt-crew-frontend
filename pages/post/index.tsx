@@ -311,6 +311,9 @@ const FeedListTitle = styled('h3', {
   marginBottom: '24px',
   color: '$white',
   fontStyle: 'T4',
+  fontSize: '20px',
+  fontWeight: 600,
+  lineHeight: '30px',
 });
 const FeedList = styled('ul', {
   display: 'flex',
