@@ -126,12 +126,14 @@ export default function PostPage() {
 
   // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
-  const { data: allPosts, fetchNextPage } = useInfinitePosts(TAKE_COUNT);
+  const { data: allPosts, hasNextPage, fetchNextPage } = useInfinitePosts(TAKE_COUNT);
   const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
   // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.
   useEffect(() => {
-    if (allMeetingPosts?.length === 0) fetchNextPage();
-  }, [allMeetingPosts, fetchNextPage]);
+    if (!hasNextPage) return;
+    // 정책) 전체 모임 게시글 5개 불러올 때 까지 페이지네이션 한다.
+    if (allMeetingPosts?.length !== 5) fetchNextPage();
+  }, [hasNextPage, allMeetingPosts, fetchNextPage]);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
