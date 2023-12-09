@@ -4,19 +4,10 @@ import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import { useMutationUpdateLike } from '@api/post/hooks';
 import { UserResponse } from '@api/user';
-import LikeActiveIcon from '@assets/svg/like_active.svg';
-import LikeDefaultIcon from '@assets/svg/like_default.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import {
-  AVATAR_MAX_LENGTH,
-  CARD_CONTENT_MAX_LENGTH,
-  CARD_TITLE_MAX_LENGTH,
-  LIKE_MAX_COUNT,
-  TAKE_COUNT,
-} from '@constants/feed';
+import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { useDisplay } from '@hooks/useDisplay';
 import { playgroundLink } from '@sopt-makers/playground-common';
@@ -40,40 +31,20 @@ interface PostProps {
 interface FeedItemProps {
   post: PostProps;
   HeaderSection?: React.ReactNode;
+  LikeButton?: React.ReactNode;
+  meetingId?: number;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
-  const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
-    post;
-  const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
+const FeedItem = ({ post, HeaderSection, LikeButton, meetingId: _meetingId, onClick }: FeedItemProps) => {
+  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount } = post;
   const router = useRouter();
-  const meetingId = router.query.id as string;
-  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
-  const { mutate } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId), id);
-  const { isMobile } = useDisplay();
+  // NOTE: 게시글 상세페이지에선 router.query.id 가 post의 id 이기 때문에 meetingId를 주입받아야 한다.
+  const meetingId = _meetingId ?? Number(router.query.id as string);
+  const { data: meeting } = useQueryGetMeeting({ params: { id: String(meetingId) } });
 
-  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    mutate();
-    ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
-  };
   return (
-    <SFeedItem
-      onClick={() =>
-        ampli.clickFeedCard({
-          feed_id: id,
-          feed_upload: updatedDate,
-          feed_title: title,
-          feed_image_total: images ? images.length : 0,
-          feed_comment_total: commentCount,
-          feed_like_total: likeCount,
-          group_id: Number(meetingId),
-          crew_status: meeting?.approved,
-          platform_type: isMobile ? 'MO' : 'PC',
-          location: router.pathname,
-        })
-      }
-    >
+    <SFeedItem onClick={onClick}>
       {HeaderSection}
       <STop>
         <Flex align="center">
@@ -129,10 +100,7 @@ const FeedItem = ({ post, HeaderSection }: FeedItemProps) => {
           </SCommentWrapper>
         </Flex>
 
-        <SLikeButton like={isLiked} onClick={handleLikeClick}>
-          {isLiked ? <LikeActiveIcon /> : <LikeDefaultIcon />}
-          {formattedLikeCount}
-        </SLikeButton>
+        {LikeButton}
       </SBottom>
     </SFeedItem>
   );
@@ -279,27 +247,6 @@ const SComment = styled('span', {
 const SCommentCount = styled('span', {
   ml: '$4',
   fontStyle: 'H5',
-});
-
-const SLikeButton = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
-  fontStyle: 'H5',
-
-  variants: {
-    like: {
-      true: {
-        color: '$red',
-      },
-      false: {
-        color: '$gray10',
-      },
-    },
-  },
-
-  '& > svg': {
-    mr: '$6',
-  },
 });
 
 const SOverlay = styled('div', {

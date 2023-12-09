@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useInfinitePosts } from '@api/post/hooks';
+import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/user/hooks';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
@@ -14,6 +14,8 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
+import LikeButton from '@components/button/LikeButton';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -24,7 +26,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
 
-  const { isTablet } = useDisplay();
+  const { isMobile, isTablet } = useDisplay();
   const { data: me } = useQueryMyProfile();
   const {
     data: postsData,
@@ -34,6 +36,8 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     isLoading,
   } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
   useScrollRestorationAfterLoading(isLoading);
+  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
+  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
 
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -56,17 +60,43 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     });
   };
 
-  const renderedPosts = postsData?.pages.map(post => (
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const handleLikeClick = (postId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutateLike(postId);
+    ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
+  };
 
-    <Link href={`/post?id=${post!.id}`} key={post!.id}>
-      <a>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
-        <FeedItem post={post} />
-      </a>
-    </Link>
-  ));
+  const renderedPosts = postsData?.pages.map(post => {
+    if (!post) return;
+    return (
+      <Link href={`/post?id=${post.id}`} key={post.id}>
+        <a>
+          <FeedItem
+            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+            /* @ts-ignore */
+            post={post}
+            LikeButton={
+              <LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />
+            }
+            onClick={() =>
+              ampli.clickFeedCard({
+                feed_id: post.id,
+                feed_upload: post.updatedDate,
+                feed_title: post.title,
+                feed_image_total: post.images ? post.images.length : 0,
+                feed_comment_total: post.commentCount,
+                feed_like_total: post.likeCount,
+                group_id: Number(meetingId),
+                crew_status: meeting?.approved,
+                platform_type: isMobile ? 'MO' : 'PC',
+                location: router.pathname,
+              })
+            }
+          />
+        </a>
+      </Link>
+    );
+  });
 
   return (
     <>
