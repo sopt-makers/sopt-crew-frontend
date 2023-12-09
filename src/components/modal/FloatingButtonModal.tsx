@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import { styled } from 'stitches.config';
 import { keyframes } from 'stitches.config';
+import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
+  const [isCreateGroupClicked, setIsCreateGroupClicked] = useState(false);
   return (
-    <Container isActive={isActive}>
-      <Button>
-        <GroupIcon style={{ marginRight: '4px' }} />
-        모임 개설
-      </Button>
-      <Button>
-        <FeedIcon style={{ marginRight: '4px' }} />
-        피드 작성
-      </Button>
-    </Container>
+    <>
+      <Container isActive={isActive}>
+        <Button onClick={() => setIsCreateGroupClicked(true)}>
+          <GroupIcon style={{ marginRight: '4px' }} />
+          모임 개설
+        </Button>
+        <Button>
+          <FeedIcon style={{ marginRight: '4px' }} />
+          피드 작성
+        </Button>
+      </Container>
+      {isCreateGroupClicked && <NoJoinedGroupModal></NoJoinedGroupModal>}
+    </>
   );
 };
 
