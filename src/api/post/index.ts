@@ -29,7 +29,7 @@ export const editPost = async (postId: string, formData: FormEditType) => {
   return data;
 };
 
-export const getPosts = async (page: number, take: number, meetingId: number) => {
+export const getPosts = async (page: number, take: number, meetingId?: number) => {
   const { GET } = apiV2.get();
   const { data } = await GET('/post/v1', { params: { query: { page, take, meetingId } } });
   return data;

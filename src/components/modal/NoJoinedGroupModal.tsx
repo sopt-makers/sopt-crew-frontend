@@ -12,7 +12,7 @@ const NoJoinedGroupModal = ({ isModalOpened, handleModalClose }: ModalContainerP
         css={{
           zIndex: '$3',
         }}
-      />{' '}
+      />
       <Dialog.Panel>
         <Container>
           <div>

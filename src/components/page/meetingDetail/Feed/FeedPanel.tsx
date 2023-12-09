@@ -34,7 +34,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+  } = useInfinitePosts(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
   const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));

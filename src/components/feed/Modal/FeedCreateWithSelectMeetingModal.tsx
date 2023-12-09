@@ -1,11 +1,12 @@
 import { ampli } from '@/ampli';
 import { createPost } from '@api/post';
+import { fetchMeetingListOfUserAttend } from '@api/user';
 import { useQueryMyProfile } from '@api/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
@@ -18,9 +19,9 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
   ssr: false,
 });
 
-interface CreateModalProps extends ModalContainerProps {
-  meetingId: string;
-}
+type CreateModalProps = ModalContainerProps;
+
+// TODO: 실제 api 나오면 삭제할것
 const mockAttendGroupsInfo: GroupInfo[] = [
   {
     id: 63,
@@ -66,6 +67,8 @@ const mockAttendGroupsInfo: GroupInfo[] = [
 
 function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
+  const { data: attendMeetingList } = useQuery(['fetchMeetingList', 'all'], fetchMeetingListOfUserAttend);
+  console.log(attendMeetingList);
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();

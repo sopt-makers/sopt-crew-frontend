@@ -1,4 +1,10 @@
+import { ampli } from '@/ampli';
+import { fetchMeetingListOfUserAttend } from '@api/user';
+import { useQueryMyProfile } from '@api/user/hooks';
+import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
@@ -6,24 +12,46 @@ import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
-
+  const router = useRouter();
   const overlay = useOverlay();
-  const handleNoJoinedModalClose = () =>
-    overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+  const { data: me } = useQueryMyProfile();
+  const queryClient = useQueryClient();
+  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
+    onSuccess: data => {
+      queryClient.setQueryData(['fetchMeetingList', 'all'], data);
+      if (data.data.data.length === 0) {
+        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+      } else {
+        overlay.open(({ isOpen, close }) => (
+          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+        ));
+      }
+    },
+  });
+
+  const handleGroupCreateButtonClick = () => {
+    ampli.clickMakeGroup({ location: router.pathname });
+    router.push('/make');
+  };
+
+  const handleFeedCreateButtonClick = () => {
+    if (me?.orgId) {
+      ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
+    }
+    fetchUserAttendMeetingListMutate();
+  };
 
   return (
-    <>
-      <Container isActive={isActive}>
-        <Button onClick={handleNoJoinedModalClose}>
-          <GroupIcon style={{ marginRight: '4px' }} />
-          모임 개설
-        </Button>
-        <Button>
-          <FeedIcon style={{ marginRight: '4px' }} />
-          피드 작성
-        </Button>
-      </Container>
-    </>
+    <Container isActive={isActive}>
+      <Button onClick={handleGroupCreateButtonClick}>
+        <GroupIcon style={{ marginRight: '4px' }} />
+        모임 개설
+      </Button>
+      <Button onClick={handleFeedCreateButtonClick}>
+        <FeedIcon style={{ marginRight: '4px' }} />
+        피드 작성
+      </Button>
+    </Container>
   );
 };
 
