@@ -1,7 +1,9 @@
 import { paths } from '@/__generated__/schema';
 import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
+import ShareIcon from 'public/assets/svg/share.svg';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
+import ArrowIcon from '@assets/svg/arrow_card.svg';
 import { styled } from 'stitches.config';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
@@ -12,6 +14,9 @@ import 'dayjs/locale/ko';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { parseTextToLink } from '@components/util/parseTextToLink';
+import useToast from '@hooks/useToast';
+import Link from 'next/link';
+
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
@@ -35,6 +40,17 @@ export default function FeedPostViewer({
   onClickAuthor,
 }: FeedPostViewerProps) {
   const overlay = useOverlay();
+  const showToast = useToast();
+
+  const handleClickShare = async () => {
+    const link = window.location.href;
+    try {
+      await navigator.clipboard.writeText(link);
+      showToast({ type: 'info', message: '링크를 복사했어요.' });
+    } catch (e) {
+      showToast({ type: 'error', message: '링크 복사에 실패했어요. 다시 시도해 주세요.' });
+    }
+  };
 
   const handleClickImage = (images: string[], startIndex: number) => () => {
     onClickImage?.();
@@ -57,16 +73,21 @@ export default function FeedPostViewer({
               <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map((Action, index) => (
-                <Menu.Item key={index}>{Action}</Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
+          <ButtonContainer>
+            <button onClick={handleClickShare}>
+              <ShareIcon />
+            </button>
+            <Menu as="div" style={{ position: 'relative' }}>
+              <Menu.Button>
+                <MenuIcon />
+              </Menu.Button>
+              <MenuItems>
+                {Actions.map((Action, index) => (
+                  <Menu.Item key={index}>{Action}</Menu.Item>
+                ))}
+              </MenuItems>
+            </Menu>
+          </ButtonContainer>
         </ContentHeader>
         <ContentBody>
           <Title>{post.title}</Title>
@@ -87,6 +108,19 @@ export default function FeedPostViewer({
           )}
           <ViewCount>조회 {post.viewCount}회</ViewCount>
         </ContentBody>
+        <Link href={`/detail?id=${post.meeting.id}`} passHref>
+          <GroupButton>
+            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
+            <GroupInformation>
+              <div>
+                <span>{post.meeting.category}</span>
+                <span>{post.meeting.title}</span>
+              </div>
+              <GroupDescription>{post.meeting.desc}</GroupDescription>
+            </GroupInformation>
+            <ArrowIcon />
+          </GroupButton>
+        </Link>
       </ContentWrapper>
 
       <CommentLikeWrapper>{CommentLikeSection}</CommentLikeWrapper>
@@ -101,6 +135,7 @@ export default function FeedPostViewer({
 
 const Container = styled('div', {
   width: '800px',
+  height: '100%',
   flexShrink: 0,
   borderRadius: '20px',
   border: '1px solid $gray700',
@@ -113,11 +148,12 @@ const Container = styled('div', {
   },
 });
 const ContentWrapper = styled('div', {
-  padding: '36px 24px 28px 40px',
+  padding: '32px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '20px',
+  gap: '24px',
   '@tablet': {
+    gap: '16px',
     padding: '0 0 20px 0',
   },
 });
@@ -126,10 +162,14 @@ const ContentHeader = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
 });
+const ButtonContainer = styled('div', {
+  display: 'flex',
+  gap: '12px',
+});
 const AuthorWrapper = styled('a', {
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '16px',
 });
 const AuthorInfo = styled('div', {
   display: 'flex',
@@ -139,15 +179,97 @@ const AuthorInfo = styled('div', {
 });
 const AuthorName = styled('span', {
   color: '$gray10',
-  fontStyle: 'H5',
+  fontWeight: '600',
+  fontSize: '16px',
+  lineHeight: '22px',
+  '@tablet': {
+    fontSize: '14px',
+    lineHeight: '18px',
+  },
 });
 const UpdatedDate = styled('span', {
   color: '$gray300',
-  fontStyle: 'B4',
+  fontWeight: '600',
+  fontSize: '14px',
+  lineHeight: '18px',
+  '@tablet': {
+    fontSize: '12px',
+    lineHeight: '16px',
+  },
 });
 const ContentBody = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+});
+const GroupButton = styled('a', {
+  display: 'flex',
+  gap: '$16',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: '$gray800',
+  width: '100%',
+  height: '102px',
+  padding: '$18 $20',
+  borderRadius: '12px',
+  '&:hover': {
+    outline: '1px solid $gray500',
+  },
+  '@tablet': {
+    height: 'fit-content',
+    padding: '$14 $12 $14 $14',
+  },
+});
+const GroupThumbnail = styled('img', {
+  width: '88px',
+  height: '100%',
+  objectFit: 'cover',
+  borderRadius: '8px',
+  '@tablet': {
+    display: 'none',
+  },
+});
+const GroupInformation = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  flex: '1',
+  gap: '8px',
+  color: '$gray100',
+  fontSize: '13px',
+  lineHeight: '20px',
+  span: {
+    fontWeight: '600',
+    fontSize: '16px',
+    lineHeight: '22px',
+    '@tablet': {
+      fontSize: '14px',
+      lineHeight: '18px',
+    },
+  },
+  'span + span': {
+    marginLeft: '$8',
+    '@tablet': {
+      marginLeft: '$6',
+    },
+  },
+  'span:first-child': {
+    color: '$secondary',
+  },
+  'span:last-child': {
+    color: '$gray30',
+  },
+});
+const GroupDescription = styled('p', {
+  height: '$40',
+  overflow: 'hidden',
+  whiteSpace: 'normal',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-all',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  '@tablet': {
+    display: 'none',
+  },
 });
 const Title = styled('h2', {
   color: 'white',
@@ -167,11 +289,9 @@ const Contents = styled('p', {
   },
 });
 const ImageSection = styled('section', {
-  paddingRight: '16px',
-  marginTop: '20px',
-  marginBottom: '12px',
+  margin: '24px 0',
   '@tablet': {
-    paddingRight: 0,
+    margin: '16px 0',
   },
 });
 const BigImage = styled('img', {
@@ -210,13 +330,10 @@ const ImageListItem = styled('img', {
   },
 });
 const ViewCount = styled('span', {
-  mt: '$16',
-  mr: '$16', // TODO: design 체크 필요 > 체크 완료
   alignSelf: 'flex-end',
-  color: '$gray500',
+  color: '$gray200',
   fontStyle: 'B4',
   '@tablet': {
-    mr: '$0',
     fontStyle: 'C1',
   },
 });
@@ -248,6 +365,8 @@ const CommentListWrapper = styled('div', {
   },
 });
 const SAvatar = styled(Avatar, {
+  width: '44px',
+  height: '44px',
   '@tablet': {
     width: '40px',
     height: '40px',

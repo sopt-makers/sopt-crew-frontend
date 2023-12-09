@@ -1,143 +1,128 @@
+import { ampli } from '@/ampli';
+import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
+import LikeButton from '@components/button/LikeButton';
+import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
+import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
+import FloatingButton from '@components/page/postList/FloatingButton';
+import { TabList } from '@components/tabList/TabList';
+import { Flex } from '@components/util/layout/Flex';
+import { TAKE_COUNT } from '@constants/feed';
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
+import { useDisplay } from '@hooks/useDisplay';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
-import useModal from '@hooks/useModal';
-import { playgroundLink } from '@sopt-makers/playground-common';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { TabList } from '@components/tabList/TabList';
-import { Flex } from '@components/util/layout/Flex';
-import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { MeetingListOfAll } from '@components/page/meetingList/Grid/List';
-import Filter from '@components/page/meetingList/Filter';
-import Search from '@components/page/meetingList/Filter/Search';
-import GridLayout from '@components/page/meetingList/Grid/Layout';
-import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
-import PlusIcon from '@assets/svg/plus.svg';
-import WriteIcon from '@assets/svg/write.svg';
-import { useQueryMyProfile } from '@api/user/hooks';
-import NoticeSlider from '@components/page/meetingList/Slider/NoticeSlider/NoticeSlider';
-import useNotices from '@api/notice/hooks';
-import { ampli } from '@/ampli';
 
 const Home: NextPage = () => {
+  const { isTablet } = useDisplay();
   const router = useRouter();
-  const { data: me } = useQueryMyProfile();
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { data: notices } = useNotices();
 
-  const handleMakeMeeting = () => {
-    if (!me?.hasActivities) {
-      handleModalOpen();
-      return;
+  const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfinitePosts(TAKE_COUNT);
+
+  const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
+    if (isIntersecting && hasNextPage) {
+      fetchNextPage();
     }
-    ampli.clickMakeGroup();
-    router.push('/make');
   };
+  const { setTarget } = useIntersectionObserver({ onIntersect });
+
+  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+
+  const handleClickLike =
+    (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      ampli.clickFeedlistLike({ location: router.pathname });
+      mutateCb(postId);
+    };
+
+  const renderedPosts = postsData?.pages.map(post => {
+    if (!post) return;
+    return (
+      <Link href={`/post?id=${post?.id}`} key={post?.id}>
+        <a>
+          <FeedItem
+            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+            /* @ts-ignore */
+            post={post}
+            LikeButton={
+              <LikeButton
+                isLiked={post.isLiked}
+                likeCount={post.likeCount}
+                onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              />
+            }
+            HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+          />
+        </a>
+      </Link>
+    );
+  });
 
   return (
     <>
       <div>
         <Flex align="start" justify="between">
-          <TabList text="all" size="big">
+          <TabList text="feedAll" size="big">
             <Link href="/" passHref>
-              <a
-                onClick={() => {
-                  ampli.clickNavbarGroup({ menu: '전체 모임' });
-                }}
-              >
-                <TabList.Item text="all">전체 모임</TabList.Item>
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+                <TabList.Item text="feedAll">모임 피드</TabList.Item>
+              </a>
+            </Link>
+            <Link href="/list" passHref>
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+                <TabList.Item text="groupAll">전체 모임</TabList.Item>
               </a>
             </Link>
             <Link href="/mine" passHref>
-              <a
-                onClick={() => {
-                  ampli.clickNavbarGroup({ menu: '내 모임' });
-                }}
-              >
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
                 <TabList.Item text="mine">내 모임</TabList.Item>
               </a>
             </Link>
           </TabList>
-          <SMobileButtonContainer>
-            <WriteIcon onClick={handleMakeMeeting} className="make-button" />
-            <Search.Mobile />
-          </SMobileButtonContainer>
-          <SMakeMeetingButton onClick={handleMakeMeeting}>
-            <PlusIcon />
-            <span>모임 개설하기</span>
-          </SMakeMeetingButton>
         </Flex>
-        <SNoticeWrapper>
-          <NoticeSlider notices={notices} />
-        </SNoticeWrapper>
-        <SFilterWrapper>
-          <Filter />
-        </SFilterWrapper>
-        <SSRSafeSuspense
-          fallback={
-            <GridLayout mobileType="list">
-              {new Array(6).fill(null).map((_, index) => (
-                <CardSkeleton key={index} mobileType="list" />
-              ))}
-            </GridLayout>
-          }
-        >
-          <MeetingListOfAll />
-        </SSRSafeSuspense>
+
+        {isTablet ? (
+          <SMobileContainer>{renderedPosts}</SMobileContainer>
+        ) : (
+          <SDesktopContainer align="left" gap={30}>
+            {renderedPosts}
+          </SDesktopContainer>
+        )}
+        <div ref={setTarget} />
+
+        {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+        <FloatingButton />
       </div>
-      <ConfirmModal
-        isModalOpened={isModalOpened}
-        message={`모임을 개설하려면\n프로필 작성이 필요해요`}
-        cancelButton="돌아가기"
-        confirmButton="작성하기"
-        handleModalClose={handleModalClose}
-        handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
-      />
     </>
   );
 };
 
 export default Home;
 
-const SMakeMeetingButton = styled('button', {
-  flexType: 'verticalCenter',
-  padding: '$16 $24 $16 $20',
-  background: '$gray10',
-  borderRadius: '16px',
-  '& > span': {
-    ml: '$12',
-    fontAg: '18_bold_100',
-    color: '$gray950',
+const SDesktopContainer = styled(MasonryInfiniteGrid, {
+  marginTop: '$40',
+  a: {
+    width: 'calc(calc(100% - 60px) / 3)',
   },
-  '@tablet': {
+});
+
+const SMobileContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: 0,
+  '& a:not(:first-child)::before': {
+    content: '',
     display: 'none',
-  },
-});
 
-const SMobileButtonContainer = styled('div', {
-  display: 'none',
-  '@tablet': {
-    flexType: 'verticalCenter',
-    gap: '16px',
-  },
-  svg: {
-    cursor: 'pointer',
-  },
-});
-
-const SFilterWrapper = styled('div', {
-  mt: '$40',
-  mb: '$64',
-  '@tablet': {
-    mt: '$32',
-    mb: '$24',
-  },
-});
-
-const SNoticeWrapper = styled('div', {
-  mt: '$64',
-  '@tablet': {
-    mt: '$28',
+    '@tablet': {
+      display: 'block',
+      width: '100vw',
+      height: '8px',
+      marginLeft: 'calc(50% - 50vw)',
+      background: '$gray800',
+    },
   },
 });

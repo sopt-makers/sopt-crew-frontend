@@ -2,29 +2,18 @@ import AvatarGroup from '@components/avatar/AvatarGroup';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
-import LikeDefaultIcon from '@assets/svg/like_default.svg';
-import LikeActiveIcon from '@assets/svg/like_active.svg';
+import { ampli } from '@/ampli';
+import { UserResponse } from '@api/user';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import truncateText from '@utils/truncateText';
+import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
-import {
-  AVATAR_MAX_LENGTH,
-  CARD_CONTENT_MAX_LENGTH,
-  CARD_TITLE_MAX_LENGTH,
-  LIKE_MAX_COUNT,
-  TAKE_COUNT,
-} from '@constants/feed';
-import { UserResponse } from '@api/user';
-import { fromNow } from '@utils/dayjs';
-import { useMutationUpdateLike } from '@api/post/hooks';
-import { useRouter } from 'next/router';
-import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 import { playgroundLink } from '@sopt-makers/playground-common';
-import { useDisplay } from '@hooks/useDisplay';
+import { fromNow } from '@utils/dayjs';
+import truncateText from '@utils/truncateText';
+import { useRouter } from 'next/router';
 
-interface FeedItemProps {
+interface PostProps {
   id: number;
   user: UserResponse;
   title: string;
@@ -37,43 +26,26 @@ interface FeedItemProps {
   isLiked: boolean;
 }
 
-const FeedItem = (post: FeedItemProps) => {
-  const { id, user, title, contents, images, updatedDate, commenterThumbnails, commentCount, likeCount, isLiked } =
-    post;
-  const formattedLikeCount = likeCount > LIKE_MAX_COUNT ? `${LIKE_MAX_COUNT}+` : likeCount;
-  const router = useRouter();
-  const meetingId = router.query.id as string;
-  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
-  const { mutate } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId), id);
-  const { isMobile } = useDisplay();
+interface FeedItemProps {
+  post: PostProps;
+  HeaderSection?: React.ReactNode;
+  LikeButton?: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+}
 
-  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    mutate();
-    ampli.clickFeedlistLike({ crew_status: meeting?.approved });
-  };
+const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
+  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount } = post;
+  const router = useRouter();
+
   return (
-    <SFeedItem
-      onClick={() =>
-        ampli.clickFeedCard({
-          feed_id: id,
-          feed_upload: updatedDate,
-          feed_title: title,
-          feed_image_total: images ? images.length : 0,
-          feed_comment_total: commentCount,
-          feed_like_total: likeCount,
-          group_id: Number(meetingId),
-          crew_status: meeting?.approved,
-          platform_type: isMobile ? 'MO' : 'PC',
-        })
-      }
-    >
+    <SFeedItem onClick={onClick}>
+      {HeaderSection}
       <STop>
         <Flex align="center">
           <SProfileButton
             onClick={e => {
               e.preventDefault();
-              ampli.clickFeedProfile({ crew_status: meeting?.approved });
+              ampli.clickFeedProfile({ location: router.pathname });
               window.location.href = `${playgroundLink.memberDetail(user.orgId)}`;
             }}
           >
@@ -122,10 +94,7 @@ const FeedItem = (post: FeedItemProps) => {
           </SCommentWrapper>
         </Flex>
 
-        <SLikeButton like={isLiked} onClick={handleLikeClick}>
-          {isLiked ? <LikeActiveIcon /> : <LikeDefaultIcon />}
-          {formattedLikeCount}
-        </SLikeButton>
+        {LikeButton}
       </SBottom>
     </SFeedItem>
   );
@@ -134,11 +103,15 @@ const FeedItem = (post: FeedItemProps) => {
 export default FeedItem;
 
 const SFeedItem = styled('div', {
-  padding: '$24 $20 $28 $20',
-  background: '#171818',
+  padding: '$20 $20 $28 $20',
+  background: '$gray900',
   borderRadius: '12px',
   color: '$gray10',
   width: '100%',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-10px)',
+  },
   '@tablet': {
     padding: '$24 0 $28 0',
     background: 'transparent',
@@ -151,6 +124,7 @@ const STop = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   mb: '$12',
+  mt: '$4',
 });
 
 const SProfileButton = styled('button', {
@@ -187,7 +161,7 @@ const STime = styled('span', {
 const STitle = styled('div', {
   mb: '$8',
   fontStyle: 'H3',
-
+  wordBreak: 'break-all',
   '@tablet': {
     fontStyle: 'H4',
   },
@@ -267,27 +241,6 @@ const SComment = styled('span', {
 const SCommentCount = styled('span', {
   ml: '$4',
   fontStyle: 'H5',
-});
-
-const SLikeButton = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
-  fontStyle: 'H5',
-
-  variants: {
-    like: {
-      true: {
-        color: '$red',
-      },
-      false: {
-        color: '$gray10',
-      },
-    },
-  },
-
-  '& > svg': {
-    mr: '$6',
-  },
 });
 
 const SOverlay = styled('div', {

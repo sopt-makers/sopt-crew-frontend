@@ -1,51 +1,54 @@
-import { editPost } from '@api/post';
-import { useQueryGetPost } from '@api/post/hooks';
+import { ampli } from '@/ampli';
+import { createPost } from '@api/post';
+import { fetchMeetingListOfUserAttend } from '@api/user';
 import { useQueryMyProfile } from '@api/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
-import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FeedFormPresentation from './FeedFormPresentation';
-import { FormEditType, feedEditSchema } from './feedSchema';
+import { FormCreateType, feedCreateSchema } from './feedSchema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-interface EditModal extends ModalContainerProps {
-  postId: string;
-}
+type CreateModalProps = ModalContainerProps;
 
-function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
+function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
-  const { data: postData } = useQueryGetPost(postId);
+  const { data: attendMeetingList, isLoading: isFetchAttendMeetingLoading } = useQuery(
+    ['fetchMeetingList', 'all'],
+    fetchMeetingListOfUserAttend
+  );
+
+  const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();
-  const { data: me } = useQueryMyProfile();
+  const platform = window.innerWidth > 768 ? 'PC' : 'MO';
 
-  const formMethods = useForm<FormEditType>({
+  const formMethods = useForm<FormCreateType>({
     mode: 'onChange',
-    resolver: zodResolver(feedEditSchema),
+    resolver: zodResolver(feedCreateSchema),
   });
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormEditType) => editPost(postId, formData),
+  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FormCreateType) => createPost(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getPost', postId]);
       queryClient.invalidateQueries(['getPosts']);
-      alert('피드를 수정했습니다.');
+      alert('피드를 작성했습니다.');
       submitModal.handleModalClose();
       handleModalClose();
     },
-    onError: () => alert('피드를 수정하지 못했습니다.'),
+    onError: () => alert('피드 작성에 실패했습니다.'),
   });
 
   const handleDeleteImage = (index: number) => {
@@ -54,45 +57,52 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
     formMethods.setValue('images', images);
   };
 
-  const handleSubmitClick: SubmitHandler<FormEditType> = () => {
+  const handleSubmitClick: SubmitHandler<FormCreateType> = () => {
     submitModal.handleModalOpen();
   };
 
   const onSubmit = async () => {
-    await mutateEditFeed(formMethods.getValues());
+    const createFeedParameter = { ...formMethods.getValues() };
+    await mutateCreateFeed(createFeedParameter);
+    ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
   };
 
+  useEffect(() => {}, [formMethods, isModalOpened]);
+
   useEffect(() => {
-    if (!postData) return;
-    formMethods.reset({
-      title: postData.title,
-      contents: postData.contents,
-      images: postData.images || [],
-    });
-  }, [formMethods, isModalOpened, postData]);
+    return () => {
+      ampli.completedFeedPostingCanceled({ user_id: Number(me?.orgId), platform_type: platform });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
       <SDialogWrapper>
         <FormProvider {...formMethods}>
-          <FeedFormPresentation
-            userId={Number(me?.orgId)}
-            groupInfo={{
-              title: postData?.meeting?.title || '',
-              imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
-              category: postData?.meeting?.category || '',
-            }}
-            title="피드 수정"
-            handleDeleteImage={handleDeleteImage}
-            handleModalClose={handleModalClose}
-            onSubmit={formMethods.handleSubmit(handleSubmitClick)}
-            disabled={isSubmitting || !isValid}
-          />
+          {!isFetchAttendMeetingLoading && (
+            <FeedFormPresentation
+              userId={Number(me?.orgId)}
+              attendGroupsInfo={attendMeetingList?.data}
+              title="피드 작성"
+              handleDeleteImage={handleDeleteImage}
+              handleModalClose={handleModalClose}
+              setMeetingInfo={meetingInfo =>
+                formMethods.setValue('meetingId', meetingInfo?.id as number, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true,
+                })
+              }
+              onSubmit={formMethods.handleSubmit(handleSubmitClick)}
+              disabled={isSubmitting || !isValid}
+            />
+          )}
         </FormProvider>
       </SDialogWrapper>
       <ConfirmModal
         isModalOpened={exitModal.isModalOpened}
-        message={`수정을 취소하시겠습니까?`}
+        message={`피드 작성을 그만두시겠어요?\n지금까지 쓴 내용이 지워져요.`}
         handleModalClose={exitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="그만두기"
@@ -103,7 +113,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
       />
       <ConfirmModal
         isModalOpened={submitModal.isModalOpened}
-        message="게시글을 수정하시겠습니까?"
+        message="게시글을 작성하시겠습니까?"
         handleModalClose={submitModal.handleModalClose}
         cancelButton="돌아가기"
         confirmButton="확인"
@@ -116,7 +126,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   );
 }
 
-export default FeedEditModal;
+export default FeedCreateWithSelectMeetingModal;
 
 const SDialogWrapper = styled('div', {
   position: 'fixed',

@@ -26,12 +26,9 @@ const FeedItemSkeleton = () => {
 export default FeedItemSkeleton;
 
 const SFeedItemSkeleton = styled('div', {
-  '@desktop': {
-    padding: '$24 $20 $28 $20',
-    background: '#171818',
-    borderRadius: '12px',
-  },
-
+  padding: '$24 $20 $28 $20',
+  background: '#171818',
+  borderRadius: '12px',
   '@tablet': {
     padding: '$20',
   },

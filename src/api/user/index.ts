@@ -1,3 +1,4 @@
+import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
 import { api, PromiseResponse } from '..';
 import { MeetingResponse } from '../meeting';
 
@@ -50,4 +51,8 @@ export const fetchMeetingListOfMine = async () => {
 
 export const fetchMyProfile = async () => {
   return api.get<PromiseResponse<MyProfileResponse>>('/users/v1/profile/me');
+};
+
+export const fetchMeetingListOfUserAttend = async () => {
+  return api.get<GroupInfo[]>('/user/v2/meeting/all');
 };

@@ -1,21 +1,22 @@
-import type { AppProps } from 'next/app';
-import Script from 'next/script';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { styled, theme } from 'stitches.config';
-import '../styles/globals.css';
-import Header from '@components/header/Header';
-import { GTM_ID, pageview } from '@utils/gtm';
-import { setAccessTokens } from '@components/util/auth';
-import Loader from '@components/loader/Loader';
-import ChannelService from '@utils/ChannelService';
-import { fetchMyProfile } from '@api/user';
-import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
-import SEO from '@components/seo/SEO';
 import { crewToken, playgroundToken } from '@/stores/tokenStore';
+import { fetchMyProfile } from '@api/user';
+import Header from '@components/header/Header';
+import Loader from '@components/loader/Loader';
+import SEO from '@components/seo/SEO';
+import { setAccessTokens } from '@components/util/auth';
+import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
+import useScrollRestoration from '@hooks/useScrollRestoration';
 import { useStore } from '@nanostores/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ChannelService from '@utils/ChannelService';
+import { GTM_ID, pageview } from '@utils/gtm';
+import type { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+import React, { useEffect } from 'react';
+import { styled, theme } from 'stitches.config';
 import { ampli } from '../src/ampli';
+import '../styles/globals.css';
 
 setAccessTokens();
 
@@ -34,6 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const _crewToken = useStore(crewToken);
   const _playgroundToken = useStore(playgroundToken);
   const isServiceReady = _crewToken && _playgroundToken;
+
+  useScrollRestoration();
 
   useEffect(() => {
     router.events.on('routeChangeComplete', pageview);
@@ -137,11 +140,9 @@ const Layout = styled('div', {
   minHeight: '100vh',
   color: theme.colors.white,
   mx: '$auto',
-  marginTop: '100px',
-  '@desktop': {
-    maxWidth: '1260px',
-    px: '$30',
-  },
+  marginTop: '128px',
+  maxWidth: '1260px',
+  px: '$30',
   '@tablet': {
     px: '$20',
   },

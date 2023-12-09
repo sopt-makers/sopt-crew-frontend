@@ -1,6 +1,6 @@
-import { FormType } from '@components/feed/Modal/feedSchema';
-import { UserResponse } from '@api/user';
 import { MeetingResponse } from '@api/meeting';
+import { UserResponse } from '@api/user';
+import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
 
 export interface PostResponse {
@@ -16,12 +16,12 @@ export interface PostResponse {
   meeting: Pick<MeetingResponse, 'id' | 'title' | 'imageURL' | 'category'>;
 }
 
-export const createPost = async (formData: FormType) => {
+export const createPost = async (formData: FormCreateType) => {
   const { data } = await api.post<Data<{ postId: number }>>('/post/v1', formData);
   return data;
 };
 
-export const editPost = async (postId: string, formData: FormType) => {
+export const editPost = async (postId: string, formData: FormEditType) => {
   const { data } = await api.put<Data<Pick<PostResponse, 'id' | 'title' | 'contents' | 'updatedDate' | 'images'>>>(
     `/post/v1/${postId}`,
     formData
@@ -29,7 +29,7 @@ export const editPost = async (postId: string, formData: FormType) => {
   return data;
 };
 
-export const getPosts = async (page: number, take: number, meetingId: number) => {
+export const getPosts = async (page: number, take: number, meetingId?: number) => {
   const { GET } = apiV2.get();
   const { data } = await GET('/post/v1', { params: { query: { page, take, meetingId } } });
   return data;

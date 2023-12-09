@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import { useQueryMyProfile } from '@api/user/hooks';
-import { useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
+import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
@@ -20,10 +20,16 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
+import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
+import Link from 'next/link';
+import LikeButton from '@components/button/LikeButton';
+import { TAKE_COUNT } from '@constants/feed';
+import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 
 export default function PostPage() {
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
   const showToast = useToast();
   const router = useRouter();
@@ -83,7 +89,7 @@ export default function PostPage() {
     };
 
   const post = postQuery.data;
-  const { data: meeting } = useQueryGetMeeting({ params: { id: String(post?.meeting.id) } });
+  const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
   const comments = commentQuery.data?.pages
     .flatMap(page => page.data?.data?.comments)
@@ -94,10 +100,40 @@ export default function PostPage() {
         !!comment
     );
 
+  const handleClickComment = () => {
+    const refCurrent = commentRef.current;
+    if (refCurrent) {
+      refCurrent.focus();
+    }
+  };
+
   const handleClickPostLike = () => {
     ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
     togglePostLike();
   };
+
+  const meetingId = meeting?.id;
+  const { data: posts } = useInfinitePosts(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
+  const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
+  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
+
+  const handleClickLike =
+    (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
+      mutateCb(postId);
+    };
+
+  // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
+  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+  const { data: allPosts, hasNextPage, fetchNextPage } = useInfinitePosts(TAKE_COUNT);
+  const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
+  // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.
+  useEffect(() => {
+    if (!hasNextPage) return;
+    // 정책) 전체 모임 게시글 5개 불러올 때 까지 페이지네이션 한다.
+    if (allMeetingPosts?.length !== 5) fetchNextPage();
+  }, [hasNextPage, allMeetingPosts, fetchNextPage]);
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -156,6 +192,7 @@ export default function PostPage() {
             isLiked={post.isLiked}
             commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
             likeCount={post.likeCount}
+            onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
           />
         }
@@ -173,7 +210,14 @@ export default function PostPage() {
             {commentQuery.hasNextPage && <div ref={setTarget} />}
           </>
         }
-        CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
+        CommentInput={
+          <FeedCommentInput
+            ref={commentRef}
+            writerName={post.user.name}
+            onSubmit={handleCreateComment}
+            disabled={isCreatingComment}
+          />
+        }
         onClickImage={() => {
           ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
         }}
@@ -185,10 +229,99 @@ export default function PostPage() {
           window.location.assign(href);
         }}
       />
+      <FeedListContainer>
+        {postsInMeeting && postsInMeeting.length > 0 && (
+          <FeedListWrapper>
+            <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
+            <FeedList>
+              {postsInMeeting?.map(post => {
+                if (!post) return;
+                return (
+                  <Link key={post.id} href={`/post?id=${post.id}`}>
+                    <a>
+                      <FeedItem
+                        /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                        /* @ts-ignore */
+                        post={post}
+                        meetingId={meetingId}
+                        // eslint-disable-next-line prettier/prettier
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleClickLike(post.id)(mutateLike)} />}
+                      />
+                    </a>
+                  </Link>
+                );
+              })}
+            </FeedList>
+          </FeedListWrapper>
+        )}
+        <FeedListWrapper>
+          <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
+          <FeedList>
+            {allMeetingPosts?.map(post => {
+              if (!post) return;
+              return (
+                <Link key={post.id} href={`/post?id=${post.id}`}>
+                  <a>
+                    <FeedItem
+                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      meetingId={meetingId}
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      // eslint-disable-next-line prettier/prettier
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)} />}
+                    />
+                  </a>
+                </Link>
+              );
+            })}
+          </FeedList>
+        </FeedListWrapper>
+      </FeedListContainer>
     </Container>
   );
 }
 
 const Container = styled('div', {
   flexType: 'horizontalCenter',
+  gap: '40px',
+  '@laptop': {
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 0,
+  },
+});
+const FeedListContainer = styled('div', {
+  width: '380px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '80px',
+  '@laptop': {
+    width: '800px',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: '20px',
+  },
+  '@tablet': {
+    display: 'none',
+  },
+});
+const FeedListWrapper = styled('div', {
+  '&:last-child': {
+    marginBottom: '140px',
+  },
+});
+const FeedListTitle = styled('h3', {
+  fontSize: '20px',
+  fontWeight: '600',
+  lineHeight: '30px',
+  marginBottom: '24px',
+  color: '$white',
+});
+const FeedList = styled('ul', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px',
 });

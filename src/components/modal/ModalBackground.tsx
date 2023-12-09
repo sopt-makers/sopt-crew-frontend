@@ -17,5 +17,5 @@ const SModalBackground = styled('div', {
   zIndex: '$2',
   width: '100%',
   height: '100%',
-  backgroundColor: '$black80_trans',
+  backgroundColor: '$grayAlpha800',
 });
