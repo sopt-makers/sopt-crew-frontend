@@ -355,6 +355,7 @@ const STitleInput = styled('input', {
   width: '100%',
   color: '$white',
   fontStyle: 'H3',
+  ml: '$8',
 
   '@tablet': {
     px: '$20',
@@ -371,6 +372,7 @@ const SFeedContentTextArea = styled('textarea', {
   fontStyle: 'B2',
   color: '$white',
   backgroundColor: 'inherit',
+  ml: '$8',
 
   '@tablet': {
     px: '$20',
