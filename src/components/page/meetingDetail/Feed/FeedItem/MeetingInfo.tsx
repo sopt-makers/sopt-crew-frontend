@@ -1,3 +1,4 @@
+import { ampli } from '@/ampli';
 import { Arrow } from '@components/button/Arrow';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
@@ -17,7 +18,7 @@ function MeetingInfo({ meetingInfo }: MeetingInfoProps) {
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();
-        // TODO: id값을 어떻게 넘겨줄지 고민해보기
+        ampli.clickFeedCardGroupLabel({ group_id: meetingInfo.id, location: router.pathname });
         router.push(`/detail?id=${meetingInfo.id}`);
       }}
     >

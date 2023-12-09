@@ -6,12 +6,15 @@ import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import { ampli } from '@/ampli';
+import { useQueryMyProfile } from '@api/user/hooks';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
   const router = useRouter();
 
   const overlay = useOverlay();
+  const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
     onSuccess: data => {
@@ -23,8 +26,17 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
     },
   });
 
-  const handleFeedCreateButtonClick = () => fetchUserAttendMeetingListMutate();
-  const handleGroupCreateButtonClick = () => router.push('/make');
+  const handleGroupCreateButtonClick = () => {
+    ampli.clickMakeGroup({ location: router.pathname });
+    router.push('/make');
+  };
+
+  const handleFeedCreateButtonClick = () => {
+    if (me?.orgId) {
+      ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
+    }
+    fetchUserAttendMeetingListMutate();
+  };
 
   return (
     <Container isActive={isActive}>
