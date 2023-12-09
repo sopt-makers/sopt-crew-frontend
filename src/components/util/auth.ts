@@ -31,12 +31,8 @@ export const getCrewServiceToken = async (playgroundToken: string) => {
 export const setAccessTokens = async () => {
   // NOTE: development 환경에서는 테스트 토큰을 사용한다.
   if (process.env.NODE_ENV === 'development') {
-    crewToken.set(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi6rCV7JiB7JqwIiwiaWQiOjI1MywiaWF0IjoxNzAyMTMxMzIyLCJleHAiOjE3MzgxMzEzMjJ9.2y5MApbYgcUnrjaPyfZN_bqpl6LR4RNGA1jvSYivVIk'
-    );
-    playgroundToken.set(
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMyIsImV4cCI6MTY4MjI0NzIzNn0.jPK_OTNXVNvnVFkbdme6tfABsdryUFgXEYOYGCAxdPc'
-    );
+    crewToken.set(process.env.NEXT_PUBLIC_CREW_TOKEN);
+    playgroundToken.set(process.env.NEXT_PUBLIC_PLAYGROUND_TOKEN);
     return;
   }
 
