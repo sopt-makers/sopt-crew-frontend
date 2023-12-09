@@ -83,7 +83,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
           {!isFetchAttendMeetingLoading && (
             <FeedFormPresentation
               userId={Number(me?.orgId)}
-              attendGroupsInfo={attendMeetingList?.data.data}
+              attendGroupsInfo={attendMeetingList?.data}
               title="피드 작성"
               handleDeleteImage={handleDeleteImage}
               handleModalClose={handleModalClose}
