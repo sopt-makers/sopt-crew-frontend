@@ -183,15 +183,19 @@ const AuthorName = styled('span', {
   fontSize: '16px',
   lineHeight: '22px',
   '@tablet': {
-    fontSize: '12px',
-    lineHeight: '16px',
+    fontSize: '14px',
+    lineHeight: '18px',
   },
 });
 const UpdatedDate = styled('span', {
   color: '$gray300',
   fontWeight: '600',
-  fontSize: '14x',
+  fontSize: '14px',
   lineHeight: '18px',
+  '@tablet': {
+    fontSize: '12px',
+    lineHeight: '16px',
+  },
 });
 const ContentBody = styled('div', {
   display: 'flex',
