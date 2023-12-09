@@ -1,53 +1,79 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
-import React, { useState } from 'react';
+import SendFillIcon from 'public/assets/svg/send_fill.svg';
+import React, { forwardRef, useState } from 'react';
 
 interface FeedCommentInputProps {
+  writerName: string;
   onSubmit: (comment: string) => Promise<void>;
   disabled?: boolean;
 }
 
-export default function FeedCommentInput({ onSubmit, disabled }: FeedCommentInputProps) {
-  const [comment, setComment] = useState('');
+const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
+  ({ writerName, onSubmit, disabled }, ref) => {
+    const [comment, setComment] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length === 0) {
-      e.target.style.height = 'auto';
-    } else {
-      e.target.style.height = `${e.target.scrollHeight}px`;
-    }
-    setComment(e.target.value);
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (e.target.value.length === 0) {
+        e.target.style.height = 'auto';
+      } else {
+        e.target.style.height = `${e.target.scrollHeight}px`;
+      }
+      setComment(e.target.value);
+    };
 
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
 
-    if (!comment.trim()) return;
-    onSubmit(comment).then(() => setComment(''));
-  };
+      if (!comment.trim()) return;
+      onSubmit(comment).then(() => setComment(''));
+    };
 
-  return (
-    <Container>
-      <CommentInput value={comment} onChange={handleChange} placeholder="댓글 입력" rows={1} />
-      <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
-        <SendIcon />
-      </SendButton>
-    </Container>
-  );
-}
+    return (
+      <Container isFocused={isFocused}>
+        <CommentInput
+          ref={ref}
+          value={comment}
+          onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
+          rows={1}
+        />
+        <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
+          {isFocused ? <SendFillIcon /> : <SendIcon />}
+        </SendButton>
+      </Container>
+    );
+  }
+);
+
+export default FeedCommentInput;
 
 const Container = styled('form', {
+  background: '$gray800',
   flexType: 'verticalCenter',
-  gap: '16px',
+  borderRadius: '10px',
+  variants: {
+    isFocused: {
+      true: {
+        outline: '1px solid $gray200',
+      },
+      false: {
+        outline: 'none',
+      },
+    },
+  },
 });
 const CommentInput = styled('textarea', {
   minWidth: 0,
-  width: '692px',
-  height: '54px',
+  width: '100%',
+  height: '48px',
   maxHeight: '120px',
-  padding: '14px 24px',
-  borderRadius: '25px',
-  background: '$gray700',
+  padding: '11px 16px',
+  borderRadius: '10px',
+  background: '$gray800',
   color: '$gray10',
   fontStyle: 'B2',
   border: 'none',
@@ -57,12 +83,13 @@ const CommentInput = styled('textarea', {
     color: '$gray300',
   },
   '@tablet': {
-    height: '48px',
-    padding: '12px 24px',
     fontStyle: 'B3',
   },
 });
 const SendButton = styled('button', {
-  width: '32px',
-  height: '32px',
+  width: '48px',
+  height: '48px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });

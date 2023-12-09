@@ -9,7 +9,6 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
 import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
-import { useDisplay } from '@hooks/useDisplay';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
