@@ -312,6 +312,9 @@ const FeedListWrapper = styled('div', {
   },
 });
 const FeedListTitle = styled('h3', {
+  fontSize: '20px',
+  fontWeight: '600',
+  lineHeight: '30px',
   marginBottom: '24px',
   color: '$white',
   fontStyle: 'T4',
