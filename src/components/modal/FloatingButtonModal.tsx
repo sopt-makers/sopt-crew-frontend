@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
@@ -16,10 +17,13 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
     onSuccess: data => {
       queryClient.setQueryData(['fetchMeetingList', 'all'], data);
-      // TODO: 모임이 없을때 있을떄 분기처리 필요.
-      overlay.open(({ isOpen, close }) => (
-        <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
-      ));
+      if (data.data.data.length === 0) {
+        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+      } else {
+        overlay.open(({ isOpen, close }) => (
+          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+        ));
+      }
     },
   });
 
