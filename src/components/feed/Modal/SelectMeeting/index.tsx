@@ -119,6 +119,7 @@ const SThumbnailImage = styled('div', {
 const SCategory = styled('p', {
   color: '$gray400',
   fontStyle: 'T3',
+  whiteSpace: 'nowrap',
   ml: '$20',
   '@tablet': {
     fontStyle: 'T4',
