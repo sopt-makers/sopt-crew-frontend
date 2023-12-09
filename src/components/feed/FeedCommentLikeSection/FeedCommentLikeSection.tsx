@@ -4,7 +4,6 @@ import CommentHoverIcon from 'public/assets/svg/comment_hover.svg';
 import LikeIcon from 'public/assets/svg/like.svg';
 import LikeHoverIcon from 'public/assets/svg/like_hover.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill.svg';
-import { useState } from 'react';
 
 interface FeedCommentLikeSectionProps {
   isLiked: boolean;
@@ -21,26 +20,23 @@ export default function FeedCommentLikeSection({
   onClickComment,
   onClickLike,
 }: FeedCommentLikeSectionProps) {
-  const [isLikeHovered, setIsLikeHovered] = useState(false);
-  const [isCommentHovered, setIsCommentHovered] = useState(false);
-
   return (
     <>
-      <CommentWrapper
-        onClick={onClickComment}
-        onMouseEnter={() => setIsCommentHovered(true)}
-        onMouseLeave={() => setIsCommentHovered(false)}
-      >
-        {isCommentHovered ? <CommentHoverIcon /> : <CommentIcon />}
+      <CommentWrapper onClick={onClickComment}>
+        <StyledCommentIcon />
+        <StyledCommentHoverIcon />
         <span style={{ marginLeft: '4px' }}>댓글 {commentCount}</span>
       </CommentWrapper>
       <Divider />
-      <LikeWrapper
-        onClick={onClickLike}
-        onMouseEnter={() => setIsLikeHovered(true)}
-        onMouseLeave={() => setIsLikeHovered(false)}
-      >
-        {isLiked ? <LikeFillIcon /> : isLikeHovered ? <LikeHoverIcon /> : <LikeIcon />}
+      <LikeWrapper onClick={onClickLike} isLiked={isLiked}>
+        {isLiked ? (
+          <LikeFillIcon />
+        ) : (
+          <>
+            <StyledLikeIcon />
+            <StyledLikeHoverIcon />
+          </>
+        )}
         <Like isLiked={isLiked}>좋아요 {likeCount}</Like>
       </LikeWrapper>
     </>
@@ -62,10 +58,43 @@ const CommentWrapper = styled('button', {
     width: '50%',
     fontStyle: 'T6',
   },
+  '&:hover svg:first-of-type': {
+    display: 'none',
+  },
+  '&:hover svg:last-of-type': {
+    display: 'block',
+  },
+});
+const StyledCommentIcon = styled(CommentIcon, {
+  display: 'block',
+});
+const StyledCommentHoverIcon = styled(CommentHoverIcon, {
+  display: 'none',
 });
 const LikeWrapper = styled(CommentWrapper, {
   cursor: 'pointer',
   userSelect: 'none',
+  variants: {
+    isLiked: {
+      true: {
+        '&:hover svg:first-of-type': {
+          display: 'block',
+        },
+      },
+    },
+  },
+  '&:hover svg:first-of-type': {
+    display: 'none',
+  },
+  '&:hover svg:nth-of-type(2)': {
+    display: 'block',
+  },
+});
+const StyledLikeIcon = styled(LikeIcon, {
+  display: 'block',
+});
+const StyledLikeHoverIcon = styled(LikeHoverIcon, {
+  display: 'none',
 });
 const Like = styled('span', {
   marginLeft: '4px',
