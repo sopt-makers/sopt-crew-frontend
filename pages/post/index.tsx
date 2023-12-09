@@ -59,11 +59,7 @@ export default function PostPage() {
 
   const handleCreateComment = async (comment: string) => {
     // eslint-disable-next-line prettier/prettier
-    ampli.completedCommentPosting({
-      crew_status: meeting?.approved,
-      platform_type: isMobile ? 'MO' : 'PC',
-      user_id: Number(me?.orgId),
-    });
+    ampli.completedCommentPosting({ crew_status: meeting?.approved, platform_type: isMobile ? 'MO' : 'PC', user_id: Number(me?.orgId) });
     await mutateAsync(comment);
     commentQuery.refetch();
   };
@@ -152,11 +148,7 @@ export default function PostPage() {
                   onClick={() => {
                     overlay.open(({ isOpen, close }) => (
                       // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 삭제하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="삭제하기"
+                <ConfirmModal isModalOpened={isOpen} message="게시글을 삭제하시겠습니까?" cancelButton="돌아가기" confirmButton="삭제하기"
                         handleModalClose={close}
                         handleConfirm={mutateDeletePost}
                       />
@@ -171,11 +163,7 @@ export default function PostPage() {
                   onClick={() => {
                     overlay.open(({ isOpen, close }) => (
                       // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 신고하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="신고하기"
+                      <ConfirmModal isModalOpened={isOpen} message="게시글을 신고하시겠습니까?" cancelButton="돌아가기" confirmButton="신고하기"
                         handleModalClose={close}
                         handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
                       />
@@ -244,13 +232,7 @@ export default function PostPage() {
                       post={post}
                       meetingId={meetingId}
                       // eslint-disable-next-line prettier/prettier
-                      LikeButton={
-                        <LikeButton
-                          isLiked={post.isLiked}
-                          likeCount={post.likeCount}
-                          onClickLike={handleLikeClick(post.id)}
-                        />
-                      }
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />}
                     />
                   </a>
                 </Link>
