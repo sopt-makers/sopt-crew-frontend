@@ -3,6 +3,8 @@ import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient }
 import { produce } from 'immer';
 import { deleteComment, getPost, getPosts, postLike } from '.';
 
+// TODO:: 전체 피드에 대응할 수 있도록 meetingId를 optional로 받음
+// enabled: 도 삭제 해야함
 export const useInfinitePosts = (take: number, meetingId: number) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
