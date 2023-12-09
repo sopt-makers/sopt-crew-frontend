@@ -54,5 +54,5 @@ export const fetchMyProfile = async () => {
 };
 
 export const fetchMeetingListOfUserAttend = async () => {
-  return api.get<PromiseResponse<GroupInfo[]>>('/users/v2/meeting/all');
+  return api.get<PromiseResponse<GroupInfo[]>>('/user/v2/meeting/all');
 };
