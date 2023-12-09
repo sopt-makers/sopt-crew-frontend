@@ -1,5 +1,6 @@
 import { ampli } from '@/ampli';
-import { useInfinitePosts } from '@api/post/hooks';
+import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
+import LikeButton from '@components/button/LikeButton';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
@@ -12,10 +13,12 @@ import { useDisplay } from '@hooks/useDisplay';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
+  const router = useRouter();
 
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfinitePosts(TAKE_COUNT);
 
@@ -25,25 +28,38 @@ const Home: NextPage = () => {
     }
   };
   const { setTarget } = useIntersectionObserver({ onIntersect });
-  const renderedPosts = postsData?.pages.map(post => (
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    <Link href={`/post?id=${post?.id}`} key={post?.id}>
-      <a>
-        <FeedItem
-          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-          /* @ts-ignore */
-          post={post}
-          HeaderSection={
-            <MeetingInfo
-              meetingInfo={
-                (post as any)?.meeting || { id: 89, title: '오늘밤 난 바람났어 강동 멋쟁이', category: '스터디' }
-              }
-            />
-          }
-        />
-      </a>
-    </Link>
-  ));
+
+  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+
+  const handleClickLike =
+    (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      ampli.clickFeedlistLike({ location: router.pathname });
+      mutateCb(postId);
+    };
+
+  const renderedPosts = postsData?.pages.map(post => {
+    if (!post) return;
+    return (
+      <Link href={`/post?id=${post?.id}`} key={post?.id}>
+        <a>
+          <FeedItem
+            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+            /* @ts-ignore */
+            post={post}
+            LikeButton={
+              <LikeButton
+                isLiked={post.isLiked}
+                likeCount={post.likeCount}
+                onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              />
+            }
+            HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+          />
+        </a>
+      </Link>
+    );
+  });
 
   return (
     <>
