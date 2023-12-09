@@ -1,4 +1,6 @@
+import { ampli } from '@/ampli';
 import { fetchMeetingListOfUserAttend } from '@api/user';
+import { useQueryMyProfile } from '@api/user/hooks';
 import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,8 +13,8 @@ import NoJoinedGroupModal from './NoJoinedGroupModal';
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
   const router = useRouter();
-
   const overlay = useOverlay();
+  const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
     onSuccess: data => {
@@ -27,8 +29,17 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
     },
   });
 
-  const handleFeedCreateButtonClick = () => fetchUserAttendMeetingListMutate();
-  const handleGroupCreateButtonClick = () => router.push('/make');
+  const handleGroupCreateButtonClick = () => {
+    ampli.clickMakeGroup({ location: router.pathname });
+    router.push('/make');
+  };
+
+  const handleFeedCreateButtonClick = () => {
+    if (me?.orgId) {
+      ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
+    }
+    fetchUserAttendMeetingListMutate();
+  };
 
   return (
     <Container isActive={isActive}>

@@ -1,3 +1,4 @@
+import { ampli } from '@/ampli';
 import Plus from '@assets/svg/plus.svg?rect';
 import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 import ModalBackground from '@components/modal/ModalBackground';
@@ -7,7 +8,12 @@ import { styled } from 'stitches.config';
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
 
-  const handleButtonClick = () => setIsActive(isActive => !isActive);
+  const handleButtonClick = () => {
+    if (!isActive) {
+      ampli.clickFeedAction();
+    }
+    setIsActive(isActive => !isActive);
+  };
   const handleOptionClose = () => setIsActive(false);
 
   return (
