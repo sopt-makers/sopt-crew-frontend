@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import { useQueryMyProfile } from '@api/user/hooks';
-import { useInfinitePosts, useMutationPostLike, useQueryGetPost } from '@api/post/hooks';
+import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
@@ -24,6 +24,8 @@ import React, { useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
+import LikeButton from '@components/button/LikeButton';
+import { TAKE_COUNT } from '@constants/feed';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -110,8 +112,15 @@ export default function PostPage() {
   };
 
   const meetingId = meeting?.id;
-  const { data: posts } = useInfinitePosts(4, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
+  const { data: posts } = useInfinitePosts(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
   const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
+
+  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
+  const handleLikeClick = (postId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutateLike(postId);
+    // TODO: ampli logging 필요?
+  };
 
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
   if (!post) return <Loader />;
@@ -211,17 +220,24 @@ export default function PostPage() {
         <FeedListWrapper>
           <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
           <FeedList>
-            {postsInMeeting?.map(post => (
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              <Link key={post!.id} href={`/post?id=${post!.id}`}>
-                <a>
-                  {/* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */}
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
-                  <FeedItem post={post} meetingId={meetingId} />
-                </a>
-              </Link>
-            ))}
+            {postsInMeeting?.map(post => {
+              if (!post) return;
+              return (
+                <Link key={post.id} href={`/post?id=${post.id}`}>
+                  <a>
+                    <FeedItem
+                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      meetingId={meetingId}
+                      // eslint-disable-next-line prettier/prettier
+                      LikeButton={<LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />}
+                    />
+                  </a>
+                </Link>
+              );
+            })}
           </FeedList>
         </FeedListWrapper>
         <FeedListWrapper>
