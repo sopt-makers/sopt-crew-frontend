@@ -1,22 +1,29 @@
-import React from 'react';
-import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
-import { styled } from 'stitches.config';
-import { keyframes } from 'stitches.config';
+import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
   const { isActive } = props;
+
+  const overlay = useOverlay();
+  const handleNoJoinedModalClose = () =>
+    overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+
   return (
-    <Container isActive={isActive}>
-      <Button>
-        <GroupIcon style={{ marginRight: '4px' }} />
-        모임 개설
-      </Button>
-      <Button>
-        <FeedIcon style={{ marginRight: '4px' }} />
-        피드 작성
-      </Button>
-    </Container>
+    <>
+      <Container isActive={isActive}>
+        <Button onClick={handleNoJoinedModalClose}>
+          <GroupIcon style={{ marginRight: '4px' }} />
+          모임 개설
+        </Button>
+        <Button>
+          <FeedIcon style={{ marginRight: '4px' }} />
+          피드 작성
+        </Button>
+      </Container>
+    </>
   );
 };
 
@@ -28,7 +35,7 @@ const fadeIn = keyframes({
 });
 
 const fadeOut = keyframes({
-  from: { opacity: '1', transform: 'translateY(0px)' },
+  from: { transform: 'translateY(0px)' },
   to: { opacity: '0', transform: 'translateY(7px)' },
 });
 
