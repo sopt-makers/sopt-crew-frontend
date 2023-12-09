@@ -32,7 +32,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfinitePosts(TAKE_COUNT, Number(meetingId));
+  } = useInfinitePosts(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
 
   const isEmpty = !postsData?.pages[0];
