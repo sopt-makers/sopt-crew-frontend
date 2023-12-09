@@ -1,6 +1,8 @@
 import { ampli } from '@/ampli';
+import { useQueryGetMeeting } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/user/hooks';
+import LikeButton from '@components/button/LikeButton';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
@@ -14,8 +16,6 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import LikeButton from '@components/button/LikeButton';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -63,7 +63,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const handleLikeClick = (postId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     mutateLike(postId);
-    ampli.clickFeedlistLike({ crew_status: meeting?.approved, location: router.pathname });
+    ampli.clickFeedlistLike({ location: router.pathname });
   };
 
   const renderedPosts = postsData?.pages.map(post => {
