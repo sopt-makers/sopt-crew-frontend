@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import { useState } from 'react';
+import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
-import { styled } from 'stitches.config';
-import { keyframes } from 'stitches.config';
+import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean }) => {
@@ -20,7 +19,7 @@ const FloatingButtonModal = (props: { isActive: boolean }) => {
           피드 작성
         </Button>
       </Container>
-      {isCreateGroupClicked && <NoJoinedGroupModal></NoJoinedGroupModal>}
+      {isCreateGroupClicked && <NoJoinedGroupModal />}
     </>
   );
 };
