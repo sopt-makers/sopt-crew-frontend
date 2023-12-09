@@ -40,6 +40,14 @@ interface MeetingListOfMineResponse {
   meetings: MeetingResponse[];
 }
 
+interface MeetingListOfUserAttendResponse {
+  id: number;
+  title: string;
+  contents: string;
+  imageUrl: string;
+  category: string;
+}
+
 export const fetchMeetingListOfApplied = async () => {
   return api.get<PromiseResponse<MeetingListOfAppliedResponse>>('/users/apply');
 };
@@ -50,4 +58,8 @@ export const fetchMeetingListOfMine = async () => {
 
 export const fetchMyProfile = async () => {
   return api.get<PromiseResponse<MyProfileResponse>>('/users/v1/profile/me');
+};
+
+export const fetchMeetingListOfUserAttend = async () => {
+  return api.get<PromiseResponse<MeetingListOfUserAttendResponse[]>>('/users/v2/meeting/all');
 };
