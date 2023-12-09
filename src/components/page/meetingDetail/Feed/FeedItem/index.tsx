@@ -3,7 +3,6 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
 import { UserResponse } from '@api/user';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
@@ -31,16 +30,12 @@ interface FeedItemProps {
   post: PostProps;
   HeaderSection?: React.ReactNode;
   LikeButton?: React.ReactNode;
-  meetingId?: number;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const FeedItem = ({ post, HeaderSection, LikeButton, meetingId: _meetingId, onClick }: FeedItemProps) => {
+const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
   const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount } = post;
   const router = useRouter();
-  // NOTE: 게시글 상세페이지에선 router.query.id 가 post의 id 이기 때문에 meetingId를 주입받아야 한다.
-  const meetingId = _meetingId ?? Number(router.query.id as string);
-  const { data: meeting } = useQueryGetMeeting({ params: { id: String(meetingId) } });
 
   return (
     <SFeedItem onClick={onClick}>
@@ -50,7 +45,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, meetingId: _meetingId, onCl
           <SProfileButton
             onClick={e => {
               e.preventDefault();
-              ampli.clickFeedProfile({ crew_status: meeting?.approved, location: router.pathname });
+              ampli.clickFeedProfile({ location: router.pathname });
               window.location.href = `${playgroundLink.memberDetail(user.orgId)}`;
             }}
           >

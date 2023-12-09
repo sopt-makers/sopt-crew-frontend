@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import FeedFormPresentation, { GroupInfo } from './FeedFormPresentation';
+import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
@@ -21,54 +21,13 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 type CreateModalProps = ModalContainerProps;
 
-// TODO: 실제 api 나오면 삭제할것
-const mockAttendGroupsInfo: GroupInfo[] = [
-  {
-    id: 63,
-    title: '모임 이름',
-    imageUrl:
-      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
-    category: '카테고리',
-    contents: '모임 소개',
-  },
-  {
-    id: 2,
-    title: '모임 이름2',
-    imageUrl:
-      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
-    category: '카테고리',
-    contents: '모임 소개',
-  },
-  {
-    id: 3,
-    title: '모임 이름3',
-    imageUrl:
-      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
-    category: '카테고리',
-    contents: '모임 소개',
-  },
-  {
-    id: 4,
-    title: '모임 이름4',
-    imageUrl:
-      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
-    category: '카테고리',
-    contents: '모임 소개',
-  },
-  {
-    id: 5,
-    title: '모임 이름5',
-    imageUrl:
-      'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/18/94cf107b-4ba4-4a4d-962a-b4351c95ab93.png',
-    category: '카테고리',
-    contents: '모임 소개',
-  },
-];
-
 function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
-  const { data: attendMeetingList } = useQuery(['fetchMeetingList', 'all'], fetchMeetingListOfUserAttend);
-  console.log(attendMeetingList);
+  const { data: attendMeetingList, isLoading: isFetchAttendMeetingLoading } = useQuery(
+    ['fetchMeetingList', 'all'],
+    fetchMeetingListOfUserAttend
+  );
+
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const submitModal = useModal();
@@ -121,22 +80,24 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={exitModal.handleModalOpen}>
       <SDialogWrapper>
         <FormProvider {...formMethods}>
-          <FeedFormPresentation
-            userId={Number(me?.orgId)}
-            attendGroupsInfo={mockAttendGroupsInfo}
-            title="피드 작성"
-            handleDeleteImage={handleDeleteImage}
-            handleModalClose={handleModalClose}
-            setMeetingInfo={meetingInfo =>
-              formMethods.setValue('meetingId', meetingInfo?.id as unknown as number, {
-                shouldValidate: true,
-                shouldDirty: true,
-                shouldTouch: true,
-              })
-            }
-            onSubmit={formMethods.handleSubmit(handleSubmitClick)}
-            disabled={isSubmitting || !isValid}
-          />
+          {!isFetchAttendMeetingLoading && (
+            <FeedFormPresentation
+              userId={Number(me?.orgId)}
+              attendGroupsInfo={attendMeetingList?.data.data}
+              title="피드 작성"
+              handleDeleteImage={handleDeleteImage}
+              handleModalClose={handleModalClose}
+              setMeetingInfo={meetingInfo =>
+                formMethods.setValue('meetingId', meetingInfo?.id as number, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                  shouldTouch: true,
+                })
+              }
+              onSubmit={formMethods.handleSubmit(handleSubmitClick)}
+              disabled={isSubmitting || !isValid}
+            />
+          )}
         </FormProvider>
       </SDialogWrapper>
       <ConfirmModal
