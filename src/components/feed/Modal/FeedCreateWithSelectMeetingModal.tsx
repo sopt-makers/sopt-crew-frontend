@@ -21,6 +21,7 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 type CreateModalProps = ModalContainerProps;
 
+// TODO: 실제 api 나오면 삭제할것
 const mockAttendGroupsInfo: GroupInfo[] = [
   {
     id: 63,
