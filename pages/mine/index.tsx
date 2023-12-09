@@ -15,8 +15,8 @@ import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetin
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
 const enum MeetingType {
-  MADE,
   APPLIED,
+  MADE,
 }
 
 const MinePage: NextPage = () => {
