@@ -306,7 +306,11 @@ const FeedListContainer = styled('div', {
     display: 'none',
   },
 });
-const FeedListWrapper = styled('div', {});
+const FeedListWrapper = styled('div', {
+  '&:last-child': {
+    marginBottom: '140px',
+  },
+});
 const FeedListTitle = styled('h3', {
   marginBottom: '24px',
   color: '$white',
