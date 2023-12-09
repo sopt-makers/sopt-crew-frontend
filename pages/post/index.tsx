@@ -20,12 +20,13 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/meeting/hooks';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
 
 export default function PostPage() {
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
   const showToast = useToast();
   const router = useRouter();
@@ -95,6 +96,13 @@ export default function PostPage() {
       ): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number] =>
         !!comment
     );
+
+  const handleClickComment = () => {
+    const refCurrent = commentRef.current;
+    if (refCurrent) {
+      refCurrent.focus();
+    }
+  };
 
   const handleClickPostLike = () => {
     ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
@@ -166,6 +174,7 @@ export default function PostPage() {
             isLiked={post.isLiked}
             commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
             likeCount={post.likeCount}
+            onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
           />
         }
@@ -183,7 +192,14 @@ export default function PostPage() {
             {commentQuery.hasNextPage && <div ref={setTarget} />}
           </>
         }
-        CommentInput={<FeedCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />}
+        CommentInput={
+          <FeedCommentInput
+            ref={commentRef}
+            writerName={post.user.name}
+            onSubmit={handleCreateComment}
+            disabled={isCreatingComment}
+          />
+        }
         onClickImage={() => {
           ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
         }}
