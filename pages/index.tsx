@@ -10,24 +10,19 @@ import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
   const router = useRouter();
+  const { ref, inView } = useInView();
 
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfinitePosts(TAKE_COUNT);
-
-  const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
-    if (isIntersecting && hasNextPage) {
-      fetchNextPage();
-    }
-  };
-  const { setTarget } = useIntersectionObserver({ onIntersect });
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
 
@@ -37,6 +32,12 @@ const Home: NextPage = () => {
       ampli.clickFeedlistLike({ location: router.pathname });
       mutateCb(postId);
     };
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
 
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
@@ -93,7 +94,7 @@ const Home: NextPage = () => {
         )}
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-        {!isFetchingNextPage && <div ref={setTarget} style={{ height: '1rem' }} />}
+        {!isFetchingNextPage && hasNextPage && <div ref={ref} style={{ height: '1rem' }} />}
 
         <FloatingButton />
       </div>
