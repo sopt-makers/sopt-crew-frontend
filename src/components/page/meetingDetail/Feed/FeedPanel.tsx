@@ -7,11 +7,12 @@ import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
@@ -25,6 +26,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const router = useRouter();
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
+  const { ref, inView } = useInView();
 
   const { isMobile, isTablet } = useDisplay();
   const { data: me } = useQueryMyProfile();
@@ -44,12 +46,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   // @ts-ignore
   const postCount = postsData?.total;
   const formattedPostCount = postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
-  const onIntersect: IntersectionObserverCallback = ([{ isIntersecting }]) => {
-    if (isIntersecting && hasNextPage) {
-      fetchNextPage();
-    }
-  };
-  const { setTarget } = useIntersectionObserver({ onIntersect });
 
   const handleModalOpen = () => {
     if (me?.orgId) {
@@ -65,6 +61,12 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     mutateLike(postId);
     ampli.clickFeedlistLike({ location: router.pathname });
   };
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
 
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
@@ -122,8 +124,11 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
           {renderedPosts}
         </SDesktopContainer>
       )}
-      {!isFetchingNextPage && <div ref={setTarget} style={{ height: '1rem' }} />}
-
+      {!isFetchingNextPage && hasNextPage ? (
+        <div ref={ref} style={{ height: '1px' }} />
+      ) : (
+        <div style={{ height: '1px' }} />
+      )}
       {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
     </>
   );
