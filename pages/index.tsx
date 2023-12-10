@@ -91,9 +91,10 @@ const Home: NextPage = () => {
             {renderedPosts}
           </SDesktopContainer>
         )}
-        <div ref={setTarget} />
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+        {!isFetchingNextPage && <div ref={setTarget} style={{ height: '1rem' }} />}
+
         <FloatingButton />
       </div>
     </>

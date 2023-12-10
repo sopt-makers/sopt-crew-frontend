@@ -122,7 +122,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
           {renderedPosts}
         </SDesktopContainer>
       )}
-      <div ref={setTarget} />
+      {!isFetchingNextPage && <div ref={setTarget} style={{ height: '1rem' }} />}
 
       {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
     </>
