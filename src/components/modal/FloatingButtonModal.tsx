@@ -112,6 +112,7 @@ const Button = styled('button', {
   fontSize: '16px',
   fontWeight: '600',
   lineHeight: '22px',
+  color: '$gray600',
   '&:hover': {
     borderRadius: '16px',
     backgroundColor: '$gray30',
