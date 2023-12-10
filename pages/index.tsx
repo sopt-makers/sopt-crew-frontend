@@ -94,7 +94,7 @@ const Home: NextPage = () => {
         )}
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-        {!isFetchingNextPage && hasNextPage && <div ref={ref} style={{ height: '1rem' }} />}
+        {!isFetchingNextPage && hasNextPage && <div ref={ref} />}
 
         <FloatingButton />
       </div>
