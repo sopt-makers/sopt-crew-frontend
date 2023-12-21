@@ -18,7 +18,7 @@ import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
-  const { isTablet } = useDisplay();
+  const { isMobile, isTablet } = useDisplay();
   const router = useRouter();
   const { ref, inView } = useInView();
 
@@ -54,6 +54,19 @@ const Home: NextPage = () => {
                 likeCount={post.likeCount}
                 onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
               />
+            }
+            onClick={() =>
+              ampli.clickFeedCard({
+                feed_id: post.id,
+                feed_upload: post.updatedDate,
+                feed_title: post.title,
+                feed_image_total: post.images ? post.images.length : 0,
+                feed_comment_total: post.commentCount,
+                feed_like_total: post.likeCount,
+                group_id: post.meeting.id,
+                platform_type: isMobile ? 'MO' : 'PC',
+                location: router.pathname,
+              })
             }
             HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
           />
