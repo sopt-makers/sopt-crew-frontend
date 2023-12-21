@@ -324,4 +324,7 @@ const FeedList = styled('ul', {
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
+  a: {
+    width: '$380',
+  },
 });
