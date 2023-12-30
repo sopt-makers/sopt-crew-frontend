@@ -18,7 +18,6 @@ const SEO = () => {
       <meta property="twitter:description" content="솝트와 더 친해지고 싶으신가요?" />
       <meta property="twitter:image" content="/group/assets/images/thumbnail.jpg" />
       <meta property="twitter:url" content="https://playground.sopt.org/group" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     </Head>
   );
 };
