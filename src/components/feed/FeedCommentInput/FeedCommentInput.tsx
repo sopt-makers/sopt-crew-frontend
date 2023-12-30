@@ -86,11 +86,17 @@ const CommentInput = styled('textarea', {
   },
   '@tablet': {
     fontStyle: 'B3',
-    fontSize: '$16',
-    transform: 'scale(0.875)',
-    padding: '12.5714286px 18.2857143px',
+    fontSize: '16px',
+    width: '114.285714%',
+    height: '54.8571429px',
+    maxHeight: '137.142857px',
     lineHeight: '27.4285714px',
-    transformOrigin: 'left top',
+    padding: '12.5714286px 18.2857143px',
+    borderRadius: '11.4285714px',
+    transform: 'scale(0.875)',
+    transformOrigin: 'top left',
+    marginRight: '-14%',
+    marginBottom: '-7px',
   },
 });
 const SendButton = styled('button', {
