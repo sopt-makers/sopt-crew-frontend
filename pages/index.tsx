@@ -122,7 +122,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
-  marginTop: '$40',
+  margin: '$40 0',
   a: {
     width: 'calc(calc(100% - 60px) / 3)',
   },
@@ -131,7 +131,7 @@ const SDesktopContainer = styled(MasonryInfiniteGrid, {
 const SMobileContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginTop: 0,
+  margin: 0,
   '& a:not(:first-child)::before': {
     content: '',
     display: 'none',
