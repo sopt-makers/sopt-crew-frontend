@@ -6,12 +6,13 @@ import { ampli } from '@/ampli';
 import { UserResponse } from '@api/user';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
-import { AVATAR_MAX_LENGTH, CARD_CONTENT_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
+import { AVATAR_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
+import { getResizedImage } from '@utils/image';
 
 interface PostProps {
   id: number;
@@ -50,7 +51,11 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
             }}
           >
             <SProfileImageWrapper>
-              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+              {user.profileImage ? (
+                <SProfileImage src={getResizedImage(user.profileImage, 32)} alt="" />
+              ) : (
+                <ProfileDefaultIcon />
+              )}
             </SProfileImageWrapper>
             <SName>{user.name}</SName>
           </SProfileButton>
@@ -60,10 +65,10 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
       </STop>
 
       <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
-      <SContent>{truncateText(contents, CARD_CONTENT_MAX_LENGTH)}</SContent>
+      <SContent>{contents}</SContent>
       {images && images[THUMBNAIL_IMAGE_INDEX] && (
         <SThumbnailWrapper>
-          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
+          <SThumbnail src={getResizedImage(images[THUMBNAIL_IMAGE_INDEX], 340)} alt="" />
           {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
         </SThumbnailWrapper>
       )}
@@ -173,6 +178,11 @@ const SContent = styled('div', {
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-all',
+  display: '-webkit-box',
+  textOverflow: 'ellipsis',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 3,
+  overflow: 'hidden',
   '@tablet': {
     fontStyle: 'B3',
   },

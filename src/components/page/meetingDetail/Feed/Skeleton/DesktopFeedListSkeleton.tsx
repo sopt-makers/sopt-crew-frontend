@@ -29,4 +29,7 @@ const SDesktopFeedListSkeleton = styled('div', {
   gap: '24px 30px',
   margin: '0 auto',
   mt: '$56',
+  '@tablet': {
+    display: 'none',
+  },
 });
