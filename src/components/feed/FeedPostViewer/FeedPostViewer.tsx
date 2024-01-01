@@ -7,6 +7,7 @@ import ArrowIcon from '@assets/svg/arrow_card.svg';
 import { styled } from 'stitches.config';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
+import { getResizedImage } from '@utils/image';
 import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -111,7 +112,7 @@ export default function FeedPostViewer({
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref>
           <GroupButton>
-            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
+            <GroupThumbnail src={getResizedImage(post.meeting.imageURL[0].url, 88)} alt="" />
             <GroupInformation>
               <div>
                 <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>
@@ -348,7 +349,7 @@ const ViewCount = styled('span', {
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
   top: 0,
-  right: '100%', // TODO: design 체크 필요
+  right: '100%',
 });
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',
@@ -378,5 +379,9 @@ const SAvatar = styled(Avatar, {
   '@tablet': {
     width: '40px',
     height: '40px',
+  },
+  svg: {
+    width: '44px',
+    height: '44px',
   },
 });

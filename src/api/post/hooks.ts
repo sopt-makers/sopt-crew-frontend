@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { deleteComment, getPost, getPosts, postLike } from '.';
 
 export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boolean) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: ['getPosts', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
@@ -21,8 +21,6 @@ export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boo
       total: data.pages[0]?.data.meta.itemCount,
     }),
   });
-
-  return { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading };
 };
 
 export const useMutationUpdateLike = (take: number, meetingId?: number) => {

@@ -3,6 +3,7 @@ import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
 import FloatingButton from '@components/page/postList/FloatingButton';
 import { TabList } from '@components/tabList/TabList';
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { ref, inView } = useInView();
 
-  const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfinitePosts(TAKE_COUNT);
+  const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
 
@@ -98,6 +99,9 @@ const Home: NextPage = () => {
           </TabList>
         </Flex>
 
+        {isLoading &&
+          (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+
         {isTablet ? (
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
@@ -122,7 +126,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
-  marginTop: '$40',
+  margin: '$40 0',
   a: {
     width: 'calc(calc(100% - 60px) / 3)',
   },
@@ -131,7 +135,7 @@ const SDesktopContainer = styled(MasonryInfiniteGrid, {
 const SMobileContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginTop: 0,
+  margin: 0,
   '& a:not(:first-child)::before': {
     content: '',
     display: 'none',

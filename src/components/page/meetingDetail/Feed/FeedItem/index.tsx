@@ -12,6 +12,7 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
+import { getResizedImage } from '@utils/image';
 
 interface PostProps {
   id: number;
@@ -50,7 +51,11 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
             }}
           >
             <SProfileImageWrapper>
-              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+              {user.profileImage ? (
+                <SProfileImage src={getResizedImage(user.profileImage, 32)} alt="" />
+              ) : (
+                <ProfileDefaultIcon />
+              )}
             </SProfileImageWrapper>
             <SName>{user.name}</SName>
           </SProfileButton>
@@ -63,7 +68,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
       <SContent>{contents}</SContent>
       {images && images[THUMBNAIL_IMAGE_INDEX] && (
         <SThumbnailWrapper>
-          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
+          <SThumbnail src={getResizedImage(images[THUMBNAIL_IMAGE_INDEX], 340)} alt="" />
           {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
         </SThumbnailWrapper>
       )}
