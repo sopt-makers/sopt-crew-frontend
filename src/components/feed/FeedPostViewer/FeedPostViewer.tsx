@@ -16,6 +16,7 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import useToast from '@hooks/useToast';
 import Link from 'next/link';
+import { CATEGORY_OPTIONS } from '@constants/option';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -113,7 +114,9 @@ export default function FeedPostViewer({
             <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
             <GroupInformation>
               <div>
-                <span>{post.meeting.category}</span>
+                <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>
+                  {post.meeting.category}
+                </GroupCategory>
                 <span>{post.meeting.title}</span>
               </div>
               <GroupDescription>{post.meeting.desc}</GroupDescription>
@@ -251,11 +254,16 @@ const GroupInformation = styled('div', {
       marginLeft: '$6',
     },
   },
-  'span:first-child': {
-    color: '$secondary',
-  },
   'span:last-child': {
     color: '$gray30',
+  },
+});
+const GroupCategory = styled('span', {
+  variants: {
+    isStudy: {
+      true: { color: '$secondary' },
+      false: { color: '$success' },
+    },
   },
 });
 const GroupDescription = styled('p', {

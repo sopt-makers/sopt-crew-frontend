@@ -1,5 +1,6 @@
 import { ampli } from '@/ampli';
 import { Arrow } from '@components/button/Arrow';
+import { CATEGORY_OPTIONS } from '@constants/option';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 
@@ -23,7 +24,7 @@ function MeetingInfo({ meetingInfo }: MeetingInfoProps) {
       }}
     >
       <MeetingInfoWrapper>
-        <MeetingType>{meetingInfo.category}</MeetingType>
+        <MeetingType isStudy={meetingInfo.category === CATEGORY_OPTIONS[0]}>{meetingInfo.category}</MeetingType>
         <MeetingName>{meetingInfo.title}</MeetingName>
       </MeetingInfoWrapper>
       <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />
@@ -58,9 +59,14 @@ const MeetingInfoWrapper = styled('div', {
 });
 
 const MeetingType = styled('p', {
-  color: '$secondary',
   mr: '$6',
   whiteSpace: 'nowrap',
+  variants: {
+    isStudy: {
+      true: { color: '$secondary' },
+      false: { color: '$success' },
+    },
+  },
 });
 
 const MeetingName = styled('p', {
