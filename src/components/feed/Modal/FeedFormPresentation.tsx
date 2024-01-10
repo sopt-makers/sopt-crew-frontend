@@ -168,7 +168,7 @@ function FeedFormPresentation({
             <STitleInput
               className="calc_target"
               type="text"
-              placeholder="제목을 입력해주세요 (최대 100자)"
+              placeholder="제목을 입력해 주세요. (최대 100자)"
               value={titleValue}
               onChange={e => {
                 const inputValue = e.target.value;
@@ -195,7 +195,7 @@ function FeedFormPresentation({
                 },
               }}
               ref={textAreaRef}
-              placeholder="모임에서 있었던 일들을 자유롭게 공유해주세요"
+              placeholder="모임에서 있었던 일들을 친구들에게 공유해 주세요!"
               value={contentsValue}
               onChange={onChange}
               onBlur={onBlur}
@@ -377,7 +377,6 @@ const SFeedContentTextArea = styled('textarea', {
   '@tablet': {
     px: '$20',
     boxSizing: 'border-box',
-    fontStyle: 'B3',
   },
 
   '&::-webkit-scrollbar': {

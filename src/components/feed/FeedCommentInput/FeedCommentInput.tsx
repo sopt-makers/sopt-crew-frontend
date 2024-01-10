@@ -84,9 +84,6 @@ const CommentInput = styled('textarea', {
   '&::placeholder': {
     color: '$gray300',
   },
-  '@tablet': {
-    fontStyle: 'B3',
-  },
 });
 const SendButton = styled('button', {
   width: '48px',
