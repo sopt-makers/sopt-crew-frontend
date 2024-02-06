@@ -3,6 +3,32 @@
 
 <img src="https://user-images.githubusercontent.com/58380158/228786812-912b193e-11d2-4b95-8e1f-38a04177c9f4.png" />
 
+## Getting Started
+
+### 1. node_modules 설치
+
+```sh
+yarn
+```
+
+### 2. 환경변수 등록
+
+`.env.sample` 파일 이름을 `.env.local`로 변경하고, 내용을 채워주세요. `.env.local` 에 필요한 내용은 동료 개발자로부터 얻을 수 있어요.
+
+### 3. API 코드 제너레이션
+
+```sh
+yarn generate-types
+```
+
+### 4. 개발 서버 실행
+
+```sh
+yarn dev
+```
+
+
+
 ## 🔍 프로젝트 배경
 모임 서비스는 SOPT 구성원들이 하나로 모일 수 있는 순간을 제공하고, SOPT 내 존재하는 다양한 모임들을 보다 활성화하기 위해 탄생했어요.
 
