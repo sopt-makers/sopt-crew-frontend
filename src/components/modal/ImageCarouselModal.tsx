@@ -82,6 +82,7 @@ const Counter = styled('div', {
   position: 'absolute',
   top: '28px',
   left: '48px',
+  zIndex: '$1',
   color: 'white',
   fontStyle: 'T1',
   '@tablet': {
@@ -95,6 +96,7 @@ const CloseButton = styled('button', {
   position: 'absolute',
   top: '32px',
   right: '48px',
+  zIndex: '$1',
   width: '24px',
   height: '24px',
   border: 'none',
