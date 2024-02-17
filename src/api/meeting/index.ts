@@ -94,6 +94,34 @@ export interface UpdateApplicationRequest {
   status: number;
 }
 
+export interface GroupBrowsingCardDetail {
+  id: number;
+  userId: number;
+  title: string;
+  category: string;
+  imageURL: {
+    id: number;
+    url: string;
+  }[];
+  startDate: string;
+  endDate: string;
+  mStartDate: string;
+  mEndDate: string;
+  capacity: number;
+  recentActivityDate: string | null;
+  targetActiveGeneration: number;
+  joinableParts: ('PM' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER')[];
+  applicantCount: number;
+  approvedUserCount: number;
+  user: {
+    id: number;
+    name: string;
+    orgId: number;
+    profileImage: string;
+  };
+  status: 0 | 1 | 2;
+}
+
 function parseStatusToNumber(status: string, statusArray: string[]) {
   const statusIdx = statusArray.findIndex(item => item === status);
   if (statusIdx >= 0) return statusIdx;

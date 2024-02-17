@@ -83,7 +83,7 @@ const Home: NextPage = () => {
           <TabList text="feedAll" size="big">
             <Link href="/" passHref>
               <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">모임 피드</TabList.Item>
+                <TabList.Item text="feedAll">홈</TabList.Item>
               </a>
             </Link>
             <Link href="/list" passHref>
@@ -105,9 +105,12 @@ const Home: NextPage = () => {
         {isTablet ? (
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
-          <SDesktopContainer align="left" gap={30}>
-            {renderedPosts}
-          </SDesktopContainer>
+          <>
+            <SContentTitle>최신 피드</SContentTitle>
+            <SDesktopContainer align="left" gap={30}>
+              {renderedPosts}
+            </SDesktopContainer>
+          </>
         )}
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
@@ -126,7 +129,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
-  margin: '$40 0',
+  margin: '$20 0',
   a: {
     width: 'calc(calc(100% - 60px) / 3)',
   },
@@ -148,4 +151,10 @@ const SMobileContainer = styled('div', {
       background: '$gray800',
     },
   },
+});
+
+const SContentTitle = styled('div', {
+  fontStyle: 'H2',
+  color: '$white',
+  mb: '$20',
 });

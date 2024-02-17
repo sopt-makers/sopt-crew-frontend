@@ -13,6 +13,7 @@ export const APPLICATION_TYPE = ['신청', '초대'];
 export const CATEGORY_OPTIONS = ['스터디', '행사'];
 export const PART_OPTIONS = ['기획', '디자인', '안드로이드', 'iOS', '웹', '서버'];
 export const PART_VALUES = ['PM', 'DESIGN', 'ANDROID', 'IOS', 'WEB', 'SERVER'];
+export const ACTION_STATUS = ['모집 전', '모집 중', '모집 마감', '활동 중', '활동 종료'];
 
 export const enum ERecruitmentStatus {
   BEFORE,
@@ -23,6 +24,14 @@ export const enum EApprovalStatus {
   WAITING,
   APPROVE,
   REJECT,
+}
+
+export const enum EActionStatus {
+  BEFORE,
+  RECRUITING,
+  OVER,
+  ACTING,
+  AOVER,
 }
 export interface FilterType {
   label: string;

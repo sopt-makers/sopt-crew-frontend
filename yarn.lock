@@ -3574,6 +3574,11 @@
   resolved "https://registry.yarnpkg.com/@sopt-makers/colors/-/colors-3.0.0.tgz#a3db487bf645255cd25edcba49ba59e2cd54db05"
   integrity sha512-1IWd4GUbkouKBqee+TgiRcRcaPB3pnBgjx9YN+Ti/G0pgFkdG+4K2VWKWrqUwIS/fV+fE8ttrjpYpgTWN+XhJw==
 
+"@sopt-makers/fonts@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sopt-makers/fonts/-/fonts-1.0.0.tgz#50aefea7e5019fbd0dad1f8887cf0afe1c502505"
+  integrity sha512-a3LOO+DnHL9xZTOdqf8CA5YA4Q45wEIH6XMupHRptfdsWuw5L1bmxRUOGc6sGjjmZOn+aLUf/9+S0fOS112VGw==
+
 "@sopt-makers/playground-common@^1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@sopt-makers/playground-common/-/playground-common-1.4.2.tgz#12adf07be136f504e72bce4257bad2768b46b108"

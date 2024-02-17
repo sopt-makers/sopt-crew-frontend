@@ -22,6 +22,7 @@
     "@nanostores/react": "^0.7.1",
     "@sentry/nextjs": "^7.51.0",
     "@sopt-makers/colors": "^3.0.0",
+    "@sopt-makers/fonts": "^1.0.0",
     "@sopt-makers/playground-common": "^1.4.2",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.10.3",
