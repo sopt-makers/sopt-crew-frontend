@@ -4,21 +4,18 @@ import UserIcon from '@assets/svg/user.svg';
 import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
-import { fonts } from '@sopt-makers/fonts';
 import { GroupBrowsingCardDetail, parsePartValueToLabel } from '@api/meeting';
 import dayjs from 'dayjs';
-import { ACTION_STATUS, EActionStatus } from '@constants/option';
+import isBetween from 'dayjs/plugin/isBetween';
+dayjs.extend(isBetween);
+import { PART_NAME, ACTION_STATUS, EActionStatus } from '@constants/option';
 import Link from 'next/link';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   id,
-  userId,
   title,
   category,
-  imageURL,
   startDate,
-  endDate,
-  capacity,
   mStartDate,
   mEndDate,
   recentActivityDate,
@@ -29,40 +26,32 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   user,
   status,
 }) => {
-  const isAllParts = joinableParts?.length === 6 || joinableParts === null;
-  const isGroupActive = new Date(mStartDate) <= new Date() && new Date() <= new Date(mEndDate);
+  const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
+  const isGroupActive = dayjs().isBetween(dayjs(mStartDate), dayjs(mEndDate));
 
   const returnNewStatus = () => {
-    if (status == 0) {
-      return 0;
-    } else if (status == 1) {
-      return 1;
-    } else {
-      if (new Date(mStartDate) > new Date()) {
-        return 2;
-      } else if (isGroupActive) {
-        return 3;
-      } else {
-        return 4;
-      }
+    if (status === 0 || status === 1) {
+      return status;
     }
+    if (new Date(mStartDate) > new Date()) {
+      return 2;
+    }
+    if (isGroupActive) {
+      return 3;
+    }
+    return 4;
   };
 
   const newStatus = returnNewStatus();
 
-  const returnStatusText = () => {
-    switch (newStatus) {
-      case EActionStatus.BEFORE:
-        return <SStatusText status={newStatus}>{dayjs().diff(startDate, 'day')}일 남음</SStatusText>;
-      case EActionStatus.RECRUITING:
-        return <SStatusText status={newStatus}>{applicantCount}명 신청 중</SStatusText>;
-      case EActionStatus.ACTING:
-        return (
-          <SStatusText status={newStatus}>
-            {recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글'}
-          </SStatusText>
-        );
-    }
+  type statusTextsType = {
+    [key: number]: string;
+  };
+
+  const statusTexts: statusTextsType = {
+    [EActionStatus.BEFORE]: `${dayjs().diff(startDate, 'day')}일 남음`,
+    [EActionStatus.RECRUITING]: `${applicantCount}명 신청 중`,
+    [EActionStatus.ACTING]: recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글',
   };
 
   return (
@@ -71,8 +60,8 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
         <SGroupBrowsingCard>
           <SInfo>
             <STop>
-              <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> {user.name}
-              <STopDivisor>|</STopDivisor> {category}
+              <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
+              <STopDivisor>|</STopDivisor> <span>{category}</span>
             </STop>
             <STitle>{title}</STitle>
             <SContents>
@@ -95,10 +84,10 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
           </SInfo>
           <SBottom status={newStatus}>
             <Flex align="center">
-              <SRecruitStatusIcon status={newStatus}></SRecruitStatusIcon>
+              <SRecruitStatusIcon status={newStatus} />
               {ACTION_STATUS[newStatus]}
             </Flex>
-            {returnStatusText()}
+            <SStatusText status={newStatus}>{statusTexts[newStatus]}</SStatusText>
           </SBottom>
         </SGroupBrowsingCard>
       </a>
@@ -139,7 +128,7 @@ const STop = styled('div', {
   fontWeight: '600',
   lineHeight: '14px',
   '& > div:first-child': {
-    marginRight: '6px',
+    mr: '$6',
   },
 });
 
@@ -180,9 +169,7 @@ const SBottom = styled('div', {
   fontWeight: '600',
   lineHeight: '16px',
   width: '100%',
-  pb: '$12',
-  pl: '$16',
-  pr: '$16',
+  padding: '$0 $16 $12 $16',
   borderBottomLeftRadius: '$12',
   borderBottomRightRadius: '$12',
   variants: {
