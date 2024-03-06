@@ -99,10 +99,7 @@ export interface GroupBrowsingCardDetail {
   userId: number;
   title: string;
   category: string;
-  imageURL: {
-    id: number;
-    url: string;
-  }[];
+  imageURL: ImageURLType[];
   startDate: string;
   endDate: string;
   mStartDate: string;
@@ -119,7 +116,7 @@ export interface GroupBrowsingCardDetail {
     orgId: number;
     profileImage: string;
   };
-  status: 0 | 1 | 2;
+  status: RecruitmentStatusType;
 }
 
 function parseStatusToNumber(status: string, statusArray: string[]) {

@@ -256,6 +256,36 @@ export const Default: Story = {
         },
         status: 1,
       },
+      {
+        id: 103,
+        userId: 262,
+        title: '하하',
+        category: '스터디',
+        imageURL: [
+          {
+            id: 0,
+            url: 'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/05/13/e907b6b8-015b-4685-854d-47f633c90c53.jpeg',
+          },
+        ],
+        startDate: '2023-05-10T00:00:00.000Z',
+        endDate: '3013-05-10T23:59:59.999Z',
+        capacity: 1234567890,
+        mStartDate: '2034-05-15T00:00:00.000Z',
+        mEndDate: '1997-08-14T00:00:00.000Z',
+        recentActivityDate: '2024-02-14T00:00:00.000Z',
+        targetActiveGeneration: 31,
+        joinableParts: ['PM', 'DESIGN', 'WEB', 'ANDROID', 'IOS', 'SERVER'],
+        applicantCount: 0,
+        approvedUserCount: 3,
+        user: {
+          id: 299,
+          name: '김현수',
+          orgId: 28,
+          profileImage:
+            'https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//prod/image/project/39f5882c-e322-425c-9f83-1194cf0aa220-톡방.png',
+        },
+        status: 1,
+      },
     ],
   },
 };
