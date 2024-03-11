@@ -17,8 +17,6 @@ const NextArrow = ({ className, onClick, total, activeSlide, cardListLength }: N
     onClick?.(e);
   };
 
-  console.log(activeSlide / 4 + 1);
-  console.log(cardListLength / 4);
   return (
     <SButton className={className} onClick={e => handleClick(e)}>
       <Arrow />

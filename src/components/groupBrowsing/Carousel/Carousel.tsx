@@ -33,8 +33,13 @@ const Carousel = ({ cardList }: CarouselProps) => {
   }, []);
 
   const isLastPage =
-    width > 1260 ? activeSlide / 4 + 1 === cardListLength / 4 : activeSlide / 3 + 1 === cardListLength / 3;
+    width > 1227 ? activeSlide / 4 + 1 === cardListLength / 4 : activeSlide / 2 + 1.5 > cardListLength / 2;
   const isFirstPage = activeSlide === 0;
+
+  console.log(activeSlide);
+  console.log(activeSlide / 2 + 1.5);
+  console.log(cardListLength / 2);
+  console.log(width);
 
   const settings = {
     prevArrow: isFirstPage ? (
@@ -63,7 +68,7 @@ const Carousel = ({ cardList }: CarouselProps) => {
       {
         breakpoint: 1260,
         settings: {
-          slidesToShow: isLastPage ? 2 : 2.34,
+          slidesToShow: 2.34,
           slidesToScroll: 2,
         },
       },
