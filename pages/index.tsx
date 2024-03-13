@@ -1,6 +1,9 @@
 import { ampli } from '@/ampli';
+import { getGroupBrowsingCard } from '@api/meeting';
+import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
+import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
@@ -26,6 +29,8 @@ const Home: NextPage = () => {
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+
+  const { data: groupBrowsingCardData } = useQueryGetGroupBrowsingCard();
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,6 +112,7 @@ const Home: NextPage = () => {
         ) : (
           <>
             <SContentTitle>최신 피드</SContentTitle>
+            {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
             <SDesktopContainer align="left" gap={30}>
               {renderedPosts}
             </SDesktopContainer>
