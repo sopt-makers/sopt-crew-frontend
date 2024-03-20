@@ -11,7 +11,6 @@ interface CarouselProps {
 }
 
 const Carousel = ({ cardList }: CarouselProps) => {
-  console.log(cardList);
   const cardListLength = cardList.length;
   const [oldSlide, setOldSlide] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -93,8 +92,8 @@ const SCarousel = styled('div', {
   '.slick-slider': {
     flexType: 'center',
     position: 'relative',
-
     maxWidth: '1328px',
+    width: '100vw',
 
     '@media (max-width: 1260px)': {
       width: '848px',
@@ -145,11 +144,11 @@ const SNextBlankArrow = styled('div', {
 const SPrevArrowContainer = styled('div', {
   position: 'absolute',
   left: '$0',
-  zIndex: '$1',
+  zIndex: '0.5',
 });
 
 const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
-  zIndex: '$1',
+  zIndex: '0.5',
 });
