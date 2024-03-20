@@ -1,6 +1,8 @@
 import { ampli } from '@/ampli';
+import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
+import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
@@ -26,6 +28,8 @@ const Home: NextPage = () => {
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+
+  const { data: groupBrowsingCardData } = useQueryGetGroupBrowsingCard();
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,7 +87,7 @@ const Home: NextPage = () => {
           <TabList text="feedAll" size="big">
             <Link href="/" passHref>
               <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">모임 피드</TabList.Item>
+                <TabList.Item text="feedAll">홈</TabList.Item>
               </a>
             </Link>
             <Link href="/list" passHref>
@@ -105,9 +109,17 @@ const Home: NextPage = () => {
         {isTablet ? (
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
-          <SDesktopContainer align="left" gap={30}>
-            {renderedPosts}
-          </SDesktopContainer>
+          <>
+            <SContentTitle style={{ marginTop: '54px' }}>모임 둘러보기</SContentTitle>
+            <div style={{ width: '100vw', position: 'absolute', left: '0', display: 'flex', justifyContent: 'center' }}>
+              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            </div>
+            <div style={{ paddingBottom: '230px' }}></div>
+            <SContentTitle>최신 피드</SContentTitle>
+            <SDesktopContainer align="left" gap={30}>
+              {renderedPosts}
+            </SDesktopContainer>
+          </>
         )}
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
@@ -126,7 +138,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
-  margin: '$40 0',
+  margin: '$20 0',
   a: {
     width: 'calc(calc(100% - 60px) / 3)',
   },
@@ -148,4 +160,10 @@ const SMobileContainer = styled('div', {
       background: '$gray800',
     },
   },
+});
+
+const SContentTitle = styled('div', {
+  fontStyle: 'H2',
+  color: '$white',
+  mb: '$20',
 });
