@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { styled } from 'stitches.config';
 import Arrow from '@assets/svg/group_browsing_arrow_left.svg';
 import { ampli } from '@/ampli';

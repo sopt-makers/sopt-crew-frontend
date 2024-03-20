@@ -54,6 +54,11 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
     [EActionStatus.ACTING]: recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글',
   };
 
+  function categoryType(category: string) {
+    if (category === 'STUDY') return '스터디';
+    if (category == 'EVENT') return '행사';
+  }
+
   return (
     <Link href={`/group/detail?id=${id}`}>
       <a>
@@ -61,7 +66,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
           <SInfo>
             <STop>
               <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
-              <STopDivisor>|</STopDivisor> <span>{category}</span>
+              <STopDivisor>|</STopDivisor> <span>{categoryType(category)}</span>
             </STop>
             <STitle>{title}</STitle>
             <SContents>

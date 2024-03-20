@@ -1,5 +1,4 @@
 import { ampli } from '@/ampli';
-import { getGroupBrowsingCard } from '@api/meeting';
 import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
@@ -111,8 +110,12 @@ const Home: NextPage = () => {
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
           <>
+            <SContentTitle style={{ marginTop: '54px' }}>모임 둘러보기</SContentTitle>
+            <div style={{ width: '100vw', position: 'absolute', left: '0', display: 'flex', justifyContent: 'center' }}>
+              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            </div>
+            <div style={{ paddingBottom: '230px' }}></div>
             <SContentTitle>최신 피드</SContentTitle>
-            {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
             <SDesktopContainer align="left" gap={30}>
               {renderedPosts}
             </SDesktopContainer>
