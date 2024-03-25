@@ -110,7 +110,9 @@ const Home: NextPage = () => {
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
           <>
-            <SContentTitle style={{ marginTop: '54px' }}>모임 둘러보기</SContentTitle>
+            <SContentTitle style={{ marginTop: '54px' }}>
+              모임 둘러보기<SMoreButton>더보기 {'>'}</SMoreButton>
+            </SContentTitle>
             <div style={{ width: '100vw', position: 'absolute', left: '0', display: 'flex', justifyContent: 'center' }}>
               {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
             </div>
@@ -166,4 +168,18 @@ const SContentTitle = styled('div', {
   fontStyle: 'H2',
   color: '$white',
   mb: '$20',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  '@media (max-width: 1259px)': {
+    width: '790px',
+  },
+});
+
+const SMoreButton = styled('button', {
+  color: '$gray200',
+  /* TODO: mds font 로 변환 */
+  fontSize: '$14',
+  fontWeight: '600',
+  lineHeight: '$18',
 });

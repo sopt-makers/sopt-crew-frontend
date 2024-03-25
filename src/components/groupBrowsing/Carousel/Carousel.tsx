@@ -36,11 +36,6 @@ const Carousel = ({ cardList }: CarouselProps) => {
     width > 1227 ? activeSlide / 4 + 1 === cardListLength / 4 : activeSlide / 2 + 1.5 > cardListLength / 2;
   const isFirstPage = activeSlide === 0;
 
-  console.log(activeSlide);
-  console.log(activeSlide / 2 + 1.5);
-  console.log(cardListLength / 2);
-  console.log(width);
-
   const settings = {
     prevArrow: isFirstPage ? (
       <SPrevBlankArrow></SPrevBlankArrow>
@@ -66,7 +61,7 @@ const Carousel = ({ cardList }: CarouselProps) => {
     },
     responsive: [
       {
-        breakpoint: 1260,
+        breakpoint: 1259,
         settings: {
           slidesToShow: 2.34,
           slidesToScroll: 2,
@@ -113,7 +108,7 @@ const SCarousel = styled('div', {
       flexType: 'center',
     },
 
-    '@media (max-width: 1260px)': {
+    '@media (max-width: 1259px)': {
       width: '732px',
       minWidth: '732px',
     },
