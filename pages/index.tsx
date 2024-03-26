@@ -111,7 +111,12 @@ const Home: NextPage = () => {
         ) : (
           <>
             <SContentTitle style={{ marginTop: '54px' }}>
-              모임 둘러보기<SMoreButton>더보기 {'>'}</SMoreButton>
+              모임 둘러보기
+              <Link href="/list" passHref>
+                <a>
+                  <SMoreButton>더보기 {'>'}</SMoreButton>
+                </a>
+              </Link>
             </SContentTitle>
             <div style={{ width: '100vw', position: 'absolute', left: '0', display: 'flex', justifyContent: 'center' }}>
               {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}

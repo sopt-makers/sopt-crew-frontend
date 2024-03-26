@@ -139,11 +139,11 @@ const SNextBlankArrow = styled('div', {
 const SPrevArrowContainer = styled('div', {
   position: 'absolute',
   left: '$0',
-  zIndex: '0.5',
+  zIndex: '1',
 });
 
 const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
-  zIndex: '0.5',
+  zIndex: '1',
 });
