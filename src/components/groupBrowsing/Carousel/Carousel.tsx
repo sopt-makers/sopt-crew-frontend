@@ -1,7 +1,7 @@
 import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
-import { GroupBrowsingCardDetail, getGroupBrowsingCard } from '@api/meeting';
+import { GroupBrowsingCardDetail } from '@api/meeting';
 import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
 import 'slick-carousel/slick/slick.css';
 import { useEffect, useRef, useState } from 'react';
@@ -63,7 +63,7 @@ const Carousel = ({ cardList }: CarouselProps) => {
       {
         breakpoint: 1259,
         settings: {
-          slidesToShow: 2.34,
+          slidesToShow: 2.44,
           slidesToScroll: 2,
         },
       },
@@ -90,7 +90,7 @@ const SCarousel = styled('div', {
     maxWidth: '1328px',
     width: '100vw',
 
-    '@media (max-width: 1260px)': {
+    '@media (max-width: 1259px)': {
       width: '848px',
       minWidth: '848px',
     },
@@ -115,12 +115,15 @@ const SCarousel = styled('div', {
   },
 
   '.slick-prev': {
-    mr: '14px',
+    mr: '24px',
   },
 
   '.slick-next': {
     transform: 'rotate(180deg)',
-    ml: '24px',
+    mr: '17px',
+    '@media (max-width: 1259px)': {
+      mr: '0px',
+    },
   },
 });
 
@@ -146,4 +149,5 @@ const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
   zIndex: '1',
+  '@media (max-width: 1259px)': {},
 });

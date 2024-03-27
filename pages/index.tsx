@@ -110,20 +110,24 @@ const Home: NextPage = () => {
           <SMobileContainer>{renderedPosts}</SMobileContainer>
         ) : (
           <>
-            <SContentTitle style={{ marginTop: '54px' }}>
-              모임 둘러보기
-              <Link href="/list" passHref>
-                <a>
-                  <SMoreButton>더보기 {'>'}</SMoreButton>
-                </a>
-              </Link>
-            </SContentTitle>
-            <div style={{ width: '100vw', position: 'absolute', left: '0', display: 'flex', justifyContent: 'center' }}>
+            <Flex align="center" justify="center">
+              <SContentTitle style={{ marginTop: '54px' }}>
+                모임 둘러보기
+                <Link href="/list" passHref>
+                  <a>
+                    <SMoreButton>더보기 {'>'}</SMoreButton>
+                  </a>
+                </Link>
+              </SContentTitle>
+            </Flex>
+            <GroupBrowsingCarouselContainer>
               {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
-            </div>
-            <div style={{ paddingBottom: '230px' }}></div>
-            <SContentTitle>최신 피드</SContentTitle>
-            <SDesktopContainer align="left" gap={30}>
+            </GroupBrowsingCarouselContainer>
+            <div style={{ paddingBottom: '252px' }} />
+            <Flex align="center" justify="center">
+              <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+            </Flex>
+            <SDesktopContainer align="center" gap={30}>
               {renderedPosts}
             </SDesktopContainer>
           </>
@@ -146,8 +150,9 @@ export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
   margin: '$20 0',
+
   a: {
-    width: 'calc(calc(100% - 60px) / 3)',
+    width: '380px',
   },
 });
 
@@ -176,6 +181,7 @@ const SContentTitle = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  width: '1200px',
   '@media (max-width: 1259px)': {
     width: '790px',
   },
@@ -187,4 +193,16 @@ const SMoreButton = styled('button', {
   fontSize: '$14',
   fontWeight: '600',
   lineHeight: '$18',
+});
+
+const GroupBrowsingCarouselContainer = styled('div', {
+  width: '100vw',
+  position: 'absolute',
+  left: '0',
+  display: 'flex',
+  justifyContent: 'center',
+
+  '@media (max-width: 1259px)': {
+    left: '-30px',
+  },
 });

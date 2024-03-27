@@ -102,8 +102,8 @@ export interface GroupBrowsingCardDetail {
   imageURL: ImageURLType[];
   startDate: string;
   endDate: string;
-  mStartDate: string;
-  mEndDate: string;
+  mstartDate: string;
+  mendDate: string;
   capacity: number;
   recentActivityDate: string | null;
   targetActiveGeneration: number;

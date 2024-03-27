@@ -16,8 +16,8 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   title,
   category,
   startDate,
-  mStartDate,
-  mEndDate,
+  mstartDate,
+  mendDate,
   recentActivityDate,
   targetActiveGeneration,
   joinableParts,
@@ -27,13 +27,13 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   status,
 }) => {
   const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
-  const isGroupActive = dayjs().isBetween(dayjs(mStartDate), dayjs(mEndDate));
+  const isGroupActive = dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
 
   const returnNewStatus = () => {
     if (status === 0 || status === 1) {
       return status;
     }
-    if (new Date(mStartDate) > new Date()) {
+    if (new Date(mstartDate) > new Date()) {
       return 2;
     }
     if (isGroupActive) {
@@ -61,7 +61,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
 
   return (
     <Link href={`/group/detail?id=${id}`}>
-      <a>
+      <a style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
         <SGroupBrowsingCard>
           <SInfo>
             <STop>
@@ -72,7 +72,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
             <SContents>
               <SContent>
                 <CalendarIcon />
-                {dayjs(mStartDate).format('YYYY.MM.DD')} - {dayjs(mEndDate).format('YYYY.MM.DD')}
+                {dayjs(mstartDate).format('YYYY.MM.DD')} - {dayjs(mendDate).format('YYYY.MM.DD')}
               </SContent>
               <SContent>
                 <UserIcon />
