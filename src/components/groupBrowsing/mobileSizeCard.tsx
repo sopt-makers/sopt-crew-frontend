@@ -49,7 +49,10 @@ const SStatus = styled('div', {
   left: '8px',
   borderRadius: '$4',
   padding: '$3 $5',
-  fontStyle: 'T5',
+  fontSize: '11px',
+  lineHeight: '14px',
+  fontWeight: '600',
+  color: '$gray800',
   variants: {
     recruitingStatus: {
       0: {
@@ -68,13 +71,13 @@ const SStatus = styled('div', {
 
 const STitleSection = styled('div', {
   maxWidth: '140px',
-  fontStyle: 'T7',
-  fontAg: '14_semibold_140',
+  fontSize: '14px',
+  fontWeight: '600',
+  lineHeight: '20px',
   flexType: 'verticalCenter',
-  '@tablet': {
-    my: '$8',
-  },
+  mt: '$12',
 });
+
 const SCategory = styled('span', {
   mr: '$3',
   variants: {
@@ -86,7 +89,6 @@ const SCategory = styled('span', {
 });
 
 const STitle = styled('span', {
-  mt: '$12',
   overflow: 'hidden',
   whiteSpace: 'normal',
   textOverflow: 'ellipsis',
@@ -95,9 +97,6 @@ const STitle = styled('span', {
   display: '-webkit-box',
   WebkitLineClamp: 2,
   color: '$gray10',
-  '@tablet': {
-    fontAg: '14_semibold_140',
-    maxWidth: '140px',
-    minHeight: '40px',
-  },
+  maxWidth: '140px',
+  minHeight: '40px',
 });
