@@ -4,17 +4,17 @@ import MobileSizeCard from '@components/groupBrowsing/mobileSizeCard';
 
 const GroupBrowsingSlider = () => {
   return (
-    <SContainer>
+    <SSlider>
       {[0, 0, 0, 0, 0, 0, 0, 0].map((item, idx) => (
         <MobileSizeCard key={idx} />
       ))}{' '}
-    </SContainer>
+    </SSlider>
   );
 };
 
 export default GroupBrowsingSlider;
 
-const SContainer = styled('div', {
+const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
   overflowX: 'auto',

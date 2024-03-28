@@ -1,9 +1,8 @@
 import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
-import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { RECRUITMENT_STATUS } from '@constants/option';
 
-export default function MobileSizeCard() {
+const MobileSizeCard = () => {
   return (
     <div>
       <ImageWrapper>
@@ -27,7 +26,9 @@ export default function MobileSizeCard() {
       </STitleSection>
     </div>
   );
-}
+};
+
+export default MobileSizeCard;
 
 const ImageWrapper = styled('div', {
   position: 'relative',
