@@ -109,6 +109,14 @@ const Home: NextPage = () => {
 
         {isTablet ? (
           <>
+            <SContentTitle style={{ marginTop: '16px' }}>
+              모임 둘러보기
+              <Link href="/list" passHref>
+                <a>
+                  <SMoreButton>더보기 {'>'}</SMoreButton>
+                </a>
+              </Link>
+            </SContentTitle>
             {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
             <SMobileContainer>{renderedPosts}</SMobileContainer>
           </>
@@ -192,6 +200,11 @@ const SContentTitle = styled('div', {
 
   '@media (max-width: 850px)': {
     display: 'none',
+  },
+
+  '@tablet': {
+    display: 'flex',
+    width: '100%',
   },
 });
 
