@@ -118,6 +118,7 @@ const Home: NextPage = () => {
               </Link>
             </SContentTitle>
             {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+            <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
             <SMobileContainer>{renderedPosts}</SMobileContainer>
           </>
         ) : (
@@ -205,6 +206,8 @@ const SContentTitle = styled('div', {
   '@tablet': {
     display: 'flex',
     width: '100%',
+    fontSize: '16px',
+
   },
 });
 
@@ -214,6 +217,9 @@ const SMoreButton = styled('button', {
   fontSize: '$14',
   fontWeight: '600',
   lineHeight: '$18',
+  '@tablet': {
+    fontSize: '$12',
+  }
 });
 
 const GroupBrowsingCarouselContainer = styled('div', {
