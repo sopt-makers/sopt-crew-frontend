@@ -10,6 +10,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
 import { PART_NAME, ACTION_STATUS, EActionStatus } from '@constants/option';
 import Link from 'next/link';
+import { getResizedImage } from '@utils/image';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   id,
@@ -26,6 +27,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   approvedUserCount,
   user,
   status,
+  imageURL,
 }) => {
   const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
   const isGroupActive = dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
@@ -63,7 +65,11 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   return (
     <Link href={`/detail?id=${id}`}>
       <a style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
-        <SGroupBrowsingCard>
+        <SGroupBrowsingCard
+          css={{
+            backgroundImage: `url(${getResizedImage(imageURL[0].url, 285)})`,
+          }}
+        >
           <SInfo>
             <STop>
               <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
@@ -107,8 +113,6 @@ const SGroupBrowsingCard = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  background:
-    'url(https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/05/13/e907b6b8-015b-4685-854d-47f633c90c53.jpeg) no-repeat center',
   backgroundBlendMode: 'multiply',
   backgroundColor: '#17181C',
   backgroundSize: 'cover',
