@@ -163,7 +163,6 @@ export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
   margin: '$20 0',
-
   a: {
     width: '380px',
   },
