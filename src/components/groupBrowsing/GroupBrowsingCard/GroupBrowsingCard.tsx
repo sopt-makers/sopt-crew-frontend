@@ -4,7 +4,7 @@ import UserIcon from '@assets/svg/user.svg';
 import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
-import { GroupBrowsingCardDetail, parsePartValueToLabel } from '@api/meeting';
+import { categoryType, GroupBrowsingCardDetail, parsePartValueToLabel, returnIsGroupActive, returnNewStatus } from '@api/meeting';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
@@ -30,22 +30,9 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   imageURL,
 }) => {
   const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
-  const isGroupActive = dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
+  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
 
-  const returnNewStatus = () => {
-    if (status === 0 || status === 1) {
-      return status;
-    }
-    if (new Date(mstartDate) > new Date()) {
-      return 2;
-    }
-    if (isGroupActive) {
-      return 3;
-    }
-    return 4;
-  };
-
-  const newStatus = returnNewStatus();
+  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
 
   type statusTextsType = {
     [key: number]: string;
@@ -56,11 +43,6 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
     [EActionStatus.RECRUITING]: `${approvedUserCount}명 신청 중`,
     [EActionStatus.ACTING]: recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글',
   };
-
-  function categoryType(category: string) {
-    if (category === 'STUDY') return '스터디';
-    if (category == 'EVENT') return '행사';
-  }
 
   return (
     <Link href={`/detail?id=${id}`}>

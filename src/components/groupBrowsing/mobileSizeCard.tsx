@@ -1,30 +1,51 @@
+import React, { FC } from 'react';
 import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
-import { RECRUITMENT_STATUS } from '@constants/option';
+import { ACTION_STATUS } from '@constants/option';
+import Link from 'next/link';
+import { categoryType, GroupBrowsingCardDetail, returnIsGroupActive, returnNewStatus } from '@api/meeting';
 
-const MobileSizeCard = () => {
+const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
+  id,
+  title,
+  category,
+  startDate,
+  mstartDate,
+  mendDate,
+  recentActivityDate,
+  targetActiveGeneration,
+  joinableParts,
+  capacity,
+  applicantCount,
+  approvedUserCount,
+  user,
+  status,
+  imageURL,
+}) => {
+  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
+  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
+
   return (
-    <div>
-      <ImageWrapper>
-        <SStatus recruitingStatus={1}>{RECRUITMENT_STATUS[1]}</SStatus>
-        <SThumbnailImage
-          css={{
-            backgroundImage: `url(${getResizedImage(
-              'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/05/13/e907b6b8-015b-4685-854d-47f633c90c53.jpeg',
-              140
-            )})`,
-            backgroundSize: 'cover',
-          }}
-        />
-      </ImageWrapper>
-      <STitleSection>
-        <STitle>
-          {' '}
-          <SCategory isStudy={true}>행사</SCategory>
-          안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-        </STitle>
-      </STitleSection>
-    </div>
+    <Link href={`/detail?id=${id}`}>
+      <a>
+        <ImageWrapper>
+          <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
+          <SThumbnailImage
+            css={{
+              backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
+              backgroundSize: 'cover',
+            }}
+          />
+        </ImageWrapper>
+        <STitleSection>
+          <STitle>
+            {' '}
+            <SCategory isStudy={category === 'STUDY'}>{categoryType(category)}</SCategory>
+            {title}
+          </STitle>
+        </STitleSection>
+      </a>
+    </Link>
   );
 };
 
@@ -57,14 +78,20 @@ const SStatus = styled('div', {
   variants: {
     recruitingStatus: {
       0: {
-        backgroundColor: '$gray600',
+        background: '$attention',
       },
       1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
+        background: '$secondary',
       },
       2: {
-        backgroundColor: '$gray700',
+        background: '$gray200',
+      },
+      3: {
+        background: '$success',
+        color: '$white',
+      },
+      4: {
+        background: '$gray200',
       },
     },
   },

@@ -4,6 +4,7 @@ import { api, apiV2, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 interface PaginationType {
   page: number;
@@ -276,3 +277,25 @@ export const downloadMeetingMemberCSV = async (meetingId: string) => {
 export const getGroupBrowsingCard = async () => {
   return (await api.get<Data<GroupBrowsingCardDetail>>('/meeting/v2/banner')).data;
 };
+
+export const returnNewStatus = (status: number, mstartDate: string, isGroupActive: boolean) => {
+  if (status === 0 || status === 1) {
+    return status;
+  }
+  if (new Date(mstartDate) > new Date()) {
+    return 2;
+  }
+  if (isGroupActive) {
+    return 3;
+  }
+  return 4;
+};
+
+export function categoryType(category: string) {
+  if (category === 'STUDY') return '스터디';
+  if (category == 'EVENT') return '행사';
+}
+
+export function returnIsGroupActive(mstartDate: string, mendDate: string) {
+  return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
+}
