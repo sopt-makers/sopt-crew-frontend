@@ -3,6 +3,7 @@ import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
+import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
@@ -107,7 +108,10 @@ const Home: NextPage = () => {
           (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
 
         {isTablet ? (
-          <SMobileContainer>{renderedPosts}</SMobileContainer>
+          <>
+            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+            <SMobileContainer>{renderedPosts}</SMobileContainer>
+          </>
         ) : (
           <>
             <Flex align="center" justify="center">

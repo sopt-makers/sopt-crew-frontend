@@ -1,8 +1,13 @@
 import { styled } from 'stitches.config';
 import React from 'react';
 import MobileSizeCard from '@components/groupBrowsing/mobileSizeCard';
+import { GroupBrowsingCardDetail } from '@api/meeting';
 
-const GroupBrowsingSlider = () => {
+interface CarouselProps {
+  cardList: GroupBrowsingCardDetail[];
+}
+
+const GroupBrowsingSlider = ({ cardList}: CarouselProps) => {
   return (
     <SSlider>
       {[0, 0, 0, 0, 0, 0, 0, 0].map((item, idx) => (
