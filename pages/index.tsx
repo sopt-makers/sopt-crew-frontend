@@ -123,7 +123,7 @@ const Home: NextPage = () => {
             <GroupBrowsingCarouselContainer>
               {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
             </GroupBrowsingCarouselContainer>
-            <div style={{ paddingBottom: '252px' }} />
+            <SCarouselBlank />
             <Flex align="center" justify="center">
               <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
             </Flex>
@@ -182,8 +182,12 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     width: '790px',
+  },
+
+  '@media (max-width: 850px)': {
+    display: 'none',
   },
 });
 
@@ -204,5 +208,12 @@ const GroupBrowsingCarouselContainer = styled('div', {
 
   '@media (max-width: 1259px)': {
     left: '-30px',
+  },
+});
+
+const SCarouselBlank = styled('div', {
+  paddingBottom: '252px',
+  '@media (max-width: 850px)': {
+    display: 'none',
   },
 });

@@ -21,6 +21,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   recentActivityDate,
   targetActiveGeneration,
   joinableParts,
+  capacity,
   applicantCount,
   approvedUserCount,
   user,
@@ -49,8 +50,8 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   };
 
   const statusTexts: statusTextsType = {
-    [EActionStatus.BEFORE]: `${dayjs().diff(startDate, 'day')}일 남음`,
-    [EActionStatus.RECRUITING]: `${applicantCount}명 신청 중`,
+    //[EActionStatus.BEFORE]: `${dayjs().diff(startDate, 'day')}일 남음`, TODO: 서버에서 startDate 주시면 되살리기
+    [EActionStatus.RECRUITING]: `${approvedUserCount}명 신청 중`,
     [EActionStatus.ACTING]: recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글',
   };
 
@@ -60,7 +61,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   }
 
   return (
-    <Link href={`/group/detail?id=${id}`}>
+    <Link href={`/detail?id=${id}`}>
       <a style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
         <SGroupBrowsingCard>
           <SInfo>
@@ -76,7 +77,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
               </SContent>
               <SContent>
                 <UserIcon />
-                {applicantCount}/{approvedUserCount}명 {targetActiveGeneration}기 /
+                {applicantCount}/{capacity}명 {targetActiveGeneration ? '활동 기수' : '전체 기수'} /{' '}
                 {isAllParts
                   ? '전체'
                   : joinableParts
