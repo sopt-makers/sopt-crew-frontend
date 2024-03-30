@@ -206,7 +206,6 @@ const SContentTitle = styled('div', {
     display: 'flex',
     width: '100%',
     fontSize: '16px',
-
   },
 });
 
@@ -218,7 +217,7 @@ const SMoreButton = styled('button', {
   lineHeight: '$18',
   '@tablet': {
     fontSize: '$12',
-  }
+  },
 });
 
 const GroupBrowsingCarouselContainer = styled('div', {

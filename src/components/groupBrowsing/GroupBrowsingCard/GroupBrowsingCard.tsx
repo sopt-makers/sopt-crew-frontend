@@ -4,7 +4,13 @@ import UserIcon from '@assets/svg/user.svg';
 import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
-import { categoryType, GroupBrowsingCardDetail, parsePartValueToLabel, returnIsGroupActive, returnNewStatus } from '@api/meeting';
+import {
+  categoryType,
+  GroupBrowsingCardDetail,
+  parsePartValueToLabel,
+  returnIsGroupActive,
+  returnNewStatus,
+} from '@api/meeting';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
