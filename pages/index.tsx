@@ -1,6 +1,9 @@
 import { ampli } from '@/ampli';
+import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
+import Carousel from '@components/groupBrowsing/Carousel/Carousel';
+import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
@@ -26,6 +29,8 @@ const Home: NextPage = () => {
   const { data: postsData, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+
+  const { data: groupBrowsingCardData } = useQueryGetGroupBrowsingCard();
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,7 +88,7 @@ const Home: NextPage = () => {
           <TabList text="feedAll" size="big">
             <Link href="/" passHref>
               <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">모임 피드</TabList.Item>
+                <TabList.Item text="feedAll">홈</TabList.Item>
               </a>
             </Link>
             <Link href="/list" passHref>
@@ -103,11 +108,42 @@ const Home: NextPage = () => {
           (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
 
         {isTablet ? (
-          <SMobileContainer>{renderedPosts}</SMobileContainer>
+          <>
+            <SContentTitle style={{ marginTop: '16px' }}>
+              모임 둘러보기
+              <Link href="/list" passHref>
+                <a>
+                  <SMoreButton>더보기 {'>'}</SMoreButton>
+                </a>
+              </Link>
+            </SContentTitle>
+            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+            <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+            <SMobileContainer>{renderedPosts}</SMobileContainer>
+          </>
         ) : (
-          <SDesktopContainer align="left" gap={30}>
-            {renderedPosts}
-          </SDesktopContainer>
+          <>
+            <Flex align="center" justify="center">
+              <SContentTitle style={{ marginTop: '54px' }}>
+                모임 둘러보기
+                <Link href="/list" passHref>
+                  <a>
+                    <SMoreButton>더보기 {'>'}</SMoreButton>
+                  </a>
+                </Link>
+              </SContentTitle>
+            </Flex>
+            <GroupBrowsingCarouselContainer>
+              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            </GroupBrowsingCarouselContainer>
+            <SCarouselBlank />
+            <Flex align="center" justify="center">
+              <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+            </Flex>
+            <SDesktopContainer align="center" gap={30}>
+              {renderedPosts}
+            </SDesktopContainer>
+          </>
         )}
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
@@ -126,9 +162,9 @@ const Home: NextPage = () => {
 export default Home;
 
 const SDesktopContainer = styled(MasonryInfiniteGrid, {
-  margin: '$40 0',
+  margin: '$20 0',
   a: {
-    width: 'calc(calc(100% - 60px) / 3)',
+    width: '380px',
   },
 });
 
@@ -147,5 +183,58 @@ const SMobileContainer = styled('div', {
       marginLeft: 'calc(50% - 50vw)',
       background: '$gray800',
     },
+  },
+});
+
+const SContentTitle = styled('div', {
+  fontStyle: 'H2',
+  color: '$white',
+  mb: '$20',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '1200px',
+  '@laptop': {
+    width: '790px',
+  },
+
+  '@media (max-width: 850px)': {
+    display: 'none',
+  },
+
+  '@tablet': {
+    display: 'flex',
+    width: '100%',
+    fontSize: '16px',
+  },
+});
+
+const SMoreButton = styled('button', {
+  color: '$gray200',
+  /* TODO: mds font 로 변환 */
+  fontSize: '$14',
+  fontWeight: '600',
+  lineHeight: '$18',
+  '@tablet': {
+    fontSize: '$12',
+  },
+});
+
+const GroupBrowsingCarouselContainer = styled('div', {
+  width: '100vw',
+  position: 'absolute',
+  left: '0',
+  display: 'flex',
+  justifyContent: 'center',
+
+  '@media (max-width: 1259px)': {
+    left: '-30px',
+  },
+});
+
+const SCarouselBlank = styled('div', {
+  paddingBottom: '252px',
+  '@media (max-width: 850px)': {
+    display: 'none',
   },
 });

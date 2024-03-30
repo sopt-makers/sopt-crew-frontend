@@ -100,7 +100,7 @@ const SContents = styled('div', {
   padding: '0 4px',
   fontStyle: 'B2',
   color: '$gray100',
-  whiteSpace: 'pre-line',
+  whiteSpace: 'pre',
   '@mobile': {
     fontStyle: 'B4',
   },
