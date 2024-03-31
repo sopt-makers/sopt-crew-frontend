@@ -1,9 +1,10 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
 import { FormType } from '@type/form';
-import { api, Data, PromiseResponse } from '..';
+import { api, apiV2, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 interface PaginationType {
   page: number;
@@ -92,6 +93,31 @@ export interface UpdateApplicationRequest {
   id: number;
   applyId: number;
   status: number;
+}
+
+export interface GroupBrowsingCardDetail {
+  id: number;
+  userId: number;
+  title: string;
+  category: string;
+  imageURL: ImageURLType[];
+  startDate: string;
+  endDate: string;
+  mstartDate: string;
+  mendDate: string;
+  capacity: number;
+  recentActivityDate: string | null;
+  targetActiveGeneration: number;
+  joinableParts: ('PM' | 'DESIGN' | 'WEB' | 'ANDROID' | 'IOS' | 'SERVER')[];
+  applicantCount: number;
+  approvedUserCount: number;
+  user: {
+    id: number;
+    name: string;
+    orgId: number;
+    profileImage: string;
+  };
+  status: RecruitmentStatusType;
 }
 
 function parseStatusToNumber(status: string, statusArray: string[]) {
@@ -247,3 +273,29 @@ export const downloadMeetingMemberCSV = async (meetingId: string) => {
   // type을 0,1로 둔 이유 : 지원, 초대 둘다 보기 위해 (지금은 초대가 없지만...)
   return await api.get<Data<{ url: string }>>(`/meeting/v1/${meetingId}/list/csv?status=1&type=0,1&order=desc`);
 };
+
+export const getGroupBrowsingCard = async () => {
+  return (await api.get<Data<GroupBrowsingCardDetail>>('/meeting/v2/banner')).data;
+};
+
+export const returnNewStatus = (status: number, mstartDate: string, isGroupActive: boolean) => {
+  if (status === 0 || status === 1) {
+    return status;
+  }
+  if (new Date(mstartDate) > new Date()) {
+    return 2;
+  }
+  if (isGroupActive) {
+    return 3;
+  }
+  return 4;
+};
+
+export function categoryType(category: string) {
+  if (category === 'STUDY') return '스터디';
+  if (category == 'EVENT') return '행사';
+}
+
+export function returnIsGroupActive(mstartDate: string, mendDate: string) {
+  return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
+}

@@ -31,7 +31,7 @@ const MinePage: NextPage = () => {
         <TabList text="mine" size="big">
           <Link href="/" passHref>
             <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">모임 피드</TabList.Item>
+              <TabList.Item text="feedAll">홈</TabList.Item>
             </a>
           </Link>
           <Link href="/list" passHref>
