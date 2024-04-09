@@ -47,7 +47,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   };
 
   const statusTexts: statusTextsType = {
-    [EActionStatus.BEFORE]: `${-(dayjs().diff(startDate, 'day'))}일 남음`,
+    [EActionStatus.BEFORE]: `${-dayjs().diff(startDate, 'day')}일 남음`,
     [EActionStatus.RECRUITING]: `${applicantCount}명 신청 중`,
     [EActionStatus.ACTING]:
       dayjs().diff(recentActivityDate, 'day') === 0
