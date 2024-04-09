@@ -297,5 +297,5 @@ export function categoryType(category: string) {
 }
 
 export function returnIsGroupActive(mstartDate: string, mendDate: string) {
-  return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate));
+  return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate), 'day', '[]');
 }
