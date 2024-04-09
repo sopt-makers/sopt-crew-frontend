@@ -17,12 +17,14 @@ dayjs.extend(isBetween);
 import { PART_NAME, ACTION_STATUS, EActionStatus } from '@constants/option';
 import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
+import Separator from '@assets/svg/GroupBrowsingCardSeparator.svg';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   id,
   title,
   category,
   startDate,
+  endDate,
   mstartDate,
   mendDate,
   recentActivityDate,
@@ -45,9 +47,14 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   };
 
   const statusTexts: statusTextsType = {
-    //[EActionStatus.BEFORE]: `${dayjs().diff(startDate, 'day')}일 남음`, TODO: 서버에서 startDate 주시면 되살리기
+    [EActionStatus.BEFORE]: `${dayjs().diff(startDate, 'day')}일 남음`,
     [EActionStatus.RECRUITING]: `${applicantCount}명 신청 중`,
-    [EActionStatus.ACTING]: recentActivityDate ? `${dayjs().diff(recentActivityDate, 'day')}일 전 활동` : '오늘 새 글',
+    [EActionStatus.ACTING]:
+      dayjs().diff(recentActivityDate, 'day') === 0
+        ? '오늘 새 글'
+        : recentActivityDate === null
+        ? ''
+        : `${dayjs().diff(recentActivityDate, 'day')}일 전 활동`,
   };
 
   return (
@@ -70,15 +77,21 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
                 {dayjs(mstartDate).format('YYYY.MM.DD')} - {dayjs(mendDate).format('YYYY.MM.DD')}
               </SContent>
               <SContent>
-                <UserIcon />
-                {approvedUserCount}/{capacity}명 {targetActiveGeneration ? '활동 기수' : '전체 기수'} /{' '}
-                {isAllParts
-                  ? '전체'
-                  : joinableParts
-                      .map(part => parsePartValueToLabel(part))
-                      .filter(item => item !== null)
-                      .join(',')}{' '}
-                파트
+                <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+                  <UserIcon style={{ marginRight: '6px' }} />
+                  {approvedUserCount}/{capacity}명
+                </div>
+                <Separator style={{ margin: '0 3' }} />
+                <div>
+                  {targetActiveGeneration ? '활동 기수' : '전체 기수'} /{' '}
+                  {isAllParts
+                    ? '전체'
+                    : joinableParts
+                        .map(part => parsePartValueToLabel(part))
+                        .filter(item => item !== null)
+                        .join(',')}{' '}
+                  파트
+                </div>
               </SContent>
             </SContents>
           </SInfo>
