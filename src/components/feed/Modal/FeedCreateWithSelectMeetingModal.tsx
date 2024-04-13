@@ -14,6 +14,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
+import useThrottle from '@hooks/useThrottle';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -61,11 +62,11 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
     submitModal.handleModalOpen();
   };
 
-  const onSubmit = async () => {
+  const onSubmit = useThrottle(async () => {
     const createFeedParameter = { ...formMethods.getValues() };
     await mutateCreateFeed(createFeedParameter);
     ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
-  };
+  }, 5000);
 
   useEffect(() => {}, [formMethods, isModalOpened]);
 
