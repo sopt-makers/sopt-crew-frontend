@@ -9,9 +9,11 @@ const useThrottle = <T extends () => void>(
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
   }, []);
 
   return () => {
