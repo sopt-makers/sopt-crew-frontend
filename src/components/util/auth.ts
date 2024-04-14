@@ -12,7 +12,9 @@ export const redirectToLoginPage = () => {
 };
 
 export const getPlaygroundToken = () => {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
+  }
 };
 
 export const getCrewServiceToken = async (playgroundToken: string) => {
