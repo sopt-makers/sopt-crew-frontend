@@ -155,86 +155,88 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     handleHostModalClose();
   };
 
-  return <>
-    <SPanelWrapper>
-      <SAbout>
-        <div>
-          <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
-          <SPeriod>
-            {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
-          </SPeriod>
-        </div>
-        <h1>
-          <span>{category}</span>
-          {title}
-        </h1>
-        <SHostWrapper>
-          <SProfileAnchor
-            href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
-            onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
-          >
-            {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
-            <span>{hostName}</span>
-            <ArrowSmallRightIcon />
-          </SProfileAnchor>
-          {isMentorNeeded && <MentorTooltip />}
-        </SHostWrapper>
-      </SAbout>
-      <div>
-        <SStatusButton onClick={handleRecruitmentStatusModal}>
+  return (
+    <>
+      <SPanelWrapper>
+        <SAbout>
           <div>
-            <span>모집 현황</span>
-            <span>
-              {approvedApplyCount}/{capacity}명
-            </span>
+            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
+            <SPeriod>
+              {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
+            </SPeriod>
           </div>
-          <ArrowSmallRightIcon />
-        </SStatusButton>
-        {!isHost && (
-          <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
-            신청{isApplied ? ' 취소' : '하기'}
-          </SGuestButton>
+          <h1>
+            <span>{category}</span>
+            {title}
+          </h1>
+          <SHostWrapper>
+            <SProfileAnchor
+              href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
+              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
+            >
+              {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
+              <span>{hostName}</span>
+              <ArrowSmallRightIcon />
+            </SProfileAnchor>
+            {isMentorNeeded && <MentorTooltip />}
+          </SHostWrapper>
+        </SAbout>
+        <div>
+          <SStatusButton onClick={handleRecruitmentStatusModal}>
+            <div>
+              <span>모집 현황</span>
+              <span>
+                {approvedApplyCount}/{capacity}명
+              </span>
+            </div>
+            <ArrowSmallRightIcon />
+          </SStatusButton>
+          {!isHost && (
+            <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
+              신청{isApplied ? ' 취소' : '하기'}
+            </SGuestButton>
+          )}
+          {isHost && (
+            <SHostButtonContainer>
+              <button onClick={handleHostModalOpen}>삭제</button>
+              <Link href={`/edit?id=${meetingId}`} passHref>
+                수정
+              </Link>
+            </SHostButtonContainer>
+          )}
+        </div>
+      </SPanelWrapper>
+      <HostConfirmModal
+        isModalOpened={isHostModalOpened}
+        handleModalClose={handleHostModalClose}
+        handleConfirm={handleDeleteMeeting}
+      />
+      <ProfileConfirmModal
+        isModalOpened={isProfileModalOpened}
+        handleModalClose={handleProfileModalClose}
+        handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
+      />
+      <GuestConfirmModal
+        isModalOpened={isGuestModalOpened}
+        message="신청을 취소하시겠습니까?"
+        handleModalClose={handleGuestModalClose}
+        handleConfirm={handleCancelApplication}
+      />
+      <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
+        {modalTitle === '모임 신청하기' && (
+          <ApplicationModalContent handleApplicationButton={handleApplicationButton} disabled={isSubmitting} />
         )}
-        {isHost && (
-          <SHostButtonContainer>
-            <button onClick={handleHostModalOpen}>삭제</button>
-            <Link href={`/edit?id=${meetingId}`} passHref>
-              수정
-            </Link>
-          </SHostButtonContainer>
+        {modalTitle.includes('모집 현황') && (
+          <RecruitmentStatusModalContent
+            meetingId={Number(meetingId)}
+            appliedInfo={appliedInfo}
+            isHost={isHost}
+            isApplied={isApplied}
+          />
         )}
-      </div>
-    </SPanelWrapper>
-    <HostConfirmModal
-      isModalOpened={isHostModalOpened}
-      handleModalClose={handleHostModalClose}
-      handleConfirm={handleDeleteMeeting}
-    />
-    <ProfileConfirmModal
-      isModalOpened={isProfileModalOpened}
-      handleModalClose={handleProfileModalClose}
-      handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
-    />
-    <GuestConfirmModal
-      isModalOpened={isGuestModalOpened}
-      message="신청을 취소하시겠습니까?"
-      handleModalClose={handleGuestModalClose}
-      handleConfirm={handleCancelApplication}
-    />
-    <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
-      {modalTitle === '모임 신청하기' && (
-        <ApplicationModalContent handleApplicationButton={handleApplicationButton} disabled={isSubmitting} />
-      )}
-      {modalTitle.includes('모집 현황') && (
-        <RecruitmentStatusModalContent
-          meetingId={Number(meetingId)}
-          appliedInfo={appliedInfo}
-          isHost={isHost}
-          isApplied={isApplied}
-        />
-      )}
-    </DefaultModal>
-  </>;
+      </DefaultModal>
+    </>
+  );
 };
 
 export default MeetingController;

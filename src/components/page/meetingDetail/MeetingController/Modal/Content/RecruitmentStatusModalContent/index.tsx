@@ -21,28 +21,30 @@ const RecruitmentStatusModalContent = ({
   const total = appliedInfo.length;
   const isBottomVisible = total > 0 || isHost || isApplied;
 
-  return <>
-    {total > 0 ? (
-      <SRecruitmentStatusListWrapper>
-        <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
-      </SRecruitmentStatusListWrapper>
-    ) : (
-      <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
-    )}
-    {isBottomVisible && (
-      <SRecruitmentStatusModalBottom>
-        {total > 0 && <STotal>총 {total}명 신청</STotal>}
-        {(isHost || isApplied) && (
-          <Link href={`/mine/management?id=${meetingId}`} passHref legacyBehavior>
-            <SManagementAnchor onClick={() => ampli.clickMemberManagement()}>
-              {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
-              <ArrowSmallRightIcon />
-            </SManagementAnchor>
-          </Link>
-        )}
-      </SRecruitmentStatusModalBottom>
-    )}
-  </>;
+  return (
+    <>
+      {total > 0 ? (
+        <SRecruitmentStatusListWrapper>
+          <RecruitmentStatusList recruitmentStatusList={appliedInfo} />
+        </SRecruitmentStatusListWrapper>
+      ) : (
+        <SEmptyText>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyText>
+      )}
+      {isBottomVisible && (
+        <SRecruitmentStatusModalBottom>
+          {total > 0 && <STotal>총 {total}명 신청</STotal>}
+          {(isHost || isApplied) && (
+            <Link href={`/mine/management?id=${meetingId}`} passHref legacyBehavior>
+              <SManagementAnchor onClick={() => ampli.clickMemberManagement()}>
+                {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
+                <ArrowSmallRightIcon />
+              </SManagementAnchor>
+            </Link>
+          )}
+        </SRecruitmentStatusModalBottom>
+      )}
+    </>
+  );
 };
 
 export default RecruitmentStatusModalContent;

@@ -71,8 +71,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
     return (
-      (<Link href={`/post?id=${post.id}`} key={post.id}>
-
+      <Link href={`/post?id=${post.id}`} key={post.id}>
         <FeedItem
           /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           /* @ts-ignore */
@@ -95,8 +94,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
             })
           }
         />
-
-      </Link>)
+      </Link>
     );
   });
 

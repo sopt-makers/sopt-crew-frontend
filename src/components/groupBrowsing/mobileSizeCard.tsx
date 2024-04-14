@@ -26,8 +26,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
   const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
 
   return (
-    (<Link href={`/detail?id=${id}`}>
-
+    <Link href={`/detail?id=${id}`}>
       <ImageWrapper>
         <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
         <SThumbnailImage
@@ -44,8 +43,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
           {title}
         </STitle>
       </STitleSection>
-
-    </Link>)
+    </Link>
   );
 };
 

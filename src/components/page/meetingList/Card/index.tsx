@@ -33,14 +33,12 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
       }}
     >
       <Link href={`/detail?id=${meetingData.id}`} passHref>
-
         <DesktopOnly>
           <DesktopSizeCard meetingData={meetingData} isAllParts={isAllParts} />
         </DesktopOnly>
         <MobileOnly>
           <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
         </MobileOnly>
-
       </Link>
       {bottom}
     </CardWrapper>
