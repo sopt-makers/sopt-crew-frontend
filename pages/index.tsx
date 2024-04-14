@@ -48,115 +48,119 @@ const Home: NextPage = () => {
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
     return (
-      <Link href={`/post?id=${post?.id}`} key={post?.id}>
-        <a>
-          <FeedItem
-            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-            /* @ts-ignore */
-            post={post}
-            LikeButton={
-              <LikeButton
-                isLiked={post.isLiked}
-                likeCount={post.likeCount}
-                onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
-              />
-            }
-            onClick={() =>
-              ampli.clickFeedCard({
-                feed_id: post.id,
-                feed_upload: post.updatedDate,
-                feed_title: post.title,
-                feed_image_total: post.images ? post.images.length : 0,
-                feed_comment_total: post.commentCount,
-                feed_like_total: post.likeCount,
-                group_id: post.meeting.id,
-                platform_type: isMobile ? 'MO' : 'PC',
-                location: router.pathname,
-              })
-            }
-            HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-          />
-        </a>
-      </Link>
+      (<Link href={`/post?id=${post?.id}`} key={post?.id}>
+
+        <FeedItem
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /* @ts-ignore */
+          post={post}
+          LikeButton={
+            <LikeButton
+              isLiked={post.isLiked}
+              likeCount={post.likeCount}
+              onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+            />
+          }
+          onClick={() =>
+            ampli.clickFeedCard({
+              feed_id: post.id,
+              feed_upload: post.updatedDate,
+              feed_title: post.title,
+              feed_image_total: post.images ? post.images.length : 0,
+              feed_comment_total: post.commentCount,
+              feed_like_total: post.likeCount,
+              group_id: post.meeting.id,
+              platform_type: isMobile ? 'MO' : 'PC',
+              location: router.pathname,
+            })
+          }
+          HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+        />
+
+      </Link>)
     );
   });
 
-  return (
-    <>
-      <div>
-        <Flex align="start" justify="between">
-          <TabList text="feedAll" size="big">
-            <Link href="/" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">홈</TabList.Item>
-              </a>
-            </Link>
+  return <>
+    <div>
+      <Flex align="start" justify="between">
+        <TabList text="feedAll" size="big">
+          <Link href="/" passHref onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+
+            <TabList.Item text="feedAll">홈</TabList.Item>
+
+          </Link>
+          <Link
+            href="/list"
+            passHref
+            onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+
+            <TabList.Item text="groupAll">전체 모임</TabList.Item>
+
+          </Link>
+          <Link
+            href="/mine"
+            passHref
+            onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+
+            <TabList.Item text="mine">내 모임</TabList.Item>
+
+          </Link>
+        </TabList>
+      </Flex>
+
+      {isLoading &&
+        (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+
+      {isTablet ? (
+        <>
+          <SContentTitle style={{ marginTop: '16px' }}>
+            모임 둘러보기
             <Link href="/list" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-                <TabList.Item text="groupAll">전체 모임</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/mine" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
-            </Link>
-          </TabList>
-        </Flex>
 
-        {isLoading &&
-          (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+              <SMoreButton>더보기 {'>'}</SMoreButton>
 
-        {isTablet ? (
-          <>
-            <SContentTitle style={{ marginTop: '16px' }}>
+            </Link>
+          </SContentTitle>
+          {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+          <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+          <SMobileContainer>{renderedPosts}</SMobileContainer>
+        </>
+      ) : (
+        <>
+          <Flex align="center" justify="center">
+            <SContentTitle style={{ marginTop: '54px' }}>
               모임 둘러보기
               <Link href="/list" passHref>
-                <a>
-                  <SMoreButton>더보기 {'>'}</SMoreButton>
-                </a>
+
+                <SMoreButton>더보기 {'>'}</SMoreButton>
+
               </Link>
             </SContentTitle>
-            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+          </Flex>
+          <GroupBrowsingCarouselContainer>
+            {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+          </GroupBrowsingCarouselContainer>
+          <SCarouselBlank />
+          <Flex align="center" justify="center">
             <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
-            <SMobileContainer>{renderedPosts}</SMobileContainer>
-          </>
-        ) : (
-          <>
-            <Flex align="center" justify="center">
-              <SContentTitle style={{ marginTop: '54px' }}>
-                모임 둘러보기
-                <Link href="/list" passHref>
-                  <a>
-                    <SMoreButton>더보기 {'>'}</SMoreButton>
-                  </a>
-                </Link>
-              </SContentTitle>
-            </Flex>
-            <GroupBrowsingCarouselContainer>
-              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
-            </GroupBrowsingCarouselContainer>
-            <SCarouselBlank />
-            <Flex align="center" justify="center">
-              <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
-            </Flex>
-            <SDesktopContainer align="center" gap={30}>
-              {renderedPosts}
-            </SDesktopContainer>
-          </>
-        )}
+          </Flex>
+          <SDesktopContainer align="center" gap={30}>
+            {renderedPosts}
+          </SDesktopContainer>
+        </>
+      )}
 
-        {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-        {!isFetchingNextPage && hasNextPage ? (
-          <div ref={ref} style={{ height: '1px' }} />
-        ) : (
-          <div style={{ height: '1px' }} />
-        )}
+      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+      {!isFetchingNextPage && hasNextPage ? (
+        <div ref={ref} style={{ height: '1px' }} />
+      ) : (
+        <div style={{ height: '1px' }} />
+      )}
 
-        <FloatingButton />
-      </div>
-    </>
-  );
+      <FloatingButton />
+    </div>
+  </>;
 };
 
 export default Home;

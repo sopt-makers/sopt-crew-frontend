@@ -20,7 +20,7 @@ const NoJoinedGroupModal = ({ isModalOpened, handleModalClose }: ModalContainerP
             <Content>가입한 모임이 있어야만 피드를 작성할 수 있어요. 모임을 찾아볼까요?</Content>
           </div>
           <div>
-            <Link href="/list">
+            <Link href="/list" legacyBehavior>
               <FindGroupButton>모임 찾기</FindGroupButton>
             </Link>
           </div>

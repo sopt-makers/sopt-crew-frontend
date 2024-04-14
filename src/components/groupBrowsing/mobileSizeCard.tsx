@@ -26,26 +26,26 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
   const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
 
   return (
-    <Link href={`/detail?id=${id}`}>
-      <a>
-        <ImageWrapper>
-          <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
-          <SThumbnailImage
-            css={{
-              backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
-              backgroundSize: 'cover',
-            }}
-          />
-        </ImageWrapper>
-        <STitleSection>
-          <STitle>
-            {' '}
-            <SCategory isStudy={category === 'STUDY'}>{categoryType(category)}</SCategory>
-            {title}
-          </STitle>
-        </STitleSection>
-      </a>
-    </Link>
+    (<Link href={`/detail?id=${id}`}>
+
+      <ImageWrapper>
+        <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
+        <SThumbnailImage
+          css={{
+            backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
+            backgroundSize: 'cover',
+          }}
+        />
+      </ImageWrapper>
+      <STitleSection>
+        <STitle>
+          {' '}
+          <SCategory isStudy={category === 'STUDY'}>{categoryType(category)}</SCategory>
+          {title}
+        </STitle>
+      </STitleSection>
+
+    </Link>)
   );
 };
 

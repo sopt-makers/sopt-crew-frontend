@@ -35,64 +35,68 @@ const Home: NextPage = () => {
     router.push('/make');
   };
 
-  return (
-    <>
-      <div>
-        <Flex align="start" justify="between">
-          <TabList text="groupAll" size="big">
-            <Link href="/" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">홈</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/list" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-                <TabList.Item text="groupAll">전체 모임</TabList.Item>
-              </a>
-            </Link>
-            <Link href="/mine" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
-            </Link>
-          </TabList>
-          <SMobileButtonContainer>
-            <WriteIcon onClick={handleMakeMeeting} className="make-button" />
-            <Search.Mobile />
-          </SMobileButtonContainer>
-          <SMakeMeetingButton onClick={handleMakeMeeting}>
-            <PlusIcon />
-            <span>모임 개설하기</span>
-          </SMakeMeetingButton>
-        </Flex>
-        <SNoticeWrapper>
-          <NoticeSlider notices={notices} />
-        </SNoticeWrapper>
-        <SFilterWrapper>
-          <Filter />
-        </SFilterWrapper>
-        <SSRSafeSuspense
-          fallback={
-            <GridLayout mobileType="list">
-              {new Array(6).fill(null).map((_, index) => (
-                <CardSkeleton key={index} mobileType="list" />
-              ))}
-            </GridLayout>
-          }
-        >
-          <MeetingListOfAll />
-        </SSRSafeSuspense>
-      </div>
-      <ConfirmModal
-        isModalOpened={isModalOpened}
-        message={`모임을 개설하려면\n프로필 작성이 필요해요`}
-        cancelButton="돌아가기"
-        confirmButton="작성하기"
-        handleModalClose={handleModalClose}
-        handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
-      />
-    </>
-  );
+  return <>
+    <div>
+      <Flex align="start" justify="between">
+        <TabList text="groupAll" size="big">
+          <Link href="/" passHref onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+
+            <TabList.Item text="feedAll">홈</TabList.Item>
+
+          </Link>
+          <Link
+            href="/list"
+            passHref
+            onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+
+            <TabList.Item text="groupAll">전체 모임</TabList.Item>
+
+          </Link>
+          <Link
+            href="/mine"
+            passHref
+            onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+
+            <TabList.Item text="mine">내 모임</TabList.Item>
+
+          </Link>
+        </TabList>
+        <SMobileButtonContainer>
+          <WriteIcon onClick={handleMakeMeeting} className="make-button" />
+          <Search.Mobile />
+        </SMobileButtonContainer>
+        <SMakeMeetingButton onClick={handleMakeMeeting}>
+          <PlusIcon />
+          <span>모임 개설하기</span>
+        </SMakeMeetingButton>
+      </Flex>
+      <SNoticeWrapper>
+        <NoticeSlider notices={notices} />
+      </SNoticeWrapper>
+      <SFilterWrapper>
+        <Filter />
+      </SFilterWrapper>
+      <SSRSafeSuspense
+        fallback={
+          <GridLayout mobileType="list">
+            {new Array(6).fill(null).map((_, index) => (
+              <CardSkeleton key={index} mobileType="list" />
+            ))}
+          </GridLayout>
+        }
+      >
+        <MeetingListOfAll />
+      </SSRSafeSuspense>
+    </div>
+    <ConfirmModal
+      isModalOpened={isModalOpened}
+      message={`모임을 개설하려면\n프로필 작성이 필요해요`}
+      cancelButton="돌아가기"
+      confirmButton="작성하기"
+      handleModalClose={handleModalClose}
+      handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
+    />
+  </>;
 };
 
 export default Home;

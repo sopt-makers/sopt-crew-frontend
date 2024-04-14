@@ -24,7 +24,7 @@ const Header: FC = () => {
     if (href.startsWith(playgroundLink.groupList())) {
       return (
         <Link href="/" passHref>
-          <a>{children}</a>
+          {children}
         </Link>
       );
     }
