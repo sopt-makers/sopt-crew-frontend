@@ -13,12 +13,15 @@ import { GTM_ID, pageview } from '@utils/gtm';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, theme } from 'stitches.config';
 import { ampli } from '../src/ampli';
 import '../styles/globals.css';
 
-setAccessTokens();
+//
+if (typeof window !== 'undefined') {
+  setAccessTokens();
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
@@ -34,7 +37,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const _crewToken = useStore(crewToken);
   const _playgroundToken = useStore(playgroundToken);
-  const isServiceReady = _crewToken && _playgroundToken;
+
+  const [isServiceReady, setIsServiceReady] = useState(false);
+
+  useEffect(() => {
+    setIsServiceReady(Boolean(_crewToken && _playgroundToken));
+  }, []);
 
   useScrollRestoration();
 
