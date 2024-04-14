@@ -24,7 +24,7 @@ const Header: FC = () => {
   const renderLink = ({ href, children }: LinkRendererParams) => {
     if (href.startsWith(playgroundLink.groupList())) {
       return (
-        <Link href="/" passHref>
+        <Link href="/">
           {children}
         </Link>
       );

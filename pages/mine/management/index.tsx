@@ -74,10 +74,10 @@ const ManagementPage = () => {
   return (
     <SManagementPage>
       <TabList text="mine" size="big">
-        <Link href="/" passHref onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+        <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
           <TabList.Item text="all">전체 모임</TabList.Item>
         </Link>
-        <Link href="/mine" passHref onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+        <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
           <TabList.Item text="mine">내 모임</TabList.Item>
         </Link>
       </TabList>

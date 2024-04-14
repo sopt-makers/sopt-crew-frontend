@@ -84,13 +84,13 @@ const Home: NextPage = () => {
       <div>
         <Flex align="start" justify="between">
           <TabList text="feedAll" size="big">
-            <Link href="/" passHref onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
               <TabList.Item text="feedAll">홈</TabList.Item>
             </Link>
-            <Link href="/list" passHref onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
               <TabList.Item text="groupAll">전체 모임</TabList.Item>
             </Link>
-            <Link href="/mine" passHref onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
               <TabList.Item text="mine">내 모임</TabList.Item>
             </Link>
           </TabList>
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
           <>
             <SContentTitle style={{ marginTop: '16px' }}>
               모임 둘러보기
-              <Link href="/list" passHref>
+              <Link href="/list">
                 <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
             <Flex align="center" justify="center">
               <SContentTitle style={{ marginTop: '54px' }}>
                 모임 둘러보기
-                <Link href="/list" passHref>
+                <Link href="/list">
                   <SMoreButton>더보기 {'>'}</SMoreButton>
                 </Link>
               </SContentTitle>

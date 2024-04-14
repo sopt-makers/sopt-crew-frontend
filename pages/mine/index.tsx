@@ -29,13 +29,13 @@ const MinePage: NextPage = () => {
     <div>
       <Flex align="center" justify="between">
         <TabList text="mine" size="big">
-          <Link href="/" passHref onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+          <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
             <TabList.Item text="feedAll">홈</TabList.Item>
           </Link>
-          <Link href="/list" passHref onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+          <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
             <TabList.Item text="groupAll">전체 모임</TabList.Item>
           </Link>
-          <Link href="/mine" passHref onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+          <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
             <TabList.Item text="mine">내 모임</TabList.Item>
           </Link>
         </TabList>
