@@ -40,14 +40,20 @@ const Home: NextPage = () => {
       <div>
         <Flex align="start" justify="between">
           <TabList text="groupAll" size="big">
-            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">홈</TabList.Item>
+            <Link href="/" passHref>
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+                <TabList.Item text="feedAll">홈</TabList.Item>
+              </a>
             </Link>
-            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-              <TabList.Item text="groupAll">전체 모임</TabList.Item>
+            <Link href="/list" passHref>
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+                <TabList.Item text="groupAll">전체 모임</TabList.Item>
+              </a>
             </Link>
-            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-              <TabList.Item text="mine">내 모임</TabList.Item>
+            <Link href="/mine" passHref>
+              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+                <TabList.Item text="mine">내 모임</TabList.Item>
+              </a>
             </Link>
           </TabList>
           <SMobileButtonContainer>

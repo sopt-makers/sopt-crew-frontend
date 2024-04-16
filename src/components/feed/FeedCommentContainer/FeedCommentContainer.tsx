@@ -19,12 +19,7 @@ interface FeedCommentContainerProps {
 }
 
 // eslint-disable-next-line prettier/prettier
-export default function FeedCommentContainer({
-  comment,
-  isMine,
-  isPosterComment,
-  onClickLike,
-}: FeedCommentContainerProps) {
+export default function FeedCommentContainer({ comment, isMine, isPosterComment, onClickLike }: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
   const { query } = useRouter();

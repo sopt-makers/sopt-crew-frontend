@@ -199,7 +199,9 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
           {isHost && (
             <SHostButtonContainer>
               <button onClick={handleHostModalOpen}>삭제</button>
-              <Link href={`/edit?id=${meetingId}`}>수정</Link>
+              <Link href={`/edit?id=${meetingId}`} passHref>
+                <a>수정</a>
+              </Link>
             </SHostButtonContainer>
           )}
         </div>
