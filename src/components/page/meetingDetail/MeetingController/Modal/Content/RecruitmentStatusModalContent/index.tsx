@@ -34,7 +34,7 @@ const RecruitmentStatusModalContent = ({
         <SRecruitmentStatusModalBottom>
           {total > 0 && <STotal>총 {total}명 신청</STotal>}
           {(isHost || isApplied) && (
-            <Link href={`/mine/management?id=${meetingId}`} passHref>
+            <Link href={`/mine/management?id=${meetingId}`} passHref legacyBehavior>
               <SManagementAnchor onClick={() => ampli.clickMemberManagement()}>
                 {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
                 <ArrowSmallRightIcon />

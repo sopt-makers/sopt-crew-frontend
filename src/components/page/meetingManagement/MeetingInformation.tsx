@@ -16,7 +16,7 @@ const MeetingInformation = ({ meetingData }: MeetingInformationProps) => {
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
 
   return (
-    <Link href={`/detail?id=${meetingId}`} passHref>
+    <Link href={`/detail?id=${meetingId}`} passHref legacyBehavior>
       <SMeetingInformation>
         <SImage src={imageURL[0].url} />
         <div>
