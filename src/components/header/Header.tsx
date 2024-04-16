@@ -17,16 +17,13 @@ const Header: FC = () => {
 
   const logout = () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
+
     window.location.href = `${playgroundLink.login()}`;
   };
 
   const renderLink = ({ href, children }: LinkRendererParams) => {
     if (href.startsWith(playgroundLink.groupList())) {
-      return (
-        <Link href="/" passHref>
-          <a>{children}</a>
-        </Link>
-      );
+      return <Link href="/">{children}</Link>;
     }
     return <a href={href}>{children}</a>;
   };
