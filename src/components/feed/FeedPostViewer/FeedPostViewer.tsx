@@ -110,7 +110,7 @@ export default function FeedPostViewer({
           )}
           <ViewCount>조회 {post.viewCount}회</ViewCount>
         </ContentBody>
-        <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
+        <Link href={`/detail?id=${post.meeting.id}`} passHref>
           <GroupButton>
             <GroupThumbnail src={getResizedImage(post.meeting.imageURL[0].url, 88)} alt="" />
             <GroupInformation>

@@ -58,50 +58,52 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   };
 
   return (
-    <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
-      <SGroupBrowsingCard
-        css={{
-          backgroundImage: `url(${getResizedImage(imageURL[0].url, 285)})`,
-        }}
-      >
-        <SInfo>
-          <STop>
-            <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
-            <STopDivisor>|</STopDivisor> <span>{categoryType(category)}</span>
-          </STop>
-          <STitle>{title}</STitle>
-          <SContents>
-            <SContent>
-              <CalendarIcon />
-              {dayjs(mstartDate).format('YYYY.MM.DD')} - {dayjs(mendDate).format('YYYY.MM.DD')}
-            </SContent>
-            <SContent>
-              <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
-                <UserIcon style={{ marginRight: '6px' }} />
-                {approvedUserCount}/{capacity}명
-              </div>
-              <Separator style={{ margin: '0 3' }} />
-              <div>
-                {targetActiveGeneration ? '활동 기수' : '전체 기수'} /{' '}
-                {isAllParts
-                  ? '전체'
-                  : joinableParts
-                      .map(part => parsePartValueToLabel(part))
-                      .filter(item => item !== null)
-                      .join(',')}{' '}
-                파트
-              </div>
-            </SContent>
-          </SContents>
-        </SInfo>
-        <SBottom status={newStatus}>
-          <Flex align="center">
-            <SRecruitStatusIcon status={newStatus} />
-            {ACTION_STATUS[newStatus]}
-          </Flex>
-          <SStatusText status={newStatus}>{statusTexts[newStatus]}</SStatusText>
-        </SBottom>
-      </SGroupBrowsingCard>
+    <Link href={`/detail?id=${id}`}>
+      <a style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
+        <SGroupBrowsingCard
+          css={{
+            backgroundImage: `url(${getResizedImage(imageURL[0].url, 285)})`,
+          }}
+        >
+          <SInfo>
+            <STop>
+              <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
+              <STopDivisor>|</STopDivisor> <span>{categoryType(category)}</span>
+            </STop>
+            <STitle>{title}</STitle>
+            <SContents>
+              <SContent>
+                <CalendarIcon />
+                {dayjs(mstartDate).format('YYYY.MM.DD')} - {dayjs(mendDate).format('YYYY.MM.DD')}
+              </SContent>
+              <SContent>
+                <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
+                  <UserIcon style={{ marginRight: '6px' }} />
+                  {approvedUserCount}/{capacity}명
+                </div>
+                <Separator style={{ margin: '0 3' }} />
+                <div>
+                  {targetActiveGeneration ? '활동 기수' : '전체 기수'} /{' '}
+                  {isAllParts
+                    ? '전체'
+                    : joinableParts
+                        .map(part => parsePartValueToLabel(part))
+                        .filter(item => item !== null)
+                        .join(',')}{' '}
+                  파트
+                </div>
+              </SContent>
+            </SContents>
+          </SInfo>
+          <SBottom status={newStatus}>
+            <Flex align="center">
+              <SRecruitStatusIcon status={newStatus} />
+              {ACTION_STATUS[newStatus]}
+            </Flex>
+            <SStatusText status={newStatus}>{statusTexts[newStatus]}</SStatusText>
+          </SBottom>
+        </SGroupBrowsingCard>
+      </a>
     </Link>
   );
 };
