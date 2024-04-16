@@ -13,15 +13,12 @@ import { GTM_ID, pageview } from '@utils/gtm';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { styled, theme } from 'stitches.config';
 import { ampli } from '../src/ampli';
 import '../styles/globals.css';
 
-// 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
-if (typeof window !== 'undefined') {
-  setAccessTokens();
-}
+setAccessTokens();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
@@ -37,13 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const _crewToken = useStore(crewToken);
   const _playgroundToken = useStore(playgroundToken);
-
-  // 렌더링에 관여하는 IsServiceReady 인 경우, useEffect + setState 를 사용해 렌더링 시점을 뒤로 옮기기
-  const [isServiceReady, setIsServiceReady] = useState(false);
-
-  useEffect(() => {
-    setIsServiceReady(Boolean(_crewToken && _playgroundToken));
-  }, []);
+  const isServiceReady = _crewToken && _playgroundToken;
 
   useScrollRestoration();
 
