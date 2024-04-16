@@ -11,7 +11,7 @@ interface ManagementButtonProps {
 
 function ManagementButton({ id }: ManagementButtonProps) {
   return (
-    <Link href={`/mine/management?id=${id}`} passHref>
+    <Link href={`/mine/management?id=${id}`} passHref legacyBehavior>
       <SAnchor onClick={() => ampli.clickManageGroup()}>
         <SButton align="center" justify="between">
           <p>신청자 관리</p>
