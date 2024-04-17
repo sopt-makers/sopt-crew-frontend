@@ -45,10 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     setIsServiceReady(Boolean(_crewToken && _playgroundToken));
   }, [_crewToken, _playgroundToken]);
 
-  console.log(_crewToken);
-  console.log(_playgroundToken);
-  console.log(isServiceReady);
-
   useScrollRestoration();
 
   useEffect(() => {
