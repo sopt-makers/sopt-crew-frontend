@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setIsServiceReady(Boolean(_crewToken && _playgroundToken));
-  }, []);
+  }, [_crewToken, _playgroundToken]);
 
   console.log(_crewToken);
   console.log(_playgroundToken);
