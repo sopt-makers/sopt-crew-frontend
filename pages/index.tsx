@@ -49,34 +49,32 @@ const Home: NextPage = () => {
     if (!post) return;
     return (
       <Link href={`/post?id=${post?.id}`} key={post?.id}>
-        <a>
-          <FeedItem
-            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-            /* @ts-ignore */
-            post={post}
-            LikeButton={
-              <LikeButton
-                isLiked={post.isLiked}
-                likeCount={post.likeCount}
-                onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
-              />
-            }
-            onClick={() =>
-              ampli.clickFeedCard({
-                feed_id: post.id,
-                feed_upload: post.updatedDate,
-                feed_title: post.title,
-                feed_image_total: post.images ? post.images.length : 0,
-                feed_comment_total: post.commentCount,
-                feed_like_total: post.likeCount,
-                group_id: post.meeting.id,
-                platform_type: isMobile ? 'MO' : 'PC',
-                location: router.pathname,
-              })
-            }
-            HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-          />
-        </a>
+        <FeedItem
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /* @ts-ignore */
+          post={post}
+          LikeButton={
+            <LikeButton
+              isLiked={post.isLiked}
+              likeCount={post.likeCount}
+              onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+            />
+          }
+          onClick={() =>
+            ampli.clickFeedCard({
+              feed_id: post.id,
+              feed_upload: post.updatedDate,
+              feed_title: post.title,
+              feed_image_total: post.images ? post.images.length : 0,
+              feed_comment_total: post.commentCount,
+              feed_like_total: post.likeCount,
+              group_id: post.meeting.id,
+              platform_type: isMobile ? 'MO' : 'PC',
+              location: router.pathname,
+            })
+          }
+          HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+        />
       </Link>
     );
   });
@@ -86,20 +84,14 @@ const Home: NextPage = () => {
       <div>
         <Flex align="start" justify="between">
           <TabList text="feedAll" size="big">
-            <Link href="/" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-                <TabList.Item text="feedAll">홈</TabList.Item>
-              </a>
+            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
+              <TabList.Item text="feedAll">홈</TabList.Item>
             </Link>
-            <Link href="/list" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-                <TabList.Item text="groupAll">전체 모임</TabList.Item>
-              </a>
+            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
+              <TabList.Item text="groupAll">전체 모임</TabList.Item>
             </Link>
-            <Link href="/mine" passHref>
-              <a onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-                <TabList.Item text="mine">내 모임</TabList.Item>
-              </a>
+            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
+              <TabList.Item text="mine">내 모임</TabList.Item>
             </Link>
           </TabList>
         </Flex>
@@ -111,10 +103,8 @@ const Home: NextPage = () => {
           <>
             <SContentTitle style={{ marginTop: '16px' }}>
               모임 둘러보기
-              <Link href="/list" passHref>
-                <a>
-                  <SMoreButton>더보기 {'>'}</SMoreButton>
-                </a>
+              <Link href="/list">
+                <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
             {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
@@ -126,10 +116,8 @@ const Home: NextPage = () => {
             <Flex align="center" justify="center">
               <SContentTitle style={{ marginTop: '54px' }}>
                 모임 둘러보기
-                <Link href="/list" passHref>
-                  <a>
-                    <SMoreButton>더보기 {'>'}</SMoreButton>
-                  </a>
+                <Link href="/list">
+                  <SMoreButton>더보기 {'>'}</SMoreButton>
                 </Link>
               </SContentTitle>
             </Flex>
