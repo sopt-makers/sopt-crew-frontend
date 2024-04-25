@@ -18,6 +18,7 @@ import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
+import Calendar from '../Calendar';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -173,12 +174,13 @@ function Presentation({
                     }
                   | undefined;
                 return (
-                  <TextInput
-                    placeholder="YYYY.MM.DD"
-                    error={dateError?.startDate?.message || dateError?.endDate?.message}
-                    required
-                    {...field}
-                  />
+                  // <TextInput
+                  //   placeholder="YYYY.MM.DD"
+                  //   error={dateError?.startDate?.message || dateError?.endDate?.message}
+                  //   required
+                  //   {...field}
+                  // />
+                  <Calendar selectedDate={field.value} setSelectedDate={field.onChange} />
                 );
               }}
             ></FormController>
