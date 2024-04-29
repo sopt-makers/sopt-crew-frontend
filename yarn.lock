@@ -3219,7 +3219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/hash@npm:^0.9.1":
+"@emotion/hash@npm:^0.9.0, @emotion/hash@npm:^0.9.1":
   version: 0.9.1
   resolution: "@emotion/hash@npm:0.9.1"
   checksum: 10c0/cdafe5da63fc1137f3db6e232fdcde9188b2b47ee66c56c29137199642a4086f42382d866911cfb4833cae2cc00271ab45cad3946b024f67b527bb7fac7f4c9d
@@ -4901,10 +4901,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/fonts@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@sopt-makers/fonts@npm:1.0.0"
-  checksum: 10c0/04a81dabaaa879841d86b9e28659e629b3c1795156ca2b4c352bf2b6815602d52f001db861e66816219951e9d95543203373dc1fca003f9fecda9ffa7a53d52f
+"@sopt-makers/colors@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@sopt-makers/colors@npm:3.0.1"
+  checksum: 10c0/c02d2eeb4e12d22150e65493055323cc5040ef3ed7e7b10609b3afe9a543e436e71bb0149701dfc0d8b4f027f265f993e86b7ba4e73efca940d2308e35d7834c
+  languageName: node
+  linkType: hard
+
+"@sopt-makers/fonts@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@sopt-makers/fonts@npm:2.0.1"
+  checksum: 10c0/23c7c453a49dce5197f72dc7875de015c2d62425befcc65510db5b8893bc37e1d6c956dd3c166934646fe9ae63f33e874a8e8f8094790423df43639acdc8a2aa
+  languageName: node
+  linkType: hard
+
+"@sopt-makers/icons@npm:^1.0.3, @sopt-makers/icons@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@sopt-makers/icons@npm:1.0.4"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 10c0/a2412275199facff67e5b55ffce5b7f449dfd9c92454d27dfa36b402d249953424f0870e034920ad3b9231f9e1aaa99fcbad75ba84a44b8baf0bc423b4bd5afd
   languageName: node
   linkType: hard
 
@@ -4922,6 +4938,21 @@ __metadata:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
   checksum: 10c0/718fc08bf41a6f83f646a64916c5e1b02189015e6a41e40f7702b0d9c1238db85f990742fef474dc4dcf9ffe49c42c8aecd234baeff95cdf65b7fef576b3322a
+  languageName: node
+  linkType: hard
+
+"@sopt-makers/ui@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "@sopt-makers/ui@npm:1.1.5"
+  dependencies:
+    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/fonts": "npm:^2.0.1"
+    "@sopt-makers/icons": "npm:^1.0.3"
+    "@vanilla-extract/css": "npm:^1.14.0"
+    "@vanilla-extract/sprinkles": "npm:1.6.1"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 10c0/52437e4cd15af93ed03d2cf511d91b1542598ace0cf0d45d0bd8bdf8edeab8c66cc578fa2f5cf42788335e26a4ef1d1de82bcc30ff576a366156f0dbfa3f3d85
   languageName: node
   linkType: hard
 
@@ -7062,6 +7093,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vanilla-extract/css@npm:^1.14.0":
+  version: 1.15.0
+  resolution: "@vanilla-extract/css@npm:1.15.0"
+  dependencies:
+    "@emotion/hash": "npm:^0.9.0"
+    "@vanilla-extract/private": "npm:^1.0.4"
+    chalk: "npm:^4.1.1"
+    css-what: "npm:^6.1.0"
+    cssesc: "npm:^3.0.0"
+    csstype: "npm:^3.0.7"
+    deep-object-diff: "npm:^1.1.9"
+    deepmerge: "npm:^4.2.2"
+    media-query-parser: "npm:^2.0.2"
+    modern-ahocorasick: "npm:^1.0.0"
+    outdent: "npm:^0.8.0"
+  checksum: 10c0/18d06317e5b1f1c1229cdfbe5ad8341b021c6aca752dd5b9e1f029fe0e58908b3498f1d8a4bcb118d59072c1704ad88fbe5b615b4bdc12296c508820aaca4b7b
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/private@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@vanilla-extract/private@npm:1.0.4"
+  checksum: 10c0/d21d55a4892bc760cafdba7a4920a702a3fc29ed108977ad73ab0b92293c0b6bd55426a868d725eadda7b7b4ad8f44dadd7d6b28877c51421270b78bf53568b8
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/sprinkles@npm:1.6.1":
+  version: 1.6.1
+  resolution: "@vanilla-extract/sprinkles@npm:1.6.1"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.0.0
+  checksum: 10c0/7ddd2ab7c88b5740260e09aba5399d938d9a46142a0652842e8cd3fe34cd2fd2fbeb75060718bb44cb1a81dce280bb9955ae35defd89f7045e3a6822baf2b5ae
+  languageName: node
+  linkType: hard
+
 "@vercel/build-utils@npm:5.7.0":
   version: 5.7.0
   resolution: "@vercel/build-utils@npm:5.7.0"
@@ -8728,7 +8794,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.2":
+"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -9334,7 +9400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-what@npm:^6.0.1":
+"css-what@npm:^6.0.1, css-what@npm:^6.1.0":
   version: 6.1.0
   resolution: "css-what@npm:6.1.0"
   checksum: 10c0/a09f5a6b14ba8dcf57ae9a59474722e80f20406c53a61e9aedb0eedc693b135113ffe2983f4efc4b5065ae639442e9ae88df24941ef159c218b231011d733746
@@ -9363,6 +9429,13 @@ __metadata:
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: 10c0/32c038af259897c807ac738d9eab16b3d86747c72b09d5c740978e06f067f9b7b1737e1b75e407c7ab1fe1543dc95f20e202b4786aeb1b8d3bdf5d5ce655e6c6
+  languageName: node
+  linkType: hard
+
+"csstype@npm:^3.0.7":
+  version: 3.1.3
+  resolution: "csstype@npm:3.1.3"
+  checksum: 10c0/80c089d6f7e0c5b2bd83cf0539ab41474198579584fa10d86d0cafe0642202343cbc119e076a0b1aece191989477081415d66c9fefbf3c957fc2fc4b7009f248
   languageName: node
   linkType: hard
 
@@ -9496,6 +9569,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: 10c0/7f0ee496e0dff14a573dc6127f14c95061b448b87b995fc96c017ce0a1e66af1675e73f1d6064407975bc4ea6ab679497a29fff7b5b9c4e99cb10797c1ad0b4c
+  languageName: node
+  linkType: hard
+
+"deep-object-diff@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "deep-object-diff@npm:1.1.9"
+  checksum: 10c0/12cfd1b000d16c9192fc649923c972f8aac2ddca4f71a292f8f2c1e2d5cf3c9c16c85e73ab3e7d8a89a5ec6918d6460677d0b05bd160f7bd50bb4816d496dc24
   languageName: node
   linkType: hard
 
@@ -14235,6 +14315,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"media-query-parser@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "media-query-parser@npm:2.0.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.12.5"
+  checksum: 10c0/91a987e9f6620f5c7d0fcf22bd0a106bbaccdef96aba62c461656ee656e141dd2b60f2f1d99411799183c2ea993bd177ca92c26c08bf321fbc0c846ab391d79c
+  languageName: node
+  linkType: hard
+
 "media-typer@npm:0.3.0":
   version: 0.3.0
   resolution: "media-typer@npm:0.3.0"
@@ -14595,6 +14684,13 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
+  languageName: node
+  linkType: hard
+
+"modern-ahocorasick@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "modern-ahocorasick@npm:1.0.1"
+  checksum: 10c0/90ef4516ba8eef136d0cd4949faacdadee02217b8e25deda2881054ca8fcc32b985ef159b6e794c40e11c51040303c8e2975b20b23b86ec8a2a63516bbf93add
   languageName: node
   linkType: hard
 
@@ -15320,6 +15416,13 @@ __metadata:
   version: 0.3.0
   resolution: "os-browserify@npm:0.3.0"
   checksum: 10c0/6ff32cb1efe2bc6930ad0fd4c50e30c38010aee909eba8d65be60af55efd6cbb48f0287e3649b4e3f3a63dce5a667b23c187c4293a75e557f0d5489d735bcf52
+  languageName: node
+  linkType: hard
+
+"outdent@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "outdent@npm:0.8.0"
+  checksum: 10c0/d8a6c38b838b7ac23ebf1cc50442312f4efe286b211dbe5c71fa84d5daa2512fb94a8f2df1389313465acb0b4e5fa72270dd78f519f3d4db5bc22b2762c86827
   languageName: node
   linkType: hard
 
@@ -17542,9 +17645,11 @@ __metadata:
     "@hookform/resolvers": "npm:^2.9.10"
     "@nanostores/react": "npm:^0.7.1"
     "@sentry/nextjs": "npm:^7.51.0"
-    "@sopt-makers/colors": "npm:^3.0.0"
-    "@sopt-makers/fonts": "npm:^1.0.0"
+    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/fonts": "npm:^2.0.1"
+    "@sopt-makers/icons": "npm:^1.0.4"
     "@sopt-makers/playground-common": "npm:^1.4.2"
+    "@sopt-makers/ui": "npm:^1.1.5"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^7.0.23"
     "@storybook/addon-interactions": "npm:^7.0.23"
