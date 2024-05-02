@@ -96,7 +96,6 @@ body {
 
   .react-calendar__navigation {
     gap: 15px;
-    padding: 0px 20px;
     margin-bottom: 0;
 
     .react-calendar__navigation__label {
@@ -158,48 +157,94 @@ body {
 
   .react-calendar__tile {
     display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: SUIT;
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
     color: var(--colors-gray10);
 
+    text-align: center;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     &:hover {
-      background: var(--colors-gray10);
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--colors-gray800);
+      background: none;
     }
+
     &:enabled:hover {
-      background: var(--colors-gray10);
+      background: none;
     }
     &:enabled:focus {
-      background: var(--colors-gray10);
+      background: none;
+    }
+
+    abbr {
+      &:hover {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--colors-gray10);
+        color: var(--colors-gray800);
+        border-radius: 100%;
+      }
+      &:enabled:hover {
+        background: var(--colors-gray10);
+      }
+      &:enabled:focus {
+        background: var(--colors-gray10);
+      }
     }
   }
 
   .react-calendar__tile--now {
     background: none;
+    justify-content: center;
 
     &:hover {
-      background: var(--colors-gray10);
+      background: none;
+    }
+    abbr {
+      &:hover {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--colors-gray10);
+        color: var(--colors-gray800);
+        border-radius: 100%;
+      }
     }
   }
 
   .react-calendar__tile--active {
-    background: var(--colors-gray10);
+    background: none;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: var(--colors-gray800);
 
     &:hover {
+      background: none;
+    }
+
+    abbr {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: var(--colors-gray10);
+      color: var(--colors-gray800);
+      border-radius: 100%;
+
+      &:hover {
+        background: var(--colors-gray10);
+      }
     }
   }
 }

@@ -50,6 +50,17 @@ const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error
               prev2Label={null}
               minDetail="month"
               maxDetail="month"
+              tileContent={({ date, view }) => {
+                if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
+                  return (
+                    // <>
+                    <SDotWrapper>
+                      <SDot></SDot>
+                    </SDotWrapper>
+                    // </>
+                  );
+                }
+              }}
             />
             {error && <SErrorMessage>{error}</SErrorMessage>}
           </BottomSheetDialog>
@@ -68,19 +79,16 @@ const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error
             maxDetail="month"
             tileContent={({ date, view }) => {
               if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
-                console.log(selectedDate);
-                console.log(dayjs(date).format('YYYY.MM.DD'));
                 return (
-                  // <>
-                  <SDotWrapper>
-                    <SDot></SDot>
-                  </SDotWrapper>
-                  // </>
+                  <>
+                    <SDotWrapper>
+                      <SDot></SDot>
+                    </SDotWrapper>
+                  </>
                 );
               }
             }}
           />
-
           {error && <SErrorMessage>{error}</SErrorMessage>}
         </SCalendarWrapper>
       )}
@@ -106,14 +114,18 @@ const SErrorMessage = styled(ErrorMessage, {
 
 const SDotWrapper = styled('div', {
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
+  position: 'absolute',
   alignItems: 'center',
 });
+
 const SDot = styled('div', {
-  height: '8px',
-  width: '8px',
-  backgroundColor: 'red',
+  height: '5px',
+  width: '5px',
+  backgroundColor: '$gray400',
   borderRadius: '50%',
+  position: 'absolute',
+  top: '22px',
   display: 'flex',
-  // marginLeft: 1px;
 });
