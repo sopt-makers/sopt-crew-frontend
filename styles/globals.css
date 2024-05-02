@@ -75,85 +75,131 @@ body {
   margin: 0;
   background-color: var(--colors-gray950);
 
-  .react-datepicker {
+  .react-calendar {
+    width: 100%;
+    height: 100%;
+    font-family: SUIT;
+    color: var(--colors-gray400);
+    background: var(--colors-gray700);
     border: none;
-    border-radius: 1rem;
+    padding: 5px 10px 10px 10px;
+  }
+
+  @media (max-width: 768px) {
+    .react-calendar {
+      background: var(--colors-gray800);
+    }
+    .react-calendar__navigation {
+      padding: 0px 20px;
+    }
+  }
+
+  .react-calendar__navigation {
+    gap: 15px;
+    padding: 0px 20px;
+    margin-bottom: 0;
+
+    .react-calendar__navigation__label {
+      cursor: auto;
+    }
+    .react-calendar__navigation__label > span {
+      color: var(--colors-gray10);
+      font-family: SUIT;
+      font-size: 16px;
+      cursor: auto;
+      font-style: normal;
+      font-weight: 700;
+      order: 1;
+    }
+
+    .react-calendar__navigation__arrow {
+      color: var(--colors-gray10);
+      order: 2;
+      align-items: center;
+      cursor: pointer;
+      font-size: 30px;
+      background: none;
+      width: 20px;
+
+      &:enabled {
+        background: none;
+      }
+
+      &:enabled:hover {
+        background: none;
+      }
+
+      &:disabled {
+        background: none;
+      }
+
+      &:disabled:hover {
+        background: none;
+      }
+
+      &:enabled:focus {
+        background: none;
+      }
+    }
+  }
+
+  .react-calendar__navigation button {
+    min-width: fit-content;
+    width: 30px;
+
+    &:disabled {
+      background: none;
+    }
+  }
+
+  .react-calendar button {
+    margin-bottom: 10px;
+  }
+
+  .react-calendar__tile {
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: SUIT;
-    padding: 20px;
-    background: var(--colors-gray700);
-    color: white;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--colors-gray10);
 
-    position: absolute;
-    /* width: 100%;
-    height: 100%; */
-    .react-datepicker__week {
-      display: flex;
-      justify-content: space-between;
-    }
-    .react-datepicker__day {
-      color: var(--colors-gray30);
-      cursor: pointer;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 600;
-      /* width: 38px;
-      height: 38px; */
-      text: center;
-
-      &:hover {
-        background: var(--colors-gray10);
-        border-radius: 2rem;
-        color: var(--colors-gray800);
-      }
-    }
-
-    .react-datepicker__day--selected {
+    &:hover {
       background: var(--colors-gray10);
-      border-radius: 2rem;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: var(--colors-gray800);
     }
-
-    .react-datepicker__day--keyboard-selected {
-      background-color: var(--colors-gray700);
-      color: white;
+    &:enabled:hover {
+      background: var(--colors-gray10);
     }
-
-    .react-datepicker__day--today {
-      font-weight: 600;
+    &:enabled:focus {
+      background: var(--colors-gray10);
     }
+  }
 
-    .react-datepicker__header {
-      background-color: var(--colors-gray700);
-      color: white;
-      border-bottom: none;
-      border-radius: 1rem;
+  .react-calendar__tile--now {
+    background: none;
 
-      .react-datepicker__day-names {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: black;
-        height: 40px;
-        gap: 14px;
-
-        .react-datepicker__day-name {
-          color: var(--colors-gray400);
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 600;
-          width: 30px;
-          height: 17px;
-        }
-      }
+    &:hover {
+      background: var(--colors-gray10);
     }
+  }
 
-    .react-datepicker__day--outside-month {
-      color: var(--colors-gray700);
-      pointer-events: none;
-      cursor: auto;
+  .react-calendar__tile--active {
+    background: var(--colors-gray10);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--colors-gray800);
+
+    &:hover {
+      background: var(--colors-gray10);
     }
   }
 }

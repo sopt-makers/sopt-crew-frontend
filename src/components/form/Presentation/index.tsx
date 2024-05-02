@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -18,8 +18,8 @@ import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
-import Calendar from '../Calendar';
-
+import CalendarModal from '../Calendar';
+import dayjs from 'dayjs';
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -86,6 +86,11 @@ function Presentation({
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
   };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
+  const [isOpen4, setIsOpen4] = useState(false);
 
   return (
     <SForm onSubmit={onSubmit}>
@@ -174,13 +179,18 @@ function Presentation({
                     }
                   | undefined;
                 return (
-                  // <TextInput
-                  //   placeholder="YYYY.MM.DD"
-                  //   error={dateError?.startDate?.message || dateError?.endDate?.message}
-                  //   required
-                  //   {...field}
-                  // />
-                  <Calendar selectedDate={field.value} setSelectedDate={field.onChange} />
+                  <>
+                    <SInput onClick={() => setIsOpen(true)} value={field.value} placeholder="YYYY.MM.DD" />
+                    {isOpen && (
+                      <CalendarModal
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
+                        error={dateError?.startDate?.message || dateError?.endDate?.message}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                      />
+                    )}
+                  </>
                 );
               }}
             ></FormController>
@@ -189,7 +199,19 @@ function Presentation({
           <SApplicationField>
             <FormController
               name="endDate"
-              render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
+              render={({ field }) => (
+                <>
+                  <SInput onClick={() => setIsOpen2(true)} value={field.value} placeholder="YYYY.MM.DD" />
+                  {isOpen2 && (
+                    <CalendarModal
+                      selectedDate={field.value}
+                      setSelectedDate={field.onChange}
+                      isOpen={isOpen2}
+                      setIsOpen={setIsOpen2}
+                    />
+                  )}
+                </>
+              )}
             ></FormController>
           </SApplicationField>
         </SApplicationFieldWrapper>
@@ -259,12 +281,18 @@ function Presentation({
                     })
                   | undefined;
                 return (
-                  <TextInput
-                    placeholder="YYYY.MM.DD"
-                    required
-                    error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
-                    {...field}
-                  />
+                  <>
+                    <SInput onClick={() => setIsOpen3(true)} value={field.value} placeholder="YYYY.MM.DD" />
+                    {isOpen3 && (
+                      <CalendarModal
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
+                        isOpen={isOpen3}
+                        error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                        setIsOpen={setIsOpen3}
+                      />
+                    )}
+                  </>
                 );
               }}
             ></FormController>
@@ -273,7 +301,19 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mEndDate"
-              render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
+              render={({ field }) => (
+                <>
+                  <SInput onClick={() => setIsOpen4(true)} value={field.value} placeholder="YYYY.MM.DD" />
+                  {isOpen4 && (
+                    <CalendarModal
+                      selectedDate={field.value}
+                      setSelectedDate={field.onChange}
+                      isOpen={isOpen4}
+                      setIsOpen={setIsOpen4}
+                    />
+                  )}
+                </>
+              )}
             ></FormController>
           </SDateField>
         </SDateFieldWrapper>
@@ -467,5 +507,23 @@ const SubmitButton = styled(Button, {
   '&:disabled': {
     cursor: 'not-allowed',
     opacity: 0.35,
+  },
+});
+
+const SInput = styled('input', {
+  width: '100%',
+  padding: '18px 20px',
+  display: 'flex',
+  alignItems: 'center',
+  fontAg: '16_medium_100',
+  color: '$gray10',
+  background: '$gray700',
+  borderRadius: 10,
+  '&::placeholder': {
+    color: '$gray500',
+  },
+
+  '@tablet': {
+    padding: '16px',
   },
 });

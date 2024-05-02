@@ -1,111 +1,119 @@
-import { Dispatch, SetStateAction } from 'react';
-import DatePicker from 'react-datepicker';
-import { getMonth, getYear } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { styled } from '@stitches/react';
-import { Arrow } from '@components/button/Arrow';
-import { css } from '@stitches/react';
-
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import dayjs from 'dayjs';
+import ErrorMessage from '../ErrorMessage';
+import { useDisplay } from '@hooks/useDisplay';
+import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 interface Props {
-  selectedDate: Date | null;
-  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+  selectedDate: string | null;
+  setSelectedDate: Dispatch<SetStateAction<string | null>>;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  error?: string;
 }
 
-const Calendar = ({ selectedDate, setSelectedDate }: Props) => {
+const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error }: Props) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { isDesktop, isMobile, isTablet } = useDisplay();
+
+  const handleOutsideClick = (event: any) => {
+    if (!containerRef.current || !containerRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDesktop && !isMobile && !isTablet) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      if (isDesktop && !isMobile && !isTablet) {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      }
+    };
+  }, [isDesktop, containerRef, setIsOpen]);
+
   return (
-    <DatePicker
-      dateFormat="yyyy.MM.dd"
-      formatWeekDay={nameOfDay => nameOfDay.substring(0, 3).toUpperCase()}
-      scrollableYearDropdown
-      shouldCloseOnSelect
-      yearDropdownItemNumber={100}
-      placeholderText="YYYY.MM.DD"
-      minDate={new Date('2000-01-01')}
-      showPopperArrow={false}
-      selected={selectedDate}
-      className={datePickerStyleClassName}
-      calendarClassName={calenderWrapperClassName}
-      onKeyDown={e => {
-        e.preventDefault();
-      }}
-      onChange={date => setSelectedDate(date)}
-      renderCustomHeader={({ date, changeYear, decreaseMonth, increaseMonth }) => (
-        <CustomHeaderContainerStyle>
-          <div>
-            <Month>
-              {getMonth(date) + 1}월 {getYear(date)}
-            </Month>
-          </div>
-          <div>
-            <MonthButton type="button" onClick={decreaseMonth}>
-              <Arrow direction={'left'} />
-            </MonthButton>
-            <MonthButton type="button" onClick={increaseMonth}>
-              <Arrow direction={'right'} />
-            </MonthButton>
-          </div>
-        </CustomHeaderContainerStyle>
+    <>
+      {!isDesktop && (isMobile || isTablet) ? (
+        <div>
+          <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
+            <Calendar
+              value={selectedDate ? dayjs(selectedDate).toDate() : null}
+              onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
+              formatDay={(locale, date) => dayjs(date).format('D')}
+              formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
+              showNeighboringMonth={false}
+              next2Label={null}
+              prev2Label={null}
+              minDetail="month"
+              maxDetail="month"
+            />
+            {error && <SErrorMessage>{error}</SErrorMessage>}
+          </BottomSheetDialog>
+        </div>
+      ) : (
+        <SCalendarWrapper ref={containerRef}>
+          <Calendar
+            value={selectedDate ? dayjs(selectedDate).toDate() : null}
+            onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
+            formatDay={(locale, date) => dayjs(date).format('D')}
+            formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
+            showNeighboringMonth={false}
+            next2Label={null}
+            prev2Label={null}
+            minDetail="month"
+            maxDetail="month"
+            tileContent={({ date, view }) => {
+              if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
+                console.log(selectedDate);
+                console.log(dayjs(date).format('YYYY.MM.DD'));
+                return (
+                  // <>
+                  <SDotWrapper>
+                    <SDot></SDot>
+                  </SDotWrapper>
+                  // </>
+                );
+              }
+            }}
+          />
+
+          {error && <SErrorMessage>{error}</SErrorMessage>}
+        </SCalendarWrapper>
       )}
-    ></DatePicker>
+    </>
   );
 };
 
-export default Calendar;
+export default CalendarModal;
 
-const datePickerStyle = css({
-  width: '100%',
-  padding: '18px 20px',
-  display: 'flex',
-  alignItems: 'center',
-  fontAg: '16_medium_100',
-  color: '$gray10',
-  background: '$gray700',
-  borderRadius: 10,
-  '&::placeholder': {
-    color: '$gray500',
-  },
-
-  '@tablet': {
-    padding: '16px',
-  },
-});
-
-const datePickerStyleClassName = datePickerStyle.toString();
-
-const calenderWrapper = css({
+const SCalendarWrapper = styled('div', {
   backgroundColor: '$gray700',
-  color: 'white',
+  padding: '10px',
+  width: '320px',
+  borderRadius: '16px',
+  position: 'absolute',
+  zIndex: '9999',
+  marginTop: '10px',
 });
 
-const calenderWrapperClassName = calenderWrapper.toString();
+const SErrorMessage = styled(ErrorMessage, {
+  marginTop: '12px',
+});
 
-const CustomHeaderContainerStyle = styled('div', {
+const SDotWrapper = styled('div', {
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: '$gray700',
 });
-
-const MonthButton = styled('button', {
-  width: '20px',
-  height: '20px',
+const SDot = styled('div', {
+  height: '8px',
+  width: '8px',
+  backgroundColor: 'red',
   borderRadius: '50%',
-
-  '&:hover': {
-    backgroundColor: 'rgba($WHITE, 0.08)',
-  },
-  '&:disabled': {
-    cursor: 'default',
-    backgroundColor: '$BG_COLOR',
-    svg: {
-      fill: '#575757',
-    },
-  },
-});
-
-const Month = styled('span', {
-  color: '$gray30',
-  fontSize: '1rem',
-  fontStyle: 'normal',
-  fontWeight: 700,
+  display: 'flex',
+  // marginLeft: 1px;
 });
