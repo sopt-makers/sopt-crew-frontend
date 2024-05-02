@@ -18,6 +18,7 @@ import { PART_NAME, ACTION_STATUS, EActionStatus } from '@constants/option';
 import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import Separator from '@assets/svg/GroupBrowsingCardSeparator.svg';
+import { fontsObject } from '@sopt-makers/fonts';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   id,
@@ -133,9 +134,7 @@ const STop = styled('div', {
   display: 'flex',
   alignItems: 'center',
   mb: '$4',
-  fontSize: '11px',
-  fontWeight: '600',
-  lineHeight: '14px',
+  ...fontsObject.LABEL_5_11_SB,
   '& > div:first-child': {
     mr: '$6',
   },
@@ -148,14 +147,12 @@ const STopDivisor = styled('span', {
 });
 
 const STitle = styled('div', {
-  fontStyle: 'H4',
+  ...fontsObject.HEADING_7_16_B,
   mb: '$12',
 });
 
 const SContents = styled('div', {
-  fontSize: '11px',
-  fontWeight: '600',
-  lineHeight: '14px',
+  ...fontsObject.LABEL_5_11_SB,
 });
 
 const SContent = styled('div', {
@@ -174,9 +171,7 @@ const SInfo = styled('div', {
 const SBottom = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
-  fontSize: '12px',
-  fontWeight: '600',
-  lineHeight: '16px',
+  ...fontsObject.LABEL_4_12_SB,
   width: '100%',
   padding: '$0 $16 $12 $16',
   borderBottomLeftRadius: '$12',
