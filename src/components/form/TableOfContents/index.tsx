@@ -57,7 +57,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
           <SItemLabel>1. 모임 정보</SItemLabel>
         </SItem>
         <SItem>
-          {isApplicationDateValid && isTargetValid && isMemberCountValid ? <CheckedIcon /> : <UncheckedIcon />}
+          {isApplicationDateValid && isTargetValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>2. 모집 정보</SItemLabel>
         </SItem>
         <SItem>
