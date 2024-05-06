@@ -20,6 +20,8 @@ import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
+import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
+import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -277,12 +279,9 @@ function Presentation({
                           name="capacity"
                           render={({ field, fieldState: { error } }) => (
                             <TextInput
-                              style={{ width: '70px', height: '52px' }}
                               type="number"
-                              label=""
                               placeholder="인원"
                               right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
-                              error={error?.message}
                               required
                               {...field}
                               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -297,7 +296,14 @@ function Presentation({
                         name="detail.canJoinOnlyActiveGeneration"
                         defaultValue={false}
                         render={({ field: { value, onChange } }) => (
-                          <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
+                          <SFormCheckBox>
+                            {value ? (
+                              <CheckSelectedIcon onClick={() => onChange(!value)} style={{ marginRight: '8px' }} />
+                            ) : (
+                              <CheckUnselectedIcon onClick={() => onChange(!value)} style={{ marginRight: '8px' }} />
+                            )}
+                            활동 기수만
+                          </SFormCheckBox>
                         )}
                       ></FormController>
                     </STargetFieldWrapper>
@@ -458,8 +464,13 @@ const SNeedMentorFieldWrapper = styled('div', {
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
+  alignItems: 'center',
   gap: '10px',
   marginBottom: '16px',
+  height: '52px',
+  '@tablet': {
+    height: '48px',
+  },
 });
 const ButtonContainer = styled('div', {
   display: 'flex',
@@ -529,4 +540,11 @@ const SSectionCountBox = styled('div', {
 
 const SMemberCountWrapper = styled('div', {
   width: '94px',
+  height: '52px',
+});
+
+const SFormCheckBox = styled('div', {
+  ...fontsObject.BODY_3_14_R,
+  display: 'flex',
+  alignItems: 'center',
 });
