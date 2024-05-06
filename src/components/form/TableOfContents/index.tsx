@@ -3,7 +3,6 @@ import { FormType } from '@type/form';
 import { styled } from 'stitches.config';
 import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
 import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
-
 interface TableOfContentsProps {
   label: string;
 }
@@ -85,6 +84,7 @@ const SContainer = styled('div', {
     display: 'none',
   },
 });
+
 const SListHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
@@ -93,33 +93,27 @@ const SListHeader = styled('div', {
   paddingBottom: '$36',
   borderBottom: '1.5px solid $gray700',
 });
+
 const SLabel = styled('h2', {
   fontWeight: '700',
   fontSize: '24px',
   lineHeight: '100%',
   color: '$gray10',
 });
-const SCount = styled('div', {
-  width: '$60',
-  padding: '$6 0',
-  fontWeight: '600',
-  fontSize: '12px',
-  lineHeight: '100%',
-  textAlign: 'center',
-  background: '$gray700',
-  borderRadius: '6px',
-});
+
 const SItemList = styled('ul', {
   margin: 0,
   display: 'flex',
   flexDirection: 'column',
   gap: '30px',
 });
+
 const SItem = styled('li', {
   display: 'flex',
   alignItems: 'center',
   gap: '28px',
 });
+
 const SItemLabel = styled('span', {
   display: 'inline-block',
   fontAg: '16_medium_100',

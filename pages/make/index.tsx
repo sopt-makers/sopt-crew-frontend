@@ -117,6 +117,7 @@ const SFormName = styled('h1', {
 const SFormCaution = styled('div', {
   ...fontsObject.BODY_4_13_M,
   padding: '14px 18px',
+  marginBottom: '60px',
   borderRadius: '10px',
   border: `1px solid ${colors.blue600}`,
   background: `${colors.blue100}, rgba(52, 111, 250, 0.10)`,
