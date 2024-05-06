@@ -238,27 +238,6 @@ function Presentation({
             </SApplicationFieldWrapper>
           </div>
 
-          {/* 모집 인원 */}
-          <SMemberCountField>
-            <FormController
-              name="capacity"
-              render={({ field, fieldState: { error } }) => (
-                <TextInput
-                  type="number"
-                  label="모집 인원"
-                  placeholder="인원"
-                  right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
-                  error={error?.message}
-                  required
-                  {...field}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    field.onChange(+e.target.value > 0 && +e.target.value)
-                  }
-                />
-              )}
-            ></FormController>
-          </SMemberCountField>
-
           {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
           <div>
             <Label required={true} size="small">
@@ -285,17 +264,40 @@ function Presentation({
                   <>
                     <STargetFieldWrapper>
                       <FormController
-                        name="detail.canJoinOnlyActiveGeneration"
-                        defaultValue={false}
-                        render={({ field: { value, onChange } }) => (
-                          <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
-                        )}
-                      ></FormController>
-                      <FormController
                         name="detail.joinableParts"
                         defaultValue={[parts[0]]}
                         render={({ field: { value, onChange, onBlur } }) => (
                           <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                        )}
+                      ></FormController>
+
+                      {/* 모집 인원 */}
+                      <SMemberCountWrapper>
+                        <FormController
+                          name="capacity"
+                          render={({ field, fieldState: { error } }) => (
+                            <TextInput
+                              style={{ width: '70px', height: '52px' }}
+                              type="number"
+                              label=""
+                              placeholder="인원"
+                              right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
+                              error={error?.message}
+                              required
+                              {...field}
+                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                field.onChange(+e.target.value > 0 && +e.target.value)
+                              }
+                            />
+                          )}
+                        ></FormController>
+                      </SMemberCountWrapper>
+
+                      <FormController
+                        name="detail.canJoinOnlyActiveGeneration"
+                        defaultValue={false}
+                        render={({ field: { value, onChange } }) => (
+                          <FormSwitch label="활동 기수만" checked={value} onChange={onChange} />
                         )}
                       ></FormController>
                     </STargetFieldWrapper>
@@ -447,7 +449,6 @@ const SApplicationField = styled('div', {
     maxWidth: '151px',
   },
 });
-const SMemberCountField = styled(SApplicationField);
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
 const SNeedMentorFieldWrapper = styled('div', {
@@ -457,7 +458,6 @@ const SNeedMentorFieldWrapper = styled('div', {
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
-  alignItems: 'center',
   gap: '10px',
   marginBottom: '16px',
 });
@@ -525,4 +525,8 @@ const SSectionCountBox = styled('div', {
   ml: '$10',
   background: `${colors.gray700}`,
   color: `${colors.white}`,
+});
+
+const SMemberCountWrapper = styled('div', {
+  width: '94px',
 });
