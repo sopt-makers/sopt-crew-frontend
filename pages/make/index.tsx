@@ -93,7 +93,7 @@ const SContainer = styled('div', {
 });
 const SFormContainer = styled('div', {
   width: '100%',
-  padding: '44px 40px 56px',
+  padding: '36px 40px 56px',
   borderRadius: '15px',
 
   '@tablet': {
