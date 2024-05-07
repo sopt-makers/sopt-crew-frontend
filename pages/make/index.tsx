@@ -56,20 +56,18 @@ const MakePage = () => {
         <SFormContainer>
           <SFormName>모임 개설하기</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
-          <SFormWrapper>
-            <Presentation
-              submitButtonLabel={
-                <>
-                  <PlusIcon />
-                  모임 개설하기
-                </>
-              }
-              handleChangeImage={handleChangeImage}
-              handleDeleteImage={handleDeleteImage}
-              onSubmit={formMethods.handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid}
-            />
-          </SFormWrapper>
+          <Presentation
+            submitButtonLabel={
+              <>
+                <PlusIcon />
+                모임 개설하기
+              </>
+            }
+            handleChangeImage={handleChangeImage}
+            handleDeleteImage={handleDeleteImage}
+            onSubmit={formMethods.handleSubmit(onSubmit)}
+            disabled={isSubmitting || !isValid}
+          />
         </SFormContainer>
         <TableOfContents label="모임 개설" />
       </SContainer>
@@ -119,11 +117,5 @@ const SFormCaution = styled('div', {
   marginBottom: '60px',
   borderRadius: '10px',
   border: `1px solid ${colors.blue600}`,
-  background: `${colors.blue100}, rgba(52, 111, 250, 0.10)`,
-});
-
-const SFormWrapper = styled('div', {
-  '@tablet': {
-    paddingTop: '40px',
-  },
+  background: 'var(--blue-alpha-100, rgba(52, 111, 250, 0.10))',
 });
