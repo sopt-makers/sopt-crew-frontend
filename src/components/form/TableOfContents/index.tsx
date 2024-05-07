@@ -74,7 +74,6 @@ const SContainer = styled('div', {
   width: '341px',
   padding: '50px 40px 60px',
   height: 'fit-content',
-  background: '$gray800',
   border: '1px solid $gray700',
   borderRadius: '15px',
   position: 'sticky',
