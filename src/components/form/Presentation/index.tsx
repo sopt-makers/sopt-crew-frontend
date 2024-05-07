@@ -14,7 +14,6 @@ import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from '@type/form';
 import NeedMentor from '../CheckBox/NeedMentor';
 import { parts } from '@data/options';
-import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
@@ -242,9 +241,27 @@ function Presentation({
 
           {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
           <div>
-            <Label required={true} size="small">
-              모집 대상
-            </Label>
+            <SLabelCheckboxWrapper>
+              <SLabelWrapper>
+                <Label required={true} size="small">
+                  모집 대상
+                </Label>
+              </SLabelWrapper>
+              <FormController
+                name="detail.canJoinOnlyActiveGeneration"
+                defaultValue={false}
+                render={({ field: { value, onChange } }) => (
+                  <SMobileFormCheckBox active={value} onClick={() => onChange(!value)}>
+                    {value ? (
+                      <CheckSelectedIcon style={{ marginRight: '8px' }} />
+                    ) : (
+                      <CheckUnselectedIcon style={{ marginRight: '8px' }} />
+                    )}
+                    활동 기수만
+                  </SMobileFormCheckBox>
+                )}
+              ></FormController>
+            </SLabelCheckboxWrapper>
             <HelpMessage>기수 제한, 대상 파트를 선택하고 상세 내용을 작성해주세요.</HelpMessage>
             <FormController
               name="detail.targetDesc"
@@ -296,11 +313,11 @@ function Presentation({
                         name="detail.canJoinOnlyActiveGeneration"
                         defaultValue={false}
                         render={({ field: { value, onChange } }) => (
-                          <SFormCheckBox>
+                          <SFormCheckBox active={value} onClick={() => onChange(!value)}>
                             {value ? (
-                              <CheckSelectedIcon onClick={() => onChange(!value)} style={{ marginRight: '8px' }} />
+                              <CheckSelectedIcon style={{ marginRight: '8px' }} />
                             ) : (
-                              <CheckUnselectedIcon onClick={() => onChange(!value)} style={{ marginRight: '8px' }} />
+                              <CheckUnselectedIcon style={{ marginRight: '8px' }} />
                             )}
                             활동 기수만
                           </SFormCheckBox>
@@ -547,4 +564,39 @@ const SFormCheckBox = styled('div', {
   ...fontsObject.BODY_3_14_R,
   display: 'flex',
   alignItems: 'center',
+  color: '$gray300',
+  variants: {
+    active: {
+      true: { color: '$gray10' },
+    },
+  },
+  cursor: 'pointer',
+  '@media(max-width: 385px)': {
+    display: 'none',
+  },
+});
+
+const SMobileFormCheckBox = styled('div', {
+  ...fontsObject.BODY_3_14_R,
+  display: 'none',
+  alignItems: 'center',
+  color: '$gray300',
+  variants: {
+    active: {
+      true: { color: '$gray10' },
+    },
+  },
+  cursor: 'pointer',
+  '@media(max-width: 385px)': {
+    display: 'flex',
+  },
+});
+
+const SLabelWrapper = styled('div', {
+  width: 'fit-content',
+});
+
+const SLabelCheckboxWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
 });
