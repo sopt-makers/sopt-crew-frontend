@@ -18,8 +18,7 @@ import FormSwitch from '../FormSwitch/FormSwitch';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
-import CalendarModal from '../Calendar';
-import dayjs from 'dayjs';
+import CalendarInputForm from '../Calendar';
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -86,11 +85,6 @@ function Presentation({
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
   };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
-  const [isOpen3, setIsOpen3] = useState(false);
-  const [isOpen4, setIsOpen4] = useState(false);
 
   return (
     <SForm onSubmit={onSubmit}>
@@ -179,18 +173,11 @@ function Presentation({
                     }
                   | undefined;
                 return (
-                  <>
-                    <SInput onClick={() => setIsOpen(true)} value={field.value} placeholder="YYYY.MM.DD" />
-                    {isOpen && (
-                      <CalendarModal
-                        selectedDate={field.value}
-                        setSelectedDate={field.onChange}
-                        error={dateError?.startDate?.message || dateError?.endDate?.message}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                      />
-                    )}
-                  </>
+                  <CalendarInputForm
+                    selectedDate={field.value}
+                    setSelectedDate={field.onChange}
+                    error={dateError?.startDate?.message || dateError?.endDate?.message}
+                  />
                 );
               }}
             ></FormController>
@@ -199,19 +186,7 @@ function Presentation({
           <SApplicationField>
             <FormController
               name="endDate"
-              render={({ field }) => (
-                <>
-                  <SInput onClick={() => setIsOpen2(true)} value={field.value} placeholder="YYYY.MM.DD" />
-                  {isOpen2 && (
-                    <CalendarModal
-                      selectedDate={field.value}
-                      setSelectedDate={field.onChange}
-                      isOpen={isOpen2}
-                      setIsOpen={setIsOpen2}
-                    />
-                  )}
-                </>
-              )}
+              render={({ field }) => <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />}
             ></FormController>
           </SApplicationField>
         </SApplicationFieldWrapper>
@@ -281,18 +256,11 @@ function Presentation({
                     })
                   | undefined;
                 return (
-                  <>
-                    <SInput onClick={() => setIsOpen3(true)} value={field.value} placeholder="YYYY.MM.DD" />
-                    {isOpen3 && (
-                      <CalendarModal
-                        selectedDate={field.value}
-                        setSelectedDate={field.onChange}
-                        isOpen={isOpen3}
-                        error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
-                        setIsOpen={setIsOpen3}
-                      />
-                    )}
-                  </>
+                  <CalendarInputForm
+                    selectedDate={field.value}
+                    setSelectedDate={field.onChange}
+                    error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                  />
                 );
               }}
             ></FormController>
@@ -301,19 +269,7 @@ function Presentation({
           <SDateField>
             <FormController
               name="detail.mEndDate"
-              render={({ field }) => (
-                <>
-                  <SInput onClick={() => setIsOpen4(true)} value={field.value} placeholder="YYYY.MM.DD" />
-                  {isOpen4 && (
-                    <CalendarModal
-                      selectedDate={field.value}
-                      setSelectedDate={field.onChange}
-                      isOpen={isOpen4}
-                      setIsOpen={setIsOpen4}
-                    />
-                  )}
-                </>
-              )}
+              render={({ field }) => <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />}
             ></FormController>
           </SDateField>
         </SDateFieldWrapper>
