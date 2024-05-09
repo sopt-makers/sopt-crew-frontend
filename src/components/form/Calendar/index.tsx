@@ -15,6 +15,30 @@ interface Props {
 }
 
 const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error }: Props) => {
+  const CalendarComponent = () => {
+    return (
+      <Calendar
+        value={selectedDate ? dayjs(selectedDate).toDate() : null}
+        onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
+        formatDay={(locale, date) => dayjs(date).format('D')}
+        formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
+        showNeighboringMonth={false}
+        next2Label={null}
+        prev2Label={null}
+        minDetail="month"
+        maxDetail="month"
+        tileContent={({ date, view }) => {
+          if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
+            return (
+              <SDotWrapper>
+                <SDot></SDot>
+              </SDotWrapper>
+            );
+          }
+        }}
+      />
+    );
+  };
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { isDesktop, isMobile, isTablet } = useDisplay();
 
@@ -38,53 +62,13 @@ const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error
       {!isDesktop && (isMobile || isTablet) ? (
         <div>
           <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
-            <Calendar
-              value={selectedDate ? dayjs(selectedDate).toDate() : null}
-              onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
-              formatDay={(locale, date) => dayjs(date).format('D')}
-              formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
-              showNeighboringMonth={false}
-              next2Label={null}
-              prev2Label={null}
-              minDetail="month"
-              maxDetail="month"
-              tileContent={({ date, view }) => {
-                if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
-                  return (
-                    <SDotWrapper>
-                      <SDot></SDot>
-                    </SDotWrapper>
-                  );
-                }
-              }}
-            />
+            <CalendarComponent />
             {error && <SErrorMessage>{error}</SErrorMessage>}
           </BottomSheetDialog>
         </div>
       ) : (
         <SCalendarWrapper ref={containerRef}>
-          <Calendar
-            value={selectedDate ? dayjs(selectedDate).toDate() : null}
-            onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
-            formatDay={(locale, date) => dayjs(date).format('D')}
-            formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
-            showNeighboringMonth={false}
-            next2Label={null}
-            prev2Label={null}
-            minDetail="month"
-            maxDetail="month"
-            tileContent={({ date, view }) => {
-              if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
-                return (
-                  <>
-                    <SDotWrapper>
-                      <SDot></SDot>
-                    </SDotWrapper>
-                  </>
-                );
-              }
-            }}
-          />
+          <CalendarComponent />
           {error && <SErrorMessage>{error}</SErrorMessage>}
         </SCalendarWrapper>
       )}
