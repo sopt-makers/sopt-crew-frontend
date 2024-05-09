@@ -65,7 +65,11 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
     <>
       {!isDesktop && (isMobile || isTablet) ? (
         <>
-          <SInput onClick={() => setIsOpen(true)} value={selectedDate} placeholder="YYYY.MM.DD" />
+          <SInput
+            onClick={() => setIsOpen(true)}
+            value={selectedDate as string | number | readonly string[] | undefined}
+            placeholder="YYYY.MM.DD"
+          />
           {isOpen && (
             <div>
               <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
@@ -76,7 +80,11 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
         </>
       ) : (
         <>
-          <SInput onClick={() => setIsOpen(true)} value={selectedDate} placeholder="YYYY.MM.DD" />
+          <SInput
+            onClick={() => setIsOpen(true)}
+            value={selectedDate as string | number | readonly string[] | undefined}
+            placeholder="YYYY.MM.DD"
+          />
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
               <CalendarComponent />
