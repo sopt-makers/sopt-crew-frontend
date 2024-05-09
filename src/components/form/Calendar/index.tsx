@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-import { styled } from '@stitches/react';
+import { Dispatch, SetStateAction, useEffect, useRef, useCallback } from 'react';
+import { styled } from 'stitches.config';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
@@ -18,22 +18,20 @@ const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { isDesktop, isMobile, isTablet } = useDisplay();
 
-  const handleOutsideClick = (event: any) => {
+  const handleOutsideClick = useCallback((event: any) => {
     if (!containerRef.current || !containerRef.current.contains(event.target)) {
       setIsOpen(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (isDesktop && !isMobile && !isTablet) {
       document.addEventListener('mousedown', handleOutsideClick);
-    }
-    return () => {
-      if (isDesktop && !isMobile && !isTablet) {
+      return () => {
         document.removeEventListener('mousedown', handleOutsideClick);
-      }
-    };
-  }, [isDesktop, containerRef, setIsOpen]);
+      };
+    }
+  }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
   return (
     <>
@@ -53,11 +51,9 @@ const CalendarModal = ({ selectedDate, setSelectedDate, isOpen, setIsOpen, error
               tileContent={({ date, view }) => {
                 if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
                   return (
-                    // <>
                     <SDotWrapper>
                       <SDot></SDot>
                     </SDotWrapper>
-                    // </>
                   );
                 }
               }}
