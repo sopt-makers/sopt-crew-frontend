@@ -13,7 +13,7 @@ import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
 import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
-import { PostApplicationRequest, MeetingResponse } from '@api/meeting';
+import { PostApplicationRequest, MeetingResponse, getMeeting } from '@api/meeting';
 import { playgroundURL } from '@constants/url';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -111,34 +111,42 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     mutateApplication(
       { id: Number(meetingId), content: textareaValue },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
+        onSuccess: async () => {
+          /*queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
-          });
+          });*/
+          const data = await getMeeting(meetingId as string);
+          queryClient.setQueryData(['getMeeting', meetingId], data);
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
         onError: (error: AxiosError) => {
           alertErrorMessage(error);
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
-        onSettled: () => setIsSubmitting(false),
       }
     );
   };
 
   const handleCancelApplication = () => {
+    setIsSubmitting(true);
     mutateApplication(
       { id: Number(meetingId), content: '' },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
+        onSuccess: async () => {
+          /*queryClient.invalidateQueries({
             queryKey: ['getMeeting'],
-          });
+          });*/
+          const data = await getMeeting(meetingId as string);
+          queryClient.setQueryData(['getMeeting', meetingId], data);
+          setIsSubmitting(false);
           handleGuestModalClose();
         },
         onError: (error: AxiosError) => {
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.message);
+          setIsSubmitting(false);
           handleGuestModalClose();
         },
       }
@@ -219,6 +227,8 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
         message="신청을 취소하시겠습니까?"
         handleModalClose={handleGuestModalClose}
         handleConfirm={handleCancelApplication}
+        cancelButtonDisabled={isSubmitting}
+        confirmButtonDisabled={isSubmitting}
       />
       <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
         {modalTitle === '모임 신청하기' && (

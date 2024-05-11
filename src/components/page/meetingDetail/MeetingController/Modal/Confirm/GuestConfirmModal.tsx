@@ -5,9 +5,18 @@ interface GuestConfirmModalProps {
   message: string;
   handleModalClose: () => void;
   handleConfirm: () => void;
+  cancelButtonDisabled?: boolean;
+  confirmButtonDisabled?: boolean;
 }
 
-const GuestConfirmModal = ({ isModalOpened, message, handleModalClose, handleConfirm }: GuestConfirmModalProps) => {
+const GuestConfirmModal = ({
+  isModalOpened,
+  message,
+  handleModalClose,
+  handleConfirm,
+  cancelButtonDisabled,
+  confirmButtonDisabled,
+}: GuestConfirmModalProps) => {
   return (
     <ConfirmModal
       isModalOpened={isModalOpened}
@@ -16,6 +25,8 @@ const GuestConfirmModal = ({ isModalOpened, message, handleModalClose, handleCon
       confirmButton="취소하기"
       handleModalClose={handleModalClose}
       handleConfirm={handleConfirm}
+      cancelButtonDisabled={cancelButtonDisabled}
+      confirmButtonDisabled={confirmButtonDisabled}
     />
   );
 };
