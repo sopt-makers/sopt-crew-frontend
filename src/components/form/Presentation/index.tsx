@@ -106,7 +106,7 @@ function Presentation({
                 <TextInput
                   label="모임 제목"
                   message="최대 30자 이내로 입력해주세요"
-                  placeholder="제목 입력"
+                  placeholder="제목"
                   required
                   error={error?.message}
                   {...field}
@@ -137,8 +137,11 @@ function Presentation({
 
           {/* 이미지 */}
           <div>
-            <Label required={true}>이미지</Label>
-            <HelpMessage>6개까지 첨부 가능하며, 5MB 이하 이미지를 권장해요</HelpMessage>
+            <Label required={true}>소개 이미지</Label>
+            <HelpMessage>
+              6개까지 첨부 가능하며 5MB 이내로 <br />
+              가로는 716px, 세로는453px 사이즈를 권장해요
+            </HelpMessage>
             <SFileInputWrapper>
               <FormController
                 name="files"
@@ -206,7 +209,7 @@ function Presentation({
           {/* 모집 기간 */}
           <div>
             <Label required={true}>모집 기간</Label>
-            <HelpMessage>모집 기간을 형식에 맞춰 입력해주세요</HelpMessage>
+            <HelpMessage>설정한 모집 기간 시작일의 자정(AM 12:00)에 모임 신청 버튼이 활성화돼요</HelpMessage>
             <SApplicationFieldWrapper>
               <SApplicationField>
                 <FormController
@@ -262,7 +265,7 @@ function Presentation({
                 )}
               ></FormController>
             </SLabelCheckboxWrapper>
-            <HelpMessage>기수 제한, 대상 파트를 선택하고 상세 내용을 작성해주세요.</HelpMessage>
+            <HelpMessage>모집 인원은 개설자를 제외하고 입력해주세요</HelpMessage>
             <FormController
               name="detail.targetDesc"
               render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
@@ -346,7 +349,7 @@ function Presentation({
             <Label required={true} size="small">
               활동 기간
             </Label>
-            <HelpMessage>활동 기간을 형식에 맞춰 입력해주세요</HelpMessage>
+            <HelpMessage>활동 기간을 설정해주세요</HelpMessage>
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
@@ -599,4 +602,10 @@ const SLabelWrapper = styled('div', {
 const SLabelCheckboxWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
+});
+
+const ImageHelpMessage = styled('div', {
+  marginBottom: '18px',
+  fontAg: '14_medium_100',
+  color: '$gray500',
 });
