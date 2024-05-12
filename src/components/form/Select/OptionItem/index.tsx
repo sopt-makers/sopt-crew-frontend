@@ -38,13 +38,17 @@ const SOptionItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   padding: '12px 16px',
-  background: '$gray600',
+  background: '$gray800',
   fontAg: '18_medium_100',
+  borderRadius: '8px',
   variants: {
     selected: {
       true: {
-        fontAg: '18_bold_100',
+        background: '$gray600',
       },
     },
+  },
+  '&:hover': {
+    background: '$gray700',
   },
 });

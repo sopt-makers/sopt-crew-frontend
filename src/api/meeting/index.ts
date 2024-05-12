@@ -294,6 +294,7 @@ export const returnNewStatus = (status: number, mstartDate: string, isGroupActiv
 export function categoryType(category: string) {
   if (category === 'STUDY') return '스터디';
   if (category == 'EVENT') return '행사';
+  if (category == 'SEMINAR') return '세미나';
 }
 
 export function returnIsGroupActive(mstartDate: string, mendDate: string) {
