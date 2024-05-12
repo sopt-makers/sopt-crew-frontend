@@ -1,6 +1,7 @@
 import { styled } from 'stitches.config';
-import CheckIcon from '@assets/svg/check_need_mentor.svg';
 import { forwardRef } from 'react';
+import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
+import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 
 interface NeedMentorProps extends React.HTMLAttributes<HTMLInputElement> {
   name: string;
@@ -10,7 +11,7 @@ interface NeedMentorProps extends React.HTMLAttributes<HTMLInputElement> {
 const NeedMentor = forwardRef<HTMLInputElement, NeedMentorProps>(({ value, ...props }, ref) => {
   return (
     <SNeedMentorField htmlFor={props.name}>
-      <SCheckIcon active={value} />
+      {value ? <CheckSelectedIcon /> : <CheckUnselectedIcon />}
       <div>
         <input id={props.name} type="checkbox" ref={ref} {...props} />
         <SNeedMentorLabel active={value}>멘토 구해요</SNeedMentorLabel>
@@ -27,16 +28,7 @@ const SNeedMentorField = styled('label', {
   gap: '4px',
   cursor: 'pointer',
 });
-const SCheckIcon = styled(CheckIcon, {
-  width: '12px',
-  height: '12px',
-  color: '$gray300',
-  variants: {
-    active: {
-      true: { color: '$gray10' },
-    },
-  },
-});
+
 const SNeedMentorLabel = styled('span', {
   fontAg: '12_medium_100',
   lineHeight: '180%',
