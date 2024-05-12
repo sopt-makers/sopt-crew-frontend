@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -17,6 +17,7 @@ import { parts } from '@data/options';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/meeting';
 import { imageS3Bucket } from '@constants/url';
+import CalendarInputForm from '../Calendar';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
@@ -222,11 +223,10 @@ function Presentation({
                         }
                       | undefined;
                     return (
-                      <TextInput
-                        placeholder="YYYY.MM.DD"
+                      <CalendarInputForm
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
                         error={dateError?.startDate?.message || dateError?.endDate?.message}
-                        required
-                        {...field}
                       />
                     );
                   }}
@@ -236,7 +236,9 @@ function Presentation({
               <SApplicationField>
                 <FormController
                   name="endDate"
-                  render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
+                  render={({ field }) => (
+                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                  )}
                 ></FormController>
               </SApplicationField>
             </SApplicationFieldWrapper>
@@ -362,11 +364,10 @@ function Presentation({
                         })
                       | undefined;
                     return (
-                      <TextInput
-                        placeholder="YYYY.MM.DD"
-                        required
+                      <CalendarInputForm
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
                         error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
-                        {...field}
                       />
                     );
                   }}
@@ -376,7 +377,9 @@ function Presentation({
               <SDateField>
                 <FormController
                   name="detail.mEndDate"
-                  render={({ field }) => <TextInput placeholder="YYYY.MM.DD" {...field} />}
+                  render={({ field }) => (
+                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                  )}
                 ></FormController>
               </SDateField>
             </SDateFieldWrapper>
