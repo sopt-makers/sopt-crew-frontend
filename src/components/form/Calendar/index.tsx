@@ -7,6 +7,7 @@ import ErrorMessage from '../ErrorMessage';
 import { useDisplay } from '@hooks/useDisplay';
 import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
+import CalendarIcon from '@assets/svg/calendar_big.svg';
 interface Props {
   selectedDate: string | null;
   setSelectedDate: Dispatch<SetStateAction<string | null>>;
@@ -65,11 +66,10 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
     <>
       {!isDesktop && (isMobile || isTablet) ? (
         <>
-          <SInput
-            onClick={() => setIsOpen(true)}
-            value={selectedDate as string | number | readonly string[] | undefined}
-            placeholder="YYYY.MM.DD"
-          />
+          <SInputWrapper onClick={() => setIsOpen(true)}>
+            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
+            <CalendarIcon />
+          </SInputWrapper>
           {isOpen && (
             <div>
               <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
@@ -80,11 +80,10 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
         </>
       ) : (
         <>
-          <SInput
-            onClick={() => setIsOpen(true)}
-            value={selectedDate as string | number | readonly string[] | undefined}
-            placeholder="YYYY.MM.DD"
-          />
+          <SInputWrapper onClick={() => setIsOpen(true)}>
+            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
+            <CalendarIcon />
+          </SInputWrapper>
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
               <CalendarComponent />
@@ -120,6 +119,21 @@ const SDotWrapper = styled('div', {
   alignItems: 'center',
 });
 
+const SInputWrapper = styled('div', {
+  display: 'flex',
+  width: '100%',
+  padding: '18px 20px',
+  color: '$gray10',
+  background: '$gray700',
+  borderRadius: 10,
+  justifyContent: 'space-between',
+  cursor: 'pointer',
+
+  '@tablet': {
+    padding: '16px',
+  },
+});
+
 const SDot = styled('div', {
   height: '5px',
   width: '5px',
@@ -131,19 +145,17 @@ const SDot = styled('div', {
 });
 
 const SInput = styled('input', {
-  width: '100%',
-  padding: '18px 20px',
+  width: '80%',
   display: 'flex',
   alignItems: 'center',
+  cursor: 'pointer',
   ...fontsObject.BODY_2_16_M,
   color: '$gray10',
-  background: '$gray700',
-  borderRadius: 10,
+  caretColor: '$transparent',
   '&::placeholder': {
     color: '$gray500',
-  },
-
-  '@tablet': {
-    padding: '16px',
+    '@tablet': {
+      ...fontsObject.LABEL_5_11_SB,
+    },
   },
 });
