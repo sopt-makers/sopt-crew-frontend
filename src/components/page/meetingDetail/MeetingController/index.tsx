@@ -112,11 +112,9 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
       { id: Number(meetingId), content: textareaValue },
       {
         onSuccess: async () => {
-          /*queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });*/
-          const data = await getMeeting(meetingId as string);
-          queryClient.setQueryData(['getMeeting', meetingId], data);
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
+          });
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
@@ -135,11 +133,9 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
       { id: Number(meetingId), content: '' },
       {
         onSuccess: async () => {
-          /*queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });*/
-          const data = await getMeeting(meetingId as string);
-          queryClient.setQueryData(['getMeeting', meetingId], data);
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
+          });
           setIsSubmitting(false);
           handleGuestModalClose();
         },
