@@ -6812,16 +6812,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.0.6":
-  version: 18.0.6
-  resolution: "@types/react-dom@npm:18.0.6"
+"@types/react-dom@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 10c0/8ea6e001b741cced20781b3e5e8704c2597815adf1dc22d6b4d24616f24db93364a7163543cb0690082201a351cbfcb6bb0f8ce44ee5ad76ccabacbfe0fb2dd3
+  checksum: 10c0/6c90d2ed72c5a0e440d2c75d99287e4b5df3e7b011838cdc03ae5cd518ab52164d86990e73246b9d812eaf02ec351d74e3b4f5bd325bf341e13bf980392fd53b
   languageName: node
   linkType: hard
 
-"@types/react-responsive@npm:^8.0.5":
+"@types/react-responsive@npm:^8.0.8":
   version: 8.0.8
   resolution: "@types/react-responsive@npm:8.0.8"
   dependencies:
@@ -6830,7 +6830,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-slick@npm:^0.23.10":
+"@types/react-slick@npm:^0.23.13":
   version: 0.23.13
   resolution: "@types/react-slick@npm:0.23.13"
   dependencies:
@@ -6839,14 +6839,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.0.21":
-  version: 18.0.21
-  resolution: "@types/react@npm:18.0.21"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.0.15, @types/react@npm:^18.3.2":
+  version: 18.3.2
+  resolution: "@types/react@npm:18.3.2"
   dependencies:
     "@types/prop-types": "npm:*"
-    "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/cfe65f3291a62c86b342935df70943c222a4a70b3c74bfb45c1acb7bec47a583c9832b4628313baf0c312447c08baa6353a6f39313b0624b6eb7c1251cf5a0a0
+  checksum: 10c0/9fb2f1fcf7e889ee4ea7c3c5978df595c66e770e5fd3a245dbdd2589b9b911524c11dab25a6275d8af4e336e4cb5fa850d447884b84c335a187a338c89df99ba
   languageName: node
   linkType: hard
 
@@ -6863,13 +6862,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/a58ba341cb9e7d74f71810a88862da7b2a6fa42e2a1fc0ce40498f6ea1d44382f0640117057da779f74c47039f7166bf48fad02dc876f94e005c7afa50f5e129
-  languageName: node
-  linkType: hard
-
-"@types/scheduler@npm:*":
-  version: 0.23.0
-  resolution: "@types/scheduler@npm:0.23.0"
-  checksum: 10c0/5cf7f2ba3732b74877559eb20b19f95fcd0a20c17dcb20e75a7ca7c7369cd455aeb2d406b3ff5a38168a9750da3bad78dd20d96d11118468b78f4959b8e56090
   languageName: node
   linkType: hard
 
@@ -18568,10 +18560,10 @@ __metadata:
     "@svgr/webpack": "npm:^6.5.0"
     "@tanstack/react-query": "npm:^4.10.3"
     "@types/node": "npm:18.8.3"
-    "@types/react": "npm:18.0.21"
-    "@types/react-dom": "npm:18.0.6"
-    "@types/react-responsive": "npm:^8.0.5"
-    "@types/react-slick": "npm:^0.23.10"
+    "@types/react": "npm:^18.3.2"
+    "@types/react-dom": "npm:^18.3.0"
+    "@types/react-responsive": "npm:^8.0.8"
+    "@types/react-slick": "npm:^0.23.13"
     "@typescript-eslint/eslint-plugin": "npm:^5.42.0"
     axios: "npm:^1.1.3"
     dayjs: "npm:^1.11.6"

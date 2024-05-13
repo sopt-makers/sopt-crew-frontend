@@ -1,10 +1,10 @@
 import { styled } from 'stitches.config';
-import React, { HTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import Label from '@components/form/Label';
 import HelpMessage from '@components/form/HelpMessage';
 import ErrorMessage from '../ErrorMessage';
 
-interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   label?: string;
   message?: string;

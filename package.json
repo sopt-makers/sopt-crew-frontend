@@ -58,10 +58,10 @@
     "@storybook/testing-library": "^0.0.14-next.2",
     "@svgr/webpack": "^6.5.0",
     "@types/node": "18.8.3",
-    "@types/react": "18.0.21",
-    "@types/react-dom": "18.0.6",
-    "@types/react-responsive": "^8.0.5",
-    "@types/react-slick": "^0.23.10",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-responsive": "^8.0.8",
+    "@types/react-slick": "^0.23.13",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "eslint": "8.25.0",
     "eslint-config-next": "^14.2.1",
@@ -78,11 +78,5 @@
     "vercel": "^28.7.2",
     "wrangler": "^2.5.0"
   },
-  "packageManager": "yarn@4.1.1",
-  "resolutions": {
-    "@types/react": "18.0.21",
-    "@types/react-dom": "18.0.6",
-    "@types/react-responsive": "^8.0.5",
-    "@types/react-slick": "^0.23.10"
-  }
+  "packageManager": "yarn@4.1.1"
 }

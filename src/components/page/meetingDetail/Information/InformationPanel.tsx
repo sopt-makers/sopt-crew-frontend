@@ -81,7 +81,12 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
         ({ id, title, generation, partList, content }) =>
           content && (
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            <SDetail key={id} ref={element => (tabRef.current[id] = element!)}>
+            <SDetail
+              key={id}
+              ref={element => {
+                tabRef.current[id] = element!;
+              }}
+            >
               <STitle>{title}</STitle>
               {title === '모집 대상' && (
                 <STarget>

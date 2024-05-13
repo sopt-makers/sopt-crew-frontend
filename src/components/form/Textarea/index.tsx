@@ -1,10 +1,10 @@
 import { styled } from 'stitches.config';
-import React, { HTMLAttributes } from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 import Label from '@components/form/Label';
 import HelpMessage from '@components/form/HelpMessage';
 import ErrorMessage from '../ErrorMessage';
 
-interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   value: string;
   message?: string;
