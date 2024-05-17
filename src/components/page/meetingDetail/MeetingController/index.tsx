@@ -111,34 +111,38 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     mutateApplication(
       { id: Number(meetingId), content: textareaValue },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
+        onSuccess: async () => {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
           });
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
         onError: (error: AxiosError) => {
           alertErrorMessage(error);
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
-        onSettled: () => setIsSubmitting(false),
       }
     );
   };
 
   const handleCancelApplication = () => {
+    setIsSubmitting(true);
     mutateApplication(
       { id: Number(meetingId), content: '' },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
+        onSuccess: async () => {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
           });
+          setIsSubmitting(false);
           handleGuestModalClose();
         },
         onError: (error: AxiosError) => {
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.message);
+          setIsSubmitting(false);
           handleGuestModalClose();
         },
       }
@@ -219,6 +223,8 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
         message="신청을 취소하시겠습니까?"
         handleModalClose={handleGuestModalClose}
         handleConfirm={handleCancelApplication}
+        cancelButtonDisabled={isSubmitting}
+        confirmButtonDisabled={isSubmitting}
       />
       <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
         {modalTitle === '모임 신청하기' && (
