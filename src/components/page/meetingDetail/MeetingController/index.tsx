@@ -109,7 +109,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const handleApplicationButton = (textareaValue: string) => {
     setIsSubmitting(true);
     mutateApplication(
-      { id: Number(meetingId), content: textareaValue },
+      { meetingId: Number(meetingId), content: textareaValue },
       {
         onSuccess: async () => {
           await queryClient.refetchQueries({
@@ -130,7 +130,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const handleCancelApplication = () => {
     setIsSubmitting(true);
     mutateApplication(
-      { id: Number(meetingId), content: '' },
+      { meetingId: Number(meetingId), content: '' },
       {
         onSuccess: async () => {
           await queryClient.refetchQueries({
