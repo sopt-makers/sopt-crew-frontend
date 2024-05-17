@@ -9,6 +9,8 @@ interface ConfirmModalProps {
   confirmButton: string;
   handleModalClose: () => void;
   handleConfirm: () => void;
+  cancelButtonDisabled?: boolean;
+  confirmButtonDisabled?: boolean;
 }
 
 const ConfirmModal = ({
@@ -18,14 +20,20 @@ const ConfirmModal = ({
   confirmButton,
   handleModalClose,
   handleConfirm,
+  cancelButtonDisabled,
+  confirmButtonDisabled,
 }: ConfirmModalProps) => {
   return (
     <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
       <SDialogWrapper>
         <Dialog.Title className="title">{message}</Dialog.Title>
         <div>
-          <button onClick={handleModalClose}>{cancelButton}</button>
-          <button onClick={handleConfirm}>{confirmButton}</button>
+          <button onClick={handleModalClose} disabled={cancelButtonDisabled}>
+            {cancelButton}
+          </button>
+          <button onClick={handleConfirm} disabled={confirmButtonDisabled}>
+            {confirmButton}
+          </button>
         </div>
       </SDialogWrapper>
     </ModalContainer>
