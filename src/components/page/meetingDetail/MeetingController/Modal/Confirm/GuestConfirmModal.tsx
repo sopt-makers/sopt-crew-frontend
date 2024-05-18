@@ -7,6 +7,7 @@ interface GuestConfirmModalProps {
   handleConfirm: () => void;
   cancelButtonDisabled?: boolean;
   confirmButtonDisabled?: boolean;
+  isSubmitting?: boolean;
 }
 
 const GuestConfirmModal = ({
@@ -16,6 +17,7 @@ const GuestConfirmModal = ({
   handleConfirm,
   cancelButtonDisabled,
   confirmButtonDisabled,
+  isSubmitting,
 }: GuestConfirmModalProps) => {
   return (
     <ConfirmModal
@@ -27,6 +29,7 @@ const GuestConfirmModal = ({
       handleConfirm={handleConfirm}
       cancelButtonDisabled={cancelButtonDisabled}
       confirmButtonDisabled={confirmButtonDisabled}
+      isSubmitting={isSubmitting}
     />
   );
 };

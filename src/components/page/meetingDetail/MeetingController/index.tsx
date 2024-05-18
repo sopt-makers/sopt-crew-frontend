@@ -236,8 +236,14 @@ const MeetingController = ({
         handleConfirm={handleCancelApplication}
         cancelButtonDisabled={isSubmitting}
         confirmButtonDisabled={isSubmitting}
+        isSubmitting={isSubmitting}
       />
-      <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
+      <DefaultModal
+        isModalOpened={isDefaultModalOpened}
+        title={modalTitle}
+        handleModalClose={handleDefaultModalClose}
+        isSubmitting={isSubmitting}
+      >
         {modalTitle === '모임 신청하기' && (
           <ApplicationModalContent handleApplicationButton={handleApplicationButton} disabled={isSubmitting} />
         )}
