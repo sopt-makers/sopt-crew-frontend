@@ -133,7 +133,8 @@ const MeetingController = ({
           handleDefaultModalClose();
         },
         onError: (error: AxiosError) => {
-          alertErrorMessage(error);
+          const errorResponse = error.response as AxiosResponse;
+          alert(errorResponse.data.errorCode);
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
@@ -153,7 +154,7 @@ const MeetingController = ({
       },
       onError: (error: AxiosError) => {
         const errorResponse = error.response as AxiosResponse;
-        alert(errorResponse.data.message);
+        alert(errorResponse.data.errorCode);
         setIsSubmitting(false);
         handleGuestModalClose();
       },
