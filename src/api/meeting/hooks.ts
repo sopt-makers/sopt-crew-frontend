@@ -24,6 +24,7 @@ import {
   MeetingPeopleResponse,
   MeetingResponse,
   postApplication,
+  deleteApplication,
   updateApplication,
   UpdateApplicationRequest,
   downloadMeetingMemberCSV,
@@ -131,6 +132,16 @@ export const useMutationPostApplication = ({
     ...useMutationOptions,
     mutationKey: ['postApplication'],
     mutationFn: postApplication,
+  });
+};
+
+export const useMutationDeleteApplication = ({
+  useMutationOptions,
+}: UseMutateBody<number>): UseMutationResult<{ statusCode: number }, AxiosError, number> => {
+  return useMutation<{ statusCode: number }, AxiosError, number>({
+    ...useMutationOptions,
+    mutationKey: ['deleteApplication'],
+    mutationFn: deleteApplication,
   });
 };
 
