@@ -40,9 +40,21 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
+  mutateApplicationDeletion: UseMutateFunction<
+    {
+      statusCode: number;
+    },
+    AxiosError,
+    number
+  >;
 }
 
-const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
+const MeetingController = ({
+  detailData,
+  mutateMeetingDeletion,
+  mutateApplication,
+  mutateApplicationDeletion,
+}: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -58,11 +70,13 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     apply: isApplied,
     isMentorNeeded,
   } = detailData;
+
   const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
+
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -109,7 +123,7 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const handleApplicationButton = (textareaValue: string) => {
     setIsSubmitting(true);
     mutateApplication(
-      { id: Number(meetingId), content: textareaValue },
+      { meetingId: Number(meetingId), content: textareaValue },
       {
         onSuccess: async () => {
           await queryClient.refetchQueries({
@@ -129,24 +143,21 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
 
   const handleCancelApplication = () => {
     setIsSubmitting(true);
-    mutateApplication(
-      { id: Number(meetingId), content: '' },
-      {
-        onSuccess: async () => {
-          await queryClient.refetchQueries({
-            queryKey: ['getMeeting', meetingId as string],
-          });
-          setIsSubmitting(false);
-          handleGuestModalClose();
-        },
-        onError: (error: AxiosError) => {
-          const errorResponse = error.response as AxiosResponse;
-          alert(errorResponse.data.message);
-          setIsSubmitting(false);
-          handleGuestModalClose();
-        },
-      }
-    );
+    mutateApplicationDeletion(Number(meetingId), {
+      onSuccess: async () => {
+        await queryClient.refetchQueries({
+          queryKey: ['getMeeting', meetingId as string],
+        });
+        setIsSubmitting(false);
+        handleGuestModalClose();
+      },
+      onError: (error: AxiosError) => {
+        const errorResponse = error.response as AxiosResponse;
+        alert(errorResponse.data.message);
+        setIsSubmitting(false);
+        handleGuestModalClose();
+      },
+    });
   };
 
   const handleDeleteMeeting = () => {
