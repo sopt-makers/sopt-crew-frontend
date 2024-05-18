@@ -8,6 +8,7 @@ interface DefaultModalProps {
   titleLeft?: ReactNode;
   title: string;
   handleModalClose: () => void;
+  isSubmitting?: boolean;
 }
 
 const DefaultModal = ({
@@ -16,9 +17,10 @@ const DefaultModal = ({
   title,
   handleModalClose,
   children,
+  isSubmitting,
 }: PropsWithChildren<DefaultModalProps>) => {
   return (
-    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose} isSubmitting={isSubmitting}>
       <SDialogWrapper>
         <SHeader>
           {titleLeft}

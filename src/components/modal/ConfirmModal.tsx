@@ -11,6 +11,7 @@ interface ConfirmModalProps {
   handleConfirm: () => void;
   cancelButtonDisabled?: boolean;
   confirmButtonDisabled?: boolean;
+  isSubmitting?: boolean;
 }
 
 const ConfirmModal = ({
@@ -22,9 +23,10 @@ const ConfirmModal = ({
   handleConfirm,
   cancelButtonDisabled,
   confirmButtonDisabled,
+  isSubmitting,
 }: ConfirmModalProps) => {
   return (
-    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={isSubmitting ? () => {} : handleModalClose}>
       <SDialogWrapper>
         <Dialog.Title className="title">{message}</Dialog.Title>
         <div>
