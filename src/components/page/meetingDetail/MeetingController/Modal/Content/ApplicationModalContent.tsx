@@ -3,6 +3,7 @@ import { useQueryMyProfile } from '@api/user/hooks';
 import Textarea from '@components/form/Textarea';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
+import Loader from '@components/loader/Loader';
 
 interface ApplicationModalContentProps {
   handleApplicationButton: (textareaValue: string) => void;
@@ -28,7 +29,7 @@ const ApplicationModalContent = ({ handleApplicationButton, disabled }: Applicat
         error={textareaValue.length >= 150 ? '150자 까지 입력할 수 있습니다.' : ''}
       />
       <button disabled={disabled} onClick={handleClick}>
-        신청하기
+        {disabled && <Loader />} 신청하기
       </button>
     </SApplicationModalContent>
   );

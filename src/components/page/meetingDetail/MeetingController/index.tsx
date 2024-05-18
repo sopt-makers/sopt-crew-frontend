@@ -129,6 +129,7 @@ const MeetingController = ({
           await queryClient.refetchQueries({
             queryKey: ['getMeeting', meetingId as string],
           });
+          alert('신청이 완료됐습니다!');
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
@@ -149,6 +150,7 @@ const MeetingController = ({
         await queryClient.refetchQueries({
           queryKey: ['getMeeting', meetingId as string],
         });
+        alert('신청이 취소됐습니다!');
         setIsSubmitting(false);
         handleGuestModalClose();
       },

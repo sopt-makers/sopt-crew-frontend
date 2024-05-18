@@ -1,6 +1,7 @@
 import { styled } from 'stitches.config';
 import { Dialog } from '@headlessui/react';
 import ModalContainer from './ModalContainer';
+import Loader from '@components/loader/Loader';
 
 interface ConfirmModalProps {
   isModalOpened: boolean;
@@ -31,7 +32,7 @@ const ConfirmModal = ({
         <Dialog.Title className="title">{message}</Dialog.Title>
         <div>
           <button onClick={handleModalClose} disabled={cancelButtonDisabled}>
-            {cancelButton}
+            {isSubmitting && <Loader />} {cancelButton}
           </button>
           <button onClick={handleConfirm} disabled={confirmButtonDisabled}>
             {confirmButton}
