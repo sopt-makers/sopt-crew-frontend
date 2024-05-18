@@ -201,6 +201,10 @@ export const postApplication = async (body: PostApplicationRequest): Promise<{ s
   return (await api.post<{ statusCode: number }>(`/meeting/v2/apply`, body)).data;
 };
 
+export const deleteApplication = async (meetingId: number): Promise<{ statusCode: number }> => {
+  return (await api.delete<{ statusCode: number }>(`/meeting/v2/${meetingId}/apply`)).data;
+};
+
 export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
   return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
 };

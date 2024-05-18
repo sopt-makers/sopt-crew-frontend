@@ -1,6 +1,11 @@
 import Carousel from '@components/page/meetingDetail/Carousel';
 import { styled } from 'stitches.config';
-import { useMutationDeleteMeeting, useMutationPostApplication, useQueryGetMeeting } from '@api/meeting/hooks';
+import {
+  useMutationDeleteMeeting,
+  useMutationPostApplication,
+  useMutationDeleteApplication,
+  useQueryGetMeeting,
+} from '@api/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
@@ -25,6 +30,7 @@ const DetailPage = () => {
   const { data: detailData } = useQueryGetMeeting({ params: { id } });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
+  const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
   useEffect(() => {
@@ -46,6 +52,7 @@ const DetailPage = () => {
           detailData={detailData}
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
+          mutateApplicationDeletion={mutateDeleteApplication}
         />
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>

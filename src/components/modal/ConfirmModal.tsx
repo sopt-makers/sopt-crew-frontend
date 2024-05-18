@@ -89,6 +89,11 @@ const SDialogWrapper = styled('div', {
       padding: '$16 0',
       fontAg: '14_bold_100',
     },
+
+    '&:disabled': {
+      opacity: 0.35,
+      cursor: 'not-allowed',
+    },
   },
 
   'button:first-child': {
