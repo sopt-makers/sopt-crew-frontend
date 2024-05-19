@@ -73,15 +73,16 @@ export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
 const SOptionList = styled(Listbox.Options, {
   position: 'absolute',
   maxHeight: '300px',
-  padding: '8px 0px',
+  padding: '8px 8px',
   display: 'flex',
   flexDirection: 'column',
   border: '1px solid $gray600',
   borderRadius: 10,
   mt: '$8',
-  background: '$gray600',
+  background: '$gray800',
   overflow: 'auto',
   zIndex: 100,
+  gap: '6px',
   '@tablet': {
     display: 'none',
   },

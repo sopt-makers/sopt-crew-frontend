@@ -20,7 +20,6 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
-import alertErrorMessage from '@utils/alertErrorMessage';
 import { useQueryMyProfile } from '@api/user/hooks';
 import { ampli } from '@/ampli';
 
@@ -40,9 +39,21 @@ interface DetailHeaderProps {
     AxiosError,
     PostApplicationRequest
   >;
+  mutateApplicationDeletion: UseMutateFunction<
+    {
+      statusCode: number;
+    },
+    AxiosError,
+    number
+  >;
 }
 
-const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplication }: DetailHeaderProps) => {
+const MeetingController = ({
+  detailData,
+  mutateMeetingDeletion,
+  mutateApplication,
+  mutateApplicationDeletion,
+}: DetailHeaderProps) => {
   const {
     status,
     startDate,
@@ -58,11 +69,13 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
     apply: isApplied,
     isMentorNeeded,
   } = detailData;
+
   const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
+
   const {
     isModalOpened: isHostModalOpened,
     handleModalOpen: handleHostModalOpen,
@@ -109,40 +122,50 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
   const handleApplicationButton = (textareaValue: string) => {
     setIsSubmitting(true);
     mutateApplication(
-      { id: Number(meetingId), content: textareaValue },
+      { meetingId: Number(meetingId), content: textareaValue },
       {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
+        onSuccess: async () => {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
           });
+          alert('신청이 완료됐습니다!');
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
-        onError: (error: AxiosError) => {
-          alertErrorMessage(error);
+        onError: async (error: AxiosError) => {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
+          });
+          const errorResponse = error.response as AxiosResponse;
+          alert(errorResponse.data.errorCode);
+          setIsSubmitting(false);
           handleDefaultModalClose();
         },
-        onSettled: () => setIsSubmitting(false),
       }
     );
   };
 
   const handleCancelApplication = () => {
-    mutateApplication(
-      { id: Number(meetingId), content: '' },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['getMeeting'],
-          });
-          handleGuestModalClose();
-        },
-        onError: (error: AxiosError) => {
-          const errorResponse = error.response as AxiosResponse;
-          alert(errorResponse.data.message);
-          handleGuestModalClose();
-        },
-      }
-    );
+    setIsSubmitting(true);
+    mutateApplicationDeletion(Number(meetingId), {
+      onSuccess: async () => {
+        await queryClient.refetchQueries({
+          queryKey: ['getMeeting', meetingId as string],
+        });
+        alert('신청이 취소됐습니다!');
+        setIsSubmitting(false);
+        handleGuestModalClose();
+      },
+      onError: async (error: AxiosError) => {
+        await queryClient.refetchQueries({
+          queryKey: ['getMeeting', meetingId as string],
+        });
+        const errorResponse = error.response as AxiosResponse;
+        alert(errorResponse.data.errorCode);
+        setIsSubmitting(false);
+        handleGuestModalClose();
+      },
+    });
   };
 
   const handleDeleteMeeting = () => {
@@ -219,8 +242,16 @@ const MeetingController = ({ detailData, mutateMeetingDeletion, mutateApplicatio
         message="신청을 취소하시겠습니까?"
         handleModalClose={handleGuestModalClose}
         handleConfirm={handleCancelApplication}
+        cancelButtonDisabled={isSubmitting}
+        confirmButtonDisabled={isSubmitting}
+        isSubmitting={isSubmitting}
       />
-      <DefaultModal isModalOpened={isDefaultModalOpened} title={modalTitle} handleModalClose={handleDefaultModalClose}>
+      <DefaultModal
+        isModalOpened={isDefaultModalOpened}
+        title={modalTitle}
+        handleModalClose={handleDefaultModalClose}
+        isSubmitting={isSubmitting}
+      >
         {modalTitle === '모임 신청하기' && (
           <ApplicationModalContent handleApplicationButton={handleApplicationButton} disabled={isSubmitting} />
         )}

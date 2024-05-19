@@ -1,6 +1,7 @@
 import { styled } from 'stitches.config';
 import { Dialog } from '@headlessui/react';
 import ModalContainer from './ModalContainer';
+import Loader from '@components/loader/Loader';
 
 interface ConfirmModalProps {
   isModalOpened: boolean;
@@ -9,6 +10,9 @@ interface ConfirmModalProps {
   confirmButton: string;
   handleModalClose: () => void;
   handleConfirm: () => void;
+  cancelButtonDisabled?: boolean;
+  confirmButtonDisabled?: boolean;
+  isSubmitting?: boolean;
 }
 
 const ConfirmModal = ({
@@ -18,14 +22,21 @@ const ConfirmModal = ({
   confirmButton,
   handleModalClose,
   handleConfirm,
+  cancelButtonDisabled,
+  confirmButtonDisabled,
+  isSubmitting,
 }: ConfirmModalProps) => {
   return (
-    <ModalContainer isModalOpened={isModalOpened} handleModalClose={handleModalClose}>
+    <ModalContainer isModalOpened={isModalOpened} handleModalClose={isSubmitting ? () => {} : handleModalClose}>
       <SDialogWrapper>
         <Dialog.Title className="title">{message}</Dialog.Title>
         <div>
-          <button onClick={handleModalClose}>{cancelButton}</button>
-          <button onClick={handleConfirm}>{confirmButton}</button>
+          <button onClick={handleModalClose} disabled={cancelButtonDisabled}>
+            {isSubmitting && <Loader />} {cancelButton}
+          </button>
+          <button onClick={handleConfirm} disabled={confirmButtonDisabled}>
+            {confirmButton}
+          </button>
         </div>
       </SDialogWrapper>
     </ModalContainer>
@@ -80,6 +91,11 @@ const SDialogWrapper = styled('div', {
       width: 'calc(50% - 10px)',
       padding: '$16 0',
       fontAg: '14_bold_100',
+    },
+
+    '&:disabled': {
+      opacity: 0.35,
+      cursor: 'not-allowed',
     },
   },
 

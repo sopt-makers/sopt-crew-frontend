@@ -1,6 +1,6 @@
 import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
 import { FormType } from '@type/form';
-import { api, apiV2, Data, PromiseResponse } from '..';
+import { api, Data, PromiseResponse } from '..';
 import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
@@ -85,7 +85,7 @@ export interface MeetingPeopleResponse {
 }
 
 export interface PostApplicationRequest {
-  id: number;
+  meetingId: number;
   content?: string;
 }
 
@@ -198,7 +198,11 @@ export const deleteMeeting = async (id: number): Promise<{ statusCode: number }>
 };
 
 export const postApplication = async (body: PostApplicationRequest): Promise<{ statusCode: number }> => {
-  return (await api.post<{ statusCode: number }>(`/meeting/apply`, body)).data;
+  return (await api.post<{ statusCode: number }>(`/meeting/v2/apply`, body)).data;
+};
+
+export const deleteApplication = async (meetingId: number): Promise<{ statusCode: number }> => {
+  return (await api.delete<{ statusCode: number }>(`/meeting/v2/${meetingId}/apply`)).data;
 };
 
 export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
@@ -294,6 +298,7 @@ export const returnNewStatus = (status: number, mstartDate: string, isGroupActiv
 export function categoryType(category: string) {
   if (category === 'STUDY') return '스터디';
   if (category == 'EVENT') return '행사';
+  if (category == 'SEMINAR') return '세미나';
 }
 
 export function returnIsGroupActive(mstartDate: string, mendDate: string) {

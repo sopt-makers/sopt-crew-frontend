@@ -36,7 +36,7 @@ const SCheckboxOptionItem = styled('div', {
   alignItems: 'center',
   gap: '10px',
   padding: '16px',
-  background: '$gray600',
+  background: '$gray800',
   color: '$gray10',
   fontAg: '16_medium_100',
 });
