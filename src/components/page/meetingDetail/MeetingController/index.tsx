@@ -20,7 +20,6 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
-import alertErrorMessage from '@utils/alertErrorMessage';
 import { useQueryMyProfile } from '@api/user/hooks';
 import { ampli } from '@/ampli';
 
@@ -133,7 +132,10 @@ const MeetingController = ({
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
-        onError: (error: AxiosError) => {
+        onError: async (error: AxiosError) => {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId as string],
+          });
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.errorCode);
           setIsSubmitting(false);
@@ -154,7 +156,10 @@ const MeetingController = ({
         setIsSubmitting(false);
         handleGuestModalClose();
       },
-      onError: (error: AxiosError) => {
+      onError: async (error: AxiosError) => {
+        await queryClient.refetchQueries({
+          queryKey: ['getMeeting', meetingId as string],
+        });
         const errorResponse = error.response as AxiosResponse;
         alert(errorResponse.data.errorCode);
         setIsSubmitting(false);
