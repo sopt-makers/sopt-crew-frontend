@@ -8,7 +8,6 @@ import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
 import useScrollRestoration from '@hooks/useScrollRestoration';
 import { useStore } from '@nanostores/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ChannelService from '@utils/ChannelService';
 import { GTM_ID, pageview } from '@utils/gtm';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -57,37 +56,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', pageview);
     };
   }, [router.events]);
-
-  useEffect(() => {
-    if (!isServiceReady) return;
-
-    const channelTalk = new ChannelService();
-
-    async function bootChannelTalk() {
-      const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY as string;
-      try {
-        const profileResponse = await fetchMyProfile();
-        const user = profileResponse.data.data;
-        channelTalk.boot({
-          pluginKey,
-          memberId: String(user.orgId),
-          profile: {
-            name: user.name,
-            avatarUrl: user.profileImage ?? null,
-          },
-        });
-      } catch (error) {
-        channelTalk.boot({
-          pluginKey,
-        });
-      }
-    }
-    bootChannelTalk();
-
-    return () => {
-      channelTalk.shutdown();
-    };
-  }, [isServiceReady]);
 
   useEffect(() => {
     if (!isServiceReady) return;
