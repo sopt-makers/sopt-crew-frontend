@@ -5,7 +5,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { Tab } from '@headlessui/react';
 import useSessionStorage from '@hooks/useSessionStorage';
 import Link from 'next/link';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
@@ -24,6 +24,24 @@ const MinePage: NextPage = () => {
     'meetingType',
     MeetingType.APPLIED
   );
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+
+    try {
+      if (window.Kakao) {
+        window?.Kakao?.init('c089c8172def97eb00c07217cae17495');
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+    window.Kakao?.Channel.createChatButton({
+      container: '#chat-channel-button',
+      channelPublicId: '_sxaIWG',
+    });
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+  }, []);
 
   return (
     <div>
@@ -90,6 +108,16 @@ const MinePage: NextPage = () => {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+      <div
+        id="chat-channel-button"
+        data-channel-public-id="_sxaIWG"
+        data-title="question"
+        data-size="small"
+        data-color="yellow"
+        data-shape="pc"
+        data-support-multiple-densities="true"
+        style={{ position: 'fixed', bottom: '5%', right: '5%' }}
+      />
     </div>
   );
 };
