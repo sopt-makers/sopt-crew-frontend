@@ -20,6 +20,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
+declare global {
+  interface Window {
+    Kakao?: Kakao;
+  }
+}
 
 const Home: NextPage = () => {
   const { isMobile, isTablet } = useDisplay();
@@ -79,8 +84,42 @@ const Home: NextPage = () => {
     );
   });
 
+  const KakaoChat = () => {
+    useEffect(() => {
+      const loadKakaoScript = () => {
+        const script = document.createElement('script');
+        script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
+        script.integrity = 'sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4';
+        script.crossOrigin = 'anonymous';
+        script.onload = () => {
+          if (window.Kakao) {
+            window.Kakao.init('c089c8172def97eb00c07217cae17495');
+          }
+        };
+        document.head.appendChild(script);
+      };
+
+      loadKakaoScript();
+    }, []);
+
+    const chatChannel = () => {
+      if (window.Kakao && window.Kakao.Channel) {
+        window.Kakao.Channel.chat({
+          channelPublicId: '_sxaIWG',
+        });
+      }
+    };
+
+    return (
+      <a id="chat-channel-button" href="javascript:void(0);" onClick={chatChannel}>
+        <div style={{ position: 'fixed', bottom: '5%', right: '5%' }}>카카오톡 채팅하기 버튼</div>
+      </a>
+    );
+  };
+
   return (
     <>
+      <KakaoChat />
       <div>
         <Flex align="start" justify="between">
           <TabList text="feedAll" size="big">
