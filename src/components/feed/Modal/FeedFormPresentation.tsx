@@ -9,7 +9,7 @@ import FormController from '@components/form/FormController';
 import { Divider } from '@components/util/Divider';
 import { FORM_TITLE_MAX_LENGTH } from '@constants/feed';
 import { imageS3Bucket } from '@constants/url';
-import useToast from '@hooks/useToast';
+import { useToast } from '@sopt-makers/ui';
 import { getResizedImage } from '@utils/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ImagePreview from './ImagePreview';
@@ -51,7 +51,7 @@ function FeedFormPresentation({
   onSubmit,
   disabled = true,
 }: PresentationProps) {
-  const showToast = useToast();
+  const { open } = useToast();
 
   // textarea의 높이를 화면의 남은 부분으로 가져가기 위한 로직
   const [textareaHeightChangeFlag, setTextareaHeightChangeFlag] = useState(false);
@@ -176,7 +176,10 @@ function FeedFormPresentation({
                   onChange(inputValue);
                 } else {
                   onChange(inputValue.substring(0, FORM_TITLE_MAX_LENGTH));
-                  showToast({ type: 'error', message: ERROR_MESSAGE.TITLE.MAX });
+                  open({
+                    icon: 'error',
+                    content: ERROR_MESSAGE.TITLE.MAX,
+                  });
                 }
               }}
               onBlur={onBlur}

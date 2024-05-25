@@ -15,7 +15,7 @@ import 'dayjs/locale/ko';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { parseTextToLink } from '@components/util/parseTextToLink';
-import useToast from '@hooks/useToast';
+import { useToast } from '@sopt-makers/ui';
 import Link from 'next/link';
 import { CATEGORY_OPTIONS } from '@constants/option';
 
@@ -42,15 +42,21 @@ export default function FeedPostViewer({
   onClickAuthor,
 }: FeedPostViewerProps) {
   const overlay = useOverlay();
-  const showToast = useToast();
+  const { open } = useToast();
 
   const handleClickShare = async () => {
     const link = window.location.href;
     try {
       await navigator.clipboard.writeText(link);
-      showToast({ type: 'info', message: '링크를 복사했어요.' });
+      open({
+        icon: 'success',
+        content: '링크를 복사했어요.',
+      });
     } catch (e) {
-      showToast({ type: 'error', message: '링크 복사에 실패했어요. 다시 시도해 주세요.' });
+      open({
+        icon: 'error',
+        content: '링크 복사에 실패했어요. 다시 시도해 주세요.',
+      });
     }
   };
 
