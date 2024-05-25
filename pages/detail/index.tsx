@@ -39,8 +39,40 @@ const DetailPage = () => {
     }
   }, [detailData]);
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+
+    try {
+      if (window.Kakao) {
+        window?.Kakao?.init('c089c8172def97eb00c07217cae17495');
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+    window.Kakao?.Channel.createChatButton({
+      container: '#chat-channel-button',
+      channelPublicId: '_sxaIWG',
+    });
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+  }, []);
+
   if (!detailData) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+        <div
+          id="chat-channel-button"
+          data-channel-public-id="_sxaIWG"
+          data-title="question"
+          data-size="small"
+          data-color="yellow"
+          data-shape="pc"
+          data-support-multiple-densities="true"
+          style={{ position: 'fixed', bottom: '5%', right: '5%' }}
+        />
+      </>
+    );
   }
 
   return (
@@ -73,6 +105,16 @@ const DetailPage = () => {
           </Tab.Panels>
         </Tab.Group>
       </SDetailPage>
+      <div
+        id="chat-channel-button"
+        data-channel-public-id="_sxaIWG"
+        data-title="question"
+        data-size="small"
+        data-color="yellow"
+        data-shape="pc"
+        data-support-multiple-densities="true"
+        style={{ position: 'fixed', bottom: '5%', right: '5%' }}
+      />
     </>
   );
 };
