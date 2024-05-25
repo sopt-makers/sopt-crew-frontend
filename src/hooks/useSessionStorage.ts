@@ -13,7 +13,6 @@ function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T) => v
         const item = window.sessionStorage.getItem(key);
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
         return initialValue;
       }
     });
@@ -26,9 +25,8 @@ function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T) => v
       if (typeof window !== 'undefined') {
         window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
       }
-    } catch (error) {
-      console.log(error);
-    }
+      // eslint-disable-next-line no-empty
+    } catch (error) {}
   };
   return [storedValue, setValue];
 }
