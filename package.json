@@ -27,7 +27,7 @@
     "@sopt-makers/fonts": "^2.0.1",
     "@sopt-makers/icons": "^1.0.4",
     "@sopt-makers/playground-common": "^1.4.2",
-    "@sopt-makers/ui": "^1.1.5",
+    "@sopt-makers/ui": "^1.1.8",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.10.3",
     "axios": "^1.1.3",

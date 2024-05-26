@@ -10,12 +10,13 @@ import useModal from '@hooks/useModal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
+import { useToast } from '@sopt-makers/ui';
+import { useRouter } from 'next/router';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -31,6 +32,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
+  const { open } = useToast();
   const submitModal = useModal();
   const platform = window.innerWidth > 768 ? 'PC' : 'MO';
 
@@ -40,6 +42,14 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   });
 
   const { isValid } = formMethods.formState;
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  let basePath = '';
+
+  if (hostname === 'localhost' || hostname.includes('dev')) {
+    basePath = 'https://sopt-internal-dev.pages.dev';
+  } else {
+    basePath = 'https://playground.sopt.org';
+  }
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => createPost(formData),
@@ -48,6 +58,16 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       alert('피드를 작성했습니다.');
       submitModal.handleModalClose();
       handleModalClose();
+      open({
+        icon: 'success',
+        content: `${detailData?.category}에서 새로 배웠거나 좋았던 점을 SOPT 회원들에게 공유해보세요.`,
+        action: {
+          name: '공유하러 가기',
+          onClick: () => {
+            router.push(`${basePath}/feed/upload`);
+          },
+        },
+      });
     },
     onError: () => alert('피드 작성에 실패했습니다.'),
   });

@@ -1,7 +1,7 @@
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import Loader from '@components/loader/Loader';
 import { useRouter } from 'next/router';
-import useToast from '@hooks/useToast';
+import { useToast } from '@sopt-makers/ui';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
@@ -31,7 +31,7 @@ import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInf
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
-  const showToast = useToast();
+  const { open } = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
@@ -84,11 +84,17 @@ export default function PostPage() {
     async () => {
       const { error } = await mutateReportPost(postId);
       if (error) {
-        showToast({ type: 'error', message: error.message });
+        open({
+          icon: 'error',
+          content: error.message,
+        });
         callback();
         return;
       }
-      showToast({ type: 'info', message: '게시글을 신고했습니다' });
+      open({
+        icon: 'success',
+        content: '게시글을 신고했습니다',
+      });
       callback();
     };
 
