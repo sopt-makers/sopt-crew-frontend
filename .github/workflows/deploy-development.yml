@@ -28,7 +28,7 @@ jobs:
       - name: Set .env
         run: |
           echo "${{ secrets.PROJECT_ENV }}" > .env.local
-          echo "NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY=${{ vars.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY=${{ vars.NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY }}" >> .env.local
           echo "NEXT_PUBLIC_SENTRY_DSN=${{ vars.NEXT_PUBLIC_SENTRY_DSN }}" >> .env.local
           echo "NEXT_PUBLIC_AMPLITUDE_API_KEY=${{ vars.NEXT_PUBLIC_AMPLITUDE_API_KEY }}" >> .env.local
           echo "NEXT_PUBLIC_APP_ENV=development" >> .env
