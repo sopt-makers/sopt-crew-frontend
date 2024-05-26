@@ -18,6 +18,7 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
@@ -34,6 +35,24 @@ const Home: NextPage = () => {
     ampli.clickMakeGroup({ location: router.pathname });
     router.push('/make');
   };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+
+    try {
+      if (window.Kakao) {
+        window?.Kakao?.init('c089c8172def97eb00c07217cae17495');
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+    window.Kakao?.Channel.createChatButton({
+      container: '#chat-channel-button',
+      channelPublicId: '_sxaIWG',
+    });
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+  }, []);
 
   return (
     <>
@@ -84,6 +103,16 @@ const Home: NextPage = () => {
         confirmButton="작성하기"
         handleModalClose={handleModalClose}
         handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
+      />
+      <div
+        id="chat-channel-button"
+        data-channel-public-id="_sxaIWG"
+        data-title="question"
+        data-size="small"
+        data-color="yellow"
+        data-shape="pc"
+        data-support-multiple-densities="true"
+        style={{ position: 'fixed', bottom: '5%', right: '5%' }}
       />
     </>
   );
