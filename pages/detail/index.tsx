@@ -45,7 +45,7 @@ const DetailPage = () => {
 
     try {
       if (window.Kakao) {
-        window?.Kakao?.init('c089c8172def97eb00c07217cae17495');
+        window?.Kakao?.init(process.env.NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY);
       }
       // eslint-disable-next-line no-empty
     } catch (e) {}
