@@ -109,7 +109,7 @@ const Home: NextPage = () => {
         data-channel-public-id="_sxaIWG"
         data-title="question"
         data-size="small"
-        data-color="yellow"
+        data-color="mono"
         data-shape="pc"
         data-support-multiple-densities="true"
         style={{ position: 'fixed', bottom: '5%', right: '5%' }}
