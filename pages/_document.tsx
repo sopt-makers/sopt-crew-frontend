@@ -9,6 +9,7 @@ export default class Document extends NextDocument {
       <Html lang="ko">
         <Head>
           <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+          <script type="text/javascript" src="//developers.kakao.com/sdk/js/kakao.min.js" />
         </Head>
         <body>
           <noscript>

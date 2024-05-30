@@ -8,7 +8,6 @@ import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';
 import useScrollRestoration from '@hooks/useScrollRestoration';
 import { useStore } from '@nanostores/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ChannelService from '@utils/ChannelService';
 import { GTM_ID, pageview } from '@utils/gtm';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -17,6 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { styled, theme } from 'stitches.config';
 import { ampli } from '../src/ampli';
 import '../styles/globals.css';
+import '@sopt-makers/ui/dist/index.css';
+import { ToastProvider } from '@sopt-makers/ui';
 
 // 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
 if (typeof window !== 'undefined') {
@@ -53,37 +54,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', pageview);
     };
   }, [router.events]);
-
-  useEffect(() => {
-    if (!isServiceReady) return;
-
-    const channelTalk = new ChannelService();
-
-    async function bootChannelTalk() {
-      const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY as string;
-      try {
-        const profileResponse = await fetchMyProfile();
-        const user = profileResponse.data.data;
-        channelTalk.boot({
-          pluginKey,
-          memberId: String(user.orgId),
-          profile: {
-            name: user.name,
-            avatarUrl: user.profileImage ?? null,
-          },
-        });
-      } catch (error) {
-        channelTalk.boot({
-          pluginKey,
-        });
-      }
-    }
-    bootChannelTalk();
-
-    return () => {
-      channelTalk.shutdown();
-    };
-  }, [isServiceReady]);
 
   useEffect(() => {
     if (!isServiceReady) return;
@@ -128,16 +98,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Layout>
-        <OverlayProvider>
-          {isServiceReady ? (
-            <>
-              <Header />
-              <Component {...pageProps} />
-            </>
-          ) : (
-            <Loader />
-          )}
-        </OverlayProvider>
+        <ToastProvider>
+          <OverlayProvider>
+            {isServiceReady ? (
+              <>
+                <Header />
+                <Component {...pageProps} />
+              </>
+            ) : (
+              <Loader />
+            )}
+          </OverlayProvider>
+        </ToastProvider>
       </Layout>
     </QueryClientProvider>
   );

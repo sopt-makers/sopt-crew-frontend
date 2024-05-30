@@ -15,6 +15,8 @@ import { styled } from 'stitches.config';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
 import useThrottle from '@hooks/useThrottle';
+import { useToast } from '@sopt-makers/ui';
+import { useRouter } from 'next/router';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -24,6 +26,8 @@ type CreateModalProps = ModalContainerProps;
 
 function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
+  const { open } = useToast();
+  const router = useRouter();
   const { data: attendMeetingList, isLoading: isFetchAttendMeetingLoading } = useQuery(
     ['fetchMeetingList', 'all'],
     fetchMeetingListOfUserAttend
@@ -40,6 +44,18 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
   });
 
   const { isValid } = formMethods.formState;
+  const meetingType = formMethods.getValues('meetingId')
+    ? attendMeetingList?.data.filter(item => item.id == formMethods.getValues('meetingId'))[0].category
+    : '';
+
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  let basePath = '';
+
+  if (hostname === 'localhost' || hostname.includes('dev')) {
+    basePath = 'https://sopt-internal-dev.pages.dev';
+  } else {
+    basePath = 'https://playground.sopt.org';
+  }
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => createPost(formData),
@@ -48,6 +64,16 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
       alert('피드를 작성했습니다.');
       submitModal.handleModalClose();
       handleModalClose();
+      open({
+        icon: 'success',
+        content: `${meetingType}에서 새로 배웠거나 좋았던 점을 SOPT 회원들에게 공유해보세요.`,
+        action: {
+          name: '공유하러 가기',
+          onClick: () => {
+            router.push(`${basePath}/feed/upload`);
+          },
+        },
+      });
     },
     onError: () => alert('피드 작성에 실패했습니다.'),
   });
