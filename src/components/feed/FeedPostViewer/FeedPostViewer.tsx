@@ -78,7 +78,7 @@ export default function FeedPostViewer({
             <SAvatar src={post.user.profileImage || ''} alt={post.user.name} />
             <AuthorInfo>
               <AuthorName>{post.user.name}</AuthorName>
-              <UpdatedDate>{fromNow(post.updatedDate)}</UpdatedDate>
+              <UpdatedDate>{fromNow(post.createdDate)}</UpdatedDate>
             </AuthorInfo>
           </AuthorWrapper>
           <ButtonContainer>
