@@ -20,7 +20,7 @@ interface PostProps {
   title: string;
   contents: string;
   images?: string[];
-  createdDate: string;
+  updatedDate: string;
   commenterThumbnails?: string[];
   commentCount: number;
   likeCount: number;
@@ -35,7 +35,7 @@ interface FeedItemProps {
 }
 
 const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
-  const { user, title, contents, images, createdDate, commenterThumbnails, commentCount } = post;
+  const { user, title, contents, images, updatedDate, commenterThumbnails, commentCount } = post;
   const router = useRouter();
 
   return (
@@ -59,7 +59,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
             </SProfileImageWrapper>
             <SName>{user.name}</SName>
           </SProfileButton>
-          <STime>{fromNow(createdDate)}</STime>
+          <STime>{fromNow(updatedDate)}</STime>
         </Flex>
         {/* <MoreIcon /> */}
       </STop>
