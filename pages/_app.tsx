@@ -81,6 +81,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, []);
 
+  useEffect(() => {
+    try {
+      if (window.Kakao) {
+        window?.Kakao?.init(process.env.NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY);
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+      console.debug(e);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SEO />
