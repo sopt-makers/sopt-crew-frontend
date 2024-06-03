@@ -1,3 +1,3 @@
 interface Window {
-  Kakao: any;
+  Kakao: Kakao;
 }
