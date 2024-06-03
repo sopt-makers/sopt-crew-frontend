@@ -29,12 +29,6 @@ const MinePage: NextPage = () => {
     const script = document.createElement('script');
     script.async = true;
 
-    try {
-      if (window.Kakao) {
-        window?.Kakao?.init(process.env.NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY);
-      }
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
     window.Kakao?.Channel.createChatButton({
       container: '#chat-channel-button',
       channelPublicId: '_sxaIWG',
