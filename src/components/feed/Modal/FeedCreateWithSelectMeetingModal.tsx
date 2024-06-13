@@ -70,6 +70,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
         action: {
           name: '공유하러 가기',
           onClick: () => {
+            ampli.clickFeedShard();
             router.push(`${basePath}/feed/upload`);
           },
         },
