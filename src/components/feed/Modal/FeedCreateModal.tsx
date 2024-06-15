@@ -65,6 +65,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
         action: {
           name: '공유하러 가기',
           onClick: () => {
+            ampli.clickFeedShard();
             router.push(`${basePath}/feed/upload`);
           },
         },

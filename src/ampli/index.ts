@@ -22,7 +22,7 @@ import * as amplitude from '@amplitude/analytics-browser';
 export type Environment = 'default';
 
 export const ApiKey: Record<Environment, string> = {
-  default: '94650b2a33ffa5e8cc81b4ec3880730d',
+  default: '94650b2a33ffa5e8cc81b4ec3880730d'
 };
 
 /**
@@ -33,26 +33,21 @@ export const DefaultConfiguration: BrowserOptions = {
     version: '2',
     branch: 'main',
     source: 'web',
-    versionId: 'e51ec5e2-7e99-4072-b0f6-530f6c5a6e9d',
+    versionId: 'e51ec5e2-7e99-4072-b0f6-530f6c5a6e9d'
   },
   ...{
     ingestionMetadata: {
       sourceName: 'browser-typescript-ampli',
-      sourceVersion: '2.0.0',
-    },
-  },
+      sourceVersion: '2.0.0'
+    }
+  }
 };
 
-export interface LoadOptionsBase {
-  disabled?: boolean;
-}
+export interface LoadOptionsBase { disabled?: boolean }
 
-export type LoadOptionsWithEnvironment = LoadOptionsBase & {
-  environment: Environment;
-  client?: { configuration?: BrowserOptions };
-};
-export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; configuration?: BrowserOptions } };
-export type LoadOptionsWithClientInstance = LoadOptionsBase & { client: { instance: BrowserClient } };
+export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { configuration?: BrowserOptions; }; };
+export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; configuration?: BrowserOptions; } };
+export type LoadOptionsWithClientInstance = LoadOptionsBase & { client: { instance: BrowserClient; } };
 
 export type LoadOptions = LoadOptionsWithEnvironment | LoadOptionsWithApiKey | LoadOptionsWithClientInstance;
 
@@ -659,7 +654,9 @@ export interface FilterManagementListOrderProperties {
 export class Identify implements BaseEvent {
   event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
-  constructor(public event_properties?: IdentifyProperties) {
+  constructor(
+    public event_properties?: IdentifyProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -667,7 +664,9 @@ export class Identify implements BaseEvent {
 export class AttachFeedPhoto implements BaseEvent {
   event_type = 'Attach-feedPhoto';
 
-  constructor(public event_properties?: AttachFeedPhotoProperties) {
+  constructor(
+    public event_properties?: AttachFeedPhotoProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -675,7 +674,9 @@ export class AttachFeedPhoto implements BaseEvent {
 export class ClickCarouselArrow implements BaseEvent {
   event_type = 'Click-carouselArrow';
 
-  constructor(public event_properties?: ClickCarouselArrowProperties) {
+  constructor(
+    public event_properties?: ClickCarouselArrowProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -683,7 +684,9 @@ export class ClickCarouselArrow implements BaseEvent {
 export class ClickCommentLike implements BaseEvent {
   event_type = 'Click-commentLike';
 
-  constructor(public event_properties?: ClickCommentLikeProperties) {
+  constructor(
+    public event_properties?: ClickCommentLikeProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -695,7 +698,9 @@ export class ClickFeedAction implements BaseEvent {
 export class ClickFeedCard implements BaseEvent {
   event_type = 'Click-feedCard';
 
-  constructor(public event_properties?: ClickFeedCardProperties) {
+  constructor(
+    public event_properties?: ClickFeedCardProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -703,7 +708,9 @@ export class ClickFeedCard implements BaseEvent {
 export class ClickFeedCardGroupLabel implements BaseEvent {
   event_type = 'Click-feedCardGroupLabel';
 
-  constructor(public event_properties?: ClickFeedCardGroupLabelProperties) {
+  constructor(
+    public event_properties?: ClickFeedCardGroupLabelProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -711,7 +718,9 @@ export class ClickFeedCardGroupLabel implements BaseEvent {
 export class ClickFeeddatailImage implements BaseEvent {
   event_type = 'Click-feeddatailImage';
 
-  constructor(public event_properties?: ClickFeeddatailImageProperties) {
+  constructor(
+    public event_properties?: ClickFeeddatailImageProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -719,7 +728,9 @@ export class ClickFeeddatailImage implements BaseEvent {
 export class ClickFeeddetailLike implements BaseEvent {
   event_type = 'Click-feeddetailLike';
 
-  constructor(public event_properties?: ClickFeeddetailLikeProperties) {
+  constructor(
+    public event_properties?: ClickFeeddetailLikeProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -727,7 +738,9 @@ export class ClickFeeddetailLike implements BaseEvent {
 export class ClickFeeddetatilProfile implements BaseEvent {
   event_type = 'Click-feeddetatilProfile';
 
-  constructor(public event_properties?: ClickFeeddetatilProfileProperties) {
+  constructor(
+    public event_properties?: ClickFeeddetatilProfileProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -735,7 +748,9 @@ export class ClickFeeddetatilProfile implements BaseEvent {
 export class ClickFeedlistLike implements BaseEvent {
   event_type = 'Click-feedlistLike';
 
-  constructor(public event_properties?: ClickFeedlistLikeProperties) {
+  constructor(
+    public event_properties?: ClickFeedlistLikeProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -743,7 +758,9 @@ export class ClickFeedlistLike implements BaseEvent {
 export class ClickFeedPosting implements BaseEvent {
   event_type = 'Click-feedPosting';
 
-  constructor(public event_properties?: ClickFeedPostingProperties) {
+  constructor(
+    public event_properties?: ClickFeedPostingProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -751,15 +768,23 @@ export class ClickFeedPosting implements BaseEvent {
 export class ClickFeedProfile implements BaseEvent {
   event_type = 'Click-feedProfile';
 
-  constructor(public event_properties?: ClickFeedProfileProperties) {
+  constructor(
+    public event_properties?: ClickFeedProfileProperties,
+  ) {
     this.event_properties = event_properties;
   }
+}
+
+export class ClickFeedShard implements BaseEvent {
+  event_type = 'Click-feedShard';
 }
 
 export class ClickFilterCategory implements BaseEvent {
   event_type = 'Click-filterCategory';
 
-  constructor(public event_properties?: ClickFilterCategoryProperties) {
+  constructor(
+    public event_properties?: ClickFilterCategoryProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -767,7 +792,9 @@ export class ClickFilterCategory implements BaseEvent {
 export class ClickFilterGeneration implements BaseEvent {
   event_type = 'Click-filterGeneration';
 
-  constructor(public event_properties?: ClickFilterGenerationProperties) {
+  constructor(
+    public event_properties?: ClickFilterGenerationProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -775,7 +802,9 @@ export class ClickFilterGeneration implements BaseEvent {
 export class ClickFilterOn implements BaseEvent {
   event_type = 'Click-filterOn';
 
-  constructor(public event_properties?: ClickFilterOnProperties) {
+  constructor(
+    public event_properties?: ClickFilterOnProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -783,7 +812,9 @@ export class ClickFilterOn implements BaseEvent {
 export class ClickFilterPart implements BaseEvent {
   event_type = 'Click-filterPart';
 
-  constructor(public event_properties?: ClickFilterPartProperties) {
+  constructor(
+    public event_properties?: ClickFilterPartProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -791,7 +822,9 @@ export class ClickFilterPart implements BaseEvent {
 export class ClickFilterStatus implements BaseEvent {
   event_type = 'Click-filterStatus';
 
-  constructor(public event_properties?: ClickFilterStatusProperties) {
+  constructor(
+    public event_properties?: ClickFilterStatusProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -799,7 +832,9 @@ export class ClickFilterStatus implements BaseEvent {
 export class ClickGroupCard implements BaseEvent {
   event_type = 'Click-groupCard';
 
-  constructor(public event_properties?: ClickGroupCardProperties) {
+  constructor(
+    public event_properties?: ClickGroupCardProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -807,7 +842,9 @@ export class ClickGroupCard implements BaseEvent {
 export class ClickMakebymeGroup implements BaseEvent {
   event_type = 'Click-makebymeGroup';
 
-  constructor(public event_properties?: ClickMakebymeGroupProperties) {
+  constructor(
+    public event_properties?: ClickMakebymeGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -815,7 +852,9 @@ export class ClickMakebymeGroup implements BaseEvent {
 export class ClickMakeGroup implements BaseEvent {
   event_type = 'Click-makeGroup';
 
-  constructor(public event_properties?: ClickMakeGroupProperties) {
+  constructor(
+    public event_properties?: ClickMakeGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -827,7 +866,9 @@ export class ClickManageGroup implements BaseEvent {
 export class ClickManagementListProfile implements BaseEvent {
   event_type = 'Click-managementListProfile';
 
-  constructor(public event_properties?: ClickManagementListProfileProperties) {
+  constructor(
+    public event_properties?: ClickManagementListProfileProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -835,7 +876,9 @@ export class ClickManagementListProfile implements BaseEvent {
 export class ClickManagementListPromise implements BaseEvent {
   event_type = 'Click-managementListPromise';
 
-  constructor(public event_properties?: ClickManagementListPromiseProperties) {
+  constructor(
+    public event_properties?: ClickManagementListPromiseProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -843,7 +886,9 @@ export class ClickManagementListPromise implements BaseEvent {
 export class ClickMemberManagement implements BaseEvent {
   event_type = 'Click-memberManagement';
 
-  constructor(public event_properties?: ClickMemberManagementProperties) {
+  constructor(
+    public event_properties?: ClickMemberManagementProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -851,7 +896,9 @@ export class ClickMemberManagement implements BaseEvent {
 export class ClickMemberStatus implements BaseEvent {
   event_type = 'Click-memberStatus';
 
-  constructor(public event_properties?: ClickMemberStatusProperties) {
+  constructor(
+    public event_properties?: ClickMemberStatusProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -859,7 +906,9 @@ export class ClickMemberStatus implements BaseEvent {
 export class ClickNavbarGroup implements BaseEvent {
   event_type = 'Click-navbarGroup';
 
-  constructor(public event_properties: ClickNavbarGroupProperties) {
+  constructor(
+    public event_properties: ClickNavbarGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -867,7 +916,9 @@ export class ClickNavbarGroup implements BaseEvent {
 export class ClickNoticeOff implements BaseEvent {
   event_type = 'Click-noticeOff';
 
-  constructor(public event_properties?: ClickNoticeOffProperties) {
+  constructor(
+    public event_properties?: ClickNoticeOffProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -875,7 +926,9 @@ export class ClickNoticeOff implements BaseEvent {
 export class ClickNoticeOn implements BaseEvent {
   event_type = 'Click-noticeOn';
 
-  constructor(public event_properties?: ClickNoticeOnProperties) {
+  constructor(
+    public event_properties?: ClickNoticeOnProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -883,7 +936,9 @@ export class ClickNoticeOn implements BaseEvent {
 export class ClickOwnerProfile implements BaseEvent {
   event_type = 'Click-ownerProfile';
 
-  constructor(public event_properties?: ClickOwnerProfileProperties) {
+  constructor(
+    public event_properties?: ClickOwnerProfileProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -891,7 +946,9 @@ export class ClickOwnerProfile implements BaseEvent {
 export class ClickPaginationArrow implements BaseEvent {
   event_type = 'Click-paginationArrow';
 
-  constructor(public event_properties?: ClickPaginationArrowProperties) {
+  constructor(
+    public event_properties?: ClickPaginationArrowProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -899,7 +956,9 @@ export class ClickPaginationArrow implements BaseEvent {
 export class ClickPaginationNumber implements BaseEvent {
   event_type = 'Click-paginationNumber';
 
-  constructor(public event_properties?: ClickPaginationNumberProperties) {
+  constructor(
+    public event_properties?: ClickPaginationNumberProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -907,7 +966,9 @@ export class ClickPaginationNumber implements BaseEvent {
 export class ClickRegisteredGroup implements BaseEvent {
   event_type = 'Click-registeredGroup';
 
-  constructor(public event_properties?: ClickRegisteredGroupProperties) {
+  constructor(
+    public event_properties?: ClickRegisteredGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -915,7 +976,9 @@ export class ClickRegisteredGroup implements BaseEvent {
 export class ClickRegisteredGroupCard implements BaseEvent {
   event_type = 'Click-registeredGroupCard';
 
-  constructor(public event_properties?: ClickRegisteredGroupCardProperties) {
+  constructor(
+    public event_properties?: ClickRegisteredGroupCardProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -923,7 +986,9 @@ export class ClickRegisteredGroupCard implements BaseEvent {
 export class ClickRegisterGroup implements BaseEvent {
   event_type = 'Click-registerGroup';
 
-  constructor(public event_properties?: ClickRegisterGroupProperties) {
+  constructor(
+    public event_properties?: ClickRegisterGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -931,7 +996,9 @@ export class ClickRegisterGroup implements BaseEvent {
 export class CompletedCommentPosting implements BaseEvent {
   event_type = 'Completed-commentPosting';
 
-  constructor(public event_properties?: CompletedCommentPostingProperties) {
+  constructor(
+    public event_properties?: CompletedCommentPostingProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -939,7 +1006,9 @@ export class CompletedCommentPosting implements BaseEvent {
 export class CompletedFeedPosting implements BaseEvent {
   event_type = 'Completed-feedPosting';
 
-  constructor(public event_properties?: CompletedFeedPostingProperties) {
+  constructor(
+    public event_properties?: CompletedFeedPostingProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -947,7 +1016,9 @@ export class CompletedFeedPosting implements BaseEvent {
 export class CompletedFeedPostingCanceled implements BaseEvent {
   event_type = 'Completed-feedPostingCanceled';
 
-  constructor(public event_properties?: CompletedFeedPostingCanceledProperties) {
+  constructor(
+    public event_properties?: CompletedFeedPostingCanceledProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -955,7 +1026,9 @@ export class CompletedFeedPostingCanceled implements BaseEvent {
 export class CompletedMakeGroup implements BaseEvent {
   event_type = 'Completed-makeGroup';
 
-  constructor(public event_properties?: CompletedMakeGroupProperties) {
+  constructor(
+    public event_properties?: CompletedMakeGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -963,7 +1036,9 @@ export class CompletedMakeGroup implements BaseEvent {
 export class CompletedRegisterGroup implements BaseEvent {
   event_type = 'Completed-registerGroup';
 
-  constructor(public event_properties?: CompletedRegisterGroupProperties) {
+  constructor(
+    public event_properties?: CompletedRegisterGroupProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -971,7 +1046,9 @@ export class CompletedRegisterGroup implements BaseEvent {
 export class FilterListOptionManagement implements BaseEvent {
   event_type = 'Filter-listOptionManagement';
 
-  constructor(public event_properties?: FilterListOptionManagementProperties) {
+  constructor(
+    public event_properties?: FilterListOptionManagementProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -979,7 +1056,9 @@ export class FilterListOptionManagement implements BaseEvent {
 export class FilterManagementListOrder implements BaseEvent {
   event_type = 'Filter-managementListOrder';
 
-  constructor(public event_properties?: FilterManagementListOrderProperties) {
+  constructor(
+    public event_properties?: FilterManagementListOrderProperties,
+  ) {
     this.event_properties = event_properties;
   }
 }
@@ -1301,6 +1380,21 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickFeedProfile(properties), options);
+  }
+
+  /**
+   * Click-feedShard
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/%08Click-feedShard)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param options Amplitude event options.
+   */
+  clickFeedShard(
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickFeedShard(), options);
   }
 
   /**
