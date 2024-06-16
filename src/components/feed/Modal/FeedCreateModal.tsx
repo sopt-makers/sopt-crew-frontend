@@ -17,6 +17,7 @@ import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
 import { useToast } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
+import useThrottle from '@hooks/useThrottle';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -64,6 +65,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
         action: {
           name: '공유하러 가기',
           onClick: () => {
+            ampli.clickFeedShard();
             router.push(`${basePath}/feed/upload`);
           },
         },
@@ -82,7 +84,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     submitModal.handleModalOpen();
   };
 
-  const onSubmit = async () => {
+  const onSubmit = useThrottle(async () => {
     const createFeedParameter = { ...formMethods.getValues() };
     await mutateCreateFeed(createFeedParameter);
     ampli.completedFeedPosting({
@@ -91,7 +93,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       feed_upload: formatDate(),
       location: router.pathname,
     });
-  };
+  }, 5000);
 
   useEffect(() => {
     formMethods.reset({ meetingId: Number(meetingId) });
