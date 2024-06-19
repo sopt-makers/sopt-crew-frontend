@@ -4,7 +4,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting } from '@api/meeting';
+import { createMeeting } from '@api/API_LEGACY/meeting';
 import { useRouter } from 'next/router';
 import PlusIcon from '@assets/svg/plus.svg';
 import { useMutation } from '@tanstack/react-query';

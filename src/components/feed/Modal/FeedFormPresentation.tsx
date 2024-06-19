@@ -2,7 +2,7 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import { getPresignedUrl, uploadImage } from '@api/meeting';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import CameraIcon from '@assets/svg/camera.svg';
 import CancelIcon from '@assets/svg/x_big_gray.svg';
 import FormController from '@components/form/FormController';

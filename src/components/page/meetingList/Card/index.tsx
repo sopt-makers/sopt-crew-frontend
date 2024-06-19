@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { MeetingResponse } from '@api/meeting';
+import { MeetingResponse } from '@api/API_LEGACY/meeting';
 
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';

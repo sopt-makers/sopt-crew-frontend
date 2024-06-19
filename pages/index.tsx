@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
+import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';

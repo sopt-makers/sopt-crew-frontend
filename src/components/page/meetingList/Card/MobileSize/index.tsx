@@ -1,4 +1,4 @@
-import { MeetingResponse } from '@api/meeting';
+import { MeetingResponse } from '@api/API_LEGACY/meeting';
 import CardType from './CardType';
 import ListType from './ListType';
 

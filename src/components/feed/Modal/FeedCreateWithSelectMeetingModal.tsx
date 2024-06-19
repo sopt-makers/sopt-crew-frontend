@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
 import { createPost } from '@api/post';
-import { fetchMeetingListOfUserAttend } from '@api/user';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { zodResolver } from '@hookform/resolvers/zod';
