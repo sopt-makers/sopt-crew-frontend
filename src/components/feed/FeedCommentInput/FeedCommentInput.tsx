@@ -1,13 +1,37 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
+import { MentionsInput, Mention } from 'react-mentions';
 
 interface FeedCommentInputProps {
   writerName: string;
   onSubmit: (comment: string) => Promise<void>;
   disabled?: boolean;
 }
+
+const mentionableData = [
+  { id: 1, display: '김가가' },
+  { id: 2, display: '김나나' },
+  { id: 3, display: '이가가' },
+  { id: 4, display: '김가가' },
+];
+
+const renderSuggestion = (entry, search, highlightedDisplay, index, focused) => {
+  return (
+    <div
+      key={entry.id}
+      style={{
+        backgroundColor: focused ? '#e0e0e0' : 'white',
+        padding: '5px 10px',
+        cursor: 'pointer',
+        color: 'black',
+      }}
+    >
+      {highlightedDisplay}
+    </div>
+  );
+};
 
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
   ({ writerName, onSubmit, disabled }, ref) => {
@@ -35,14 +59,30 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
 
     return (
       <Container isFocused={isFocused}>
-        <CommentInput
+        <CommentInput>
+          <MentionsInput
+            inputRef={ref}
+            value={comment}
+            onChange={e => {
+              console.log(e);
+              setComment(e.target.value);
+            }}
+            onFocus={() => setIsFocused(true)}
+            placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
+            rows={1}
+          >
+            <Mention trigger="@" data={mentionableData} renderSuggestion={renderSuggestion} />
+          </MentionsInput>
+        </CommentInput>
+        {/*<CommentInput
           ref={ref}
           value={comment}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
           rows={1}
-        />
+        ></CommentInput>*/}
+
         <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
           {isFocused ? <SendFillIcon /> : <SendIcon />}
         </SendButton>
@@ -68,7 +108,7 @@ const Container = styled('form', {
     },
   },
 });
-const CommentInput = styled('textarea', {
+const CommentInput = styled('div', {
   minWidth: 0,
   width: '100%',
   height: '48px',
