@@ -1,5 +1,5 @@
-import { MeetingResponse } from '@api/meeting';
-import { UserResponse } from '@api/user';
+import { MeetingResponse } from '@api/API_LEGACY/meeting';
+import { UserResponse } from '@api/API_LEGACY/user';
 import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
 

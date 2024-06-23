@@ -9,6 +9,17 @@ export const PART_NAME: Record<string, string> = {
 
 export const RECRUITMENT_STATUS = ['모집 전', '모집 중', '모집 마감'];
 export const APPROVAL_STATUS = ['대기', '승인', '거절'];
+export const APPROVAL_STATUS_ENGLISH = ['WAITING', 'APPROVE', 'REJECT'];
+export const APPROVAL_STATUS_ENGLISH_TO_KOREAN = {
+  WAITING: '대기',
+  APPROVE: '승인',
+  REJECT: '거절',
+};
+export const APPROVAL_STATUS_KOREAN_TO_ENGLISH: StringKeyObject = {
+  대기: 'WAITING',
+  승인: 'APPROVE',
+  거절: 'REJECT',
+};
 export const APPLICATION_TYPE = ['신청', '초대'];
 export const CATEGORY_OPTIONS = ['스터디', '행사'];
 export const PART_OPTIONS = ['기획', '디자인', '안드로이드', 'iOS', '웹', '서버'];
@@ -54,3 +65,7 @@ export const PART_FILTER = {
   subject: 'part',
   options: PART_OPTIONS,
 };
+
+interface StringKeyObject {
+  [key: string]: string;
+}

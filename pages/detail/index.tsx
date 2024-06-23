@@ -5,7 +5,7 @@ import {
   useMutationPostApplication,
   useMutationDeleteApplication,
   useQueryGetMeeting,
-} from '@api/meeting/hooks';
+} from '@api/API_LEGACY/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/loader/Loader';
 import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';

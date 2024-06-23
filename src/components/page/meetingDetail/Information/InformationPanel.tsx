@@ -7,7 +7,7 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { useRef, useState } from 'react';
-import { MeetingResponse } from '@api/meeting';
+import { MeetingResponse } from '@api/API_LEGACY/meeting';
 
 interface InformationPanelProps {
   detailData: MeetingResponse;

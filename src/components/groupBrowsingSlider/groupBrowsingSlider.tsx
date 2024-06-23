@@ -1,7 +1,7 @@
 import { styled } from 'stitches.config';
 import React from 'react';
 import MobileSizeCard from '@components/groupBrowsing/mobileSizeCard';
-import { GroupBrowsingCardDetail } from '@api/meeting';
+import { GroupBrowsingCardDetail } from '@api/API_LEGACY/meeting';
 
 interface CarouselProps {
   cardList: GroupBrowsingCardDetail[];

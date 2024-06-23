@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import LikeButton from '@components/button/LikeButton';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';

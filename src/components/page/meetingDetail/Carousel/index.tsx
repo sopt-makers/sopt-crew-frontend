@@ -2,7 +2,7 @@ import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
 import 'slick-carousel/slick/slick.css';
-import { ImageURLType } from '@api/meeting';
+import { ImageURLType } from '@api/API_LEGACY/meeting';
 
 interface CarouselProps {
   imageList: ImageURLType[];

@@ -10,28 +10,18 @@ import Select from '@components/form/Select';
 import { Option } from '@components/form/Select/OptionItem';
 import ItemDescriptionBox from '@components/page/meetingManagement/ItemDescriptionBox';
 import Pagination from '@components/page/meetingList/Pagination';
-import {
-  usePageParams,
-  useSortByDateParams,
-  useStatusParams,
-  useTakeParams,
-  useTypeParams,
-} from '@hooks/queryString/custom';
+import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
 import { numberOptionList, sortOptionList } from '@data/options';
-import {
-  useMutationDownloadMeetingMemberCSV,
-  useQueryGetMeeting,
-  useQueryGetMeetingPeopleList,
-} from '@api/meeting/hooks';
+import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
 import { ampli } from '@/ampli';
+import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
 
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { value: page, setValue: setPage } = usePageParams();
-  const { value: type } = useTypeParams();
   const { value: status } = useStatusParams();
   const { value: take, setValue: setTake } = useTakeParams();
   const { value: sortByDate, setValue: setSort } = useSortByDateParams();
@@ -46,7 +36,6 @@ const ManagementPage = () => {
       page: (page || 0) as number,
       take: Number(numberOptionList[Number(take) || 0].value),
       status,
-      type,
       date: sortOptionList[Number(sortByDate) || 0].value as string,
     },
   });

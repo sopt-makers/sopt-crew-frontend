@@ -15,7 +15,7 @@ import { MAX_FILE_SIZE } from '@type/form';
 import NeedMentor from '../CheckBox/NeedMentor';
 import { parts } from '@data/options';
 import { useRouter } from 'next/router';
-import { getPresignedUrl, uploadImage } from '@api/meeting';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import { imageS3Bucket } from '@constants/url';
 import CalendarInputForm from '../Calendar';
 import { fontsObject } from '@sopt-makers/fonts';
