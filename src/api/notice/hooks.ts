@@ -3,7 +3,7 @@ import { getNotices } from '.';
 
 export default function useNotices() {
   const query = useQuery(['notices'], () => getNotices(), {
-    select: res => res.data,
+    select: res => res,
   });
 
   return {

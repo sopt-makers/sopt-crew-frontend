@@ -1,4 +1,3 @@
-import { Data } from '..';
 import { api } from '..';
 
 type GetNoticesResponse = {
@@ -8,7 +7,7 @@ type GetNoticesResponse = {
   contents: string;
   createdDate: string;
 }[];
-export const getNotices = async (status = 'EXPOSING') => {
-  const { data } = await api.get<Data<GetNoticesResponse>>(`/notice/v1`, { params: { status } });
+export const getNotices = async () => {
+  const { data } = await api.get<GetNoticesResponse>(`/notice/v2`);
   return data;
 };
