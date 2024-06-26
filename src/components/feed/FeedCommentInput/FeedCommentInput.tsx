@@ -1,8 +1,10 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { MentionsInput, Mention } from 'react-mentions';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 
 interface FeedCommentInputProps {
   writerName: string;
@@ -11,10 +13,10 @@ interface FeedCommentInputProps {
 }
 
 const mentionableData = [
-  { id: 1, display: '김가가' },
-  { id: 2, display: '김나나' },
-  { id: 3, display: '이가가' },
-  { id: 4, display: '김가가' },
+  { id: '1', display: '김나' },
+  { id: '2', display: '김나나니니니' },
+  { id: '3', display: '이가가' },
+  { id: '4', display: '김가가' },
 ];
 
 const renderSuggestion = (entry, search, highlightedDisplay, index, focused) => {
@@ -38,14 +40,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (e.target.value.length === 0) {
-        e.target.style.height = 'auto';
-      } else {
-        e.target.style.height = `${e.target.scrollHeight}px`;
-      }
-      setComment(e.target.value);
-    };
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
@@ -60,29 +55,51 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     return (
       <Container isFocused={isFocused}>
         <CommentInput>
+          {/*  */}
           <MentionsInput
-            inputRef={ref}
+            inputRef={inputRef}
             value={comment}
-            onChange={e => {
-              console.log(e);
+            onChange={(e, newValue, newPlain, mentions) => {
+              if (!inputRef.current) {
+                setComment(e.target.value);
+                return;
+              }
+              if (e.target.value.length === 0) {
+                inputRef.current.style.height = 'auto';
+              } else {
+                inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+              }
               setComment(e.target.value);
             }}
-            onFocus={() => setIsFocused(true)}
             placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
-            rows={1}
+            onFocus={() => setIsFocused(true)}
+            style={{
+              '&multiLine': {
+                input: {
+                  ...fontsObject.BODY_2_16_R,
+                  color: colors.gray50,
+                  border: 'none',
+                  padding: '0',
+                  overflow: 'auto',
+                  maxHeight: '120px',
+                },
+                highlighter: {
+                  ...fontsObject.BODY_2_16_R,
+                  boxSizing: 'border-box',
+                  overflow: 'hidden',
+                  maxHeight: '120px',
+                },
+              },
+            }}
           >
-            <Mention trigger="@" data={mentionableData} renderSuggestion={renderSuggestion} />
+            <Mention
+              trigger="@"
+              displayTransform={(_, display) => `@${display}`}
+              data={mentionableData}
+              renderSuggestion={renderSuggestion}
+            />
           </MentionsInput>
         </CommentInput>
-        {/*<CommentInput
-          ref={ref}
-          value={comment}
-          onChange={handleChange}
-          onFocus={() => setIsFocused(true)}
-          placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
-          rows={1}
-        ></CommentInput>*/}
-
         <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
           {isFocused ? <SendFillIcon /> : <SendIcon />}
         </SendButton>
@@ -111,13 +128,9 @@ const Container = styled('form', {
 const CommentInput = styled('div', {
   minWidth: 0,
   width: '100%',
-  height: '48px',
-  maxHeight: '120px',
   padding: '11px 16px',
   borderRadius: '10px',
   background: '$gray800',
-  color: '$gray10',
-  fontStyle: 'B2',
   border: 'none',
   outline: 'none',
   resize: 'none',
