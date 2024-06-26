@@ -55,7 +55,6 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     return (
       <Container isFocused={isFocused}>
         <CommentInput>
-          {/*  */}
           <MentionsInput
             inputRef={inputRef}
             value={comment}
@@ -97,6 +96,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
               displayTransform={(_, display) => `@${display}`}
               data={mentionableData}
               renderSuggestion={renderSuggestion}
+              markup="-~!@#@__display__[__id__]%^&*+"
             />
           </MentionsInput>
         </CommentInput>
