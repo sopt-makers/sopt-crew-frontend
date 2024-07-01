@@ -8,18 +8,20 @@ export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boo
     queryKey: ['getPosts', take, meetingId],
     queryFn: ({ pageParam = 1 }) => getPosts(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
-      const posts = lastPage?.data?.posts;
+      const posts = lastPage?.posts;
       if (!posts || posts.length === 0) {
         return undefined;
       }
       return allPages.length + 1;
     },
     enabled: enabled,
-    select: data => ({
-      pages: data.pages.flatMap(page => page?.data?.posts),
-      pageParams: data.pageParams,
-      total: data.pages[0]?.data.meta.itemCount,
-    }),
+    select: data => {
+      return {
+        pages: data.pages.flatMap(page => page?.posts),
+        pageParams: data.pageParams,
+        total: data.pages[0]?.meta.itemCount,
+      };
+    },
   });
 };
 
@@ -31,13 +33,13 @@ export const useMutationUpdateLike = (take: number, meetingId?: number) => {
     onMutate: async postId => {
       await queryClient.cancelQueries(['getPosts', take, meetingId]);
 
-      type Post = paths['/post/v1']['get']['responses']['200']['content']['application/json']['data'];
+      type Post = paths['/post/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['data'];
       const previousPosts = queryClient.getQueryData(['getPosts', take, meetingId]);
 
-      queryClient.setQueryData<InfiniteData<{ data: Post }>>(['getPosts', take, meetingId], oldData => {
+      queryClient.setQueryData<InfiniteData<{ posts: Post }>>(['getPosts', take, meetingId], oldData => {
         const newData = produce(oldData, draft => {
           draft?.pages.forEach(page => {
-            page.data.posts.forEach(post => {
+            page.posts.forEach((post: { id: number; likeCount: number; isLiked: boolean }) => {
               if (post.id === postId) {
                 post.likeCount = post.isLiked ? post.likeCount - 1 : post.likeCount + 1;
                 post.isLiked = !post.isLiked;
