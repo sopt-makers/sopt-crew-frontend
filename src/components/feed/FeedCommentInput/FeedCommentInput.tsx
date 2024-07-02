@@ -1,85 +1,54 @@
 import { keyframes, styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import React, { forwardRef, useRef, useState } from 'react';
-import { MentionsInput, Mention } from 'react-mentions';
+import React, { forwardRef, useCallback, useRef, useState } from 'react';
+import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import { colors } from '@sopt-makers/colors';
 import DefaultProfile from '../../../../public/assets/svg/mention_profile_default.svg';
 import { fontsObject } from '@sopt-makers/fonts';
-
-interface UserListProps {
-  meta: {
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    itemCount: number;
-    page: number;
-    pageCount: number;
-    take: number;
-  };
-  users: {
-    generation: number;
-    part: string;
-    profileImageUrl: string;
-    userId: number;
-    userName: string;
-  }[];
-}
 
 interface FeedCommentInputProps {
   writerName: string;
   onSubmit: (comment: string) => Promise<void>;
   disabled?: boolean;
-  data: UserListProps;
 }
 
-const mentionableData = [
-  { id: '1', value: '1', label: '김나', display: '김나', description: '33기 IOS', imageURL: '' },
-  {
-    id: '2',
-    value: '2',
-    label: '김나',
-    display: '김나',
-    description: '33기 안드로이드',
-    imageURL: '',
-  },
-  { id: '3', value: '3', label: '이가가', display: '이가가', description: '33기 웹', imageURL: '' },
-  { id: '4', value: '4', label: '김가가', display: '김가가', description: '33기 서버', imageURL: '' },
-  { id: '5', value: '1', label: '김나', display: '김나', description: '33기 IOS', imageURL: '' },
-  {
-    id: '6',
-    value: '2',
-    label: '김나가',
-    display: '김가나',
-    description: '33기 안드로이드',
-    imageURL: '',
-  },
-  { id: '7', value: '3', label: '이가가', display: '이가가', description: '33기 웹', imageURL: '' },
-  { id: '8', value: '4', label: '김가가', display: '김가가', description: '33기 서버', imageURL: '' },
-];
+interface mentionableDataType {
+  id: string;
+  display: string;
+  description: string;
+  imageURL: string;
+}
 
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
-  ({ writerName, onSubmit, disabled, data }) => {
+  ({ writerName, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
 
-    const renderSuggestion = (suggestion, search, highlightedDisplay, index, focused) => {
-      return (
-        <>
-          {suggestion.imageURL ? (
-            <></>
-          ) : (
-            <SrenderSuggestion key={suggestion.id}>
-              <DefaultProfile />
-              <div>
-                <div>{suggestion.display}</div> <p>{suggestion.description}</p>
-              </div>
-            </SrenderSuggestion>
-          )}
-        </>
-      );
-    };
+    const renderSuggestion = useCallback(
+      (suggestion: SuggestionDataItem) => {
+        //if(!data) return null;
+        return (
+          <>
+            {(suggestion as mentionableDataType).imageURL ? (
+              <></>
+            ) : (
+              <SrenderSuggestion key={suggestion.id}>
+                <DefaultProfile />
+                <div>
+                  <div>{suggestion.display}</div> <p>{(suggestion as mentionableDataType).description}</p>
+                </div>
+              </SrenderSuggestion>
+            )}
+          </>
+        );
+      },
+      [
+        /*data*/
+      ]
+    );
 
-    const customSuggestionsContainer = children => {
+    const customSuggestionsContainer = (children: React.ReactNode) => {
       return <ScustomSuggestionsContainer>{children}</ScustomSuggestionsContainer>;
     };
 
@@ -101,7 +70,10 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
           <MentionsInput
             inputRef={inputRef}
             value={comment}
-            onChange={(e, newValue, newPlain, mentions) => {
+            onChange={(e, newValue, mentions) => {
+              // 비밀 문자열이 포함된 input text 가 newValue 입니다.
+              // mentionIds 배열에는 mentions 배열의 id 를 활용하면 좋을 것 같습니다.
+
               if (!inputRef.current) {
                 setComment(e.target.value);
                 return;
@@ -117,7 +89,6 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             onFocus={() => setIsFocused(true)}
             customSuggestionsContainer={customSuggestionsContainer}
             style={{
-              control: {},
               '&multiLine': {
                 input: {
                   color: colors.gray50,
@@ -159,7 +130,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
               trigger="@"
               displayTransform={(_, display) => `@${display}`}
               data={mentionableData}
-              markup="-~!@#@__display__[__id__]%^&*+"
+              markup="-~!@#@__display__[__id__]%^&*+" // markup 의 display와 id 앞 뒤에 __ 가 있는 이유는, string 에서 js 변수를 찾아내기 위한 라이브러리 rule 입니다.
               renderSuggestion={renderSuggestion}
             />
           </MentionsInput>
@@ -245,3 +216,24 @@ const SrenderSuggestion = styled('button', {
     color: colors.gray100,
   },
 });
+
+const mentionableData: mentionableDataType[] = [
+  { id: '1', display: '김나', description: '33기 IOS', imageURL: '' },
+  {
+    id: '2',
+    display: '김나',
+    description: '33기 안드로이드',
+    imageURL: '',
+  },
+  { id: '3', display: '이가가', description: '33기 웹', imageURL: '' },
+  { id: '4', display: '김가가', description: '33기 서버', imageURL: '' },
+  { id: '5', display: '김나', description: '33기 IOS', imageURL: '' },
+  {
+    id: '6',
+    display: '김가나',
+    description: '33기 안드로이드',
+    imageURL: '',
+  },
+  { id: '7', display: '이가가', description: '33기 웹', imageURL: '' },
+  { id: '8', display: '김가가', description: '33기 서버', imageURL: '' },
+];
