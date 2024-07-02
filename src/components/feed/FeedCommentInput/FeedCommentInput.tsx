@@ -4,7 +4,7 @@ import SendFillIcon from 'public/assets/svg/send_fill.svg';
 import React, { forwardRef, useCallback, useRef, useState } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import { colors } from '@sopt-makers/colors';
-import DefaultProfile from '../../../../public/assets/svg/mention_profile_default.svg';
+import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import { fontsObject } from '@sopt-makers/fonts';
 
 interface FeedCommentInputProps {

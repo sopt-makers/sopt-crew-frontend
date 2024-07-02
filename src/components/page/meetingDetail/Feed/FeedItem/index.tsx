@@ -32,7 +32,7 @@ interface FeedItemProps {
   HeaderSection?: React.ReactNode;
   LikeButton?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  meetingId?: number | undefined;
+  meetingId?: number;
 }
 
 const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
