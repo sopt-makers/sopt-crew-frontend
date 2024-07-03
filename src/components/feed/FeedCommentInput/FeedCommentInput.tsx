@@ -211,6 +211,8 @@ const ScustomSuggestionsContainer = styled('div', {
     width: '100%',
     maxHeight: '418px',
     height: '100%',
+    border: 'none',
+    borderRadius: '20px',
   },
 });
 
@@ -227,6 +229,9 @@ const SrenderSuggestion = styled('button', {
   '& > div > p': {
     ...fontsObject.BODY_4_13_R,
     color: colors.gray100,
+  },
+  '@tablet': {
+    padding: '16px 12px',
   },
 });
 
