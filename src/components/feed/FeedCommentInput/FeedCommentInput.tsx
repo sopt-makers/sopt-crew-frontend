@@ -173,6 +173,10 @@ const CommentInput = styled('div', {
   '&': {
     color: '$gray300',
   },
+
+  '@tablet': {
+    position: 'relative',
+  },
 });
 const SendButton = styled('button', {
   width: '48px',
@@ -199,6 +203,15 @@ const ScustomSuggestionsContainer = styled('div', {
 
   maxHeight: '418px',
   overflow: 'scroll',
+
+  '@tablet': {
+    position: 'fixed',
+    left: '0',
+    bottom: '120px',
+    width: '100%',
+    maxHeight: '418px',
+    height: '100%',
+  },
 });
 
 const SrenderSuggestion = styled('button', {
