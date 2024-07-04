@@ -6,6 +6,7 @@ import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import { colors } from '@sopt-makers/colors';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import { fontsObject } from '@sopt-makers/fonts';
+import { useQueryGetMentionUsers } from '@api/user/hooks';
 
 interface FeedCommentInputProps {
   writerName: string;
@@ -14,29 +15,51 @@ interface FeedCommentInputProps {
 }
 
 interface mentionableDataType {
-  id: string;
+  id: number;
   display: string;
-  description: string;
-  imageURL: string;
+  userId: number;
+  userName: string;
+  recentPart: string;
+  recentGeneration: number;
+  profileImageUrl: string;
 }
 
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
   ({ writerName, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const { data: mentionUserList } = useQueryGetMentionUsers();
+
+    const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
+      return users.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
+    };
+
+    const getRandomUsers = (users: mentionableDataType[]) => {
+      const shuffled = users.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 30);
+    };
+
+    const getFilteredAndRandomUsers = (searchTerm: string, users: mentionableDataType[]) => {
+      const filteredUsers = filterUsersBySearchTerm(searchTerm, users);
+      const randomUsers = getRandomUsers(filteredUsers);
+      return randomUsers;
+    };
 
     const renderSuggestion = useCallback(
       (suggestion: SuggestionDataItem) => {
-        //if(!data) return null;
         return (
           <>
-            {(suggestion as mentionableDataType).imageURL ? (
+            {(suggestion as mentionableDataType).profileImageUrl ? (
               <></>
             ) : (
               <SrenderSuggestion key={suggestion.id}>
                 <DefaultProfile />
                 <div>
-                  <div>{suggestion.display}</div> <p>{(suggestion as mentionableDataType).description}</p>
+                  <div>{suggestion.display}</div>{' '}
+                  <p>
+                    {(suggestion as mentionableDataType).recentGeneration}기{` `}
+                    {(suggestion as mentionableDataType).recentPart}
+                  </p>
                 </div>
               </SrenderSuggestion>
             )}
@@ -129,7 +152,13 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             <Mention
               trigger="@"
               displayTransform={(_, display) => `@${display}`}
-              data={mentionableData}
+              data={search => {
+                const data = getFilteredAndRandomUsers(
+                  search,
+                  mentionUserList?.map((v: mentionableDataType) => ({ ...v, id: v.userId, display: v.userName }))
+                );
+                return data;
+              }}
               markup="-~!@#@__display__[__id__]%^&*+" // markup 의 display와 id 앞 뒤에 __ 가 있는 이유는, string 에서 js 변수를 찾아내기 위한 라이브러리 rule 입니다.
               renderSuggestion={renderSuggestion}
             />
@@ -234,24 +263,3 @@ const SrenderSuggestion = styled('button', {
     padding: '16px 12px',
   },
 });
-
-const mentionableData: mentionableDataType[] = [
-  { id: '1', display: '김나', description: '33기 IOS', imageURL: '' },
-  {
-    id: '2',
-    display: '김나',
-    description: '33기 안드로이드',
-    imageURL: '',
-  },
-  { id: '3', display: '이가가', description: '33기 웹', imageURL: '' },
-  { id: '4', display: '김가가', description: '33기 서버', imageURL: '' },
-  { id: '5', display: '김나', description: '33기 IOS', imageURL: '' },
-  {
-    id: '6',
-    display: '김가나',
-    description: '33기 안드로이드',
-    imageURL: '',
-  },
-  { id: '7', display: '이가가', description: '33기 웹', imageURL: '' },
-  { id: '8', display: '김가가', description: '33기 서버', imageURL: '' },
-];
