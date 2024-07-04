@@ -2433,6 +2433,14 @@ export interface paths {
     /** 모임 게시글 댓글 작성 */
     post: operations["createComment"];
   };
+  "/comment/v2/{commentId}/report": {
+    /** 댓글 신고하기 */
+    post: operations["reportComment"];
+  };
+  "/user/v2/mention": {
+    /** 멘션 사용자 조회 */
+    get: operations["getAllMentionUser"];
+  };
   "/user/v2/meeting/all": {
     /** 내가 속한 모임 조회 */
     get: operations["getAllMeetingByUser"];
@@ -2461,6 +2469,10 @@ export interface paths {
   "/meeting/v2/{meetingId}/apply": {
     /** 모임 지원 취소 */
     delete: operations["applyMeetingCancel"];
+  };
+  "/comment/v2/{commentId}": {
+    /** 모임 게시글 댓글 삭제 */
+    delete: operations["deleteComment"];
   };
 }
 
@@ -2637,6 +2649,19 @@ export interface components {
       /** Format: int32 */
       commentId?: number;
     };
+    CommentV2ReportCommentResponseDto: {
+      /** Format: int32 */
+      reportId?: number;
+    };
+    UserV2GetAllMentionUserDto: {
+      /** Format: int32 */
+      userId?: number;
+      userName?: string;
+      recentPart?: string;
+      /** Format: int32 */
+      recentGeneration?: number;
+      profileImageUrl?: string;
+    };
     UserV2GetAllMeetingByUserMeetingDto: {
       /** Format: int32 */
       id?: number;
@@ -2709,6 +2734,8 @@ export interface components {
       profileImage?: string;
     };
     NoticeV2GetResponseDto: {
+      /** Format: int32 */
+      id?: number;
       title?: string;
       subTitle?: string;
       contents?: string;
@@ -2984,6 +3011,33 @@ export interface operations {
       };
     };
   };
+  /** 댓글 신고하기 */
+  reportComment: {
+    parameters: {
+      path: {
+        commentId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      201: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["CommentV2ReportCommentResponseDto"];
+        };
+      };
+    };
+  };
+  /** 멘션 사용자 조회 */
+  getAllMentionUser: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["UserV2GetAllMentionUserDto"][];
+        };
+      };
+    };
+  };
   /** 내가 속한 모임 조회 */
   getAllMeetingByUser: {
     responses: {
@@ -3096,6 +3150,18 @@ export interface operations {
       200: never;
       /** @description 존재하지 않는 모임 신청입니다. */
       400: never;
+    };
+  };
+  /** 모임 게시글 댓글 삭제 */
+  deleteComment: {
+    parameters: {
+      path: {
+        commentId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      204: never;
     };
   };
 }
