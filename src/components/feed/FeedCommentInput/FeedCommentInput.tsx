@@ -30,6 +30,12 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const { data: mentionUserList } = useQueryGetMentionUsers();
 
+    // 현재 URL에서 쿼리 파라미터를 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 'id' 파라미터 값 가져오기: api리퀘스트에서 보내야하는 postId값
+    const postId = urlParams.get('id');
+
     const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
       return users.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
     };
