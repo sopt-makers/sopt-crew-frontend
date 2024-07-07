@@ -26,6 +26,8 @@ import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
 import LikeButton from '@components/button/LikeButton';
 import { TAKE_COUNT } from '@constants/feed';
+import { PostCommentWithMentionRequest } from '@api/mention';
+import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 
 export default function PostPage() {
@@ -43,10 +45,13 @@ export default function PostPage() {
 
   const commentQuery = useComment();
 
-  const { mutateAsync, isLoading: isCreatingComment } = useMutation({
-    mutationKey: ['/comment/v1'],
-    mutationFn: (comment: string) => POST('/comment/v2', { body: { postId: post!.id, contents: comment } }),
-  });
+  // const { mutateAsync, isLoading: isCreatingComment } = useMutation({
+  //   mutationKey: ['/comment/v2/mention'],
+  //   mutationFn: (comment: string) => POST('/comment/v2/mention', { body: { postId: post!.id, contents: comment } }),
+  // });
+  const { mutateAsync: mutatePostCommentWithMention, isLoading: isCreatingComment } = useMutationPostCommentWithMention(
+    {}
+  );
 
   const { mutate: toggleCommentLike } = useCommentMutation();
   const handleClickCommentLike = (commentId: number) => () => {
@@ -58,14 +63,14 @@ export default function PostPage() {
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
   });
 
-  const handleCreateComment = async (comment: string) => {
+  const handleCreateComment = async (req: PostCommentWithMentionRequest) => {
     // eslint-disable-next-line prettier/prettier
     ampli.completedCommentPosting({
       crew_status: meeting?.approved,
       platform_type: isMobile ? 'MO' : 'PC',
       user_id: Number(me?.orgId),
     });
-    await mutateAsync(comment);
+    await mutatePostCommentWithMention(req);
     commentQuery.refetch();
   };
 

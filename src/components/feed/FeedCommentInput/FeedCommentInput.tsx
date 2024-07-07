@@ -7,10 +7,10 @@ import { colors } from '@sopt-makers/colors';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import { fontsObject } from '@sopt-makers/fonts';
 import { useQueryGetMentionUsers } from '@api/user/hooks';
-
+import { PostCommentWithMentionRequest } from '@api/mention';
 interface FeedCommentInputProps {
   writerName: string;
-  onSubmit: (comment: string) => Promise<void>;
+  onSubmit: (req: PostCommentWithMentionRequest) => Promise<void>;
   disabled?: boolean;
 }
 
@@ -28,13 +28,14 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
   ({ writerName, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [userIds, setUserIds] = useState<number[] | null>(null);
     const { data: mentionUserList } = useQueryGetMentionUsers();
 
     // 현재 URL에서 쿼리 파라미터를 가져오기
     const urlParams = new URLSearchParams(window.location.search);
 
     // 'id' 파라미터 값 가져오기: api리퀘스트에서 보내야하는 postId값
-    const postId = urlParams.get('id');
+    const postId = Number(urlParams.get('id'));
 
     const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
       return users.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -87,7 +88,11 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
       event.preventDefault();
 
       if (!comment.trim()) return;
-      onSubmit(comment).then(() => {
+      onSubmit({
+        postId: postId as number,
+        userIds: userIds,
+        content: comment,
+      }).then(() => {
         setComment('');
         setIsFocused(false);
       });
@@ -95,15 +100,13 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
 
     const extractNumbers = (inputString: string) => {
       const regex = /-~!@#@[^\[\]]+\[(\d+)\]%\^&\*\+/g;
-      const numbers = [];
+      const numbers: number[] | null = [];
       let match;
 
       while ((match = regex.exec(inputString)) !== null) {
         numbers.push(Number(match[1]));
       }
-
-      // console.log(numbers);
-      return numbers;
+      setUserIds(numbers);
     };
 
     return (
