@@ -87,6 +87,19 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
       });
     };
 
+    const extractNumbers = (inputString: string) => {
+      const regex = /-~!@#@[^\[\]]+\[(\d+)\]%\^&\*\+/g;
+      const numbers = [];
+      let match;
+
+      while ((match = regex.exec(inputString)) !== null) {
+        numbers.push(Number(match[1]));
+      }
+
+      // console.log(numbers);
+      return numbers;
+    };
+
     return (
       <Container isFocused={isFocused}>
         <CommentInput>
@@ -96,7 +109,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             onChange={(e, newValue, mentions) => {
               // 비밀 문자열이 포함된 input text 가 newValue 입니다.
               // mentionIds 배열에는 mentions 배열의 id 를 활용하면 좋을 것 같습니다.
-
+              extractNumbers(newValue);
               if (!inputRef.current) {
                 setComment(e.target.value);
                 return;
