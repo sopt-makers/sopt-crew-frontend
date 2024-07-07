@@ -132,28 +132,40 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             customSuggestionsContainer={customSuggestionsContainer}
             style={{
               '&multiLine': {
+                control: {
+                  fontWeight: 'normal',
+                  fontFamily: 'inherit',
+                  fontSize: 'inherit',
+                  lineHeight: 'inherit',
+                  width: '100%',
+                  height: '100%',
+                  boxSizing: 'border-box',
+                },
                 input: {
                   color: colors.gray50,
                   border: 'none',
                   padding: '0',
-
+                  boxSizing: 'border-box',
                   overflow: 'auto',
+                  width: '100%',
+                  possition: 'relative',
+                  fontWeight: 'normal',
                   maxHeight: '120px',
                   overscrollBehavior: 'none',
+                  fontFamily: 'inherit',
+                  fontSize: 'inherit',
+                  lineHeight: 'inherit',
                 },
                 highlighter: {
                   color: colors.success,
+                  innerHeight: '0',
                   border: 'none',
                   padding: '0',
-
                   overflow: 'auto',
                   boxSizing: 'border-box',
-
                   maxHeight: '120px',
-
                   pointerEvents: 'none',
-
-                  position: 'relative',
+                  width: '100%',
                   zIndex: '1',
                 },
               },
