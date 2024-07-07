@@ -11,6 +11,10 @@ export interface paths {
     /** 모임 게시글 작성 */
     post: operations["createPost"];
   };
+  "/post/v2/mention": {
+    /** 게시글에서 멘션하기 */
+    post: operations["mentionUserInPost"];
+  };
   "/notice/v2": {
     /** 공지사항 조회 */
     get: operations["getNotices"];
@@ -32,6 +36,10 @@ export interface paths {
   "/comment/v2/{commentId}/report": {
     /** 댓글 신고하기 */
     post: operations["reportComment"];
+  };
+  "/comment/v2/mention": {
+    /** 댓글에서 유저 멘션 */
+    post: operations["mentionUserInComment"];
   };
   "/user/v2/mention": {
     /** 멘션 사용자 조회 */
@@ -105,6 +113,29 @@ export interface components {
     PostV2CreatePostResponseDto: {
       /** Format: int32 */
       postId?: number;
+    };
+    /** @description 모임 게시글에서 유저 언급 request body dto */
+    PostV2MentionUserInPostRequestDto: {
+      /**
+       * @description 언급할 유저 ID
+       * @example [
+       *   111,
+       *   112,
+       *   113
+       * ]
+       */
+      userIds: number[];
+      /**
+       * Format: int32
+       * @description 게시글 ID
+       * @example 1
+       */
+      postId: number;
+      /**
+       * @description 멘션 내용
+       * @example 멘션내용~~
+       */
+      content: string;
     };
     NoticeV2CreateRequestDto: {
       title?: string;
@@ -248,6 +279,29 @@ export interface components {
     CommentV2ReportCommentResponseDto: {
       /** Format: int32 */
       reportId?: number;
+    };
+    /** @description 댓글에서 유저 언급 request body dto */
+    CommentV2MentionUserInCommentRequestDto: {
+      /**
+       * @description 언급할 유저 ID
+       * @example [
+       *   111,
+       *   112,
+       *   113
+       * ]
+       */
+      userIds: number[];
+      /**
+       * Format: int32
+       * @description 게시글 ID
+       * @example 1
+       */
+      postId: number;
+      /**
+       * @description 멘션 내용
+       * @example 멘션내용~~
+       */
+      content: string;
     };
     UserV2GetAllMentionUserDto: {
       /** Format: int32 */
@@ -532,6 +586,18 @@ export interface operations {
       403: never;
     };
   };
+  /** 게시글에서 멘션하기 */
+  mentionUserInPost: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["PostV2MentionUserInPostRequestDto"];
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: never;
+    };
+  };
   /** 공지사항 조회 */
   getNotices: {
     responses: {
@@ -621,6 +687,18 @@ export interface operations {
           "application/json;charset=UTF-8": components["schemas"]["CommentV2ReportCommentResponseDto"];
         };
       };
+    };
+  };
+  /** 댓글에서 유저 멘션 */
+  mentionUserInComment: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["CommentV2MentionUserInCommentRequestDto"];
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: never;
     };
   };
   /** 멘션 사용자 조회 */
