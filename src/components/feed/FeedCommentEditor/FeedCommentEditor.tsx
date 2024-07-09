@@ -41,7 +41,7 @@ export default function FeedCommentEditor({ defaultValue, onCancel, onSubmit }: 
     });
   };
   const extractNumbers = (inputString: string) => {
-    const regex = /-~!@#@[^\[\]]+\[(\d+)\]%\^&\*\+/g;
+    const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
     const numbers: number[] | null = [];
     let match;
 

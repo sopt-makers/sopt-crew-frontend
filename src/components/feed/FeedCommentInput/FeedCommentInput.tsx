@@ -99,7 +99,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     };
 
     const extractNumbers = (inputString: string) => {
-      const regex = /-~!@#@[^\[\]]+\[(\d+)\]%\^&\*\+/g;
+      const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
       const numbers: number[] | null = [];
       let match;
 
