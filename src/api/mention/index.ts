@@ -1,4 +1,4 @@
-import { api } from '..';
+import { api, apiV2, Data } from '..';
 
 export interface PostCommentWithMentionRequest {
   userIds: number[] | null;
@@ -6,6 +6,6 @@ export interface PostCommentWithMentionRequest {
   postId: number;
 }
 
-export const postCommentWithMention = async (body: PostCommentWithMentionRequest): Promise<{ statusCode: number }> => {
-  return (await api.post<{ statusCode: number }>(`/comment/v2/mention`, body)).data;
+export const postCommentWithMention = async (body: PostCommentWithMentionRequest): Promise<any> => {
+  return await api.post(`/comment/v2/mention`, body);
 };

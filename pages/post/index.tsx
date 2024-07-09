@@ -45,13 +45,12 @@ export default function PostPage() {
 
   const commentQuery = useComment();
 
-  // const { mutateAsync, isLoading: isCreatingComment } = useMutation({
-  //   mutationKey: ['/comment/v2/mention'],
-  //   mutationFn: (comment: string) => POST('/comment/v2/mention', { body: { postId: post!.id, contents: comment } }),
-  // });
-  const { mutateAsync: mutatePostCommentWithMention, isLoading: isCreatingComment } = useMutationPostCommentWithMention(
-    {}
-  );
+  const { mutateAsync, isLoading: isCreatingComment } = useMutation({
+    mutationKey: ['/comment/v1'],
+    mutationFn: (comment: string) => POST('/comment/v2', { body: { postId: post!.id, contents: comment } }),
+  });
+
+  const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 
   const { mutate: toggleCommentLike } = useCommentMutation();
   const handleClickCommentLike = (commentId: number) => () => {
@@ -70,7 +69,8 @@ export default function PostPage() {
       platform_type: isMobile ? 'MO' : 'PC',
       user_id: Number(me?.orgId),
     });
-    await mutatePostCommentWithMention(req);
+    await mutateAsync(req.content);
+    mutatePostCommentWithMention(req);
     commentQuery.refetch();
   };
 
