@@ -48,6 +48,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
             setIsFocused={setIsFocused}
             setUserIds={setUserIds}
+            isComment={true}
           />
         </CommentInput>
 
