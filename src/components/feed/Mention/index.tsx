@@ -23,9 +23,18 @@ interface CommonMentionProps {
   placeholder: string;
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
   setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
+  isComment: boolean;
 }
 
-const CommonMention = ({ inputRef, value, setValue, placeholder, setIsFocused, setUserIds }: CommonMentionProps) => {
+const CommonMention = ({
+  inputRef,
+  value,
+  setValue,
+  placeholder,
+  setIsFocused,
+  setUserIds,
+  isComment,
+}: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
   const extractNumbers = (inputString: string) => {
@@ -55,34 +64,29 @@ const CommonMention = ({ inputRef, value, setValue, placeholder, setIsFocused, s
   };
 
   const customSuggestionsContainer = (children: React.ReactNode) => {
-    return <ScustomSuggestionsContainer>{children}</ScustomSuggestionsContainer>;
+    return <SCustomSuggestionsContainer>{children}</SCustomSuggestionsContainer>;
   };
 
-  const renderSuggestion = useCallback(
-    (suggestion: SuggestionDataItem) => {
-      return (
-        <>
-          {(suggestion as mentionableDataType).profileImageUrl ? (
-            <></>
-          ) : (
-            <SrenderSuggestion key={suggestion.id}>
-              <DefaultProfile />
-              <div>
-                <div>{suggestion.display}</div>{' '}
-                <p>
-                  {(suggestion as mentionableDataType).recentGeneration}기{` `}
-                  {(suggestion as mentionableDataType).recentPart}
-                </p>
-              </div>
-            </SrenderSuggestion>
-          )}
-        </>
-      );
-    },
-    [
-      /*data*/
-    ]
-  );
+  const renderSuggestion = useCallback((suggestion: SuggestionDataItem) => {
+    return (
+      <>
+        {(suggestion as mentionableDataType).profileImageUrl ? (
+          <></>
+        ) : (
+          <SRenderSuggestion key={suggestion.id}>
+            <DefaultProfile />
+            <div>
+              <div>{suggestion.display}</div>{' '}
+              <p>
+                {(suggestion as mentionableDataType).recentGeneration}기{` `}
+                {(suggestion as mentionableDataType).recentPart}
+              </p>
+            </div>
+          </SRenderSuggestion>
+        )}
+      </>
+    );
+  }, []);
   return (
     <MentionsInput
       inputRef={inputRef}
@@ -103,7 +107,7 @@ const CommonMention = ({ inputRef, value, setValue, placeholder, setIsFocused, s
       placeholder={placeholder}
       onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
-      style={defaultMentionStyle}
+      style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
     >
       <Mention
         trigger="@"
@@ -124,7 +128,7 @@ const CommonMention = ({ inputRef, value, setValue, placeholder, setIsFocused, s
 
 export default CommonMention;
 
-const defaultMentionStyle = {
+const CommentMentionStyle = {
   '&multiLine': {
     control: {
       fontWeight: 'normal',
@@ -142,7 +146,6 @@ const defaultMentionStyle = {
       boxSizing: 'border-box',
       overflow: 'auto',
       width: '100%',
-      possition: 'relative',
       fontWeight: 'normal',
       maxHeight: '120px',
       overscrollBehavior: 'none',
@@ -166,6 +169,57 @@ const defaultMentionStyle = {
   suggestions: {
     backgroundColor: 'transparent',
     item: {
+      minWidth: '154px',
+      borderRadius: '8px',
+      '&focused': {
+        background: colors.gray800,
+      },
+    },
+  },
+};
+
+const FeedModalMentionStyle = {
+  '&multiLine': {
+    control: {
+      fontWeight: 'normal',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      lineHeight: 'inherit',
+      width: '100%',
+      height: '100%',
+      boxSizing: 'border-box',
+    },
+    input: {
+      color: colors.gray50,
+      border: 'none',
+      padding: '0',
+      boxSizing: 'border-box',
+      overflow: 'auto',
+      width: '100%',
+      fontWeight: 'normal',
+      maxHeight: '208px',
+      overscrollBehavior: 'none',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      lineHeight: 'inherit',
+    },
+    highlighter: {
+      color: colors.success,
+      innerHeight: '0',
+      border: 'none',
+      padding: '0',
+      overflow: 'auto',
+      boxSizing: 'border-box',
+      maxHeight: '208px',
+      pointerEvents: 'none',
+      width: '100%',
+      zIndex: '1',
+    },
+  },
+  suggestions: {
+    backgroundColor: 'transparent',
+    item: {
+      minWidth: '154px',
       borderRadius: '8px',
       '&focused': {
         background: colors.gray800,
@@ -179,7 +233,7 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
-const ScustomSuggestionsContainer = styled('div', {
+const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
   width: 'max-content',
@@ -204,7 +258,7 @@ const ScustomSuggestionsContainer = styled('div', {
   },
 });
 
-const SrenderSuggestion = styled('button', {
+const SRenderSuggestion = styled('button', {
   boxSizing: 'border-box',
   padding: '8px 12px',
   gap: '12px',
