@@ -2,10 +2,10 @@ import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useContext } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
-
+import { MentionContext } from './MentionContext';
 interface mentionableDataType {
   id: number;
   display: string;
@@ -36,6 +36,23 @@ const CommonMention = ({
   isComment,
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
+
+  const { user, isReCommentClicked, setIsReCommentClicked } = useContext(MentionContext);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    if (isReCommentClicked) {
+      setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+    }
+  }, [isReCommentClicked, inputRef, setValue, user]);
+
+  useEffect(() => {
+    if (!value.startsWith('-~!@#')) {
+      setIsReCommentClicked(false);
+    }
+  }, [value, setIsReCommentClicked]);
 
   const extractNumbers = (inputString: string) => {
     const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
@@ -87,6 +104,13 @@ const CommonMention = ({
       </>
     );
   }, []);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
+
   return (
     <MentionsInput
       inputRef={inputRef}
