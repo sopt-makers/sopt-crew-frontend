@@ -36,7 +36,7 @@
     "immer": "^10.0.2",
     "nanoid": "^4.0.0",
     "nanostores": "^0.9.3",
-    "next": "^14.2.1",
+    "next": "15.0.0-canary.63",
     "openapi-fetch": "^0.7.1",
     "react": "^18.2.0",
     "react-calendar": "^4.8.0",
