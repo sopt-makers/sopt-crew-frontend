@@ -5,6 +5,7 @@ import { keyframes, styled } from '@stitches/react';
 import React, { useCallback } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
+import Image from 'next/image';
 
 interface mentionableDataType {
   id: number;
@@ -70,20 +71,23 @@ const CommonMention = ({
   const renderSuggestion = useCallback((suggestion: SuggestionDataItem) => {
     return (
       <>
-        {(suggestion as mentionableDataType).profileImageUrl ? (
-          <></>
-        ) : (
-          <SRenderSuggestion key={suggestion.id}>
+        <SRenderSuggestion key={suggestion.id}>
+          {(suggestion as mentionableDataType).profileImageUrl ? (
+            <SImageWrapper>
+              <img src={(suggestion as mentionableDataType).profileImageUrl} alt="Img" />
+            </SImageWrapper>
+          ) : (
             <DefaultProfile />
-            <div>
-              <div>{suggestion.display}</div>{' '}
-              <p>
-                {(suggestion as mentionableDataType).recentGeneration}기{` `}
-                {(suggestion as mentionableDataType).recentPart}
-              </p>
-            </div>
-          </SRenderSuggestion>
-        )}
+          )}
+
+          <div>
+            <div>{suggestion.display}</div>{' '}
+            <p>
+              {(suggestion as mentionableDataType).recentGeneration}기{` `}
+              {(suggestion as mentionableDataType).recentPart}
+            </p>
+          </div>
+        </SRenderSuggestion>
       </>
     );
   }, []);
@@ -177,6 +181,15 @@ const CommentMentionStyle = {
     },
   },
 };
+
+const SImageWrapper = styled('div', {
+  img: {
+    objectFit: 'cover',
+    width: '32px',
+    height: '32px',
+    borderRadius: '100%',
+  },
+});
 
 const FeedModalMentionStyle = {
   '&multiLine': {

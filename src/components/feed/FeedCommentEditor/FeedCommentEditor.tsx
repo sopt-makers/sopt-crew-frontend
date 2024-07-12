@@ -72,20 +72,22 @@ export default function FeedCommentEditor({ defaultValue, onCancel, onSubmit }: 
     (suggestion: SuggestionDataItem) => {
       return (
         <>
-          {(suggestion as mentionableDataType).profileImageUrl ? (
-            <></>
-          ) : (
-            <SrenderSuggestion key={suggestion.id}>
+          <SrenderSuggestion key={suggestion.id}>
+            {(suggestion as mentionableDataType).profileImageUrl ? (
+              <SImageWrapper>
+                <img src={(suggestion as mentionableDataType).profileImageUrl} alt="Img" />
+              </SImageWrapper>
+            ) : (
               <DefaultProfile />
-              <div>
-                <div>{suggestion.display}</div>{' '}
-                <p>
-                  {(suggestion as mentionableDataType).recentGeneration}기{` `}
-                  {(suggestion as mentionableDataType).recentPart}
-                </p>
-              </div>
-            </SrenderSuggestion>
-          )}
+            )}
+            <div>
+              <div>{suggestion.display}</div>{' '}
+              <p>
+                {(suggestion as mentionableDataType).recentGeneration}기{` `}
+                {(suggestion as mentionableDataType).recentPart}
+              </p>
+            </div>
+          </SrenderSuggestion>
         </>
       );
     },
@@ -225,6 +227,14 @@ const ButtonWrapper = styled('div', {
   justifyContent: 'flex-end',
   marginTop: '4px',
   gap: '6px',
+});
+const SImageWrapper = styled('div', {
+  img: {
+    objectFit: 'cover',
+    width: '32px',
+    height: '32px',
+    borderRadius: '100%',
+  },
 });
 const CancelButton = styled('button', {
   padding: '4px 12px',
