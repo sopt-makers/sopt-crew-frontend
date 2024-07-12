@@ -19,7 +19,7 @@ interface MentionContextProps {
 const MentionContext = createContext<MentionContextProps>({
   isReCommentClicked: false,
   setIsReCommentClicked: () => {},
-  user: { userName: '', userId: '' },
+  user: { userName: '', userId: 0 },
   setUser: () => {},
 });
 
