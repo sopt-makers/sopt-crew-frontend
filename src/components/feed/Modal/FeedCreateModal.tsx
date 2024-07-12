@@ -18,6 +18,7 @@ import { FormCreateType, feedCreateSchema } from './feedSchema';
 import { useToast } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import useThrottle from '@hooks/useThrottle';
+import { useMutationPostPostWithMention } from '@api/mention/hooks';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -37,10 +38,23 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   const submitModal = useModal();
   const platform = window.innerWidth > 768 ? 'PC' : 'MO';
 
+  const extractNumbers = (inputString: string) => {
+    const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
+    const numbers: number[] | null = [];
+    let match;
+
+    while ((match = regex.exec(inputString)) !== null) {
+      numbers.push(Number(match[1]));
+    }
+    return numbers;
+  };
+
   const formMethods = useForm<FormCreateType>({
     mode: 'onChange',
     resolver: zodResolver(feedCreateSchema),
   });
+
+  const { mutate: mutatePostPostWithMention } = useMutationPostPostWithMention({});
 
   const { isValid } = formMethods.formState;
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -54,9 +68,15 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => createPost(formData),
-    onSuccess: () => {
+    onSuccess: res => {
+      // console.log(res);
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
+      mutatePostPostWithMention({
+        postId: res.data.postId,
+        userIds: extractNumbers(formMethods.getValues().contents),
+        content: formMethods.getValues().contents,
+      });
       submitModal.handleModalClose();
       handleModalClose();
       open({
