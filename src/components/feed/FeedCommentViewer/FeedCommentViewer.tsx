@@ -5,10 +5,14 @@ import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
+import MessageIcon from 'public/assets/svg/message-dots.svg?v2';
+import ReCommentIcon from 'public/assets/svg/re-message-icon.svg';
 import { fromNow } from '@utils/dayjs';
-import React from 'react';
+import React, { useContext } from 'react';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
+import { fontsObject } from '@sopt-makers/fonts';
+import { MentionContext } from '../Mention/MentionContext';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -28,6 +32,12 @@ export default function FeedCommentViewer({
   Actions,
   onClickLike,
 }: FeedCommentViewerProps) {
+  const { setUser, setIsReCommentClicked } = useContext(MentionContext);
+
+  const onClickReComment = () => {
+    setIsReCommentClicked(true);
+    setUser({ userName: comment.user.name, userId: comment.user.id });
+  };
   return (
     <Container>
       <CommentHeader>
@@ -60,6 +70,12 @@ export default function FeedCommentViewer({
             <LikeIconWrapper>{comment.isLiked ? <LikeFillIcon /> : <LikeIcon />}</LikeIconWrapper>
             <LikeCount>{comment.likeCount}</LikeCount>
           </LikeWrapper>
+          <ReCommentWrapper onClick={onClickReComment}>
+            <MessageIconWrapper>
+              <MessageIcon />
+            </MessageIconWrapper>
+            답글 달기
+          </ReCommentWrapper>
         </CommentLikeWrapper>
       </CommentBody>
     </Container>
@@ -128,4 +144,17 @@ const LikeIconWrapper = styled('div', {
 const LikeCount = styled('span', {
   color: '$gray300',
   fontStyle: 'B4',
+});
+const ReCommentWrapper = styled('div', {
+  flexType: 'verticalCenter',
+  gap: '4px',
+  userSelect: 'none',
+  cursor: 'pointer',
+  color: '$gray300',
+  ...fontsObject.LABEL_4_12_SB,
+});
+const MessageIconWrapper = styled('div', {
+  width: '20px',
+  height: '20px',
+  color: '$gray300',
 });

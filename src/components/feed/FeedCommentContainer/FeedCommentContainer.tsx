@@ -10,7 +10,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { parseTextToLink } from '@components/util/parseTextToLink';
-
+import { PostCommentWithMentionRequest } from '@api/mention';
+import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number];
   isMine: boolean;
@@ -33,14 +34,17 @@ export default function FeedCommentContainer({
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
+  const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
+
   const { mutateAsync: mutateEditComment } = useMutation({
     mutationFn: (contents: string) =>
       PUT('/comment/v1/{commentId}', { params: { path: { commentId: comment.id } }, body: { contents } }),
     onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
   });
 
-  const handleSubmitComment = async (newComment: string) => {
-    await mutateEditComment(newComment);
+  const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {
+    await mutateEditComment(req.content);
+    mutatePostCommentWithMention(req);
     setEditMode(false);
   };
 
