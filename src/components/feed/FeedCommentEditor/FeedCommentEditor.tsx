@@ -99,7 +99,7 @@ export default function FeedCommentEditor({ defaultValue, onCancel, onSubmit }: 
     return <ScustomSuggestionsContainer>{children}</ScustomSuggestionsContainer>;
   };
   return (
-    <EditorContainer>
+    <EditorContainer onSubmit={e => e.preventDefault()}>
       <Editor>
         <MentionsInput
           inputRef={editorRef}
