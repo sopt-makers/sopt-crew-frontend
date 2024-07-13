@@ -75,7 +75,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
       mutatePostPostWithMention({
-        postId: res.data.postId,
+        postId: res.data?.postId,
         userIds: extractNumbers(formMethods.getValues().contents),
         content: formMethods.getValues().contents,
       });
