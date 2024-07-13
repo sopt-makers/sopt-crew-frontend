@@ -81,7 +81,7 @@ const CommonMention = ({
           )}
 
           <div>
-            <div>{suggestion.display}</div>{' '}
+            <div>{suggestion.display}</div>
             <p>
               {(suggestion as mentionableDataType).recentGeneration}기{` `}
               {(suggestion as mentionableDataType).recentPart}
