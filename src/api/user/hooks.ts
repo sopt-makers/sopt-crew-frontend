@@ -4,7 +4,7 @@ import { getMentionUsers } from '.';
 export const useQueryGetMentionUsers = () => {
   return useQuery({
     queryKey: ['getMentionUsers'],
-    cacheTime: Infinity,
+    staleTime: Infinity,
     queryFn: () => getMentionUsers(),
   });
 };
