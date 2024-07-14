@@ -105,10 +105,8 @@ export default function FeedCommentEditor({ defaultValue, onCancel, onSubmit }: 
           inputRef={editorRef}
           defaultValue={defaultValue}
           value={comment}
-          onChange={(e, newValue, mentions) => {
-            // 비밀 문자열이 포함된 input text 가 newValue 입니다.
+          onChange={(e, newValue) => {
             extractNumbers(newValue);
-            // mentionIds 배열에는 mentions 배열의 id 를 활용하면 좋을 것 같습니다.
 
             if (!editorRef.current) {
               setComment(e.target.value);
