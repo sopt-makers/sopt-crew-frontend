@@ -3,17 +3,17 @@ import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/re
 import { AxiosError } from 'axios';
 
 interface UseMutateBody<T> {
-  useMutationOptions?: UseMutationOptions<{ statusCode: number }, AxiosError, T>;
+  useMutationOptions?: UseMutationOptions<void, AxiosError, T>;
 }
 
 export const useMutationPostCommentWithMention = ({
   useMutationOptions,
 }: UseMutateBody<PostCommentWithMentionRequest>): UseMutationResult<
-  { statusCode: number },
+  void,
   AxiosError,
   PostCommentWithMentionRequest
 > => {
-  return useMutation<{ statusCode: number }, AxiosError, PostCommentWithMentionRequest>({
+  return useMutation<void, AxiosError, PostCommentWithMentionRequest>({
     ...useMutationOptions,
     mutationKey: ['postCommentWithMention'],
     mutationFn: postCommentWithMention,
@@ -23,11 +23,11 @@ export const useMutationPostCommentWithMention = ({
 export const useMutationPostPostWithMention = ({
   useMutationOptions,
 }: UseMutateBody<PostCommentWithMentionRequest>): UseMutationResult<
-  { statusCode: number },
+  void,
   AxiosError,
   PostCommentWithMentionRequest
 > => {
-  return useMutation<{ statusCode: number }, AxiosError, PostCommentWithMentionRequest>({
+  return useMutation<void, AxiosError, PostCommentWithMentionRequest>({
     ...useMutationOptions,
     mutationKey: ['postPostWithMention'],
     mutationFn: postPostWithMention,
