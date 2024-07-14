@@ -21,7 +21,7 @@ interface CommonMentionProps {
   inputRef: React.RefObject<HTMLTextAreaElement>;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  placeholder: string;
+  placeholder?: string;
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
   setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
   isComment: boolean;
