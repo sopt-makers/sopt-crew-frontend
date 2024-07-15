@@ -6,6 +6,7 @@ import React, { useCallback } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import Image from 'next/image';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 
 interface mentionableDataType {
   id: number;
@@ -37,17 +38,6 @@ const CommonMention = ({
   isComment,
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
-
-  const extractNumbers = (inputString: string) => {
-    const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
-    const numbers: number[] | null = [];
-    let match;
-
-    while ((match = regex.exec(inputString)) !== null) {
-      numbers.push(Number(match[1]));
-    }
-    setUserIds(numbers);
-  };
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -96,7 +86,7 @@ const CommonMention = ({
       inputRef={inputRef}
       value={value}
       onChange={(e, newValue) => {
-        extractNumbers(newValue);
+        setUserIds(parseMentionedUserIds(newValue));
         if (!inputRef.current) {
           setValue(e.target.value);
           return;
