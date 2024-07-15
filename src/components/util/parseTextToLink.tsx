@@ -38,8 +38,8 @@ export const parseTextToLink = (content: string) => {
         lastIndex = regex.lastIndex;
       }
 
-      if (lastIndex < fragment.length) {
-        content.push(fragment.substring(lastIndex));
+      if (lastIndex < fragment?.length) {
+        content.push(fragment?.substring(lastIndex));
       }
 
       return content;

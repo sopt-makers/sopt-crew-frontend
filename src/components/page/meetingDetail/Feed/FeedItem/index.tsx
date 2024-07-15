@@ -52,7 +52,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
 
     while ((matches = regex.exec(contents)) !== null) {
       if (matches.index > lastIndex) {
-        content.push(contents.substring(lastIndex, matches.index));
+        content.push(contents?.substring(lastIndex, matches.index));
       }
 
       content.push(
@@ -65,8 +65,8 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
       lastIndex = regex.lastIndex;
     }
 
-    if (lastIndex < contents.length) {
-      content.push(contents.substring(lastIndex));
+    if (lastIndex < contents?.length) {
+      content.push(contents?.substring(lastIndex));
     }
 
     return content;
