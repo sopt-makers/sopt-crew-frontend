@@ -18,6 +18,7 @@ import useThrottle from '@hooks/useThrottle';
 import { useToast } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { useMutationPostPostWithMention } from '@api/mention/hooks';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -33,16 +34,6 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
     ['fetchMeetingList', 'all'],
     fetchMeetingListOfUserAttend
   );
-  const extractNumbers = (inputString: string) => {
-    const regex = /-~!@#@[^[\]]+\[(\d+)\]%\^&\*\+/g;
-    const numbers: number[] | null = [];
-    let match;
-
-    while ((match = regex.exec(inputString)) !== null) {
-      numbers.push(Number(match[1]));
-    }
-    return numbers;
-  };
 
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
@@ -75,8 +66,8 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
       mutatePostPostWithMention({
-        postId: res.data?.postId,
-        userIds: extractNumbers(formMethods.getValues().contents),
+        postId: res.postId,
+        userIds: parseMentionedUserIds(formMethods.getValues().contents),
         content: formMethods.getValues().contents,
       });
       submitModal.handleModalClose();

@@ -17,7 +17,7 @@ export interface PostResponse {
 }
 
 export const createPost = async (formData: FormCreateType) => {
-  const { data } = await api.post<Data<{ postId: number }>>('/post/v2', formData);
+  const { data } = await api.post<{ postId: number }>('/post/v2', formData);
   return data;
 };
 
