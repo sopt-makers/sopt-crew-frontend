@@ -69,10 +69,10 @@ const Container = styled('form', {
   variants: {
     isFocused: {
       true: {
-        outline: '1px solid $gray200',
+        border: '1px solid $gray200',
       },
       false: {
-        outline: 'none',
+        border: 'none',
       },
     },
   },
