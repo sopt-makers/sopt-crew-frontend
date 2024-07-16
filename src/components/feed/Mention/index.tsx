@@ -5,7 +5,6 @@ import { keyframes, styled } from '@stitches/react';
 import React, { useCallback } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
-import Image from 'next/image';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 
 interface mentionableDataType {
@@ -40,12 +39,12 @@ const CommonMention = ({
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
-    return users.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
+    return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
   };
 
   const getRandomUsers = (users: mentionableDataType[]) => {
-    const shuffled = users.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 30);
+    const shuffled = users?.sort(() => 0.5 - Math.random());
+    return shuffled?.slice(0, 30);
   };
 
   const getFilteredAndRandomUsers = (searchTerm: string, users: mentionableDataType[]) => {
@@ -137,6 +136,7 @@ const CommentMentionStyle = {
       color: colors.gray50,
       border: 'none',
       padding: '0',
+      margin: '0',
       boxSizing: 'border-box',
       overflow: 'auto',
       width: '100%',
@@ -152,6 +152,7 @@ const CommentMentionStyle = {
       innerHeight: '0',
       border: 'none',
       padding: '0',
+      margin: '0',
       overflow: 'auto',
       boxSizing: 'border-box',
       maxHeight: '120px',
@@ -194,15 +195,19 @@ const FeedModalMentionStyle = {
     },
     input: {
       color: colors.gray50,
+      innerHeight: '0',
       border: 'none',
       padding: '0',
+      margin: '0',
+      marginTop: '0',
+      marginLeft: '0',
       boxSizing: 'border-box',
       overflow: 'auto',
       width: '100%',
-      fontWeight: 'normal',
       maxHeight: '208px',
       overscrollBehavior: 'none',
       fontFamily: 'inherit',
+      fontWeight: 'normal',
       fontSize: 'inherit',
       lineHeight: 'inherit',
     },
@@ -211,6 +216,9 @@ const FeedModalMentionStyle = {
       innerHeight: '0',
       border: 'none',
       padding: '0',
+      margin: '0',
+      marginTop: '0',
+      marginLeft: '0',
       overflow: 'auto',
       boxSizing: 'border-box',
       maxHeight: '208px',
