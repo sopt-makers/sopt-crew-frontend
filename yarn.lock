@@ -2987,12 +2987,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.24.4, @babel/runtime@npm:^7.3.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.24.4, @babel/runtime@npm:^7.9.2":
   version: 7.24.7
   resolution: "@babel/runtime@npm:7.24.7"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
   checksum: 10c0/b6fa3ec61a53402f3c1d75f4d808f48b35e0dfae0ec8e2bb5c6fc79fb95935da75766e0ca534d0f1c84871f6ae0d2ebdd950727cfadb745a2cdbef13faef5513
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.3.4":
+  version: 7.24.8
+  resolution: "@babel/runtime@npm:7.24.8"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/f24b30af6b3ecae19165b3b032f9bc37b2d1769677bd63b69a6f81061967cfc847aa822518402ea6616b1d301d7eb46986b99c9f69cdb5880834fca2e6b34881
   languageName: node
   linkType: hard
 
@@ -17547,9 +17556,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-mentions@npm:^4.4.10":
-  version: 4.4.10
-  resolution: "react-mentions@npm:4.4.10"
+"react-mentions@workspace:packages/react-mentions, react-mentions@workspaces:*":
+  version: 0.0.0-use.local
+  resolution: "react-mentions@workspace:packages/react-mentions"
   dependencies:
     "@babel/runtime": "npm:7.4.5"
     invariant: "npm:^2.2.4"
@@ -17558,9 +17567,8 @@ __metadata:
   peerDependencies:
     react: ">=16.8.3"
     react-dom: ">=16.8.3"
-  checksum: 10c0/25683158de4b4be47a3e2ec9120aa3661f4b60458f6334a89c69815da9d5b989a79ccd912186b006003e8f779595de8e556682d71e49bb41b6bba129ba1b5c17
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
 "react-refresh@npm:^0.14.0":
   version: 0.14.2
@@ -18990,7 +18998,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-hook-form: "npm:^7.39.1"
     react-intersection-observer: "npm:^9.5.3"
-    react-mentions: "npm:^4.4.10"
+    react-mentions: "workspaces:*"
     react-responsive: "npm:^9.0.2"
     react-slick: "npm:^0.29.0"
     slick-carousel: "npm:^1.8.1"

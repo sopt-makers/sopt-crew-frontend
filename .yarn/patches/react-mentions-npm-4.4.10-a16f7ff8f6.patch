@@ -1,0 +1,13 @@
+diff --git a/dist/react-mentions.esm.js b/dist/react-mentions.esm.js
+index 2efebba1599ee54c7b54715c020f3e107760718c..d5671951c461bd67628d6ef557ad3b3c2d649d4a 100644
+--- a/dist/react-mentions.esm.js
++++ b/dist/react-mentions.esm.js
+@@ -1277,6 +1277,8 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
+     });
+ 
+     _defineProperty(_assertThisInitialized(_this), "renderSuggestionsOverlay", function () {
++      console.log("STATE", _this.state)
++
+       if (!isNumber(_this.state.selectionStart)) {
+         // do not show suggestions when the input does not have the focus
+         return null;
