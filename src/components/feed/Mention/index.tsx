@@ -6,7 +6,6 @@ import React, { useCallback } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
-
 interface mentionableDataType {
   id: number;
   display: string;
@@ -80,6 +79,7 @@ const CommonMention = ({
       </>
     );
   }, []);
+
   return (
     <MentionsInput
       inputRef={inputRef}
