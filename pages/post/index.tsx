@@ -47,7 +47,8 @@ export default function PostPage() {
 
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
-    mutationFn: (comment: string) => POST('/comment/v2', { body: { postId: post!.id, contents: comment } }),
+    mutationFn: (comment: string) =>
+      POST('/comment/v2', { body: { postId: post!.id, contents: comment, isParent: true, parentCommentId: null } }),
   });
 
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
