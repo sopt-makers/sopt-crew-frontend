@@ -100,6 +100,7 @@ const CommonMention = ({
       placeholder={placeholder}
       onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
+      allowSuggestionsAboveCursor={true}
       style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
     >
       <Mention
@@ -260,6 +261,7 @@ const SCustomSuggestionsContainer = styled('div', {
 
   maxHeight: '418px',
   overflow: 'scroll',
+  marginBottom: '10px',
 
   '@tablet': {
     position: 'fixed',
