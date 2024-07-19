@@ -880,7 +880,9 @@ var makeTriggerRegex = function(trigger) {
       return _this.props.onChange ? (_this$props4 = _this.props).onChange.apply(_this$props4, [ event ].concat(args)) : _this.props.valueLink ? (_this$props$valueLink = _this.props.valueLink).requestChange.apply(_this$props$valueLink, [ event.target.value ].concat(args)) : void 0;
     }), _defineProperty(_assertThisInitialized(_this), "handleChange", function(ev) {
       if ((isComposing = !1, isIE()) && (document.activeElement && document.activeElement.contentDocument || document).activeElement !== ev.target) return;
-      var value = _this.props.value || "", config = readConfigFromChildren(_this.props.children), newPlainTextValue = ev.target.value, selectionStartBefore = _this.state.selectionStart;
+      var value = _this.props.value || "", config = readConfigFromChildren(_this.props.children), newPlainTextValue = ev.target.value;
+      console.log("newPlainTextValue", newPlainTextValue);
+      var selectionStartBefore = _this.state.selectionStart;
       null == selectionStartBefore && (selectionStartBefore = ev.target.selectionStart);
       var selectionEndBefore = _this.state.selectionEnd;
       null == selectionEndBefore && (selectionEndBefore = ev.target.selectionEnd);
@@ -889,7 +891,8 @@ var makeTriggerRegex = function(trigger) {
         selectionEndBefore: selectionEndBefore,
         selectionEndAfter: ev.target.selectionEnd
       }, config);
-      newPlainTextValue = getPlainText(newValue, config), console.log("deleted newPlainTextValue", newPlainTextValue);
+      console.log("newValue", newValue), console.log("config", config), newPlainTextValue = getPlainText(newValue, config), 
+      console.log("onChange newPlainTextValue", newPlainTextValue);
       var selectionStart = ev.target.selectionStart, selectionEnd = ev.target.selectionEnd, setSelectionAfterMentionChange = !1, startOfMention = findStartOfMentionInPlainText(value, config, selectionStart);
       void 0 !== startOfMention && _this.state.selectionEnd > startOfMention && (console.log("delete"), 
       console.log("ev.nativeEvent", ev.nativeEvent), selectionEnd = selectionStart = startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0), 
