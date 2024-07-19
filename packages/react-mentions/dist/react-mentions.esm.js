@@ -1383,7 +1383,6 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
       var value = _this.props.value || '';
       var config = readConfigFromChildren(_this.props.children);
       var newPlainTextValue = ev.target.value;
-      console.log('newPlainTextValue', newPlainTextValue);
       var selectionStartBefore = _this.state.selectionStart;
 
       if (selectionStartBefore == null) {
@@ -1401,12 +1400,9 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
         selectionStartBefore: selectionStartBefore,
         selectionEndBefore: selectionEndBefore,
         selectionEndAfter: ev.target.selectionEnd
-      }, config);
-      console.log('newValue', newValue);
-      console.log('config', config); // In case a mention is deleted, also adjust the new plain text value
+      }, config); // In case a mention is deleted, also adjust the new plain text value
 
-      newPlainTextValue = getPlainText(newValue, config);
-      console.log('onChange newPlainTextValue', newPlainTextValue); // Save current selection after change to be able to restore caret position after rerendering
+      newPlainTextValue = getPlainText(newValue, config); // Save current selection after change to be able to restore caret position after rerendering
 
       var selectionStart = ev.target.selectionStart;
       var selectionEnd = ev.target.selectionEnd;
@@ -1417,13 +1413,8 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
 
       if (startOfMention !== undefined && _this.state.selectionEnd > startOfMention) {
         // only if a deletion has taken place
-        console.log('delete');
-        console.log('ev.nativeEvent', ev.nativeEvent);
         selectionStart = startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0);
         selectionEnd = selectionStart;
-        console.log('startOfMention', startOfMention);
-        console.log('selectionStart', selectionStart);
-        console.log('selectionEnd', selectionEnd);
         setSelectionAfterMentionChange = true;
       }
 
@@ -1434,7 +1425,6 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
       });
 
       var mentions = getMentions(newValue, config);
-      console.log('ev', ev);
 
       if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) {
         // WKWebView 또는 다른 iOS WebView인 경우
@@ -1477,13 +1467,8 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
       var el = _this.inputElement;
 
       if (ev.target.selectionStart === ev.target.selectionEnd) {
-        console.log(ev);
-        console.log('ev.target.selectionStart = ev.target.selectionEnd', ev.target.selectionStart);
-
         _this.updateMentionsQueries(el.value, ev.target.selectionStart);
       } else {
-        console.log('clear');
-
         _this.clearSuggestions();
       } // sync highlighters scroll position
 
