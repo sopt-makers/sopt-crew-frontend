@@ -114,7 +114,6 @@ const CommonMention = ({
         }}
         markup="-~!@#@__display__[__id__]%^&*+" // markup 의 display와 id 앞 뒤에 __ 가 있는 이유는, string 에서 js 변수를 찾아내기 위한 라이브러리 rule 입니다.
         renderSuggestion={renderSuggestion}
-        appendSpaceOnAdd={true}
       />
     </MentionsInput>
   );
