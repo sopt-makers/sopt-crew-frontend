@@ -880,7 +880,9 @@ var makeTriggerRegex = function(trigger) {
       return _this.props.onChange ? (_this$props4 = _this.props).onChange.apply(_this$props4, [ event ].concat(args)) : _this.props.valueLink ? (_this$props$valueLink = _this.props.valueLink).requestChange.apply(_this$props$valueLink, [ event.target.value ].concat(args)) : void 0;
     }), _defineProperty(_assertThisInitialized(_this), "handleChange", function(ev) {
       if ((isComposing = !1, isIE()) && (document.activeElement && document.activeElement.contentDocument || document).activeElement !== ev.target) return;
-      var value = _this.props.value || "", config = readConfigFromChildren(_this.props.children), newPlainTextValue = ev.target.value, selectionStartBefore = _this.state.selectionStart;
+      var value = _this.props.value || "", config = readConfigFromChildren(_this.props.children), newPlainTextValue = ev.target.value;
+      console.log("newPlainTextValue", newPlainTextValue);
+      var selectionStartBefore = _this.state.selectionStart;
       null == selectionStartBefore && (selectionStartBefore = ev.target.selectionStart);
       var selectionEndBefore = _this.state.selectionEnd;
       null == selectionEndBefore && (selectionEndBefore = ev.target.selectionEnd);
@@ -889,16 +891,20 @@ var makeTriggerRegex = function(trigger) {
         selectionEndBefore: selectionEndBefore,
         selectionEndAfter: ev.target.selectionEnd
       }, config);
-      newPlainTextValue = getPlainText(newValue, config);
+      console.log("newValue", newValue), console.log("config", config), newPlainTextValue = getPlainText(newValue, config), 
+      console.log("onChange newPlainTextValue", newPlainTextValue);
       var selectionStart = ev.target.selectionStart, selectionEnd = ev.target.selectionEnd, setSelectionAfterMentionChange = !1, startOfMention = findStartOfMentionInPlainText(value, config, selectionStart);
-      void 0 !== startOfMention && _this.state.selectionEnd > startOfMention && (selectionEnd = selectionStart = startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0), 
-      setSelectionAfterMentionChange = !0), _this.setState({
+      void 0 !== startOfMention && _this.state.selectionEnd > startOfMention && (console.log("delete"), 
+      console.log("ev.nativeEvent", ev.nativeEvent), selectionEnd = selectionStart = startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0), 
+      console.log("startOfMention", startOfMention), console.log("selectionStart", selectionStart), 
+      console.log("selectionEnd", selectionEnd), setSelectionAfterMentionChange = !0), 
+      _this.setState({
         selectionStart: selectionStart,
         selectionEnd: selectionEnd,
         setSelectionAfterMentionChange: setSelectionAfterMentionChange
       });
       var mentions = getMentions(newValue, config);
-      /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Safari") ? selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : ev.nativeEvent.isComposing && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+      console.log("ev", ev), /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Safari") ? selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : ev.nativeEvent.isComposing && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
       var eventMock = {
         target: {
           value: newValue
@@ -911,8 +917,9 @@ var makeTriggerRegex = function(trigger) {
         selectionEnd: ev.target.selectionEnd
       }), !isComposing) {
         var el = _this.inputElement;
-        ev.target.selectionStart === ev.target.selectionEnd ? _this.updateMentionsQueries(el.value, ev.target.selectionStart) : _this.clearSuggestions(), 
-        _this.updateHighlighterScroll(), _this.props.onSelect(ev);
+        ev.target.selectionStart === ev.target.selectionEnd ? (console.log(ev), console.log("ev.target.selectionStart = ev.target.selectionEnd", ev.target.selectionStart), 
+        _this.updateMentionsQueries(el.value, ev.target.selectionStart)) : (console.log("clear"), 
+        _this.clearSuggestions()), _this.updateHighlighterScroll(), _this.props.onSelect(ev);
       }
     }), _defineProperty(_assertThisInitialized(_this), "handleKeyDown", function(ev) {
       if (0 !== countSuggestions(_this.state.suggestions) && _this.suggestionsElement) switch (Object.values(KEY).indexOf(ev.keyCode) >= 0 && (ev.preventDefault(), 
