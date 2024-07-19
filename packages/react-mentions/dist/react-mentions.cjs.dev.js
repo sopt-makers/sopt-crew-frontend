@@ -1439,9 +1439,23 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
       });
 
       var mentions = getMentions(newValue, config);
+      console.log('ev', ev);
 
-      if (selectionStart === selectionEnd) {
-        _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) {
+        // WKWebView 또는 다른 iOS WebView인 경우
+        if (selectionStart === selectionEnd) {
+          _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+        }
+      } else if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+        // Safari 브라우저인 경우
+        if (ev.nativeEvent.composed && selectionStart === selectionEnd) {
+          _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+        }
+      } else {
+        // 다른 브라우저의 경우
+        if (ev.nativeEvent.isComposing && selectionStart === selectionEnd) {
+          _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+        }
       } // Propagate change
       // let handleChange = this.getOnChange(this.props) || emptyFunction;
 

@@ -901,7 +901,7 @@ var makeTriggerRegex = function(trigger) {
         setSelectionAfterMentionChange: setSelectionAfterMentionChange
       });
       var mentions = getMentions(newValue, config);
-      selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+      console.log("ev", ev), /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Safari") ? selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : ev.nativeEvent.isComposing && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
       var eventMock = {
         target: {
           value: newValue
