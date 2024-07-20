@@ -2,7 +2,7 @@ import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
@@ -35,6 +35,15 @@ const CommonMention = ({
   setUserIds,
   isComment,
 }: CommonMentionProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
+
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
@@ -101,6 +110,7 @@ const CommonMention = ({
       onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
       style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
+      forceSuggestionsAboveCursor={isMobile}
     >
       <Mention
         trigger="@"
