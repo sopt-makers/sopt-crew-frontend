@@ -110,7 +110,7 @@ const CommonMention = ({
       onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
       style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
-      forceSuggestionsAboveCursor={isMobile}
+      forceSuggestionsAboveCursor={isMobile && isComment}
     >
       <Mention
         trigger="@"
