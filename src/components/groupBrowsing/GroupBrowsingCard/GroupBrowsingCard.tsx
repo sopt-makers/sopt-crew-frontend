@@ -25,7 +25,6 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   title,
   category,
   startDate,
-  endDate,
   mstartDate,
   mendDate,
   recentActivityDate,
