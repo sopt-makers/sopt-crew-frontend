@@ -122,7 +122,10 @@ const Home: NextPage = () => {
               </SContentTitle>
             </Flex>
             <GroupBrowsingCarouselContainer>
-              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+              <SGradationContainer>
+                <SCarouselGradationRight />
+                {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+              </SGradationContainer>
             </GroupBrowsingCarouselContainer>
             <SCarouselBlank />
             <Flex align="center" justify="center">
@@ -222,6 +225,26 @@ const GroupBrowsingCarouselContainer = styled('div', {
 
 const SCarouselBlank = styled('div', {
   paddingBottom: '252px',
+  '@media (max-width: 850px)': {
+    display: 'none',
+  },
+});
+
+const SGradationContainer = styled('div', {
+  position: 'relative',
+});
+
+const SCarouselGradationRight = styled('div', {
+  width: '122px',
+  height: '180px',
+  background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
+
+  position: 'absolute',
+  zIndex: 1,
+  right: '0',
+  pointerEvents: 'none',
+  marginRight: '55px',
+
   '@media (max-width: 850px)': {
     display: 'none',
   },
