@@ -40,5 +40,17 @@ const SButton = styled('button', {
     margin: '0 auto',
     width: '100%',
     height: '100%',
+
+    '& circle, & rect': {
+      transition: 'fill 0.1s ease-in-out',
+    },
+
+    '&:hover circle': {
+      fill: '$gray700',
+    },
+
+    '&:not(:hover)': {
+      transition: 'background 0.1s ease-in-out',
+    },
   },
 });
