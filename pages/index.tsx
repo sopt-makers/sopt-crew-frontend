@@ -209,6 +209,16 @@ const SMoreButton = styled('button', {
   '@tablet': {
     fontSize: '$12',
   },
+
+  '&:hover': {
+    transition: 'background 0.1s ease-in-out',
+    color: '$gray100',
+  },
+
+  '&:not(:hover)': {
+    transition: 'background 0.1s ease-in-out',
+    fill: '$gray100',
+  },
 });
 
 const GroupBrowsingCarouselContainer = styled('div', {
