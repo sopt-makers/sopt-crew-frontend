@@ -1,6 +1,6 @@
 import { editPost } from '@api/post';
 import { useQueryGetPost } from '@api/post/hooks';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
@@ -130,7 +130,7 @@ const SDialogWrapper = styled('div', {
   maxWidth: '$768',
   boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
   maxHeight: '100vh',
-  overflow: 'auto scroll',
+  overflow: 'visible',
   '&::-webkit-scrollbar': {
     display: 'none',
   },

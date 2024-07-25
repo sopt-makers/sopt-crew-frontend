@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useQueryGetGroupBrowsingCard } from '@api/meeting/hooks';
+import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
@@ -122,7 +122,10 @@ const Home: NextPage = () => {
               </SContentTitle>
             </Flex>
             <GroupBrowsingCarouselContainer>
-              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+              <SGradationContainer>
+                <SCarouselGradationRight />
+                {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+              </SGradationContainer>
             </GroupBrowsingCarouselContainer>
             <SCarouselBlank />
             <Flex align="center" justify="center">
@@ -206,6 +209,16 @@ const SMoreButton = styled('button', {
   '@tablet': {
     fontSize: '$12',
   },
+
+  '&:hover': {
+    transition: 'background 0.1s ease-in-out',
+    color: '$gray100',
+  },
+
+  '&:not(:hover)': {
+    transition: 'background 0.1s ease-in-out',
+    fill: '$gray100',
+  },
 });
 
 const GroupBrowsingCarouselContainer = styled('div', {
@@ -223,6 +236,30 @@ const GroupBrowsingCarouselContainer = styled('div', {
 const SCarouselBlank = styled('div', {
   paddingBottom: '252px',
   '@media (max-width: 850px)': {
+    display: 'none',
+  },
+});
+
+const SGradationContainer = styled('div', {
+  position: 'relative',
+});
+
+const SCarouselGradationRight = styled('div', {
+  width: '122px',
+  height: '180px',
+  background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
+
+  position: 'absolute',
+  zIndex: 1,
+  right: '0',
+  pointerEvents: 'none',
+  marginRight: '55px',
+
+  '@media (max-width: 850px)': {
+    display: 'none',
+  },
+
+  '@media (min-width: 1259px)': {
     display: 'none',
   },
 });

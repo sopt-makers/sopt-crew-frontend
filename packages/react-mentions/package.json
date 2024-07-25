@@ -1,0 +1,52 @@
+{
+  "name": "react-mentions",
+  "version": "4.4.10",
+  "description": "React mentions input",
+  "main": "dist/react-mentions.cjs.js",
+  "module": "dist/react-mentions.esm.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "preconstruct build",
+    "format": "prettier --write --no-semi --single-quote --trailing-comma es5 \"{src,test,demo/src}/**/*.js\"",
+    "lint": "eslint --max-warnings=0 --ext .js src test demo",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development webpack-dev-server --config demo/webpack.config.js",
+    "test": "jest",
+    "now-build": "webpack --config demo/webpack.config.js",
+    "prerelease": "yarn build",
+    "release": "changeset publish",
+    "change": "changeset"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/signavio/react-mentions.git"
+  },
+  "keywords": [
+    "react",
+    "mentions",
+    "react-component"
+  ],
+  "browserslist": [
+    "chrome >= 50",
+    "firefox >= 52",
+    "safari >= 10",
+    "ie >= 11"
+  ],
+  "author": "SAP-Signavio",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/signavio/react-mentions/issues"
+  },
+  "homepage": "https://github.com/signavio/react-mentions",
+  "dependencies": {
+    "@babel/runtime": "7.4.5",
+    "invariant": "^2.2.4",
+    "prop-types": "^15.5.8",
+    "substyle": "^9.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.3",
+    "react-dom": ">=16.8.3"
+  }
+}

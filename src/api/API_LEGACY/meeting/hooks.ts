@@ -39,6 +39,9 @@ interface UseQueryGetMeetingParams {
   useQueryOptions?: UseQueryOptions<MeetingResponse>;
 }
 
+/**
+ * @deprecated
+ */
 interface UseQueryGetMeetingPeopleListParams {
   params: {
     id: string;
@@ -95,6 +98,9 @@ export const useQueryGetMeeting = ({
   });
 };
 
+/**
+ * @deprecated
+ */
 export const useQueryGetMeetingPeopleList = ({
   params,
   useQueryOptions,

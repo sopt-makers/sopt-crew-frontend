@@ -1,33 +1,38 @@
 import { styled } from 'stitches.config';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import React, { forwardRef, useState } from 'react';
-
+import React, { forwardRef, useRef, useState } from 'react';
+import { PostCommentWithMentionRequest } from '@api/mention';
+import CommonMention from '../Mention';
 interface FeedCommentInputProps {
   writerName: string;
-  onSubmit: (comment: string) => Promise<void>;
+  onSubmit: (req: PostCommentWithMentionRequest) => Promise<void>;
   disabled?: boolean;
 }
 
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
-  ({ writerName, onSubmit, disabled }, ref) => {
+  ({ writerName, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [userIds, setUserIds] = useState<number[] | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (e.target.value.length === 0) {
-        e.target.style.height = 'auto';
-      } else {
-        e.target.style.height = `${e.target.scrollHeight}px`;
-      }
-      setComment(e.target.value);
-    };
+    // 현재 URL에서 쿼리 파라미터를 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 'id' 파라미터 값 가져오기: api리퀘스트에서 보내야하는 postId값
+    const postId = Number(urlParams.get('id'));
+
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
 
       if (!comment.trim()) return;
-      onSubmit(comment).then(() => {
+      onSubmit({
+        postId: postId as number,
+        userIds: userIds,
+        content: comment,
+      }).then(() => {
         setComment('');
         setIsFocused(false);
       });
@@ -35,14 +40,18 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
 
     return (
       <Container isFocused={isFocused}>
-        <CommentInput
-          ref={ref}
-          value={comment}
-          onChange={handleChange}
-          onFocus={() => setIsFocused(true)}
-          placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
-          rows={1}
-        />
+        <CommentInput>
+          <CommonMention
+            inputRef={inputRef}
+            value={comment}
+            setValue={setComment}
+            placeholder={`${writerName}님의 피드에 댓글을 남겨보세요!`}
+            setIsFocused={setIsFocused}
+            setUserIds={setUserIds}
+            isComment={true}
+          />
+        </CommentInput>
+
         <SendButton type="submit" onClick={handleSubmit} disabled={disabled}>
           {isFocused ? <SendFillIcon /> : <SendIcon />}
         </SendButton>
@@ -60,29 +69,29 @@ const Container = styled('form', {
   variants: {
     isFocused: {
       true: {
-        outline: '1px solid $gray200',
+        border: '1px solid $gray200',
       },
       false: {
-        outline: 'none',
+        border: 'none',
       },
     },
   },
 });
-const CommentInput = styled('textarea', {
+const CommentInput = styled('div', {
   minWidth: 0,
   width: '100%',
-  height: '48px',
-  maxHeight: '120px',
   padding: '11px 16px',
   borderRadius: '10px',
   background: '$gray800',
-  color: '$gray10',
-  fontStyle: 'B2',
   border: 'none',
   outline: 'none',
   resize: 'none',
-  '&::placeholder': {
+  '&': {
     color: '$gray300',
+  },
+
+  '@tablet': {
+    position: 'relative',
   },
 });
 const SendButton = styled('button', {

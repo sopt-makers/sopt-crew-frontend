@@ -1,7 +1,7 @@
 import { Flex } from '@components/util/layout/Flex';
 import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
-import { MeetingResponse, parsePartValueToLabel } from '@api/meeting';
+import { MeetingResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';

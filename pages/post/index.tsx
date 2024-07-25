@@ -5,7 +5,7 @@ import { useToast } from '@sopt-makers/ui';
 import { useMutation } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import useComment from '@hooks/useComment/useComment';
@@ -19,13 +19,15 @@ import ConfirmModal from '@components/modal/ConfirmModal';
 import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import React, { useEffect, useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
 import LikeButton from '@components/button/LikeButton';
 import { TAKE_COUNT } from '@constants/feed';
+import { PostCommentWithMentionRequest } from '@api/mention';
+import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
 
 export default function PostPage() {
@@ -45,8 +47,11 @@ export default function PostPage() {
 
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
-    mutationFn: (comment: string) => POST('/comment/v2', { body: { postId: post!.id, contents: comment } }),
+    mutationFn: (comment: string) =>
+      POST('/comment/v2', { body: { postId: post!.id, contents: comment, isParent: true, parentCommentId: null } }),
   });
+
+  const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 
   const { mutate: toggleCommentLike } = useCommentMutation();
   const handleClickCommentLike = (commentId: number) => () => {
@@ -58,14 +63,15 @@ export default function PostPage() {
     onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
   });
 
-  const handleCreateComment = async (comment: string) => {
+  const handleCreateComment = async (req: PostCommentWithMentionRequest) => {
     // eslint-disable-next-line prettier/prettier
     ampli.completedCommentPosting({
       crew_status: meeting?.approved,
       platform_type: isMobile ? 'MO' : 'PC',
       user_id: Number(me?.orgId),
     });
-    await mutateAsync(comment);
+    await mutateAsync(req.content);
+    mutatePostCommentWithMention(req);
     commentQuery.refetch();
   };
 

@@ -3,7 +3,7 @@ import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
 import { ACTION_STATUS } from '@constants/option';
 import Link from 'next/link';
-import { categoryType, GroupBrowsingCardDetail, returnIsGroupActive, returnNewStatus } from '@api/meeting';
+import { categoryType, GroupBrowsingCardDetail, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
 
 const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
   id,

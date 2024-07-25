@@ -2,7 +2,7 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import { getPresignedUrl, uploadImage } from '@api/meeting';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import CameraIcon from '@assets/svg/camera.svg';
 import CancelIcon from '@assets/svg/x_big_gray.svg';
 import FormController from '@components/form/FormController';
@@ -15,6 +15,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ImagePreview from './ImagePreview';
 import SelectMeeting from './SelectMeeting';
 import { ERROR_MESSAGE } from './feedSchema';
+import CommonMention from '../Mention';
 
 export interface GroupInfo {
   id?: number;
@@ -58,6 +59,7 @@ function FeedFormPresentation({
   const textAreaRef = useRef(null);
   const [remainingHeight, setRemainingHeight] = useState(100);
   const [selectedMeeting, setSelectedMeeting] = useState<GroupInfo | undefined>(undefined);
+
   const handleWindowResize = () => {
     setTextareaHeightChangeFlag(flag => !flag);
   };
@@ -190,19 +192,24 @@ function FeedFormPresentation({
         <FormController
           name="contents"
           defaultValue=""
-          render={({ field: { value: contentsValue, onChange, onBlur } }) => (
+          render={({ field: { value: contentsValue, onChange } }) => (
             <SFeedContentTextArea
               css={{
                 '@tablet': {
                   height: `${remainingHeight}px`,
                 },
               }}
-              ref={textAreaRef}
-              placeholder="모임에서 있었던 일들을 친구들에게 공유해 주세요!"
-              value={contentsValue}
-              onChange={onChange}
-              onBlur={onBlur}
-            />
+            >
+              <CommonMention
+                inputRef={textAreaRef}
+                value={contentsValue}
+                setValue={onChange}
+                placeholder={'모임에서 있었던 일들을 친구들에게 공유해 주세요!'}
+                setIsFocused={() => {}}
+                setUserIds={() => {}}
+                isComment={false}
+              ></CommonMention>
+            </SFeedContentTextArea>
           )}
         />
         <SDivider className="calc_target" />
@@ -367,7 +374,7 @@ const STitleInput = styled('input', {
   },
 });
 
-const SFeedContentTextArea = styled('textarea', {
+const SFeedContentTextArea = styled('div', {
   width: '100%',
   height: '208px',
   border: 'none',

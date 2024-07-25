@@ -1,7 +1,7 @@
 import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
-import { GroupBrowsingCardDetail } from '@api/meeting';
+import { GroupBrowsingCardDetail } from '@api/API_LEGACY/meeting';
 import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
 import 'slick-carousel/slick/slick.css';
 import { useEffect, useRef, useState } from 'react';

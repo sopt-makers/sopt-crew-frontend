@@ -1,5 +1,5 @@
-import { useQueryMeetingListOfAll } from '@api/meeting/hooks';
-import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/user/hooks';
+import { useQueryMeetingListOfAll } from '@api/API_LEGACY/meeting/hooks';
+import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/API_LEGACY/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import { styled } from 'stitches.config';

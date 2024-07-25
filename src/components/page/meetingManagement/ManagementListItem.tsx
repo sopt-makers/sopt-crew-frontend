@@ -3,9 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
-import { ApplicationData } from '@api/meeting';
-import { useMutationUpdateApplication } from '@api/meeting/hooks';
-import { APPROVAL_STATUS, APPLICATION_TYPE, EApprovalStatus } from '@constants/option';
+import { useMutationUpdateApplication } from '@api/API_LEGACY/meeting/hooks';
+import { APPLICATION_TYPE, EApprovalStatus, APPROVAL_STATUS_ENGLISH_TO_KOREAN } from '@constants/option';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -13,6 +12,7 @@ import dayjs from 'dayjs';
 import { AxiosError } from 'axios';
 import alertErrorMessage from '@utils/alertErrorMessage';
 import { ampli } from '@/ampli';
+import { ApplicationData } from '@api/meeting';
 
 interface ManagementListItemProps {
   meetingId: number;
@@ -21,7 +21,7 @@ interface ManagementListItemProps {
 }
 
 const ManagementListItem = ({ meetingId, application, isHost }: ManagementListItemProps) => {
-  const { appliedDate, content = '', status = 0, user, type } = application;
+  const { appliedDate, content = '', status = 'WAITING', user, type } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
@@ -73,9 +73,9 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                   {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
                 </SProfileImage>
                 <SName onClick={() => handleProfileClick(user.orgId)}>{user.name}</SName>
-                <SUserStatus status={status}>{APPROVAL_STATUS[status]}</SUserStatus>
+                <SUserStatus status={status}>{APPROVAL_STATUS_ENGLISH_TO_KOREAN[status]}</SUserStatus>
               </SDesktopProfile>
-              <SGeneration>{user.activities[0].generation}기</SGeneration>
+              <SGeneration>{user.recentActivity.generation}기</SGeneration>
               <SPhone>{user.phone ? addHyphenToPhoneNumber(user.phone) : '-'}</SPhone>
               <SDetailButton onClick={handleDetailButtonClick}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDateAndTime>
@@ -86,7 +86,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
             <SButtonContainer>
               {
                 <>
-                  {status === EApprovalStatus.WAITING && (
+                  {status === 'WAITING' && (
                     <>
                       <SWhiteButton
                         disabled={isMutateLoading}
@@ -102,7 +102,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       </SGrayButton>
                     </>
                   )}
-                  {status === EApprovalStatus.APPROVE && (
+                  {status === 'APPROVE' && (
                     <SGrayButton
                       disabled={isMutateLoading}
                       onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
@@ -110,7 +110,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       승인 취소
                     </SGrayButton>
                   )}
-                  {status === EApprovalStatus.REJECT && (
+                  {status === 'REJECT' && (
                     <SGrayButton
                       disabled={isMutateLoading}
                       onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
@@ -127,10 +127,10 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               <SCardUserInformation>
                 <div>
                   <SCardName onClick={() => handleProfileClick(user.orgId)}>{user.name}</SCardName>
-                  <SCardUserStatus status={status}>{APPROVAL_STATUS[status]}</SCardUserStatus>
+                  <SCardUserStatus status={status}>{APPROVAL_STATUS_ENGLISH_TO_KOREAN[status]}</SCardUserStatus>
                 </div>
                 <SCardGenerationAndPhone>
-                  <div>{user.activities[0].generation}기</div>
+                  <div>{user.recentActivity.generation}기</div>
                   <div>{user.phone ? `, ${addHyphenToPhoneNumber(user.phone)}` : ''}</div>
                 </SCardGenerationAndPhone>
               </SCardUserInformation>
@@ -148,7 +148,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
             <SCardButtonContainer>
               {
                 <>
-                  {status === EApprovalStatus.WAITING && (
+                  {status === 'WAITING' && (
                     <>
                       <SRejectButton
                         disabled={isMutateLoading}
@@ -164,7 +164,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       </SApproveButton>
                     </>
                   )}
-                  {status === EApprovalStatus.APPROVE && (
+                  {status === 'APPROVE' && (
                     <SCancelButton
                       disabled={isMutateLoading}
                       onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
@@ -172,7 +172,7 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                       승인 취소
                     </SCancelButton>
                   )}
-                  {status === EApprovalStatus.REJECT && (
+                  {status === 'REJECT' && (
                     <SCancelButton
                       disabled={isMutateLoading}
                       onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
@@ -399,13 +399,13 @@ const SUserStatus = styled('span', {
 
   variants: {
     status: {
-      0: {
+      WAITING: {
         backgroundColor: '$gray500',
       },
-      1: {
+      APPROVE: {
         backgroundColor: '$success',
       },
-      2: {
+      REJECT: {
         backgroundColor: '$gray600',
       },
     },

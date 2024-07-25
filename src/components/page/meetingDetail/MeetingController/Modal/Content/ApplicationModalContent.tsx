@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import Textarea from '@components/form/Textarea';
 import { useState } from 'react';
 import { styled } from 'stitches.config';

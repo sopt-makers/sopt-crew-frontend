@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
-import { fetchMeetingListOfUserAttend } from '@api/user';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

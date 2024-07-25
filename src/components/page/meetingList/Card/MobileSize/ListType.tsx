@@ -1,6 +1,6 @@
 import { Flex } from '@components/util/layout/Flex';
 import { RECRUITMENT_STATUS } from '@constants/option';
-import { parsePartValueToLabel } from '@api/meeting';
+import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';

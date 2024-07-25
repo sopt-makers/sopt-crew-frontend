@@ -1,5 +1,5 @@
 import { crewToken, playgroundToken } from '@/stores/tokenStore';
-import { fetchMyProfile } from '@api/user';
+import { fetchMyProfile } from '@api/API_LEGACY/user';
 import Header from '@components/header/Header';
 import Loader from '@components/loader/Loader';
 import SEO from '@components/seo/SEO';

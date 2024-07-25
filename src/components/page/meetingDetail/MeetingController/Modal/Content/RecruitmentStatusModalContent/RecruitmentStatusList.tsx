@@ -1,6 +1,6 @@
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
-import { ApplyResponse } from '@api/user';
+import { ApplyResponse } from '@api/API_LEGACY/user';
 import { styled } from 'stitches.config';
 
 interface RecruitmentStatusProps {

@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/meeting/hooks';
+import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { createPost } from '@api/post';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
@@ -18,6 +18,8 @@ import { FormCreateType, feedCreateSchema } from './feedSchema';
 import { useToast } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import useThrottle from '@hooks/useThrottle';
+import { useMutationPostPostWithMention } from '@api/mention/hooks';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -42,6 +44,8 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     resolver: zodResolver(feedCreateSchema),
   });
 
+  const { mutate: mutatePostPostWithMention } = useMutationPostPostWithMention({});
+
   const { isValid } = formMethods.formState;
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   let basePath = '';
@@ -54,9 +58,14 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
 
   const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => createPost(formData),
-    onSuccess: () => {
+    onSuccess: res => {
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
+      mutatePostPostWithMention({
+        postId: res.postId,
+        userIds: parseMentionedUserIds(formMethods.getValues().contents),
+        content: formMethods.getValues().contents,
+      });
       submitModal.handleModalClose();
       handleModalClose();
       open({
@@ -169,7 +178,7 @@ const SDialogWrapper = styled('div', {
   maxWidth: '$768',
   boxShadow: '0px 4px 4px rgba(0,0,0,0.25)',
   maxHeight: '100vh',
-  overflow: 'auto scroll',
+  overflow: 'visible',
   '&::-webkit-scrollbar': {
     display: 'none',
   },

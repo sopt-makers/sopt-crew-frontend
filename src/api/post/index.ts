@@ -1,5 +1,5 @@
-import { MeetingResponse } from '@api/meeting';
-import { UserResponse } from '@api/user';
+import { MeetingResponse } from '@api/API_LEGACY/meeting';
+import { UserResponse } from '@api/API_LEGACY/user';
 import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
 
@@ -17,7 +17,7 @@ export interface PostResponse {
 }
 
 export const createPost = async (formData: FormCreateType) => {
-  const { data } = await api.post<Data<{ postId: number }>>('/post/v2', formData);
+  const { data } = await api.post<{ postId: number }>('/post/v2', formData);
   return data;
 };
 
@@ -31,7 +31,7 @@ export const editPost = async (postId: string, formData: FormEditType) => {
 
 export const getPosts = async (page: number, take: number, meetingId?: number) => {
   const { GET } = apiV2.get();
-  const { data } = await GET('/post/v1', { params: { query: { page, take, meetingId } } });
+  const { data } = await GET('/post/v2', { params: { query: { page, take, meetingId } } });
   return data;
 };
 

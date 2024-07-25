@@ -13,14 +13,14 @@ import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
 import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
-import { PostApplicationRequest, MeetingResponse } from '@api/meeting';
+import { PostApplicationRequest, MeetingResponse } from '@api/API_LEGACY/meeting';
 import { playgroundURL } from '@constants/url';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
-import { useQueryMyProfile } from '@api/user/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
 
 interface DetailHeaderProps {

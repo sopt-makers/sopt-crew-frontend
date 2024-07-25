@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { getMeeting, updateMeeting } from '@api/meeting';
+import { getMeeting, updateMeeting } from '@api/API_LEGACY/meeting';
 import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';

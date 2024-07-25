@@ -10,7 +10,7 @@ import {
   parsePartValueToLabel,
   returnIsGroupActive,
   returnNewStatus,
-} from '@api/meeting';
+} from '@api/API_LEGACY/meeting';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
@@ -25,7 +25,6 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   title,
   category,
   startDate,
-  endDate,
   mstartDate,
   mendDate,
   recentActivityDate,

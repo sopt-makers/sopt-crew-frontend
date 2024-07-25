@@ -3,7 +3,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
-import { UserResponse } from '@api/user';
+import { UserResponse } from '@api/API_LEGACY/user';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/avatar/Avatar';
 import { AVATAR_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
@@ -13,6 +13,8 @@ import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
 import { getResizedImage } from '@utils/image';
+import Link from 'next/link';
+import { colors } from '@sopt-makers/colors';
 
 interface PostProps {
   id: number;
@@ -32,11 +34,43 @@ interface FeedItemProps {
   HeaderSection?: React.ReactNode;
   LikeButton?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  meetingId?: number;
 }
 
 const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
   const { user, title, contents, images, createdDate, commenterThumbnails, commentCount } = post;
   const router = useRouter();
+  const processString = () => {
+    const regex = /-~!@#@(.*?)\[(\d+)\]%\^&\*\+/g;
+
+    let matches;
+    let lastIndex = 0;
+    const content = [];
+
+    // URL에서 호스트 부분 추출
+    const host = window.location.origin;
+
+    while ((matches = regex.exec(contents)) !== null) {
+      if (matches.index > lastIndex) {
+        content.push(contents?.substring(lastIndex, matches.index));
+      }
+
+      content.push(
+        <SFeedContent>
+          <Link href={host + '/members/' + matches[2]}>
+            <p style={{ color: colors.success, display: 'inline' }}>@{matches[1]}</p>
+          </Link>
+        </SFeedContent>
+      );
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < contents?.length) {
+      content.push(contents?.substring(lastIndex));
+    }
+
+    return content;
+  };
 
   return (
     <SFeedItem onClick={onClick}>
@@ -65,7 +99,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
       </STop>
 
       <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
-      <SContent>{contents}</SContent>
+      <SContent>{processString()}</SContent>
       {images && images[THUMBNAIL_IMAGE_INDEX] && (
         <SThumbnailWrapper>
           <SThumbnail src={getResizedImage(images[THUMBNAIL_IMAGE_INDEX], 340)} alt="" />
@@ -123,6 +157,14 @@ const SFeedItem = styled('div', {
     borderRadius: 0,
     margin: '0 auto',
   },
+});
+
+const SFeedContent = styled('div', {
+  '& a::before': {
+    content: 'none',
+    display: 'inline-block',
+  },
+  display: 'inline-block',
 });
 
 const STop = styled('div', {
