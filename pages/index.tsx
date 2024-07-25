@@ -258,4 +258,8 @@ const SCarouselGradationRight = styled('div', {
   '@media (max-width: 850px)': {
     display: 'none',
   },
+
+  '@media (min-width: 1259px)': {
+    display: 'none',
+  }
 });
