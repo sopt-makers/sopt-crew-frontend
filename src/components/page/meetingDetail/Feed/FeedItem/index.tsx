@@ -102,7 +102,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
       <SContent>{processString()}</SContent>
       {images && images[THUMBNAIL_IMAGE_INDEX] && (
         <SThumbnailWrapper>
-          <SThumbnail src={getResizedImage(images[THUMBNAIL_IMAGE_INDEX], 340)} alt="" />
+          <SThumbnail src={images[THUMBNAIL_IMAGE_INDEX]} alt="" />
           {images.length > 1 && <SThumbnailCount>+{images.length - 1}</SThumbnailCount>}
         </SThumbnailWrapper>
       )}
