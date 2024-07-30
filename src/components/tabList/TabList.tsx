@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import { styled } from 'stitches.config';
 import { TabListContext, useTabListContext } from './TabListContext';
 
@@ -13,11 +13,17 @@ interface TabProps {
 }
 
 export function TabList({ text, size, onChange, children }: PropsWithChildren<TabListProps>) {
+  const tabListContextValue = useMemo(
+    () => ({
+      text,
+      size,
+      onChange: onChange ? onChange : () => {},
+    }),
+    [text, size, onChange]
+  );
   return (
     <STabList>
-      <TabListContext.Provider value={{ text, size, onChange: onChange ? onChange : () => {} }}>
-        {children}
-      </TabListContext.Provider>
+      <TabListContext.Provider value={tabListContextValue}>{children}</TabListContext.Provider>
     </STabList>
   );
 }
