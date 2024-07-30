@@ -2,9 +2,10 @@ import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useContext, useState } from 'react';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
+import { MentionContext } from './MentionContext';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 interface mentionableDataType {
   id: number;
@@ -35,6 +36,34 @@ const CommonMention = ({
   setUserIds,
   isComment,
 }: CommonMentionProps) => {
+  const { data: mentionUserList } = useQueryGetMentionUsers();
+
+  const { user, isReCommentClicked, setIsReCommentClicked } = useContext(MentionContext);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    if (isReCommentClicked) {
+      setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+    }
+  }, [isReCommentClicked, inputRef, setValue, user]);
+
+  useEffect(() => {
+    if (!value.startsWith('-~!@#')) {
+      setIsReCommentClicked(false);
+    }
+  }, [value, setIsReCommentClicked]);
+
+  const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
+    return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
+  };
+
+  const getRandomUsers = (users: mentionableDataType[]) => {
+    const shuffled = users?.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 30);
+  };
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -43,17 +72,6 @@ const CommonMention = ({
       setIsMobile(true);
     }
   }, []);
-
-  const { data: mentionUserList } = useQueryGetMentionUsers();
-
-  const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
-    return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
-  };
-
-  const getRandomUsers = (users: mentionableDataType[]) => {
-    const shuffled = users?.sort(() => 0.5 - Math.random());
-    return shuffled?.slice(0, 30);
-  };
 
   const getFilteredAndRandomUsers = (searchTerm: string, users: mentionableDataType[]) => {
     const filteredUsers = filterUsersBySearchTerm(searchTerm, users);
@@ -88,6 +106,12 @@ const CommonMention = ({
       </>
     );
   }, []);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
 
   return (
     <MentionsInput
