@@ -29,6 +29,7 @@ import { TAKE_COUNT } from '@constants/feed';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import { MentionProvider } from '@components/feed/Mention/MentionContext';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -157,108 +158,137 @@ export default function PostPage() {
   const isMine = post.user.id === me?.id;
 
   return (
-    <Container>
-      <FeedPostViewer
-        post={post}
-        // TODO: Actions 합성하는 부분 추상화 한번 더 하자. 너무 verbose 하다.
-        Actions={
-          isMine
-            ? [
-                <FeedActionButton
-                  onClick={() =>
-                    overlay.open(({ isOpen, close }) => (
-                      <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
-                    ))
-                  }
-                >
-                  수정
-                </FeedActionButton>,
-                <FeedActionButton
-                  onClick={() => {
-                    overlay.open(({ isOpen, close }) => (
-                      // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 삭제하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="삭제하기"
-                        handleModalClose={close}
-                        handleConfirm={mutateDeletePost}
+    <MentionProvider>
+      <Container>
+        <FeedPostViewer
+          post={post}
+          // TODO: Actions 합성하는 부분 추상화 한번 더 하자. 너무 verbose 하다.
+          Actions={
+            isMine
+              ? [
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
+                      ))
+                    }
+                  >
+                    수정
+                  </FeedActionButton>,
+                  <FeedActionButton
+                    onClick={() => {
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="게시글을 삭제하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="삭제하기"
+                          handleModalClose={close}
+                          handleConfirm={mutateDeletePost}
+                        />
+                      ));
+                    }}
+                  >
+                    삭제
+                  </FeedActionButton>,
+                ]
+              : [
+                  <FeedActionButton
+                    onClick={() => {
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="게시글을 신고하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="신고하기"
+                          handleModalClose={close}
+                          handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                        />
+                      ));
+                    }}
+                  >
+                    신고
+                  </FeedActionButton>,
+                ]
+          }
+          CommentLikeSection={
+            <FeedCommentLikeSection
+              isLiked={post.isLiked}
+              commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
+              likeCount={post.likeCount}
+              onClickComment={handleClickComment}
+              onClickLike={handleClickPostLike}
+            />
+          }
+          CommentList={
+            <>
+              {comments?.map(comment => (
+                <FeedCommentContainer
+                  key={comment.id}
+                  comment={comment}
+                  isMine={comment.user.id === me?.id}
+                  isPosterComment={post.user.id === comment.user.id}
+                  onClickLike={handleClickCommentLike(comment.id)}
+                />
+              ))}
+              {commentQuery.hasNextPage && <div ref={setTarget} />}
+            </>
+          }
+          CommentInput={
+            <FeedCommentInput
+              ref={commentRef}
+              writerName={post.user.name}
+              onSubmit={handleCreateComment}
+              disabled={isCreatingComment}
+            />
+          }
+          onClickImage={() => {
+            ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
+          }}
+          // NOTE: link 클릭하면 이동해버리기 때문에 이벤트 로깅이 잘 되지 않는다. 이를 방지하기 위해 로깅 이후에 이동하도록 하자.
+          onClickAuthor={async (e: React.MouseEvent<HTMLAnchorElement>) => {
+            const href = e.currentTarget.href;
+            e.preventDefault();
+            await ampli.clickFeeddetatilProfile({ crew_status: meeting?.approved }).promise;
+            window.location.assign(href);
+          }}
+        />
+        <FeedListContainer>
+          {postsInMeeting && postsInMeeting.length > 0 && (
+            <FeedListWrapper>
+              <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
+              <FeedList>
+                {postsInMeeting?.map(post => {
+                  if (!post) return;
+                  return (
+                    <Link key={post.id} href={`/post?id=${post.id}`}>
+                      <FeedItem
+                        /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                        /* @ts-ignore */
+                        post={post}
+                        meetingId={meetingId}
+                        // eslint-disable-next-line prettier/prettier
+                        LikeButton={
+                          <LikeButton
+                            isLiked={post.isLiked}
+                            likeCount={post.likeCount}
+                            onClickLike={handleClickLike(post.id)(mutateLike)}
+                          />
+                        }
                       />
-                    ));
-                  }}
-                >
-                  삭제
-                </FeedActionButton>,
-              ]
-            : [
-                <FeedActionButton
-                  onClick={() => {
-                    overlay.open(({ isOpen, close }) => (
-                      // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 신고하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="신고하기"
-                        handleModalClose={close}
-                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                      />
-                    ));
-                  }}
-                >
-                  신고
-                </FeedActionButton>,
-              ]
-        }
-        CommentLikeSection={
-          <FeedCommentLikeSection
-            isLiked={post.isLiked}
-            commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
-            likeCount={post.likeCount}
-            onClickComment={handleClickComment}
-            onClickLike={handleClickPostLike}
-          />
-        }
-        CommentList={
-          <>
-            {comments?.map(comment => (
-              <FeedCommentContainer
-                key={comment.id}
-                comment={comment}
-                isMine={comment.user.id === me?.id}
-                isPosterComment={post.user.id === comment.user.id}
-                onClickLike={handleClickCommentLike(comment.id)}
-              />
-            ))}
-            {commentQuery.hasNextPage && <div ref={setTarget} />}
-          </>
-        }
-        CommentInput={
-          <FeedCommentInput
-            ref={commentRef}
-            writerName={post.user.name}
-            onSubmit={handleCreateComment}
-            disabled={isCreatingComment}
-          />
-        }
-        onClickImage={() => {
-          ampli.clickFeeddetailLike({ crew_status: meeting?.approved });
-        }}
-        // NOTE: link 클릭하면 이동해버리기 때문에 이벤트 로깅이 잘 되지 않는다. 이를 방지하기 위해 로깅 이후에 이동하도록 하자.
-        onClickAuthor={async (e: React.MouseEvent<HTMLAnchorElement>) => {
-          const href = e.currentTarget.href;
-          e.preventDefault();
-          await ampli.clickFeeddetatilProfile({ crew_status: meeting?.approved }).promise;
-          window.location.assign(href);
-        }}
-      />
-      <FeedListContainer>
-        {postsInMeeting && postsInMeeting.length > 0 && (
+                    </Link>
+                  );
+                })}
+              </FeedList>
+            </FeedListWrapper>
+          )}
           <FeedListWrapper>
-            <FeedListTitle>이 모임의 다른 피드</FeedListTitle>
+            <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
             <FeedList>
-              {postsInMeeting?.map(post => {
+              {allMeetingPosts?.map(post => {
                 if (!post) return;
                 return (
                   <Link key={post.id} href={`/post?id=${post.id}`}>
@@ -268,12 +298,13 @@ export default function PostPage() {
                       /* @ts-ignore */
                       post={post}
                       meetingId={meetingId}
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
                       // eslint-disable-next-line prettier/prettier
                       LikeButton={
                         <LikeButton
                           isLiked={post.isLiked}
                           likeCount={post.likeCount}
-                          onClickLike={handleClickLike(post.id)(mutateLike)}
+                          onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
                         />
                       }
                     />
@@ -282,37 +313,9 @@ export default function PostPage() {
               })}
             </FeedList>
           </FeedListWrapper>
-        )}
-        <FeedListWrapper>
-          <FeedListTitle>SOPT 모임들의 최신 피드</FeedListTitle>
-          <FeedList>
-            {allMeetingPosts?.map(post => {
-              if (!post) return;
-              return (
-                <Link key={post.id} href={`/post?id=${post.id}`}>
-                  <FeedItem
-                    /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
-                    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                    /* @ts-ignore */
-                    post={post}
-                    meetingId={meetingId}
-                    HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                    // eslint-disable-next-line prettier/prettier
-                    LikeButton={
-                      <LikeButton
-                        isLiked={post.isLiked}
-                        likeCount={post.likeCount}
-                        onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
-                      />
-                    }
-                  />
-                </Link>
-              );
-            })}
-          </FeedList>
-        </FeedListWrapper>
-      </FeedListContainer>
-    </Container>
+        </FeedListContainer>
+      </Container>
+    </MentionProvider>
   );
 }
 
