@@ -9,7 +9,9 @@ export default function useComment() {
   const commentQuery = useInfiniteQuery({
     queryKey: ['/comment/v1', query.id],
     queryFn: ({ pageParam = 1 }) =>
-      GET('/comment/v1', { params: { query: { postId: Number(query.id as string), page: pageParam } } }),
+      GET('/comment/v2', {
+        params: { query: { postId: Number(query.id as string), page: pageParam } },
+      }),
     getNextPageParam: lastPage => {
       if (!lastPage.data?.data?.meta.hasNextPage) return;
       return (lastPage.data.data.meta.page as number) + 1;
