@@ -31,10 +31,11 @@ export default function FeedCommentViewer({
   Actions,
   onClickLike,
 }: FeedCommentViewerProps) {
-  const { setUser, setIsReCommentClicked } = useContext(MentionContext);
+  const { setUser, setIsReCommentClicked, setParentComment, parentComment } = useContext(MentionContext);
 
   const onClickReComment = () => {
     setIsReCommentClicked(true);
+    setParentComment({ parentComment: true, parentCommentId: comment.id });
     setUser({ userName: comment.user.name, userId: comment.user.id });
   };
 

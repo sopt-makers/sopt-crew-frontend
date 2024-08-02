@@ -38,7 +38,7 @@ const CommonMention = ({
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
-  const { user, isReCommentClicked, setIsReCommentClicked } = useContext(MentionContext);
+  const { user, isReCommentClicked, setIsReCommentClicked, setParentComment } = useContext(MentionContext);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -52,8 +52,9 @@ const CommonMention = ({
   useEffect(() => {
     if (!value.startsWith('-~!@#')) {
       setIsReCommentClicked(false);
+      setParentComment(prev => ({ ...prev, parentComment: false }));
     }
-  }, [value, setIsReCommentClicked]);
+  }, [value, setIsReCommentClicked, setParentComment]);
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
