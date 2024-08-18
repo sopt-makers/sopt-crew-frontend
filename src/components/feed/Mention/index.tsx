@@ -52,7 +52,7 @@ const CommonMention = ({
   useEffect(() => {
     if (!value.startsWith('-~!@#')) {
       setIsReCommentClicked(false);
-      setParentComment(prev => ({ ...prev, parentComment: false }));
+      setParentComment(prev => ({ ...prev, parentComment: true }));
     }
   }, [value, setIsReCommentClicked, setParentComment]);
 

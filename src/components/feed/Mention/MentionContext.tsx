@@ -11,7 +11,7 @@ interface User {
 
 interface ParentComment {
   parentComment: boolean;
-  parentCommentId: number;
+  parentCommentId?: number;
 }
 
 interface MentionContextProps {
@@ -28,14 +28,14 @@ const MentionContext = createContext<MentionContextProps>({
   setIsReCommentClicked: () => {},
   user: { userName: '', userId: 0 },
   setUser: () => {},
-  parentComment: { parentComment: false, parentCommentId: 0 },
+  parentComment: { parentComment: true },
   setParentComment: () => {},
 });
 
 const MentionProvider: React.FC<MentionProviderProps> = ({ children }) => {
   const [isReCommentClicked, setIsReCommentClicked] = useState(false);
   const [user, setUser] = useState({ userName: '', userId: 0 });
-  const [parentComment, setParentComment] = useState({ parentComment: false, parentCommentId: 0 });
+  const [parentComment, setParentComment] = useState({ parentComment: true });
 
   return (
     <MentionContext.Provider
