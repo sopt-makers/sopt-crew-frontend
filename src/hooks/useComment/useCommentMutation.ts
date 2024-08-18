@@ -1,4 +1,4 @@
-import { paths } from '@/__generated__/schema';
+import { paths } from '@/__generated__/schema2';
 import { apiV2 } from '@api/index';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
@@ -12,17 +12,19 @@ export default function useCommentMutation() {
 
   return useMutation({
     mutationKey: ['/comment/v1/{commentId}/like'],
-    mutationFn: (commentId: number) => POST('/comment/v1/{commentId}/like', { params: { path: { commentId } } }),
+    mutationFn: (commentId: number) => POST('/comment/v2/{commentId}/like', { params: { path: { commentId } } }),
     onMutate: async commentId => {
       await queryClient.cancelQueries({ queryKey: ['/comment/v1', query.id] });
 
       const previousComments = queryClient.getQueryData(['/comment/v1', query.id]);
 
-      type Comments = paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data'];
-      queryClient.setQueryData<InfiniteData<{ data: { data: Comments } }>>(['/comment/v1', query.id], oldData => {
+      type Comments =
+        paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'];
+      queryClient.setQueryData<InfiniteData<{ comments: Comments }>>(['/comment/v1', query.id], oldData => {
         const newData = produce(oldData, draft => {
+          //todo: pages 제거 작업 필요
           draft?.pages?.forEach(page => {
-            page.data.data.comments.forEach(comment => {
+            page.comments.forEach(comment => {
               if (comment.id === commentId) {
                 comment.isLiked = !comment.isLiked;
                 comment.likeCount = comment.isLiked ? comment.likeCount + 1 : comment.likeCount - 1;

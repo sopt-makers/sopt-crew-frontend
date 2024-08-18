@@ -47,5 +47,5 @@ export const postLike = async (queryId: string) => {
 };
 
 export const deleteComment = async (commentId: number) => {
-  return (await api.delete(`/comment/v1/${commentId}`)).data;
+  return (await api.delete(`/comment/v2/${commentId}`)).data;
 };

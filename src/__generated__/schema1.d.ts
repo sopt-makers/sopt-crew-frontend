@@ -123,13 +123,22 @@ export interface paths {
     get: operations["HealthController_healthCheck"];
   };
   "/notice/v1": {
-    /** 공지사항 조회 */
+    /**
+     * 공지사항 조회
+     * @deprecated
+     */
     get: operations["NoticeV1Controller_getNotices"];
-    /** 공지사항 작성 */
+    /**
+     * 공지사항 작성
+     * @deprecated
+     */
     post: operations["NoticeV1Controller_createNotice"];
   };
   "/post/v1/count": {
-    /** 모임 게시글 개수 조회 */
+    /**
+     * 모임 게시글 개수 조회
+     * @deprecated
+     */
     get: operations["PostV1Controller_getPostCount"];
   };
   "/post/v1": {
@@ -145,11 +154,17 @@ export interface paths {
     post: operations["PostV1Controller_createPost"];
   };
   "/post/v1/{postId}": {
-    /** 모임 게시글 조회 */
+    /**
+     * 모임 게시글 조회
+     * @deprecated
+     */
     get: operations["PostV1Controller_getMeetingPost"];
     /** 모임 게시글 수정 */
     put: operations["PostV1Controller_updatePost"];
-    /** 모임 게시글 삭제 */
+    /**
+     * 모임 게시글 삭제
+     * @deprecated
+     */
     delete: operations["PostV1Controller_deletePost"];
   };
   "/post/v1/{postId}/like": {
@@ -161,7 +176,10 @@ export interface paths {
     post: operations["PostV1Controller_createPostReport"];
   };
   "/comment/v1": {
-    /** 모임 게시글 댓글 리스트 조회 */
+    /**
+     * 모임 게시글 댓글 리스트 조회
+     * @deprecated
+     */
     get: operations["CommentV1Controller_getComments"];
     /**
      * 모임 게시글 댓글 작성
@@ -170,17 +188,29 @@ export interface paths {
     post: operations["CommentV1Controller_createPostComment"];
   };
   "/comment/v1/{commentId}/like": {
-    /** 댓글 좋아요 토글 */
+    /**
+     * 댓글 좋아요 토글
+     * @deprecated
+     */
     post: operations["CommentV1Controller_switchCommentLike"];
   };
   "/comment/v1/{commentId}/report": {
-    /** 댓글 신고 */
+    /**
+     * 댓글 신고
+     * @deprecated
+     */
     post: operations["CommentV1Controller_reportComment"];
   };
   "/comment/v1/{commentId}": {
-    /** 모임 게시글 댓글 수정 */
+    /**
+     * 모임 게시글 댓글 수정
+     * @deprecated
+     */
     put: operations["CommentV1Controller_updatePostComment"];
-    /** 모임 게시글 댓글 삭제 */
+    /**
+     * 모임 게시글 댓글 삭제
+     * @deprecated
+     */
     delete: operations["CommentV1Controller_deletePostComment"];
   };
 }
@@ -1965,7 +1995,10 @@ export interface operations {
       };
     };
   };
-  /** 공지사항 조회 */
+  /**
+   * 공지사항 조회
+   * @deprecated
+   */
   NoticeV1Controller_getNotices: {
     parameters: {
       query: {
@@ -1987,7 +2020,10 @@ export interface operations {
       };
     };
   };
-  /** 공지사항 작성 */
+  /**
+   * 공지사항 작성
+   * @deprecated
+   */
   NoticeV1Controller_createNotice: {
     requestBody: {
       content: {
@@ -2002,7 +2038,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 개수 조회 */
+  /**
+   * 모임 게시글 개수 조회
+   * @deprecated
+   */
   PostV1Controller_getPostCount: {
     parameters: {
       query: {
@@ -2094,7 +2133,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 조회 */
+  /**
+   * 모임 게시글 조회
+   * @deprecated
+   */
   PostV1Controller_getMeetingPost: {
     parameters: {
       path: {
@@ -2151,7 +2193,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 삭제 */
+  /**
+   * 모임 게시글 삭제
+   * @deprecated
+   */
   PostV1Controller_deletePost: {
     parameters: {
       path: {
@@ -2226,7 +2271,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 댓글 리스트 조회 */
+  /**
+   * 모임 게시글 댓글 리스트 조회
+   * @deprecated
+   */
   CommentV1Controller_getComments: {
     parameters: {
       query: {
@@ -2289,7 +2337,10 @@ export interface operations {
       };
     };
   };
-  /** 댓글 좋아요 토글 */
+  /**
+   * 댓글 좋아요 토글
+   * @deprecated
+   */
   CommentV1Controller_switchCommentLike: {
     parameters: {
       path: {
@@ -2316,7 +2367,10 @@ export interface operations {
       };
     };
   };
-  /** 댓글 신고 */
+  /**
+   * 댓글 신고
+   * @deprecated
+   */
   CommentV1Controller_reportComment: {
     parameters: {
       path: {
@@ -2348,7 +2402,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 댓글 수정 */
+  /**
+   * 모임 게시글 댓글 수정
+   * @deprecated
+   */
   CommentV1Controller_updatePostComment: {
     parameters: {
       path: {
@@ -2381,7 +2438,10 @@ export interface operations {
       };
     };
   };
-  /** 모임 게시글 댓글 삭제 */
+  /**
+   * 모임 게시글 댓글 삭제
+   * @deprecated
+   */
   CommentV1Controller_deletePostComment: {
     parameters: {
       path: {

@@ -12,7 +12,7 @@ import useComment from '@hooks/useComment/useComment';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import useCommentMutation from '@hooks/useComment/useCommentMutation';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
-import { paths } from '@/__generated__/schema';
+import { paths } from '@/__generated__/schema2';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
@@ -20,7 +20,7 @@ import { styled } from 'stitches.config';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useDisplay } from '@hooks/useDisplay';
 import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
 import Link from 'next/link';
@@ -29,6 +29,7 @@ import { TAKE_COUNT } from '@constants/feed';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import { MentionContext } from '@components/feed/Mention/MentionContext';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -45,22 +46,31 @@ export default function PostPage() {
 
   const commentQuery = useComment();
 
+  const { parentComment } = useContext(MentionContext);
+
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
     mutationKey: ['/comment/v1'],
     mutationFn: (comment: string) =>
-      POST('/comment/v2', { body: { postId: post!.id, contents: comment, isParent: true, parentCommentId: null } }),
+      POST('/comment/v2', {
+        body: {
+          postId: post!.id,
+          contents: comment,
+          isParent: parentComment.parentComment,
+          parentCommentId: parentComment.parentComment ? null : parentComment.parentCommentId,
+        },
+      }),
   });
 
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 
   const { mutate: toggleCommentLike } = useCommentMutation();
-  const handleClickCommentLike = (commentId: number) => () => {
+  const handleClickCommentLike = (commentId: number) => {
     ampli.clickCommentLike({ crew_status: meeting?.approved });
     toggleCommentLike(commentId);
   };
 
   const { setTarget } = useIntersectionObserver({
-    onIntersect: ([{ isIntersecting }]) => isIntersecting && commentQuery.hasNextPage && commentQuery.fetchNextPage(),
+    onIntersect: ([{ isIntersecting }]) => isIntersecting,
   });
 
   const handleCreateComment = async (req: PostCommentWithMentionRequest) => {
@@ -107,14 +117,12 @@ export default function PostPage() {
   const post = postQuery.data;
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
-  const comments = commentQuery.data?.pages
-    .flatMap(page => page.data?.data?.comments)
-    .filter(
-      (
-        comment
-      ): comment is paths['/comment/v1']['get']['responses']['200']['content']['application/json']['data']['comments'][number] =>
-        !!comment
-    );
+  const comments = commentQuery.data?.data?.comments?.filter(
+    (
+      comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]
+    ): comment is paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number] =>
+      !!comment
+  );
 
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
@@ -214,7 +222,7 @@ export default function PostPage() {
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
-            commentCount={commentQuery.data?.pages[0].data?.data?.meta.itemCount || 0}
+            commentCount={commentQuery.data?.data?.comments.length || 0}
             likeCount={post.likeCount}
             onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
@@ -222,16 +230,20 @@ export default function PostPage() {
         }
         CommentList={
           <>
-            {comments?.map(comment => (
-              <FeedCommentContainer
-                key={comment.id}
-                comment={comment}
-                isMine={comment.user.id === me?.id}
-                isPosterComment={post.user.id === comment.user.id}
-                onClickLike={handleClickCommentLike(comment.id)}
-              />
-            ))}
-            {commentQuery.hasNextPage && <div ref={setTarget} />}
+            {comments?.map(
+              (
+                comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]
+              ) => (
+                <FeedCommentContainer
+                  key={comment.id}
+                  comment={comment}
+                  isMine={comment.user.id === me?.id}
+                  postUserId={post.user.id}
+                  onClickLike={handleClickCommentLike}
+                />
+              )
+            )}
+            <div ref={setTarget} />
           </>
         }
         CommentInput={

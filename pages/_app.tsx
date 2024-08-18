@@ -18,6 +18,7 @@ import { ampli } from '../src/ampli';
 import '../styles/globals.css';
 import '@sopt-makers/ui/dist/index.css';
 import { ToastProvider } from '@sopt-makers/ui';
+import { MentionProvider } from '@components/feed/Mention/MentionContext';
 
 // 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
 if (typeof window !== 'undefined') {
@@ -93,36 +94,38 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SEO />
-      <Script
-        id="gtag-base"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+    <MentionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SEO />
+        <Script
+          id="gtag-base"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer', '${GTM_ID}');
           `,
-        }}
-      />
-      <Layout>
-        <ToastProvider>
-          <OverlayProvider>
-            {isServiceReady ? (
-              <>
-                <Header />
-                <Component {...pageProps} />
-              </>
-            ) : (
-              <Loader />
-            )}
-          </OverlayProvider>
-        </ToastProvider>
-      </Layout>
-    </QueryClientProvider>
+          }}
+        />
+        <Layout>
+          <ToastProvider>
+            <OverlayProvider>
+              {isServiceReady ? (
+                <>
+                  <Header />
+                  <Component {...pageProps} />
+                </>
+              ) : (
+                <Loader />
+              )}
+            </OverlayProvider>
+          </ToastProvider>
+        </Layout>
+      </QueryClientProvider>
+    </MentionProvider>
   );
 }
 
