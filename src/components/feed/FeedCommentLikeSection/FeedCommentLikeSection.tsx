@@ -95,6 +95,8 @@ const StyledLikeIcon = styled(LikeIcon, {
 });
 const StyledLikeHoverIcon = styled(LikeHoverIcon, {
   display: 'none',
+  height: '24px',
+  width: '24px',
 });
 const Like = styled('span', {
   marginLeft: '4px',
