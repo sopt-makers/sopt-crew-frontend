@@ -12,7 +12,6 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
-import { getResizedImage } from '@utils/image';
 import Link from 'next/link';
 import { colors } from '@sopt-makers/colors';
 
@@ -85,11 +84,7 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
             }}
           >
             <SProfileImageWrapper>
-              {user.profileImage ? (
-                <SProfileImage src={getResizedImage(user.profileImage, 32)} alt="" />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
+              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
             </SProfileImageWrapper>
             <SName>{user.name}</SName>
           </SProfileButton>
