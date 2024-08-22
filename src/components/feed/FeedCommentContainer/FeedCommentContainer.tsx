@@ -3,7 +3,7 @@ import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
 import FeedActionButton from '../FeedActionButton/FeedActionButton';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDeleteComment } from '@api/post/hooks';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -37,7 +37,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
   const [showMoreReComments, setShowMoreReComments] = useState(false);
-  const replyLength = comment?.replies?.length;
+  const initialReplyLength = useRef<number>(comment?.replies?.length);
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
@@ -102,15 +102,15 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
           onClickLike={onClickLike}
         />
       )}
-      {comment?.replies?.length >= 2 && !showMoreReComments ? (
+      {initialReplyLength.current >= 2 && !showMoreReComments ? (
         <LoadMoreReCommentsButton onClick={() => setShowMoreReComments(!showMoreReComments)}>
           <ReplyPointIcon style={{ marginRight: '12px' }} />
           <Avatar
-            src={comment.replies[replyLength - 1].user.profileImage || ''}
+            src={comment.replies[comment?.replies?.length - 1].user.profileImage || ''}
             alt={comment.user.name}
             sx={{ width: 28, height: 28 }}
           />
-          <SReplyButton>{comment.replies[replyLength - 1].user.name}님이 답글을 달았습니다</SReplyButton>
+          <SReplyButton>{comment.replies[comment?.replies?.length - 1].user.name}님이 답글을 달았습니다</SReplyButton>
           <MessageIconWrapper>
             <SMessageIcon />
             <SMessageHoverIcon />
