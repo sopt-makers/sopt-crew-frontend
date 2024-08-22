@@ -894,11 +894,11 @@ function Suggestion(_ref) {
       return suggestion;
     }
 
-    var id = suggestion.id,
+    var orgId = suggestion.orgId,
         display = suggestion.display;
 
-    if (id === undefined || !display) {
-      return id;
+    if (orgId === undefined || !display) {
+      return orgId;
     }
 
     return display;
@@ -1436,22 +1436,16 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
 
       if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
         // Safari 브라우저인 경우
-        console.log('safari');
-
         if (ev.nativeEvent.composed && selectionStart === selectionEnd) {
           _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
         }
       } else if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes('Safari')) {
         // WKWebView 또는 다른 iOS WebView인 경우
-        console.log('webview');
-
         if (ev.nativeEvent.composed && selectionStart === selectionEnd) {
           _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
         }
       } else {
         // 다른 브라우저의 경우
-        console.log('other browser');
-
         if (ev.nativeEvent.isComposing && selectionStart === selectionEnd) {
           _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
         }
