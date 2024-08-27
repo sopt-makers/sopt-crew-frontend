@@ -1,4 +1,4 @@
-import { Data, api, apiV2 } from '..';
+import { api } from '..';
 
 interface ActivityResponse {
   part: string;

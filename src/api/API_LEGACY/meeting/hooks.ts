@@ -168,7 +168,7 @@ export const useMutationUpdateApplication = ({
 export const useMutationDownloadMeetingMemberCSV = () =>
   useMutation(downloadMeetingMemberCSV, {
     onSuccess: ({ data }) => {
-      const url = data.data.url;
+      const url = data.url;
       const a = document.createElement('a');
       a.href = url;
       a.download = 'groupMember.csv';
