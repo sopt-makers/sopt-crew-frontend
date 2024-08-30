@@ -156,7 +156,7 @@ export const fetchMeetingListOfAll = async ({
   part,
 }: filterData) => {
   return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
-    `/meeting?${page ? `&page=${page}` : ''}${
+    `/meeting?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${
       status?.length
         ? `&status=${status
             .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
