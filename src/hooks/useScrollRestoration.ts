@@ -36,7 +36,10 @@ export default function useScrollRestoration() {
 }
 
 export const restoreScrollPosition = (router: NextRouter) => {
-  const scrollPos = JSON.parse(sessionStorage.getItem(router.asPath) || '{"x": 0, "y": 0}');
+  //const scrollPos = JSON.parse(sessionStorage.getItem(router.asPath) || '{"x": 0, "y": 0}');
+  const scrollPos = JSON.parse('{"x": 0, "y": 0}'); // router.asPath 가 기록된 경우, 페이지 재진입 시 scroll 이 아래쪽으로 기억되어 있는 문제가 발생
+
+  console.log(scrollPos);
   window.scroll(scrollPos.x, scrollPos.y);
 };
 
