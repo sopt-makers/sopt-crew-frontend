@@ -1853,26 +1853,25 @@ export interface components {
     /** @description 광고 구좌 조회 응답 Dto */
     AdvertisementGetResponseDto: {
       /** @description 광고 구좌 이미지 객체 */
-      advertisementImages: components["schemas"]["AdvertisementImageDto"][];
+      advertisements: components["schemas"]["AdvertisementImageDto"][];
+    };
+    /** @description 광고 구좌 이미지 Dto */
+    AdvertisementImageDto: {
+      /**
+       * @description [Desktop] 광고 구좌 이미지 url
+       * @example [pc 버전 url 형식]
+       */
+      desktopImageUrl: string;
+      /**
+       * @description [mobile] 광고 구좌 이미지 url
+       * @example [mobile 버전 url 형식]
+       */
+      mobileImageUrl: string;
       /**
        * @description 광고 구좌 링크
        * @example https://www.naver.com
        */
       advertisementLink: string;
-    };
-    /** @description 광고 구좌 이미지 Dto */
-    AdvertisementImageDto: {
-      /**
-       * @description 광고 구좌 이미지 url
-       * @example [url 형식]
-       */
-      imageUrl: string;
-      /**
-       * Format: int32
-       * @description 광고 이미지 순서, 서버에서 정렬해서 전달한다. </br> 프론트에서 확인용으로 사용하기 위함
-       * @example 2
-       */
-      imageOrder: number;
     };
   };
   responses: never;
