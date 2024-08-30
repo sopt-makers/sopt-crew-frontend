@@ -70,9 +70,7 @@ const RenderPostsWithAds = () => {
               </Link>
             );
           })}
-          {postAds && (
-            <AdCarousel slides={postAds.advertisementImages} link={postAds.advertisementLink} options={OPTIONS} />
-          )}
+          {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
           {postsData?.pages.slice(3).map(post => {
             if (!post) return;
             return (
@@ -142,9 +140,7 @@ const RenderPostsWithAds = () => {
               </Link>
             );
           })}
-          {postAds && (
-            <AdCarousel slides={postAds.advertisementImages} link={postAds.advertisementLink} options={OPTIONS} />
-          )}
+          {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
 
           {postsData?.pages.slice(3).map(post => {
             if (!post) return;

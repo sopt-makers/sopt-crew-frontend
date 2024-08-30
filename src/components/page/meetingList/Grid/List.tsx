@@ -31,16 +31,16 @@ export function MeetingListOfAll() {
               <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
             ))}
 
-            {meetingAds && (
-              <Link href={meetingAds?.advertisementLink} target="_blank">
+            {meetingAds && meetingListData?.meta.page === 1 && (
+              <Link href={meetingAds?.advertisements[0]?.advertisementLink} target="_blank">
                 {isDesktop ? (
                   <img
-                    src={meetingAds?.advertisementImages[0].imageUrl}
+                    src={meetingAds?.advertisements[0].desktopImageUrl}
                     style={{ width: '380px', height: '478px', borderRadius: '12px' }}
                   ></img>
                 ) : (
                   <img
-                    src={meetingAds?.advertisementImages[1].imageUrl}
+                    src={meetingAds?.advertisements[0].mobileImageUrl}
                     style={{ width: '328px', height: '82px', borderRadius: '8px' }}
                   ></img>
                 )}
