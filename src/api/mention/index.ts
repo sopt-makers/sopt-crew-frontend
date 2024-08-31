@@ -2,7 +2,7 @@ import { parseMention } from '@components/util/parseMention';
 import { api } from '..';
 
 export interface PostCommentWithMentionRequest {
-  userIds: number[] | null;
+  orgIds: number[] | null;
   content: string;
   postId: number;
 }

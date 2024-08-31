@@ -1665,13 +1665,13 @@ export interface components {
        */
       joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
       /**
-       * Format: int32
+       * Format: int64
        * @description 지원자 수
        * @example 50
        */
       applicantCount: number;
       /**
-       * Format: int32
+       * Format: int64
        * @description 가입된 지원자 수
        * @example 9
        */
