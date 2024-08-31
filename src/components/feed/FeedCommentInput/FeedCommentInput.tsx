@@ -30,7 +30,7 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
       if (!comment.trim()) return;
       onSubmit({
         postId: postId as number,
-        userIds: userIds,
+        orgIds: userIds,
         content: comment,
       }).then(() => {
         setComment('');
