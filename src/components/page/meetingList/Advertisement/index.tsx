@@ -194,16 +194,4 @@ const SMobileContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   margin: 0,
-  '& a:not(:first-child)::before': {
-    content: '',
-    display: 'none',
-
-    '@tablet': {
-      display: 'block',
-      width: '100vw',
-      height: '8px',
-      marginLeft: 'calc(50% - 50vw)',
-      background: '$gray800',
-    },
-  },
 });
