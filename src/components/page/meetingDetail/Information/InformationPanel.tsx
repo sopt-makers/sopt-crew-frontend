@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { MeetingResponse } from '@api/API_LEGACY/meeting';
 
 interface InformationPanelProps {
@@ -54,10 +54,10 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
   ];
   const [selectedTab, setSelectedTab] = useState(detailList[0].title);
 
-  const handleChange = (text: string) => {
+  const handleChange = useCallback((text: string) => {
     setSelectedTab(text);
     tabRef.current[detailList.findIndex(item => item.title === text)].scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   const handleContent = (content: string) => {
     return parseTextToLink(content);

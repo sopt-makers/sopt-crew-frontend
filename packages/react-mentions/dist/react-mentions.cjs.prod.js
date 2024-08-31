@@ -563,8 +563,8 @@ function Suggestion(_ref) {
     onMouseEnter: onMouseEnter
   }), getDisplay = function() {
     if ("string" == typeof suggestion) return suggestion;
-    var id = suggestion.id, display = suggestion.display;
-    return void 0 !== id && display ? display : id;
+    var orgId = suggestion.orgId, display = suggestion.display;
+    return void 0 !== orgId && display ? display : orgId;
   }, renderHighlightedDisplay = function(display) {
     var i = getSubstringIndex(display, query, ignoreAccents);
     return -1 === i ? React__default.createElement("span", style("display"), display) : React__default.createElement("span", style("display"), display.substring(0, i), React__default.createElement("b", style("highlight"), display.substring(i, i + query.length)), display.substring(i + query.length));
@@ -898,10 +898,7 @@ var makeTriggerRegex = function(trigger) {
         setSelectionAfterMentionChange: setSelectionAfterMentionChange
       });
       var mentions = getMentions(newValue, config);
-      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? (console.log("safari"), 
-      ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart)) : /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Safari") ? (console.log("webview"), 
-      ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart)) : (console.log("other browser"), 
-      ev.nativeEvent.isComposing && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart));
+      navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome") ? ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.userAgent.includes("Safari") ? ev.nativeEvent.composed && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart) : ev.nativeEvent.isComposing && selectionStart === selectionEnd && _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
       var eventMock = {
         target: {
           value: newValue

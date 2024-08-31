@@ -19,7 +19,7 @@ export const Default: Story = {
       id: 1,
       contents:
         '처음부터 민규가 마음에 들었어, 세 분이 너무 예쁘게 딱딱 옆으로 가서 불편해요. 이주미씨가 유지원씨처럼 모르는 거야 아직 파악이 안 되니까. 다 깃털에 치여서 날아갈 것 같은 거야. 피드 예시피드 예시피드 예시피드 예시피드 예시피드 예시피드 예시피드 예시피드 예시',
-      updatedDate: '2시간 전',
+      createdDate: '2시간 전',
       user: {
         id: 1,
         orgId: 10,
@@ -28,6 +28,8 @@ export const Default: Story = {
       },
       likeCount: 182,
       isLiked: false,
+      isWriter: true,
+      order: 0,
     },
     isMine: true,
     Actions: ['수정', '삭제'],

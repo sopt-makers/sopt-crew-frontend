@@ -9,10 +9,16 @@ import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
 import GridLayout from './Layout';
+import { useGetMeetingAds } from '@api/advertisement/hook';
+import { useDisplay } from '@hooks/useDisplay';
+import Link from 'next/link';
 
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
+  const { isDesktop } = useDisplay();
   const { data: meetingListData, isLoading } = useQueryMeetingListOfAll();
+  const { data: meetingAds } = useGetMeetingAds();
+
   useScrollRestorationAfterLoading(isLoading);
 
   return (
@@ -21,7 +27,26 @@ export function MeetingListOfAll() {
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout mobileType="list">
-            {meetingListData?.meetings.map(meetingData => (
+            {meetingListData?.meetings.slice(0, 2).map(meetingData => (
+              <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
+            ))}
+
+            {meetingAds && meetingListData?.meta.page === 1 && (
+              <Link href={meetingAds?.advertisements[0]?.advertisementLink} target="_blank">
+                {isDesktop ? (
+                  <img
+                    src={meetingAds?.advertisements[0].desktopImageUrl}
+                    style={{ width: '380px', height: '478px', borderRadius: '12px' }}
+                  ></img>
+                ) : (
+                  <img
+                    src={meetingAds?.advertisements[0].mobileImageUrl}
+                    style={{ width: '328px', height: '82px', borderRadius: '8px' }}
+                  ></img>
+                )}
+              </Link>
+            )}
+            {meetingListData?.meetings.slice(2).map(meetingData => (
               <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
             ))}
           </GridLayout>
