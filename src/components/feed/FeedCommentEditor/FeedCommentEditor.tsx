@@ -22,7 +22,7 @@ export default function FeedCommentEditor({ defaultValue, onCancel, onSubmit }: 
   const handleSubmit = () => {
     onSubmit({
       postId: postId as number,
-      userIds: userIds,
+      orgIds: userIds,
       content: comment,
     });
   };
