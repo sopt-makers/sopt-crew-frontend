@@ -10,7 +10,7 @@ import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 interface mentionableDataType {
   id: number;
   display: string;
-  userId: number;
+  orgId: number;
   userName: string;
   recentPart: string;
   recentGeneration: number;
@@ -143,7 +143,7 @@ const CommonMention = ({
         data={search => {
           const data = getFilteredAndRandomUsers(
             search,
-            mentionUserList?.map((v: mentionableDataType) => ({ ...v, id: v.userId, display: v.userName }))
+            mentionUserList?.map((v: mentionableDataType) => ({ ...v, id: v.orgId, display: v.userName }))
           );
           return data;
         }}
