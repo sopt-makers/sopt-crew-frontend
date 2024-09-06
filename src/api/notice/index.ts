@@ -9,6 +9,6 @@ type GetNoticesResponse = {
   createdDate: string;
 }[];
 export const getNotices = async (status = 'EXPOSING') => {
-  const { data } = await api.get<Data<GetNoticesResponse>>(`/notice/v1`, { params: { status } });
+  const { data } = await api.get<Data<GetNoticesResponse>>(`/notice/v2`, { params: { status } });
   return data;
 };
