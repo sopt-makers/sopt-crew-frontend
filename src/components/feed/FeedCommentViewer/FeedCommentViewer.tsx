@@ -1,20 +1,20 @@
-import Avatar from '@components/avatar/Avatar';
-import MenuIcon from 'public/assets/svg/ic_menu.svg';
-import { Menu } from '@headlessui/react';
-import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema2';
-import MessageIcon from '@assets/svg/message-dots.svg?v2';
-import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
-import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
-import { fromNow } from '@utils/dayjs';
-import React, { useContext } from 'react';
-import { playgroundURL } from '@constants/url';
-import { playgroundLink } from '@sopt-makers/playground-common';
-import { fontsObject } from '@sopt-makers/fonts';
-import { MentionContext } from '../Mention/MentionContext';
 import LikeHoverIcon from '@assets/svg/like_hover.svg';
+import MessageIcon from '@assets/svg/message-dots.svg?v2';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
+import Avatar from '@components/avatar/Avatar';
+import { playgroundURL } from '@constants/url';
+import { Menu } from '@headlessui/react';
 import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { fromNow } from '@utils/dayjs';
+import MenuIcon from 'public/assets/svg/ic_menu.svg';
+import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
+import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
+import React, { useContext } from 'react';
+import { styled } from 'stitches.config';
+import { MentionContext } from '../Mention/MentionContext';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -42,6 +42,8 @@ export default function FeedCommentViewer({
 
   const onClickReComment = () => {
     setIsReCommentClicked(true);
+    //참고 : commentParentId가 존재할시 (존재한다면 FeedReCommentContainer 일거임) 부모 댓글을 명시하고, 아니면 자기 아이디 명시
+    //parentComment는 본인이 최상위 댓글(대댓글이 아닌지)임을 판단하는 로직
     if (commentParentId) {
       setParentComment({ parentComment: false, parentCommentId: commentParentId });
     } else {

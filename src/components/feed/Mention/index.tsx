@@ -41,6 +41,8 @@ const CommonMention = ({
   const { user, isReCommentClicked, setIsReCommentClicked, setParentComment } = useContext(MentionContext);
 
   useEffect(() => {
+    //참고, 질문
+    //그리고 이 포커스 되는것도 다른 거에 연결해야 함
     if (inputRef.current) {
       inputRef.current.focus();
     }
