@@ -1,12 +1,12 @@
 import { useQueryGetMentionUsers } from '@api/user/hooks';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
-import React, { useCallback, useEffect, useContext, useState } from 'react';
-import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import { MentionContext } from './MentionContext';
-import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 interface mentionableDataType {
   id: number;
   display: string;
@@ -44,8 +44,13 @@ const CommonMention = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    //없어져야 함 -> 답글 달기 클릭 시 가장 아래 input의 value값에는 변동 안주도록!
+    //아래의 로직은 새로운 답글 달기 ui를 제작 후, 해당 ui가 생성되면서 setValue 하도록 만들어야할 듯
+    //그리고 send 할 때 서버에 보내는 건 똑같이. 그럼 생성하는 건 똑같이 될 거임
+    //기존의 FeedCommentInput.tsx 를 변형시켜서 FeedRecommentInput.tsx를 만들고,
+    //FeedCommentContainer.tsx 에서 FeedReCommentContainer 밑에 FeedRecommentInput 를 렌더링해야 함
     if (isReCommentClicked) {
-      setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+      //setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
     }
   }, [isReCommentClicked, inputRef, setValue, user]);
 

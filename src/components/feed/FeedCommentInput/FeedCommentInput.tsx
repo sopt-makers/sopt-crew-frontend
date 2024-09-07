@@ -1,8 +1,8 @@
-import { styled } from 'stitches.config';
+import { PostCommentWithMentionRequest } from '@api/mention';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
 import React, { forwardRef, useRef, useState } from 'react';
-import { PostCommentWithMentionRequest } from '@api/mention';
+import { styled } from 'stitches.config';
 import CommonMention from '../Mention';
 interface FeedCommentInputProps {
   writerName: string;
