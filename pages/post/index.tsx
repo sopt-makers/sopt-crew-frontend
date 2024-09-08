@@ -75,7 +75,6 @@ export default function PostPage() {
 
   // 이해안가는 부분1 : mutateAsync와 mutatePostCommentWithMention 가 나뉜 이유는?
   // 또한, req.content 로 보내던데 FeedCommentInput 에서는 onSubmit으로 content 지정 없이 보내던데?
-  // isParent의 역할은? 대댓글인지 아닌지 구분하기 위함인가? (질문)
   const handleCreateComment = async (req: PostCommentWithMentionRequest) => {
     // eslint-disable-next-line prettier/prettier
     ampli.completedCommentPosting({

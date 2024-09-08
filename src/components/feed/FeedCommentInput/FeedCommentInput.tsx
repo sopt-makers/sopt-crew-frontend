@@ -4,7 +4,7 @@ import SendFillIcon from 'public/assets/svg/send_fill.svg';
 import React, { forwardRef, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import CommonMention from '../Mention';
-interface FeedCommentInputProps {
+export interface FeedCommentInputProps {
   writerName: string;
   onSubmit: (req: PostCommentWithMentionRequest) => Promise<void>;
   disabled?: boolean;
