@@ -22,7 +22,7 @@ export function MeetingListOfAll() {
   useScrollRestorationAfterLoading(isLoading);
 
   return (
-    <main style={{ marginBottom: '20%' }}>
+    <main>
       <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
       {meetingListData?.meetings.length ? (
         <>
@@ -73,7 +73,7 @@ export function MeetingListOfMine() {
   const { data: mineData, isLoading } = useQueryMeetingListOfMine();
   useScrollRestorationAfterLoading(isLoading);
   return (
-    <main>
+    <main style={{ marginBottom: '20%' }}>
       <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
       {mineData?.meetings.length ? (
         <GridLayout mobileType="card">
