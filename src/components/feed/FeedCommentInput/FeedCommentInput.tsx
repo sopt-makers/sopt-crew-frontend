@@ -8,6 +8,7 @@ export interface FeedCommentInputProps {
   writerName: string;
   onSubmit: (req: PostCommentWithMentionRequest) => Promise<void>;
   disabled?: boolean;
+  commentId?: number;
 }
 
 const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(

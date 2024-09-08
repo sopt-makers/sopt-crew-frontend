@@ -25,6 +25,7 @@ interface CommonMentionProps {
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
   setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
   isComment: boolean;
+  commentId?: number;
 }
 
 const CommonMention = ({
@@ -35,18 +36,24 @@ const CommonMention = ({
   setIsFocused,
   setUserIds,
   isComment,
+  commentId,
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
-  const { user, isReCommentClicked, setIsReCommentClicked, setParentComment } = useContext(MentionContext);
+  const { parentComment, user, isReCommentClicked, setIsReCommentClicked, setParentComment } =
+    useContext(MentionContext);
 
+  //조건문을 더욱 추가해서, 특정 부분에만 반영되도록 해야함
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    //컨테이너의 ID일 경우(즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
+    if (parentComment.parentCommentId === commentId) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
 
-    if (isReCommentClicked) {
-      setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+      if (isReCommentClicked) {
+        setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+      }
     }
   }, [isReCommentClicked, inputRef, setValue, user]);
 

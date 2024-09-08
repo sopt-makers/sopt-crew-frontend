@@ -7,7 +7,7 @@ import { FeedCommentInputProps } from '../FeedCommentInput/FeedCommentInput';
 import CommonMention from '../Mention';
 
 const FeedReCommentInput = forwardRef<HTMLTextAreaElement, Omit<FeedCommentInputProps, 'writerName'>>(
-  ({ onSubmit, disabled }) => {
+  ({ commentId, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [userIds, setUserIds] = useState<number[] | null>(null);
@@ -43,6 +43,7 @@ const FeedReCommentInput = forwardRef<HTMLTextAreaElement, Omit<FeedCommentInput
               setIsFocused={setIsFocused}
               setUserIds={setUserIds}
               isComment={true}
+              commentId={commentId}
             />
           </CommentInput>
 

@@ -141,7 +141,7 @@ export default function FeedCommentContainer({
               />
             );
           })}
-          <FeedReCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />
+          <FeedReCommentInput commentId={comment.id} onSubmit={handleCreateComment} disabled={isCreatingComment} />
         </>
       )}
     </>
