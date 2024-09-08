@@ -22,7 +22,7 @@ export function MeetingListOfAll() {
   useScrollRestorationAfterLoading(isLoading);
 
   return (
-    <main>
+    <main style={{ marginBottom: '20%' }}>
       <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
       {meetingListData?.meetings.length ? (
         <>
