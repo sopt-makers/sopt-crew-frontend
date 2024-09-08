@@ -12,7 +12,7 @@ import { fromNow } from '@utils/dayjs';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { styled } from 'stitches.config';
 import { MentionContext } from '../Mention/MentionContext';
 
@@ -50,6 +50,12 @@ export default function FeedCommentViewer({
     }
     setUser({ userName: comment.user.name, userId: comment.user.orgId });
   };
+
+  const { parentComment } = useContext(MentionContext);
+  useEffect(() => {
+    console.log('콘솔:', parentComment?.parentCommentId);
+    console.log('부모인가?', parentComment.parentComment);
+  }, [parentComment]);
 
   return (
     <Container>

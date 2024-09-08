@@ -3,7 +3,7 @@ const { withSentryConfig } = require('@sentry/nextjs');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  reactStrictMode: true,
+  ictMode: true,
   swcMinify: true,
   webpack: config => {
     config.module.rules.push({

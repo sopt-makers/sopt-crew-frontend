@@ -43,7 +43,6 @@ const CommonMention = ({
   const { parentComment, user, isReCommentClicked, setIsReCommentClicked, setParentComment } =
     useContext(MentionContext);
 
-  //조건문을 더욱 추가해서, 특정 부분에만 반영되도록 해야함
   useEffect(() => {
     //컨테이너의 ID일 경우(즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
     if (parentComment.parentCommentId === commentId) {
@@ -57,10 +56,17 @@ const CommonMention = ({
     }
   }, [isReCommentClicked, inputRef, setValue, user]);
 
+  //다시 답글 달기 안누른 상태로 돌려주는 코드
   useEffect(() => {
-    if (!value.startsWith('-~!@#')) {
-      setIsReCommentClicked(false);
-      setParentComment(prev => ({ ...prev, parentComment: true }));
+    if (!isReCommentClicked) {
+      console.log('값이 변하는 거 추적', value);
+      if (!value.startsWith('-~!@#')) {
+        console.log('------멘션 안된 상태일 때-----', value);
+
+        setIsReCommentClicked(false);
+        setParentComment(prev => ({ ...prev, parentComment: true }));
+        console.log('요기');
+      }
     }
   }, [value, setIsReCommentClicked, setParentComment]);
 

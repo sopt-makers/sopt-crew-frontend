@@ -52,6 +52,7 @@ export default function FeedCommentContainer({
   const initialReplyLength = useRef<number>(comment?.replies?.length);
 
   const { parentComment } = useContext(MentionContext);
+  const recommentRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 

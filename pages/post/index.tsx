@@ -82,6 +82,8 @@ export default function PostPage() {
       platform_type: isMobile ? 'MO' : 'PC',
       user_id: Number(me?.orgId),
     });
+
+    //여긴 또 왜 try-catch 블록 안 썼음?
     await mutateAsync(req.content);
     mutatePostCommentWithMention(req);
     commentQuery.refetch();
