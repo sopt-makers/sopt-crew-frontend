@@ -59,13 +59,9 @@ const CommonMention = ({
   //다시 답글 달기 안누른 상태로 돌려주는 코드
   useEffect(() => {
     if (!isReCommentClicked) {
-      console.log('값이 변하는 거 추적', value);
       if (!value.startsWith('-~!@#')) {
-        console.log('------멘션 안된 상태일 때-----', value);
-
         setIsReCommentClicked(false);
         setParentComment(prev => ({ ...prev, parentComment: true }));
-        console.log('요기');
       }
     }
   }, [value, setIsReCommentClicked, setParentComment]);
