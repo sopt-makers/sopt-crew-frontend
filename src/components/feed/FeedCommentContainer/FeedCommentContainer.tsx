@@ -28,10 +28,20 @@ interface FeedCommentContainerProps {
   isMine: boolean;
   postUserId: number;
   onClickLike: (commentId: number) => void;
+  handleCreateComment: (req: PostCommentWithMentionRequest) => Promise<void>;
+  isCreatingComment: boolean;
 }
 
 // eslint-disable-next-line prettier/prettier
-export default function FeedCommentContainer({ comment, isMine, postUserId, onClickLike }: FeedCommentContainerProps) {
+
+export default function FeedCommentContainer({
+  comment,
+  isMine,
+  postUserId,
+  onClickLike,
+  handleCreateComment,
+  isCreatingComment,
+}: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
   const { query } = useRouter();
@@ -131,7 +141,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
               />
             );
           })}
-          <FeedReCommentInput />
+          <FeedReCommentInput onSubmit={handleCreateComment} disabled={isCreatingComment} />
         </>
       )}
     </>

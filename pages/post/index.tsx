@@ -242,6 +242,8 @@ export default function PostPage() {
                   isMine={comment.user.id === me?.id}
                   postUserId={post.user.id}
                   onClickLike={handleClickCommentLike}
+                  handleCreateComment={handleCreateComment}
+                  isCreatingComment={isCreatingComment}
                 />
               )
             )}
