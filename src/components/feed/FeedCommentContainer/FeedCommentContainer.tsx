@@ -14,7 +14,7 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import FeedActionButton from '../FeedActionButton/FeedActionButton';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
@@ -22,6 +22,7 @@ import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
 import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
 import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
+import { MentionContext } from '../Mention/MentionContext';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
@@ -49,6 +50,8 @@ export default function FeedCommentContainer({
   const [editMode, setEditMode] = useState(false);
   const [showMoreReComments, setShowMoreReComments] = useState(false);
   const initialReplyLength = useRef<number>(comment?.replies?.length);
+
+  const { parentComment } = useContext(MentionContext);
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
@@ -141,7 +144,9 @@ export default function FeedCommentContainer({
               />
             );
           })}
-          <FeedReCommentInput commentId={comment.id} onSubmit={handleCreateComment} disabled={isCreatingComment} />
+          {comment.id === parentComment.parentCommentId && (
+            <FeedReCommentInput commentId={comment.id} onSubmit={handleCreateComment} disabled={isCreatingComment} />
+          )}
         </>
       )}
     </>
