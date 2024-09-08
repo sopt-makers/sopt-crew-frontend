@@ -42,8 +42,7 @@ export default function FeedCommentViewer({
 
   const onClickReComment = () => {
     setIsReCommentClicked(true);
-    //참고 : commentParentId가 존재할시 (존재한다면 FeedReCommentContainer 일거임) 부모 댓글을 명시하고, 아니면 자기 아이디 명시
-    //parentComment는 본인이 최상위 댓글(대댓글이 아닌지)임을 판단하는 로직
+    //commentParentId: 본인의 부모 댓글의 id, parentComment: 본인이 부모 댓글 여부
     if (commentParentId) {
       setParentComment({ parentComment: false, parentCommentId: commentParentId });
     } else {

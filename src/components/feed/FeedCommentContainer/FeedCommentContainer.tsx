@@ -1,26 +1,27 @@
 import { paths } from '@/__generated__/schema';
-import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
-import FeedActionButton from '../FeedActionButton/FeedActionButton';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useRef, useState } from 'react';
-import { useDeleteComment } from '@api/post/hooks';
-import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiV2 } from '@api/index';
-import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
-import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
-import { styled } from 'stitches.config';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
-import Avatar from '@components/avatar/Avatar';
-import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
-import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
+import { useDeleteComment } from '@api/post/hooks';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
+import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
+import Avatar from '@components/avatar/Avatar';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import { parseTextToLink } from '@components/util/parseTextToLink';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { styled } from 'stitches.config';
+import FeedActionButton from '../FeedActionButton/FeedActionButton';
+import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
+import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
+import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
+import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
+import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
@@ -130,6 +131,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
               />
             );
           })}
+          <FeedReCommentInput />
         </>
       )}
     </>
