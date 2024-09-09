@@ -106,7 +106,7 @@ const DetailPage = () => {
         data-color="mono"
         data-shape="pc"
         data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '3%', right: '5%' }}
+        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
       />
     </>
   );
