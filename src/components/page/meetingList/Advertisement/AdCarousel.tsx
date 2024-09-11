@@ -8,6 +8,8 @@ import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema2';
 import Link from 'next/link';
 import { useDisplay } from '@hooks/useDisplay';
+import { ampli } from '@/ampli';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 
 type PropType = {
   slides: paths['/advertisement/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['advertisements'];
@@ -48,13 +50,26 @@ const AdCarousel: React.FC<PropType> = props => {
     onNavButtonClick
   );
 
+  const { data: me } = useQueryMyProfile();
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Embla>
         <EmblaViewport ref={emblaRef}>
           <EmblaContainer>
             {shuffledSlides?.map((slide, index) => (
-              <Link href={slide?.advertisementLink} target="_blank">
+              <Link
+                href={slide?.advertisementLink}
+                target="_blank"
+                onClick={() =>
+                  ampli.clickBanner({
+                    banner_id: slide.advertisementId,
+                    banner_url: slide.advertisementLink,
+                    banner_timestamp: slide.advertisementStartDate,
+                    user_id: Number(me?.orgId),
+                  })
+                }
+              >
                 <EmblaSlide key={index}>
                   <EmblaSlideImage src={slide?.mobileImageUrl}></EmblaSlideImage>
                 </EmblaSlide>
