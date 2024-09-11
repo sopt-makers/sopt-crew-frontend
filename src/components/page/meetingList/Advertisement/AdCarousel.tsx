@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
 import { DotButton, useDotButton } from './AdCarouselDotBtn';
 import { PrevButton, NextButton, usePrevNextButtons } from './AdCarouselArrowBtn';
@@ -52,29 +52,38 @@ const AdCarousel: React.FC<PropType> = props => {
 
   const { data: me } = useQueryMyProfile();
 
+  useEffect(() => {}, []);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Embla>
         <EmblaViewport ref={emblaRef}>
           <EmblaContainer>
-            {shuffledSlides?.map((slide, index) => (
-              <Link
-                href={slide?.advertisementLink}
-                target="_blank"
-                onClick={() =>
-                  ampli.clickBanner({
-                    banner_id: slide.advertisementId,
-                    banner_url: slide.advertisementLink,
-                    banner_timestamp: slide.advertisementStartDate,
-                    user_id: Number(me?.orgId),
-                  })
-                }
-              >
-                <EmblaSlide key={index}>
-                  <EmblaSlideImage src={slide?.mobileImageUrl}></EmblaSlideImage>
-                </EmblaSlide>
-              </Link>
-            ))}
+            {shuffledSlides?.map((slide, index) => {
+              ampli.impressionBanner({
+                banner_id: slide.advertisementId,
+                banner_url: slide.advertisementLink,
+                banner_timestamp: slide.advertisementStartDate,
+              });
+              return (
+                <Link
+                  href={slide?.advertisementLink}
+                  target="_blank"
+                  onClick={() =>
+                    ampli.clickBanner({
+                      banner_id: slide.advertisementId,
+                      banner_url: slide.advertisementLink,
+                      banner_timestamp: slide.advertisementStartDate,
+                      user_id: Number(me?.orgId),
+                    })
+                  }
+                >
+                  <EmblaSlide key={index}>
+                    <EmblaSlideImage src={slide?.mobileImageUrl}></EmblaSlideImage>
+                  </EmblaSlide>
+                </Link>
+              );
+            })}
           </EmblaContainer>
         </EmblaViewport>
 
