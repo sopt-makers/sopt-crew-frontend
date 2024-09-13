@@ -52,8 +52,6 @@ const AdCarousel: React.FC<PropType> = props => {
 
   const { data: me } = useQueryMyProfile();
 
-  useEffect(() => {}, []);
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Embla>
