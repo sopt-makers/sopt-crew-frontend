@@ -15,7 +15,7 @@ export const useQueryMeetingListOfMine = () =>
 
 export const useQueryMyProfile = () => {
   return useQuery(['fetchMyProfile'], fetchMyProfile, {
-    select: response => response.data.data,
+    select: response => response.data,
     onError: (error: { message: string }) => {
       console.error(error.message);
     },
