@@ -1,4 +1,3 @@
-import { paths } from '@/__generated__/schema';
 import { Menu } from '@headlessui/react';
 import Avatar from '@components/avatar/Avatar';
 import ShareIcon from 'public/assets/svg/share.svg';
@@ -18,12 +17,13 @@ import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useToast } from '@sopt-makers/ui';
 import Link from 'next/link';
 import { CATEGORY_OPTIONS } from '@constants/option';
+import { paths } from '@/__generated__/schema2';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 interface FeedPostViewerProps {
-  post: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
+  post: paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
   Actions: React.ReactNode[];
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
@@ -118,7 +118,7 @@ export default function FeedPostViewer({
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
           <GroupButton>
-            <GroupThumbnail src={getResizedImage(post.meeting.imageURL[0].url, 88)} alt="" />
+            <GroupThumbnail src={getResizedImage(post.meeting.imageURL[0].url || '', 88)} alt="" />
             <GroupInformation>
               <div>
                 <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>
@@ -126,7 +126,8 @@ export default function FeedPostViewer({
                 </GroupCategory>
                 <span>{post.meeting.title}</span>
               </div>
-              <GroupDescription>{post.meeting.desc}</GroupDescription>
+              {/* 이 아이 없어졌네용 */}
+              {/* <GroupDescription>{post.meeting.desc}</GroupDescription> */}
             </GroupInformation>
             <ArrowIcon />
           </GroupButton>
