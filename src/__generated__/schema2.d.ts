@@ -174,12 +174,6 @@ export interface paths {
     /** 모임 둘러보기 조회 */
     get: operations["getMeetingBanner"];
   };
-  "/health": {
-    get: operations["getHealth"];
-  };
-  "/health/v2": {
-    get: operations["getHealthV2"];
-  };
   "/advertisement/v2": {
     /**
      * 광고 조회
@@ -1724,27 +1718,6 @@ export interface components {
        */
       profileImage?: string;
     };
-    HealthServiceGetHealthResponseDataDto: {
-      status?: string;
-      info?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-      error?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-      details?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-    };
-    /** @description services의 key는 EnHealthV1ServiceType, value는 서비스 상태 */
-    HealthServiceGetHealthResponseDataInfoDto: {
-      services?: {
-        [key: string]: components["schemas"]["HealthServiceGetHealthResponseDataStatusDto"] | undefined;
-      };
-      database?: components["schemas"]["HealthServiceGetHealthResponseDataStatusDto"];
-    };
-    HealthServiceGetHealthResponseDataStatusDto: {
-      status?: string;
-    };
-    HealthServiceGetHealthResponseDto: {
-      /** Format: int32 */
-      statusCode?: number;
-      data?: components["schemas"]["HealthServiceGetHealthResponseDataDto"];
-    };
     /** @description 댓글 객체 응답 Dto */
     CommentDto: {
       /**
@@ -1869,6 +1842,12 @@ export interface components {
     /** @description 광고 구좌 이미지 Dto */
     AdvertisementImageDto: {
       /**
+       * Format: int32
+       * @description 광고 id
+       * @example 3
+       */
+      advertisementId: number;
+      /**
        * @description [Desktop] 광고 구좌 이미지 url
        * @example [pc 버전 url 형식]
        */
@@ -1883,6 +1862,11 @@ export interface components {
        * @example https://www.naver.com
        */
       advertisementLink: string;
+      /**
+       * Format: date-time
+       * @description 광고 게시 시작일
+       */
+      advertisementStartDate: string;
     };
   };
   responses: never;
@@ -2671,26 +2655,6 @@ export interface operations {
       };
       /** @description 모임이 없습니다. */
       204: never;
-    };
-  };
-  getHealth: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["HealthServiceGetHealthResponseDto"];
-        };
-      };
-    };
-  };
-  getHealthV2: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": string;
-        };
-      };
     };
   };
   /**
