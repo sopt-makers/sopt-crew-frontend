@@ -76,7 +76,7 @@ export const useQueryMeetingListOfAll = () => {
         part,
       }),
     {
-      select: response => response.data.data,
+      select: response => response.data,
       suspense: true,
     }
   );

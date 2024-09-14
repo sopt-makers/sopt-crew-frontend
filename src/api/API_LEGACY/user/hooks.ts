@@ -3,13 +3,13 @@ import { fetchMeetingListOfApplied, fetchMeetingListOfMine, fetchMyProfile } fro
 
 export const useQueryMeetingListOfApplied = () =>
   useQuery(['fetchMeetingList', 'apply'], fetchMeetingListOfApplied, {
-    select: response => response.data.data,
+    select: response => response.data,
     suspense: true,
   });
 
 export const useQueryMeetingListOfMine = () =>
   useQuery(['fetchMeetingList', 'mine'], fetchMeetingListOfMine, {
-    select: response => response.data.data,
+    select: response => response.data,
     suspense: true,
   });
 

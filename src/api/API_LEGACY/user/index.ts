@@ -1,6 +1,7 @@
 import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
 import { api, PromiseResponse } from '../..';
 import { MeetingResponse } from '../meeting';
+import { paths } from '@/__generated__/schema2';
 
 /**
  * @deprecated
@@ -41,23 +42,18 @@ export interface ApplyResponse {
   user: UserResponse;
 }
 
-interface MeetingListOfAppliedResponse {
-  id: number;
-  apply: ApplyResponse[];
-  user: UserResponse;
-}
+type MeetingListOfAppliedResponse =
+  paths['/user/v2/apply']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
-interface MeetingListOfMineResponse {
-  id: number;
-  meetings: MeetingResponse[];
-}
+type MeetingListOfMineResponse =
+  paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 export const fetchMeetingListOfApplied = async () => {
-  return api.get<PromiseResponse<MeetingListOfAppliedResponse>>('/users/apply');
+  return api.get<MeetingListOfAppliedResponse>('/user/v2/apply');
 };
 
 export const fetchMeetingListOfMine = async () => {
-  return api.get<PromiseResponse<MeetingListOfMineResponse>>('/users/meeting');
+  return api.get<MeetingListOfMineResponse>('/user/v2/meeting');
 };
 
 export const fetchMyProfile = async () => {
