@@ -734,8 +734,9 @@ export interface components {
        * Format: int32
        * @description 모임 활동 상태
        * @example 2
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -835,8 +836,9 @@ export interface components {
        * Format: int32
        * @description 신청 상태
        * @example 1
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       meeting: components["schemas"]["MeetingV2GetCreatedMeetingByUserResponseDto"];
     };
     /** @description 내가 신청한 모임 조회 Dto */
@@ -1106,8 +1108,8 @@ export interface components {
       category?: string[];
       status?: string[];
       isOnlyActiveGeneration: boolean;
-      joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
-      query: string;
+      joinableParts?: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
+      query?: string;
     };
     /** @description 모임 Dto */
     MeetingResponseDto: {
@@ -1150,8 +1152,9 @@ export interface components {
        * Format: int32
        * @description 모임 활동 상태
        * @example 2
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -1162,6 +1165,16 @@ export interface components {
        * @example false
        */
       isMentorNeeded: boolean;
+      /**
+       * Format: date-time
+       * @description 모임 활동 시작일
+       */
+      mStartDate: string;
+      /**
+       * Format: date-time
+       * @description 모임 활동 종료일
+       */
+      mEndDate: string;
       /**
        * Format: int32
        * @description 모집 인원
@@ -1175,10 +1188,6 @@ export interface components {
        * @example 7
        */
       appliedCount: number;
-      /** Format: date-time */
-      mstartDate?: string;
-      /** Format: date-time */
-      mendDate?: string;
     };
     /** @description 모임 조회 응답 Dto */
     MeetingV2GetAllMeetingDto: {
@@ -1388,8 +1397,9 @@ export interface components {
        * Format: int32
        * @description 모임 상태, 0: 모집전, 1: 모집중, 2: 모집종료
        * @example 1
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * Format: int64
        * @description 승인된 신청 수
