@@ -73,8 +73,6 @@ export default function PostPage() {
     onIntersect: ([{ isIntersecting }]) => isIntersecting,
   });
 
-  // 이해안가는 부분1 : mutateAsync와 mutatePostCommentWithMention 가 나뉜 이유는?
-  // 또한, req.content 로 보내던데 FeedCommentInput 에서는 onSubmit으로 content 지정 없이 보내던데?
   const handleCreateComment = async (req: PostCommentWithMentionRequest) => {
     // eslint-disable-next-line prettier/prettier
     ampli.completedCommentPosting({
@@ -83,7 +81,7 @@ export default function PostPage() {
       user_id: Number(me?.orgId),
     });
 
-    //여긴 또 왜 try-catch 블록 안 썼음?
+    //todo: try-catch 문 사용하기
     await mutateAsync(req.content);
     mutatePostCommentWithMention(req);
     commentQuery.refetch();
