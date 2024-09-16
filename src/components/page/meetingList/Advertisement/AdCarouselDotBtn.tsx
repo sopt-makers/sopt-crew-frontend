@@ -69,7 +69,7 @@ const SDotButton = styled('button', {
   borderRadius: '10px',
   '&.embla__dot--selected': {
     boxShadow: '$inset $textBody',
-    backgroundColor: 'white',
+    backgroundColor: '$gray50',
     opacity: '1',
   },
 });
