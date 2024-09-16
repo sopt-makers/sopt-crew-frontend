@@ -42,7 +42,7 @@ export default function PostPage() {
 
   const { data: me } = useQueryMyProfile();
 
-  const postQuery = useQueryGetPost(query.id as string);
+  const { data: post } = useQueryGetPost(query.id as string);
 
   const commentQuery = useComment();
 
@@ -118,7 +118,6 @@ export default function PostPage() {
       callback();
     };
 
-  const post = postQuery.data;
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
   const comments = commentQuery.data?.data?.comments?.filter(
@@ -227,7 +226,7 @@ export default function PostPage() {
           <FeedCommentLikeSection
             isLiked={post.isLiked}
             commentCount={commentQuery.data?.data?.comments.length || 0}
-            likeCount={post.likeCount}
+            likeCount={post.likeCount || 0}
             onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
           />
