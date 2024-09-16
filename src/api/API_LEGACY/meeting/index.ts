@@ -5,6 +5,7 @@ import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { paths } from '@/__generated__/schema2';
 
 /**
  * @deprecated
@@ -59,10 +60,8 @@ export interface MeetingResponse {
   targetActiveGeneration: number | null;
   joinableParts: string[];
 }
-interface MeetingListOfFilterResponse {
-  meta: PaginationType;
-  meetings: MeetingResponse[];
-}
+type MeetingListOfFilterResponse =
+  paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 /**
  * @deprecated
@@ -155,8 +154,8 @@ export const fetchMeetingListOfAll = async ({
   isOnlyActiveGeneration,
   part,
 }: filterData) => {
-  return api.get<PromiseResponse<MeetingListOfFilterResponse>>(
-    `/meeting?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${
+  return api.get<MeetingListOfFilterResponse>(
+    `/meeting/v2?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${
       status?.length
         ? `&status=${status
             .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))

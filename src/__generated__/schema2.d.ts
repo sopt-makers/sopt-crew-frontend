@@ -106,6 +106,10 @@ export interface paths {
     /** 유저 본인 프로필 조회 */
     get: operations["getUserOwnProfile"];
   };
+  "/user/v2/profile/me/temp": {
+    /** [TEMP] 유저 본인 프로필 조회 */
+    get: operations["getUserOwnProfileTemp"];
+  };
   "/user/v2/mention": {
     /** 멘션 사용자 조회 */
     get: operations["getAllMentionUser"];
@@ -114,6 +118,10 @@ export interface paths {
     /** 내가 만든 모임 조회 */
     get: operations["getCreatedMeetingByUser"];
   };
+  "/user/v2/meeting/temp": {
+    /** [TEMP] 내가 만든 모임 조회 */
+    get: operations["getCreatedMeetingByUserTemp"];
+  };
   "/user/v2/meeting/all": {
     /** 내가 속한 모임 조회 */
     get: operations["getAllMeetingByUser"];
@@ -121,6 +129,10 @@ export interface paths {
   "/user/v2/apply": {
     /** 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUser"];
+  };
+  "/user/v2/apply/temp": {
+    /** [TEMP] 내가 신청한 모임 조회 */
+    get: operations["getAppliedMeetingByUserTemp"];
   };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
@@ -139,13 +151,6 @@ export interface paths {
      * @description 모임 지원자 목록 csv 파일 다운로드
      */
     get: operations["getAppliesCsvFileUrl"];
-  };
-  "/meeting/v2/{meetingId}/list/csv/temp": {
-    /**
-     * [TEMP] 모임 지원자 목록 csv 파일 다운로드
-     * @description 모임 지원자 목록 csv 파일 다운로드
-     */
-    get: operations["getAppliesCsvFileUrlTemp"];
   };
   "/meeting/v2/temp": {
     /**
@@ -168,16 +173,6 @@ export interface paths {
   "/meeting/v2/banner": {
     /** 모임 둘러보기 조회 */
     get: operations["getMeetingBanner"];
-  };
-  "/health": {
-    get: operations["getHealth"];
-  };
-  "/health/v2": {
-    get: operations["getHealthV2"];
-  };
-  "/comment/v2/temp": {
-    /** [TEMP] 모임 게시글 댓글 리스트 조회 */
-    get: operations["getCommentsTemp"];
   };
   "/advertisement/v2": {
     /**
@@ -215,7 +210,7 @@ export interface components {
        *   "url2"
        * ]
        */
-      images: string[];
+      images?: string[];
     };
     /** @description 게시글 수정 응답 Dto */
     PostV2UpdatePostResponseDto: {
@@ -486,7 +481,7 @@ export interface components {
        * @description 지원 각오
        * @example 꼭 지원하고 싶습니다.
        */
-      content: string;
+      content?: string;
     };
     /** @description 모임 신청 응답 Dto */
     MeetingV2ApplyMeetingResponseDto: {
@@ -617,6 +612,10 @@ export interface components {
        */
       hasActivities: boolean;
     };
+    /** @description 임시 응답 Dto */
+    TempResponseDto: {
+      data: components["schemas"]["UserV2GetUserOwnProfileResponseDto"];
+    };
     /** @description 멘션 유저 조회 응답 Dto */
     UserV2GetAllMentionUserDto: {
       /**
@@ -729,8 +728,9 @@ export interface components {
        * Format: int32
        * @description 모임 활동 상태
        * @example 2
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -830,8 +830,9 @@ export interface components {
        * Format: int32
        * @description 신청 상태
        * @example 1
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       meeting: components["schemas"]["MeetingV2GetCreatedMeetingByUserResponseDto"];
     };
     /** @description 내가 신청한 모임 조회 Dto */
@@ -958,6 +959,11 @@ export interface components {
        * @example [url 형식]
        */
       imageURL: components["schemas"]["ImageUrlVO"][];
+      /**
+       * @description 모임 설명
+       * @example 모임 설명입니다.
+       */
+      desc: string;
     };
     /** @description 게시글 조회 응답 Dto */
     PostV2GetPostsResponseDto: {
@@ -1101,8 +1107,8 @@ export interface components {
       category?: string[];
       status?: string[];
       isOnlyActiveGeneration: boolean;
-      joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
-      query: string;
+      joinableParts?: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
+      query?: string;
     };
     /** @description 모임 Dto */
     MeetingResponseDto: {
@@ -1145,8 +1151,9 @@ export interface components {
        * Format: int32
        * @description 모임 활동 상태
        * @example 2
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -1157,6 +1164,16 @@ export interface components {
        * @example false
        */
       isMentorNeeded: boolean;
+      /**
+       * Format: date-time
+       * @description 모임 활동 시작일
+       */
+      mStartDate: string;
+      /**
+       * Format: date-time
+       * @description 모임 활동 종료일
+       */
+      mEndDate: string;
       /**
        * Format: int32
        * @description 모집 인원
@@ -1170,10 +1187,6 @@ export interface components {
        * @example 7
        */
       appliedCount: number;
-      /** Format: date-time */
-      mstartDate?: string;
-      /** Format: date-time */
-      mendDate?: string;
     };
     /** @description 모임 조회 응답 Dto */
     MeetingV2GetAllMeetingDto: {
@@ -1383,8 +1396,9 @@ export interface components {
        * Format: int32
        * @description 모임 상태, 0: 모집전, 1: 모집중, 2: 모집종료
        * @example 1
+       * @enum {integer}
        */
-      status: number;
+      status: 0 | 1 | 2;
       /**
        * Format: int64
        * @description 승인된 신청 수
@@ -1498,10 +1512,6 @@ export interface components {
        * @example [url] 형식
        */
       url: string;
-    };
-    /** @description 임시 응답 Dto */
-    TempResponseDto: {
-      data: components["schemas"]["AppliesCsvFileUrlResponseDto"];
     };
     /** @description presigned 필드 Dto */
     PreSignedUrlFieldResponseDto: {
@@ -1713,27 +1723,6 @@ export interface components {
        */
       profileImage?: string;
     };
-    HealthServiceGetHealthResponseDataDto: {
-      status?: string;
-      info?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-      error?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-      details?: components["schemas"]["HealthServiceGetHealthResponseDataInfoDto"];
-    };
-    /** @description services의 key는 EnHealthV1ServiceType, value는 서비스 상태 */
-    HealthServiceGetHealthResponseDataInfoDto: {
-      services?: {
-        [key: string]: components["schemas"]["HealthServiceGetHealthResponseDataStatusDto"] | undefined;
-      };
-      database?: components["schemas"]["HealthServiceGetHealthResponseDataStatusDto"];
-    };
-    HealthServiceGetHealthResponseDataStatusDto: {
-      status?: string;
-    };
-    HealthServiceGetHealthResponseDto: {
-      /** Format: int32 */
-      statusCode?: number;
-      data?: components["schemas"]["HealthServiceGetHealthResponseDataDto"];
-    };
     /** @description 댓글 객체 응답 Dto */
     CommentDto: {
       /**
@@ -1858,6 +1847,12 @@ export interface components {
     /** @description 광고 구좌 이미지 Dto */
     AdvertisementImageDto: {
       /**
+       * Format: int32
+       * @description 광고 id
+       * @example 3
+       */
+      advertisementId: number;
+      /**
        * @description [Desktop] 광고 구좌 이미지 url
        * @example [pc 버전 url 형식]
        */
@@ -1872,6 +1867,11 @@ export interface components {
        * @example https://www.naver.com
        */
       advertisementLink: string;
+      /**
+       * Format: date-time
+       * @description 광고 게시 시작일
+       */
+      advertisementStartDate: string;
     };
   };
   responses: never;
@@ -2387,6 +2387,19 @@ export interface operations {
       400: never;
     };
   };
+  /** [TEMP] 유저 본인 프로필 조회 */
+  getUserOwnProfileTemp: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
+        };
+      };
+      /** @description 해당 유저가 없는 경우 */
+      400: never;
+    };
+  };
   /** 멘션 사용자 조회 */
   getAllMentionUser: {
     responses: {
@@ -2405,6 +2418,17 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetCreatedMeetingByUserResponseDto"];
+        };
+      };
+    };
+  };
+  /** [TEMP] 내가 만든 모임 조회 */
+  getCreatedMeetingByUserTemp: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
@@ -2429,6 +2453,17 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetAppliedMeetingByUserResponseDto"];
+        };
+      };
+    };
+  };
+  /** [TEMP] 내가 신청한 모임 조회 */
+  getAppliedMeetingByUserTemp: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
@@ -2507,42 +2542,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["AppliesCsvFileUrlResponseDto"];
-        };
-      };
-    };
-  };
-  /**
-   * [TEMP] 모임 지원자 목록 csv 파일 다운로드
-   * @description 모임 지원자 목록 csv 파일 다운로드
-   */
-  getAppliesCsvFileUrlTemp: {
-    parameters: {
-      query: {
-        /**
-         * @description 0: 대기, 1: 승인된 신청자, 2: 거절된 신청자
-         * @example 0,1
-         */
-        status: string;
-        /**
-         * @description 0: 지원, 1: 초대
-         * @example 0,1
-         */
-        type: string;
-        /**
-         * @description 정렬순
-         * @example desc
-         */
-        order?: string;
-      };
-      path: {
-        meetingId: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
@@ -2661,56 +2660,6 @@ export interface operations {
       };
       /** @description 모임이 없습니다. */
       204: never;
-    };
-  };
-  getHealth: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["HealthServiceGetHealthResponseDto"];
-        };
-      };
-    };
-  };
-  getHealthV2: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": string;
-        };
-      };
-    };
-  };
-  /** [TEMP] 모임 게시글 댓글 리스트 조회 */
-  getCommentsTemp: {
-    parameters: {
-      query?: {
-        /**
-         * @description 페이지, default = 1
-         * @example 1
-         */
-        page?: number;
-        /**
-         * @description 가져올 데이터 개수, default = 12
-         * @example 50
-         */
-        take?: number;
-        /**
-         * @description 게시글 id
-         * @example 3
-         */
-        postId?: number;
-      };
-    };
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
-        };
-      };
     };
   };
   /**
