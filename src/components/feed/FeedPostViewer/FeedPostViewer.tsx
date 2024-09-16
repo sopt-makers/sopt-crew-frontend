@@ -118,7 +118,7 @@ export default function FeedPostViewer({
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
           <GroupButton>
-            <GroupThumbnail src={getResizedImage(post.meeting.imageURL[0].url || '', 88)} alt="" />
+            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
             <GroupInformation>
               <div>
                 <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>
@@ -126,8 +126,7 @@ export default function FeedPostViewer({
                 </GroupCategory>
                 <span>{post.meeting.title}</span>
               </div>
-              {/* 이 아이 없어졌네용 */}
-              {/* <GroupDescription>{post.meeting.desc}</GroupDescription> */}
+              <GroupDescription>{post.meeting.desc}</GroupDescription>
             </GroupInformation>
             <ArrowIcon />
           </GroupButton>

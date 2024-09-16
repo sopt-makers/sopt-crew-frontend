@@ -37,10 +37,8 @@ export const getPosts = async (page: number, take: number, meetingId?: number) =
 };
 
 export const getPost = async (postId: string) => {
-  // const { GET } = apiV2.get();
-  const { data } = await api.get<
-    paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8']
-  >(`/post/v2/${postId}`);
+  type getPostType = paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+  const { data } = await api.get<getPostType>(`/post/v2/${postId}`);
   return data;
 };
 
