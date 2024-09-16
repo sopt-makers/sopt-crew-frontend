@@ -40,3 +40,6 @@ next-env.d.ts
 
 # __generated__
 src/__generated__/open-api-specification.json
+
+# 최적화 관련 파일이기 때문에 애초에 커밋할 필요 없음
+install-state.gz
