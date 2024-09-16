@@ -13,6 +13,7 @@ import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
 import GridLayout from './Layout';
+import { useEffect } from 'react';
 
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
@@ -23,11 +24,13 @@ export function MeetingListOfAll() {
   useScrollRestorationAfterLoading(isLoading);
   const { data: me } = useQueryMyProfile();
 
-  ampli.impressionBanner({
-    banner_id: meetingAds?.advertisements[0].advertisementId,
-    banner_url: meetingAds?.advertisements[0].advertisementLink,
-    banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
-  });
+  useEffect(() => {
+    ampli.impressionBanner({
+      banner_id: meetingAds?.advertisements[0].advertisementId,
+      banner_url: meetingAds?.advertisements[0].advertisementLink,
+      banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
+    });
+  }, []);
 
   return (
     <main>
