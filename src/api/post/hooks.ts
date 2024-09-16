@@ -1,7 +1,8 @@
-import { paths } from '@/__generated__/schema';
+// import { paths } from '@/__generated__/schema';
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
 import { deleteComment, getPost, getPosts, postLike } from '.';
+import { paths } from '@/__generated__/schema2';
 
 export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
@@ -33,7 +34,7 @@ export const useMutationUpdateLike = (take: number, meetingId?: number) => {
     onMutate: async postId => {
       await queryClient.cancelQueries(['getPosts', take, meetingId]);
 
-      type Post = paths['/post/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['data'];
+      type Post = paths['/post/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['posts'];
       const previousPosts = queryClient.getQueryData(['getPosts', take, meetingId]);
 
       queryClient.setQueryData<InfiniteData<{ posts: Post }>>(['getPosts', take, meetingId], oldData => {
@@ -64,13 +65,13 @@ export const useQueryGetPost = (postId: string) => {
   return useQuery({
     queryKey: ['getPost', postId],
     queryFn: () => getPost(postId),
-    select: res => res?.data,
+    select: res => res,
     enabled: !!postId,
   });
 };
 
 type postType = {
-  data: paths['/post/v1/{postId}']['get']['responses']['200']['content']['application/json']['data'];
+  data: paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 };
 
 export const useMutationPostLike = (queryId: string) => {
@@ -83,8 +84,8 @@ export const useMutationPostLike = (queryId: string) => {
       const previousPost = queryClient.getQueryData(['getPost', queryId]) as postType;
 
       const newLikeCount = previousPost.data.isLiked
-        ? previousPost.data.likeCount - 1
-        : previousPost.data.likeCount + 1;
+        ? previousPost.data.likeCount && previousPost.data.likeCount - 1
+        : previousPost.data.likeCount && previousPost.data.likeCount + 1;
 
       const data = produce(previousPost, (draft: postType) => {
         draft.data.isLiked = !previousPost.data.isLiked;

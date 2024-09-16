@@ -959,6 +959,11 @@ export interface components {
        * @example [url 형식]
        */
       imageURL: components["schemas"]["ImageUrlVO"][];
+      /**
+       * @description 모임 설명
+       * @example 모임 설명입니다.
+       */
+      desc: string;
     };
     /** @description 게시글 조회 응답 Dto */
     PostV2GetPostsResponseDto: {
