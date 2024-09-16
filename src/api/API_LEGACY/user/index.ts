@@ -57,7 +57,9 @@ export const fetchMeetingListOfMine = async () => {
 };
 
 export const fetchMyProfile = async () => {
-  return api.get<PromiseResponse<MyProfileResponse>>('/users/v1/profile/me');
+  return api.get<paths['/user/v2/profile/me']['get']['responses']['200']['content']['application/json;charset=UTF-8']>(
+    '/user/v2/profile/me'
+  );
 };
 
 export const fetchMeetingListOfUserAttend = async () => {
