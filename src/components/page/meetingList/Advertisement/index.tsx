@@ -71,7 +71,7 @@ const RenderPostsWithAds = () => {
             );
           })}
           {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
-          {postsData?.pages.slice(2).map(post => {
+          {postsData?.pages.slice(3).map(post => {
             if (!post) return;
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>
@@ -142,7 +142,7 @@ const RenderPostsWithAds = () => {
           })}
           {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
 
-          {postsData?.pages.slice(2).map(post => {
+          {postsData?.pages.slice(3).map(post => {
             if (!post) return;
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>

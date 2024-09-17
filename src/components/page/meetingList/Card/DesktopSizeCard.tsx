@@ -1,26 +1,24 @@
 import { Flex } from '@components/util/layout/Flex';
-import { RECRUITMENT_STATUS } from '@constants/option';
+import { EApprovalStatus, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
-import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
+import { MeetingResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
-import { paths } from '@/__generated__/schema2';
 
 interface CardProps {
-  meetingData: paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number];
+  meetingData: MeetingResponse;
   isAllParts: boolean;
 }
 
 function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
-  console.log(meetingData);
   return (
     <div>
       <ImageWrapper>
         <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${meetingData.imageURL[0].url})`,
+            backgroundImage: `url(${getResizedImage(meetingData.imageURL[0].url, 760)})`,
           }}
         />
       </ImageWrapper>
@@ -62,7 +60,8 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
       <SInfoRow>
         <SKey>모집 현황</SKey>
         <SValue>
-          {meetingData.appliedCount}/{meetingData.capacity}명
+          {meetingData.appliedInfo.filter(info => info.status === EApprovalStatus.APPROVE).length}/
+          {meetingData.capacity}명
         </SValue>
       </SInfoRow>
     </div>

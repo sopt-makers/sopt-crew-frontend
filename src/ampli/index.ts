@@ -133,25 +133,6 @@ export interface AttachFeedPhotoProperties {
   user_id?: number;
 }
 
-export interface ClickBannerProperties {
-  /**
-   * | Rule | Value |
-   * |---|---|
-   * | Type | integer |
-   */
-  banner_id?: number;
-  banner_timestamp?: any;
-  banner_url?: string;
-  /**
-   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Type | integer |
-   */
-  user_id?: number;
-}
-
 export interface ClickCarouselArrowProperties {
   /**
    * 모임 상세에 추가된 이미지의 총 개수를 의미합니다.
@@ -670,17 +651,6 @@ export interface FilterManagementListOrderProperties {
   manage_sort?: string;
 }
 
-export interface ImpressionBannerProperties {
-  /**
-   * | Rule | Value |
-   * |---|---|
-   * | Type | integer |
-   */
-  banner_id?: number;
-  banner_timestamp?: any;
-  banner_url?: string;
-}
-
 export class Identify implements BaseEvent {
   event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
@@ -696,16 +666,6 @@ export class AttachFeedPhoto implements BaseEvent {
 
   constructor(
     public event_properties?: AttachFeedPhotoProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
-export class ClickBanner implements BaseEvent {
-  event_type = 'Click-banner';
-
-  constructor(
-    public event_properties?: ClickBannerProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1103,16 +1063,6 @@ export class FilterManagementListOrder implements BaseEvent {
   }
 }
 
-export class ImpressionBanner implements BaseEvent {
-  event_type = 'Impression-banner';
-
-  constructor(
-    public event_properties?: ImpressionBannerProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
 export type PromiseResult<T> = { promise: Promise<T | void> };
 
 const getVoidPromiseResult = () => ({ promise: Promise.resolve() });
@@ -1245,23 +1195,6 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new AttachFeedPhoto(properties), options);
-  }
-
-  /**
-   * Click-banner
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-banner)
-   *
-   * Event has no description in tracking plan.
-   *
-   * @param properties The event's properties (e.g. banner_id)
-   * @param options Amplitude event options.
-   */
-  clickBanner(
-    properties?: ClickBannerProperties,
-    options?: EventOptions,
-  ) {
-    return this.track(new ClickBanner(properties), options);
   }
 
   /**
@@ -1953,23 +1886,6 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new FilterManagementListOrder(properties), options);
-  }
-
-  /**
-   * Impression-banner
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Impression-banner)
-   *
-   * Event has no description in tracking plan.
-   *
-   * @param properties The event's properties (e.g. banner_id)
-   * @param options Amplitude event options.
-   */
-  impressionBanner(
-    properties?: ImpressionBannerProperties,
-    options?: EventOptions,
-  ) {
-    return this.track(new ImpressionBanner(properties), options);
   }
 }
 
