@@ -18,7 +18,6 @@
     "update-mds": "yarn up @sopt-makers/colors@latest @sopt-makers/fonts@latest @sopt-makers/playground-common@latest @sopt-makers/ui@latest @sopt-makers/icons@latest"
   },
   "dependencies": {
-    "@amplitude/ampli": "^1.35.0",
     "@amplitude/analytics-browser": "^2.3.2",
     "@egjs/react-infinitegrid": "^4.10.1",
     "@headlessui/react": "^1.7.3",

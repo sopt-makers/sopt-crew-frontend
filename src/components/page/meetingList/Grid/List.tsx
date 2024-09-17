@@ -1,11 +1,7 @@
-import { ampli } from '@/ampli';
-import { useGetMeetingAds } from '@api/advertisement/hook';
 import { useQueryMeetingListOfAll } from '@api/API_LEGACY/meeting/hooks';
-import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine, useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine } from '@api/API_LEGACY/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
-import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
-import Link from 'next/link';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
@@ -13,7 +9,9 @@ import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
 import GridLayout from './Layout';
-import { useEffect } from 'react';
+import { useGetMeetingAds } from '@api/advertisement/hook';
+import { useDisplay } from '@hooks/useDisplay';
+import Link from 'next/link';
 
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
@@ -22,15 +20,6 @@ export function MeetingListOfAll() {
   const { data: meetingAds } = useGetMeetingAds();
 
   useScrollRestorationAfterLoading(isLoading);
-  const { data: me } = useQueryMyProfile();
-
-  useEffect(() => {
-    ampli.impressionBanner({
-      banner_id: meetingAds?.advertisements[0].advertisementId,
-      banner_url: meetingAds?.advertisements[0].advertisementLink,
-      banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
-    });
-  }, []);
 
   return (
     <main>
@@ -43,18 +32,7 @@ export function MeetingListOfAll() {
             ))}
 
             {meetingAds && meetingListData?.meta.page === 1 && (
-              <Link
-                href={meetingAds?.advertisements[0]?.advertisementLink}
-                target="_blank"
-                onClick={() =>
-                  ampli.clickBanner({
-                    banner_id: meetingAds.advertisements[0].advertisementId,
-                    banner_url: meetingAds.advertisements[0].advertisementLink,
-                    banner_timestamp: meetingAds.advertisements[0].advertisementStartDate,
-                    user_id: Number(me?.orgId),
-                  })
-                }
-              >
+              <Link href={meetingAds?.advertisements[0]?.advertisementLink} target="_blank">
                 {isDesktop ? (
                   <img
                     src={meetingAds?.advertisements[0].desktopImageUrl}
@@ -95,7 +73,7 @@ export function MeetingListOfMine() {
   const { data: mineData, isLoading } = useQueryMeetingListOfMine();
   useScrollRestorationAfterLoading(isLoading);
   return (
-    <main style={{ marginBottom: '20%' }}>
+    <main>
       <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
       {mineData?.meetings.length ? (
         <GridLayout mobileType="card">
