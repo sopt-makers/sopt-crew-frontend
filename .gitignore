@@ -40,3 +40,5 @@ next-env.d.ts
 
 # __generated__
 src/__generated__/open-api-specification.json
+
+install-state.gz

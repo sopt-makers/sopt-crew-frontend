@@ -5,17 +5,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import DotWrapper from './DotWrapper';
 import { styled } from 'stitches.config';
+import { paths } from '@/__generated__/schema2';
 
 interface NoticeSliderProps {
-  notices:
-    | {
-        id: number;
-        title: string;
-        subTitle: string;
-        contents: string;
-        createdDate: string;
-      }[]
-    | undefined;
+  notices: paths['/notice/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'] | undefined;
 }
 
 export default function NoticeSlider({ notices }: NoticeSliderProps) {
