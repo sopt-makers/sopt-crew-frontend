@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useDisplay } from '@hooks/useDisplay';
 import { ampli } from '@/ampli';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useGetMeetingAds } from '@api/advertisement/hook';
 
 type PropType = {
   slides: paths['/advertisement/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['advertisements'];
@@ -33,6 +34,7 @@ const AdCarousel: React.FC<PropType> = props => {
 
   const { isDesktop } = useDisplay();
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
+  const { data: meetingAds } = useGetMeetingAds();
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
@@ -52,36 +54,37 @@ const AdCarousel: React.FC<PropType> = props => {
 
   const { data: me } = useQueryMyProfile();
 
+  useEffect(() => {
+    ampli.impressionBanner({
+      banner_id: meetingAds?.advertisements[0].advertisementId,
+      banner_url: meetingAds?.advertisements[0].advertisementLink,
+      banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
+    });
+  }, []);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Embla>
         <EmblaViewport ref={emblaRef}>
           <EmblaContainer>
-            {shuffledSlides?.map((slide, index) => {
-              ampli.impressionBanner({
-                banner_id: slide.advertisementId,
-                banner_url: slide.advertisementLink,
-                banner_timestamp: slide.advertisementStartDate,
-              });
-              return (
-                <Link
-                  href={slide?.advertisementLink}
-                  target="_blank"
-                  onClick={() =>
-                    ampli.clickBanner({
-                      banner_id: slide.advertisementId,
-                      banner_url: slide.advertisementLink,
-                      banner_timestamp: slide.advertisementStartDate,
-                      user_id: Number(me?.orgId),
-                    })
-                  }
-                >
-                  <EmblaSlide key={index}>
-                    <EmblaSlideImage src={slide?.mobileImageUrl}></EmblaSlideImage>
-                  </EmblaSlide>
-                </Link>
-              );
-            })}
+            {shuffledSlides?.map((slide, index) => (
+              <Link
+                href={slide?.advertisementLink}
+                target="_blank"
+                onClick={() =>
+                  ampli.clickBanner({
+                    banner_id: slide.advertisementId,
+                    banner_url: slide.advertisementLink,
+                    banner_timestamp: slide.advertisementStartDate,
+                    user_id: Number(me?.orgId),
+                  })
+                }
+              >
+                <EmblaSlide key={index}>
+                  <EmblaSlideImage src={slide?.mobileImageUrl}></EmblaSlideImage>
+                </EmblaSlide>
+              </Link>
+            ))}
           </EmblaContainer>
         </EmblaViewport>
 
