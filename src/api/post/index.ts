@@ -2,6 +2,7 @@ import { MeetingResponse } from '@api/API_LEGACY/meeting';
 import { UserResponse } from '@api/API_LEGACY/user';
 import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
+import { paths } from '@/__generated__/schema2';
 
 export interface PostResponse {
   id: number;
@@ -36,8 +37,8 @@ export const getPosts = async (page: number, take: number, meetingId?: number) =
 };
 
 export const getPost = async (postId: string) => {
-  const { GET } = apiV2.get();
-  const { data } = await GET('/post/v1/{postId}', { params: { path: { postId: Number(postId) } } });
+  type getPostType = paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+  const { data } = await api.get<getPostType>(`/post/v2/${postId}`);
   return data;
 };
 

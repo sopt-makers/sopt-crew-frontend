@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { MeetingResponse } from '@api/API_LEGACY/meeting';
 
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
 import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { ampli } from '@/ampli';
+import { paths } from '@/__generated__/schema2';
 
 interface CardProps {
   bottom?: ReactNode;
-  meetingData: MeetingResponse;
+  meetingData: paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number];
   mobileType: 'list' | 'card';
 }
 

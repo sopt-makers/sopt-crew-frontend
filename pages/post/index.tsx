@@ -1,35 +1,35 @@
-import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
-import Loader from '@components/loader/Loader';
-import { useRouter } from 'next/router';
-import { useToast } from '@sopt-makers/ui';
-import { useMutation } from '@tanstack/react-query';
-import { apiV2 } from '@api/index';
-import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
-import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
-import useComment from '@hooks/useComment/useComment';
-import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
-import useCommentMutation from '@hooks/useComment/useCommentMutation';
-import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import { paths } from '@/__generated__/schema2';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { styled } from 'stitches.config';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import React, { useContext, useEffect, useRef } from 'react';
-import { useDisplay } from '@hooks/useDisplay';
-import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
-import Link from 'next/link';
-import LikeButton from '@components/button/LikeButton';
-import { TAKE_COUNT } from '@constants/feed';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
+import LikeButton from '@components/button/LikeButton';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
+import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
+import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
+import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import { MentionContext } from '@components/feed/Mention/MentionContext';
+import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import Loader from '@components/loader/Loader';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
+import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import { TAKE_COUNT } from '@constants/feed';
+import useComment from '@hooks/useComment/useComment';
+import useCommentMutation from '@hooks/useComment/useCommentMutation';
+import { useDisplay } from '@hooks/useDisplay';
+import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { useToast } from '@sopt-makers/ui';
+import { useMutation } from '@tanstack/react-query';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useRef } from 'react';
+import { styled } from 'stitches.config';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -42,7 +42,7 @@ export default function PostPage() {
 
   const { data: me } = useQueryMyProfile();
 
-  const postQuery = useQueryGetPost(query.id as string);
+  const { data: post } = useQueryGetPost(query.id as string);
 
   const commentQuery = useComment();
 
@@ -114,7 +114,6 @@ export default function PostPage() {
       callback();
     };
 
-  const post = postQuery.data;
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
   const comments = commentQuery.data?.data?.comments?.filter(
@@ -223,7 +222,7 @@ export default function PostPage() {
           <FeedCommentLikeSection
             isLiked={post.isLiked}
             commentCount={commentQuery.data?.data?.comments.length || 0}
-            likeCount={post.likeCount}
+            likeCount={post.likeCount || 0}
             onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
           />
