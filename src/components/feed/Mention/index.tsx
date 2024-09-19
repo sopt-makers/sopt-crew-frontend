@@ -46,7 +46,7 @@ const CommonMention = ({
     useContext(MentionContext);
 
   useEffect(() => {
-    //컨테이너의 ID일 경우(즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
+    //컨테이너의 ID일 경우 (즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
     if (parentComment.parentCommentId === commentId) {
       if (inputRef.current) {
         inputRef.current.focus();
