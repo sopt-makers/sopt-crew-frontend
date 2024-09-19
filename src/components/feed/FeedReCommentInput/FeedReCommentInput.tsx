@@ -1,18 +1,16 @@
 import RecommentPointIcon from '@assets/svg/recomment_point_icon.svg';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import { forwardRef, useContext, useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import { FeedCommentInputProps } from '../FeedCommentInput/FeedCommentInput';
 import CommonMention from '../Mention';
-import { MentionContext } from '../Mention/MentionContext';
 
 const FeedReCommentInput = forwardRef<HTMLTextAreaElement, Omit<FeedCommentInputProps, 'writerName'>>(
   ({ commentId, onSubmit, disabled }) => {
     const [comment, setComment] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [userIds, setUserIds] = useState<number[] | null>(null);
-    const { setIsReCommentClicked } = useContext(MentionContext);
 
     const urlParams = new URLSearchParams(window.location.search);
     const postId = Number(urlParams.get('id'));
@@ -33,7 +31,7 @@ const FeedReCommentInput = forwardRef<HTMLTextAreaElement, Omit<FeedCommentInput
     };
 
     return (
-      <div style={{ display: 'flex' }} onClick={() => setIsReCommentClicked(false)}>
+      <div style={{ display: 'flex' }}>
         <RecommentPointIcon style={{ marginRight: '12px' }} />
         <Container isFocused={isFocused}>
           <CommentInput>

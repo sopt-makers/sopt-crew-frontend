@@ -1,9 +1,10 @@
 import { PostCommentWithMentionRequest } from '@api/mention';
 import SendIcon from 'public/assets/svg/send.svg';
 import SendFillIcon from 'public/assets/svg/send_fill.svg';
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useContext, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import CommonMention from '../Mention';
+import { MentionContext } from '../Mention/MentionContext';
 export interface FeedCommentInputProps {
   writerName: string;
   onSubmit: (req: PostCommentWithMentionRequest) => Promise<void>;
@@ -24,6 +25,8 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
     const postId = Number(urlParams.get('id'));
 
     const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const { setIsReCommentClicked, setParentComment } = useContext(MentionContext);
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
@@ -50,6 +53,10 @@ const FeedCommentInput = forwardRef<HTMLTextAreaElement, FeedCommentInputProps>(
             setIsFocused={setIsFocused}
             setUserIds={setUserIds}
             isComment={true}
+            onClick={() => {
+              setIsReCommentClicked(false);
+              setParentComment(prev => ({ ...prev, parentComment: true }));
+            }}
           />
         </CommentInput>
 

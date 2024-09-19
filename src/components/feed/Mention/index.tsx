@@ -26,6 +26,7 @@ interface CommonMentionProps {
   setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
   isComment: boolean;
   commentId?: number;
+  onClick?: () => void;
 }
 
 const CommonMention = ({
@@ -37,6 +38,7 @@ const CommonMention = ({
   setUserIds,
   isComment,
   commentId,
+  onClick,
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
@@ -57,14 +59,12 @@ const CommonMention = ({
   }, [isReCommentClicked, inputRef, setValue, user]);
 
   //다시 답글 달기 안누른 상태로 돌려주는 코드
-  useEffect(() => {
-    if (!isReCommentClicked) {
-      if (!value.startsWith('-~!@#')) {
-        setIsReCommentClicked(false);
-        setParentComment(prev => ({ ...prev, parentComment: true }));
-      }
-    }
-  }, [value, setIsReCommentClicked, setParentComment]);
+  // useEffect(() => {
+  //   if (!value.startsWith('-~!@#')) {
+  //     setIsReCommentClicked(false);
+  //     setParentComment(prev => ({ ...prev, parentComment: true }));
+  //   }
+  // }, [value, setIsReCommentClicked, setParentComment]);
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -146,6 +146,7 @@ const CommonMention = ({
       customSuggestionsContainer={customSuggestionsContainer}
       style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
       forceSuggestionsAboveCursor={isMobile && isComment}
+      onClick={onClick}
     >
       <Mention
         trigger="@"
