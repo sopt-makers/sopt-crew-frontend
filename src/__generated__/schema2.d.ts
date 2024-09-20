@@ -134,6 +134,9 @@ export interface paths {
     /** [TEMP] 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUserTemp"];
   };
+  "/test": {
+    get: operations["test1"];
+  };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
     get: operations["getPostCount"];
@@ -844,6 +847,19 @@ export interface components {
        * @description 내가 신청한 모임 갯수
        */
       count: number;
+    };
+    MemberBlock: {
+      /** Format: int64 */
+      id?: number;
+      /** Format: date-time */
+      createdAt?: string;
+      /** Format: date-time */
+      updatedAt?: string;
+      isBlocked: boolean;
+      /** Format: int64 */
+      blockedMember: number;
+      /** Format: int64 */
+      blocker: number;
     };
     PageMetaDto: {
       /**
@@ -2464,6 +2480,16 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
+        };
+      };
+    };
+  };
+  test1: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["MemberBlock"][];
         };
       };
     };

@@ -88,10 +88,11 @@ export default function PostPage() {
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
 
   const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: () => DELETE('/post/v1/{postId}', { params: { path: { postId: post!.id } } }),
+    mutationFn: () => DELETE('/post/v2/{postId}', { params: { path: { postId: post!.id } } }),
     onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
   });
 
+  // TODO: v2 마이그레이션
   const { mutateAsync: mutateReportPost } = useMutation({
     mutationFn: (postId: number) => POST('/post/v1/{postId}/report', { params: { path: { postId } } }),
   });
