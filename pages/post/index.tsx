@@ -49,7 +49,7 @@ export default function PostPage() {
   const { parentComment } = useContext(MentionContext);
 
   const { mutateAsync, isLoading: isCreatingComment } = useMutation({
-    mutationKey: ['/comment/v1'],
+    mutationKey: ['/comment/v2'],
     mutationFn: (comment: string) =>
       POST('/comment/v2', {
         body: {
