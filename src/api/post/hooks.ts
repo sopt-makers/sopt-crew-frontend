@@ -102,7 +102,7 @@ export const useDeleteComment = (queryId: string) => {
   return useMutation({
     mutationFn: (commentId: number) => deleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/comment/v1', queryId] });
+      queryClient.invalidateQueries({ queryKey: ['/comment/v2', queryId] });
     },
   });
 };

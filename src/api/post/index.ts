@@ -23,8 +23,8 @@ export const createPost = async (formData: FormCreateType) => {
 };
 
 export const editPost = async (postId: string, formData: FormEditType) => {
-  const { data } = await api.put<Data<Pick<PostResponse, 'id' | 'title' | 'contents' | 'updatedDate' | 'images'>>>(
-    `/post/v1/${postId}`,
+  const { data } = await api.put<Pick<PostResponse, 'id' | 'title' | 'contents' | 'updatedDate' | 'images'>>(
+    `/post/v2/${postId}`,
     formData
   );
   return data;
@@ -42,9 +42,10 @@ export const getPost = async (postId: string) => {
   return data;
 };
 
+// TODO: v2 마이그레이션
 export const postLike = async (queryId: string) => {
   const { POST } = apiV2.get();
-  return await POST('/post/v1/{postId}/like', { params: { path: { postId: Number(queryId) } } });
+  return await POST('/post/v1/{postId}/like', { params: { path: { postId: +queryId } } });
 };
 
 export const deleteComment = async (commentId: number) => {

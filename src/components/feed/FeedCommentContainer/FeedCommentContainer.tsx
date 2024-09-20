@@ -46,7 +46,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
   const { mutateAsync: mutateEditComment } = useMutation({
     mutationFn: (contents: string) =>
       PUT('/comment/v2/{commentId}', { params: { path: { commentId: comment.id } }, body: { contents } }),
-    onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
+    onSuccess: () => queryClient.invalidateQueries(['/comment/v2', query.id]),
   });
 
   const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {

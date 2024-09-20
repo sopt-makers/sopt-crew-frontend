@@ -35,7 +35,7 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
   const { mutateAsync: mutateEditComment } = useMutation({
     mutationFn: (contents: string) =>
       PUT('/comment/v2/{commentId}', { params: { path: { commentId: reply.id } }, body: { contents } }),
-    onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
+    onSuccess: () => queryClient.invalidateQueries(['/comment/v2', query.id]),
   });
 
   const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {

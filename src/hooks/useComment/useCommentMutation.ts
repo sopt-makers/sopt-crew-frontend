@@ -11,16 +11,16 @@ export default function useCommentMutation() {
   const { POST } = apiV2.get();
 
   return useMutation({
-    mutationKey: ['/comment/v1/{commentId}/like'],
+    mutationKey: ['/comment/v2/{commentId}/like'],
     mutationFn: (commentId: number) => POST('/comment/v2/{commentId}/like', { params: { path: { commentId } } }),
     onMutate: async commentId => {
-      await queryClient.cancelQueries({ queryKey: ['/comment/v1', query.id] });
+      await queryClient.cancelQueries({ queryKey: ['/comment/v2', query.id] });
 
-      const previousComments = queryClient.getQueryData(['/comment/v1', query.id]);
+      const previousComments = queryClient.getQueryData(['/comment/v2', query.id]);
 
       type Comments =
         paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'];
-      queryClient.setQueryData<InfiniteData<{ comments: Comments }>>(['/comment/v1', query.id], oldData => {
+      queryClient.setQueryData<InfiniteData<{ comments: Comments }>>(['/comment/v2', query.id], oldData => {
         const newData = produce(oldData, draft => {
           //todo: pages 제거 작업 필요
           draft?.pages?.forEach(page => {
@@ -37,10 +37,10 @@ export default function useCommentMutation() {
       return { previousComments };
     },
     onError: (err, commentId, context) => {
-      queryClient.setQueryData(['/comment/v1', query.id], context?.previousComments);
+      queryClient.setQueryData(['/comment/v2', query.id], context?.previousComments);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['/comment/v1', query.id] });
+      queryClient.invalidateQueries({ queryKey: ['/comment/v2', query.id] });
     },
   });
 }

@@ -7,7 +7,7 @@ export default function useComment() {
   const { GET } = apiV2.get();
 
   const commentQuery = useQuery({
-    queryKey: ['/comment/v1', query.id],
+    queryKey: ['/comment/v2', query.id],
     queryFn: () =>
       GET('/comment/v2', {
         params: { query: { postId: Number(query.id as string) } },
