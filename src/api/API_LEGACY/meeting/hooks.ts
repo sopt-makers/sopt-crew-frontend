@@ -29,7 +29,6 @@ import {
   UpdateApplicationRequest,
   downloadMeetingMemberCSV,
   getGroupBrowsingCard,
-  GroupBrowsingCardDetail,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -178,11 +177,11 @@ export const useMutationDownloadMeetingMemberCSV = () =>
     },
   });
 
-export const useQueryGetGroupBrowsingCard = (): UseQueryResult<GroupBrowsingCardDetail[]> => {
+export const useQueryGetGroupBrowsingCard = () => {
   return useQuery({
     queryKey: ['getGroupBrowsingCard'],
-    queryFn: () => {
-      return getGroupBrowsingCard();
+    queryFn: async () => {
+      return (await getGroupBrowsingCard()).data;
     },
   });
 };

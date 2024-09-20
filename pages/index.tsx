@@ -60,7 +60,9 @@ const Home: NextPage = () => {
                 <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
-            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+            {Array.isArray(groupBrowsingCardData) && (
+              <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>
+            )}
             <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
           </>
         ) : (

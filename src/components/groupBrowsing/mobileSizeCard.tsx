@@ -3,27 +3,25 @@ import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
 import { ACTION_STATUS } from '@constants/option';
 import Link from 'next/link';
-import { categoryType, GroupBrowsingCardDetail, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
+import {
+  categoryType,
+  GetGroupBrowsingCardResponse,
+  returnIsGroupActive,
+  returnNewStatus,
+} from '@api/API_LEGACY/meeting';
+import { ElementType } from '@utils/elementType';
 
-const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
+const MobileSizeCard: FC<ElementType<GetGroupBrowsingCardResponse>> = ({
   id,
   title,
   category,
-  startDate,
   mstartDate,
   mendDate,
-  recentActivityDate,
-  targetActiveGeneration,
-  joinableParts,
-  capacity,
-  applicantCount,
-  approvedUserCount,
-  user,
   status,
   imageURL,
 }) => {
-  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
-  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
+  const isGroupActive = returnIsGroupActive(mstartDate + '', mendDate + '');
+  const newStatus = returnNewStatus(status, mstartDate + '', isGroupActive);
 
   return (
     <Link href={`/detail?id=${id}`}>
@@ -31,7 +29,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
         <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
+            backgroundImage: `url(${getResizedImage(imageURL[0].url + '', 140)})`,
             backgroundSize: 'cover',
           }}
         />

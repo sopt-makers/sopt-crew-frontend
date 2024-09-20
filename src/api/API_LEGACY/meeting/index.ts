@@ -255,7 +255,7 @@ export const updateMeeting = async (meetingId: string, formData: FormType) => {
   return response;
 };
 
-type GetPresignedUrlResponse =
+export type GetPresignedUrlResponse =
   paths['/meeting/v2/presigned-url']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 export const getPresignedUrl = async (contentType: string) => {
@@ -279,8 +279,11 @@ export const downloadMeetingMemberCSV = async (meetingId: string) => {
   return await api.get<{ url: string }>(`/meeting/v2/${meetingId}/list/csv?status=1&type=0,1&order=desc`);
 };
 
+export type GetGroupBrowsingCardResponse =
+  | paths['/meeting/v2/banner']['get']['responses']['200']['content']['application/json;charset=UTF-8']
+  | paths['/meeting/v2/banner']['get']['responses']['204'];
 export const getGroupBrowsingCard = async () => {
-  return (await api.get<Data<GroupBrowsingCardDetail>>('/meeting/v2/banner')).data;
+  return await api.get<GetGroupBrowsingCardResponse>('/meeting/v2/banner');
 };
 
 export const returnNewStatus = (status: number, mstartDate: string, isGroupActive: boolean) => {

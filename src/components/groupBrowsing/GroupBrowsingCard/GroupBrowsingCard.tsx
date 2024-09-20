@@ -6,6 +6,7 @@ import Avatar from '@components/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import {
   categoryType,
+  GetGroupBrowsingCardResponse,
   GroupBrowsingCardDetail,
   parsePartValueToLabel,
   returnIsGroupActive,
@@ -19,8 +20,9 @@ import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import Separator from '@assets/svg/GroupBrowsingCardSeparator.svg';
 import { fontsObject } from '@sopt-makers/fonts';
+import { ElementType } from '@utils/elementType';
 
-const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
+const GroupBrowsingCard: FC<ElementType<GetGroupBrowsingCardResponse>> = ({
   id,
   title,
   category,
@@ -38,9 +40,9 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
   imageURL,
 }) => {
   const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
-  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
+  const isGroupActive = returnIsGroupActive(mstartDate + '', mendDate + '');
 
-  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
+  const newStatus = returnNewStatus(status, mstartDate + '', isGroupActive);
 
   type statusTextsType = {
     [key: number]: string;
@@ -61,7 +63,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
         css={{
-          backgroundImage: `url(${getResizedImage(imageURL[0].url, 285)})`,
+          backgroundImage: `url(${getResizedImage(imageURL[0].url + '', 285)})`,
         }}
       >
         <SInfo>
