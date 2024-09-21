@@ -12,14 +12,13 @@ import { styled } from 'stitches.config';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useGetPostAds } from '@api/advertisement/hook';
 import AdCarousel from './AdCarousel';
-import ContentBlocker from '@components/contentBlocker/ContentBlocker';
+import ContentBlocker from '@components/blocker/ContentBlocker';
 
 const RenderPostsWithAds = () => {
   const { isMobile, isTablet } = useDisplay();
 
   const { data: postsData } = useInfinitePosts(TAKE_COUNT);
 
-  console.log({ postsData });
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
 
   const router = useRouter();

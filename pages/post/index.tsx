@@ -7,7 +7,7 @@ import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
-import ContentBlocker from '@components/contentBlocker/ContentBlocker';
+import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';

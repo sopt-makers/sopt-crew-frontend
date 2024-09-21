@@ -17,7 +17,7 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import ContentBlocker from '@components/contentBlocker/ContentBlocker';
+import ContentBlocker from '@components/blocker/ContentBlocker';
 
 interface FeedPanelProps {
   isMember: boolean;
