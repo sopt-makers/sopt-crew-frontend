@@ -2,7 +2,7 @@ import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
@@ -24,8 +24,9 @@ import useCommentMutation from '@hooks/useComment/useCommentMutation';
 import { useDisplay } from '@hooks/useDisplay';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
-import { useToast } from '@sopt-makers/ui';
+import { useDialog, useToast } from '@sopt-makers/ui';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef } from 'react';
@@ -37,6 +38,7 @@ export default function PostPage() {
   const { open } = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
+  const { open: dialogOpen } = useDialog();
   const query = router.query;
   const { POST, DELETE } = apiV2.get();
 
@@ -93,25 +95,30 @@ export default function PostPage() {
   });
 
   const { mutateAsync: mutateReportPost } = useMutation({
-    mutationFn: (postId: number) => POST('/post/v1/{postId}/report', { params: { path: { postId } } }),
+    mutationFn: (postId: number) =>
+      api.post<
+        paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
+      >(`/post/v2/${postId}/report`, {}),
   });
   const handleConfirmReportPost =
     ({ postId, callback }: { postId: number; callback: () => void }) =>
     async () => {
-      const { error } = await mutateReportPost(postId);
-      if (error) {
+      try {
+        await mutateReportPost(postId);
+        open({
+          icon: 'success',
+          content: '게시글을 신고했습니다',
+        });
+        callback();
+      } catch (error) {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
         open({
           icon: 'error',
-          content: error.message,
+          content: axiosError?.response?.data?.errorCode as string,
         });
         callback();
         return;
       }
-      open({
-        icon: 'success',
-        content: '게시글을 신고했습니다',
-      });
-      callback();
     };
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
@@ -201,17 +208,28 @@ export default function PostPage() {
             : [
                 <FeedActionButton
                   onClick={() => {
-                    overlay.open(({ isOpen, close }) => (
-                      // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 신고하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="신고하기"
-                        handleModalClose={close}
-                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                      />
-                    ));
+                    dialogOpen({
+                      title: '이 게시물을 신고하시겠습니까?',
+                      description: `게시물을 신고할 경우, 메이커스에서 검토를 거쳐 \n 적절한 조치 및 게시자 제재를 취해요.`,
+                      type: 'default',
+                      typeOptions: {
+                        cancelButtonText: '취소',
+                        approveButtonText: '신고하기',
+                        buttonFunction: () => handleConfirmReportPost({ postId: post.id, callback: close }),
+                      },
+                    });
+                    // 현재 위의 코드를 플랫폼팀의 형겸님이 수정 중이라서 일단 아래 삭제 x
+                    // overlay.open(({ isOpen, close }) => (
+                    //   // eslint-disable-next-line prettier/prettier
+                    //   <ConfirmModal
+                    //     isModalOpened={isOpen}
+                    //     message="게시글을 신고하시겠습니까?"
+                    //     cancelButton="돌아가기"
+                    //     confirmButton="신고하기"
+                    //     handleModalClose={close}
+                    //     handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                    //   />
+                    // ));
                   }}
                 >
                   신고
