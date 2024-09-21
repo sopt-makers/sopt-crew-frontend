@@ -273,23 +273,29 @@ export default function PostPage() {
               {postsInMeeting?.map(post => {
                 if (!post) return;
                 return (
-                  <Link key={post.id} href={`/post?id=${post.id}`}>
-                    <FeedItem
-                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
-                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                      /* @ts-ignore */
-                      post={post}
-                      meetingId={meetingId}
-                      // eslint-disable-next-line prettier/prettier
-                      LikeButton={
-                        <LikeButton
-                          isLiked={post.isLiked}
-                          likeCount={post.likeCount}
-                          onClickLike={handleClickLike(post.id)(mutateLike)}
+                  <>
+                    {post?.id === 324 ? (
+                      <ContentBlocker />
+                    ) : (
+                      <Link key={post.id} href={`/post?id=${post.id}`}>
+                        <FeedItem
+                          /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                          /* @ts-ignore */
+                          post={post}
+                          meetingId={meetingId}
+                          // eslint-disable-next-line prettier/prettier
+                          LikeButton={
+                            <LikeButton
+                              isLiked={post.isLiked}
+                              likeCount={post.likeCount}
+                              onClickLike={handleClickLike(post.id)(mutateLike)}
+                            />
+                          }
                         />
-                      }
-                    />
-                  </Link>
+                      </Link>
+                    )}
+                  </>
                 );
               })}
             </FeedList>
