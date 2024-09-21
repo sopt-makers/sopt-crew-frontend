@@ -17,6 +17,7 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
+import ContentBlocker from '@components/contentBlocker/ContentBlocker';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -71,30 +72,36 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
     return (
-      <Link href={`/post?id=${post.id}`} key={post.id}>
-        <FeedItem
-          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-          /* @ts-ignore */
-          post={post}
-          LikeButton={
-            <LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />
-          }
-          onClick={() =>
-            ampli.clickFeedCard({
-              feed_id: post.id,
-              feed_upload: post.updatedDate,
-              feed_title: post.title,
-              feed_image_total: post.images ? post.images.length : 0,
-              feed_comment_total: post.commentCount,
-              feed_like_total: post.likeCount,
-              group_id: Number(meetingId),
-              crew_status: meeting?.approved,
-              platform_type: isMobile ? 'MO' : 'PC',
-              location: router.pathname,
-            })
-          }
-        />
-      </Link>
+      <>
+        {post?.id === 324 ? (
+          <ContentBlocker />
+        ) : (
+          <Link href={`/post?id=${post.id}`} key={post.id}>
+            <FeedItem
+              /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+              /* @ts-ignore */
+              post={post}
+              LikeButton={
+                <LikeButton isLiked={post.isLiked} likeCount={post.likeCount} onClickLike={handleLikeClick(post.id)} />
+              }
+              onClick={() =>
+                ampli.clickFeedCard({
+                  feed_id: post.id,
+                  feed_upload: post.updatedDate,
+                  feed_title: post.title,
+                  feed_image_total: post.images ? post.images.length : 0,
+                  feed_comment_total: post.commentCount,
+                  feed_like_total: post.likeCount,
+                  group_id: Number(meetingId),
+                  crew_status: meeting?.approved,
+                  platform_type: isMobile ? 'MO' : 'PC',
+                  location: router.pathname,
+                })
+              }
+            />
+          </Link>
+        )}
+      </>
     );
   });
 
