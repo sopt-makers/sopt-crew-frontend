@@ -32,34 +32,8 @@ export interface ImageURLType {
   url: string;
 }
 export type RecruitmentStatusType = 0 | 1 | 2;
-export interface MeetingResponse {
-  id: number;
-  userId: number;
-  title: string;
-  category: string;
-  status: RecruitmentStatusType;
-  imageURL: ImageURLType[];
-  startDate: string;
-  endDate: string;
-  approvedApplyCount: number;
-  capacity: number;
-  desc: string;
-  processDesc: string;
-  mStartDate: string;
-  mEndDate: string;
-  leaderDesc: string;
-  targetDesc: string;
-  note: string | null;
-  isMentorNeeded: boolean;
-  appliedInfo: ApplyResponse[];
-  user: UserResponse;
-  host: boolean;
-  apply: boolean;
-  approved: boolean;
-  canJoinOnlyActiveGeneration: boolean;
-  targetActiveGeneration: number | null;
-  joinableParts: string[];
-}
+export type MeetingResponse =
+  paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 type MeetingListOfFilterResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
@@ -173,8 +147,8 @@ export const fetchMeetingListOfAll = async ({
   );
 };
 
-export const getMeeting = async (id: string): Promise<MeetingResponse> => {
-  return (await api.get<PromiseResponse<MeetingResponse>>(`/meeting/${id}`)).data.data;
+export const getMeeting = async (id: string) => {
+  return await api.get<PromiseResponse<MeetingResponse>>(`/meeting/v2/${id}`);
 };
 
 /**

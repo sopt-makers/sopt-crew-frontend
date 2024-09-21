@@ -60,7 +60,7 @@ const MeetingController = ({
     endDate,
     category,
     title,
-    user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
+    // user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
     appliedInfo,
     approved,
     approvedApplyCount,
@@ -69,6 +69,7 @@ const MeetingController = ({
     apply: isApplied,
     isMentorNeeded,
   } = detailData;
+  console.log({ detailData });
 
   const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
@@ -194,11 +195,11 @@ const MeetingController = ({
           </h1>
           <SHostWrapper>
             <SProfileAnchor
-              href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
-              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
+              href={`${playgroundURL}${playgroundLink.memberDetail(user.orgId)}`}
+              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(user.orgId) })}
             >
-              {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
-              <span>{hostName}</span>
+              {user.profileImage ? <img src={getResizedImage(user.profileImage, 120)} /> : <ProfileDefaultIcon />}
+              <span>{user.name}</span>
               <ArrowSmallRightIcon />
             </SProfileAnchor>
             {isMentorNeeded && <MentorTooltip />}

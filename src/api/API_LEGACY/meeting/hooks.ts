@@ -87,7 +87,7 @@ export const useQueryGetMeeting = ({
 }: UseQueryGetMeetingParams): UseQueryResult<MeetingResponse> => {
   const { id } = params;
 
-  return useQuery<MeetingResponse>({
+  return useQuery({
     queryKey: ['getMeeting', id],
     queryFn: () => {
       return getMeeting(id);
