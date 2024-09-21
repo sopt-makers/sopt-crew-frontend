@@ -21,6 +21,7 @@ import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
+import CommentBlocker from '@components/blocker/CommentBlocker';
 
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
@@ -60,47 +61,48 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
       {comment.user.id === null ? (
         <div style={{ color: colors.gray500 }}>{comment.contents}</div>
       ) : (
-        <FeedCommentViewer
-          key={comment.id}
-          comment={comment}
-          Actions={[
-            <FeedActionButton onClick={() => setEditMode(true)}>수정</FeedActionButton>,
-            <FeedActionButton
-              onClick={() =>
-                overlay.open(({ isOpen, close }) => (
-                  // eslint-disable-next-line prettier/prettier
-                  <ConfirmModal
-                    isModalOpened={isOpen}
-                    message="댓글을 삭제하시겠습니까?"
-                    cancelButton="돌아가기"
-                    confirmButton="삭제하기"
-                    handleModalClose={close}
-                    handleConfirm={() => {
-                      mutateDeleteComment(comment.id);
-                      close();
-                    }}
-                  />
-                ))
-              }
-            >
-              삭제
-            </FeedActionButton>,
-          ]}
-          Content={
-            editMode ? (
-              <FeedCommentEditor
-                defaultValue={comment.contents}
-                onCancel={() => setEditMode(false)}
-                onSubmit={handleSubmitComment}
-              />
-            ) : (
-              parseTextToLink(comment.contents)
-            )
-          }
-          isMine={isMine}
-          isPosterComment={postUserId === comment.user.id}
-          onClickLike={onClickLike}
-        />
+        // <FeedCommentViewer
+        //   key={comment.id}
+        //   comment={comment}
+        //   Actions={[
+        //     <FeedActionButton onClick={() => setEditMode(true)}>수정</FeedActionButton>,
+        //     <FeedActionButton
+        //       onClick={() =>
+        //         overlay.open(({ isOpen, close }) => (
+        //           // eslint-disable-next-line prettier/prettier
+        //           <ConfirmModal
+        //             isModalOpened={isOpen}
+        //             message="댓글을 삭제하시겠습니까?"
+        //             cancelButton="돌아가기"
+        //             confirmButton="삭제하기"
+        //             handleModalClose={close}
+        //             handleConfirm={() => {
+        //               mutateDeleteComment(comment.id);
+        //               close();
+        //             }}
+        //           />
+        //         ))
+        //       }
+        //     >
+        //       삭제
+        //     </FeedActionButton>,
+        //   ]}
+        //   Content={
+        //     editMode ? (
+        //       <FeedCommentEditor
+        //         defaultValue={comment.contents}
+        //         onCancel={() => setEditMode(false)}
+        //         onSubmit={handleSubmitComment}
+        //       />
+        //     ) : (
+        //       parseTextToLink(comment.contents)
+        //     )
+        //   }
+        //   isMine={isMine}
+        //   isPosterComment={postUserId === comment.user.id}
+        //   onClickLike={onClickLike}
+        // />
+        <CommentBlocker />
       )}
       {initialReplyLength.current >= 2 && !showMoreReComments ? (
         <LoadMoreReCommentsButton onClick={() => setShowMoreReComments(!showMoreReComments)}>
@@ -121,13 +123,14 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
         <>
           {comment?.replies?.map((reply: replyType) => {
             return (
-              <FeedReCommentContainer
-                comment={comment}
-                reply={reply}
-                isMine={isMine}
-                postUserId={postUserId}
-                onClickLike={onClickLike}
-              />
+              // <FeedReCommentContainer
+              //   comment={comment}
+              //   reply={reply}
+              //   isMine={isMine}
+              //   postUserId={postUserId}
+              //   onClickLike={onClickLike}
+              // />
+              <CommentBlocker variant="secondary" />
             );
           })}
         </>

@@ -21,7 +21,6 @@ const Container = styled('div', {
 
   background: '$gray900',
   borderRadius: '12px',
-  color: '$gray10',
 
   '@tablet': {
     padding: '$24 0 $28 0',
