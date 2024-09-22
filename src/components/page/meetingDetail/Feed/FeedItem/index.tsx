@@ -210,7 +210,7 @@ const STrigger = styled(DropdownMenu.Trigger, {
 const MenuItemsContainer = styled('div', {
   position: 'absolute',
   top: '4px',
-  left: '0',
+  right: '-15px',
   padding: '8px',
   borderRadius: '13px',
   display: 'flex',

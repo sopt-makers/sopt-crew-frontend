@@ -356,7 +356,7 @@ const ViewCount = styled('span', {
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
   top: '35px', // TODO: design 체크 필요
-  left: '0', // TODO: design 체크 필요
+  right: '0', // TODO: design 체크 필요
   padding: '8px',
   borderRadius: '13px',
   display: 'flex',
