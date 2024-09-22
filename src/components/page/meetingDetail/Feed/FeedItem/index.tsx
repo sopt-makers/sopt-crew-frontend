@@ -14,6 +14,9 @@ import truncateText from '@utils/truncateText';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { colors } from '@sopt-makers/colors';
+import MenuIcon from '@assets/svg/menu_icon.svg';
+import ClickedMenuIcon from '@assets/svg/clicked-menu-icon.svg';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 interface PostProps {
   id: number;
@@ -34,9 +37,10 @@ interface FeedItemProps {
   LikeButton?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   meetingId?: number;
+  Actions?: React.ReactNode[];
 }
 
-const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) => {
+const FeedItem = ({ post, HeaderSection, LikeButton, onClick, Actions }: FeedItemProps) => {
   const { user, title, contents, images, createdDate, commenterThumbnails, commentCount } = post;
   const router = useRouter();
   const processString = () => {
@@ -90,7 +94,25 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick }: FeedItemProps) =
           </SProfileButton>
           <STime>{fromNow(createdDate)}</STime>
         </Flex>
-        {/* <MoreIcon /> */}
+        <div onClick={e => e.preventDefault()} style={{ position: 'relative' }}>
+          <DropdownMenu.Root>
+            <STrigger>
+              <MenuIcon data-icon="menu" />
+              <ClickedMenuIcon data-icon="clicked-menu" />
+            </STrigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content asChild>
+                <MenuItemsContainer>
+                  {Actions?.map((Action, index) => (
+                    <SMenuItemContainer>
+                      <DropdownMenu.Item key={index}>{Action}</DropdownMenu.Item>
+                    </SMenuItemContainer>
+                  ))}
+                </MenuItemsContainer>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+        </div>
       </STop>
 
       <STitle>{truncateText(title, CARD_TITLE_MAX_LENGTH)}</STitle>
@@ -167,6 +189,52 @@ const STop = styled('div', {
   justifyContent: 'space-between',
   mb: '$12',
   mt: '$4',
+});
+
+const STrigger = styled(DropdownMenu.Trigger, {
+  '& > [data-icon="menu"]': {
+    display: 'display',
+  },
+
+  '& > [data-icon="clicked-menu"]': {
+    display: 'none',
+  },
+
+  '&[data-state="open"] [data-icon="menu"]': {
+    display: 'none',
+  },
+  '&[data-state="open"] [data-icon="clicked-menu"]': {
+    display: 'block',
+  },
+});
+const MenuItemsContainer = styled('div', {
+  position: 'absolute',
+  top: '4px',
+  left: '0',
+  padding: '8px',
+  borderRadius: '13px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  background: '$gray800',
+  zIndex: 2,
+});
+const SMenuItemContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '80px',
+  background: '$gray800',
+
+  '&:hover': {
+    background: '$gray700',
+    borderRadius: '$8',
+  },
+
+  '&:active': {
+    background: '$gray600',
+    borderRadius: '$8',
+  },
 });
 
 const SProfileButton = styled('button', {
