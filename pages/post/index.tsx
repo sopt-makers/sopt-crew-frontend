@@ -2,7 +2,7 @@ import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
@@ -33,6 +33,7 @@ import { styled } from 'stitches.config';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { AxiosError } from 'axios';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -96,25 +97,30 @@ export default function PostPage() {
   });
 
   const { mutateAsync: mutateReportPost } = useMutation({
-    mutationFn: (postId: number) => POST('/post/v1/{postId}/report', { params: { path: { postId } } }),
+    mutationFn: (postId: number) =>
+      api.post<
+        paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
+      >(`/post/v2/${postId}/report`, {}),
   });
   const handleConfirmReportPost =
     ({ postId, callback }: { postId: number; callback: () => void }) =>
     async () => {
-      const { error } = await mutateReportPost(postId);
-      if (error) {
+      try {
+        await mutateReportPost(postId);
+        open({
+          icon: 'success',
+          content: '게시글을 신고했습니다',
+        });
+        callback();
+      } catch (error) {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
         open({
           icon: 'error',
-          content: error.message,
+          content: axiosError?.response?.data?.errorCode as string,
         });
         callback();
         return;
       }
-      open({
-        icon: 'success',
-        content: '게시글을 신고했습니다',
-      });
-      callback();
     };
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });

@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { useDeleteComment } from '@api/post/hooks';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PostCommentWithMentionRequest } from '@api/mention';
@@ -24,6 +24,7 @@ import MessageIcon from '@assets/svg/message-dots.svg?v2';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { useToast } from '@sopt-makers/ui';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -35,6 +36,7 @@ interface FeedCommentContainerProps {
 export default function FeedCommentContainer({ comment, isMine, postUserId, onClickLike }: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
+  const { open } = useToast();
   const { query } = useRouter();
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
@@ -49,6 +51,26 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
     mutationFn: (contents: string) =>
       PUT('/comment/v2/{commentId}', { params: { path: { commentId: comment.id } }, body: { contents } }),
     onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
+  });
+
+  const { mutate: mutateReportComment } = useMutation({
+    mutationFn: (commentId: number) =>
+      api.post<paths['/comment/v2/{commentId}/report']['post']['responses']['201']['content']['application/json']>(
+        `/comment/v2/${comment.id}/report`,
+        {}
+      ),
+    onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '댓글을 신고했습니다.',
+      });
+    },
+    onError: () => {
+      open({
+        icon: 'error',
+        content: '이미 신고한 댓글입니다.',
+      });
+    },
   });
 
   const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {
@@ -99,7 +121,6 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
                     onClick={() =>
                       overlay.open(({ isOpen, close }) => (
                         // eslint-disable-next-line prettier/prettier
-                        //todo: 신고 모달 여기에 붙여주세요.
                         <ConfirmModal
                           isModalOpened={isOpen}
                           message="신고하시겠습니까?"
@@ -107,7 +128,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
                           confirmButton="신고하기"
                           handleModalClose={close}
                           handleConfirm={() => {
-                            mutateDeleteComment(comment.id);
+                            mutateReportComment(comment.id);
                             close();
                           }}
                         />

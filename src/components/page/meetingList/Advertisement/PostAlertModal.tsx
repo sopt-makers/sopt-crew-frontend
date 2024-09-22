@@ -1,32 +1,44 @@
-import { apiV2 } from '@api/index';
+import { paths } from '@/__generated__/schema2';
+import { api } from '@api/index';
 import ModalContainer from '@components/modal/ModalContainer';
 import { Dialog } from '@headlessui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@sopt-makers/ui';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { styled } from 'stitches.config';
 
-interface PostDeleteModalProps {
+interface PostAlertModal {
   isOpen: boolean;
   close: () => void;
   postId: number;
-  meetingId: number;
 }
 
-//todo: meetingId 없애기
-const PostDeleteModal = ({ isOpen, close, postId, meetingId }: PostDeleteModalProps) => {
-  const queryClient = useQueryClient();
+const PostAlertModal = ({ isOpen, close, postId }: PostAlertModal) => {
+  const { open } = useToast();
 
-  const { DELETE } = apiV2.get();
-
-  const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: () => DELETE('/post/v1/{postId}', { params: { path: { postId: postId } } }),
-    onSuccess: () => queryClient.invalidateQueries(['getPosts']),
-    //todo: 지금은 getPosts 로 시작하는 모든 query 가 invalidate 됨.
+  const { mutate: mutateReportPost } = useMutation({
+    mutationFn: (postId: number) =>
+      api.post<
+        paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
+      >(`/post/v2/${postId}/report`, {}),
+    onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '게시글을 신고했습니다.',
+      });
+    },
+    onError: () => {
+      open({
+        icon: 'error',
+        content: '이미 신고한 게시글입니다.',
+      });
+    },
   });
+
   return (
     <ModalContainer isModalOpened={isOpen} handleModalClose={() => {}}>
       <SDialogWrapper>
-        <Dialog.Title className="title">게시글을 삭제하시겠습니까?</Dialog.Title>
+        <Dialog.Title className="title">게시글을 신고하시겠습니까?</Dialog.Title>
         <div>
           <button type="button" onClick={close}>
             돌아가기
@@ -34,11 +46,11 @@ const PostDeleteModal = ({ isOpen, close, postId, meetingId }: PostDeleteModalPr
           <button
             type="button"
             onClick={() => {
-              mutateDeletePost();
+              mutateReportPost(postId);
               close();
             }}
           >
-            삭제하기
+            신고하기
           </button>
         </div>
       </SDialogWrapper>
@@ -46,7 +58,7 @@ const PostDeleteModal = ({ isOpen, close, postId, meetingId }: PostDeleteModalPr
   );
 };
 
-export default PostDeleteModal;
+export default PostAlertModal;
 
 const SDialogWrapper = styled('div', {
   position: 'fixed',

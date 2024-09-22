@@ -9,7 +9,7 @@ import { useDeleteComment } from '@api/post/hooks';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { paths } from '@/__generated__/schema2';
 import { parseTextToLink } from '@components/util/parseTextToLink';
@@ -17,6 +17,7 @@ import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useToast } from '@sopt-makers/ui';
 interface FeedReCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   reply: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]['replies'][number];
@@ -29,6 +30,7 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
   const { query } = useRouter();
+  const { open } = useToast();
 
   const overlay = useOverlay();
   const [replyEditMode, setReplyEditMode] = useState(false);
@@ -47,7 +49,27 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
     setReplyEditMode(false);
   };
 
-  const isMine = comment.user.id === me?.id;
+  const { mutate: mutateReportComment } = useMutation({
+    mutationFn: (commentId: number) =>
+      api.post<paths['/comment/v2/{commentId}/report']['post']['responses']['201']['content']['application/json']>(
+        `/comment/v2/${reply.id}/report`,
+        {}
+      ),
+    onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '댓글을 신고했습니다.',
+      });
+    },
+    onError: () => {
+      open({
+        icon: 'error',
+        content: '이미 신고한 댓글입니다.',
+      });
+    },
+  });
+
+  const isMine = reply.user.id === me?.id;
   return (
     <div style={{ display: 'flex' }}>
       <RecommentPointIcon style={{ marginRight: '12px' }} />
@@ -91,11 +113,14 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
                       // eslint-disable-next-line prettier/prettier
                       <ConfirmModal
                         isModalOpened={isOpen}
-                        message="게시글을 신고하시겠습니까?"
+                        message="댓글을 신고하시겠습니까?"
                         cancelButton="돌아가기"
                         confirmButton="신고하기"
                         handleModalClose={close}
-                        handleConfirm={() => {}}
+                        handleConfirm={() => {
+                          mutateReportComment(reply.id);
+                          close();
+                        }}
                       />
                     ));
                   }}

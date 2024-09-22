@@ -18,9 +18,9 @@ import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
-import ConfirmModal from '@components/modal/ConfirmModal';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import PostDeleteModal from './PostDeleteModal';
+import PostAlertModal from './PostAlertModal';
 
 const RenderPostsWithAds = () => {
   const { isMobile, isTablet } = useDisplay();
@@ -119,14 +119,7 @@ const RenderPostsWithAds = () => {
                             onClick={() => {
                               overlay.open(({ isOpen, close }) => (
                                 // eslint-disable-next-line prettier/prettier
-                                <ConfirmModal
-                                  isModalOpened={isOpen}
-                                  message="게시글을 신고하시겠습니까?"
-                                  cancelButton="돌아가기"
-                                  confirmButton="신고하기"
-                                  handleModalClose={close}
-                                  handleConfirm={() => {} /*todo: 나중에 추가*/}
-                                />
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
                               ));
                             }}
                           >
@@ -209,14 +202,7 @@ const RenderPostsWithAds = () => {
                             onClick={() => {
                               overlay.open(({ isOpen, close }) => (
                                 // eslint-disable-next-line prettier/prettier
-                                <ConfirmModal
-                                  isModalOpened={isOpen}
-                                  message="게시글을 신고하시겠습니까?"
-                                  cancelButton="돌아가기"
-                                  confirmButton="신고하기"
-                                  handleModalClose={close}
-                                  handleConfirm={() => {} /*todo: 나중에 추가*/}
-                                />
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
                               ));
                             }}
                           >
@@ -301,14 +287,7 @@ const RenderPostsWithAds = () => {
                             onClick={() => {
                               overlay.open(({ isOpen, close }) => (
                                 // eslint-disable-next-line prettier/prettier
-                                <ConfirmModal
-                                  isModalOpened={isOpen}
-                                  message="게시글을 신고하시겠습니까?"
-                                  cancelButton="돌아가기"
-                                  confirmButton="신고하기"
-                                  handleModalClose={close}
-                                  handleConfirm={() => {} /*todo: 나중에 추가*/}
-                                />
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
                               ));
                             }}
                           >
@@ -396,14 +375,7 @@ const RenderPostsWithAds = () => {
                               {
                                 overlay.open(({ isOpen, close }) => (
                                   // eslint-disable-next-line prettier/prettier
-                                  <ConfirmModal
-                                    isModalOpened={isOpen}
-                                    message="게시글을 신고하시겠습니까?"
-                                    cancelButton="돌아가기"
-                                    confirmButton="신고하기"
-                                    handleModalClose={close}
-                                    handleConfirm={() => {} /*todo: 나중에 추가*/}
-                                  />
+                                  <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
                                 ));
                               }
                             }}
