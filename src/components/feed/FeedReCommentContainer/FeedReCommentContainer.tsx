@@ -13,7 +13,10 @@ import { apiV2 } from '@api/index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { paths } from '@/__generated__/schema2';
 import { parseTextToLink } from '@components/util/parseTextToLink';
-
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 interface FeedReCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   reply: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]['replies'][number];
@@ -29,7 +32,7 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
 
   const overlay = useOverlay();
   const [replyEditMode, setReplyEditMode] = useState(false);
-
+  const { data: me } = useQueryMyProfile();
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
   const { mutateAsync: mutateEditComment } = useMutation({
@@ -43,6 +46,8 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
     mutatePostCommentWithMention(req);
     setReplyEditMode(false);
   };
+
+  const isMine = comment.user.id === me?.id;
   return (
     <div style={{ display: 'flex' }}>
       <RecommentPointIcon style={{ marginRight: '12px' }} />
@@ -50,29 +55,56 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
         key={reply.id}
         comment={reply}
         commentParentId={comment.id}
-        Actions={[
-          <FeedActionButton onClick={() => setReplyEditMode(true)}>수정</FeedActionButton>,
-          <FeedActionButton
-            onClick={() =>
-              overlay.open(({ isOpen, close }) => (
-                // eslint-disable-next-line prettier/prettier
-                <ConfirmModal
-                  isModalOpened={isOpen}
-                  message="댓글을 삭제하시겠습니까?"
-                  cancelButton="돌아가기"
-                  confirmButton="삭제하기"
-                  handleModalClose={close}
-                  handleConfirm={() => {
-                    mutateDeleteComment(reply.id);
-                    close();
+        Actions={
+          isMine
+            ? [
+                <FeedActionButton onClick={() => setReplyEditMode(true)}>
+                  <ReWriteIcon />
+                  수정
+                </FeedActionButton>,
+                <FeedActionButton
+                  onClick={() =>
+                    overlay.open(({ isOpen, close }) => (
+                      // eslint-disable-next-line prettier/prettier
+                      <ConfirmModal
+                        isModalOpened={isOpen}
+                        message="댓글을 삭제하시겠습니까?"
+                        cancelButton="돌아가기"
+                        confirmButton="삭제하기"
+                        handleModalClose={close}
+                        handleConfirm={() => {
+                          mutateDeleteComment(reply.id);
+                          close();
+                        }}
+                      />
+                    ))
+                  }
+                >
+                  <TrashIcon />
+                  삭제
+                </FeedActionButton>,
+              ]
+            : [
+                <FeedActionButton
+                  onClick={() => {
+                    overlay.open(({ isOpen, close }) => (
+                      // eslint-disable-next-line prettier/prettier
+                      <ConfirmModal
+                        isModalOpened={isOpen}
+                        message="게시글을 신고하시겠습니까?"
+                        cancelButton="돌아가기"
+                        confirmButton="신고하기"
+                        handleModalClose={close}
+                        handleConfirm={() => {}}
+                      />
+                    ));
                   }}
-                />
-              ))
-            }
-          >
-            삭제
-          </FeedActionButton>,
-        ]}
+                >
+                  <AlertIcon />
+                  신고
+                </FeedActionButton>,
+              ]
+        }
         Content={
           replyEditMode ? (
             <FeedCommentEditor

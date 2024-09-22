@@ -21,7 +21,9 @@ import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
-
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -63,29 +65,60 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
         <FeedCommentViewer
           key={comment.id}
           comment={comment}
-          Actions={[
-            <FeedActionButton onClick={() => setEditMode(true)}>수정</FeedActionButton>,
-            <FeedActionButton
-              onClick={() =>
-                overlay.open(({ isOpen, close }) => (
-                  // eslint-disable-next-line prettier/prettier
-                  <ConfirmModal
-                    isModalOpened={isOpen}
-                    message="댓글을 삭제하시겠습니까?"
-                    cancelButton="돌아가기"
-                    confirmButton="삭제하기"
-                    handleModalClose={close}
-                    handleConfirm={() => {
-                      mutateDeleteComment(comment.id);
-                      close();
-                    }}
-                  />
-                ))
-              }
-            >
-              삭제
-            </FeedActionButton>,
-          ]}
+          Actions={
+            isMine
+              ? [
+                  <FeedActionButton onClick={() => setEditMode(true)}>
+                    <ReWriteIcon />
+                    수정
+                  </FeedActionButton>,
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="댓글을 삭제하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="삭제하기"
+                          handleModalClose={close}
+                          handleConfirm={() => {
+                            mutateDeleteComment(comment.id);
+                            close();
+                          }}
+                        />
+                      ))
+                    }
+                  >
+                    <TrashIcon />
+                    삭제
+                  </FeedActionButton>,
+                ]
+              : [
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        //todo: 신고 모달 여기에 붙여주세요.
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="신고하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="신고하기"
+                          handleModalClose={close}
+                          handleConfirm={() => {
+                            mutateDeleteComment(comment.id);
+                            close();
+                          }}
+                        />
+                      ))
+                    }
+                  >
+                    <AlertIcon />
+                    신고
+                  </FeedActionButton>,
+                ]
+          }
           Content={
             editMode ? (
               <FeedCommentEditor
