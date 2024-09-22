@@ -30,6 +30,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from 'stitches.config';
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -178,6 +181,7 @@ export default function PostPage() {
                     ))
                   }
                 >
+                  <ReWriteIcon />
                   수정
                 </FeedActionButton>,
                 <FeedActionButton
@@ -195,6 +199,7 @@ export default function PostPage() {
                     ));
                   }}
                 >
+                  <TrashIcon />
                   삭제
                 </FeedActionButton>,
               ]
@@ -214,6 +219,7 @@ export default function PostPage() {
                     ));
                   }}
                 >
+                  <AlertIcon />
                   신고
                 </FeedActionButton>,
               ]
@@ -287,6 +293,63 @@ export default function PostPage() {
                           onClickLike={handleClickLike(post.id)(mutateLike)}
                         />
                       }
+                      Actions={
+                        isMine
+                          ? [
+                              <FeedActionButton
+                                onClick={() =>
+                                  overlay.open(({ isOpen, close }) => (
+                                    <FeedEditModal
+                                      isModalOpened={isOpen}
+                                      postId={String(post.id)}
+                                      handleModalClose={close}
+                                    />
+                                  ))
+                                }
+                              >
+                                <ReWriteIcon />
+                                수정
+                              </FeedActionButton>,
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    // eslint-disable-next-line prettier/prettier
+                                    <ConfirmModal
+                                      isModalOpened={isOpen}
+                                      message="게시글을 삭제하시겠습니까?"
+                                      cancelButton="돌아가기"
+                                      confirmButton="삭제하기"
+                                      handleModalClose={close}
+                                      handleConfirm={mutateDeletePost}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <TrashIcon />
+                                삭제
+                              </FeedActionButton>,
+                            ]
+                          : [
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    // eslint-disable-next-line prettier/prettier
+                                    <ConfirmModal
+                                      isModalOpened={isOpen}
+                                      message="게시글을 신고하시겠습니까?"
+                                      cancelButton="돌아가기"
+                                      confirmButton="신고하기"
+                                      handleModalClose={close}
+                                      handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <AlertIcon />
+                                신고
+                              </FeedActionButton>,
+                            ]
+                      }
                     />
                   </Link>
                 );
@@ -315,6 +378,63 @@ export default function PostPage() {
                         likeCount={post.likeCount}
                         onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
                       />
+                    }
+                    Actions={
+                      isMine
+                        ? [
+                            <FeedActionButton
+                              onClick={() =>
+                                overlay.open(({ isOpen, close }) => (
+                                  <FeedEditModal
+                                    isModalOpened={isOpen}
+                                    postId={String(post.id)}
+                                    handleModalClose={close}
+                                  />
+                                ))
+                              }
+                            >
+                              <ReWriteIcon />
+                              수정
+                            </FeedActionButton>,
+                            <FeedActionButton
+                              onClick={() => {
+                                overlay.open(({ isOpen, close }) => (
+                                  // eslint-disable-next-line prettier/prettier
+                                  <ConfirmModal
+                                    isModalOpened={isOpen}
+                                    message="게시글을 삭제하시겠습니까?"
+                                    cancelButton="돌아가기"
+                                    confirmButton="삭제하기"
+                                    handleModalClose={close}
+                                    handleConfirm={mutateDeletePost}
+                                  />
+                                ));
+                              }}
+                            >
+                              <TrashIcon />
+                              삭제
+                            </FeedActionButton>,
+                          ]
+                        : [
+                            <FeedActionButton
+                              onClick={() => {
+                                overlay.open(({ isOpen, close }) => (
+                                  // eslint-disable-next-line prettier/prettier
+                                  <ConfirmModal
+                                    isModalOpened={isOpen}
+                                    message="게시글을 신고하시겠습니까?"
+                                    cancelButton="돌아가기"
+                                    confirmButton="신고하기"
+                                    handleModalClose={close}
+                                    handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                                  />
+                                ));
+                              }}
+                            >
+                              <AlertIcon />
+                              신고
+                            </FeedActionButton>,
+                          ]
                     }
                   />
                 </Link>
