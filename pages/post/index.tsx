@@ -124,6 +124,8 @@ export default function PostPage() {
       !!comment
   );
 
+  console.log({ comments });
+
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
     if (refCurrent) {
@@ -274,7 +276,7 @@ export default function PostPage() {
                 if (!post) return;
                 return (
                   <>
-                    {post?.id === 324 ? (
+                    {post.blockedPost ? (
                       <ContentBlocker />
                     ) : (
                       <Link key={post.id} href={`/post?id=${post.id}`}>
@@ -308,7 +310,7 @@ export default function PostPage() {
               if (!post) return;
               return (
                 <>
-                  {post?.id === 324 ? (
+                  {post.blockedPost ? (
                     <ContentBlocker />
                   ) : (
                     <Link key={post.id} href={`/post?id=${post.id}`}>

@@ -73,7 +73,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     if (!post) return;
     return (
       <>
-        {post?.id === 324 ? (
+        {post.blockedPost ? (
           <ContentBlocker />
         ) : (
           <Link href={`/post?id=${post.id}`} key={post.id}>
