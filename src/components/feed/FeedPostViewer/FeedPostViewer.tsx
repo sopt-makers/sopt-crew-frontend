@@ -6,7 +6,6 @@ import ArrowIcon from '@assets/svg/arrow_card.svg';
 import { styled } from 'stitches.config';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import ImageCarouselModal from '@components/modal/ImageCarouselModal';
-import { getResizedImage } from '@utils/image';
 import { fromNow } from '@utils/dayjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -91,7 +90,9 @@ export default function FeedPostViewer({
               </Menu.Button>
               <MenuItems>
                 {Actions.map((Action, index) => (
-                  <Menu.Item key={index}>{Action}</Menu.Item>
+                  <SMenuItemContainer>
+                    <Menu.Item key={index}>{Action}</Menu.Item>
+                  </SMenuItemContainer>
                 ))}
               </MenuItems>
             </Menu>
@@ -354,8 +355,31 @@ const ViewCount = styled('span', {
 });
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
-  top: 0,
-  right: '100%',
+  top: '35px', // TODO: design 체크 필요
+  right: '0', // TODO: design 체크 필요
+  padding: '8px',
+  borderRadius: '13px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  background: '$gray800',
+});
+const SMenuItemContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '80px',
+  background: '$gray800',
+
+  '&:hover': {
+    background: '$gray700',
+    borderRadius: '$8',
+  },
+
+  '&:active': {
+    background: '$gray600',
+    borderRadius: '$8',
+  },
 });
 const CommentLikeWrapper = styled('div', {
   color: '$gray08',

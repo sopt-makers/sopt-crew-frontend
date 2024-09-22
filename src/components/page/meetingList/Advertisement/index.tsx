@@ -12,6 +12,15 @@ import { styled } from 'stitches.config';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useGetPostAds } from '@api/advertisement/hook';
 import AdCarousel from './AdCarousel';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import PostDeleteModal from './PostDeleteModal';
+import PostAlertModal from './PostAlertModal';
 
 const RenderPostsWithAds = () => {
   const { isMobile, isTablet } = useDisplay();
@@ -21,6 +30,10 @@ const RenderPostsWithAds = () => {
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
 
   const router = useRouter();
+
+  const { data: me } = useQueryMyProfile();
+
+  const overlay = useOverlay();
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,6 +52,8 @@ const RenderPostsWithAds = () => {
         <SMobileContainer>
           {postsData?.pages.slice(0, 2).map(post => {
             if (!post) return;
+            const isMine = post.user.id === me?.id;
+
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>
                 <FeedItem
@@ -66,6 +81,53 @@ const RenderPostsWithAds = () => {
                     })
                   }
                   HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                  Actions={
+                    isMine
+                      ? [
+                          <FeedActionButton
+                            onClick={() =>
+                              overlay.open(({ isOpen, close }) => (
+                                <FeedEditModal
+                                  isModalOpened={isOpen}
+                                  postId={String(post.id)}
+                                  handleModalClose={close}
+                                />
+                              ))
+                            }
+                          >
+                            <ReWriteIcon />
+                            수정
+                          </FeedActionButton>,
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                <PostDeleteModal
+                                  isOpen={isOpen}
+                                  close={close}
+                                  postId={post.id}
+                                  meetingId={post.meeting.id}
+                                />
+                              ));
+                            }}
+                          >
+                            <TrashIcon />
+                            삭제
+                          </FeedActionButton>,
+                        ]
+                      : [
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                // eslint-disable-next-line prettier/prettier
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                              ));
+                            }}
+                          >
+                            <AlertIcon />
+                            신고
+                          </FeedActionButton>,
+                        ]
+                  }
                 />
               </Link>
             );
@@ -73,6 +135,8 @@ const RenderPostsWithAds = () => {
           {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
           {postsData?.pages.slice(2).map(post => {
             if (!post) return;
+            const isMine = post.user.id === me?.id;
+
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>
                 <FeedItem
@@ -100,6 +164,53 @@ const RenderPostsWithAds = () => {
                     })
                   }
                   HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                  Actions={
+                    isMine
+                      ? [
+                          <FeedActionButton
+                            onClick={() =>
+                              overlay.open(({ isOpen, close }) => (
+                                <FeedEditModal
+                                  isModalOpened={isOpen}
+                                  postId={String(post.id)}
+                                  handleModalClose={close}
+                                />
+                              ))
+                            }
+                          >
+                            <ReWriteIcon />
+                            수정
+                          </FeedActionButton>,
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                <PostDeleteModal
+                                  isOpen={isOpen}
+                                  close={close}
+                                  postId={post.id}
+                                  meetingId={post.meeting.id}
+                                />
+                              ));
+                            }}
+                          >
+                            <TrashIcon />
+                            삭제
+                          </FeedActionButton>,
+                        ]
+                      : [
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                // eslint-disable-next-line prettier/prettier
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                              ));
+                            }}
+                          >
+                            <AlertIcon />
+                            신고
+                          </FeedActionButton>,
+                        ]
+                  }
                 />
               </Link>
             );
@@ -108,6 +219,8 @@ const RenderPostsWithAds = () => {
       ) : (
         <SDesktopContainer align="center" gap={30}>
           {postsData?.pages.slice(0, 2).map(post => {
+            const isMine = post.user.id === me?.id;
+
             if (!post) return;
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>
@@ -136,6 +249,53 @@ const RenderPostsWithAds = () => {
                     })
                   }
                   HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                  Actions={
+                    isMine
+                      ? [
+                          <FeedActionButton
+                            onClick={() =>
+                              overlay.open(({ isOpen, close }) => (
+                                <FeedEditModal
+                                  isModalOpened={isOpen}
+                                  postId={String(post.id)}
+                                  handleModalClose={close}
+                                />
+                              ))
+                            }
+                          >
+                            <ReWriteIcon />
+                            수정
+                          </FeedActionButton>,
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                <PostDeleteModal
+                                  isOpen={isOpen}
+                                  close={close}
+                                  postId={post.id}
+                                  meetingId={post.meeting.id}
+                                />
+                              ));
+                            }}
+                          >
+                            <TrashIcon />
+                            삭제
+                          </FeedActionButton>,
+                        ]
+                      : [
+                          <FeedActionButton
+                            onClick={() => {
+                              overlay.open(({ isOpen, close }) => (
+                                // eslint-disable-next-line prettier/prettier
+                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                              ));
+                            }}
+                          >
+                            <AlertIcon />
+                            신고
+                          </FeedActionButton>,
+                        ]
+                  }
                 />
               </Link>
             );
@@ -144,6 +304,8 @@ const RenderPostsWithAds = () => {
 
           {postsData?.pages.slice(2).map(post => {
             if (!post) return;
+            const isMine = post.user.id === me?.id;
+
             return (
               <Link href={`/post?id=${post?.id}`} key={post?.id}>
                 <FeedItem
@@ -171,6 +333,58 @@ const RenderPostsWithAds = () => {
                     })
                   }
                   HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                  Actions={
+                    isMine
+                      ? [
+                          <FeedActionButton
+                            onClick={e => {
+                              overlay.open(({ isOpen, close }) => (
+                                <FeedEditModal
+                                  isModalOpened={isOpen}
+                                  postId={String(post.id)}
+                                  handleModalClose={close}
+                                />
+                              ));
+                            }}
+                          >
+                            <ReWriteIcon />
+                            수정
+                          </FeedActionButton>,
+                          <FeedActionButton
+                            onClick={e => {
+                              {
+                                overlay.open(({ isOpen, close }) => (
+                                  // eslint-disable-next-line prettier/prettier
+                                  <PostDeleteModal
+                                    isOpen={isOpen}
+                                    close={close}
+                                    postId={post.id}
+                                    meetingId={post.meeting.id}
+                                  />
+                                ));
+                              }
+                            }}
+                          >
+                            <TrashIcon />
+                            삭제
+                          </FeedActionButton>,
+                        ]
+                      : [
+                          <FeedActionButton
+                            onClick={e => {
+                              {
+                                overlay.open(({ isOpen, close }) => (
+                                  // eslint-disable-next-line prettier/prettier
+                                  <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                                ));
+                              }
+                            }}
+                          >
+                            <AlertIcon />
+                            신고
+                          </FeedActionButton>,
+                        ]
+                  }
                 />
               </Link>
             );

@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { useDeleteComment } from '@api/post/hooks';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PostCommentWithMentionRequest } from '@api/mention';
@@ -21,7 +21,10 @@ import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
-
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { useToast } from '@sopt-makers/ui';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -33,6 +36,7 @@ interface FeedCommentContainerProps {
 export default function FeedCommentContainer({ comment, isMine, postUserId, onClickLike }: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
+  const { open } = useToast();
   const { query } = useRouter();
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
@@ -49,6 +53,26 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
     onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
   });
 
+  const { mutate: mutateReportComment } = useMutation({
+    mutationFn: (commentId: number) =>
+      api.post<paths['/comment/v2/{commentId}/report']['post']['responses']['201']['content']['application/json']>(
+        `/comment/v2/${comment.id}/report`,
+        {}
+      ),
+    onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '댓글을 신고했습니다.',
+      });
+    },
+    onError: () => {
+      open({
+        icon: 'error',
+        content: '이미 신고한 댓글입니다.',
+      });
+    },
+  });
+
   const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {
     await mutateEditComment(req.content);
     mutatePostCommentWithMention(req);
@@ -63,29 +87,59 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
         <FeedCommentViewer
           key={comment.id}
           comment={comment}
-          Actions={[
-            <FeedActionButton onClick={() => setEditMode(true)}>수정</FeedActionButton>,
-            <FeedActionButton
-              onClick={() =>
-                overlay.open(({ isOpen, close }) => (
-                  // eslint-disable-next-line prettier/prettier
-                  <ConfirmModal
-                    isModalOpened={isOpen}
-                    message="댓글을 삭제하시겠습니까?"
-                    cancelButton="돌아가기"
-                    confirmButton="삭제하기"
-                    handleModalClose={close}
-                    handleConfirm={() => {
-                      mutateDeleteComment(comment.id);
-                      close();
-                    }}
-                  />
-                ))
-              }
-            >
-              삭제
-            </FeedActionButton>,
-          ]}
+          Actions={
+            isMine
+              ? [
+                  <FeedActionButton onClick={() => setEditMode(true)}>
+                    <ReWriteIcon />
+                    수정
+                  </FeedActionButton>,
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="댓글을 삭제하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="삭제하기"
+                          handleModalClose={close}
+                          handleConfirm={() => {
+                            mutateDeleteComment(comment.id);
+                            close();
+                          }}
+                        />
+                      ))
+                    }
+                  >
+                    <TrashIcon />
+                    삭제
+                  </FeedActionButton>,
+                ]
+              : [
+                  <FeedActionButton
+                    onClick={() =>
+                      overlay.open(({ isOpen, close }) => (
+                        // eslint-disable-next-line prettier/prettier
+                        <ConfirmModal
+                          isModalOpened={isOpen}
+                          message="신고하시겠습니까?"
+                          cancelButton="돌아가기"
+                          confirmButton="신고하기"
+                          handleModalClose={close}
+                          handleConfirm={() => {
+                            mutateReportComment(comment.id);
+                            close();
+                          }}
+                        />
+                      ))
+                    }
+                  >
+                    <AlertIcon />
+                    신고
+                  </FeedActionButton>,
+                ]
+          }
           Content={
             editMode ? (
               <FeedCommentEditor
