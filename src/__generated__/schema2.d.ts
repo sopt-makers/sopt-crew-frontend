@@ -848,19 +848,6 @@ export interface components {
        */
       count: number;
     };
-    MemberBlock: {
-      /** Format: int64 */
-      id?: number;
-      /** Format: date-time */
-      createdAt?: string;
-      /** Format: date-time */
-      updatedAt?: string;
-      isBlocked: boolean;
-      /** Format: int64 */
-      blockedMember: number;
-      /** Format: int64 */
-      blocker: number;
-    };
     /** @description 페이지 메타 정보 */
     PageMetaDto: {
       /**
@@ -952,7 +939,11 @@ export interface components {
        * ]
        */
       commenterThumbnails: string[];
-      blockedPost?: boolean;
+      /**
+       * @description 차단된 유저의 게시물인지 여부
+       * @example false
+       */
+      isBlockedPost: boolean;
     };
     /** @description 게시글에 대한 모임 Dto */
     PostMeetingDto: {
@@ -1784,6 +1775,11 @@ export interface components {
       order: number;
       /** @description 대댓글 객체 목록 */
       replies: components["schemas"]["ReplyDto"][];
+      /**
+       * @description 차단여부
+       * @example false
+       */
+      isBlockedComment: boolean;
     };
     /** @description 댓글 목록 조회 응답 Dto */
     CommentV2GetCommentsResponseDto: {
@@ -1856,6 +1852,11 @@ export interface components {
        * @example 2
        */
       order: number;
+      /**
+       * @description 차단여부
+       * @example false
+       */
+      isBlockedComment: boolean;
     };
     /** @description 광고 구좌 조회 응답 Dto */
     AdvertisementGetResponseDto: {
