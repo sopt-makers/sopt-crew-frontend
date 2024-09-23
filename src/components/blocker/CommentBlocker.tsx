@@ -8,7 +8,7 @@ const CommentBlocker = ({ variant = 'default' }: CommentBlockerProps) => {
   return (
     <Container variant={variant}>
       {variant == 'secondary' && <RecommentPointIcon style={{ marginRight: '12px' }} />}
-      <BlockerMessage>차단된 멤버의 게시글입니다.</BlockerMessage>
+      <BlockerMessage>차단된 멤버의 댓글입니다.</BlockerMessage>
     </Container>
   );
 };
