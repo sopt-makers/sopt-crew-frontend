@@ -1,5 +1,6 @@
 import { PropsWithChildren, forwardRef } from 'react';
 import { styled } from 'stitches.config';
+import { fontsObject } from '@sopt-makers/fonts';
 
 type FeedActionButtonProps = React.HTMLAttributes<HTMLButtonElement>;
 
@@ -17,22 +18,8 @@ export default FeedActionButton;
 
 const MenuItem = styled('button', {
   flexType: 'center',
-  width: '147px',
-  padding: '8px 16px',
+  height: '42px',
   color: '$gray10',
-  background: '$gray800',
-  fontStyle: 'B3',
-  border: '1px solid $gray600',
-  '&:first-child': {
-    borderRadius: '14px 14px 0 0',
-    borderBottom: 'none',
-  },
-  '&:last-child': {
-    borderRadius: '0 0 14px 14px ',
-    borderTop: 'none',
-  },
-  '&:only-child': {
-    borderRadius: '14px',
-    border: '1px solid $gray600',
-  },
+  ...fontsObject.BODY_2_16_M,
+  gap: '10px',
 });

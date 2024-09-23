@@ -13,7 +13,6 @@ interface CardProps {
 }
 
 function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
-  console.log(meetingData);
   return (
     <div>
       <ImageWrapper>

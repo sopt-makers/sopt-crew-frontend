@@ -134,6 +134,9 @@ export interface paths {
     /** [TEMP] 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUserTemp"];
   };
+  "/test": {
+    get: operations["test1"];
+  };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
     get: operations["getPostCount"];
@@ -845,6 +848,7 @@ export interface components {
        */
       count: number;
     };
+    /** @description 페이지 메타 정보 */
     PageMetaDto: {
       /**
        * Format: int32
@@ -871,7 +875,7 @@ export interface components {
       /** @description 다음 페이지가 있는지 유무 */
       hasNextPage: boolean;
     };
-    /** @description 게시글 객체 Dto */
+    /** @description 게시글의 기본 정보 + 댓글 썸네일 이미지 리스트 정보을 담고 있는 DTO */
     PostDetailResponseDto: {
       /**
        * Format: int32
@@ -935,6 +939,11 @@ export interface components {
        * ]
        */
       commenterThumbnails: string[];
+      /**
+       * @description 차단된 유저의 게시물인지 여부
+       * @example false
+       */
+      isBlockedPost: boolean;
     };
     /** @description 게시글에 대한 모임 Dto */
     PostMeetingDto: {
@@ -967,7 +976,7 @@ export interface components {
     };
     /** @description 게시글 조회 응답 Dto */
     PostV2GetPostsResponseDto: {
-      /** @description 게시글 객체 */
+      /** @description 게시글의 기본 정보 + 댓글 썸네일 이미지 리스트 정보 + 차단된 유저의 게시물인지 아닌지 정보를 담고 있는 DTO */
       posts: components["schemas"]["PostDetailResponseDto"][];
       meta: components["schemas"]["PageMetaDto"];
     };
@@ -996,7 +1005,7 @@ export interface components {
        */
       profileImage: string;
     };
-    /** @description 게시글 객체 Dto */
+    /** @description 게시글의 기본 정보를 담고 있는 Dto */
     PostDetailBaseDto: {
       /**
        * Format: int32
@@ -1766,6 +1775,11 @@ export interface components {
       order: number;
       /** @description 대댓글 객체 목록 */
       replies: components["schemas"]["ReplyDto"][];
+      /**
+       * @description 차단여부
+       * @example false
+       */
+      isBlockedComment: boolean;
     };
     /** @description 댓글 목록 조회 응답 Dto */
     CommentV2GetCommentsResponseDto: {
@@ -1838,6 +1852,11 @@ export interface components {
        * @example 2
        */
       order: number;
+      /**
+       * @description 차단여부
+       * @example false
+       */
+      isBlockedComment: boolean;
     };
     /** @description 광고 구좌 조회 응답 Dto */
     AdvertisementGetResponseDto: {
@@ -2464,6 +2483,16 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
+        };
+      };
+    };
+  };
+  test1: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["MemberBlock"][];
         };
       };
     };

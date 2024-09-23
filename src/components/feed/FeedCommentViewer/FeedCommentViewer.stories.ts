@@ -30,6 +30,7 @@ export const Default: Story = {
       isLiked: false,
       isWriter: true,
       order: 0,
+      isBlockedComment: false,
     },
     isMine: true,
     Actions: ['수정', '삭제'],
