@@ -21,6 +21,7 @@ import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import PostDeleteModal from './PostDeleteModal';
 import PostAlertModal from './PostAlertModal';
+import ContentBlocker from '@components/blocker/ContentBlocker';
 
 const RenderPostsWithAds = () => {
   const { isMobile, isTablet } = useDisplay();
@@ -55,81 +56,87 @@ const RenderPostsWithAds = () => {
             const isMine = post.user.id === me?.id;
 
             return (
-              <Link href={`/post?id=${post?.id}`} key={post?.id}>
-                <FeedItem
-                  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                  /* @ts-ignore */
-                  post={post}
-                  LikeButton={
-                    <LikeButton
-                      isLiked={post.isLiked}
-                      likeCount={post.likeCount}
-                      onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              <>
+                {post.isBlockedPost ? (
+                  <ContentBlocker />
+                ) : (
+                  <Link href={`/post?id=${post?.id}`} key={post?.id}>
+                    <FeedItem
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      LikeButton={
+                        <LikeButton
+                          isLiked={post.isLiked}
+                          likeCount={post.likeCount}
+                          onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                        />
+                      }
+                      onClick={() =>
+                        ampli.clickFeedCard({
+                          feed_id: post.id,
+                          feed_upload: post.updatedDate,
+                          feed_title: post.title,
+                          feed_image_total: post.images ? post.images.length : 0,
+                          feed_comment_total: post.commentCount,
+                          feed_like_total: post.likeCount,
+                          group_id: post.meeting.id,
+                          platform_type: isMobile ? 'MO' : 'PC',
+                          location: router.pathname,
+                        })
+                      }
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      Actions={
+                        isMine
+                          ? [
+                              <FeedActionButton
+                                onClick={() =>
+                                  overlay.open(({ isOpen, close }) => (
+                                    <FeedEditModal
+                                      isModalOpened={isOpen}
+                                      postId={String(post.id)}
+                                      handleModalClose={close}
+                                    />
+                                  ))
+                                }
+                              >
+                                <ReWriteIcon />
+                                수정
+                              </FeedActionButton>,
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    <PostDeleteModal
+                                      isOpen={isOpen}
+                                      close={close}
+                                      postId={post.id}
+                                      meetingId={post.meeting.id}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <TrashIcon />
+                                삭제
+                              </FeedActionButton>,
+                            ]
+                          : [
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    // eslint-disable-next-line prettier/prettier
+                                    <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                                  ));
+                                }}
+                              >
+                                <AlertIcon />
+                                신고
+                              </FeedActionButton>,
+                            ]
+                      }
                     />
-                  }
-                  onClick={() =>
-                    ampli.clickFeedCard({
-                      feed_id: post.id,
-                      feed_upload: post.updatedDate,
-                      feed_title: post.title,
-                      feed_image_total: post.images ? post.images.length : 0,
-                      feed_comment_total: post.commentCount,
-                      feed_like_total: post.likeCount,
-                      group_id: post.meeting.id,
-                      platform_type: isMobile ? 'MO' : 'PC',
-                      location: router.pathname,
-                    })
-                  }
-                  HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                  Actions={
-                    isMine
-                      ? [
-                          <FeedActionButton
-                            onClick={() =>
-                              overlay.open(({ isOpen, close }) => (
-                                <FeedEditModal
-                                  isModalOpened={isOpen}
-                                  postId={String(post.id)}
-                                  handleModalClose={close}
-                                />
-                              ))
-                            }
-                          >
-                            <ReWriteIcon />
-                            수정
-                          </FeedActionButton>,
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                <PostDeleteModal
-                                  isOpen={isOpen}
-                                  close={close}
-                                  postId={post.id}
-                                  meetingId={post.meeting.id}
-                                />
-                              ));
-                            }}
-                          >
-                            <TrashIcon />
-                            삭제
-                          </FeedActionButton>,
-                        ]
-                      : [
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                // eslint-disable-next-line prettier/prettier
-                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
-                              ));
-                            }}
-                          >
-                            <AlertIcon />
-                            신고
-                          </FeedActionButton>,
-                        ]
-                  }
-                />
-              </Link>
+                  </Link>
+                )}
+              </>
             );
           })}
           {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
@@ -138,81 +145,87 @@ const RenderPostsWithAds = () => {
             const isMine = post.user.id === me?.id;
 
             return (
-              <Link href={`/post?id=${post?.id}`} key={post?.id}>
-                <FeedItem
-                  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                  /* @ts-ignore */
-                  post={post}
-                  LikeButton={
-                    <LikeButton
-                      isLiked={post.isLiked}
-                      likeCount={post.likeCount}
-                      onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              <>
+                {post.isBlockedPost ? (
+                  <ContentBlocker />
+                ) : (
+                  <Link href={`/post?id=${post?.id}`} key={post?.id}>
+                    <FeedItem
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      LikeButton={
+                        <LikeButton
+                          isLiked={post.isLiked}
+                          likeCount={post.likeCount}
+                          onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                        />
+                      }
+                      onClick={() =>
+                        ampli.clickFeedCard({
+                          feed_id: post.id,
+                          feed_upload: post.updatedDate,
+                          feed_title: post.title,
+                          feed_image_total: post.images ? post.images.length : 0,
+                          feed_comment_total: post.commentCount,
+                          feed_like_total: post.likeCount,
+                          group_id: post.meeting.id,
+                          platform_type: isMobile ? 'MO' : 'PC',
+                          location: router.pathname,
+                        })
+                      }
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      Actions={
+                        isMine
+                          ? [
+                              <FeedActionButton
+                                onClick={() =>
+                                  overlay.open(({ isOpen, close }) => (
+                                    <FeedEditModal
+                                      isModalOpened={isOpen}
+                                      postId={String(post.id)}
+                                      handleModalClose={close}
+                                    />
+                                  ))
+                                }
+                              >
+                                <ReWriteIcon />
+                                수정
+                              </FeedActionButton>,
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    <PostDeleteModal
+                                      isOpen={isOpen}
+                                      close={close}
+                                      postId={post.id}
+                                      meetingId={post.meeting.id}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <TrashIcon />
+                                삭제
+                              </FeedActionButton>,
+                            ]
+                          : [
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    // eslint-disable-next-line prettier/prettier
+                                    <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                                  ));
+                                }}
+                              >
+                                <AlertIcon />
+                                신고
+                              </FeedActionButton>,
+                            ]
+                      }
                     />
-                  }
-                  onClick={() =>
-                    ampli.clickFeedCard({
-                      feed_id: post.id,
-                      feed_upload: post.updatedDate,
-                      feed_title: post.title,
-                      feed_image_total: post.images ? post.images.length : 0,
-                      feed_comment_total: post.commentCount,
-                      feed_like_total: post.likeCount,
-                      group_id: post.meeting.id,
-                      platform_type: isMobile ? 'MO' : 'PC',
-                      location: router.pathname,
-                    })
-                  }
-                  HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                  Actions={
-                    isMine
-                      ? [
-                          <FeedActionButton
-                            onClick={() =>
-                              overlay.open(({ isOpen, close }) => (
-                                <FeedEditModal
-                                  isModalOpened={isOpen}
-                                  postId={String(post.id)}
-                                  handleModalClose={close}
-                                />
-                              ))
-                            }
-                          >
-                            <ReWriteIcon />
-                            수정
-                          </FeedActionButton>,
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                <PostDeleteModal
-                                  isOpen={isOpen}
-                                  close={close}
-                                  postId={post.id}
-                                  meetingId={post.meeting.id}
-                                />
-                              ));
-                            }}
-                          >
-                            <TrashIcon />
-                            삭제
-                          </FeedActionButton>,
-                        ]
-                      : [
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                // eslint-disable-next-line prettier/prettier
-                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
-                              ));
-                            }}
-                          >
-                            <AlertIcon />
-                            신고
-                          </FeedActionButton>,
-                        ]
-                  }
-                />
-              </Link>
+                  </Link>
+                )}
+              </>
             );
           })}
         </SMobileContainer>
@@ -222,82 +235,89 @@ const RenderPostsWithAds = () => {
             const isMine = post.user.id === me?.id;
 
             if (!post) return;
+
             return (
-              <Link href={`/post?id=${post?.id}`} key={post?.id}>
-                <FeedItem
-                  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                  /* @ts-ignore */
-                  post={post}
-                  LikeButton={
-                    <LikeButton
-                      isLiked={post.isLiked}
-                      likeCount={post.likeCount}
-                      onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              <>
+                {post.isBlockedPost ? (
+                  <ContentBlocker />
+                ) : (
+                  <Link href={`/post?id=${post?.id}`} key={post?.id}>
+                    <FeedItem
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      LikeButton={
+                        <LikeButton
+                          isLiked={post.isLiked}
+                          likeCount={post.likeCount}
+                          onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                        />
+                      }
+                      onClick={() =>
+                        ampli.clickFeedCard({
+                          feed_id: post.id,
+                          feed_upload: post.updatedDate,
+                          feed_title: post.title,
+                          feed_image_total: post.images ? post.images.length : 0,
+                          feed_comment_total: post.commentCount,
+                          feed_like_total: post.likeCount,
+                          group_id: post.meeting.id,
+                          platform_type: isMobile ? 'MO' : 'PC',
+                          location: router.pathname,
+                        })
+                      }
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      Actions={
+                        isMine
+                          ? [
+                              <FeedActionButton
+                                onClick={() =>
+                                  overlay.open(({ isOpen, close }) => (
+                                    <FeedEditModal
+                                      isModalOpened={isOpen}
+                                      postId={String(post.id)}
+                                      handleModalClose={close}
+                                    />
+                                  ))
+                                }
+                              >
+                                <ReWriteIcon />
+                                수정
+                              </FeedActionButton>,
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    <PostDeleteModal
+                                      isOpen={isOpen}
+                                      close={close}
+                                      postId={post.id}
+                                      meetingId={post.meeting.id}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <TrashIcon />
+                                삭제
+                              </FeedActionButton>,
+                            ]
+                          : [
+                              <FeedActionButton
+                                onClick={() => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    // eslint-disable-next-line prettier/prettier
+                                    <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                                  ));
+                                }}
+                              >
+                                <AlertIcon />
+                                신고
+                              </FeedActionButton>,
+                            ]
+                      }
                     />
-                  }
-                  onClick={() =>
-                    ampli.clickFeedCard({
-                      feed_id: post.id,
-                      feed_upload: post.updatedDate,
-                      feed_title: post.title,
-                      feed_image_total: post.images ? post.images.length : 0,
-                      feed_comment_total: post.commentCount,
-                      feed_like_total: post.likeCount,
-                      group_id: post.meeting.id,
-                      platform_type: isMobile ? 'MO' : 'PC',
-                      location: router.pathname,
-                    })
-                  }
-                  HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                  Actions={
-                    isMine
-                      ? [
-                          <FeedActionButton
-                            onClick={() =>
-                              overlay.open(({ isOpen, close }) => (
-                                <FeedEditModal
-                                  isModalOpened={isOpen}
-                                  postId={String(post.id)}
-                                  handleModalClose={close}
-                                />
-                              ))
-                            }
-                          >
-                            <ReWriteIcon />
-                            수정
-                          </FeedActionButton>,
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                <PostDeleteModal
-                                  isOpen={isOpen}
-                                  close={close}
-                                  postId={post.id}
-                                  meetingId={post.meeting.id}
-                                />
-                              ));
-                            }}
-                          >
-                            <TrashIcon />
-                            삭제
-                          </FeedActionButton>,
-                        ]
-                      : [
-                          <FeedActionButton
-                            onClick={() => {
-                              overlay.open(({ isOpen, close }) => (
-                                // eslint-disable-next-line prettier/prettier
-                                <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
-                              ));
-                            }}
-                          >
-                            <AlertIcon />
-                            신고
-                          </FeedActionButton>,
-                        ]
-                  }
-                />
-              </Link>
+                  </Link>
+                )}
+              </>
             );
           })}
           {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
@@ -307,86 +327,92 @@ const RenderPostsWithAds = () => {
             const isMine = post.user.id === me?.id;
 
             return (
-              <Link href={`/post?id=${post?.id}`} key={post?.id}>
-                <FeedItem
-                  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                  /* @ts-ignore */
-                  post={post}
-                  LikeButton={
-                    <LikeButton
-                      isLiked={post.isLiked}
-                      likeCount={post.likeCount}
-                      onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+              <>
+                {post.isBlockedPost ? (
+                  <ContentBlocker />
+                ) : (
+                  <Link href={`/post?id=${post?.id}`} key={post?.id}>
+                    <FeedItem
+                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                      /* @ts-ignore */
+                      post={post}
+                      LikeButton={
+                        <LikeButton
+                          isLiked={post.isLiked}
+                          likeCount={post.likeCount}
+                          onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                        />
+                      }
+                      onClick={() =>
+                        ampli.clickFeedCard({
+                          feed_id: post.id,
+                          feed_upload: post.updatedDate,
+                          feed_title: post.title,
+                          feed_image_total: post.images ? post.images.length : 0,
+                          feed_comment_total: post.commentCount,
+                          feed_like_total: post.likeCount,
+                          group_id: post.meeting.id,
+                          platform_type: isMobile ? 'MO' : 'PC',
+                          location: router.pathname,
+                        })
+                      }
+                      HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                      Actions={
+                        isMine
+                          ? [
+                              <FeedActionButton
+                                onClick={e => {
+                                  overlay.open(({ isOpen, close }) => (
+                                    <FeedEditModal
+                                      isModalOpened={isOpen}
+                                      postId={String(post.id)}
+                                      handleModalClose={close}
+                                    />
+                                  ));
+                                }}
+                              >
+                                <ReWriteIcon />
+                                수정
+                              </FeedActionButton>,
+                              <FeedActionButton
+                                onClick={e => {
+                                  {
+                                    overlay.open(({ isOpen, close }) => (
+                                      // eslint-disable-next-line prettier/prettier
+                                      <PostDeleteModal
+                                        isOpen={isOpen}
+                                        close={close}
+                                        postId={post.id}
+                                        meetingId={post.meeting.id}
+                                      />
+                                    ));
+                                  }
+                                }}
+                              >
+                                <TrashIcon />
+                                삭제
+                              </FeedActionButton>,
+                            ]
+                          : [
+                              <FeedActionButton
+                                onClick={e => {
+                                  {
+                                    overlay.open(({ isOpen, close }) => (
+                                      // eslint-disable-next-line prettier/prettier
+                                      <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
+                                    ));
+                                  }
+                                }}
+                              >
+                                <AlertIcon />
+                                신고
+                              </FeedActionButton>,
+                            ]
+                      }
                     />
-                  }
-                  onClick={() =>
-                    ampli.clickFeedCard({
-                      feed_id: post.id,
-                      feed_upload: post.updatedDate,
-                      feed_title: post.title,
-                      feed_image_total: post.images ? post.images.length : 0,
-                      feed_comment_total: post.commentCount,
-                      feed_like_total: post.likeCount,
-                      group_id: post.meeting.id,
-                      platform_type: isMobile ? 'MO' : 'PC',
-                      location: router.pathname,
-                    })
-                  }
-                  HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                  Actions={
-                    isMine
-                      ? [
-                          <FeedActionButton
-                            onClick={e => {
-                              overlay.open(({ isOpen, close }) => (
-                                <FeedEditModal
-                                  isModalOpened={isOpen}
-                                  postId={String(post.id)}
-                                  handleModalClose={close}
-                                />
-                              ));
-                            }}
-                          >
-                            <ReWriteIcon />
-                            수정
-                          </FeedActionButton>,
-                          <FeedActionButton
-                            onClick={e => {
-                              {
-                                overlay.open(({ isOpen, close }) => (
-                                  // eslint-disable-next-line prettier/prettier
-                                  <PostDeleteModal
-                                    isOpen={isOpen}
-                                    close={close}
-                                    postId={post.id}
-                                    meetingId={post.meeting.id}
-                                  />
-                                ));
-                              }
-                            }}
-                          >
-                            <TrashIcon />
-                            삭제
-                          </FeedActionButton>,
-                        ]
-                      : [
-                          <FeedActionButton
-                            onClick={e => {
-                              {
-                                overlay.open(({ isOpen, close }) => (
-                                  // eslint-disable-next-line prettier/prettier
-                                  <PostAlertModal isOpen={isOpen} close={close} postId={post.id} />
-                                ));
-                              }
-                            }}
-                          >
-                            <AlertIcon />
-                            신고
-                          </FeedActionButton>,
-                        ]
-                  }
-                />
-              </Link>
+                  </Link>
+                )}
+              </>
             );
           })}
         </SDesktopContainer>

@@ -7,6 +7,7 @@ import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import LikeButton from '@components/button/LikeButton';
+import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
@@ -131,6 +132,8 @@ export default function PostPage() {
     ): comment is paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number] =>
       !!comment
   );
+
+  console.log({ comments });
 
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
@@ -284,80 +287,86 @@ export default function PostPage() {
               {postsInMeeting?.map(post => {
                 if (!post) return;
                 return (
-                  <Link key={post.id} href={`/post?id=${post.id}`}>
-                    <FeedItem
-                      /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
-                      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                      /* @ts-ignore */
-                      post={post}
-                      meetingId={meetingId}
-                      // eslint-disable-next-line prettier/prettier
-                      LikeButton={
-                        <LikeButton
-                          isLiked={post.isLiked}
-                          likeCount={post.likeCount}
-                          onClickLike={handleClickLike(post.id)(mutateLike)}
+                  <>
+                    {post.isBlockedPost ? (
+                      <ContentBlocker />
+                    ) : (
+                      <Link key={post.id} href={`/post?id=${post.id}`}>
+                        <FeedItem
+                          /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                          /* @ts-ignore */
+                          post={post}
+                          meetingId={meetingId}
+                          // eslint-disable-next-line prettier/prettier
+                          LikeButton={
+                            <LikeButton
+                              isLiked={post.isLiked}
+                              likeCount={post.likeCount}
+                              onClickLike={handleClickLike(post.id)(mutateLike)}
+                            />
+                          }
+                          Actions={
+                            isMine
+                              ? [
+                                  <FeedActionButton
+                                    onClick={() =>
+                                      overlay.open(({ isOpen, close }) => (
+                                        <FeedEditModal
+                                          isModalOpened={isOpen}
+                                          postId={String(post.id)}
+                                          handleModalClose={close}
+                                        />
+                                      ))
+                                    }
+                                  >
+                                    <ReWriteIcon />
+                                    수정
+                                  </FeedActionButton>,
+                                  <FeedActionButton
+                                    onClick={() => {
+                                      overlay.open(({ isOpen, close }) => (
+                                        // eslint-disable-next-line prettier/prettier
+                                        <ConfirmModal
+                                          isModalOpened={isOpen}
+                                          message="게시글을 삭제하시겠습니까?"
+                                          cancelButton="돌아가기"
+                                          confirmButton="삭제하기"
+                                          handleModalClose={close}
+                                          handleConfirm={mutateDeletePost}
+                                        />
+                                      ));
+                                    }}
+                                  >
+                                    <TrashIcon />
+                                    삭제
+                                  </FeedActionButton>,
+                                ]
+                              : [
+                                  <FeedActionButton
+                                    onClick={() => {
+                                      overlay.open(({ isOpen, close }) => (
+                                        // eslint-disable-next-line prettier/prettier
+                                        <ConfirmModal
+                                          isModalOpened={isOpen}
+                                          message="게시글을 신고하시겠습니까?"
+                                          cancelButton="돌아가기"
+                                          confirmButton="신고하기"
+                                          handleModalClose={close}
+                                          handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                                        />
+                                      ));
+                                    }}
+                                  >
+                                    <AlertIcon />
+                                    신고
+                                  </FeedActionButton>,
+                                ]
+                          }
                         />
-                      }
-                      Actions={
-                        isMine
-                          ? [
-                              <FeedActionButton
-                                onClick={() =>
-                                  overlay.open(({ isOpen, close }) => (
-                                    <FeedEditModal
-                                      isModalOpened={isOpen}
-                                      postId={String(post.id)}
-                                      handleModalClose={close}
-                                    />
-                                  ))
-                                }
-                              >
-                                <ReWriteIcon />
-                                수정
-                              </FeedActionButton>,
-                              <FeedActionButton
-                                onClick={() => {
-                                  overlay.open(({ isOpen, close }) => (
-                                    // eslint-disable-next-line prettier/prettier
-                                    <ConfirmModal
-                                      isModalOpened={isOpen}
-                                      message="게시글을 삭제하시겠습니까?"
-                                      cancelButton="돌아가기"
-                                      confirmButton="삭제하기"
-                                      handleModalClose={close}
-                                      handleConfirm={mutateDeletePost}
-                                    />
-                                  ));
-                                }}
-                              >
-                                <TrashIcon />
-                                삭제
-                              </FeedActionButton>,
-                            ]
-                          : [
-                              <FeedActionButton
-                                onClick={() => {
-                                  overlay.open(({ isOpen, close }) => (
-                                    // eslint-disable-next-line prettier/prettier
-                                    <ConfirmModal
-                                      isModalOpened={isOpen}
-                                      message="게시글을 신고하시겠습니까?"
-                                      cancelButton="돌아가기"
-                                      confirmButton="신고하기"
-                                      handleModalClose={close}
-                                      handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                                    />
-                                  ));
-                                }}
-                              >
-                                <AlertIcon />
-                                신고
-                              </FeedActionButton>,
-                            ]
-                      }
-                    />
-                  </Link>
+                      </Link>
+                    )}
+                  </>
                 );
               })}
             </FeedList>
@@ -369,81 +378,87 @@ export default function PostPage() {
             {allMeetingPosts?.map(post => {
               if (!post) return;
               return (
-                <Link key={post.id} href={`/post?id=${post.id}`}>
-                  <FeedItem
-                    /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
-                    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                    /* @ts-ignore */
-                    post={post}
-                    meetingId={meetingId}
-                    HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
-                    // eslint-disable-next-line prettier/prettier
-                    LikeButton={
-                      <LikeButton
-                        isLiked={post.isLiked}
-                        likeCount={post.likeCount}
-                        onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                <>
+                  {post.isBlockedPost ? (
+                    <ContentBlocker />
+                  ) : (
+                    <Link key={post.id} href={`/post?id=${post.id}`}>
+                      <FeedItem
+                        /* TODO: FeedItem 인터페이스 안 맞는거 맞춰주기. 내부에서 query params 의존하는 부분 수정하기. */
+                        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                        /* @ts-ignore */
+                        post={post}
+                        meetingId={meetingId}
+                        HeaderSection={<MeetingInfo meetingInfo={post.meeting} />}
+                        // eslint-disable-next-line prettier/prettier
+                        LikeButton={
+                          <LikeButton
+                            isLiked={post.isLiked}
+                            likeCount={post.likeCount}
+                            onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
+                          />
+                        }
+                        Actions={
+                          isMine
+                            ? [
+                                <FeedActionButton
+                                  onClick={() =>
+                                    overlay.open(({ isOpen, close }) => (
+                                      <FeedEditModal
+                                        isModalOpened={isOpen}
+                                        postId={String(post.id)}
+                                        handleModalClose={close}
+                                      />
+                                    ))
+                                  }
+                                >
+                                  <ReWriteIcon />
+                                  수정
+                                </FeedActionButton>,
+                                <FeedActionButton
+                                  onClick={() => {
+                                    overlay.open(({ isOpen, close }) => (
+                                      // eslint-disable-next-line prettier/prettier
+                                      <ConfirmModal
+                                        isModalOpened={isOpen}
+                                        message="게시글을 삭제하시겠습니까?"
+                                        cancelButton="돌아가기"
+                                        confirmButton="삭제하기"
+                                        handleModalClose={close}
+                                        handleConfirm={mutateDeletePost}
+                                      />
+                                    ));
+                                  }}
+                                >
+                                  <TrashIcon />
+                                  삭제
+                                </FeedActionButton>,
+                              ]
+                            : [
+                                <FeedActionButton
+                                  onClick={() => {
+                                    overlay.open(({ isOpen, close }) => (
+                                      // eslint-disable-next-line prettier/prettier
+                                      <ConfirmModal
+                                        isModalOpened={isOpen}
+                                        message="게시글을 신고하시겠습니까?"
+                                        cancelButton="돌아가기"
+                                        confirmButton="신고하기"
+                                        handleModalClose={close}
+                                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                                      />
+                                    ));
+                                  }}
+                                >
+                                  <AlertIcon />
+                                  신고
+                                </FeedActionButton>,
+                              ]
+                        }
                       />
-                    }
-                    Actions={
-                      isMine
-                        ? [
-                            <FeedActionButton
-                              onClick={() =>
-                                overlay.open(({ isOpen, close }) => (
-                                  <FeedEditModal
-                                    isModalOpened={isOpen}
-                                    postId={String(post.id)}
-                                    handleModalClose={close}
-                                  />
-                                ))
-                              }
-                            >
-                              <ReWriteIcon />
-                              수정
-                            </FeedActionButton>,
-                            <FeedActionButton
-                              onClick={() => {
-                                overlay.open(({ isOpen, close }) => (
-                                  // eslint-disable-next-line prettier/prettier
-                                  <ConfirmModal
-                                    isModalOpened={isOpen}
-                                    message="게시글을 삭제하시겠습니까?"
-                                    cancelButton="돌아가기"
-                                    confirmButton="삭제하기"
-                                    handleModalClose={close}
-                                    handleConfirm={mutateDeletePost}
-                                  />
-                                ));
-                              }}
-                            >
-                              <TrashIcon />
-                              삭제
-                            </FeedActionButton>,
-                          ]
-                        : [
-                            <FeedActionButton
-                              onClick={() => {
-                                overlay.open(({ isOpen, close }) => (
-                                  // eslint-disable-next-line prettier/prettier
-                                  <ConfirmModal
-                                    isModalOpened={isOpen}
-                                    message="게시글을 신고하시겠습니까?"
-                                    cancelButton="돌아가기"
-                                    confirmButton="신고하기"
-                                    handleModalClose={close}
-                                    handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                                  />
-                                ));
-                              }}
-                            >
-                              <AlertIcon />
-                              신고
-                            </FeedActionButton>,
-                          ]
-                    }
-                  />
-                </Link>
+                    </Link>
+                  )}
+                </>
               );
             })}
           </FeedList>

@@ -25,6 +25,8 @@ import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { useToast } from '@sopt-makers/ui';
+import CommentBlocker from '@components/blocker/CommentBlocker';
+
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -83,6 +85,8 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
     <>
       {comment.user.id === null ? (
         <div style={{ color: colors.gray500 }}>{comment.contents}</div>
+      ) : comment.isBlockedComment ? (
+        <CommentBlocker />
       ) : (
         <FeedCommentViewer
           key={comment.id}
@@ -174,7 +178,9 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
       ) : (
         <>
           {comment?.replies?.map((reply: replyType) => {
-            return (
+            return reply.isBlockedComment ? (
+              <CommentBlocker variant="secondary" />
+            ) : (
               <FeedReCommentContainer
                 comment={comment}
                 reply={reply}
