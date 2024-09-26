@@ -26,9 +26,9 @@ export function MeetingListOfAll() {
 
   useEffect(() => {
     ampli.impressionBanner({
-      banner_id: meetingAds?.advertisements[0].advertisementId,
-      banner_url: meetingAds?.advertisements[0].advertisementLink,
-      banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
+      banner_id: meetingAds?.advertisements[0]?.advertisementId,
+      banner_url: meetingAds?.advertisements[0]?.advertisementLink,
+      banner_timestamp: meetingAds?.advertisements[0]?.advertisementStartDate,
     });
   }, []);
 
@@ -42,27 +42,27 @@ export function MeetingListOfAll() {
               <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
             ))}
 
-            {meetingAds && meetingListData?.meta.page === 1 && (
+            {meetingAds?.advertisements && meetingListData?.meta.page === 1 && (
               <Link
                 href={meetingAds?.advertisements[0]?.advertisementLink}
                 target="_blank"
                 onClick={() =>
                   ampli.clickBanner({
-                    banner_id: meetingAds.advertisements[0].advertisementId,
-                    banner_url: meetingAds.advertisements[0].advertisementLink,
-                    banner_timestamp: meetingAds.advertisements[0].advertisementStartDate,
+                    banner_id: meetingAds?.advertisements[0]?.advertisementId,
+                    banner_url: meetingAds?.advertisements[0]?.advertisementLink,
+                    banner_timestamp: meetingAds?.advertisements[0]?.advertisementStartDate,
                     user_id: Number(me?.orgId),
                   })
                 }
               >
                 {isDesktop ? (
                   <img
-                    src={meetingAds?.advertisements[0].desktopImageUrl}
+                    src={meetingAds?.advertisements[0]?.desktopImageUrl}
                     style={{ width: '380px', height: '478px', borderRadius: '12px' }}
                   ></img>
                 ) : (
                   <img
-                    src={meetingAds?.advertisements[0].mobileImageUrl}
+                    src={meetingAds?.advertisements[0]?.mobileImageUrl}
                     style={{ width: '328px', height: '82px', borderRadius: '8px' }}
                   ></img>
                 )}
