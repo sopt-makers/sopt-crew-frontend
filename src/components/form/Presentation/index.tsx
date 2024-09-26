@@ -386,7 +386,7 @@ function Presentation({
           </div>
           {/* 모임 정보 - 개설자 소개 / 멘토 필요 여부 */}
           <div>
-            <Label required={true} size="small">
+            <Label required={false} size="small">
               개설자 소개
             </Label>
             <div style={{ position: 'relative' }}>
