@@ -247,7 +247,7 @@ const serializeFormData = (formData: FormType) => {
   return data;
 };
 export const createMeeting = async (formData: FormType) => {
-  const { data } = await api.post<Data<{ meetingId: number }>>('/meeting/v1', serializeFormData(formData));
+  const { data } = await api.post<{ meetingId: number }>('/meeting/v2', serializeFormData(formData));
 
   return data;
 };
