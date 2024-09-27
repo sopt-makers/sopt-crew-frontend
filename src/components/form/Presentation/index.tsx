@@ -161,15 +161,20 @@ function Presentation({
             </SFileInputWrapper>
           </div>
 
-          {/* 모임 정보 - 모임 소개 */}
+          {/* 모임 소개 */}
           <div>
             <Label required={true} size="small">
-              모임 소개
+              지 소개
             </Label>
             <FormController
               name="detail.desc"
               render={({ field, fieldState: { error } }) => (
-                <Textarea placeholder="모임을 소개해주세요" maxLength={1000} error={error?.message} {...field} />
+                <Textarea
+                  placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
               )}
             ></FormController>
           </div>
