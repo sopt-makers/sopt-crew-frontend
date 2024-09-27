@@ -240,7 +240,7 @@ const serializeFormData = (formData: FormType) => {
     isMentorNeeded: formData.detail.isMentorNeeded,
     canJoinOnlyActiveGeneration: formData.detail.canJoinOnlyActiveGeneration,
     joinableParts: refinedParts,
-    targetDesc: formData.detail.targetDesc,
+    //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
   };

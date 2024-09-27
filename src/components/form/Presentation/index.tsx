@@ -329,7 +329,6 @@ function Presentation({
                         )}
                       ></FormController>
                     </STargetFieldWrapper>
-                    <Textarea placeholder="이런 분을 찾아요" maxLength={600} error={errorMessage()} {...field} />
                   </>
                 );
               }}

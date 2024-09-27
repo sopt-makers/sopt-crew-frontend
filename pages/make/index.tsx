@@ -26,7 +26,9 @@ const MakePage = () => {
   const { isValid } = formMethods.formState;
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
-    onError: () => alert('모임을 개설하지 못했습니다.'),
+    onError: () => {
+      alert('모임을 개설하지 못했습니다.');
+    },
   });
 
   const handleChangeImage = (index: number, url: string) => {
