@@ -93,10 +93,7 @@ function Presentation({
   return (
     <SForm onSubmit={onSubmit}>
       <div>
-        <SFormSectionDevider>
-          모임 정보
-          <SSectionCountBox>1 / 3</SSectionCountBox>
-        </SFormSectionDevider>
+        <SFormSectionDevider>1. 모임 정보</SFormSectionDevider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           {/* 모임 제목 */}
@@ -104,14 +101,7 @@ function Presentation({
             <FormController
               name="title"
               render={({ field, fieldState: { error } }) => (
-                <TextInput
-                  label="모임 제목"
-                  message="최대 30자 이내로 입력해주세요"
-                  placeholder="제목"
-                  required
-                  error={error?.message}
-                  {...field}
-                />
+                <TextInput label="모임 이름" placeholder="모임 이름" required error={error?.message} {...field} />
               )}
             ></FormController>
           </STitleField>

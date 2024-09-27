@@ -13,7 +13,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
     formState: { errors },
   } = useFormContext<FormType>();
   const form = useWatch({ control });
-
+  console.log(form);
   const isTitleValid = form.title && !errors.title;
   const isCategoryValid = form.category?.value && !errors.category;
   const isImageValid = form.files && form.files.length > 0;

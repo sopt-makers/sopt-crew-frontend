@@ -6755,12 +6755,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/icons@npm:^1.0.3, @sopt-makers/icons@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@sopt-makers/icons@npm:1.0.4"
+"@sopt-makers/icons@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@sopt-makers/icons@npm:1.0.5"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/a2412275199facff67e5b55ffce5b7f449dfd9c92454d27dfa36b402d249953424f0870e034920ad3b9231f9e1aaa99fcbad75ba84a44b8baf0bc423b4bd5afd
+  checksum: 10c0/9a7a6b42980958c0c8ed492cee0a1427a5dc3d0714fa9c6b9f7d1a763d2aba474a57e4e39180485c36ae5a0d60adc1e58f2122bde93738cf90b4f45891ec27df
   languageName: node
   linkType: hard
 
@@ -6781,21 +6781,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@sopt-makers/ui@npm:2.0.0"
+"@sopt-makers/ui@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "@sopt-makers/ui@npm:2.3.1"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
     "@sopt-makers/colors": "npm:^3.0.1"
     "@sopt-makers/fonts": "npm:^2.0.1"
-    "@sopt-makers/icons": "npm:^1.0.3"
+    "@sopt-makers/icons": "npm:^1.0.5"
     "@vanilla-extract/css": "npm:^1.14.0"
     "@vanilla-extract/sprinkles": "npm:1.6.1"
     tsup: "npm:^8.0.2"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/43439ff40c172f34fd8f44a4e236645b06fd2fbaedca4df51d72b3b583b98a9becf833d9a49723e7a4a5052719aadbfe57be0408df687365d34512208a0b4c86
+    react-dom: ^18.2.0
+  checksum: 10c0/cb7c9de1f0d15e193d2c935b4e339c50a4eb7b31b2a701a0a68fc189c79dc8094498e887b61c88837a2f73c5542fadbdc5bbb41882f3faeca0c83df1f8545b32
   languageName: node
   linkType: hard
 
@@ -20700,9 +20701,9 @@ __metadata:
     "@sentry/nextjs": "npm:^7.51.0"
     "@sopt-makers/colors": "npm:^3.0.1"
     "@sopt-makers/fonts": "npm:^2.0.1"
-    "@sopt-makers/icons": "npm:^1.0.4"
+    "@sopt-makers/icons": "npm:^1.0.5"
     "@sopt-makers/playground-common": "npm:^1.5.2"
-    "@sopt-makers/ui": "npm:^2.0.0"
+    "@sopt-makers/ui": "npm:^2.3.1"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"

@@ -27,8 +27,9 @@ const SLabel = styled('label', {
     required: {
       true: {
         '&::after': {
-          content: '*',
+          content: ' *',
           marginLeft: 1,
+          color: '$secondary',
         },
       },
     },
