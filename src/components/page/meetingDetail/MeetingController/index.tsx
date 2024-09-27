@@ -22,6 +22,8 @@ import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
+import Loader from '@components/loader/Loader';
+import ButtonLoader from '@components/loader/ButtonLoader';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -112,8 +114,10 @@ const MeetingController = ({
     }
     if (!isApplied) {
       ampli.clickRegisterGroup({ user_id: Number(me.orgId) });
-      handleDefaultModalOpen();
-      setModalTitle('모임 신청하기');
+      //handleDefaultModalOpen();
+      //setModalTitle('모임 신청하기');
+      handleApplicationButton('No resolution');
+
       return;
     }
     handleGuestModalOpen();
@@ -215,8 +219,12 @@ const MeetingController = ({
             <ArrowSmallRightIcon />
           </SStatusButton>
           {!isHost && (
-            <SGuestButton disabled={!isRecruiting} isApplied={isApplied} onClick={handleApplicationModal}>
-              신청{isApplied ? ' 취소' : '하기'}
+            <SGuestButton
+              disabled={!isRecruiting || isSubmitting}
+              isApplied={isApplied}
+              onClick={handleApplicationModal}
+            >
+              {isSubmitting ? <ButtonLoader /> : `신청${isApplied ? '취소' : '하기'}`}
             </SGuestButton>
           )}
           {isHost && (
@@ -442,6 +450,9 @@ const SStatusButton = styled(Button, {
 });
 
 const SGuestButton = styled(Button, {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   fontAg: '20_bold_100',
   padding: '$20 0',
   textAlign: 'center',
