@@ -22,8 +22,8 @@ import MentorTooltip from './MentorTooltip';
 import { getResizedImage } from '@utils/image';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
-import Loader from '@components/loader/Loader';
 import ButtonLoader from '@components/loader/ButtonLoader';
+import { useDialog } from '@sopt-makers/ui';
 
 interface DetailHeaderProps {
   detailData: MeetingResponse;
@@ -72,6 +72,7 @@ const MeetingController = ({
     isMentorNeeded,
   } = detailData;
 
+  const { open: dialogOpen, close: dialogClose } = useDialog();
   const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -132,7 +133,13 @@ const MeetingController = ({
           await queryClient.refetchQueries({
             queryKey: ['getMeeting', meetingId as string],
           });
-          alert('신청이 완료됐습니다!');
+          dialogOpen({
+            title: '신청 완료 되었습니다',
+            description: '',
+            type: 'single',
+            typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+          });
+
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
@@ -141,7 +148,12 @@ const MeetingController = ({
             queryKey: ['getMeeting', meetingId as string],
           });
           const errorResponse = error.response as AxiosResponse;
-          alert(errorResponse.data.errorCode);
+          dialogOpen({
+            title: errorResponse.data.errorCode,
+            description: '',
+            type: 'single',
+            typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+          });
           setIsSubmitting(false);
           handleDefaultModalClose();
         },
