@@ -13,22 +13,25 @@ function TableOfContents({ label }: TableOfContentsProps) {
     formState: { errors },
   } = useFormContext<FormType>();
   const form = useWatch({ control });
-  console.log(form);
   const isTitleValid = form.title && !errors.title;
+  console.log('모임 이름', form.title, isTitleValid);
+
   const isCategoryValid = form.category?.value && !errors.category;
+  // console.log('카테고리', '' + form.category?.value, isCategoryValid);
   const isImageValid = form.files && form.files.length > 0;
-  const isDescriptionValid = form.detail && form.detail.desc && form.detail.processDesc && !errors.detail;
+  console.log('이미지', isImageValid);
+  const isDescriptionValid = form.detail && form.detail.desc && !errors.detail;
+  console.log('모임소개', isImageValid);
   const isApplicationDateValid = form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isTargetValid =
     form.detail &&
     form.detail.joinableParts &&
     form.detail.joinableParts.length > 1 &&
-    form.detail.targetDesc &&
     form.capacity &&
     !errors.capacity &&
     !errors.detail; // default 옵션이 선택되어 있기 때문 최소 2개 이상 선택되어야 통과
   const isActivationDateValid = form.detail && form.detail.mStartDate && form.detail.mEndDate;
-
+  const isProcessDesc = form.detail?.processDesc;
   return (
     <SContainer>
       <SListHeader>
@@ -41,7 +44,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
         </SItem>
         <SGap />
         <SItem>
-          {isActivationDateValid ? <CheckedIcon /> : <UncheckedIcon />}
+          {isActivationDateValid && isProcessDesc ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>2. 활동 정보</SItemLabel>
         </SItem>
         <SGap />
@@ -51,7 +54,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
         </SItem>
         <SGap />
         <SItem>
-          <UncheckedIcon />
+          <CheckedIcon />
           <SItemLabel>4. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>

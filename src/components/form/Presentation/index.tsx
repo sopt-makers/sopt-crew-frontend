@@ -21,7 +21,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
-import { TextArea, TextField } from '@sopt-makers/ui';
+import { TextArea } from '@sopt-makers/ui';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
