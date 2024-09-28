@@ -253,7 +253,7 @@ export const createMeeting = async (formData: FormType) => {
 };
 
 export const updateMeeting = async (meetingId: string, formData: FormType) => {
-  const response = await api.put(`/meeting/v1/${meetingId}`, serializeFormData(formData));
+  const response = await api.put(`/meeting/v2/${meetingId}`, serializeFormData(formData));
 
   return response;
 };

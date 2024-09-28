@@ -134,9 +134,6 @@ export interface paths {
     /** [TEMP] 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUserTemp"];
   };
-  "/test": {
-    get: operations["test1"];
-  };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
     get: operations["getPostCount"];
@@ -154,13 +151,6 @@ export interface paths {
      * @description 모임 지원자 목록 csv 파일 다운로드
      */
     get: operations["getAppliesCsvFileUrl"];
-  };
-  "/meeting/v2/temp": {
-    /**
-     * [TEMP] 모임 전체 조회/검색/필터링
-     * @description 모임 전체 조회/검색/필터링
-     */
-    get: operations["getMeetingsTemp"];
   };
   "/meeting/v2/presigned-url": {
     /**
@@ -306,12 +296,7 @@ export interface components {
        * @description 개설자 소개
        * @example 안녕하세요 기획 파트 000입니다
        */
-      leaderDesc: string;
-      /**
-       * @description 모집 대상 소개
-       * @example 개발 모르는 사람도 환영
-       */
-      targetDesc: string;
+      leaderDesc?: string;
       /**
        * @description 유의할 사항
        * @example 유의할 사항
@@ -1356,12 +1341,7 @@ export interface components {
        * @description 개설자 소개
        * @example 개설자 소개 입니다.
        */
-      leaderDesc: string;
-      /**
-       * @description 모집 대상 소개
-       * @example 모집 대상 소개입니다.
-       */
-      targetDesc: string;
+      leaderDesc?: string;
       /**
        * @description 유의사항
        * @example 유의사항입니다.
@@ -1858,13 +1838,8 @@ export interface components {
        */
       isBlockedComment: boolean;
     };
-    /** @description 광고 구좌 조회 응답 Dto */
-    AdvertisementGetResponseDto: {
-      /** @description 광고 구좌 이미지 객체 */
-      advertisements: components["schemas"]["AdvertisementImageDto"][];
-    };
     /** @description 광고 구좌 이미지 Dto */
-    AdvertisementImageDto: {
+    AdvertisementGetDto: {
       /**
        * Format: int32
        * @description 광고 id
@@ -1891,6 +1866,11 @@ export interface components {
        * @description 광고 게시 시작일
        */
       advertisementStartDate: string;
+    };
+    /** @description 광고 구좌 조회 응답 Dto */
+    AdvertisementsGetResponseDto: {
+      /** @description 광고 구좌 이미지 리스트 */
+      advertisements: components["schemas"]["AdvertisementGetDto"][];
     };
   };
   responses: never;
@@ -2487,16 +2467,6 @@ export interface operations {
       };
     };
   };
-  test1: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["MemberBlock"][];
-        };
-      };
-    };
-  };
   /** 모임 게시글 개수 조회 */
   getPostCount: {
     parameters: {
@@ -2571,60 +2541,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["AppliesCsvFileUrlResponseDto"];
-        };
-      };
-    };
-  };
-  /**
-   * [TEMP] 모임 전체 조회/검색/필터링
-   * @description 모임 전체 조회/검색/필터링
-   */
-  getMeetingsTemp: {
-    parameters: {
-      query: {
-        queryCommand: components["schemas"]["MeetingV2GetAllMeetingQueryDto"];
-        /**
-         * @description 페이지, default = 1
-         * @example 1
-         */
-        page?: number;
-        /**
-         * @description 가져올 데이터 개수, default = 12
-         * @example 50
-         */
-        take?: number;
-        /**
-         * @description 카테고리
-         * @example 스터디,번개
-         */
-        category?: string;
-        /**
-         * @description 모임 모집 상태
-         * @example 0,1
-         */
-        status?: string;
-        /**
-         * @description 활동기수만 참여여부
-         * @example true
-         */
-        isOnlyActiveGeneration?: boolean;
-        /**
-         * @description 검색할 활동 파트 다중 선택. OR 조건으로 검색됨 </br> Available values : PM, DESIGN, IOS, ANDROID, SERVER, WEB
-         * @example PM,DESIGN,IOS,ANDROID,SERVER,WEB
-         */
-        joinableParts?: Record<string, never>;
-        /**
-         * @description 검색 내용
-         * @example 고수스터디 검색
-         */
-        query?: string;
-      };
-    };
-    responses: {
-      /** @description 모임 지원자/참여자 조회 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
@@ -2705,7 +2621,7 @@ export interface operations {
       /** @description 성공 */
       200: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["AdvertisementGetResponseDto"];
+          "application/json;charset=UTF-8": components["schemas"]["AdvertisementsGetResponseDto"];
         };
       };
     };
