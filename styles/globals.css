@@ -1,6 +1,10 @@
 /* 반응형 적용은 문의에 대한 답변 들은 뒤에!
 @import url('ui/desktop-variables.css') screen;
-@import url('ui/mobile-variables.css') screen and (max-width: 768px); */
+@import url('ui/mobile-variables.css') screen and (max-width: 768px); 
+
+@import url('@sopt-makers/ui/desktop-variable.css') screen;
+@import url('@sopt-makers/ui/mobile-variables.css') screen and (max-width: 768px);
+*/
 
 @font-face {
   font-family: 'SUIT';
