@@ -98,8 +98,8 @@ const SItemList = styled('ul', {
 });
 
 const SGap = styled('div', {
-  height: '51px',
-  marginLeft: '7px',
+  height: '53px',
+  margin: '-1px 7px',
   borderLeft: '1px solid $gray600',
 });
 

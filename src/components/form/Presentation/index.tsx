@@ -22,6 +22,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import { TextField } from '@sopt-makers/ui';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -101,7 +102,14 @@ function Presentation({
             <FormController
               name="title"
               render={({ field, fieldState: { error } }) => (
-                <TextInput label="모임 이름" placeholder="모임 이름" required error={error?.message} {...field} />
+                <TextInput
+                  label="모임 이름"
+                  placeholder="모임 이름"
+                  maxLength={30}
+                  required
+                  error={error?.message}
+                  {...field}
+                />
               )}
             ></FormController>
           </STitleField>
@@ -113,15 +121,17 @@ function Presentation({
             render={({ field: { value, onChange, onBlur }, fieldState }) => {
               const error = (fieldState.error as (FieldError & { value: FieldError }) | undefined)?.value;
               return (
-                <Select
-                  label="모임 카테고리"
-                  options={categories}
-                  required
-                  error={error?.message}
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                />
+                <div style={{ width: '260px' }}>
+                  <Select
+                    label="모임 카테고리"
+                    options={categories}
+                    required
+                    error={error?.message}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                </div>
               );
             }}
           ></FormController>
@@ -163,18 +173,25 @@ function Presentation({
 
           {/* 모임 소개 */}
           <div>
-            <Label required={true} size="small">
-              모임 소개
-            </Label>
             <FormController
               name="detail.desc"
               render={({ field, fieldState: { error } }) => (
-                <Textarea
-                  placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
-                  maxLength={1000}
-                  error={error?.message}
-                  {...field}
-                />
+                <>
+                  <Textarea
+                    placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
+                    maxLength={1000}
+                    error={error?.message}
+                    {...field}
+                  />
+                  {/* <TextField
+                    labelText="모임 소개"
+                    placeholder={`ex.\n• 모임 성격\n</br>• 모임 개설 배경/목적\n• 모임의 효능`}
+                    required
+                    style={TextFieldStyle}
+                    maxLength={1000}
+                    {...field}
+                  /> */}
+                </>
               )}
             ></FormController>
           </div>
@@ -447,18 +464,21 @@ function Presentation({
 
 export default Presentation;
 
+const TextFieldStyle = {
+  height: '213px',
+  whiteSpace: 'pre-wrap',
+};
+
 const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '60px',
-
   '@tablet': {
     gap: '56px',
   },
 });
 const STitleField = styled('div', {
   width: '100%',
-  maxWidth: '369px',
 });
 const SFileInputWrapper = styled('div', {
   display: 'grid',
