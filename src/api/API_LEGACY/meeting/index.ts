@@ -247,13 +247,13 @@ const serializeFormData = (formData: FormType) => {
   return data;
 };
 export const createMeeting = async (formData: FormType) => {
-  const { data } = await api.post<Data<{ meetingId: number }>>('/meeting/v1', serializeFormData(formData));
+  const { data } = await api.post<Data<{ meetingId: number }>>('/meeting/v2', serializeFormData(formData));
 
   return data;
 };
 
 export const updateMeeting = async (meetingId: string, formData: FormType) => {
-  const response = await api.put(`/meeting/v1/${meetingId}`, serializeFormData(formData));
+  const response = await api.put(`/meeting/v2/${meetingId}`, serializeFormData(formData));
 
   return response;
 };
@@ -272,7 +272,7 @@ interface GetPresignedUrlResponse {
   };
 }
 export const getPresignedUrl = async (contentType: string) => {
-  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v1/presigned-url', {
+  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v2/presigned-url', {
     params: { contentType },
   });
   return data;
