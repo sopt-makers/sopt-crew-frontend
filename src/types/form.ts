@@ -63,12 +63,7 @@ export const schema = z.object({
       .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
         message: 'YYYY.MM.DD 형식으로 입력해주세요.',
       }),
-    leaderDesc: z
-      .string()
-      .min(1, {
-        message: '개설자 소개를 입력해주세요.',
-      })
-      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
+    leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
     joinableParts: z
@@ -79,18 +74,12 @@ export const schema = z.object({
         })
       )
       .min(2, { message: '대상 파트를 선택해주세요.' }), // NOTE: default 옵션에 더해 최소 1개는 선택해야 한다(총 2개)
-    targetDesc: z
-      .string()
-      .min(1, {
-        message: '상세 내용을 작성해주세요.',
-      })
-      .max(600, { message: '600자 까지 입력 가능합니다.' }),
     note: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }).optional().nullable(),
   }),
 });
 
 export type FormType = z.infer<typeof schema>;
 
-export const MAX_FILE_SIZE = 5 * 1024 ** 2; // 5MB
+export const MAX_FILE_SIZE = 20 * 1024 ** 2; // 5MB
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];

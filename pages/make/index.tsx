@@ -65,7 +65,7 @@ const MakePage = () => {
             }
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
+            onSubmit={() => formMethods.handleSubmit(onSubmit)}
             disabled={isSubmitting || !isValid}
           />
         </SFormContainer>
