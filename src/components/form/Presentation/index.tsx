@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -8,7 +8,6 @@ import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Select from '../Select';
-import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from '@type/form';
@@ -22,7 +21,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
-import { TextField } from '@sopt-makers/ui';
+import { TextArea, TextField } from '@sopt-makers/ui';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -102,12 +101,13 @@ function Presentation({
             <FormController
               name="title"
               render={({ field, fieldState: { error } }) => (
-                <TextInput
-                  label="모임 이름"
+                <TextArea
+                  labelText="모임 이름"
                   placeholder="모임 이름"
-                  maxLength={30}
                   required
-                  error={error?.message}
+                  maxLength={30}
+                  errorMessage={error?.message}
+                  onSubmit={() => {}}
                   {...field}
                 />
               )}
@@ -121,17 +121,15 @@ function Presentation({
             render={({ field: { value, onChange, onBlur }, fieldState }) => {
               const error = (fieldState.error as (FieldError & { value: FieldError }) | undefined)?.value;
               return (
-                <div style={{ width: '260px' }}>
-                  <Select
-                    label="모임 카테고리"
-                    options={categories}
-                    required
-                    error={error?.message}
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                  />
-                </div>
+                <Select
+                  label="모임 카테고리"
+                  options={categories}
+                  required
+                  error={error?.message}
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
               );
             }}
           ></FormController>
@@ -177,20 +175,16 @@ function Presentation({
               name="detail.desc"
               render={({ field, fieldState: { error } }) => (
                 <>
-                  <Textarea
+                  <TextArea
+                    fixedHeight={163}
+                    labelText="모임 소개"
                     placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
+                    required
                     maxLength={1000}
-                    error={error?.message}
+                    errorMessage={error?.message}
+                    onSubmit={() => {}}
                     {...field}
                   />
-                  {/* <TextField
-                    labelText="모임 소개"
-                    placeholder={`ex.\n• 모임 성격\n</br>• 모임 개설 배경/목적\n• 모임의 효능`}
-                    required
-                    style={TextFieldStyle}
-                    maxLength={1000}
-                    {...field}
-                  /> */}
                 </>
               )}
             ></FormController>
@@ -246,16 +240,17 @@ function Presentation({
           </div>
           {/* 모임 정보 - 진행 방식 소개 */}
           <div>
-            <Label required={true} size="small">
-              진행 방식 소개
-            </Label>
             <FormController
               name="detail.processDesc"
               render={({ field, fieldState: { error } }) => (
-                <Textarea
+                <TextArea
+                  fixedHeight={163}
+                  labelText="진행 방식 소개"
                   placeholder={`ex.\n• 활동 방법\n• 커리큘럼\n• 모임 내 소통 방식`}
+                  required
                   maxLength={1000}
-                  error={error?.message}
+                  errorMessage={error?.message}
+                  onSubmit={() => {}}
                   {...field}
                 />
               )}
@@ -400,11 +395,8 @@ function Presentation({
           <div>
             <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
             <SectionLine />
-            <Label required={true} size="small">
-              모임장 소개
-            </Label>
+            <Label size="small">모임장 소개</Label>
             <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
-
             <div style={{ position: 'relative' }}>
               <SNeedMentorFieldWrapper>
                 <FormController
@@ -416,10 +408,12 @@ function Presentation({
               <FormController
                 name="detail.leaderDesc"
                 render={({ field, fieldState: { error } }) => (
-                  <Textarea
+                  <TextArea
+                    fixedHeight={139}
                     placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
                     maxLength={1000}
-                    error={error?.message}
+                    errorMessage={error?.message}
+                    onSubmit={() => {}}
                     {...field}
                   />
                 )}
@@ -429,14 +423,17 @@ function Presentation({
 
           {/* 추가 정보 - 유의사항 */}
           <div>
-            <Label size="small">유의사항</Label>
             <FormController
               name="detail.note"
               render={({ field, fieldState: { error } }) => (
-                <Textarea
+                <TextArea
+                  fixedHeight={163}
+                  labelText="유의사항"
+                  descriptionText="멘토가 필요하다면 '멘토 구해요'를 체크해주세요"
                   placeholder={`ex.\n• 신청 전 알아두어야 할 공지`}
                   maxLength={1000}
-                  error={error?.message}
+                  errorMessage={error?.message}
+                  onSubmit={() => {}}
                   {...field}
                 />
               )}
@@ -463,11 +460,6 @@ function Presentation({
 }
 
 export default Presentation;
-
-const TextFieldStyle = {
-  height: '213px',
-  whiteSpace: 'pre-wrap',
-};
 
 const SForm = styled('form', {
   display: 'flex',
@@ -506,7 +498,7 @@ const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
 const SNeedMentorFieldWrapper = styled('div', {
   position: 'absolute',
-  transform: 'translateY(-120%)',
+  transform: 'translateY(-170%)',
   right: 6,
 });
 const STargetFieldWrapper = styled('div', {
