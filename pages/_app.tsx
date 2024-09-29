@@ -17,7 +17,7 @@ import { styled, theme } from 'stitches.config';
 import { ampli } from '../src/ampli';
 import '../styles/globals.css';
 import '@sopt-makers/ui/dist/index.css';
-import { ToastProvider } from '@sopt-makers/ui';
+import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import { MentionProvider } from '@components/feed/Mention/MentionContext';
 
 // 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
@@ -111,18 +111,20 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
         />
         <Layout>
-          <ToastProvider>
-            <OverlayProvider>
-              {isServiceReady ? (
-                <>
-                  <Header />
-                  <Component {...pageProps} />
-                </>
-              ) : (
-                <Loader />
-              )}
-            </OverlayProvider>
-          </ToastProvider>
+          <DialogProvider>
+            <ToastProvider>
+              <OverlayProvider>
+                {isServiceReady ? (
+                  <>
+                    <Header />
+                    <Component {...pageProps} />
+                  </>
+                ) : (
+                  <Loader />
+                )}
+              </OverlayProvider>
+            </ToastProvider>
+          </DialogProvider>
         </Layout>
       </QueryClientProvider>
     </MentionProvider>

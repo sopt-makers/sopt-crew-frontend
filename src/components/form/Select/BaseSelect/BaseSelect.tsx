@@ -58,7 +58,7 @@ export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
                 multiple ? (
                   <CheckboxOptionItem key={option.value} option={option} />
                 ) : (
-                  <OptionItem key={option.value} option={option} css={{ minWidth: '147px' }} />
+                  <OptionItem key={option.value} option={option} css={{ minWidth: '260px' }} />
                 )
               )}
             </SOptionList>
@@ -73,6 +73,7 @@ export default function BaseSelect(props: SelectProps | MultipleSelectProps) {
 const SOptionList = styled(Listbox.Options, {
   position: 'absolute',
   maxHeight: '300px',
+  width: '260px',
   padding: '8px 8px',
   display: 'flex',
   flexDirection: 'column',

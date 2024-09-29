@@ -139,7 +139,7 @@ const RenderPostsWithAds = () => {
               </>
             );
           })}
-          {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
+          {postAds?.advertisements && <AdCarousel slides={postAds?.advertisements} options={OPTIONS} />}
           {postsData?.pages.slice(2).map(post => {
             if (!post) return;
             const isMine = post.user.id === me?.id;
@@ -320,8 +320,7 @@ const RenderPostsWithAds = () => {
               </>
             );
           })}
-          {postAds && <AdCarousel slides={postAds.advertisements} options={OPTIONS} />}
-
+          {postAds?.advertisements && <AdCarousel slides={postAds?.advertisements} options={OPTIONS} />}
           {postsData?.pages.slice(2).map(post => {
             if (!post) return;
             const isMine = post.user.id === me?.id;

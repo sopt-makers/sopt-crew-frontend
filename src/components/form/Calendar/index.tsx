@@ -24,12 +24,13 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
           value={selectedDate ? dayjs(selectedDate, 'YYYY-MM-DD').toDate() : null}
           onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
           formatDay={(locale, date) => dayjs(date).format('D')}
-          formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
+          formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
           showNeighboringMonth={false}
           next2Label={null}
           prev2Label={null}
           minDetail="month"
           maxDetail="month"
+          calendarType="US"
           tileContent={({ date, view }) => {
             if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
               return (
@@ -124,7 +125,7 @@ const SInputWrapper = styled('div', {
   width: '100%',
   padding: '18px 20px',
   color: '$gray10',
-  background: '$gray700',
+  background: '$gray800',
   borderRadius: 10,
   justifyContent: 'space-between',
   cursor: 'pointer',

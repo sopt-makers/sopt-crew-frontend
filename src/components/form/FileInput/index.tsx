@@ -27,7 +27,7 @@ export default function FileInput({ label, message, error, required, ...props }:
   );
 }
 const SContainer = styled('div', {
-  width: '100%',
+  width: '260px',
   display: 'flex',
   flexDirection: 'column',
 });
@@ -39,7 +39,8 @@ const SInputWrapper = styled('label', {
   height: '100%',
   maxHeight: '176px',
   aspectRatio: '40 / 27',
-  background: '$gray600',
+  background: '$gray700',
+  color: '$gray400',
   borderRadius: '10px',
   cursor: 'pointer',
 });

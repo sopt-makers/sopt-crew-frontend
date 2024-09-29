@@ -56,9 +56,9 @@ const AdCarousel: React.FC<PropType> = props => {
 
   useEffect(() => {
     ampli.impressionBanner({
-      banner_id: meetingAds?.advertisements[0].advertisementId,
-      banner_url: meetingAds?.advertisements[0].advertisementLink,
-      banner_timestamp: meetingAds?.advertisements[0].advertisementStartDate,
+      banner_id: meetingAds?.advertisements[0]?.advertisementId,
+      banner_url: meetingAds?.advertisements[0]?.advertisementLink,
+      banner_timestamp: meetingAds?.advertisements[0]?.advertisementStartDate,
     });
   }, []);
 
@@ -73,9 +73,9 @@ const AdCarousel: React.FC<PropType> = props => {
                 target="_blank"
                 onClick={() =>
                   ampli.clickBanner({
-                    banner_id: slide.advertisementId,
-                    banner_url: slide.advertisementLink,
-                    banner_timestamp: slide.advertisementStartDate,
+                    banner_id: slide?.advertisementId,
+                    banner_url: slide?.advertisementLink,
+                    banner_timestamp: slide?.advertisementStartDate,
                     user_id: Number(me?.orgId),
                   })
                 }

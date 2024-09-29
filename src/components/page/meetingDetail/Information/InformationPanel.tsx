@@ -39,7 +39,9 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
       title: '모집 대상',
       generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체',
       partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
-      content: detailData?.targetDesc,
+      //'이런 사람을 찾아요' Input이 사라지면서 해당 객체의 content는 삭제 됨
+      //렌더링은 되어야하므로 truthy값으로 문자열 'NULL'을 삽입
+      content: detailData?.targetDesc ?? 'NULL',
     },
     {
       id: 4,
@@ -60,6 +62,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
   }, []);
 
   const handleContent = (content: string) => {
+    if (content === 'NULL') return;
     return parseTextToLink(content);
   };
 

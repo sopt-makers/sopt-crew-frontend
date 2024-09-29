@@ -23,8 +23,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         <SBottomContainer>
           {error && <SErrorMessage>{error}</SErrorMessage>}
           {props.maxLength && (
-            <STextCount overflow={props.value.replace(/\r\n/g, '\n').length > props.maxLength}>
-              {props.value.replace(/\r\n/g, '\n').length} / {props.maxLength}
+            <STextCount overflow={props?.value?.replace(/\r\n/g, '\n').length > props.maxLength}>
+              {props?.value?.replace(/\r\n/g, '\n').length} / {props.maxLength}
             </STextCount>
           )}
         </SBottomContainer>
@@ -46,12 +46,13 @@ const STextarea = styled('textarea', {
   padding: '16px 20px 20px 16px',
   fontAg: '16_medium_150',
   color: '$gray10',
-  background: '$gray700',
+  background: '$gray800',
   border: 'none',
   resize: 'none',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray500',
+    whiteSpace: 'pre-wrap',
+    color: '$gray300',
   },
 });
 const SBottomContainer = styled('div', {
