@@ -95,7 +95,7 @@ const EditPage = () => {
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
           canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
-          targetDesc: formData?.targetDesc,
+          //targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },
       });
