@@ -12,6 +12,7 @@ interface TextInputProps extends HTMLAttributes<HTMLInputElement> {
   required?: boolean;
   right?: React.ReactNode;
   // NOTE: controlled component로 사용할 때 필요한 props
+  maxLength?: number;
   value?: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -26,6 +27,11 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         {props.right}
       </SInputWrapper>
       {error && <SErrorMessage>{error}</SErrorMessage>}
+      {props.maxLength && (
+        <STextCount overflow={(props.value + '').length > props.maxLength}>
+          {(props.value + '').length} / {props.maxLength}
+        </STextCount>
+      )}
     </SContainer>
   )
 );
@@ -56,6 +62,20 @@ const SInput = styled('input', {
 
   '@tablet': {
     padding: '16px',
+  },
+});
+const STextCount = styled('span', {
+  width: '100%',
+  marginTop: '$8',
+  textAlign: 'right',
+  fontAg: '12_medium_100',
+  color: '$gray300',
+  variants: {
+    overflow: {
+      true: {
+        color: '$error',
+      },
+    },
   },
 });
 const SErrorMessage = styled(ErrorMessage, {
