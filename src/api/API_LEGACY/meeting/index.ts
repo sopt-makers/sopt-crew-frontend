@@ -240,16 +240,17 @@ const serializeFormData = (formData: FormType) => {
     isMentorNeeded: formData.detail.isMentorNeeded,
     canJoinOnlyActiveGeneration: formData.detail.canJoinOnlyActiveGeneration,
     joinableParts: refinedParts,
-    targetDesc: formData.detail.targetDesc,
+    //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
   };
   return data;
 };
 export const createMeeting = async (formData: FormType) => {
-  const { data } = await api.post<{ meetingId: number }>('/meeting/v2', serializeFormData(formData));
-
-  return data;
+  const {
+    data: { meetingId },
+  } = await api.post<{ meetingId: number }>('/meeting/v2', serializeFormData(formData));
+  return meetingId;
 };
 
 export const updateMeeting = async (meetingId: string, formData: FormType) => {
