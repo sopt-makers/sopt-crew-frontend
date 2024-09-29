@@ -382,32 +382,31 @@ function Presentation({
           </div>
           {/* 모집 정보 끝 */}
 
+          {/* 추가 정보 - 모임장 소개 */}
           <div>
             <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
             <SectionLine />
             <Label size="small">모임장 소개</Label>
-            <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
 
-            <div style={{ position: 'relative' }}>
-              <SNeedMentorFieldWrapper>
-                <FormController
-                  name="detail.isMentorNeeded"
-                  defaultValue={false}
-                  render={({ field }) => <NeedMentor {...field} />}
-                ></FormController>
-              </SNeedMentorFieldWrapper>
+            <SNeedMentorFieldWrapper>
+              <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
               <FormController
-                name="detail.leaderDesc"
-                render={({ field, fieldState: { error } }) => (
-                  <Textarea
-                    placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
-                    maxLength={1000}
-                    error={error?.message}
-                    {...field}
-                  />
-                )}
+                name="detail.isMentorNeeded"
+                defaultValue={false}
+                render={({ field }) => <NeedMentor {...field} />}
               ></FormController>
-            </div>
+            </SNeedMentorFieldWrapper>
+            <FormController
+              name="detail.leaderDesc"
+              render={({ field, fieldState: { error } }) => (
+                <Textarea
+                  placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
+              )}
+            ></FormController>
           </div>
 
           {/* 추가 정보 - 유의사항 */}
@@ -483,9 +482,13 @@ const SApplicationField = styled('div', {
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
 const SNeedMentorFieldWrapper = styled('div', {
-  position: 'absolute',
-  transform: 'translateY(-120%)',
-  right: 6,
+  display: 'flex',
+  justifyContent: 'space-between',
+
+  '@media(max-width: 385px)': {
+    flexDirection: 'column',
+    marginBottom: '$18',
+  },
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
@@ -500,6 +503,8 @@ const STargetFieldWrapper = styled('div', {
   '@media(max-width: 525px)': {
     flexDirection: 'column',
     alignItems: 'flex-start',
+
+    marginBottom: '52px',
   },
 });
 
