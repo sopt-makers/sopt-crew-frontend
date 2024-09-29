@@ -27,7 +27,7 @@ export default function FileInput({ label, message, error, required, ...props }:
   );
 }
 const SContainer = styled('div', {
-  width: '100%',
+  width: '260px',
   display: 'flex',
   flexDirection: 'column',
 });
