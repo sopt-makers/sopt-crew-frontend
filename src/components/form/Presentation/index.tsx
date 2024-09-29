@@ -310,20 +310,6 @@ function Presentation({
                       모집 대상
                     </Label>
                   </SLabelWrapper>
-                  <FormController
-                    name="detail.canJoinOnlyActiveGeneration"
-                    defaultValue={false}
-                    render={({ field: { value, onChange } }) => (
-                      <SMobileFormCheckBox active={value} onClick={() => onChange(!value)}>
-                        {value ? (
-                          <CheckSelectedIcon style={{ marginRight: '8px' }} />
-                        ) : (
-                          <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-                        )}
-                        활동 기수만
-                      </SMobileFormCheckBox>
-                    )}
-                  ></FormController>
                 </SLabelCheckboxWrapper>
                 <HelpMessage>모임장을 제외한 인원 수를 입력해주세요</HelpMessage>
                 <FormController
@@ -343,17 +329,17 @@ function Presentation({
                       }
                     };
                     return (
-                      <>
-                        <STargetFieldWrapper>
-                          <FormController
-                            name="detail.joinableParts"
-                            defaultValue={[parts[0]]}
-                            render={({ field: { value, onChange, onBlur } }) => (
-                              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                            )}
-                          ></FormController>
+                      <STargetFieldWrapper>
+                        <FormController
+                          name="detail.joinableParts"
+                          defaultValue={[parts[0]]}
+                          render={({ field: { value, onChange, onBlur } }) => (
+                            <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                          )}
+                        ></FormController>
 
-                          {/* 모집 인원 */}
+                        {/* 모집 인원 */}
+                        <div style={{ display: 'flex' }}>
                           <SMemberCountWrapper>
                             <FormController
                               name="capacity"
@@ -386,8 +372,8 @@ function Presentation({
                               </SFormCheckBox>
                             )}
                           ></FormController>
-                        </STargetFieldWrapper>
-                      </>
+                        </div>
+                      </STargetFieldWrapper>
                     );
                   }}
                 ></FormController>
@@ -396,32 +382,31 @@ function Presentation({
           </div>
           {/* 모집 정보 끝 */}
 
+          {/* 추가 정보 - 모임장 소개 */}
           <div>
             <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
             <SectionLine />
             <Label size="small">모임장 소개</Label>
-            <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
 
-            <div style={{ position: 'relative' }}>
-              <SNeedMentorFieldWrapper>
-                <FormController
-                  name="detail.isMentorNeeded"
-                  defaultValue={false}
-                  render={({ field }) => <NeedMentor {...field} />}
-                ></FormController>
-              </SNeedMentorFieldWrapper>
+            <SNeedMentorFieldWrapper>
+              <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
               <FormController
-                name="detail.leaderDesc"
-                render={({ field, fieldState: { error } }) => (
-                  <Textarea
-                    placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
-                    maxLength={1000}
-                    error={error?.message}
-                    {...field}
-                  />
-                )}
+                name="detail.isMentorNeeded"
+                defaultValue={false}
+                render={({ field }) => <NeedMentor {...field} />}
               ></FormController>
-            </div>
+            </SNeedMentorFieldWrapper>
+            <FormController
+              name="detail.leaderDesc"
+              render={({ field, fieldState: { error } }) => (
+                <Textarea
+                  placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
+              )}
+            ></FormController>
           </div>
 
           {/* 추가 정보 - 유의사항 */}
@@ -497,9 +482,13 @@ const SApplicationField = styled('div', {
 const SDateFieldWrapper = styled(SApplicationFieldWrapper);
 const SDateField = styled(SApplicationField);
 const SNeedMentorFieldWrapper = styled('div', {
-  position: 'absolute',
-  transform: 'translateY(-120%)',
-  right: 6,
+  display: 'flex',
+  justifyContent: 'space-between',
+
+  '@media(max-width: 385px)': {
+    flexDirection: 'column',
+    marginBottom: '$18',
+  },
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
@@ -510,7 +499,15 @@ const STargetFieldWrapper = styled('div', {
   '@tablet': {
     height: '48px',
   },
+
+  '@media(max-width: 525px)': {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+
+    marginBottom: '52px',
+  },
 });
+
 const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',
@@ -586,6 +583,7 @@ const SFormCheckBox = styled('div', {
   ...fontsObject.BODY_3_14_R,
   display: 'flex',
   alignItems: 'center',
+  marginLeft: '$16',
   color: '$gray300',
   variants: {
     active: {
@@ -593,25 +591,6 @@ const SFormCheckBox = styled('div', {
     },
   },
   cursor: 'pointer',
-  '@media(max-width: 385px)': {
-    display: 'none',
-  },
-});
-
-const SMobileFormCheckBox = styled('div', {
-  ...fontsObject.BODY_3_14_R,
-  display: 'none',
-  alignItems: 'center',
-  color: '$gray300',
-  variants: {
-    active: {
-      true: { color: '$gray10' },
-    },
-  },
-  cursor: 'pointer',
-  '@media(max-width: 385px)': {
-    display: 'flex',
-  },
 });
 
 const SLabelWrapper = styled('div', {
