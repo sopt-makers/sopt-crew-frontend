@@ -37,7 +37,6 @@ const DetailPage = () => {
     if (detailData) {
       setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
     }
-    console.log('detailData:', detailData);
   }, [detailData]);
 
   useEffect(() => {
