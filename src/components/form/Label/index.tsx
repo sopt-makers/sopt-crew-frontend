@@ -19,7 +19,7 @@ const Label = ({ required, children, size }: LabelProps) => {
 export default Label;
 
 const SLabel = styled('label', {
-  marginBottom: 12,
+  marginBottom: 8,
   display: 'inline-block',
   width: '100%',
   color: '$gray10',
