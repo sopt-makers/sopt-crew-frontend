@@ -14,7 +14,6 @@ function TableOfContents({ label }: TableOfContentsProps) {
   } = useFormContext<FormType>();
   const form = useWatch({ control });
   const isTitleValid = form.title && !errors.title;
-  console.log('모임 이름', form.title, isTitleValid);
 
   const isCategoryValid = form.category?.value && !errors.category;
   // console.log('카테고리', '' + form.category?.value, isCategoryValid);
