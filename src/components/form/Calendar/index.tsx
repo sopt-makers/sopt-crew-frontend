@@ -30,6 +30,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
           prev2Label={null}
           minDetail="month"
           maxDetail="month"
+          calendarType="US"
           tileContent={({ date, view }) => {
             if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
               return (
