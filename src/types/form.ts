@@ -15,7 +15,9 @@ export const schema = z.object({
       invalid_type_error: '카테고리를 선택해주세요.',
     }),
   }),
-  files: z.array(z.string(), { required_error: '이미지를 추가해주세요.' }),
+  files: z
+    .array(z.string(), { required_error: '이미지를 추가해주세요.' })
+    .min(1, { message: '이미지를 추가해주세요.' }),
   startDate: z
     .string()
     .min(10, { message: '모집 기간을 입력해주세요.' })
