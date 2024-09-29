@@ -152,7 +152,6 @@ const SContainer = styled('div', {
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '44px 40px 56px',
-  background: '$gray800',
   borderRadius: '15px',
 
   '@tablet': {
