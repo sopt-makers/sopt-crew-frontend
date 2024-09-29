@@ -1,7 +1,3 @@
-import Avatar from '@components/avatar/Avatar';
-import MenuIcon from 'public/assets/svg/ic_menu.svg';
-import { Menu } from '@headlessui/react';
-import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema2';
 import LikeHoverIcon from '@assets/svg/like_hover.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
@@ -15,11 +11,9 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
-import { fromNow } from '@utils/dayjs';
+import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
 import React, { useContext } from 'react';
-import { playgroundURL } from '@constants/url';
-import { playgroundLink } from '@sopt-makers/playground-common';
-import { fontsObject } from '@sopt-makers/fonts';
+import { styled } from 'stitches.config';
 import { MentionContext } from '../Mention/MentionContext';
 
 interface FeedCommentViewerProps {
@@ -68,35 +62,16 @@ export default function FeedCommentViewer({
           </Name>
           <Date>{fromNow(comment.createdDate)}</Date>
         </AuthorWrapper>
-        {isMine ? (
+        {isMine && (
           <Menu as="div" style={{ position: 'relative' }}>
-            {({ open }) => (
-              <>
-                <Menu.Button>{open ? <ClickedMenuIcon /> : <MenuIcon />}</Menu.Button>
-                <MenuItems>
-                  {Actions.map((Action, index) => (
-                    <SMenuItemContainer>
-                      <Menu.Item key={index}>{Action}</Menu.Item>
-                    </SMenuItemContainer>
-                  ))}
-                </MenuItems>
-              </>
-            )}
-          </Menu>
-        ) : (
-          <Menu as="div" style={{ position: 'relative' }}>
-            {({ open }) => (
-              <>
-                <Menu.Button>{open ? <ClickedMenuIcon /> : <MenuIcon />}</Menu.Button>
-                <MenuItems>
-                  {Actions?.map((Action, index) => (
-                    <SMenuItemContainer>
-                      <Menu.Item key={index}>{Action}</Menu.Item>
-                    </SMenuItemContainer>
-                  ))}
-                </MenuItems>
-              </>
-            )}
+            <Menu.Button>
+              <MenuIcon />
+            </Menu.Button>
+            <MenuItems>
+              {Actions.map((Action, index) => (
+                <Menu.Item key={index}>{Action}</Menu.Item>
+              ))}
+            </MenuItems>
           </Menu>
         )}
       </CommentHeader>
@@ -159,31 +134,8 @@ const Date = styled('span', {
 });
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
-  top: '35px', // TODO: design 체크 필요
-  right: '0', // TODO: design 체크 필요
-  padding: '8px',
-  borderRadius: '13px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '6px',
-  background: '$gray800',
-});
-const SMenuItemContainer = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '80px',
-  background: '$gray800',
-
-  '&:hover': {
-    background: '$gray700',
-    borderRadius: '$8',
-  },
-
-  '&:active': {
-    background: '$gray600',
-    borderRadius: '$8',
-  },
+  top: 0,
+  right: '100%', // TODO: design 체크 필요
 });
 const CommentBody = styled('div', {
   paddingLeft: '40px',
