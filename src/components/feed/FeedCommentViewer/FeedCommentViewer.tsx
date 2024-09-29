@@ -1,21 +1,26 @@
 import Avatar from '@components/avatar/Avatar';
-import MenuIcon from 'public/assets/svg/menu_icon.svg';
-import ClickedMenuIcon from '@assets/svg/clicked-menu-icon.svg';
+import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import { Menu } from '@headlessui/react';
 import { styled } from 'stitches.config';
 import { paths } from '@/__generated__/schema2';
+import LikeHoverIcon from '@assets/svg/like_hover.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
-import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
+import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
+import Avatar from '@components/avatar/Avatar';
+import { playgroundURL } from '@constants/url';
+import { Menu } from '@headlessui/react';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { fromNow } from '@utils/dayjs';
+import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
 import { fromNow } from '@utils/dayjs';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { playgroundURL } from '@constants/url';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { fontsObject } from '@sopt-makers/fonts';
 import { MentionContext } from '../Mention/MentionContext';
-import LikeHoverIcon from '@assets/svg/like_hover.svg';
-import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
-import { colors } from '@sopt-makers/colors';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
@@ -43,6 +48,7 @@ export default function FeedCommentViewer({
 
   const onClickReComment = () => {
     setIsReCommentClicked(true);
+    //commentParentId: 본인의 부모 댓글의 id, parentComment: 본인이 부모 댓글 여부
     if (commentParentId) {
       setParentComment({ parentComment: false, parentCommentId: commentParentId });
     } else {

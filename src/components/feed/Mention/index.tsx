@@ -1,12 +1,12 @@
 import { useQueryGetMentionUsers } from '@api/user/hooks';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
-import React, { useCallback, useEffect, useContext, useState } from 'react';
-import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import { MentionContext } from './MentionContext';
-import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 interface mentionableDataType {
   id: number;
   display: string;
@@ -25,6 +25,8 @@ interface CommonMentionProps {
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
   setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
   isComment: boolean;
+  commentId?: number;
+  onClick?: () => void;
 }
 
 const CommonMention = ({
@@ -35,26 +37,34 @@ const CommonMention = ({
   setIsFocused,
   setUserIds,
   isComment,
+  commentId,
+  onClick,
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
-  const { user, isReCommentClicked, setIsReCommentClicked, setParentComment } = useContext(MentionContext);
+  const { parentComment, user, isReCommentClicked, setIsReCommentClicked, setParentComment } =
+    useContext(MentionContext);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-    if (isReCommentClicked) {
-      setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+    //컨테이너의 ID일 경우 (즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
+    if (parentComment.parentCommentId === commentId) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+
+      if (isReCommentClicked) {
+        setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+      }
     }
   }, [isReCommentClicked, inputRef, setValue, user]);
 
-  useEffect(() => {
-    if (!value.startsWith('-~!@#')) {
-      setIsReCommentClicked(false);
-      setParentComment(prev => ({ ...prev, parentComment: true }));
-    }
-  }, [value, setIsReCommentClicked, setParentComment]);
+  //다시 답글 달기 안누른 상태로 돌려주는 코드
+  // useEffect(() => {
+  //   if (!value.startsWith('-~!@#')) {
+  //     setIsReCommentClicked(false);
+  //     setParentComment(prev => ({ ...prev, parentComment: true }));
+  //   }
+  // }, [value, setIsReCommentClicked, setParentComment]);
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -136,6 +146,7 @@ const CommonMention = ({
       customSuggestionsContainer={customSuggestionsContainer}
       style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
       forceSuggestionsAboveCursor={isMobile && isComment}
+      onClick={onClick}
     >
       <Mention
         trigger="@"
