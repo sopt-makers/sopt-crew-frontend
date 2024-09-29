@@ -63,12 +63,7 @@ export const schema = z.object({
       .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
         message: 'YYYY.MM.DD 형식으로 입력해주세요.',
       }),
-    leaderDesc: z
-      .string()
-      .min(1, {
-        message: '개설자 소개를 입력해주세요.',
-      })
-      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
+    leaderDesc: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
     joinableParts: z
