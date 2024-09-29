@@ -125,7 +125,7 @@ const SInputWrapper = styled('div', {
   width: '100%',
   padding: '18px 20px',
   color: '$gray10',
-  background: '$gray700',
+  background: '$gray800',
   borderRadius: 10,
   justifyContent: 'space-between',
   cursor: 'pointer',

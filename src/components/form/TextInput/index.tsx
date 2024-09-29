@@ -54,10 +54,10 @@ const SInput = styled('input', {
   alignItems: 'center',
   fontAg: '16_medium_100',
   color: '$gray10',
-  background: '$gray700',
+  background: '$gray800',
   borderRadius: 10,
   '&::placeholder': {
-    color: '$gray500',
+    color: '$gray300',
   },
 
   '@tablet': {
