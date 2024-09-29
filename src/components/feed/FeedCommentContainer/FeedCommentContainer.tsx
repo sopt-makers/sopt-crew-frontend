@@ -1,5 +1,5 @@
 import { paths } from '@/__generated__/schema';
-import { apiV2 } from '@api/index';
+import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useDeleteComment } from '@api/post/hooks';
@@ -23,7 +23,10 @@ import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentConta
 import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
 import { MentionContext } from '../Mention/MentionContext';
-
+import { useToast } from '@sopt-makers/ui';
+import CommentBlocker from '@components/blocker/CommentBlocker';
+import { IconTrash, IconWrite } from '@sopt-makers/icons';
+import { IconAlertCircle } from '@sopt-makers/icons';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -105,7 +108,7 @@ export default function FeedCommentContainer({
             isMine
               ? [
                   <FeedActionButton onClick={() => setEditMode(true)}>
-                    <ReWriteIcon />
+                    <IconWrite />
                     수정
                   </FeedActionButton>,
                   <FeedActionButton
@@ -126,7 +129,7 @@ export default function FeedCommentContainer({
                       ))
                     }
                   >
-                    <TrashIcon />
+                    <IconTrash />
                     삭제
                   </FeedActionButton>,
                 ]
@@ -149,7 +152,7 @@ export default function FeedCommentContainer({
                       ))
                     }
                   >
-                    <AlertIcon />
+                    <IconAlertCircle />
                     신고
                   </FeedActionButton>,
                 ]
