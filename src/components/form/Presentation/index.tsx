@@ -209,8 +209,7 @@ function Presentation({
               <Label required={true} size="small">
                 활동 기간
               </Label>
-              {/* TooTip 추가 */}
-              <span style={{ color: 'gray', fontSize: '8px' }}>SOPT 공식 일정 확인하기</span>
+              {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SDateFieldWrapper>
               <SDateField>
