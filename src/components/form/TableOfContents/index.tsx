@@ -54,7 +54,18 @@ function TableOfContents({ label }: TableOfContentsProps) {
         </SItem>
         <SGap />
         <SItem>
-          <CheckedIcon />
+          {isTitleValid &&
+          isCategoryValid &&
+          isImageValid &&
+          isDescriptionValid &&
+          isActivationDateValid &&
+          isProcessDesc &&
+          isApplicationDateValid &&
+          isTargetValid ? (
+            <CheckedIcon />
+          ) : (
+            <UncheckedIcon />
+          )}
           <SItemLabel>4. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>
