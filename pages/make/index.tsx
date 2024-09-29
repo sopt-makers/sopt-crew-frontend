@@ -26,7 +26,9 @@ const MakePage = () => {
   const { isValid } = formMethods.formState;
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
-    onError: () => alert('모임을 개설하지 못했습니다.'),
+    onError: () => {
+      alert('모임을 개설하지 못했습니다.');
+    },
   });
 
   const handleChangeImage = (index: number, url: string) => {
@@ -42,7 +44,7 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    const { meetingId } = await mutateCreateMeeting(formData);
+    const meetingId = await mutateCreateMeeting(formData);
     ampli.completedMakeGroup();
     alert('모임을 개설했습니다.');
     router.push(`/detail?id=${meetingId}`);

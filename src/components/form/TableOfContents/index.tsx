@@ -23,7 +23,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.detail &&
     form.detail.joinableParts &&
     form.detail.joinableParts.length > 1 &&
-    form.detail.targetDesc &&
+    //form.detail.targetDesc &&
     form.capacity &&
     !errors.capacity &&
     !errors.detail; // default 옵션이 선택되어 있기 때문 최소 2개 이상 선택되어야 통과
