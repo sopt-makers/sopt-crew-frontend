@@ -310,20 +310,6 @@ function Presentation({
                       모집 대상
                     </Label>
                   </SLabelWrapper>
-                  <FormController
-                    name="detail.canJoinOnlyActiveGeneration"
-                    defaultValue={false}
-                    render={({ field: { value, onChange } }) => (
-                      <SMobileFormCheckBox active={value} onClick={() => onChange(!value)}>
-                        {value ? (
-                          <CheckSelectedIcon style={{ marginRight: '8px' }} />
-                        ) : (
-                          <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-                        )}
-                        활동 기수만
-                      </SMobileFormCheckBox>
-                    )}
-                  ></FormController>
                 </SLabelCheckboxWrapper>
                 <HelpMessage>모임장을 제외한 인원 수를 입력해주세요</HelpMessage>
                 <FormController
@@ -343,17 +329,17 @@ function Presentation({
                       }
                     };
                     return (
-                      <>
-                        <STargetFieldWrapper>
-                          <FormController
-                            name="detail.joinableParts"
-                            defaultValue={[parts[0]]}
-                            render={({ field: { value, onChange, onBlur } }) => (
-                              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                            )}
-                          ></FormController>
+                      <STargetFieldWrapper>
+                        <FormController
+                          name="detail.joinableParts"
+                          defaultValue={[parts[0]]}
+                          render={({ field: { value, onChange, onBlur } }) => (
+                            <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                          )}
+                        ></FormController>
 
-                          {/* 모집 인원 */}
+                        {/* 모집 인원 */}
+                        <div style={{ display: 'flex' }}>
                           <SMemberCountWrapper>
                             <FormController
                               name="capacity"
@@ -386,8 +372,8 @@ function Presentation({
                               </SFormCheckBox>
                             )}
                           ></FormController>
-                        </STargetFieldWrapper>
-                      </>
+                        </div>
+                      </STargetFieldWrapper>
                     );
                   }}
                 ></FormController>
@@ -510,7 +496,13 @@ const STargetFieldWrapper = styled('div', {
   '@tablet': {
     height: '48px',
   },
+
+  '@media(max-width: 525px)': {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
 });
+
 const ButtonContainer = styled('div', {
   display: 'flex',
   gap: '20px',
@@ -586,6 +578,7 @@ const SFormCheckBox = styled('div', {
   ...fontsObject.BODY_3_14_R,
   display: 'flex',
   alignItems: 'center',
+  marginLeft: '$16',
   color: '$gray300',
   variants: {
     active: {
@@ -593,25 +586,6 @@ const SFormCheckBox = styled('div', {
     },
   },
   cursor: 'pointer',
-  '@media(max-width: 385px)': {
-    display: 'none',
-  },
-});
-
-const SMobileFormCheckBox = styled('div', {
-  ...fontsObject.BODY_3_14_R,
-  display: 'none',
-  alignItems: 'center',
-  color: '$gray300',
-  variants: {
-    active: {
-      true: { color: '$gray10' },
-    },
-  },
-  cursor: 'pointer',
-  '@media(max-width: 385px)': {
-    display: 'flex',
-  },
 });
 
 const SLabelWrapper = styled('div', {
