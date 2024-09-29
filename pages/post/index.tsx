@@ -85,6 +85,8 @@ export default function PostPage() {
       platform_type: isMobile ? 'MO' : 'PC',
       user_id: Number(me?.orgId),
     });
+
+    //todo: try-catch 문 사용하기
     await mutateAsync(req.content);
     mutatePostCommentWithMention(req);
     commentQuery.refetch();
@@ -254,6 +256,8 @@ export default function PostPage() {
                   isMine={comment.user.id === me?.id}
                   postUserId={post.user.id}
                   onClickLike={handleClickCommentLike}
+                  handleCreateComment={handleCreateComment}
+                  isCreatingComment={isCreatingComment}
                 />
               )
             )}
