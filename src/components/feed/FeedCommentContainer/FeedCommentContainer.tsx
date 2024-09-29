@@ -1,41 +1,51 @@
 import { paths } from '@/__generated__/schema';
-import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
-import FeedActionButton from '../FeedActionButton/FeedActionButton';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import { useRef, useState } from 'react';
-import { useDeleteComment } from '@api/post/hooks';
-import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api, apiV2 } from '@api/index';
-import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
-import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
-import { styled } from 'stitches.config';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
-import Avatar from '@components/avatar/Avatar';
-import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
-import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
+import { useDeleteComment } from '@api/post/hooks';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
+import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
+import Avatar from '@components/avatar/Avatar';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import { parseTextToLink } from '@components/util/parseTextToLink';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useContext, useRef, useState } from 'react';
+import { styled } from 'stitches.config';
+import FeedActionButton from '../FeedActionButton/FeedActionButton';
+import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
+import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
+import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
+import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
+import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
+import { MentionContext } from '../Mention/MentionContext';
 import { useToast } from '@sopt-makers/ui';
 import CommentBlocker from '@components/blocker/CommentBlocker';
-
+import { IconTrash, IconWrite } from '@sopt-makers/icons';
+import { IconAlertCircle } from '@sopt-makers/icons';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
   postUserId: number;
   onClickLike: (commentId: number) => void;
+  handleCreateComment: (req: PostCommentWithMentionRequest) => Promise<void>;
+  isCreatingComment: boolean;
 }
 
 // eslint-disable-next-line prettier/prettier
-export default function FeedCommentContainer({ comment, isMine, postUserId, onClickLike }: FeedCommentContainerProps) {
+
+export default function FeedCommentContainer({
+  comment,
+  isMine,
+  postUserId,
+  onClickLike,
+  handleCreateComment,
+  isCreatingComment,
+}: FeedCommentContainerProps) {
   const queryClient = useQueryClient();
   const { PUT } = apiV2.get();
   const { open } = useToast();
@@ -44,6 +54,9 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
   const [editMode, setEditMode] = useState(false);
   const [showMoreReComments, setShowMoreReComments] = useState(false);
   const initialReplyLength = useRef<number>(comment?.replies?.length);
+
+  const { parentComment } = useContext(MentionContext);
+  const recommentRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 
@@ -95,7 +108,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
             isMine
               ? [
                   <FeedActionButton onClick={() => setEditMode(true)}>
-                    <ReWriteIcon />
+                    <IconWrite />
                     수정
                   </FeedActionButton>,
                   <FeedActionButton
@@ -116,7 +129,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
                       ))
                     }
                   >
-                    <TrashIcon />
+                    <IconTrash />
                     삭제
                   </FeedActionButton>,
                 ]
@@ -139,7 +152,7 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
                       ))
                     }
                   >
-                    <AlertIcon />
+                    <IconAlertCircle />
                     신고
                   </FeedActionButton>,
                 ]
@@ -190,6 +203,9 @@ export default function FeedCommentContainer({ comment, isMine, postUserId, onCl
               />
             );
           })}
+          {comment.id === parentComment.parentCommentId && (
+            <FeedReCommentInput commentId={comment.id} onSubmit={handleCreateComment} disabled={isCreatingComment} />
+          )}
         </>
       )}
     </>
