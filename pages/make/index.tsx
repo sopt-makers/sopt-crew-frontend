@@ -42,9 +42,7 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    const {
-      data: { meetingId },
-    } = await mutateCreateMeeting(formData);
+    const { meetingId } = await mutateCreateMeeting(formData);
     ampli.completedMakeGroup();
     alert('모임을 개설했습니다.');
     router.push(`/detail?id=${meetingId}`);
