@@ -51,6 +51,7 @@ const STextarea = styled('textarea', {
   resize: 'none',
   borderRadius: 10,
   '&::placeholder': {
+    whiteSpace: 'pre-wrap',
     color: '$gray500',
   },
 });

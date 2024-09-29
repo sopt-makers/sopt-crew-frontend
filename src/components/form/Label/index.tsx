@@ -1,5 +1,6 @@
 import { styled } from 'stitches.config';
 import React from 'react';
+import { fontsObject } from '@sopt-makers/fonts';
 
 interface LabelProps {
   required?: boolean;
@@ -18,23 +19,23 @@ const Label = ({ required, children, size }: LabelProps) => {
 export default Label;
 
 const SLabel = styled('label', {
-  marginBottom: 12,
+  marginBottom: 8,
   display: 'inline-block',
   width: '100%',
-  fontAg: '18_semibold_100',
   color: '$gray10',
+  ...fontsObject.LABEL_3_14_SB,
   variants: {
     required: {
       true: {
         '&::after': {
-          content: '*',
+          content: ' *',
           marginLeft: 1,
+          color: '$secondary',
         },
       },
     },
     size: {
       small: {
-        fontAg: '16_semibold_100',
         color: '$gray50',
       },
     },

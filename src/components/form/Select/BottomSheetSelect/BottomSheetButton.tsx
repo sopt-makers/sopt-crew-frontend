@@ -27,7 +27,7 @@ function BottomSheetButton({ open, label, handleOpen }: ButtonProps) {
 export default BottomSheetButton;
 
 const SButton = styled('button', {
-  minWidth: '147px',
+  minWidth: '270px',
   padding: '16px 20px',
   display: 'flex',
   alignItems: 'center',

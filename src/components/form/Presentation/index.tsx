@@ -93,10 +93,7 @@ function Presentation({
   return (
     <SForm onSubmit={onSubmit}>
       <div>
-        <SFormSectionDevider>
-          모임 정보
-          <SSectionCountBox>1 / 3</SSectionCountBox>
-        </SFormSectionDevider>
+        <SFormSectionDevider>1. 모임 정보</SFormSectionDevider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           {/* 모임 제목 */}
@@ -105,9 +102,9 @@ function Presentation({
               name="title"
               render={({ field, fieldState: { error } }) => (
                 <TextInput
-                  label="모임 제목"
-                  message="최대 30자 이내로 입력해주세요"
-                  placeholder="제목"
+                  label="모임 이름"
+                  placeholder="모임 이름"
+                  maxLength={30}
                   required
                   error={error?.message}
                   {...field}
@@ -123,15 +120,17 @@ function Presentation({
             render={({ field: { value, onChange, onBlur }, fieldState }) => {
               const error = (fieldState.error as (FieldError & { value: FieldError }) | undefined)?.value;
               return (
-                <Select
-                  label="모임 카테고리"
-                  options={categories}
-                  required
-                  error={error?.message}
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                />
+                <div style={{ width: '260px' }}>
+                  <Select
+                    label="모임 카테고리"
+                    options={categories}
+                    required
+                    error={error?.message}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                </div>
               );
             }}
           ></FormController>
@@ -171,28 +170,28 @@ function Presentation({
             </SFileInputWrapper>
           </div>
 
-          {/* 모임 정보 - 모임 소개 */}
+          {/* 모임 소개 */}
           <div>
-            <Label required={true} size="small">
-              모임 소개
-            </Label>
+            <Label required={true}>모임 소개</Label>
             <FormController
               name="detail.desc"
               render={({ field, fieldState: { error } }) => (
-                <Textarea placeholder="모임을 소개해주세요" maxLength={1000} error={error?.message} {...field} />
-              )}
-            ></FormController>
-          </div>
-
-          {/* 모임 정보 - 진행 방식 소개 */}
-          <div>
-            <Label required={true} size="small">
-              진행 방식 소개
-            </Label>
-            <FormController
-              name="detail.processDesc"
-              render={({ field, fieldState: { error } }) => (
-                <Textarea placeholder="진행 방식을 소개해주세요" maxLength={1000} error={error?.message} {...field} />
+                <>
+                  <Textarea
+                    placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
+                    maxLength={1000}
+                    error={error?.message}
+                    {...field}
+                  />
+                  {/* <TextField
+                    labelText="모임 소개"
+                    placeholder={`ex.\n• 모임 성격\n</br>• 모임 개설 배경/목적\n• 모임의 효능`}
+                    required
+                    style={TextFieldStyle}
+                    maxLength={1000}
+                    {...field}
+                  /> */}
+                </>
               )}
             ></FormController>
           </div>
@@ -201,156 +200,17 @@ function Presentation({
       {/* 모임 정보 끝 */}
 
       <div>
-        <SFormSectionDevider>
-          모집 정보
-          <SSectionCountBox>2 / 3</SSectionCountBox>
-        </SFormSectionDevider>
+        <SFormSectionDevider>2. 활동 정보</SFormSectionDevider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-          {/* 모집 기간 */}
+          {/* 활동 정보 - 모임 기간 */}
           <div>
-            <Label required={true}>모집 기간</Label>
-            <HelpMessage>설정한 모집 기간 시작일의 자정(AM 12:00)에 모임 신청 버튼이 활성화돼요</HelpMessage>
-            <SApplicationFieldWrapper>
-              <SApplicationField>
-                <FormController
-                  name="startDate"
-                  render={({ field, formState: { errors } }) => {
-                    const dateError = errors as
-                      | {
-                          startDate?: FieldError;
-                          endDate?: FieldError;
-                        }
-                      | undefined;
-                    return (
-                      <CalendarInputForm
-                        selectedDate={field.value}
-                        setSelectedDate={field.onChange}
-                        error={dateError?.startDate?.message || dateError?.endDate?.message}
-                      />
-                    );
-                  }}
-                ></FormController>
-              </SApplicationField>
-              <span style={{ marginTop: '14px' }}>-</span>
-              <SApplicationField>
-                <FormController
-                  name="endDate"
-                  render={({ field }) => (
-                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
-                  )}
-                ></FormController>
-              </SApplicationField>
-            </SApplicationFieldWrapper>
-          </div>
-
-          {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
-          <div>
-            <SLabelCheckboxWrapper>
-              <SLabelWrapper>
-                <Label required={true} size="small">
-                  모집 대상
-                </Label>
-              </SLabelWrapper>
-              <FormController
-                name="detail.canJoinOnlyActiveGeneration"
-                defaultValue={false}
-                render={({ field: { value, onChange } }) => (
-                  <SMobileFormCheckBox active={value} onClick={() => onChange(!value)}>
-                    {value ? (
-                      <CheckSelectedIcon style={{ marginRight: '8px' }} />
-                    ) : (
-                      <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-                    )}
-                    활동 기수만
-                  </SMobileFormCheckBox>
-                )}
-              ></FormController>
-            </SLabelCheckboxWrapper>
-            <HelpMessage>모집 인원은 개설자를 제외하고 입력해주세요</HelpMessage>
-            <FormController
-              name="detail.targetDesc"
-              render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
-                const detailError = errors.detail as FieldErrors | undefined;
-                const joinablePartsError = detailError?.joinableParts as FieldError;
-                const errorMessage = () => {
-                  if (targetDescError) {
-                    if (joinablePartsError) {
-                      return '대상 파트를 선택하고 상세 내용을 작성해주세요.';
-                    }
-                    return targetDescError.message;
-                  }
-                  if (joinablePartsError) {
-                    return joinablePartsError.message;
-                  }
-                };
-                return (
-                  <>
-                    <STargetFieldWrapper>
-                      <FormController
-                        name="detail.joinableParts"
-                        defaultValue={[parts[0]]}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                          <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                        )}
-                      ></FormController>
-
-                      {/* 모집 인원 */}
-                      <SMemberCountWrapper>
-                        <FormController
-                          name="capacity"
-                          render={({ field, fieldState: { error } }) => (
-                            <TextInput
-                              type="number"
-                              placeholder="인원"
-                              right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
-                              required
-                              {...field}
-                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                field.onChange(+e.target.value > 0 && +e.target.value)
-                              }
-                            />
-                          )}
-                        ></FormController>
-                      </SMemberCountWrapper>
-
-                      <FormController
-                        name="detail.canJoinOnlyActiveGeneration"
-                        defaultValue={false}
-                        render={({ field: { value, onChange } }) => (
-                          <SFormCheckBox active={value} onClick={() => onChange(!value)}>
-                            {value ? (
-                              <CheckSelectedIcon style={{ marginRight: '8px' }} />
-                            ) : (
-                              <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-                            )}
-                            활동 기수만
-                          </SFormCheckBox>
-                        )}
-                      ></FormController>
-                    </STargetFieldWrapper>
-                  </>
-                );
-              }}
-            ></FormController>
-          </div>
-        </div>
-      </div>
-      {/* 모집 정보 끝 */}
-
-      <div>
-        <SFormSectionDevider>
-          활동 정보
-          <SSectionCountBox>3 / 3</SSectionCountBox>
-        </SFormSectionDevider>
-        <SectionLine />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-          {/* 모임 정보 - 모임 기간 */}
-          <div>
-            <Label required={true} size="small">
-              활동 기간
-            </Label>
-            <HelpMessage>활동 기간을 설정해주세요</HelpMessage>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Label required={true} size="small">
+                활동 기간
+              </Label>
+              {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
+            </div>
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
@@ -383,11 +243,165 @@ function Presentation({
               </SDateField>
             </SDateFieldWrapper>
           </div>
-          {/* 모임 정보 - 개설자 소개 / 멘토 필요 여부 */}
+          {/* 모임 정보 - 진행 방식 소개 */}
           <div>
-            <Label required={false} size="small">
-              개설자 소개
+            <Label required={true} size="small">
+              진행 방식 소개
             </Label>
+            <FormController
+              name="detail.processDesc"
+              render={({ field, fieldState: { error } }) => (
+                <Textarea
+                  placeholder={`ex.\n• 활동 방법\n• 커리큘럼\n• 모임 내 소통 방식`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
+              )}
+            ></FormController>
+          </div>
+          {/* 활동 정보 끝 */}
+          <div>
+            <SFormSectionDevider>3. 모집 정보</SFormSectionDevider>
+            <SectionLine />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
+              {/* 모집 기간 */}
+              <div>
+                <Label required={true}>신청 기간</Label>
+                <HelpMessage>설정한 신청 기간 시작일의 자정(AM 12:00)에 '신청하기' 버튼이 활성화돼요</HelpMessage>
+                <SApplicationFieldWrapper>
+                  <SApplicationField>
+                    <FormController
+                      name="startDate"
+                      render={({ field, formState: { errors } }) => {
+                        const dateError = errors as
+                          | {
+                              startDate?: FieldError;
+                              endDate?: FieldError;
+                            }
+                          | undefined;
+                        return (
+                          <CalendarInputForm
+                            selectedDate={field.value}
+                            setSelectedDate={field.onChange}
+                            error={dateError?.startDate?.message || dateError?.endDate?.message}
+                          />
+                        );
+                      }}
+                    ></FormController>
+                  </SApplicationField>
+                  <span style={{ marginTop: '14px' }}>-</span>
+                  <SApplicationField>
+                    <FormController
+                      name="endDate"
+                      render={({ field }) => (
+                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                      )}
+                    ></FormController>
+                  </SApplicationField>
+                </SApplicationFieldWrapper>
+              </div>
+
+              {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
+              <div>
+                <SLabelCheckboxWrapper>
+                  <SLabelWrapper>
+                    <Label required={true} size="small">
+                      모집 대상
+                    </Label>
+                  </SLabelWrapper>
+                  <FormController
+                    name="detail.canJoinOnlyActiveGeneration"
+                    defaultValue={false}
+                    render={({ field: { value, onChange } }) => (
+                      <SMobileFormCheckBox active={value} onClick={() => onChange(!value)}>
+                        {value ? (
+                          <CheckSelectedIcon style={{ marginRight: '8px' }} />
+                        ) : (
+                          <CheckUnselectedIcon style={{ marginRight: '8px' }} />
+                        )}
+                        활동 기수만
+                      </SMobileFormCheckBox>
+                    )}
+                  ></FormController>
+                </SLabelCheckboxWrapper>
+                <HelpMessage>모임장을 제외한 인원 수를 입력해주세요</HelpMessage>
+                <FormController
+                  name="detail.targetDesc"
+                  render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
+                    const detailError = errors.detail as FieldErrors | undefined;
+                    const joinablePartsError = detailError?.joinableParts as FieldError;
+                    const errorMessage = () => {
+                      if (targetDescError) {
+                        if (joinablePartsError) {
+                          return '대상 파트를 선택하고 상세 내용을 작성해주세요.';
+                        }
+                        return targetDescError.message;
+                      }
+                      if (joinablePartsError) {
+                        return joinablePartsError.message;
+                      }
+                    };
+                    return (
+                      <>
+                        <STargetFieldWrapper>
+                          <FormController
+                            name="detail.joinableParts"
+                            defaultValue={[parts[0]]}
+                            render={({ field: { value, onChange, onBlur } }) => (
+                              <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                            )}
+                          ></FormController>
+
+                          {/* 모집 인원 */}
+                          <SMemberCountWrapper>
+                            <FormController
+                              name="capacity"
+                              render={({ field, fieldState: { error } }) => (
+                                <TextInput
+                                  type="number"
+                                  placeholder="인원"
+                                  right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
+                                  required
+                                  {...field}
+                                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                    field.onChange(+e.target.value > 0 && +e.target.value)
+                                  }
+                                />
+                              )}
+                            ></FormController>
+                          </SMemberCountWrapper>
+
+                          <FormController
+                            name="detail.canJoinOnlyActiveGeneration"
+                            defaultValue={false}
+                            render={({ field: { value, onChange } }) => (
+                              <SFormCheckBox active={value} onClick={() => onChange(!value)}>
+                                {value ? (
+                                  <CheckSelectedIcon style={{ marginRight: '8px' }} />
+                                ) : (
+                                  <CheckUnselectedIcon style={{ marginRight: '8px' }} />
+                                )}
+                                활동 기수만
+                              </SFormCheckBox>
+                            )}
+                          ></FormController>
+                        </STargetFieldWrapper>
+                      </>
+                    );
+                  }}
+                ></FormController>
+              </div>
+            </div>
+          </div>
+          {/* 모집 정보 끝 */}
+
+          <div>
+            <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
+            <SectionLine />
+            <Label size="small">모임장 소개</Label>
+            <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
+
             <div style={{ position: 'relative' }}>
               <SNeedMentorFieldWrapper>
                 <FormController
@@ -400,7 +414,7 @@ function Presentation({
                 name="detail.leaderDesc"
                 render={({ field, fieldState: { error } }) => (
                   <Textarea
-                    placeholder="개설자를 소개해주세요, 멘토가 필요하다면 멘토 구해요를 체크해주세요"
+                    placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
                     maxLength={1000}
                     error={error?.message}
                     {...field}
@@ -410,13 +424,18 @@ function Presentation({
             </div>
           </div>
 
-          {/* 모임 정보 - 유의사항 */}
+          {/* 추가 정보 - 유의사항 */}
           <div>
             <Label size="small">유의사항</Label>
             <FormController
               name="detail.note"
               render={({ field, fieldState: { error } }) => (
-                <Textarea placeholder="유의사항을 알려주세요" maxLength={1000} error={error?.message} {...field} />
+                <Textarea
+                  placeholder={`ex.\n• 신청 전 알아두어야 할 공지`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
               )}
             ></FormController>
           </div>
@@ -446,14 +465,12 @@ const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '60px',
-
   '@tablet': {
     gap: '56px',
   },
 });
 const STitleField = styled('div', {
   width: '100%',
-  maxWidth: '369px',
 });
 const SFileInputWrapper = styled('div', {
   display: 'grid',

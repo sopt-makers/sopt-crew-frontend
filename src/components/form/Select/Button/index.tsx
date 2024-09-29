@@ -30,7 +30,7 @@ function Button({ open, label }: ButtonProps) {
 export default Button;
 
 const SButton = styled('button', {
-  minWidth: '147px',
+  minWidth: '260px',
   padding: '$18 $20',
   display: 'flex',
   alignItems: 'center',

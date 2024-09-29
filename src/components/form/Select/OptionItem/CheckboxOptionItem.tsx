@@ -30,7 +30,7 @@ function CheckboxOptionItem({ option }: CheckboxOptionItemProps) {
 export default CheckboxOptionItem;
 
 const SCheckboxOptionItem = styled('div', {
-  minWidth: '147px',
+  minWidth: '260px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',

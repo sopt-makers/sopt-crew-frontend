@@ -13,55 +13,59 @@ function TableOfContents({ label }: TableOfContentsProps) {
     formState: { errors },
   } = useFormContext<FormType>();
   const form = useWatch({ control });
-
   const isTitleValid = form.title && !errors.title;
+
   const isCategoryValid = form.category?.value && !errors.category;
+  // console.log('카테고리', '' + form.category?.value, isCategoryValid);
   const isImageValid = form.files && form.files.length > 0;
-  const isDescriptionValid = form.detail && form.detail.desc && form.detail.processDesc && !errors.detail;
+  console.log('이미지', isImageValid);
+  const isDescriptionValid = form.detail && form.detail.desc && !errors.detail;
+  console.log('모임소개', isImageValid);
   const isApplicationDateValid = form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isTargetValid =
     form.detail &&
     form.detail.joinableParts &&
     form.detail.joinableParts.length > 1 &&
-    //form.detail.targetDesc &&
     form.capacity &&
     !errors.capacity &&
     !errors.detail; // default 옵션이 선택되어 있기 때문 최소 2개 이상 선택되어야 통과
   const isActivationDateValid = form.detail && form.detail.mStartDate && form.detail.mEndDate;
-  /*
-  const validityList = [
-    isTitleValid,
-    isCategoryValid,
-    isImageValid,
-    isApplicationDateValid,
-    isMemberCountValid,
-    isDescriptionValid,
-  ];
-  */
-
+  const isProcessDesc = form.detail?.processDesc;
   return (
     <SContainer>
       <SListHeader>
         <SLabel>{label}</SLabel>
-        {/*
-        <SCount>
-          {validityList.filter(Boolean).length} / {validityList.length}
-        </SCount>
-        */}
       </SListHeader>
-
       <SItemList>
         <SItem>
           {isTitleValid && isCategoryValid && isImageValid && isDescriptionValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>1. 모임 정보</SItemLabel>
         </SItem>
+        <SGap />
+        <SItem>
+          {isActivationDateValid && isProcessDesc ? <CheckedIcon /> : <UncheckedIcon />}
+          <SItemLabel>2. 활동 정보</SItemLabel>
+        </SItem>
+        <SGap />
         <SItem>
           {isApplicationDateValid && isTargetValid ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>2. 모집 정보</SItemLabel>
+          <SItemLabel>3. 모집 정보</SItemLabel>
         </SItem>
+        <SGap />
         <SItem>
-          {isActivationDateValid ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>3. 활동 정보</SItemLabel>
+          {isTitleValid &&
+          isCategoryValid &&
+          isImageValid &&
+          isDescriptionValid &&
+          isActivationDateValid &&
+          isProcessDesc &&
+          isApplicationDateValid &&
+          isTargetValid ? (
+            <CheckedIcon />
+          ) : (
+            <UncheckedIcon />
+          )}
+          <SItemLabel>4. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>
     </SContainer>
@@ -72,8 +76,8 @@ export default TableOfContents;
 
 const SContainer = styled('div', {
   width: '341px',
-  padding: '50px 40px 60px',
   height: 'fit-content',
+  padding: '50px 40px 60px',
   border: '1px solid $gray700',
   borderRadius: '15px',
   position: 'sticky',
@@ -90,7 +94,8 @@ const SListHeader = styled('div', {
   alignItems: 'center',
   marginBottom: '$36',
   paddingBottom: '$36',
-  borderBottom: '1.5px solid $gray700',
+  width: '$190',
+  borderBottom: '1px solid $gray700',
 });
 
 const SLabel = styled('h2', {
@@ -102,9 +107,13 @@ const SLabel = styled('h2', {
 
 const SItemList = styled('ul', {
   margin: 0,
-  display: 'flex',
   flexDirection: 'column',
-  gap: '30px',
+});
+
+const SGap = styled('div', {
+  height: '53px',
+  margin: '-1px 7px',
+  borderLeft: '1px solid $gray600',
 });
 
 const SItem = styled('li', {
