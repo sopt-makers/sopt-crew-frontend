@@ -24,7 +24,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
           value={selectedDate ? dayjs(selectedDate, 'YYYY-MM-DD').toDate() : null}
           onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
           formatDay={(locale, date) => dayjs(date).format('D')}
-          formatShortWeekday={(locale, date) => ['SUN', 'MOM', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
+          formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()]}
           showNeighboringMonth={false}
           next2Label={null}
           prev2Label={null}
