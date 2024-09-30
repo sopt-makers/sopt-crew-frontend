@@ -155,23 +155,20 @@ export const fetchMeetingListOfAll = async ({
   part,
 }: filterData) => {
   return api.get<MeetingListOfFilterResponse>(
-    `/meeting/v2?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${
-      status?.length
-        ? `&status=${status
-            .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
-            .filter(item => item !== null)
-            .join(',')}`
-        : ''
-    }${
-      part?.length
-        ? `${part
-            .map((item: string) => parsePartLabelToValue(item))
-            .filter(item => item !== null)
-            .map(item => `&joinableParts=${item}`)
-            .join('')}`
-        : ''
-    }${category?.length ? `&category=${category.join(',')}` : ''}${
-      search ? `&query=${search}` : ''
+    `/meeting/v2?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${status?.length
+      ? `&status=${status
+        .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
+        .filter(item => item !== null)
+        .join(',')}`
+      : ''
+    }${part?.length
+      ? `${part
+        .map((item: string) => parsePartLabelToValue(item))
+        .filter(item => item !== null)
+        .map(item => `&joinableParts=${item}`)
+        .join('')}`
+      : ''
+    }${category?.length ? `&category=${category.join(',')}` : ''}${search ? `&query=${search}` : ''
     }${`&isOnlyActiveGeneration=${parseBool(isOnlyActiveGeneration)}`}`
   );
 };
@@ -273,7 +270,7 @@ interface GetPresignedUrlResponse {
   };
 }
 export const getPresignedUrl = async (contentType: string) => {
-  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v1/presigned-url', {
+  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v2/presigned-url', {
     params: { contentType },
   });
   return data;
