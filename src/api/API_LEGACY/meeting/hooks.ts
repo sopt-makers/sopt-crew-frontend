@@ -22,7 +22,6 @@ import {
   getMeetingPeopleList,
   PostApplicationRequest,
   MeetingPeopleResponse,
-  MeetingResponse,
   postApplication,
   deleteApplication,
   updateApplication,
