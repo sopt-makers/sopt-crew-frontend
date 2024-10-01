@@ -259,21 +259,10 @@ export const updateMeeting = async (meetingId: string, formData: FormType) => {
   return response;
 };
 
-interface GetPresignedUrlResponse {
-  url: string;
-  fields: {
-    'Content-Type': string;
-    key: string;
-    bucket: string;
-    'X-Amz-Algorithm': string;
-    'X-Amz-Credential': string;
-    'X-Amz-Date': string;
-    Policy: string;
-    'X-Amz-Signature': string;
-  };
-}
+type GetPresignedUrlResponse =
+  paths['/meeting/v2/presigned-url']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 export const getPresignedUrl = async (contentType: string) => {
-  const { data } = await api.get<Data<GetPresignedUrlResponse>>('/meeting/v1/presigned-url', {
+  const { data } = await api.get<GetPresignedUrlResponse>('/meeting/v2/presigned-url', {
     params: { contentType },
   });
   return data;
