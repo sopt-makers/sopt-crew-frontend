@@ -1,6 +1,6 @@
 import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
-import { api, PromiseResponse } from '../..';
-import { MeetingResponse } from '../meeting';
+import { api } from '../..';
+import { GetMeetingResponse } from '../meeting';
 import { paths } from '@/__generated__/schema2';
 
 /**
@@ -38,7 +38,7 @@ export interface ApplyResponse {
   id: number;
   content: string;
   status: ApplicationStatusType;
-  meeting: MeetingResponse;
+  meeting: GetMeetingResponse;
   user: UserResponse;
 }
 

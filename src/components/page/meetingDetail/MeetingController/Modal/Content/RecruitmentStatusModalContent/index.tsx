@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { ApplyResponse } from '@api/API_LEGACY/user';
 import RecruitmentStatusList from './RecruitmentStatusList';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import { ampli } from '@/ampli';
+import { paths } from '@/__generated__/schema2';
 
 interface RecruitmentStatusModalContentProps {
   meetingId: number;
-  appliedInfo: ApplyResponse[];
+  appliedInfo: paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8']['appliedInfo'];
   isHost: boolean;
   isApplied: boolean;
 }

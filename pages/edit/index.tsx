@@ -28,7 +28,6 @@ const EditPage = () => {
     enabled: !!id,
   });
   const { data: formData } = query;
-
   const { mutateAsync, isLoading: isSubmitting } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
     onSuccess: () => {
@@ -89,8 +88,8 @@ const EditPage = () => {
         detail: {
           desc: formData?.desc,
           processDesc: formData?.processDesc,
-          mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
-          mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
+          mStartDate: dayjs(formData?.getmStartDate).format('YYYY.MM.DD'),
+          mEndDate: dayjs(formData?.getmEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,

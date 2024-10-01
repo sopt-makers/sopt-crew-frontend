@@ -1,10 +1,10 @@
+import { paths } from '@/__generated__/schema2';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
-import { ApplyResponse } from '@api/API_LEGACY/user';
 import { styled } from 'stitches.config';
 
 interface RecruitmentStatusProps {
-  recruitmentStatusList: ApplyResponse[];
+  recruitmentStatusList: paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8']['appliedInfo'];
 }
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
