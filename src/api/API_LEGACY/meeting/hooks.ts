@@ -30,13 +30,14 @@ import {
   downloadMeetingMemberCSV,
   getGroupBrowsingCard,
   GroupBrowsingCardDetail,
+  GetMeetingResponse,
 } from '.';
 
 interface UseQueryGetMeetingParams {
   params: {
     id: string;
   };
-  useQueryOptions?: UseQueryOptions<MeetingResponse>;
+  useQueryOptions?: UseQueryOptions<GetMeetingResponse>;
 }
 
 /**
@@ -85,10 +86,10 @@ export const useQueryMeetingListOfAll = () => {
 export const useQueryGetMeeting = ({
   params,
   useQueryOptions,
-}: UseQueryGetMeetingParams): UseQueryResult<MeetingResponse> => {
+}: UseQueryGetMeetingParams): UseQueryResult<GetMeetingResponse> => {
   const { id } = params;
 
-  return useQuery<MeetingResponse>({
+  return useQuery<GetMeetingResponse>({
     queryKey: ['getMeeting', id],
     queryFn: () => {
       return getMeeting(id);

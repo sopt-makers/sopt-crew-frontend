@@ -176,7 +176,7 @@ export const fetchMeetingListOfAll = async ({
   );
 };
 
-type GetMeetingResponse =
+export type GetMeetingResponse =
   paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 export const getMeeting = async (id: string): Promise<GetMeetingResponse> => {
   return (await api.get<GetMeetingResponse>(`/meeting/v2/${id}`)).data;
