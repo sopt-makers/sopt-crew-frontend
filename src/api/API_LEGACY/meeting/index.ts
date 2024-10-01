@@ -176,8 +176,10 @@ export const fetchMeetingListOfAll = async ({
   );
 };
 
-export const getMeeting = async (id: string): Promise<MeetingResponse> => {
-  return (await api.get<PromiseResponse<MeetingResponse>>(`/meeting/${id}`)).data.data;
+type GetMeetingResponse =
+  paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+export const getMeeting = async (id: string) => {
+  return (await api.get<GetMeetingResponse>(`/meeting/v2/${id}`)).data;
 };
 
 /**
