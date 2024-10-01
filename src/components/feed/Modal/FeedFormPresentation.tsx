@@ -119,9 +119,7 @@ function FeedFormPresentation({
 
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const {
-      data: { url, fields },
-    } = await getPresignedUrl(extension);
+    const { url, fields } = await getPresignedUrl(extension);
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
