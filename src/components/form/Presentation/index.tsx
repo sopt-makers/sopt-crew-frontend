@@ -22,6 +22,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import Chip from '@components/form/Presentation/Chip';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -333,9 +334,10 @@ function Presentation({
                         <FormController
                           name="detail.joinableParts"
                           defaultValue={[parts[0]]}
-                          render={({ field: { value, onChange, onBlur } }) => (
-                            <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                          )}
+                          render={({ field: { value, onChange, onBlur } }) =>
+                            // <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                            parts.map(part => <Chip key={part.value} value={part.label} />)
+                          }
                         ></FormController>
 
                         {/* 모집 인원 */}
