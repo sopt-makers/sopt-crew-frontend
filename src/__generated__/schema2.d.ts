@@ -1177,7 +1177,7 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /**
        * Format: int32
-       * @description 신청 승인 수
+       * @description 신청 수
        * @example 7
        */
       appliedCount: number;
@@ -1331,12 +1331,12 @@ export interface components {
        * Format: date-time
        * @description 모임 활동 시작 시간
        */
-      mStartDate: string;
+      getmStartDate: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료 시간
        */
-      mEndDate: string;
+      getmEndDate: string;
       /**
        * @description 개설자 소개
        * @example 개설자 소개 입니다.
