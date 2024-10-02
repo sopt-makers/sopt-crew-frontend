@@ -43,6 +43,7 @@ const MakePage = () => {
     formMethods.setValue('files', files);
   };
 
+  //todo: 나중에 없애기 - pr을 위한 주석
   const onSubmit: SubmitHandler<FormType> = async formData => {
     const meetingId = await mutateCreateMeeting(formData);
     ampli.completedMakeGroup();
