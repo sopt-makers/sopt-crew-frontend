@@ -7,10 +7,10 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { useCallback, useRef, useState } from 'react';
-import { MeetingResponse } from '@api/API_LEGACY/meeting';
+import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 
 interface InformationPanelProps {
-  detailData: MeetingResponse;
+  detailData: GetMeetingResponse;
 }
 
 const InformationPanel = ({ detailData }: InformationPanelProps) => {
@@ -41,7 +41,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
       partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
       //'이런 사람을 찾아요' Input이 사라지면서 해당 객체의 content는 삭제 됨
       //렌더링은 되어야하므로 truthy값으로 문자열 'NULL'을 삽입
-      content: detailData?.targetDesc ?? 'NULL',
+      content: 'NULL',
     },
     {
       id: 4,
