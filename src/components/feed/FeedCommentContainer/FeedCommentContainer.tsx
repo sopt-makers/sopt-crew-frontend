@@ -27,6 +27,9 @@ import { useToast } from '@sopt-makers/ui';
 import CommentBlocker from '@components/blocker/CommentBlocker';
 import { IconTrash, IconWrite } from '@sopt-makers/icons';
 import { IconAlertCircle } from '@sopt-makers/icons';
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
 interface FeedCommentContainerProps {
   comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
   isMine: boolean;
@@ -108,7 +111,7 @@ export default function FeedCommentContainer({
             isMine
               ? [
                   <FeedActionButton onClick={() => setEditMode(true)}>
-                    <IconWrite />
+                    <ReWriteIcon />
                     수정
                   </FeedActionButton>,
                   <FeedActionButton
@@ -129,7 +132,7 @@ export default function FeedCommentContainer({
                       ))
                     }
                   >
-                    <IconTrash />
+                    <TrashIcon />
                     삭제
                   </FeedActionButton>,
                 ]
@@ -152,7 +155,7 @@ export default function FeedCommentContainer({
                       ))
                     }
                   >
-                    <IconAlertCircle />
+                    <AlertIcon />
                     신고
                   </FeedActionButton>,
                 ]
