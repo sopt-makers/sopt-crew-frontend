@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -46,6 +46,27 @@ function Presentation({
   disabled = true,
 }: PresentationProps) {
   const router = useRouter();
+  const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
+  const soptScheduleRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSoptScheduleOpen = () => {
+    setIsSoptScheduleOpen(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (soptScheduleRef.current && !soptScheduleRef.current.contains(event.target as Node)) {
+        setIsSoptScheduleOpen(false); // 바깥 클릭 시 모달 닫기
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [soptScheduleRef]);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -208,8 +229,23 @@ function Presentation({
               <Label required={true} size="small">
                 활동 기간
               </Label>
-              <div>
-                <IconAlertCircle style={{ width: '16px', height: '16px', color: 'orange' }} />
+              <div
+                ref={soptScheduleRef}
+                style={{ display: 'flex', gap: '4px', position: 'relative' }}
+                onClick={handleSoptScheduleOpen}
+              >
+                <SoptNotice>SOPT 공식 일정 확인하기</SoptNotice>
+                <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray' }} />
+                {isSoptScheduleOpen && (
+                  <SoptScheduleDiv>
+                    <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
+                    <div>• 1차 행사: 2024.11.09</div>
+                    <div>• 솝커톤: 2024.11.23 ~2024.11.24</div>
+                    <div>• 기획 경선: 2024.12.14</div>
+                    <div>• 2차 행사: 2024.12.12</div>
+                    <div>• 앱잼: 2024.12.21 ~ 2025.01.25</div>
+                  </SoptScheduleDiv>
+                )}
               </div>
               {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
@@ -608,4 +644,32 @@ const ImageHelpMessage = styled('div', {
   marginBottom: '18px',
   fontAg: '14_medium_100',
   color: '$gray500',
+});
+
+const SoptNotice = styled('span', {
+  display: 'inline-block',
+  minWidth: '$125',
+  ...fontsObject.LABEL_4_12_SB,
+  color: '$gray300',
+});
+
+const SoptScheduleDiv = styled('div', {
+  position: 'absolute',
+  top: '$20',
+  zIndex: '1',
+
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  gap: '$4',
+
+  color: '$gray100',
+  ...fontsObject.LABEL_4_12_SB,
+
+  padding: '$16',
+  paddingTop: '$32',
+
+  width: '252px',
+  height: '162px', //148 + 16
+  background: 'gray',
 });
