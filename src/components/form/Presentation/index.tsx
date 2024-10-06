@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -331,24 +331,36 @@ function Presentation({
                     };
                     return (
                       <STargetFieldWrapper>
-                        <FormController
-                          name="detail.joinableParts"
-                          defaultValue={[parts[0]]}
-                          render={({ field: { value, onChange, onBlur } }) =>
-                            // <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                            parts.map(part => <Chip key={part.value} value={part.label} />)
-                          }
-                        ></FormController>
-
+                        <STargetChipContainer>
+                          <FormController
+                            name="detail.joinableParts"
+                            render={({ field: { value, onChange, onBlur } }) => (
+                              // <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
+                              <>
+                                {parts.map(part => (
+                                  <Chip
+                                    onClick={() => {
+                                      onChange(part.value);
+                                      console.log(value);
+                                    }}
+                                    key={part.value}
+                                  >
+                                    {part.label}
+                                  </Chip>
+                                ))}
+                              </>
+                            )}
+                          ></FormController>
+                        </STargetChipContainer>
                         {/* 모집 인원 */}
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                           <SMemberCountWrapper>
                             <FormController
                               name="capacity"
                               render={({ field, fieldState: { error } }) => (
                                 <TextInput
                                   type="number"
-                                  placeholder="인원"
+                                  placeholder="총 인원 수"
                                   right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
                                   required
                                   {...field}
@@ -494,19 +506,18 @@ const SNeedMentorFieldWrapper = styled('div', {
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+  flexDirection: 'column',
+  gap: '$16',
   marginBottom: '16px',
-  height: '52px',
-  '@tablet': {
-    height: '48px',
-  },
+});
 
-  '@media(max-width: 525px)': {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+const STargetChipContainer = styled('div', {
+  display: 'flex',
+  gap: '$10',
+  flexWrap: 'wrap',
 
-    marginBottom: '52px',
+  '@media(max-width: 430px)': {
+    maxWidth: '320px',
   },
 });
 
@@ -577,8 +588,8 @@ const SSectionCountBox = styled('div', {
 });
 
 const SMemberCountWrapper = styled('div', {
-  width: '94px',
-  height: '52px',
+  width: '119px',
+  height: '48px',
 });
 
 const SFormCheckBox = styled('div', {
