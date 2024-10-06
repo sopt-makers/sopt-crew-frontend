@@ -59,5 +59,5 @@ const SDate = styled(Item, {
 
 const SManagement = styled('div', {
   minWidth: '$28',
-  mr: '$66',
+  mr: '$90',
 });
