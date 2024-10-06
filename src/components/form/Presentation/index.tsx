@@ -22,6 +22,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import { IconAlertCircle } from '@sopt-makers/icons';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -207,6 +208,9 @@ function Presentation({
               <Label required={true} size="small">
                 활동 기간
               </Label>
+              <div>
+                <IconAlertCircle style={{ width: '16px', height: '16px', color: 'orange' }} />
+              </div>
               {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SDateFieldWrapper>
