@@ -77,7 +77,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
               </SDesktopProfile>
               <SGeneration>{user.recentActivity.generation}기</SGeneration>
               <SPhone>{user.phone ? addHyphenToPhoneNumber(user.phone) : '-'}</SPhone>
-              <SDetailButton onClick={handleDetailButtonClick}>{APPLICATION_TYPE[type]} 내역</SDetailButton>
               <SDateAndTime>
                 <SDate>{date}</SDate>
                 <STime>{time}</STime>
@@ -135,10 +134,6 @@ const ManagementListItem = ({ meetingId, application, isHost }: ManagementListIt
                 </SCardGenerationAndPhone>
               </SCardUserInformation>
               <SCardApplicationInformation>
-                <SCardDetailButton onClick={handleDetailButtonClick}>
-                  <span>{APPLICATION_TYPE[type]} 내역</span>
-                  <ArrowMiniIcon />
-                </SCardDetailButton>
                 <SCardDateAndTime>
                   <span>{date}</span>
                   <span>{time}</span>

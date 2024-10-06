@@ -7,7 +7,6 @@ const ItemDescriptionBox = () => {
         <SProfile>프로필 (상태)</SProfile>
         <SGeneration>최근 기수</SGeneration>
         <SPhone>연락처</SPhone>
-        <SDetail>상세 내역</SDetail>
         <SDate>신청 일시</SDate>
       </SLeft>
       <SManagement>관리</SManagement>
