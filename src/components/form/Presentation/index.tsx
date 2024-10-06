@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -23,6 +23,8 @@ import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import { IconAlertCircle } from '@sopt-makers/icons';
+import { useDialog } from '@sopt-makers/ui';
+import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -36,6 +38,17 @@ interface FileChangeHandler {
   imageUrls: string[];
   onChange: (urls: string[]) => void;
 }
+interface TypeOptionsProp {
+  cancelButtonText?: string;
+  approveButtonText?: string;
+  buttonFunction?: () => void;
+}
+interface DialogOptionType {
+  title: ReactNode;
+  description: ReactNode;
+  type?: 'default' | 'danger' | 'single' | undefined;
+  typeOptions?: TypeOptionsProp;
+}
 
 function Presentation({
   submitButtonLabel,
@@ -46,17 +59,46 @@ function Presentation({
   disabled = true,
 }: PresentationProps) {
   const router = useRouter();
+  const { open } = useDialog();
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
 
+  const schedule: React.ReactNode = (
+    <>
+      • 1~8차 세미나 <br />
+      &nbsp;&nbsp;&nbsp;2024.10.05 ~ 2024.12.28 <br />
+      <br />
+      • 1차 행사 <br />
+      &nbsp;&nbsp;&nbsp;2024.11.09 <br />
+      <br />
+      • 솝커톤 <br />
+      &nbsp;&nbsp;&nbsp;2024.11.23 ~ 2024.11.24 <br />
+      <br />
+      • 기획 경선 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.14 <br />
+      <br />
+      • 2차 행사 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.07 <br />
+      <br />
+      • 앱잼 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.21 ~ 2025.01.25
+    </>
+  );
+
+  const dialogOption: DialogOptionType = {
+    title: 'SOPT 공식 일정',
+    description: schedule,
+    type: 'default',
+  };
+
   const handleSoptScheduleOpen = () => {
-    setIsSoptScheduleOpen(true);
+    window.innerWidth <= 768 ? open(dialogOption) : setIsSoptScheduleOpen(true);
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (soptScheduleRef.current && !soptScheduleRef.current.contains(event.target as Node)) {
-        setIsSoptScheduleOpen(false); // 바깥 클릭 시 모달 닫기
+        window.innerWidth > 768 && setIsSoptScheduleOpen(false);
       }
     };
 
@@ -671,5 +713,8 @@ const SoptScheduleDiv = styled('div', {
 
   width: '252px',
   height: '162px', //148 + 16
-  background: 'gray',
+  backgroundImage: `url(${sopt_schedule_tooltip})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
 });
