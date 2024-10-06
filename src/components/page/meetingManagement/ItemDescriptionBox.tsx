@@ -52,12 +52,9 @@ const SPhone = styled(Item, {
   width: '$166',
 });
 
-const SDetail = styled(Item, {
-  width: '$216',
-});
-
 const SDate = styled(Item, {
   width: '$168',
+  marginLeft: '$20',
 });
 
 const SManagement = styled('div', {

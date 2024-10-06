@@ -352,6 +352,7 @@ const SCardName = styled('button', {
 const SDateAndTime = styled('div', {
   flexType: 'horizontalCenter',
   width: '$168',
+  marginLeft: '$20',
 });
 
 const SDate = styled('div', {
