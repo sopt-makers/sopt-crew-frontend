@@ -67,19 +67,14 @@ function Presentation({
     <>
       • 1~8차 세미나 <br />
       &nbsp;&nbsp;&nbsp;2024.10.05 ~ 2024.12.28 <br />
-      <br />
       • 1차 행사 <br />
       &nbsp;&nbsp;&nbsp;2024.11.09 <br />
-      <br />
       • 솝커톤 <br />
       &nbsp;&nbsp;&nbsp;2024.11.23 ~ 2024.11.24 <br />
-      <br />
       • 기획 경선 <br />
       &nbsp;&nbsp;&nbsp;2024.12.14 <br />
-      <br />
       • 2차 행사 <br />
       &nbsp;&nbsp;&nbsp;2024.12.07 <br />
-      <br />
       • 앱잼 <br />
       &nbsp;&nbsp;&nbsp;2024.12.21 ~ 2025.01.25
     </>
@@ -98,7 +93,7 @@ function Presentation({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (soptScheduleRef.current && !soptScheduleRef.current.contains(event.target as Node)) {
-        window.innerWidth > 768 && setIsSoptScheduleOpen(false);
+        setIsSoptScheduleOpen(false);
       }
     };
 
@@ -276,8 +271,10 @@ function Presentation({
                 style={{ display: 'flex', gap: '4px', position: 'relative' }}
                 onClick={handleSoptScheduleOpen}
               >
-                <SoptNotice>SOPT 공식 일정 확인하기</SoptNotice>
-                <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray' }} />
+                <div style={{ display: 'flex', gap: '4px', marginRight: '16px' }}>
+                  <SoptNotice>SOPT 공식 일정 확인하기</SoptNotice>
+                  <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray' }} />
+                </div>
                 {isSoptScheduleOpen && (
                   <SoptScheduleDiv>
                     <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
@@ -698,6 +695,7 @@ const SoptNotice = styled('span', {
 const SoptScheduleDiv = styled('div', {
   position: 'absolute',
   top: '$20',
+  right: '$0',
   zIndex: '1',
 
   display: 'flex',
@@ -713,7 +711,7 @@ const SoptScheduleDiv = styled('div', {
 
   width: '252px',
   height: '162px', //148 + 16
-  backgroundImage: `url(${sopt_schedule_tooltip})`,
+  backgroundImage: `url(${sopt_schedule_tooltip.src})`,
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
