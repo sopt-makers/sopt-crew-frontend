@@ -39,6 +39,11 @@ const JoinablePartsField = ({ value, onChange }: JoinablePartsFieldProps) => {
         updatedParts.push(selectedOption);
       }
 
+      // 개별 옵션 해제 시 전체 옵션도 해제
+      if (updatedParts.some(part => part.value === 'all') && updatedParts.length < parts.length) {
+        updatedParts = updatedParts.filter(part => part.value !== 'all');
+      }
+
       // 모든 개별 파트가 선택되었으면 'all' 옵션도 활성화
       if (updatedParts.length === parts.length - 1) {
         updatedParts.push(parts[0]);
