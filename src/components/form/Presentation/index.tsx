@@ -696,7 +696,7 @@ const SoptScheduleDiv = styled('div', {
   position: 'absolute',
   top: '$20',
   right: '$0',
-  zIndex: '1',
+  isolate: 'isolation',
 
   display: 'flex',
   flexDirection: 'column',
