@@ -13,7 +13,6 @@ import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from '@type/form';
 import NeedMentor from '../CheckBox/NeedMentor';
-import { parts } from '@data/options';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import { imageS3Bucket } from '@constants/url';
@@ -22,7 +21,8 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
-import Chip from '@components/form/Presentation/Chip';
+import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
+import { parts } from '@data/options';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -334,21 +334,8 @@ function Presentation({
                         <STargetChipContainer>
                           <FormController
                             name="detail.joinableParts"
-                            render={({ field: { value, onChange, onBlur } }) => (
-                              // <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                              <>
-                                {parts.map(part => (
-                                  <Chip
-                                    onClick={() => {
-                                      onChange(part.value);
-                                      console.log(value);
-                                    }}
-                                    key={part.value}
-                                  >
-                                    {part.label}
-                                  </Chip>
-                                ))}
-                              </>
+                            render={({ field: { value, onChange } }) => (
+                              <JoinablePartsField value={value} onChange={onChange} />
                             )}
                           ></FormController>
                         </STargetChipContainer>
