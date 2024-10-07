@@ -22,7 +22,6 @@ import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
-import { parts } from '@data/options';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
