@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode, useRef } from 'react';
+import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -22,7 +22,9 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
+import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -36,18 +38,16 @@ interface FileChangeHandler {
   imageUrls: string[];
   onChange: (urls: string[]) => void;
 }
-
+interface TypeOptionsProp {
+  cancelButtonText?: string;
+  approveButtonText?: string;
+  buttonFunction?: () => void;
+}
 interface DialogOptionType {
   title: ReactNode;
   description: ReactNode;
   type?: 'default' | 'danger' | 'single' | undefined;
   typeOptions?: TypeOptionsProp;
-}
-
-interface TypeOptionsProp {
-  cancelButtonText?: string;
-  approveButtonText?: string;
-  buttonFunction?: () => void;
 }
 
 function Presentation({
@@ -59,6 +59,51 @@ function Presentation({
   disabled = true,
 }: PresentationProps) {
   const router = useRouter();
+  const { open } = useDialog();
+  const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
+  const soptScheduleRef = useRef<HTMLDivElement | null>(null);
+
+  const schedule: React.ReactNode = (
+    <>
+      • 1~8차 세미나 <br />
+      &nbsp;&nbsp;&nbsp;2024.10.05 ~ 2024.12.28 <br />
+      • 1차 행사 <br />
+      &nbsp;&nbsp;&nbsp;2024.11.09 <br />
+      • 솝커톤 <br />
+      &nbsp;&nbsp;&nbsp;2024.11.23 ~ 2024.11.24 <br />
+      • 기획 경선 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.14 <br />
+      • 2차 행사 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.07 <br />
+      • 앱잼 <br />
+      &nbsp;&nbsp;&nbsp;2024.12.21 ~ 2025.01.25
+    </>
+  );
+
+  const soptScheduledialogOption: DialogOptionType = {
+    title: 'SOPT 공식 일정',
+    description: schedule,
+    type: 'default',
+  };
+
+  const handleSoptScheduleOpen = () => {
+    window.innerWidth <= 768 ? open(soptScheduledialogOption) : setIsSoptScheduleOpen(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (soptScheduleRef.current && !soptScheduleRef.current.contains(event.target as Node)) {
+        setIsSoptScheduleOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [soptScheduleRef]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -103,8 +148,6 @@ function Presentation({
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
   };
-
-  const { open } = useDialog();
 
   const dialogOption: DialogOptionType = {
     title: '모임을 개설하시겠습니까?',
@@ -240,6 +283,26 @@ function Presentation({
               <Label required={true} size="small">
                 활동 기간
               </Label>
+              <div
+                ref={soptScheduleRef}
+                style={{ display: 'flex', gap: '4px', position: 'relative' }}
+                onClick={handleSoptScheduleOpen}
+              >
+                <div style={{ display: 'flex', gap: '4px', marginRight: '16px' }}>
+                  <SoptNotice>SOPT 공식 일정 확인하기</SoptNotice>
+                  <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray' }} />
+                </div>
+                {isSoptScheduleOpen && (
+                  <SoptScheduleDiv>
+                    <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
+                    <div>• 1차 행사: 2024.11.09</div>
+                    <div>• 솝커톤: 2024.11.23 ~2024.11.24</div>
+                    <div>• 기획 경선: 2024.12.14</div>
+                    <div>• 2차 행사: 2024.12.12</div>
+                    <div>• 앱잼: 2024.12.21 ~ 2025.01.25</div>
+                  </SoptScheduleDiv>
+                )}
+              </div>
               {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SDateFieldWrapper>
@@ -643,4 +706,36 @@ const ImageHelpMessage = styled('div', {
   marginBottom: '18px',
   fontAg: '14_medium_100',
   color: '$gray500',
+});
+
+const SoptNotice = styled('span', {
+  display: 'inline-block',
+  minWidth: '$125',
+  ...fontsObject.LABEL_4_12_SB,
+  color: '$gray300',
+});
+
+const SoptScheduleDiv = styled('div', {
+  position: 'absolute',
+  top: '$20',
+  right: '$0',
+  isolate: 'isolation',
+
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  gap: '$4',
+
+  color: '$gray100',
+  ...fontsObject.LABEL_4_12_SB,
+
+  padding: '$16',
+  paddingTop: '$32',
+
+  width: '252px',
+  height: '162px', //148 + 16
+  backgroundImage: `url(${sopt_schedule_tooltip.src})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
 });

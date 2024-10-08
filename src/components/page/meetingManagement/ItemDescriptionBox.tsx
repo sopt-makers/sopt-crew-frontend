@@ -7,7 +7,6 @@ const ItemDescriptionBox = () => {
         <SProfile>프로필 (상태)</SProfile>
         <SGeneration>최근 기수</SGeneration>
         <SPhone>연락처</SPhone>
-        <SDetail>상세 내역</SDetail>
         <SDate>신청 일시</SDate>
       </SLeft>
       <SManagement>관리</SManagement>
@@ -53,15 +52,12 @@ const SPhone = styled(Item, {
   width: '$166',
 });
 
-const SDetail = styled(Item, {
-  width: '$216',
-});
-
 const SDate = styled(Item, {
   width: '$168',
+  marginLeft: '$20',
 });
 
 const SManagement = styled('div', {
   minWidth: '$28',
-  mr: '$66',
+  mr: '$90',
 });
