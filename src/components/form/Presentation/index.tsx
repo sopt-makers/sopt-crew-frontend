@@ -80,14 +80,14 @@ function Presentation({
     </>
   );
 
-  const dialogOption: DialogOptionType = {
+  const soptScheduledialogOption: DialogOptionType = {
     title: 'SOPT 공식 일정',
     description: schedule,
     type: 'default',
   };
 
   const handleSoptScheduleOpen = () => {
-    window.innerWidth <= 768 ? open(dialogOption) : setIsSoptScheduleOpen(true);
+    window.innerWidth <= 768 ? open(soptScheduledialogOption) : setIsSoptScheduleOpen(true);
   };
 
   useEffect(() => {
@@ -104,6 +104,8 @@ function Presentation({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [soptScheduleRef]);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -147,8 +149,23 @@ function Presentation({
     return imageUrls;
   };
 
+  const dialogOption: DialogOptionType = {
+    title: '모임을 개설하시겠습니까?',
+    description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
+    type: 'default',
+    typeOptions: {
+      cancelButtonText: '취소',
+      approveButtonText: '개설하기',
+      buttonFunction: () => {
+        if (formRef.current) {
+          formRef.current.requestSubmit();
+        }
+      },
+    },
+  };
+
   return (
-    <SForm onSubmit={onSubmit}>
+    <SForm onSubmit={onSubmit} ref={formRef}>
       <div>
         <SFormSectionDevider>1. 모임 정보</SFormSectionDevider>
         <SectionLine />
@@ -513,7 +530,13 @@ function Presentation({
             {cancelButtonLabel}
           </CancelButton>
         )}
-        <SubmitButton type="submit" disabled={disabled}>
+        <SubmitButton
+          type="button"
+          onClick={() => {
+            open(dialogOption);
+          }}
+          disabled={disabled}
+        >
           {submitButtonLabel}
         </SubmitButton>
       </ButtonContainer>

@@ -19,6 +19,7 @@ import '../styles/globals.css';
 import '@sopt-makers/ui/dist/index.css';
 import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import { MentionProvider } from '@components/feed/Mention/MentionContext';
+import { globalStyles } from 'styles/globals';
 
 // 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
 if (typeof window !== 'undefined') {
@@ -26,6 +27,8 @@ if (typeof window !== 'undefined') {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  globalStyles();
+
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
