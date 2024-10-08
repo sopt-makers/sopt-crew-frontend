@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useRef } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
@@ -22,6 +22,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import { useDialog } from '@sopt-makers/ui';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -36,6 +37,19 @@ interface FileChangeHandler {
   onChange: (urls: string[]) => void;
 }
 
+interface DialogOptionType {
+  title: ReactNode;
+  description: ReactNode;
+  type?: 'default' | 'danger' | 'single' | undefined;
+  typeOptions?: TypeOptionsProp;
+}
+
+interface TypeOptionsProp {
+  cancelButtonText?: string;
+  approveButtonText?: string;
+  buttonFunction?: () => void;
+}
+
 function Presentation({
   submitButtonLabel,
   cancelButtonLabel,
@@ -45,6 +59,8 @@ function Presentation({
   disabled = true,
 }: PresentationProps) {
   const router = useRouter();
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -88,8 +104,25 @@ function Presentation({
     return imageUrls;
   };
 
+  const { open } = useDialog();
+
+  const dialogOption: DialogOptionType = {
+    title: '모임을 개설하시겠습니까?',
+    description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
+    type: 'default',
+    typeOptions: {
+      cancelButtonText: '취소',
+      approveButtonText: '개설하기',
+      buttonFunction: () => {
+        if (formRef.current) {
+          formRef.current.requestSubmit();
+        }
+      },
+    },
+  };
+
   return (
-    <SForm onSubmit={onSubmit}>
+    <SForm onSubmit={onSubmit} ref={formRef}>
       <div>
         <SFormSectionDevider>1. 모임 정보</SFormSectionDevider>
         <SectionLine />
@@ -434,7 +467,13 @@ function Presentation({
             {cancelButtonLabel}
           </CancelButton>
         )}
-        <SubmitButton type="submit" disabled={disabled}>
+        <SubmitButton
+          type="button"
+          onClick={() => {
+            open(dialogOption);
+          }}
+          disabled={disabled}
+        >
           {submitButtonLabel}
         </SubmitButton>
       </ButtonContainer>
