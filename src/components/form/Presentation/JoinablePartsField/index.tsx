@@ -1,7 +1,6 @@
 import { Option } from '@components/form/Select/OptionItem';
 import { parts } from '@data/options';
 import { Chip } from '@sopt-makers/ui';
-import { useState, useEffect } from 'react';
 
 interface JoinablePartsFieldProps {
   value: Option[];
@@ -9,29 +8,17 @@ interface JoinablePartsFieldProps {
 }
 
 const JoinablePartsField = ({ value, onChange }: JoinablePartsFieldProps) => {
-  const [selectedParts, setSelectedParts] = useState<Option[]>([]);
-
-  useEffect(() => {
-    if (Array.isArray(value)) {
-      setSelectedParts(value); // value prop이 변경되면 상태 동기화
-    }
-  }, [value]);
-
   const handleClick = (selectedOption: Option) => {
-    let updatedParts = [...selectedParts];
+    const isValidValue = Array.isArray(value);
+    let updatedParts = isValidValue ? [...value] : [];
 
     // 'all' 옵션을 클릭했을 때 처리
     if (selectedOption.value === 'all') {
-      if (selectedParts.some(part => part.value === 'all')) {
-        // 전체 옵션이 이미 선택되어 있으면 해제
-        updatedParts = [];
-      } else {
-        // 전체 옵션을 선택하면 모든 부분을 선택
-        updatedParts = parts;
-      }
+      // 전체 옵션이 이미 선택되어 있으면 해제, 아니면 전체 선택
+      updatedParts = isValidValue && value.some(part => part.value === 'all') ? [] : parts;
     } else {
       // 개별 옵션을 선택할 때
-      if (selectedParts.some(part => part.value === selectedOption.value)) {
+      if (isValidValue && value.some(part => part.value === selectedOption.value)) {
         // 이미 선택된 항목이면 해제
         updatedParts = updatedParts.filter(part => part.value !== selectedOption.value);
       } else {
@@ -46,19 +33,18 @@ const JoinablePartsField = ({ value, onChange }: JoinablePartsFieldProps) => {
 
       // 모든 개별 파트가 선택되었으면 'all' 옵션도 활성화
       if (updatedParts.length === parts.length - 1) {
-        updatedParts.push(parts[0]);
+        updatedParts.push(parts[0]); // 'all'을 활성화
       }
     }
 
-    setSelectedParts(updatedParts);
-    onChange(updatedParts); // 선택된 파트의 value만 전달
+    onChange(updatedParts);
   };
 
   return (
     <>
       {parts.map(part => (
         <Chip
-          active={selectedParts.some(selected => selected.value === part.value)}
+          active={Array.isArray(value) && value.some(selected => selected.value === part.value)}
           onClick={() => handleClick(part)}
           key={part.value}
           style={{ width: '80px' }}
