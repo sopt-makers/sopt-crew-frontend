@@ -28,7 +28,6 @@ const EditPage = () => {
     enabled: !!id,
   });
   const { data: formData } = query;
-
   const { mutateAsync, isLoading: isSubmitting } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
     onSuccess: () => {

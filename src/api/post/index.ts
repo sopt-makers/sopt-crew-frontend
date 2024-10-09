@@ -1,4 +1,4 @@
-import { MeetingResponse } from '@api/API_LEGACY/meeting';
+import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { UserResponse } from '@api/API_LEGACY/user';
 import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
 import { Data, api, apiV2 } from '..';
@@ -14,7 +14,7 @@ export interface PostResponse {
   likeCount: number;
   isLiked: boolean;
   user: Pick<UserResponse, 'id' | 'name' | 'profileImage'>;
-  meeting: Pick<MeetingResponse, 'id' | 'title' | 'imageURL' | 'category'>;
+  meeting: Pick<GetMeetingResponse, 'id' | 'title' | 'imageURL' | 'category'>;
 }
 
 export const createPost = async (formData: FormCreateType) => {

@@ -62,18 +62,18 @@ export default function FeedCommentViewer({
           </Name>
           <Date>{fromNow(comment.createdDate)}</Date>
         </AuthorWrapper>
-        {isMine && (
-          <Menu as="div" style={{ position: 'relative' }}>
-            <Menu.Button>
-              <MenuIcon />
-            </Menu.Button>
-            <MenuItems>
-              {Actions.map((Action, index) => (
+        <Menu as="div" style={{ position: 'relative' }}>
+          <Menu.Button>
+            <MenuIcon />
+          </Menu.Button>
+          <MenuItems>
+            {Actions.map((Action, index) => (
+              <SMenuItemContainer>
                 <Menu.Item key={index}>{Action}</Menu.Item>
-              ))}
-            </MenuItems>
-          </Menu>
-        )}
+              </SMenuItemContainer>
+            ))}
+          </MenuItems>
+        </Menu>
       </CommentHeader>
 
       <CommentBody>
@@ -134,8 +134,31 @@ const Date = styled('span', {
 });
 const MenuItems = styled(Menu.Items, {
   position: 'absolute',
-  top: 0,
-  right: '100%', // TODO: design 체크 필요
+  top: '35px', // TODO: design 체크 필요
+  right: '0', // TODO: design 체크 필요
+  padding: '8px',
+  borderRadius: '13px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  background: '$gray800',
+});
+const SMenuItemContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '80px',
+  background: '$gray800',
+
+  '&:hover': {
+    background: '$gray700',
+    borderRadius: '$8',
+  },
+
+  '&:active': {
+    background: '$gray600',
+    borderRadius: '$8',
+  },
 });
 const CommentBody = styled('div', {
   paddingLeft: '40px',
