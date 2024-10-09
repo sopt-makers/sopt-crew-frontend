@@ -135,8 +135,6 @@ export default function PostPage() {
       !!comment
   );
 
-  console.log({ comments });
-
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
     if (refCurrent) {

@@ -13,7 +13,6 @@ import TextInput from '../TextInput';
 import ImagePreview from './ImagePreview';
 import { MAX_FILE_SIZE } from '@type/form';
 import NeedMentor from '../CheckBox/NeedMentor';
-import { parts } from '@data/options';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import { imageS3Bucket } from '@constants/url';
@@ -22,6 +21,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
 import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
@@ -424,23 +424,23 @@ function Presentation({
                     };
                     return (
                       <STargetFieldWrapper>
-                        <FormController
-                          name="detail.joinableParts"
-                          defaultValue={[parts[0]]}
-                          render={({ field: { value, onChange, onBlur } }) => (
-                            <Select options={parts} value={value} onChange={onChange} onBlur={onBlur} multiple />
-                          )}
-                        ></FormController>
-
+                        <STargetChipContainer>
+                          <FormController
+                            name="detail.joinableParts"
+                            render={({ field: { value, onChange } }) => (
+                              <JoinablePartsField value={value} onChange={onChange} />
+                            )}
+                          ></FormController>
+                        </STargetChipContainer>
                         {/* 모집 인원 */}
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                           <SMemberCountWrapper>
                             <FormController
                               name="capacity"
                               render={({ field, fieldState: { error } }) => (
                                 <TextInput
                                   type="number"
-                                  placeholder="인원"
+                                  placeholder="총 인원 수"
                                   right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
                                   required
                                   {...field}
@@ -592,19 +592,18 @@ const SNeedMentorFieldWrapper = styled('div', {
 });
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+  flexDirection: 'column',
+  gap: '$16',
   marginBottom: '16px',
-  height: '52px',
-  '@tablet': {
-    height: '48px',
-  },
+});
 
-  '@media(max-width: 525px)': {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+const STargetChipContainer = styled('div', {
+  display: 'flex',
+  gap: '$10',
+  flexWrap: 'wrap',
 
-    marginBottom: '52px',
+  '@media(max-width: 430px)': {
+    maxWidth: '320px',
   },
 });
 
@@ -675,8 +674,8 @@ const SSectionCountBox = styled('div', {
 });
 
 const SMemberCountWrapper = styled('div', {
-  width: '94px',
-  height: '52px',
+  width: '119px',
+  height: '48px',
 });
 
 const SFormCheckBox = styled('div', {
