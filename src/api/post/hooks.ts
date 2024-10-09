@@ -81,9 +81,7 @@ export const useMutationPostLike = (queryId: string) => {
     onMutate: async () => {
       const previousPost = queryClient.getQueryData(['getPost', queryId]) as postType;
 
-      const newLikeCount = previousPost.isLiked
-        ? previousPost.likeCount && previousPost.likeCount - 1
-        : previousPost.likeCount && previousPost.likeCount + 1;
+      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
 
       const data = produce(previousPost, (draft: postType) => {
         draft.isLiked = !previousPost.isLiked;

@@ -1027,7 +1027,7 @@ export interface components {
        * @description 게시글 좋아요 갯수
        * @example 20
        */
-      likeCount?: number;
+      likeCount: number;
       /**
        * @description 게시글 좋아요 여부
        * @example true
