@@ -6748,6 +6748,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/colors@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@sopt-makers/colors@npm:3.0.2"
+  checksum: 10c0/f055a3f9f1b61601b0819751f3153f77f23013d5c388156267d0f87816810c48570058c335be56bb35c6907ad6cbcbe98c882da6778b8f30a9dc59aa2d9912d5
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/fonts@npm:^2.0.1":
   version: 2.0.1
   resolution: "@sopt-makers/fonts@npm:2.0.1"
@@ -6781,9 +6788,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@sopt-makers/ui@npm:2.3.1"
+"@sopt-makers/ui@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@sopt-makers/ui@npm:2.4.1"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
@@ -6796,7 +6803,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/cb7c9de1f0d15e193d2c935b4e339c50a4eb7b31b2a701a0a68fc189c79dc8094498e887b61c88837a2f73c5542fadbdc5bbb41882f3faeca0c83df1f8545b32
+  checksum: 10c0/c2fdd9a1bf2a07bb73283459c7849ffb28ce431a99b883b238de48bed1c989f1f471f7ee3a5ca165091b8393c1844588dedb92777caff7753a800c23bff7061b
   languageName: node
   linkType: hard
 
@@ -20699,11 +20706,11 @@ __metadata:
     "@radix-ui/react-dropdown-menu": "npm:^2.1.1"
     "@radix-ui/react-popover": "npm:^1.1.1"
     "@sentry/nextjs": "npm:^7.51.0"
-    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/colors": "npm:^3.0.2"
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.5"
     "@sopt-makers/playground-common": "npm:^1.5.2"
-    "@sopt-makers/ui": "npm:^2.3.1"
+    "@sopt-makers/ui": "npm:^2.4.1"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"
