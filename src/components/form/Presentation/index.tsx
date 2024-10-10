@@ -25,6 +25,7 @@ import JoinablePartsField from '@components/form/Presentation/JoinablePartsField
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
 import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
+import BubblePointIcon from 'public/assets/svg/bubble_point.svg';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -86,8 +87,8 @@ function Presentation({
     type: 'default',
   };
 
-  const handleSoptScheduleOpen = () => {
-    window.innerWidth <= 768 ? open(soptScheduledialogOption) : setIsSoptScheduleOpen(true);
+  const handleSoptScheduleOpen = (isOpen: boolean) => {
+    window.innerWidth <= 768 ? open(soptScheduledialogOption) : setIsSoptScheduleOpen(isOpen);
   };
 
   useEffect(() => {
@@ -286,21 +287,27 @@ function Presentation({
               <div
                 ref={soptScheduleRef}
                 style={{ display: 'flex', gap: '4px', position: 'relative' }}
-                onClick={handleSoptScheduleOpen}
+                onMouseEnter={() => handleSoptScheduleOpen(true)}
+                onMouseLeave={() => handleSoptScheduleOpen(false)}
               >
                 <div style={{ display: 'flex', gap: '4px', marginRight: '16px' }}>
                   <SoptNotice>SOPT 공식 일정 확인하기</SoptNotice>
-                  <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray' }} />
+                  <IconAlertCircle style={{ width: '16px', height: '16px', color: 'gray', cursor: 'pointer' }} />
                 </div>
                 {isSoptScheduleOpen && (
-                  <SoptScheduleDiv>
-                    <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
-                    <div>• 1차 행사: 2024.11.09</div>
-                    <div>• 솝커톤: 2024.11.23 ~2024.11.24</div>
-                    <div>• 기획 경선: 2024.12.14</div>
-                    <div>• 2차 행사: 2024.12.12</div>
-                    <div>• 앱잼: 2024.12.21 ~ 2025.01.25</div>
-                  </SoptScheduleDiv>
+                  <ToolTipDiv>
+                    <Pointdiv>
+                      <BubblePoint />
+                    </Pointdiv>
+                    <TextDiv>
+                      <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
+                      <div>• 1차 행사: 2024.11.09</div>
+                      <div>• 솝커톤: 2024.11.23 ~2024.11.24</div>
+                      <div>• 기획 경선: 2024.12.14</div>
+                      <div>• 2차 행사: 2024.12.12</div>
+                      <div>• 앱잼: 2024.12.21 ~ 2025.01.25</div>
+                    </TextDiv>
+                  </ToolTipDiv>
                 )}
               </div>
               {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
@@ -708,10 +715,48 @@ const ImageHelpMessage = styled('div', {
 });
 
 const SoptNotice = styled('span', {
+  cursor: 'pointer',
   display: 'inline-block',
   minWidth: '$125',
   ...fontsObject.LABEL_4_12_SB,
   color: '$gray300',
+});
+
+const ToolTipDiv = styled('div', {
+  width: '252px',
+  height: '162px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+
+  position: 'absolute',
+  top: '$20',
+  right: '$0',
+  isolate: 'isolation',
+});
+
+const Pointdiv = styled('div', {
+  display: 'inline-flex',
+  paddingRight: '16px',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+});
+
+const BubblePoint = styled(BubblePointIcon);
+
+const TextDiv = styled('div', {
+  display: 'inline-flex',
+  padding: '16px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  gap: '4px',
+
+  borderRadius: '10px',
+  backgroundColor: '$gray600',
+
+  color: '$gray50',
+  ...fontsObject.LABEL_4_12_SB,
 });
 
 const SoptScheduleDiv = styled('div', {
