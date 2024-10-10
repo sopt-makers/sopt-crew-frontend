@@ -6741,13 +6741,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/colors@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@sopt-makers/colors@npm:3.0.1"
-  checksum: 10c0/c02d2eeb4e12d22150e65493055323cc5040ef3ed7e7b10609b3afe9a543e436e71bb0149701dfc0d8b4f027f265f993e86b7ba4e73efca940d2308e35d7834c
-  languageName: node
-  linkType: hard
-
 "@sopt-makers/colors@npm:^3.0.2":
   version: 3.0.2
   resolution: "@sopt-makers/colors@npm:3.0.2"
@@ -6788,13 +6781,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@sopt-makers/ui@npm:2.4.1"
+"@sopt-makers/ui@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@sopt-makers/ui@npm:2.4.2"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
-    "@sopt-makers/colors": "npm:^3.0.1"
+    "@sopt-makers/colors": "npm:^3.0.2"
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.5"
     "@vanilla-extract/css": "npm:^1.14.0"
@@ -6803,7 +6796,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/c2fdd9a1bf2a07bb73283459c7849ffb28ce431a99b883b238de48bed1c989f1f471f7ee3a5ca165091b8393c1844588dedb92777caff7753a800c23bff7061b
+  checksum: 10c0/05921a1b83e3ee5828627724e42b9eb98c6f07ce65e9be436cd2cbf0e60990a19495dd249b6c4b75a02d888916d3e55ac50a16b2c28361d1a71fbb8d5b09910a
   languageName: node
   linkType: hard
 
@@ -20710,7 +20703,7 @@ __metadata:
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.5"
     "@sopt-makers/playground-common": "npm:^1.5.2"
-    "@sopt-makers/ui": "npm:^2.4.1"
+    "@sopt-makers/ui": "npm:^2.4.2"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"
