@@ -1,5 +1,5 @@
 import { paths } from '@/__generated__/schema2';
-import LikeHoverIcon from '@assets/svg/like_hover.svg';
+import LikeHoverIcon from '@assets/svg/like_hover_in_comment.svg';
 import MessageIcon from '@assets/svg/message-dots.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import Avatar from '@components/avatar/Avatar';
