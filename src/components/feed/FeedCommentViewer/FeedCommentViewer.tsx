@@ -1,6 +1,6 @@
 import { paths } from '@/__generated__/schema2';
 import LikeHoverIcon from '@assets/svg/like_hover.svg';
-import MessageIcon from '@assets/svg/message-dots.svg?v2';
+import MessageIcon from '@assets/svg/message-dots.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import Avatar from '@components/avatar/Avatar';
 import { playgroundURL } from '@constants/url';
@@ -10,8 +10,8 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
-import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg?v2';
-import LikeIcon from 'public/assets/svg/like_in_comment.svg?v2';
+import LikeFillIcon from 'public/assets/svg/like_fill_in_comment.svg';
+import LikeIcon from 'public/assets/svg/like_in_comment.svg';
 import React, { useContext } from 'react';
 import { styled } from 'stitches.config';
 import { MentionContext } from '../Mention/MentionContext';
