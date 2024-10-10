@@ -90,7 +90,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
               {title === '모집 대상' && (
                 <STarget>
                   {partList?.map(part => (
-                    <Chip key={part} style={{ width: '80px' }}>
+                    <Chip key={part} style={{ width: '80px', boxShadow: 'none' }} active>
                       {part}
                     </Chip>
                   ))}
@@ -151,6 +151,7 @@ const SDescription = styled('p', {
 const STarget = styled(SDescription, {
   display: 'flex',
   gap: '$10',
+  color: '$gray10',
 
   mb: '$24',
 
