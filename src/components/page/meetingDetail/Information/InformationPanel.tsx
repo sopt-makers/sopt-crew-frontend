@@ -38,7 +38,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
     {
       id: 3,
       title: '모집 대상',
-      generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체',
+      generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수',
       partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
       //'이런 사람을 찾아요' Input이 사라지면서 해당 객체의 content는 삭제 됨
       //렌더링은 되어야하므로 truthy값으로 문자열 'NULL'을 삽입
@@ -150,8 +150,10 @@ const SDescription = styled('p', {
 
 const STarget = styled(SDescription, {
   display: 'flex',
+  alignItems: 'center',
   gap: '$10',
   color: '$gray10',
+  flexWrap: 'wrap',
 
   mb: '$24',
 
