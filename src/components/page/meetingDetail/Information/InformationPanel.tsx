@@ -8,6 +8,7 @@ dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { useCallback, useRef, useState } from 'react';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
+import { Chip } from '@sopt-makers/ui';
 
 interface InformationPanelProps {
   detailData: GetMeetingResponse;
@@ -37,7 +38,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
     {
       id: 3,
       title: '모집 대상',
-      generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체',
+      generation: detailData?.canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수',
       partList: detailData?.joinableParts?.map(key => PART_NAME[key]),
       //'이런 사람을 찾아요' Input이 사라지면서 해당 객체의 content는 삭제 됨
       //렌더링은 되어야하므로 truthy값으로 문자열 'NULL'을 삽입
@@ -88,9 +89,12 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
               <STitle>{title}</STitle>
               {title === '모집 대상' && (
                 <STarget>
-                  대상 기수 : {generation}
-                  <br />
-                  대상 파트 : {partList?.join(', ')}
+                  {partList?.map(part => (
+                    <Chip key={part} style={{ width: '80px', boxShadow: 'none' }} active>
+                      {part}
+                    </Chip>
+                  ))}
+                  {generation}
                 </STarget>
               )}
               <SDescription>{handleContent(content)}</SDescription>
@@ -145,6 +149,12 @@ const SDescription = styled('p', {
 });
 
 const STarget = styled(SDescription, {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '$10',
+  color: '$gray10',
+  flexWrap: 'wrap',
+
   mb: '$24',
 
   '@tablet': {

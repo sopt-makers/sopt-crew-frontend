@@ -24,6 +24,7 @@ import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
 import ButtonLoader from '@components/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
+import { ReactNode } from 'react';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -48,6 +49,19 @@ interface DetailHeaderProps {
     AxiosError,
     number
   >;
+}
+
+interface DialogOptionType {
+  title: ReactNode;
+  description: ReactNode;
+  type?: 'default' | 'danger' | 'single' | undefined;
+  typeOptions?: TypeOptionsProp;
+}
+
+interface TypeOptionsProp {
+  cancelButtonText?: string;
+  approveButtonText?: string;
+  buttonFunction?: () => void;
 }
 
 const MeetingController = ({
@@ -121,7 +135,18 @@ const MeetingController = ({
 
       return;
     }
-    handleGuestModalOpen();
+
+    const dialogOption: DialogOptionType = {
+      title: '신청을 취소하시겠습니까?',
+      description: '',
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '돌아가기',
+        approveButtonText: '취소하기',
+        buttonFunction: handleCancelApplication,
+      },
+    };
+    dialogOpen(dialogOption);
   };
 
   const handleApplicationButton = (textareaValue: string) => {

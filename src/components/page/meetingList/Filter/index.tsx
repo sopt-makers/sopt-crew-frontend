@@ -19,7 +19,7 @@ function Filter() {
 
         <SGuideButton
           target="_blank"
-          href="https://golden-rib-2f1.notion.site/SOPT-Playground-e75e8895b9e54445b12994128646dcf4"
+          href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
           rel="noreferrer noopener"
         >
           모임 신청 가이드

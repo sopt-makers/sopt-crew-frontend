@@ -70,9 +70,7 @@ export const useQueryGetPost = (postId: string) => {
   });
 };
 
-type postType = {
-  data: paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
-};
+type postType = paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 export const useMutationPostLike = (queryId: string) => {
   const queryClient = useQueryClient();
@@ -83,13 +81,11 @@ export const useMutationPostLike = (queryId: string) => {
     onMutate: async () => {
       const previousPost = queryClient.getQueryData(['getPost', queryId]) as postType;
 
-      const newLikeCount = previousPost.data.isLiked
-        ? previousPost.data.likeCount && previousPost.data.likeCount - 1
-        : previousPost.data.likeCount && previousPost.data.likeCount + 1;
+      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
 
       const data = produce(previousPost, (draft: postType) => {
-        draft.data.isLiked = !previousPost.data.isLiked;
-        draft.data.likeCount = newLikeCount;
+        draft.isLiked = !previousPost.isLiked;
+        draft.likeCount = newLikeCount;
       });
 
       queryClient.setQueryData(['getPost', queryId], data);
