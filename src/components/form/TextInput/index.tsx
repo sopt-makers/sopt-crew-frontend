@@ -46,21 +46,22 @@ const SContainer = styled('div', {
 const SInputWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
-
-  // height: '$48',
 });
 const SInput = styled('input', {
   width: '100%',
-  padding: '11px 16px',
+  padding: '18px 20px',
   display: 'flex',
   alignItems: 'center',
-  fontAg: '16_medium_150',
-  lineHeight: '26px',
+  fontAg: '16_medium_100',
   color: '$gray10',
   background: '$gray800',
   borderRadius: 10,
   '&::placeholder': {
     color: '$gray300',
+  },
+
+  '@tablet': {
+    padding: '16px',
   },
 });
 const STextCount = styled('span', {
