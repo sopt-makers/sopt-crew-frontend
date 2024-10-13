@@ -8,7 +8,6 @@ dayjs.locale('ko');
 import { PART_NAME } from '@constants/option';
 import { useCallback, useRef, useState } from 'react';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { Chip } from '@sopt-makers/ui';
 
 interface InformationPanelProps {
   detailData: GetMeetingResponse;
@@ -89,12 +88,9 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
               <STitle>{title}</STitle>
               {title === '모집 대상' && (
                 <STarget>
-                  {partList?.map(part => (
-                    <Chip key={part} style={{ width: '80px', boxShadow: 'none' }} active>
-                      {part}
-                    </Chip>
-                  ))}
-                  {generation}
+                  대상 기수 : {generation}
+                  <br />
+                  대상 파트 : {partList?.join(', ')}
                 </STarget>
               )}
               <SDescription>{handleContent(content)}</SDescription>
