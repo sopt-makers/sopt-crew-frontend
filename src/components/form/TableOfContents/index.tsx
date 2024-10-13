@@ -22,10 +22,10 @@ function TableOfContents({ label }: TableOfContentsProps) {
   const isTargetValid =
     form.detail &&
     form.detail.joinableParts &&
-    form.detail.joinableParts.length > 1 &&
+    form.detail.joinableParts.length > 0 &&
     form.capacity &&
     !errors.capacity &&
-    !errors.detail; // default 옵션이 선택되어 있기 때문 최소 2개 이상 선택되어야 통과
+    !errors.detail;
   const isActivationDateValid = form.detail && form.detail.mStartDate && form.detail.mEndDate;
   const isProcessDesc = form.detail?.processDesc;
   return (

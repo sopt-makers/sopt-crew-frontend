@@ -76,7 +76,7 @@ const EditPage = () => {
         parts.length - 2 === formData?.joinableParts.length
           ? parts
           : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            [parts[0], ...formData!.joinableParts.map(partString => parts.find(part => part.value === partString))];
+            [...formData!.joinableParts.map(partString => parts.find(part => part.value === partString))];
 
       formMethods.reset({
         ...formData,
@@ -94,7 +94,6 @@ const EditPage = () => {
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
           canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
-          //targetDesc: formData?.targetDesc,
           note: formData?.note ?? '',
         },
       });

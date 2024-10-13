@@ -75,7 +75,7 @@ export const schema = z.object({
           value: z.string().nullable(),
         })
       )
-      .min(2, { message: '대상 파트를 선택해주세요.' }), // NOTE: default 옵션에 더해 최소 1개는 선택해야 한다(총 2개)
+      .min(1, { message: '대상 파트를 선택해주세요.' }),
     note: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }).optional().nullable(),
   }),
 });
