@@ -18,11 +18,12 @@ export const generationOptions = [
 ];
 
 export const parts = [
-  { label: '전체파트', value: 'all', order: 1 },
+  { label: '대상 파트', value: null },
+  { label: '전체', value: 'all', order: 1 },
   { label: '기획', value: 'PM', order: 2 },
   { label: '디자인', value: 'DESIGN', order: 3 },
-  { label: '서버', value: 'SERVER', order: 7 },
-  { label: 'iOS', value: 'IOS', order: 6 },
-  { label: 'Android', value: 'ANDROID', order: 5 },
   { label: '웹', value: 'WEB', order: 4 },
+  { label: '안드로이드', value: 'ANDROID', order: 5 },
+  { label: 'iOS', value: 'IOS', order: 6 },
+  { label: '서버', value: 'SERVER', order: 7 },
 ];

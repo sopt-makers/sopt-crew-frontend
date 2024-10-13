@@ -51,7 +51,7 @@ const SInputWrapper = styled('div', {
 });
 const SInput = styled('input', {
   width: '100%',
-  padding: '11px 16px',
+  padding: '18px 20px',
   display: 'flex',
   alignItems: 'center',
   fontAg: '16_medium_150',
