@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
-import HostConfirmModal from './Modal/Confirm/HostConfirmModal';
 import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
 import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
@@ -94,11 +93,6 @@ const MeetingController = ({
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
 
   const {
-    isModalOpened: isHostModalOpened,
-    handleModalOpen: handleHostModalOpen,
-    handleModalClose: handleHostModalClose,
-  } = useModal();
-  const {
     isModalOpened: isGuestModalOpened,
     handleModalOpen: handleGuestModalOpen,
     handleModalClose: handleGuestModalClose,
@@ -120,6 +114,30 @@ const MeetingController = ({
     ampli.clickMemberStatus({ crew_status: approved || isHost });
     handleDefaultModalOpen();
     setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
+  };
+
+  const handleHostModalOpen = () => {
+    const dialogOption: DialogOptionType = {
+      title: '모임을 삭제하시겠습니까?',
+      description: '삭제한 모임은 되돌릴 수 없어요',
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '취소',
+        approveButtonText: '삭제하기',
+        buttonFunction: handleDeleteMeeting,
+      },
+    };
+    dialogOpen(dialogOption);
+  };
+
+  const handleDeleteMeeting = () => {
+    queryClient.invalidateQueries({ queryKey: ['fetchMeetingList'] });
+    mutateMeetingDeletion(Number(meetingId), {
+      onSuccess: () => {
+        dialogClose();
+        router.push('/');
+      },
+    });
   };
 
   const handleApplicationModal = () => {
@@ -209,16 +227,6 @@ const MeetingController = ({
     });
   };
 
-  const handleDeleteMeeting = () => {
-    queryClient.invalidateQueries({ queryKey: ['fetchMeetingList'] });
-    mutateMeetingDeletion(Number(meetingId), {
-      onSuccess: () => {
-        router.push('/');
-      },
-    });
-    handleHostModalClose();
-  };
-
   return (
     <>
       <SPanelWrapper>
@@ -272,11 +280,6 @@ const MeetingController = ({
           )}
         </div>
       </SPanelWrapper>
-      <HostConfirmModal
-        isModalOpened={isHostModalOpened}
-        handleModalClose={handleHostModalClose}
-        handleConfirm={handleDeleteMeeting}
-      />
       <ProfileConfirmModal
         isModalOpened={isProfileModalOpened}
         handleModalClose={handleProfileModalClose}
