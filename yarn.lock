@@ -6781,9 +6781,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "@sopt-makers/ui@npm:2.4.2"
+"@sopt-makers/ui@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "@sopt-makers/ui@npm:2.4.4"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
@@ -6796,7 +6796,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/05921a1b83e3ee5828627724e42b9eb98c6f07ce65e9be436cd2cbf0e60990a19495dd249b6c4b75a02d888916d3e55ac50a16b2c28361d1a71fbb8d5b09910a
+  checksum: 10c0/bb5fa03a300a674b564459393cdef9e5a9bd07bd99521f710a2cbcabe870794bfb9f9348d060edf2304a118e75248d3b5ec3294898778028c56e25ce47fe3907
   languageName: node
   linkType: hard
 
@@ -20703,7 +20703,7 @@ __metadata:
     "@sopt-makers/fonts": "npm:^2.0.1"
     "@sopt-makers/icons": "npm:^1.0.5"
     "@sopt-makers/playground-common": "npm:^1.5.2"
-    "@sopt-makers/ui": "npm:^2.4.2"
+    "@sopt-makers/ui": "npm:^2.4.4"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"
