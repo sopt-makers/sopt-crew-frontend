@@ -59,6 +59,12 @@ function FeedFormPresentation({
   const textAreaRef = useRef(null);
   const [remainingHeight, setRemainingHeight] = useState(100);
   const [selectedMeeting, setSelectedMeeting] = useState<GroupInfo | undefined>(undefined);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const userAgent = navigator.userAgent;
+
+  if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+    setIsMobileDevice(true);
+  }
 
   const handleWindowResize = () => {
     setTextareaHeightChangeFlag(flag => !flag);
@@ -85,7 +91,7 @@ function FeedFormPresentation({
       );
 
       const availableHeight = window.innerHeight - allComponentHeights - BasicPadding;
-      setRemainingHeight(availableHeight);
+      setRemainingHeight(isMobileDevice ? availableHeight - 44 : availableHeight);
     }
   }, [textareaHeightChangeFlag]);
 
