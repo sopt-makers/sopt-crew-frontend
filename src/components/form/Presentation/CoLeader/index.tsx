@@ -30,7 +30,9 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
           <Leader key={idx}>
             <LeaderAvatar>👤</LeaderAvatar>
             <LeaderName>{leader}</LeaderName>
-            <DeleteButton onClick={() => handleDeleteLeader(idx)}>×</DeleteButton>
+            <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
+              ×
+            </DeleteButton>
           </Leader>
         ))}
         {coLeaders.length < 3 && (
