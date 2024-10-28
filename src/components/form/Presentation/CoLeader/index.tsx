@@ -65,6 +65,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
                 setShowInput(true);
                 setComment('');
               }}
+              isActive={showInput}
             >
               <IconPlus style={{ width: '22px', height: '22px', color: 'white', cursor: 'pointer' }} />
             </AddButton>
@@ -221,6 +222,13 @@ const AddButton = styled('button', {
   alignItems: 'center',
   '&:hover': {
     backgroundColor: '$gray500',
+  },
+  variants: {
+    isActive: {
+      true: {
+        backgroundColor: '$gray500',
+      },
+    },
   },
 });
 
