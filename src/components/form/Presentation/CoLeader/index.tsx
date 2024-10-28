@@ -57,22 +57,6 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   return (
     <Container>
       <LeadersContainer>
-        {coLeaders.map((leader, idx) => (
-          <Leader key={leader.id}>
-            <SProfile>
-              {leader.profileImageUrl ? (
-                <img src={leader.profileImageUrl} alt={leader.userName} />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
-              <span>{leader.userName}</span>
-            </SProfile>
-
-            <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
-              ×
-            </DeleteButton>
-          </Leader>
-        ))}
         {coLeaders.length < 3 && (
           <AddLeader>
             <AddButton
@@ -112,6 +96,23 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
             )}
           </AddLeader>
         )}
+
+        {coLeaders.map((leader, idx) => (
+          <Leader key={leader.id}>
+            <SProfile>
+              {leader.profileImageUrl ? (
+                <img src={leader.profileImageUrl} alt={leader.userName} />
+              ) : (
+                <ProfileDefaultIcon />
+              )}
+              <span>{leader.userName}</span>
+            </SProfile>
+
+            <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
+              ×
+            </DeleteButton>
+          </Leader>
+        ))}
       </LeadersContainer>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
