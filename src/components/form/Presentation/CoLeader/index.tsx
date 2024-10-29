@@ -70,7 +70,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
               }}
               isActive={showInput}
             >
-              <IconPlus style={{ width: '22px', height: '22px', color: 'white', cursor: 'pointer' }} />
+              <StyledIconPlus />
             </AddButton>
             {showInput && (
               <CommentInput>
@@ -80,20 +80,19 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
                     inputRef={inputRef}
                     value={comment}
                     setValue={setComment}
-                    placeholder={`Search...`}
+                    placeholder={`멤버 검색`}
                     setIsFocused={setIsFocused}
                     setUserId={setUserId}
                     onUserSelect={handleUserSelect}
                   />
                   {comment ? (
-                    <IconXCircle
-                      style={{ width: '24px', height: '24px' }}
+                    <StyledIconXCircle
                       onClick={() => {
                         setComment('');
                       }}
                     />
                   ) : (
-                    <IconSearch style={{ width: '24px', height: '24px' }} />
+                    <StyledIconSearch />
                   )}
                 </InputBox>
               </CommentInput>
@@ -102,21 +101,23 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
         )}
 
         {/*추가된 공동 모임장 프로필 렌더링 */}
-        {coLeaders.map((leader, idx) => (
-          <Leader key={leader.id}>
-            <SProfile>
-              {leader.profileImageUrl ? (
-                <img src={leader.profileImageUrl} alt={leader.userName} />
-              ) : (
-                <ProfileDefaultIcon />
-              )}
-            </SProfile>
-            <LeaderName>{leader.userName}</LeaderName>
-            <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
-              <IconXClose style={{ width: '16px', height: '16px', color: '#9D9DA4', strokeWidth: '1.5' }} />
-            </DeleteButton>
-          </Leader>
-        ))}
+        <LeadersWrapper>
+          {coLeaders.map((leader, idx) => (
+            <Leader key={leader.id}>
+              <SProfile>
+                {leader.profileImageUrl ? (
+                  <img src={leader.profileImageUrl} alt={leader.userName} />
+                ) : (
+                  <StyledProfileDefaultIcon />
+                )}
+              </SProfile>
+              <LeaderName>{leader.userName}</LeaderName>
+              <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
+                <StyledIconXClose />
+              </DeleteButton>
+            </Leader>
+          ))}
+        </LeadersWrapper>
       </LeadersContainer>
 
       {/*추후 사용할수도 있어 만들어 둔 에러 메세지 */}
@@ -135,6 +136,19 @@ const LeadersContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
+  '@mobile': {
+    gap: '10px',
+  },
+});
+
+const LeadersWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '10px',
+  '@mobile': {
+    gap: '8px',
+  },
 });
 
 const Leader = styled('div', {
@@ -146,18 +160,31 @@ const Leader = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
+
   borderRadius: '10px',
   backgroundColor: '$gray900',
   flexWrap: 'nowrap',
 
   color: '$white',
   position: 'relative',
+
+  '@mobile': {
+    width: '89px',
+    height: '30px',
+    padding: '5px 8px',
+    gap: '6px',
+    borderRadius: '6.25px',
+  },
 });
 
 const LeaderName = styled('span', {
   color: '$white',
   ...fontsObject.BODY_2_16_M,
   whiteSpace: 'nowrap',
+
+  '@mobile': {
+    ...fontsObject.LABEL_5_11_SB,
+  },
 });
 
 const DeleteButton = styled('button', {
@@ -171,6 +198,10 @@ const DeleteButton = styled('button', {
   borderRadius: '50px',
   background: '$gray700',
   cursor: 'pointer',
+  '@mobile': {
+    width: '12px',
+    height: '12px',
+  },
 });
 
 const AddLeader = styled('div', {
@@ -182,7 +213,7 @@ const AddLeader = styled('div', {
 
 const CommentInput = styled('div', {
   position: 'absolute',
-  top: '40px',
+  top: '44px', //32 + 12
   display: 'inline-flex',
   padding: '8px',
   alignItems: 'flex-start',
@@ -235,6 +266,12 @@ const AddButton = styled('button', {
       },
     },
   },
+  '@mobile': {
+    width: '24px',
+    height: '24px',
+    padding: '3.75px',
+    br: '75px',
+  },
 });
 
 const ErrorMessage = styled('div', {
@@ -259,5 +296,53 @@ const SProfile = styled('a', {
       height: '$32',
       mr: '$8',
     },
+    '@mobile': {
+      width: '$20',
+      height: '$20',
+    },
+  },
+});
+
+const StyledIconXCircle = styled(IconXCircle, {
+  width: '24px',
+  height: '24px',
+  cursor: 'pointer',
+  '@mobile': {},
+});
+
+const StyledIconSearch = styled(IconSearch, {
+  width: '24px',
+  height: '24px',
+  //모바일에선 input에 다른 뷰 필요 (현재는 구현 x)
+});
+
+const StyledIconPlus = styled(IconPlus, {
+  width: '22px',
+  height: '22px',
+  color: 'white',
+  cursor: 'pointer',
+  '@mobile': {
+    width: '16.5px',
+    height: '16.5px',
+  },
+});
+
+const StyledIconXClose = styled(IconXClose, {
+  width: '12px',
+  height: '12px',
+  '@mobile': {
+    width: '8px',
+    height: '8px',
+  },
+  color: '#9D9DA4',
+  strokeWidth: '1.5',
+});
+
+const StyledProfileDefaultIcon = styled(ProfileDefaultIcon, {
+  width: '32px',
+  height: '32px',
+  '@mobile': {
+    width: '20px',
+    height: '20px',
   },
 });
