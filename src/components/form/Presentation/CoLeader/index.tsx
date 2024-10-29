@@ -8,6 +8,8 @@ import { IconSearch } from '@sopt-makers/icons';
 import { IconXCircle } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
 import { useQueryGetMentionUsers } from '@api/user/hooks';
+import { fontsObject } from '@sopt-makers/fonts';
+import { IconXClose } from '@sopt-makers/icons';
 
 interface CoLeaderFieldProps {
   value: mentionableDataType[];
@@ -57,6 +59,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   return (
     <Container>
       <LeadersContainer>
+        {/*추가 버튼과 멘션 인풋 */}
         {coLeaders.length < 3 && (
           <AddLeader>
             <AddButton
@@ -98,6 +101,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
           </AddLeader>
         )}
 
+        {/*추가된 공동 모임장 프로필 렌더링 */}
         {coLeaders.map((leader, idx) => (
           <Leader key={leader.id}>
             <SProfile>
@@ -106,16 +110,16 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
               ) : (
                 <ProfileDefaultIcon />
               )}
-              <span>{leader.userName}</span>
             </SProfile>
-
+            <LeaderName>{leader.userName}</LeaderName>
             <DeleteButton type={'button'} onClick={() => handleDeleteLeader(idx)}>
-              ×
+              <IconXClose style={{ width: '16px', height: '16px', color: '#9D9DA4', strokeWidth: '1.5' }} />
             </DeleteButton>
           </Leader>
         ))}
       </LeadersContainer>
 
+      {/*추후 사용할수도 있어 만들어 둔 에러 메세지 */}
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </Container>
   );
@@ -124,48 +128,49 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
 export default CoLeader;
 
 const Container = styled('div', {
-  border: '1px solid $gray700',
-  padding: '16px',
-  borderRadius: '8px',
-  backgroundColor: '$gray800',
+  //디자인적인 건 x (에러메세지도 담아두기 위한 Container)
 });
 
 const LeadersContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '16px',
 });
 
 const Leader = styled('div', {
+  width: '134px',
+  heigth: '48px',
+
   display: 'flex',
+  padding: '8px 12px',
+  justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: '$gray600',
-  borderRadius: '4px',
-  padding: '4px 8px',
+  gap: '10px',
+  borderRadius: '10px',
+  backgroundColor: '$gray900',
+  flexWrap: 'nowrap',
+
   color: '$white',
   position: 'relative',
 });
 
-const LeaderAvatar = styled('span', {
-  fontSize: '20px',
-  marginRight: '6px',
-});
-
 const LeaderName = styled('span', {
-  fontSize: '14px',
   color: '$white',
+  ...fontsObject.BODY_2_16_M,
+  whiteSpace: 'nowrap',
 });
 
 const DeleteButton = styled('button', {
-  background: 'none',
-  border: 'none',
-  color: '$red500',
-  fontSize: '14px',
+  display: 'flex',
+  width: '16px',
+  height: '16px',
+  padding: '2px',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  borderRadius: '50px',
+  background: '$gray700',
   cursor: 'pointer',
-  position: 'absolute',
-  top: '0',
-  right: '0',
-  padding: '2px 4px',
 });
 
 const AddLeader = styled('div', {
@@ -243,8 +248,8 @@ const SProfile = styled('a', {
   color: '$gray10',
   width: 'fit-content',
   img: {
-    width: '$60',
-    height: '$60',
+    width: '$32',
+    height: '$32',
     borderRadius: '50%',
     objectFit: 'cover',
     mr: '$16',
