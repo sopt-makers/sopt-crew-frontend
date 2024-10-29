@@ -26,7 +26,6 @@ interface mentionableDataType {
 }
 
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
-  console.log('coLeaders:', coLeaders);
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
   const handleUserSelect = (user: mentionableDataType) => {

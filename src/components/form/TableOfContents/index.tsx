@@ -18,9 +18,9 @@ function TableOfContents({ label }: TableOfContentsProps) {
   const isCategoryValid = form.category?.value && !errors.category;
   // console.log('카테고리', '' + form.category?.value, isCategoryValid);
   const isImageValid = form.files && form.files.length > 0;
-  console.log('이미지', isImageValid);
+  //console.log('이미지', isImageValid);
   const isDescriptionValid = form.detail && form.detail.desc && !errors.detail;
-  console.log('모임소개', isImageValid);
+  //console.log('모임소개', isImageValid);
   const isApplicationDateValid = form.startDate && form.endDate && !errors.startDate && !errors.endDate;
   const isTargetValid =
     form.detail &&

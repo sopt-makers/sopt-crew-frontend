@@ -14,6 +14,11 @@ interface SearchMentionContextProps {
   setUser: Dispatch<SetStateAction<User>>;
 }
 
+/*
+  참고) SearchMentionContext는 공동모임장을 위한 context입니다. 
+  혹시 나중에 사용할 일이 생길 수도 있을까봐 간단하게 구조만 작성해두었습니다.
+*/
+
 const SearchMentionContext = createContext<SearchMentionContextProps>({
   user: { userName: '', userId: 0 },
   setUser: () => {},

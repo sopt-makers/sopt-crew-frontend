@@ -1,5 +1,3 @@
-import { useQueryGetMentionUsers } from '@api/user/hooks';
-import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
@@ -41,18 +39,16 @@ const SearchMention = ({
   onClick,
   onUserSelect,
 }: SearchMentionProps) => {
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
-  //전역 상태(이걸로 user에게 필요한 정보 잘 모아서, api 요청 보내야할 듯) -> 근데 지금은 딱히 사용하고 있지 않음
+  //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
   const { user, setUser } = useContext(SearchMentionContext);
-  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1); // -1은 선택된 것이 없음을 나타냄
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
   const handleUserClick = (user: mentionableDataType) => {
     onUserSelect(user);
     setValue('');
   };
 
+  //엔터만 눌러도 추가가 되도록 함수 구현 -> 지금은 사용하고 있지 않음.
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       const suggestions = getFilteredAndRandomUsers(
@@ -61,9 +57,9 @@ const SearchMention = ({
       );
 
       if (suggestions.length > 0) {
-        // If there are suggestions, select the first one
+        // select the first suggestion
         handleUserClick(suggestions[0]);
-        e.preventDefault(); // Prevent default behavior of Enter key (like submitting a form)
+        e.preventDefault();
       }
     }
   };
@@ -96,7 +92,7 @@ const SearchMention = ({
     return <SCustomSuggestionsContainer>{children}</SCustomSuggestionsContainer>;
   };
 
-  //이게 인물 하나 하나의 모습
+  //인물 하나 하나의 모습
   const renderSuggestion = useCallback((suggestion: SuggestionDataItem) => {
     return (
       <>
@@ -104,8 +100,8 @@ const SearchMention = ({
           key={suggestion.id}
           onClick={() => handleUserClick(suggestion as mentionableDataType)}
           onKeyDown={(e: React.KeyboardEvent) => {
-            //엔터 누르면 간편히 설정되도록 하고 싶은데, 위에 li(aria-selected 속성 사용)를 사용해야할 것 같아서..
-            //아직은 구현 못함
+            //엔터 누르면 간편히 설정되도록 하고 싶은데,
+            //위에 react-mention의 li(aria-selected 속성 사용)를 조작해야할 것 같아서.. 아직은 구현 못함
             if (e.key === 'Enter') {
               handleUserClick(suggestion as mentionableDataType);
             }
@@ -142,7 +138,7 @@ const SearchMention = ({
       inputRef={inputRef}
       value={value}
       onChange={(e, newValue) => {
-        setUserId(user.userId); //아마 api 요청 보낼 때 전역상태인 user.userId를 잘 활용해야 할 거임! -> 아닌가..?
+        setUserId(user.userId); //필요한 경우가 있을까봐 설정해둠
         if (!inputRef.current) {
           setValue(newValue);
           return;
@@ -162,7 +158,7 @@ const SearchMention = ({
       onClick={onClick}
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-          // 엔터 키를 눌렀을 때 기본 동작 방지
+          // 엔터 키를 눌렀을 때 기본 동작(개행) 방지
           e.preventDefault();
         }
       }}
@@ -260,8 +256,9 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
+// 위로 올라가는 애니메이션
 const fadeInUp = keyframes({
-  '0%': { opacity: 0, transform: 'translateY(0px)' }, // 위로 올라가는 애니메이션
+  '0%': { opacity: 0, transform: 'translateY(0px)' },
   '100%': { opacity: 1, transform: 'translateY(-10px)' },
 });
 
