@@ -260,6 +260,11 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
+const fadeInUp = keyframes({
+  '0%': { opacity: 0, transform: 'translateY(0px)' }, // 위로 올라가는 애니메이션
+  '100%': { opacity: 1, transform: 'translateY(-10px)' },
+});
+
 const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
@@ -291,7 +296,7 @@ const SCustomSuggestionsContainer = styled('div', {
   },
 
   '@tablet': {
-    position: 'fixed',
+    position: 'absolute',
     left: '0',
     bottom: '120px',
     width: '100%',
@@ -299,6 +304,20 @@ const SCustomSuggestionsContainer = styled('div', {
     height: '100%',
     border: 'none',
     borderRadius: '20px',
+  },
+
+  //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
+  '@media (max-width: 414px)': {
+    position: 'fixed',
+    top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
+    bottom: '66px', //8 + 48 + 10
+    left: '0',
+    right: '0',
+    width: '328px',
+    maxHeight: '210px',
+    margin: '0 auto',
+
+    animation: `${fadeInUp} 0.5s forwards`,
   },
 });
 

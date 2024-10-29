@@ -1,12 +1,10 @@
 import { styled } from 'stitches.config';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IconPlus } from '@sopt-makers/icons';
-import CommonMention from '@components/feed/Mention';
 import SearchMention from '@components/form/SearchMention';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { IconSearch } from '@sopt-makers/icons';
 import { IconXCircle } from '@sopt-makers/icons';
-import { SearchField } from '@sopt-makers/ui';
 import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconXClose } from '@sopt-makers/icons';
@@ -40,15 +38,24 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   };
 
   const [showInput, setShowInput] = useState(false);
-
   const [comment, setComment] = useState('');
+
   const [isFocused, setIsFocused] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
-
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleAddLeader = () => {
-    // 리더 추가 기능 비활성화
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 414);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleBackdropClick = () => {
+    setShowInput(false);
   };
 
   const handleDeleteLeader = (index: number) => {
@@ -73,29 +80,59 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
               <StyledIconPlus />
             </AddButton>
             {showInput && (
-              <CommentInput>
-                <InputBox isActive={comment !== ''}>
-                  <SearchMention
-                    mentionUserList={mentionUserList}
-                    inputRef={inputRef}
-                    value={comment}
-                    setValue={setComment}
-                    placeholder={`멤버 검색`}
-                    setIsFocused={setIsFocused}
-                    setUserId={setUserId}
-                    onUserSelect={handleUserSelect}
-                  />
-                  {comment ? (
-                    <StyledIconXCircle
-                      onClick={() => {
-                        setComment('');
-                      }}
-                    />
-                  ) : (
-                    <StyledIconSearch />
-                  )}
-                </InputBox>
-              </CommentInput>
+              <>
+                {isMobile ? (
+                  <Backdrop onClick={handleBackdropClick}>
+                    <CommentInput onClick={e => e.stopPropagation()}>
+                      <InputBox isActive={comment !== ''}>
+                        <SearchMention
+                          mentionUserList={mentionUserList}
+                          inputRef={inputRef}
+                          value={comment}
+                          setValue={setComment}
+                          placeholder={`멤버 검색`}
+                          setIsFocused={setIsFocused}
+                          setUserId={setUserId}
+                          onUserSelect={handleUserSelect}
+                        />
+                        {comment ? (
+                          <StyledIconXCircle
+                            onClick={() => {
+                              setComment('');
+                            }}
+                          />
+                        ) : (
+                          <StyledIconSearch />
+                        )}
+                      </InputBox>
+                    </CommentInput>
+                  </Backdrop>
+                ) : (
+                  <CommentInput onClick={e => e.stopPropagation()}>
+                    <InputBox isActive={comment !== ''}>
+                      <SearchMention
+                        mentionUserList={mentionUserList}
+                        inputRef={inputRef}
+                        value={comment}
+                        setValue={setComment}
+                        placeholder={`멤버 검색`}
+                        setIsFocused={setIsFocused}
+                        setUserId={setUserId}
+                        onUserSelect={handleUserSelect}
+                      />
+                      {comment ? (
+                        <StyledIconXCircle
+                          onClick={() => {
+                            setComment('');
+                          }}
+                        />
+                      ) : (
+                        <StyledIconSearch />
+                      )}
+                    </InputBox>
+                  </CommentInput>
+                )}
+              </>
             )}
           </AddLeader>
         )}
@@ -130,6 +167,18 @@ export default CoLeader;
 
 const Container = styled('div', {
   //디자인적인 건 x (에러메세지도 담아두기 위한 Container)
+});
+
+const Backdrop = styled('div', {
+  position: 'fixed',
+  width: '100vw',
+  height: '100vh',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  zIndex: 10,
 });
 
 const LeadersContainer = styled('div', {
@@ -222,6 +271,27 @@ const CommentInput = styled('div', {
   background: '$gray900',
   width: '170px',
   height: '64px',
+
+  '@mobile': {
+    position: 'fixed',
+    //부모 요소 : transform, perspective, 또는 position: fixed 등의 속성
+    //자식 요소의 fixed 위치가 의도대로 표시되지 않음 -> 따라서 top 속성을 unset으로 제거해줘야 함
+    top: 'unset',
+    bottom: '0',
+    left: '0',
+    right: '0',
+
+    width: '100%', // 좌우 16px 간격
+    height: '66px', //18 + 48
+    paddingTop: '10px',
+    paddingBottom: '8px',
+    bg: 'rgba(0, 0, 0, 0.7)',
+    border: 'none',
+    br: '0',
+
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const InputBox = styled('div', {
@@ -242,6 +312,10 @@ const InputBox = styled('div', {
         border: '1px solid transparent',
       },
     },
+  },
+  '@mobile': {
+    width: '328px',
+    height: '48px',
   },
 });
 
