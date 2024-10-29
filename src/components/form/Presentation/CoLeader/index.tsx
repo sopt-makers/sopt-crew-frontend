@@ -363,12 +363,10 @@ const SProfile = styled('a', {
     height: '$32',
     borderRadius: '50%',
     objectFit: 'cover',
-    mr: '$16',
     background: '$gray700',
     '@tablet': {
       width: '$32',
       height: '$32',
-      mr: '$8',
     },
     '@mobile': {
       width: '$20',
