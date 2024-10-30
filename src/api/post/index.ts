@@ -42,9 +42,11 @@ export const getPost = async (postId: string) => {
   return data;
 };
 
-export const postLike = async (queryId: string) => {
-  const { POST } = apiV2.get();
-  return await POST('/post/v1/{postId}/like', { params: { path: { postId: Number(queryId) } } });
+export const postLike = async (postId: number) => {
+  type postListType =
+    paths['/post/v2/{postId}/like']['post']['responses']['201']['content']['application/json;charset=UTF-8'];
+  const { data } = await api.post<postListType>(`/post/v2/${postId}/like`);
+  return data;
 };
 
 export const deleteComment = async (commentId: number) => {
