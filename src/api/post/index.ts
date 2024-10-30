@@ -23,10 +23,9 @@ export const createPost = async (formData: FormCreateType) => {
 };
 
 export const editPost = async (postId: string, formData: FormEditType) => {
-  const { data } = await api.put<Data<Pick<PostResponse, 'id' | 'title' | 'contents' | 'updatedDate' | 'images'>>>(
-    `/post/v1/${postId}`,
-    formData
-  );
+  type editPostType =
+    paths['/post/v2/{postId}']['put']['responses']['200']['content']['application/json;charset=UTF-8'];
+  const { data } = await api.put<editPostType>(`/post/v2/${postId}`, formData);
   return data;
 };
 
