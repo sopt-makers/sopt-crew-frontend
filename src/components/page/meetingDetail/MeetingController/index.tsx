@@ -24,6 +24,7 @@ import { ampli } from '@/ampli';
 import ButtonLoader from '@components/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
+import { fontsObject } from '@sopt-makers/fonts';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -249,7 +250,7 @@ const MeetingController = ({
             >
               {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
               <span>{hostName}</span>
-              <ArrowSmallRightIcon />
+              {/* <ArrowSmallRightIcon />*/}
             </SProfileAnchor>
             {isMentorNeeded && <MentorTooltip />}
           </SHostWrapper>
@@ -410,42 +411,64 @@ const SProfileAnchor = styled('a', {
   flexType: 'verticalCenter',
   color: '$gray10',
   width: 'fit-content',
+  bg: '$gray900',
+  br: '10px',
+
+  display: 'flex',
+  padding: '12px 16px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '14px',
+  '@mobile': {
+    padding: '5px 8px',
+    gap: '6px',
+    br: '6.25px',
+  },
 
   img: {
-    width: '$60',
-    height: '$60',
+    width: '$48',
+    height: '$48',
     borderRadius: '50%',
     objectFit: 'cover',
-    mr: '$16',
+
     background: '$gray700',
     '@tablet': {
       width: '$32',
       height: '$32',
-      mr: '$8',
+    },
+    '@mobile': {
+      width: '$20',
+      height: '$20',
     },
   },
 
   '& > svg:first-child': {
-    width: '$60',
-    height: '$60',
-    mr: '$16',
+    width: '$48',
+    height: '$48',
 
     '@tablet': {
       width: '$32',
       height: '$32',
-      mr: '$8',
+    },
+    '@mobile': {
+      width: '$20',
+      height: '$20',
     },
   },
 
   '& > span': {
-    mr: '$16',
+    ...fontsObject.TITLE_3_24_SB,
+    fontWeight: 500,
 
     '@tablet': {
       fontStyle: 'T5',
-      mr: '$2',
+    },
+    '@mobile': {
+      ...fontsObject.LABEL_5_11_SB,
     },
   },
 
+  // '>' 아이콘이 사라지면서 지금은 사용 안함.
   '& > svg:last-child > path': {
     stroke: `$gray200`,
   },
