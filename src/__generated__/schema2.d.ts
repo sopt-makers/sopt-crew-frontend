@@ -102,25 +102,24 @@ export interface paths {
     /** 로그인/회원가입 */
     post: operations["loginUser"];
   };
+  "/user/v2": {
+    /** 전체 사용자 조회 */
+    get: operations["getAllUser"];
+  };
   "/user/v2/profile/me": {
     /** 유저 본인 프로필 조회 */
     get: operations["getUserOwnProfile"];
   };
-  "/user/v2/profile/me/temp": {
-    /** [TEMP] 유저 본인 프로필 조회 */
-    get: operations["getUserOwnProfileTemp"];
-  };
   "/user/v2/mention": {
-    /** 멘션 사용자 조회 */
+    /**
+     * 멘션 사용자 조회
+     * @deprecated
+     */
     get: operations["getAllMentionUser"];
   };
   "/user/v2/meeting": {
     /** 내가 만든 모임 조회 */
     get: operations["getCreatedMeetingByUser"];
-  };
-  "/user/v2/meeting/temp": {
-    /** [TEMP] 내가 만든 모임 조회 */
-    get: operations["getCreatedMeetingByUserTemp"];
   };
   "/user/v2/meeting/all": {
     /** 내가 속한 모임 조회 */
@@ -129,10 +128,6 @@ export interface paths {
   "/user/v2/apply": {
     /** 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUser"];
-  };
-  "/user/v2/apply/temp": {
-    /** [TEMP] 내가 신청한 모임 조회 */
-    get: operations["getAppliedMeetingByUserTemp"];
   };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
@@ -320,6 +315,11 @@ export interface components {
        * ]
        */
       joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
+      /**
+       * @description 공동 모임장 userId (크루에서 사용하는 userId)
+       * @example [251, 942]
+       */
+      coLeaderUserIds?: number[];
     };
     /** @description 모임 지원자 상태 변경 request body dto */
     ApplyV2UpdateStatusBodyDto: {
@@ -570,6 +570,42 @@ export interface components {
        */
       accessToken: string;
     };
+    /** @description 전체 사용자 조회 응답 Dto */
+    UserV2GetAllUserDto: {
+      /**
+       * Format: int32
+       * @description 크루에서 사용하는 userId
+       * @example 103
+       */
+      userId: number;
+      /**
+       * Format: int32
+       * @description 메이커스 프로덕트에서 범용적으로 사용하는 userId
+       * @example 403
+       */
+      orgId: number;
+      /**
+       * @description 유저 이름
+       * @example 홍길동
+       */
+      userName: string;
+      /**
+       * @description 최근 파트
+       * @example 서버
+       */
+      recentPart: string;
+      /**
+       * Format: int32
+       * @description 최근 기수
+       * @example 33
+       */
+      recentGeneration: number;
+      /**
+       * @description 유저 프로필 사진
+       * @example [url] 형식
+       */
+      profileImageUrl?: string;
+    };
     /** @description 유저 본인 프로필 조회 응답 Dto */
     UserV2GetUserOwnProfileResponseDto: {
       /**
@@ -599,10 +635,6 @@ export interface components {
        * @example false
        */
       hasActivities: boolean;
-    };
-    /** @description 임시 응답 Dto */
-    TempResponseDto: {
-      data: components["schemas"]["UserV2GetUserOwnProfileResponseDto"];
     };
     /** @description 멘션 유저 조회 응답 Dto */
     UserV2GetAllMentionUserDto: {
@@ -719,6 +751,11 @@ export interface components {
        * @enum {integer}
        */
       status: 0 | 1 | 2;
+      /**
+       * @description 공동 모임장 여부
+       * @example false
+       */
+      isCoLeader: boolean;
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -1177,10 +1214,15 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /**
        * Format: int32
-       * @description 신청 승인 수
-       * @example 7
+       * @description TODO: FE에서 수정 완료 후 삭제
        */
       appliedCount: number;
+      /**
+       * Format: int32
+       * @description 승인된 신청자 수
+       * @example 3
+       */
+      approvedCount: number;
     };
     /** @description 모임 조회 응답 Dto */
     MeetingV2GetAllMeetingDto: {
@@ -1271,6 +1313,31 @@ export interface components {
        */
       status: number;
       user: components["schemas"]["ApplicantByMeetingDto"];
+    };
+    /** @description 공동 모임장 조회 dto */
+    MeetingV2CoLeaderResponseDto: {
+      /**
+       * Format: int32
+       * @description 공동 모임장 id, 크루에서 사용하는 userId
+       * @example 203
+       */
+      userId: number;
+      /**
+       * Format: int32
+       * @description 공동 모임장 org id, 메이커스 프로덕트에서 범용적으로 사용하는 userId
+       * @example 789
+       */
+      orgId: number;
+      /**
+       * @description 공동 모임장 이름
+       * @example 공동 모임장 이름
+       */
+      userName: string;
+      /**
+       * @description 공동 모임장 프로필 이미지 url
+       * @example [url 형식]
+       */
+      userprofileImage: string;
     };
     /** @description 모임 상세 조회 dto */
     MeetingV2GetMeetingByIdResponseDto: {
@@ -1381,6 +1448,13 @@ export interface components {
        * ]
        */
       joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
+      /** @description 공동 모임장 목록 */
+      coMeetingLeaders?: components["schemas"]["MeetingV2CoLeaderResponseDto"][];
+      /**
+       * @description 공동 모임장 여부
+       * @example false
+       */
+      isCoLeader: boolean;
       /**
        * Format: int32
        * @description 모임 상태, 0: 모집전, 1: 모집중, 2: 모집종료
@@ -2373,6 +2447,17 @@ export interface operations {
       500: never;
     };
   };
+  /** 전체 사용자 조회 */
+  getAllUser: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["UserV2GetAllUserDto"][];
+        };
+      };
+    };
+  };
   /** 유저 본인 프로필 조회 */
   getUserOwnProfile: {
     responses: {
@@ -2386,20 +2471,10 @@ export interface operations {
       400: never;
     };
   };
-  /** [TEMP] 유저 본인 프로필 조회 */
-  getUserOwnProfileTemp: {
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
-        };
-      };
-      /** @description 해당 유저가 없는 경우 */
-      400: never;
-    };
-  };
-  /** 멘션 사용자 조회 */
+  /**
+   * 멘션 사용자 조회
+   * @deprecated
+   */
   getAllMentionUser: {
     responses: {
       /** @description 성공 */
@@ -2417,17 +2492,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetCreatedMeetingByUserResponseDto"];
-        };
-      };
-    };
-  };
-  /** [TEMP] 내가 만든 모임 조회 */
-  getCreatedMeetingByUserTemp: {
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
@@ -2452,17 +2516,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetAppliedMeetingByUserResponseDto"];
-        };
-      };
-    };
-  };
-  /** [TEMP] 내가 신청한 모임 조회 */
-  getAppliedMeetingByUserTemp: {
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["TempResponseDto"];
         };
       };
     };
