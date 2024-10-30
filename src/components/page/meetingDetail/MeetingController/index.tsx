@@ -80,6 +80,7 @@ const MeetingController = ({
     approved,
     approvedApplyCount,
     capacity,
+    isCoLeader,
     host: isHost,
     apply: isApplied,
     isMentorNeeded,
@@ -308,6 +309,7 @@ const MeetingController = ({
             meetingId={Number(meetingId)}
             appliedInfo={appliedInfo}
             isHost={isHost}
+            isCoLeader={isCoLeader}
             isApplied={isApplied}
           />
         )}

@@ -9,6 +9,7 @@ interface RecruitmentStatusModalContentProps {
   meetingId: number;
   appliedInfo: paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8']['appliedInfo'];
   isHost: boolean;
+  isCoLeader: boolean;
   isApplied: boolean;
 }
 
@@ -16,10 +17,11 @@ const RecruitmentStatusModalContent = ({
   meetingId,
   appliedInfo,
   isHost,
+  isCoLeader,
   isApplied,
 }: RecruitmentStatusModalContentProps) => {
   const total = appliedInfo.length;
-  const isBottomVisible = total > 0 || isHost || isApplied;
+  const isBottomVisible = total > 0 || isHost || isApplied || isCoLeader;
 
   return (
     <>
@@ -33,10 +35,10 @@ const RecruitmentStatusModalContent = ({
       {isBottomVisible && (
         <SRecruitmentStatusModalBottom>
           {total > 0 && <STotal>총 {total}명 신청</STotal>}
-          {(isHost || isApplied) && (
+          {(isHost || isApplied || isCoLeader) && (
             <Link href={`/mine/management?id=${meetingId}`} passHref legacyBehavior>
               <SManagementAnchor onClick={() => ampli.clickMemberManagement()}>
-                {isHost ? '신청자 관리' : isApplied && '참여자 리스트'}
+                {isHost ? '신청자 관리' : (isCoLeader || isApplied) && '참여자 리스트'}
                 <ArrowSmallRightIcon />
               </SManagementAnchor>
             </Link>
