@@ -8,7 +8,10 @@ import { getResizedImage } from '@utils/image';
 import { paths } from '@/__generated__/schema2';
 
 interface CardProps {
-  meetingData: paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number];
+  meetingData: Omit<
+    paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number],
+    'isCoLeader'
+  > & { isCoLeader?: boolean };
   isAllParts: boolean;
 }
 
@@ -61,7 +64,7 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
       <SInfoRow>
         <SKey>모집 현황</SKey>
         <SValue>
-          {meetingData.appliedCount}/{meetingData.capacity}명
+          {meetingData.approvedCount}/{meetingData.capacity}명
         </SValue>
       </SInfoRow>
     </div>
