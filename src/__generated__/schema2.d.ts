@@ -785,10 +785,16 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /**
        * Format: int32
-       * @description 신청 수
+       * @description [DEPRECATED] TODO: FE에서 수정 완료 후 삭제
        * @example 7
        */
       appliedCount: number;
+      /**
+       * Format: int32
+       * @description 신청자 수
+       * @example 7
+       */
+      approvedCount: number;
     };
     /** @description 활동 기수 */
     UserActivityVO: {
