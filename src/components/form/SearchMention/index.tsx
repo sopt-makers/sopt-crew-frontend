@@ -10,6 +10,7 @@ interface mentionableDataType {
   id: number;
   display: string;
   orgId: number;
+  userId: number;
   userName: string;
   recentPart: string;
   recentGeneration: number;
