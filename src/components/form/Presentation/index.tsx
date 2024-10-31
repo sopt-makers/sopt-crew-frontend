@@ -555,7 +555,7 @@ function Presentation({
           </CancelButton>
         )}
         <SubmitButton
-          type="button"
+          type="submit"
           onClick={() => {
             open(dialogOption);
           }}
