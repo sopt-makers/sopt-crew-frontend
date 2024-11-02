@@ -30,7 +30,7 @@
     "@sopt-makers/colors": "^3.0.2",
     "@sopt-makers/fonts": "^2.0.1",
     "@sopt-makers/icons": "^1.0.5",
-    "@sopt-makers/playground-common": "^1.5.2",
+    "@sopt-makers/playground-common": "^1.6.2",
     "@sopt-makers/ui": "^2.4.4",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.10.3",
