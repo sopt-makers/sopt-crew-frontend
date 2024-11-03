@@ -19,7 +19,7 @@ const PostDeleteModal = ({ isOpen, close, postId, meetingId }: PostDeleteModalPr
   const { DELETE } = apiV2.get();
 
   const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: () => DELETE('/post/v1/{postId}', { params: { path: { postId: postId } } }),
+    mutationFn: () => DELETE('/post/v2/{postId}', { params: { path: { postId: postId } } }),
     onSuccess: () => queryClient.invalidateQueries(['getPosts']),
     //todo: 지금은 getPosts 로 시작하는 모든 query 가 invalidate 됨.
   });
