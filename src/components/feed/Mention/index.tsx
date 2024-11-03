@@ -10,6 +10,7 @@ import { MentionContext } from './MentionContext';
 interface mentionableDataType {
   id: number;
   display: string;
+  userId: number;
   orgId: number;
   userName: string;
   recentPart: string;

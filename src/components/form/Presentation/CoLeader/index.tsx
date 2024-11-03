@@ -19,10 +19,12 @@ interface mentionableDataType {
   id: number;
   display: string;
   orgId: number;
+  userId: number;
   userName: string;
   recentPart: string;
   recentGeneration: number;
   profileImageUrl: string;
+  userprofileImage?: string;
 }
 
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
@@ -138,11 +140,13 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
 
         {/*추가된 공동 모임장 프로필 렌더링 */}
         <LeadersWrapper>
-          {coLeaders.map((leader, idx) => (
-            <Leader key={leader.id}>
+          {coLeaders?.map((leader, idx) => (
+            <Leader key={leader?.userId}>
               <SProfile>
-                {leader.profileImageUrl ? (
+                {leader?.profileImageUrl ? (
                   <img src={leader.profileImageUrl} alt={leader.userName} />
+                ) : leader?.userprofileImage ? (
+                  <img src={leader?.userprofileImage} alt={leader.userName} />
                 ) : (
                   <StyledProfileDefaultIcon />
                 )}

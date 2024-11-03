@@ -64,6 +64,7 @@ function Presentation({
   const { open } = useDialog();
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
+  const isEdit = router.asPath.includes('/edit');
 
   const schedule: React.ReactNode = (
     <>
@@ -152,12 +153,12 @@ function Presentation({
   };
 
   const dialogOption: DialogOptionType = {
-    title: '모임을 개설하시겠습니까?',
+    title: `모임을 ${isEdit ? '수정' : '개설'}하시겠습니까?`,
     description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
     type: 'default',
     typeOptions: {
       cancelButtonText: '취소',
-      approveButtonText: '개설하기',
+      approveButtonText: `${isEdit ? '수정' : '개설'}하기`,
       buttonFunction: () => {
         if (formRef.current) {
           formRef.current.requestSubmit();

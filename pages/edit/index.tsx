@@ -100,6 +100,7 @@ const EditPage = () => {
           joinableParts,
           canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
           note: formData?.note ?? '',
+          coLeader: formData?.coMeetingLeaders,
         },
       });
     }
