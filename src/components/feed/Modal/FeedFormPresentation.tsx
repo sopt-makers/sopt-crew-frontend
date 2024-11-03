@@ -59,7 +59,6 @@ function FeedFormPresentation({
   const textAreaRef = useRef(null);
   const [remainingHeight, setRemainingHeight] = useState(100);
   const [selectedMeeting, setSelectedMeeting] = useState<GroupInfo | undefined>(undefined);
- 
   const handleWindowResize = () => {
     setTextareaHeightChangeFlag(flag => !flag);
   };
