@@ -38,6 +38,11 @@ const EditPage = () => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
+    defaultValues: {
+      detail: {
+        coLeader: [],
+      },
+    },
   });
 
   const onSubmit: SubmitHandler<FormType> = async formData => {

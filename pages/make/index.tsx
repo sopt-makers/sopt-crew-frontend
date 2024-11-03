@@ -22,6 +22,11 @@ const MakePage = () => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
+    defaultValues: {
+      detail: {
+        coLeader: [],
+      },
+    },
   });
   const { isValid } = formMethods.formState;
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({

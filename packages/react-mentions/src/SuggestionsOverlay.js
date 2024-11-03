@@ -78,6 +78,7 @@ function SuggestionsOverlay({
     return suggestionsToRender
   }
 
+  //여기서 엔터를 눌렀을 때 해당 값 설정되도록 만들수는 없을까?
   const renderSuggestion = (result, queryInfo, index) => {
     const isFocused = index === focusIndex
     const { childIndex, query } = queryInfo

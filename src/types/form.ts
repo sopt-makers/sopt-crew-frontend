@@ -77,6 +77,7 @@ export const schema = z.object({
       )
       .min(1, { message: '대상 파트를 선택해주세요.' }),
     note: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }).optional().nullable(),
+    coLeader: z.array(z.any()).optional(),
   }),
 });
 
