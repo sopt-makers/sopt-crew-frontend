@@ -154,4 +154,5 @@ const SNoticeWrapper = styled('div', {
   '@tablet': {
     mt: '$28',
   },
+  
 });
