@@ -77,8 +77,8 @@ export interface paths {
     post: operations["createMeeting"];
   };
   "/meeting/v2/apply": {
-    /** 모임 지원 */
-    post: operations["applyMeeting"];
+    /** 일반 모임 지원 */
+    post: operations["applyGeneralMeeting"];
   };
   "/comment/v2": {
     /** 모임 게시글 댓글 리스트 조회 */
@@ -2325,8 +2325,8 @@ export interface operations {
       400: never;
     };
   };
-  /** 모임 지원 */
-  applyMeeting: {
+  /** 일반 모임 지원 */
+  applyGeneralMeeting: {
     requestBody: {
       content: {
         "application/json;charset=UTF-8": components["schemas"]["MeetingV2ApplyMeetingDto"];
