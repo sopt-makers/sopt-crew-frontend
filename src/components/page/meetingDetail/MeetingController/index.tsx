@@ -13,17 +13,15 @@ import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 import { PostApplicationRequest, GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { playgroundURL } from '@constants/url';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
-import { getResizedImage } from '@utils/image';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
 import ButtonLoader from '@components/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
+import ProfileAnchor from './ProfileAnchor';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -80,6 +78,8 @@ const MeetingController = ({
     approved,
     approvedApplyCount,
     capacity,
+    isCoLeader,
+    coMeetingLeaders,
     host: isHost,
     apply: isApplied,
     isMentorNeeded,
@@ -242,16 +242,12 @@ const MeetingController = ({
             {title}
           </h1>
           <SHostWrapper>
-            <SProfileAnchor
-              href={`${playgroundURL}${playgroundLink.memberDetail(hostId)}`}
-              onClick={() => ampli.clickOwnerProfile({ group_owner_id: Number(hostId) })}
-            >
-              {hostProfileImage ? <img src={getResizedImage(hostProfileImage, 120)} /> : <ProfileDefaultIcon />}
-              <span>{hostName}</span>
-              <ArrowSmallRightIcon />
-            </SProfileAnchor>
-            {isMentorNeeded && <MentorTooltip />}
+            <ProfileAnchor profileData={{ orgId: hostId, userprofileImage: hostProfileImage, userName: hostName }} />
+            {coMeetingLeaders?.map((item: typeof coMeetingLeaders[number]) => (
+              <ProfileAnchor profileData={item} />
+            ))}
           </SHostWrapper>
+          {isMentorNeeded && <MentorTooltip />}
         </SAbout>
         <div>
           <SStatusButton onClick={handleRecruitmentStatusModal}>
@@ -308,6 +304,7 @@ const MeetingController = ({
             meetingId={Number(meetingId)}
             appliedInfo={appliedInfo}
             isHost={isHost}
+            isCoLeader={isCoLeader}
             isApplied={isApplied}
           />
         )}
@@ -404,53 +401,12 @@ const SPeriod = styled('div', {
   },
 });
 
-const SProfileAnchor = styled('a', {
-  flexType: 'verticalCenter',
-  color: '$gray10',
-  width: 'fit-content',
-
-  img: {
-    width: '$60',
-    height: '$60',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    mr: '$16',
-    background: '$gray700',
-    '@tablet': {
-      width: '$32',
-      height: '$32',
-      mr: '$8',
-    },
-  },
-
-  '& > svg:first-child': {
-    width: '$60',
-    height: '$60',
-    mr: '$16',
-
-    '@tablet': {
-      width: '$32',
-      height: '$32',
-      mr: '$8',
-    },
-  },
-
-  '& > span': {
-    mr: '$16',
-
-    '@tablet': {
-      fontStyle: 'T5',
-      mr: '$2',
-    },
-  },
-
-  '& > svg:last-child > path': {
-    stroke: `$gray200`,
-  },
-});
-
 const SHostWrapper = styled('div', {
   position: 'relative',
+  gap: '16px',
+  '@mobile': {
+    gap: '6px',
+  },
 });
 
 const Button = styled('button', {

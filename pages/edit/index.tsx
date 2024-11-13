@@ -38,6 +38,11 @@ const EditPage = () => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     resolver: zodResolver(schema),
+    defaultValues: {
+      detail: {
+        coLeader: [],
+      },
+    },
   });
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
@@ -95,6 +100,7 @@ const EditPage = () => {
           joinableParts,
           canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
           note: formData?.note ?? '',
+          coLeader: formData?.coMeetingLeaders,
         },
       });
     }

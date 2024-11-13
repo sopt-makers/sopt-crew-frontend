@@ -26,6 +26,7 @@ import { useDialog } from '@sopt-makers/ui';
 import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
 import BubblePointIcon from 'public/assets/svg/bubble_point.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
+import CoLeader from './CoLeader';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -63,6 +64,7 @@ function Presentation({
   const { open } = useDialog();
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
+  const isEdit = router.asPath.includes('/edit');
 
   const schedule: React.ReactNode = (
     <>
@@ -151,12 +153,12 @@ function Presentation({
   };
 
   const dialogOption: DialogOptionType = {
-    title: '모임을 개설하시겠습니까?',
+    title: `모임을 ${isEdit ? '수정' : '개설'}하시겠습니까?`,
     description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
     type: 'default',
     typeOptions: {
       cancelButtonText: '취소',
-      approveButtonText: '개설하기',
+      approveButtonText: `${isEdit ? '수정' : '개설'}하기`,
       buttonFunction: () => {
         if (formRef.current) {
           formRef.current.requestSubmit();
@@ -484,10 +486,25 @@ function Presentation({
           </div>
           {/* 모집 정보 끝 */}
 
-          {/* 추가 정보 - 모임장 소개 */}
+          {/* 추가 정보 - 공동 모임장 */}
           <div>
             <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
             <SectionLine />
+            <Label size="small">공동 모임장</Label>
+            <HelpMessage>
+              공동 모임장은 총 3명까지 등록 가능해요. 플레이그라운드에서의 모임 관리/편집은 모임 개설자만 가능해요.
+            </HelpMessage>
+
+            <FormController
+              name="detail.coLeader"
+              render={({ field: { value, onChange }, fieldState: { error } }) => {
+                return <CoLeader value={value} onChange={onChange} error={error?.message} />;
+              }}
+            ></FormController>
+          </div>
+
+          {/* 추가 정보 - 모임장 소개 */}
+          <div>
             <Label size="small">모임장 소개</Label>
 
             <SNeedMentorFieldWrapper>

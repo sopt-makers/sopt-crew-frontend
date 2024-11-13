@@ -245,6 +245,7 @@ const serializeFormData = (formData: FormType) => {
     //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
+    coLeaderUserIds: formData.detail.coLeader?.map(user => user.userId),
   };
   return data;
 };

@@ -30,7 +30,7 @@ export const useMutationUpdateLike = (take: number, meetingId?: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (postId: number) => postLike(String(postId)),
+    mutationFn: (postId: number) => postLike(postId),
     onMutate: async postId => {
       await queryClient.cancelQueries(['getPosts', take, meetingId]);
 
@@ -77,7 +77,7 @@ export const useMutationPostLike = (queryId: string) => {
 
   return useMutation({
     mutationKey: ['getPost', queryId],
-    mutationFn: () => postLike(queryId),
+    mutationFn: () => postLike(+queryId),
     onMutate: async () => {
       const previousPost = queryClient.getQueryData(['getPost', queryId]) as postType;
 
