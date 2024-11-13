@@ -209,8 +209,8 @@ export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise
   ).data.data;
 };
 
-export const deleteMeeting = async (id: number): Promise<{ statusCode: number }> => {
-  return (await api.delete<{ statusCode: number }>(`/meeting/v2/${id}`)).data;
+export const deleteMeeting = async (id: number) => {
+  return (await api.delete(`/meeting/v2/${id}`)).data;
 };
 
 export const postApplication = async (body: PostApplicationRequest): Promise<{ statusCode: number }> => {
