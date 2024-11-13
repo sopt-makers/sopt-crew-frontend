@@ -28,11 +28,20 @@ interface mentionableDataType {
   userprofileImage?: string;
 }
 
+interface metionUserType {
+  userId: number;
+  orgId: number;
+  userName: string;
+  recentPart: string;
+  recentGeneration: number;
+  profileImageUrl: string;
+}
+
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
   const { data: user } = useQueryMyProfile();
   const { data: mentionUserList } = useQueryGetMentionUsers();
   //API 연결에서 타입을 지정해두지 않았기 때문에 any 이용
-  const filteredMeList = mentionUserList?.filter((mentionUser: any) => mentionUser.userId !== user?.id);
+  const filteredMeList = mentionUserList?.filter((mentionUser: metionUserType) => mentionUser.userId !== user?.id);
 
   const handleUserSelect = (user: mentionableDataType) => {
     if (coLeaders.length < 3 && !coLeaders.some(leader => leader.id === user.id)) {
