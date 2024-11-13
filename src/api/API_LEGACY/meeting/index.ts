@@ -219,7 +219,7 @@ export const deleteApplication = async (meetingId: number): Promise<{ statusCode
 };
 
 export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
-  return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
+  return (await api.put(`/meeting/v2/${id}/apply/status`, rest)).data;
 };
 
 const serializeFormData = (formData: FormType) => {
