@@ -22,6 +22,7 @@ import ButtonLoader from '@components/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 import ProfileAnchor from './ProfileAnchor';
+import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -91,7 +92,7 @@ const MeetingController = ({
   const router = useRouter();
   const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-
+  const { mutate: mutateEventApplication } = useMutationPostEventApplication({});
   const {
     isModalOpened: isGuestModalOpened,
     handleModalOpen: handleGuestModalOpen,
@@ -169,39 +170,75 @@ const MeetingController = ({
 
   const handleApplicationButton = (textareaValue: string) => {
     setIsSubmitting(true);
-    mutateApplication(
-      { meetingId: Number(meetingId), content: textareaValue },
-      {
-        onSuccess: async () => {
-          await queryClient.refetchQueries({
-            queryKey: ['getMeeting', meetingId as string],
-          });
-          dialogOpen({
-            title: '신청 완료 되었습니다',
-            description: '',
-            type: 'single',
-            typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
-          });
+    if (category === '행사') {
+      mutateEventApplication(
+        { meetingId: Number(meetingId), content: textareaValue },
+        {
+          onSuccess: async () => {
+            await queryClient.refetchQueries({
+              queryKey: ['getMeeting', meetingId as string],
+            });
+            dialogOpen({
+              title: '신청 완료 되었습니다',
+              description: '',
+              type: 'single',
+              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+            });
 
-          setIsSubmitting(false);
-          handleDefaultModalClose();
-        },
-        onError: async (error: AxiosError) => {
-          await queryClient.refetchQueries({
-            queryKey: ['getMeeting', meetingId as string],
-          });
-          const errorResponse = error.response as AxiosResponse;
-          dialogOpen({
-            title: errorResponse.data.errorCode,
-            description: '',
-            type: 'single',
-            typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
-          });
-          setIsSubmitting(false);
-          handleDefaultModalClose();
-        },
-      }
-    );
+            setIsSubmitting(false);
+            handleDefaultModalClose();
+          },
+          onError: async (error: AxiosError) => {
+            await queryClient.refetchQueries({
+              queryKey: ['getMeeting', meetingId as string],
+            });
+            const errorResponse = error.response as AxiosResponse;
+            dialogOpen({
+              title: errorResponse.data.errorCode,
+              description: '',
+              type: 'single',
+              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+            });
+            setIsSubmitting(false);
+            handleDefaultModalClose();
+          },
+        }
+      );
+    } else {
+      mutateApplication(
+        { meetingId: Number(meetingId), content: textareaValue },
+        {
+          onSuccess: async () => {
+            await queryClient.refetchQueries({
+              queryKey: ['getMeeting', meetingId as string],
+            });
+            dialogOpen({
+              title: '신청 완료 되었습니다',
+              description: '',
+              type: 'single',
+              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+            });
+
+            setIsSubmitting(false);
+            handleDefaultModalClose();
+          },
+          onError: async (error: AxiosError) => {
+            await queryClient.refetchQueries({
+              queryKey: ['getMeeting', meetingId as string],
+            });
+            const errorResponse = error.response as AxiosResponse;
+            dialogOpen({
+              title: errorResponse.data.errorCode,
+              description: '',
+              type: 'single',
+              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+            });
+            setIsSubmitting(false);
+            handleDefaultModalClose();
+          },
+        }
+      );
+    }
   };
 
   const handleCancelApplication = () => {
