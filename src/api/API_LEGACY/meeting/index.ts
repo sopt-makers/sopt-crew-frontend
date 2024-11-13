@@ -209,8 +209,8 @@ export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise
   ).data.data;
 };
 
-export const deleteMeeting = async (id: number): Promise<{ statusCode: number }> => {
-  return (await api.delete<{ statusCode: number }>(`/meeting/${id}`)).data;
+export const deleteMeeting = async (id: number) => {
+  return (await api.delete(`/meeting/v2/${id}`)).data;
 };
 
 export const postApplication = async (body: PostApplicationRequest): Promise<{ statusCode: number }> => {
@@ -226,7 +226,7 @@ export const deleteApplication = async (meetingId: number): Promise<{ statusCode
 };
 
 export const updateApplication = async ({ id, ...rest }: UpdateApplicationRequest) => {
-  return (await api.put(`/meeting/${id}/apply/status`, rest)).data;
+  return (await api.put(`/meeting/v2/${id}/apply/status`, rest)).data;
 };
 
 const serializeFormData = (formData: FormType) => {
