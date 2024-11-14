@@ -93,7 +93,7 @@ function FeedFormPresentation({
       );
 
       const availableHeight = window.innerHeight - allComponentHeights - BasicPadding;
-      setRemainingHeight(isMobileDevice ? availableHeight - 44 : availableHeight);
+      setRemainingHeight(availableHeight);
     }
   }, [textareaHeightChangeFlag]);
 
