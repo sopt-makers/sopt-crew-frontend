@@ -30,6 +30,7 @@ import {
   getGroupBrowsingCard,
   GroupBrowsingCardDetail,
   GetMeetingResponse,
+  postEventApplication,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -138,6 +139,20 @@ export const useMutationPostApplication = ({
     ...useMutationOptions,
     mutationKey: ['postApplication'],
     mutationFn: postApplication,
+  });
+};
+
+export const useMutationPostEventApplication = ({
+  useMutationOptions,
+}: UseMutateBody<PostApplicationRequest>): UseMutationResult<
+  { statusCode: number },
+  AxiosError,
+  PostApplicationRequest
+> => {
+  return useMutation<{ statusCode: number }, AxiosError, PostApplicationRequest>({
+    ...useMutationOptions,
+    mutationKey: ['postApplication'],
+    mutationFn: postEventApplication,
   });
 };
 

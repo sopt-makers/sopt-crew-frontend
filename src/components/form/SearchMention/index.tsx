@@ -1,71 +1,69 @@
-import { useQueryGetMentionUsers } from '@api/user/hooks';
-import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
-import { MentionContext } from './MentionContext';
+import { SearchMentionContext } from './SearchMentionContext';
+
 interface mentionableDataType {
   id: number;
   display: string;
-  userId: number;
   orgId: number;
+  userId: number;
   userName: string;
   recentPart: string;
   recentGeneration: number;
   profileImageUrl: string;
 }
 
-interface CommonMentionProps {
+interface SearchMentionProps {
+  mentionUserList: mentionableDataType[];
   inputRef: React.RefObject<HTMLTextAreaElement>;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (val: string) => void;
   placeholder?: string;
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserIds: React.Dispatch<React.SetStateAction<number[] | null>>;
-  isComment: boolean;
-  commentId?: number;
+  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
   onClick?: () => void;
+  onUserSelect: (user: mentionableDataType) => void;
 }
 
-const CommonMention = ({
+const SearchMention = ({
+  mentionUserList,
   inputRef,
   value,
   setValue,
   placeholder,
   setIsFocused,
-  setUserIds,
-  isComment,
-  commentId,
+  setUserId,
   onClick,
-}: CommonMentionProps) => {
-  const { data: mentionUserList } = useQueryGetMentionUsers();
+  onUserSelect,
+}: SearchMentionProps) => {
+  //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
+  const { user, setUser } = useContext(SearchMentionContext);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
-  const { parentComment, user, isReCommentClicked, setIsReCommentClicked, setParentComment } =
-    useContext(MentionContext);
+  const handleUserClick = (user: mentionableDataType) => {
+    onUserSelect(user);
+    setValue('');
+  };
 
-  useEffect(() => {
-    //컨테이너의 ID일 경우 (즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
-    if (parentComment.parentCommentId === commentId) {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
+  //엔터만 눌러도 추가가 되도록 함수 구현 -> 지금은 사용하고 있지 않음.
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      const suggestions = getFilteredAndRandomUsers(
+        value,
+        mentionUserList.map(v => ({ ...v, id: v.orgId, display: v.userName }))
+      );
 
-      if (isReCommentClicked) {
-        setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
+      if (suggestions.length > 0) {
+        // select the first suggestion
+        handleUserClick(suggestions[0]);
+        e.preventDefault();
       }
     }
-  }, [isReCommentClicked, inputRef, setValue, user]);
-
-  //다시 답글 달기 안누른 상태로 돌려주는 코드
-  // useEffect(() => {
-  //   if (!value.startsWith('-~!@#')) {
-  //     setIsReCommentClicked(false);
-  //     setParentComment(prev => ({ ...prev, parentComment: true }));
-  //   }
-  // }, [value, setIsReCommentClicked, setParentComment]);
+  };
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -95,10 +93,21 @@ const CommonMention = ({
     return <SCustomSuggestionsContainer>{children}</SCustomSuggestionsContainer>;
   };
 
+  //인물 하나 하나의 모습
   const renderSuggestion = useCallback((suggestion: SuggestionDataItem) => {
     return (
       <>
-        <SRenderSuggestion key={suggestion.id}>
+        <SRenderSuggestion
+          key={suggestion.id}
+          onClick={() => handleUserClick(suggestion as mentionableDataType)}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            //엔터 누르면 간편히 설정되도록 하고 싶은데,
+            //위에 react-mention의 li(aria-selected 속성 사용)를 조작해야할 것 같아서.. 아직은 구현 못함
+            if (e.key === 'Enter') {
+              handleUserClick(suggestion as mentionableDataType);
+            }
+          }}
+        >
           {(suggestion as mentionableDataType).profileImageUrl ? (
             <SImageWrapper>
               <img src={(suggestion as mentionableDataType).profileImageUrl} alt="Img" />
@@ -130,9 +139,9 @@ const CommonMention = ({
       inputRef={inputRef}
       value={value}
       onChange={(e, newValue) => {
-        setUserIds(parseMentionedUserIds(newValue));
+        setUserId(user.userId); //필요한 경우가 있을까봐 설정해둠
         if (!inputRef.current) {
-          setValue(e.target.value);
+          setValue(newValue);
           return;
         }
         if (e.target.value.length === 0) {
@@ -140,89 +149,39 @@ const CommonMention = ({
         } else {
           inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
         }
-        setValue(e.target.value);
+        setValue(newValue);
       }}
       placeholder={placeholder}
       onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
-      style={isComment ? CommentMentionStyle : FeedModalMentionStyle}
-      forceSuggestionsAboveCursor={isMobile && isComment}
+      style={FeedModalMentionStyle}
+      forceSuggestionsAboveCursor={isMobile}
       onClick={onClick}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+          // 엔터 키를 눌렀을 때 기본 동작(개행) 방지
+          e.preventDefault();
+        }
+      }}
     >
       <Mention
-        trigger="@"
-        displayTransform={(_, display) => `@${display}`}
+        trigger=""
+        displayTransform={(_, display) => display}
         data={search => {
+          if (search.length < 1) return [];
           const data = getFilteredAndRandomUsers(
             search,
             mentionUserList?.map((v: mentionableDataType) => ({ ...v, id: v.orgId, display: v.userName }))
           );
           return data;
         }}
-        markup="-~!@#@__display__[__id__]%^&*+" // markup 의 display와 id 앞 뒤에 __ 가 있는 이유는, string 에서 js 변수를 찾아내기 위한 라이브러리 rule 입니다.
         renderSuggestion={renderSuggestion}
       />
     </MentionsInput>
   );
 };
 
-export default CommonMention;
-
-const CommentMentionStyle = {
-  '&multiLine': {
-    control: {
-      fontWeight: 'normal',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-      lineHeight: 'inherit',
-      width: '100%',
-      height: '100%',
-      boxSizing: 'border-box',
-    },
-    input: {
-      color: colors.gray50,
-      border: 'none',
-      padding: '0',
-      margin: '0',
-      marginTop: '0',
-      marginLeft: '0',
-      boxSizing: 'border-box',
-      overflow: 'auto',
-      width: '100%',
-      fontWeight: 'normal',
-      maxHeight: '120px',
-      overscrollBehavior: 'none',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-      lineHeight: 'inherit',
-    },
-    highlighter: {
-      color: colors.success,
-      innerHeight: '0',
-      border: 'none',
-      padding: '0',
-      margin: '0',
-      marginTop: '0',
-      marginLeft: '0',
-      overflow: 'auto',
-      boxSizing: 'border-box',
-      maxHeight: '120px',
-      pointerEvents: 'none',
-      width: '100%',
-      zIndex: '1',
-    },
-  },
-  suggestions: {
-    backgroundColor: 'transparent',
-    item: {
-      minWidth: '154px',
-      borderRadius: '8px',
-      '&focused': {
-        background: colors.gray800,
-      },
-    },
-  },
-};
+export default SearchMention;
 
 const SImageWrapper = styled('div', {
   img: {
@@ -234,6 +193,8 @@ const SImageWrapper = styled('div', {
 });
 
 const FeedModalMentionStyle = {
+  width: '100%',
+  height: '100%',
   '&multiLine': {
     control: {
       fontWeight: 'normal',
@@ -247,6 +208,7 @@ const FeedModalMentionStyle = {
     input: {
       color: colors.gray50,
       innerHeight: '0',
+      borderRadius: '10px',
       border: 'none',
       padding: '0',
       margin: '0',
@@ -295,21 +257,44 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
+// 위로 올라가는 애니메이션
+const fadeInUp = keyframes({
+  '0%': { opacity: 0, transform: 'translateY(0px)' },
+  '100%': { opacity: 1, transform: 'translateY(-10px)' },
+});
+
 const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
-  width: 'max-content',
+  width: '170px',
   padding: '8px',
   background: '#17181c',
+  position: 'absolute',
+  top: '18px',
+  left: '-24px',
   border: `1px solid ${colors.gray700}`,
 
   animation: `${fadeIn} 0.5s forwards`,
 
-  maxHeight: '418px',
-  overflow: 'scroll',
+  maxHeight: '230px',
+
+  overflowY: 'scroll',
+  overflowX: 'hidden',
+
+  // 스크롤 스타일
+  '&::-webkit-scrollbar': {
+    width: '4px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: colors.gray600,
+    borderRadius: '10px',
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
 
   '@tablet': {
-    position: 'fixed',
+    position: 'absolute',
     left: '0',
     bottom: '120px',
     width: '100%',
@@ -317,6 +302,20 @@ const SCustomSuggestionsContainer = styled('div', {
     height: '100%',
     border: 'none',
     borderRadius: '20px',
+  },
+
+  //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
+  '@media (max-width: 414px)': {
+    position: 'fixed',
+    top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
+    bottom: '66px', //8 + 48 + 10
+    left: '0',
+    right: '0',
+    width: '328px',
+    maxHeight: '210px',
+    margin: '0 auto',
+
+    animation: `${fadeInUp} 0.5s forwards`,
   },
 });
 

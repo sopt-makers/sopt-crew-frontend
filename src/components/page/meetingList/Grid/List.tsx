@@ -93,6 +93,7 @@ const PaginationWrapper = styled('div', {
 
 export function MeetingListOfMine() {
   const { data: mineData, isLoading } = useQueryMeetingListOfMine();
+  console.log(mineData);
   useScrollRestorationAfterLoading(isLoading);
   return (
     <main style={{ marginBottom: '20%' }}>
@@ -104,7 +105,13 @@ export function MeetingListOfMine() {
               key={meetingData.id}
               meetingData={meetingData}
               mobileType="card"
-              bottom={<ManagementButton id={meetingData.id} />}
+              bottom={
+                meetingData?.isCoLeader ? (
+                  <SBlankManageMentButton></SBlankManageMentButton>
+                ) : (
+                  <ManagementButton id={meetingData.id} />
+                )
+              }
             />
           ))}
         </GridLayout>
@@ -144,5 +151,22 @@ const SMeetingCount = styled('p', {
   fontStyle: 'H3',
   '@tablet': {
     fontAg: '12_semibold_100',
+  },
+});
+
+const SBlankManageMentButton = styled('div', {
+  width: '128px',
+  padding: '12px 12px 13px 14px',
+  borderRadius: '71px',
+  fontAg: '16_bold_100',
+  whiteSpace: 'nowrap',
+  //background: '$gray800',
+  '@tablet': {
+    width: '91px',
+    //todo: 참여자 리스트 버튼으로 바꾸기
+    height: '30px',
+    marginTop: '16px',
+    fontStyle: 'T6',
+    padding: '6px 6px 6px 12px',
   },
 });

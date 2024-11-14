@@ -217,6 +217,10 @@ export const postApplication = async (body: PostApplicationRequest): Promise<{ s
   return (await api.post<{ statusCode: number }>(`/meeting/v2/apply`, body)).data;
 };
 
+export const postEventApplication = async (body: PostApplicationRequest): Promise<{ statusCode: number }> => {
+  return (await api.post<{ statusCode: number }>(`/meeting/v2/apply/undefined`, body)).data;
+};
+
 export const deleteApplication = async (meetingId: number): Promise<{ statusCode: number }> => {
   return (await api.delete<{ statusCode: number }>(`/meeting/v2/${meetingId}/apply`)).data;
 };
@@ -245,6 +249,7 @@ const serializeFormData = (formData: FormType) => {
     //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
+    coLeaderUserIds: formData.detail.coLeader?.map(user => user.userId),
   };
   return data;
 };
@@ -257,7 +262,6 @@ export const createMeeting = async (formData: FormType) => {
 
 export const updateMeeting = async (meetingId: string, formData: FormType) => {
   const response = await api.put(`/meeting/v2/${meetingId}`, serializeFormData(formData));
-
   return response;
 };
 

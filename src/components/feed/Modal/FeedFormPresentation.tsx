@@ -59,6 +59,15 @@ function FeedFormPresentation({
   const textAreaRef = useRef(null);
   const [remainingHeight, setRemainingHeight] = useState(100);
   const [selectedMeeting, setSelectedMeeting] = useState<GroupInfo | undefined>(undefined);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+      setIsMobileDevice(true);
+    }
+  }, []);
+
   const handleWindowResize = () => {
     setTextareaHeightChangeFlag(flag => !flag);
   };

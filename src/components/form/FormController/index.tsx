@@ -5,7 +5,7 @@ import { Option } from '../Select/OptionItem';
 interface FormControllerProps {
   name: string;
   render: ControllerProps['render'];
-  defaultValue?: boolean | string | number | Option | Option[];
+  defaultValue?: boolean | string | number | Option | Option[] | string[];
 }
 
 function FormController({ name, render, defaultValue }: FormControllerProps) {
