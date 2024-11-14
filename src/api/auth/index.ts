@@ -1,10 +1,13 @@
-import { paths } from '@/__generated__/schema2';
-import { api } from '..';
+import { api, Data } from '..';
 
-type GetCrewTokenResponse = paths['/auth/v2']['post']['responses']['201']['content']['application/json;charset=UTF-8'];
+interface GetCrewTokenResponse {
+  accessToken: string;
+}
 
 export const getCrewToken = async (playgroundToken: string) => {
-  const { data } = await api.post<GetCrewTokenResponse>(`/auth/v2`, {
+  const {
+    data: { data },
+  } = await api.post<Data<GetCrewTokenResponse>>(`/auth`, {
     authToken: playgroundToken,
   });
   return data;
