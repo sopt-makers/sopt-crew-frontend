@@ -23,6 +23,7 @@ import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 import ProfileAnchor from './ProfileAnchor';
 import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
+import Loader from '@components/loader/Loader';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -87,7 +88,7 @@ const MeetingController = ({
   } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
-  const { data: me } = useQueryMyProfile();
+  const { data: me, isLoading } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
   const meetingId = router.query.id;
@@ -263,6 +264,15 @@ const MeetingController = ({
       },
     });
   };
+
+  //로딩 중이면 아예 안 뜨게 처리
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
