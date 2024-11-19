@@ -215,6 +215,7 @@ const FeedModalMentionStyle = {
       boxSizing: 'border-box',
     },
     input: {
+      //요 부분이 textArea!
       color: colors.gray50,
       innerHeight: '0',
       borderRadius: '10px',
@@ -226,6 +227,7 @@ const FeedModalMentionStyle = {
       boxSizing: 'border-box',
       overflow: 'auto',
       width: '100%',
+      height: '30px',
       maxHeight: '208px',
       overscrollBehavior: 'none',
       fontFamily: 'inherit',
