@@ -99,7 +99,9 @@ const SearchMention = ({
       <>
         <SRenderSuggestion
           key={suggestion.id}
-          onClick={() => handleUserClick(suggestion as mentionableDataType)}
+          onClick={() => {
+            handleUserClick(suggestion as mentionableDataType);
+          }}
           onKeyDown={(e: React.KeyboardEvent) => {
             //엔터 누르면 간편히 설정되도록 하고 싶은데,
             //위에 react-mention의 li(aria-selected 속성 사용)를 조작해야할 것 같아서.. 아직은 구현 못함
@@ -160,6 +162,7 @@ const SearchMention = ({
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
           // 엔터 키를 눌렀을 때 기본 동작(개행) 방지
+          console.log('hi');
           e.preventDefault();
         }
       }}
@@ -176,6 +179,13 @@ const SearchMention = ({
           return data;
         }}
         renderSuggestion={renderSuggestion}
+        // onKeyDown={(e: React.KeyboardEvent) => {
+        //   if (e.key === 'Enter') {
+        //     // 엔터 키를 눌렀을 때 기본 동작(개행) 방지
+        //     console.log('hiss');
+        //     e.preventDefault();
+        //   }
+        // }}
       />
     </MentionsInput>
   );
@@ -206,6 +216,7 @@ const FeedModalMentionStyle = {
       boxSizing: 'border-box',
     },
     input: {
+      //요 부분이 textArea!
       color: colors.gray50,
       innerHeight: '0',
       borderRadius: '10px',
@@ -217,6 +228,7 @@ const FeedModalMentionStyle = {
       boxSizing: 'border-box',
       overflow: 'auto',
       width: '100%',
+      height: '30px',
       maxHeight: '208px',
       overscrollBehavior: 'none',
       fontFamily: 'inherit',
@@ -225,7 +237,6 @@ const FeedModalMentionStyle = {
       lineHeight: 'inherit',
     },
     highlighter: {
-      color: colors.success,
       innerHeight: '0',
       border: 'none',
       padding: '0',
