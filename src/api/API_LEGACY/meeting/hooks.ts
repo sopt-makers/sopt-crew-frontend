@@ -118,10 +118,8 @@ export const useQueryGetMeetingPeopleList = ({
   });
 };
 
-export const useMutationDeleteMeeting = ({
-  useMutationOptions,
-}: UseMutateBody<number>): UseMutationResult<{ statusCode: number }, AxiosError, number> => {
-  return useMutation<{ statusCode: number }, AxiosError, number>({
+export const useMutationDeleteMeeting = ({ useMutationOptions }: UseMutateBody<number>) => {
+  return useMutation({
     ...useMutationOptions,
     mutationKey: ['deleteMeeting'],
     mutationFn: deleteMeeting,

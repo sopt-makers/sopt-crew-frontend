@@ -25,8 +25,9 @@ export default NeedMentor;
 const SNeedMentorField = styled('label', {
   display: 'flex',
   alignItems: 'center',
-  gap: '4px',
+  gap: '$4',
   cursor: 'pointer',
+  paddingBottom: '$8',
 });
 
 const SNeedMentorLabel = styled('span', {

@@ -142,16 +142,17 @@ const MeetingController = ({
   };
 
   const handleApplicationModal = () => {
-    if (!me?.hasActivities) {
-      handleProfileModalOpen();
-      return;
-    }
     if (!isApplied) {
-      ampli.clickRegisterGroup({ user_id: Number(me.orgId) });
+      ampli.clickRegisterGroup({ user_id: Number(me?.orgId) });
       //handleDefaultModalOpen();
       //setModalTitle('모임 신청하기');
       handleApplicationButton('No resolution');
 
+      return;
+    }
+
+    if (!me?.hasActivities) {
+      handleProfileModalOpen();
       return;
     }
 

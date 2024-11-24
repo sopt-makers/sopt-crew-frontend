@@ -40,7 +40,8 @@ interface metionUserType {
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
   const { data: user } = useQueryMyProfile();
   const { data: mentionUserList } = useQueryGetMentionUsers();
-  //API 연결에서 타입을 지정해두지 않았기 때문에 any 이용
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const filteredMeList = mentionUserList?.filter((mentionUser: metionUserType) => mentionUser.userId !== user?.id);
 
   const handleUserSelect = (user: mentionableDataType) => {
@@ -64,8 +65,17 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
       setIsMobile(window.innerWidth <= 414);
     };
     window.addEventListener('resize', handleResize);
+
+    const handleClickOutSide = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) setShowInput(false);
+    };
+
     handleResize(); // Initial check
-    return () => window.removeEventListener('resize', handleResize);
+    document.addEventListener('mousedown', handleClickOutSide);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousedown', handleClickOutSide);
+    };
   }, []);
 
   const handleBackdropClick = () => {
@@ -78,7 +88,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   };
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       <LeadersContainer>
         {/*추가 버튼과 멘션 인풋 */}
         {coLeaders.length < 3 && (
@@ -86,7 +96,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
             <AddButton
               type={'button'}
               onClick={() => {
-                setShowInput(true);
+                setShowInput(prev => !prev);
                 setComment('');
               }}
               isActive={showInput}
