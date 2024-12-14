@@ -12,7 +12,6 @@ interface CarouselProps {
 
 const Carousel = ({ cardList }: CarouselProps) => {
   const cardListLength = cardList.length;
-  const [oldSlide, setOldSlide] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
 
   // 캐러셀 컴포넌트의 현재 width 값을 observe 하는 코드
@@ -38,17 +37,17 @@ const Carousel = ({ cardList }: CarouselProps) => {
 
   const settings = {
     prevArrow: isFirstPage ? (
-      <SPrevBlankArrow></SPrevBlankArrow>
+      <SBlankArrow></SBlankArrow>
     ) : (
       <SPrevArrowContainer>
-        <NextArrow className="prev" total={cardListLength} activeSlide={activeSlide} cardListLength={cardListLength} />
+        <NextArrow className="prev" total={cardListLength} />
       </SPrevArrowContainer>
     ),
     nextArrow: isLastPage ? (
-      <SNextBlankArrow></SNextBlankArrow>
+      <SBlankArrow></SBlankArrow>
     ) : (
       <SNextArrowContainer>
-        <NextArrow className="next" total={cardListLength} activeSlide={activeSlide} cardListLength={cardListLength} />
+        <NextArrow className="next" total={cardListLength} />
       </SNextArrowContainer>
     ),
     speed: 500,
@@ -56,7 +55,6 @@ const Carousel = ({ cardList }: CarouselProps) => {
     slidesToScroll: 4,
     infinite: false,
     beforeChange: (current: number, next: number) => {
-      setOldSlide(current);
       setActiveSlide(next);
     },
     responsive: [
@@ -127,16 +125,10 @@ const SCarousel = styled('div', {
   },
 });
 
-const SPrevBlankArrow = styled('div', {
+const SBlankArrow = styled('div', {
   width: '$40',
   position: 'absolute',
   left: '$0',
-});
-
-const SNextBlankArrow = styled('div', {
-  width: '$40',
-  position: 'absolute',
-  right: '$0',
 });
 
 const SPrevArrowContainer = styled('div', {

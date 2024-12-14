@@ -5,7 +5,7 @@ import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
 import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
-import RenderPostsWithAds from '@components/page/meetingList/Advertisement';
+import QuickMenu from '@components/page/meetingList/QuickMenu';
 import FloatingButton from '@components/page/postList/FloatingButton';
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
@@ -55,20 +55,21 @@ const Home: NextPage = () => {
         {isTablet ? (
           <>
             <SContentTitle style={{ marginTop: '16px' }}>
-              모임 둘러보기
-              <Link href="/list">
+              ⚡ ️솝트만의 일회성 모임, 번쩍
+              <Link href="/list?category=번쩍&page=1">
                 <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
             {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
             <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+            <QuickMenu />
           </>
         ) : (
           <>
             <Flex align="center" justify="center">
               <SContentTitle style={{ marginTop: '54px' }}>
-                모임 둘러보기
-                <Link href="/list">
+                ⚡ ️솝트만의 일회성 모임, 번쩍
+                <Link href="/list?category=번쩍&page=1">
                   <SMoreButton>더보기 {'>'}</SMoreButton>
                 </Link>
               </SContentTitle>
@@ -81,12 +82,11 @@ const Home: NextPage = () => {
             </GroupBrowsingCarouselContainer>
             <SCarouselBlank />
             <Flex align="center" justify="center">
-              <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+              {/* <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle> */}
+              <QuickMenu />
             </Flex>
           </>
         )}
-
-        <RenderPostsWithAds />
 
         {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
         {!isFetchingNextPage && hasNextPage ? (
