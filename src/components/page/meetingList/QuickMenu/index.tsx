@@ -46,6 +46,9 @@ const SColumnContainer = styled('section', {
 
     paddingLeft: '0',
   },
+  '@tablet': {
+    gap: '9px',
+  },
 });
 
 const SColumnItem = styled('div', {
