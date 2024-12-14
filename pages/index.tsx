@@ -3,10 +3,10 @@ import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts } from '@api/post/hooks';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
-import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
-import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
-import QuickMenu from '@components/page/meetingList/QuickMenu';
-import FloatingButton from '@components/page/postList/FloatingButton';
+import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
+import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
+import QuickMenu from '@components/page/home/QuickMenu';
+import FloatingButton from '@components/page/home/FloatingButton';
 import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const SContentTitle = styled('div', {
-  fontStyle: 'H2',
+  fontStyle: 'H1',
   color: '$white',
   mb: '$20',
   display: 'flex',

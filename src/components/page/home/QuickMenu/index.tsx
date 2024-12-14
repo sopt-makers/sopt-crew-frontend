@@ -91,6 +91,8 @@ const SBoltIcon = styled(BoltIcon, {
   width: '80px',
   height: '80px',
 
+  cursor: 'pointer',
+
   '@tablet': {
     width: '40px',
     height: 'auto',
@@ -102,6 +104,8 @@ const SStudyIcon = styled(StudyIcon, {
   height: '80px',
   objectFit: 'contain',
 
+  cursor: 'pointer',
+
   '@tablet': {
     width: '40px',
     height: '40px',
@@ -111,6 +115,8 @@ const SStudyIcon = styled(StudyIcon, {
 const SSeminarIcon = styled(SeminarIcon, {
   width: '80px',
   height: '80px',
+
+  cursor: 'pointer',
 
   '@tablet': {
     width: '40px',

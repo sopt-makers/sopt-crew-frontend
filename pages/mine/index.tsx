@@ -9,9 +9,9 @@ import { Fragment, useEffect } from 'react';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
-import GridLayout from '@components/page/meetingList/Grid/Layout';
-import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
+import CardSkeleton from '@components/page/list/Card/Skeleton';
+import GridLayout from '@components/page/list/Grid/Layout';
+import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 
 const enum MeetingType {
