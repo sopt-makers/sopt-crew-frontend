@@ -6,34 +6,36 @@ import SeminarIcon from '@assets/svg/button_seminar.svg?rect';
 import EventIcon from '@assets/svg/button_event.svg?rect';
 
 const QuickMenu = () => {
+  type MenuItem = {
+    Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    label: string;
+  };
+
+  const menu: MenuItem[] = [
+    { Icon: SBoltIcon, label: '번쩍 모임' },
+    { Icon: SStudyIcon, label: '스터디' },
+    { Icon: SSeminarIcon, label: '세미나' },
+    { Icon: SEventIcon, label: '행사' },
+  ];
+
   return (
-    <SColumnContainer>
+    <SContainer>
       <Button size="lg" theme="black" rounded="lg" style={{ padding: '20px 36px', height: 'fit-content' }}>
         모임 신청 가이드
       </Button>
-      <SColumnItem>
-        <SBoltIcon />
-        <SItemLabel>번쩍 모임</SItemLabel>
-      </SColumnItem>
-      <SColumnItem>
-        <SStudyIcon />
-        <SItemLabel>스터디</SItemLabel>
-      </SColumnItem>
-      <SColumnItem>
-        <SSeminarIcon />
-        <SItemLabel>세미나</SItemLabel>
-      </SColumnItem>
-      <SColumnItem>
-        <SEventIcon />
-        <SItemLabel>행사</SItemLabel>
-      </SColumnItem>
-    </SColumnContainer>
+      {menu.map((item, idx) => (
+        <SItem key={idx}>
+          <item.Icon />
+          <SItemLabel>{item.label}</SItemLabel>
+        </SItem>
+      ))}
+    </SContainer>
   );
 };
 
 export default QuickMenu;
 
-const SColumnContainer = styled('section', {
+const SContainer = styled('section', {
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
@@ -51,7 +53,7 @@ const SColumnContainer = styled('section', {
   },
 });
 
-const SColumnItem = styled('div', {
+const SItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '24px',
