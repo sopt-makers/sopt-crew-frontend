@@ -10,16 +10,14 @@ import Search from '@components/page/list/Filter/Search';
 import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfAll } from '@components/page/list/Grid/List';
 import NoticeSlider from '@components/page/list/Slider/NoticeSlider/NoticeSlider';
-import { TabList } from '@components/tabList/TabList';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { Flex } from '@components/util/layout/Flex';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
+import CrewTab from '@components/Tab';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -51,18 +49,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        <Flex align="start" justify="between">
-          <TabList text="groupAll" size="big">
-            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">홈</TabList.Item>
-            </Link>
-            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-              <TabList.Item text="groupAll">전체 모임</TabList.Item>
-            </Link>
-            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </Link>
-          </TabList>
+        <CrewTab>
           <SMobileButtonContainer>
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
             <Search.Mobile />
@@ -71,7 +58,7 @@ const Home: NextPage = () => {
             <PlusIcon />
             <span>모임 개설하기</span>
           </SMakeMeetingButton>
-        </Flex>
+        </CrewTab>
         <SNoticeWrapper>
           <NoticeSlider notices={notices} />
         </SNoticeWrapper>

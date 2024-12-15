@@ -7,7 +7,6 @@ import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/Deskt
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import QuickMenu from '@components/page/home/QuickMenu';
 import FloatingButton from '@components/page/home/FloatingButton';
-import { TabList } from '@components/tabList/TabList';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
@@ -18,6 +17,7 @@ import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 import HomeCardList from '@components/page/home/HomeCardList';
 import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
+import CrewTab from '@components/Tab';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
@@ -37,20 +37,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        <Flex align="start" justify="between">
-          <TabList text="feedAll" size="big">
-            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">홈</TabList.Item>
-            </Link>
-            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-              <TabList.Item text="groupAll">전체 모임</TabList.Item>
-            </Link>
-            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </Link>
-          </TabList>
-        </Flex>
-
+        <CrewTab />
         {isLoading &&
           (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
 
