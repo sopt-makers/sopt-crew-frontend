@@ -15,9 +15,10 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import HomeCardList from '@components/page/home/HomeCardList';
+import CardList from '@components/page/home/HomeCardList/CardList';
 import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 import CrewTab from '@components/Tab';
+import HomeCardList from '@components/page/home/HomeCardList';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
@@ -35,74 +36,60 @@ const Home: NextPage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <>
-      <div>
-        <CrewTab />
-        {isLoading &&
-          (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+    <div>
+      <CrewTab />
+      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
 
-        {isTablet ? (
-          <>
-            <SContentTitle style={{ marginTop: '16px' }}>
+      {isTablet ? (
+        <>
+          <SContentTitle style={{ marginTop: '16px' }}>
+            ⚡ ️솝트만의 일회성 모임, 번쩍
+            <Link href="/list?category=번쩍&page=1">
+              <SMoreButton>더보기 {'>'}</SMoreButton>
+            </Link>
+          </SContentTitle>
+          {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+          <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+          <QuickMenu />
+          {groupBrowsingCardData && (
+            <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
+          )}
+        </>
+      ) : (
+        <>
+          <Flex align="center" justify="center">
+            <SContentTitle style={{ marginTop: '54px' }}>
               ⚡ ️솝트만의 일회성 모임, 번쩍
               <Link href="/list?category=번쩍&page=1">
                 <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
-            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
-            <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
+          </Flex>
+          <GroupBrowsingCarouselContainer>
+            <SGradationContainer>
+              <SCarouselGradationRight />
+              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            </SGradationContainer>
+          </GroupBrowsingCarouselContainer>
+          <SCarouselBlank />
+          <Flex justify="center">
+            {groupBrowsingCardData && (
+              <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
+            )}
             <QuickMenu />
-          </>
-        ) : (
-          <>
-            <Flex align="center" justify="center">
-              <SContentTitle style={{ marginTop: '54px' }}>
-                ⚡ ️솝트만의 일회성 모임, 번쩍
-                <Link href="/list?category=번쩍&page=1">
-                  <SMoreButton>더보기 {'>'}</SMoreButton>
-                </Link>
-              </SContentTitle>
-            </Flex>
-            <GroupBrowsingCarouselContainer>
-              <SGradationContainer>
-                <SCarouselGradationRight />
-                {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
-              </SGradationContainer>
-            </GroupBrowsingCarouselContainer>
-            <SCarouselBlank />
-            <Flex justify="center">
-              {groupBrowsingCardData && (
-                <div>
-                  <HomeCardList
-                    label="🔹 우리... 같이 솝커톤 할래?"
-                    isMore
-                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
-                  />
-                  <HomeCardList
-                    label="🔥 지금 모집중인 모임"
-                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
-                  />
-                  <HomeCardList
-                    label="🍀 1차 행사 신청이 얼마 남지 않았어요!"
-                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
-                  />
-                </div>
-              )}
-              <QuickMenu />
-            </Flex>
-          </>
-        )}
+          </Flex>
+        </>
+      )}
 
-        {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-        {!isFetchingNextPage && hasNextPage ? (
-          <div ref={ref} style={{ height: '1px' }} />
-        ) : (
-          <div style={{ height: '1px' }} />
-        )}
+      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+      {!isFetchingNextPage && hasNextPage ? (
+        <div ref={ref} style={{ height: '1px' }} />
+      ) : (
+        <div style={{ height: '1px' }} />
+      )}
 
-        <FloatingButton />
-      </div>
-    </>
+      <FloatingButton />
+    </div>
   );
 };
 
