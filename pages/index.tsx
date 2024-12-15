@@ -16,6 +16,8 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
+import HomeCardList from '@components/page/home/HomeCardList';
+import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 
 const Home: NextPage = () => {
   const { isTablet } = useDisplay();
@@ -81,8 +83,24 @@ const Home: NextPage = () => {
               </SGradationContainer>
             </GroupBrowsingCarouselContainer>
             <SCarouselBlank />
-            <Flex align="center" justify="center">
-              {/* <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle> */}
+            <Flex justify="center">
+              {groupBrowsingCardData && (
+                <div>
+                  <HomeCardList
+                    label="🔹 우리... 같이 솝커톤 할래?"
+                    isMore
+                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
+                  />
+                  <HomeCardList
+                    label="🔥 지금 모집중인 모임"
+                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
+                  />
+                  <HomeCardList
+                    label="🍀 1차 행사 신청이 얼마 남지 않았어요!"
+                    data={groupBrowsingCardData.slice(0, 3) as GroupBrowsingCardResponse}
+                  />
+                </div>
+              )}
               <QuickMenu />
             </Flex>
           </>
