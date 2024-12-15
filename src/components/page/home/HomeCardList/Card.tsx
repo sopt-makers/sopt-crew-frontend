@@ -1,4 +1,4 @@
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg?rect';
 import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';

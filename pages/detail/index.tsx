@@ -7,7 +7,7 @@ import {
   useQueryGetMeeting,
 } from '@api/API_LEGACY/meeting/hooks';
 import { useRouter } from 'next/router';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/detail/Feed/FeedPanel';

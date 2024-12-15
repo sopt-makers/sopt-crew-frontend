@@ -4,7 +4,7 @@ import { TAKE_COUNT } from '@constants/feed';
 import React from 'react';
 import Link from 'next/link';
 import FeedItem from '@components/page/detail/Feed/FeedItem';
-import LikeButton from '@components/button/LikeButton';
+import LikeButton from '@components/@common/button/LikeButton';
 import { useRouter } from 'next/router';
 import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { useDisplay } from '@hooks/useDisplay';

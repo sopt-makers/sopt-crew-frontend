@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg';
 import CalendarIcon from '@assets/svg/calendar.svg';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import {
   GroupBrowsingCardItem,
