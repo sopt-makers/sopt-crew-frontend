@@ -1,4 +1,3 @@
-import { Button } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 import BoltIcon from '@assets/svg/button_bolt.svg?rect';
 import StudyIcon from '@assets/svg/button_study.svg?rect';
@@ -6,12 +5,7 @@ import SeminarIcon from '@assets/svg/button_seminar.svg?rect';
 import EventIcon from '@assets/svg/button_event.svg?rect';
 
 const QuickMenu = () => {
-  type MenuItem = {
-    Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-    label: string;
-  };
-
-  const menu: MenuItem[] = [
+  const menu = [
     { Icon: SBoltIcon, label: '번쩍 모임' },
     { Icon: SStudyIcon, label: '스터디' },
     { Icon: SSeminarIcon, label: '세미나' },

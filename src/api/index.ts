@@ -7,8 +7,8 @@ import { crewToken, playgroundToken } from '@/stores/tokenStore';
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
 
-const baseURL =
-  process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 'https://crew.api.prod.sopt.org' : 'https://crew.api.dev.sopt.org';
+const baseURL = 'https://crew.api.prod.sopt.org';
+// process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 'https://crew.api.prod.sopt.org' : 'https://crew.api.dev.sopt.org';
 
 const playgroundBaseURL =
   process.env.NEXT_PUBLIC_APP_ENV === 'production'

@@ -13,7 +13,7 @@ import {
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
-import { PART_NAME, ACTION_STATUS, EActionStatus, CATEGORY_NAME } from '@constants/option';
+import { PART_NAME, ACTION_STATUS, EActionStatus, CATEGORY_NAME, CategoryType } from '@constants/option';
 import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import Separator from '@assets/svg/GroupBrowsingCardSeparator.svg';
@@ -23,10 +23,10 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({
   id,
   title,
   category,
-  startDate,
+  // startDate,
   mStartDate,
   mEndDate,
-  recentActivityDate,
+  // recentActivityDate,
   targetActiveGeneration,
   joinableParts,
   capacity,
@@ -46,14 +46,14 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({
   };
 
   const statusTexts: statusTextsType = {
-    [EActionStatus.BEFORE]: `${-dayjs().diff(startDate, 'day')}일 남음`,
+    // [EActionStatus.BEFORE]: `${-dayjs().diff(startDate, 'day')}일 남음`,
     [EActionStatus.RECRUITING]: `${appliedCount}명 신청 중`,
-    [EActionStatus.ACTING]:
-      dayjs().diff(recentActivityDate, 'day') === 0
-        ? '오늘 새 글'
-        : recentActivityDate === null
-        ? ''
-        : `${dayjs().diff(recentActivityDate, 'day')}일 전 활동`,
+    // [EActionStatus.ACTING]:
+    //   dayjs().diff(recentActivityDate, 'day') === 0
+    //     ? '오늘 새 글'
+    //     : recentActivityDate === null
+    //     ? ''
+    //     : `${dayjs().diff(recentActivityDate, 'day')}일 전 활동`,
   };
 
   return (
@@ -66,7 +66,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({
         <SInfo>
           <STop>
             <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
-            <STopDivisor>|</STopDivisor> <span>{CATEGORY_NAME(category)}</span>
+            <STopDivisor>|</STopDivisor> <span>{CATEGORY_NAME(category as CategoryType)}</span>
           </STop>
           <STitle>{title}</STitle>
           <SContents>
