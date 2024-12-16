@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import CardList from '@components/page/home/HomeCardList/CardList';
 import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 import CrewTab from '@components/Tab';
 import HomeCardList from '@components/page/home/HomeCardList';

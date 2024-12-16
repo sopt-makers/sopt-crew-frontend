@@ -20,9 +20,7 @@ const QuickMenu = () => {
 
   return (
     <SContainer>
-      <Button size="lg" theme="black" rounded="lg" style={{ padding: '20px 36px', height: 'fit-content' }}>
-        모임 신청 가이드
-      </Button>
+      <SGuideBtn>모임 신청 가이드</SGuideBtn>
       {menu.map((item, idx) => (
         <SItem key={idx}>
           <item.Icon />
@@ -50,6 +48,25 @@ const SContainer = styled('section', {
   },
   '@tablet': {
     gap: '9px',
+  },
+});
+
+const SGuideBtn = styled('button', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  padding: '20px 36px',
+  height: 'fit-content',
+
+  borderRadius: '9999px',
+  backgroundColor: '$gray800',
+
+  fontStyle: 'H2',
+  color: '$white',
+
+  '@media (max-width: 1259px)': {
+    display: 'none',
   },
 });
 
