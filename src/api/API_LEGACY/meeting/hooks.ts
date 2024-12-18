@@ -31,6 +31,7 @@ import {
   GroupBrowsingCardDetail,
   GetMeetingResponse,
   postEventApplication,
+  GroupBrowsingCardResponse,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -191,7 +192,7 @@ export const useMutationDownloadMeetingMemberCSV = () =>
     },
   });
 
-export const useQueryGetGroupBrowsingCard = (): UseQueryResult<GroupBrowsingCardDetail[]> => {
+export const useQueryGetGroupBrowsingCard = (): UseQueryResult<GroupBrowsingCardResponse> => {
   return useQuery({
     queryKey: ['getGroupBrowsingCard'],
     queryFn: () => {

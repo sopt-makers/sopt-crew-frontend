@@ -1,4 +1,4 @@
-import { Arrow } from '@components/button/Arrow';
+import { Arrow } from '@components/@common/button/Arrow';
 import ModalBackground from '@components/modal/ModalBackground';
 import { getResizedImage } from '@utils/image';
 import { useState } from 'react';

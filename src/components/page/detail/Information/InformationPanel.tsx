@@ -1,4 +1,4 @@
-import { TabList } from '@components/tabList/TabList';
+import { TabList } from '@components/@common/tabList/TabList';
 import { styled } from 'stitches.config';
 import { useDisplay } from '@hooks/useDisplay';
 import { parseTextToLink } from '@components/util/parseTextToLink';

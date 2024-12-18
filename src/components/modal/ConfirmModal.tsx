@@ -1,7 +1,7 @@
 import { styled } from 'stitches.config';
 import { Dialog } from '@headlessui/react';
 import ModalContainer from './ModalContainer';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 
 interface ConfirmModalProps {
   isModalOpened: boolean;

@@ -6,7 +6,7 @@ import { useDeleteComment } from '@api/post/hooks';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
 import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useOverlay } from '@hooks/useOverlay/Index';

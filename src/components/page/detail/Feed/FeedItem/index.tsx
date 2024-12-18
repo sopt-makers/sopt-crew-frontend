@@ -1,11 +1,11 @@
-import AvatarGroup from '@components/avatar/AvatarGroup';
+import AvatarGroup from '@components/@common/avatar/AvatarGroup';
 import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
 import { UserResponse } from '@api/API_LEGACY/user';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import { AVATAR_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { playgroundLink } from '@sopt-makers/playground-common';

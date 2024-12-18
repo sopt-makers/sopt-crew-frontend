@@ -7,11 +7,9 @@ interface NextArrowProps {
   className: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   total: number;
-  activeSlide: number;
-  cardListLength: number;
 }
 
-const NextArrow = ({ className, onClick, total, activeSlide, cardListLength }: NextArrowProps) => {
+const NextArrow = ({ className, onClick, total }: NextArrowProps) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     ampli.clickCarouselArrow({ image_total: total });
     onClick?.(e);

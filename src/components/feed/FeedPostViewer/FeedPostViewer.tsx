@@ -1,5 +1,5 @@
 import { Menu } from '@headlessui/react';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import ShareIcon from 'public/assets/svg/share.svg';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import ArrowIcon from '@assets/svg/arrow_card.svg';

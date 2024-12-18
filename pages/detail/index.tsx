@@ -1,4 +1,4 @@
-import Carousel from '@components/page/meetingDetail/Carousel';
+import Carousel from '@components/page/detail/Carousel';
 import { styled } from 'stitches.config';
 import {
   useMutationDeleteMeeting,
@@ -7,15 +7,15 @@ import {
   useQueryGetMeeting,
 } from '@api/API_LEGACY/meeting/hooks';
 import { useRouter } from 'next/router';
-import Loader from '@components/loader/Loader';
-import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
+import Loader from '@components/@common/loader/Loader';
+import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
-import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
+import FeedPanel from '@components/page/detail/Feed/FeedPanel';
 import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { ERecruitmentStatus } from '@constants/option';
-import MeetingController from '@components/page/meetingDetail/MeetingController';
+import MeetingController from '@components/page/detail/MeetingController';
 
 dayjs.locale('ko');
 

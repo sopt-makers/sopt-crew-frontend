@@ -69,3 +69,19 @@ export const PART_FILTER = {
 interface StringKeyObject {
   [key: string]: string;
 }
+
+export type CategoryType = 'STUDY' | 'EVENT' | 'SEMINAR' | '번쩍';
+export const CATEGORY_NAME = (category: CategoryType) => {
+  switch (category) {
+    case '번쩍':
+      return '번쩍';
+    case 'STUDY':
+      return '스터디';
+    case 'EVENT':
+      return '행사';
+    case 'SEMINAR':
+      return '세미나';
+    default:
+      return '';
+  }
+};

@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { Arrow } from '@components/button/Arrow';
+import { Arrow } from '@components/@common/button/Arrow';
 import { CATEGORY_OPTIONS } from '@constants/option';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
