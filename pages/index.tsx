@@ -1,4 +1,3 @@
-import { ampli } from '@/ampli';
 import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts } from '@api/post/hooks';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
@@ -20,7 +19,7 @@ import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 
 const Home: NextPage = () => {
-  const { isTablet } = useDisplay();
+  const { isLaptop, isTablet } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -38,7 +37,6 @@ const Home: NextPage = () => {
     <div>
       <CrewTab />
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-
       {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>
@@ -48,11 +46,6 @@ const Home: NextPage = () => {
             </Link>
           </SContentTitle>
           {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
-          <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
-          <QuickMenu />
-          {groupBrowsingCardData && (
-            <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
-          )}
         </>
       ) : (
         <>
@@ -70,12 +63,27 @@ const Home: NextPage = () => {
               {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
             </SGradationContainer>
           </GroupBrowsingCarouselContainer>
+        </>
+      )}
+      {isLaptop ? (
+        <>
+          <Flex justify="center">
+            <QuickMenu />
+          </Flex>
+          {groupBrowsingCardData && (
+            <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
+          )}
+        </>
+      ) : (
+        <>
           <SCarouselBlank />
           <Flex justify="center">
             {groupBrowsingCardData && (
               <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
             )}
-            <QuickMenu />
+            <div style={{ paddingLeft: '106px' }}>
+              <QuickMenu />
+            </div>
           </Flex>
         </>
       )}

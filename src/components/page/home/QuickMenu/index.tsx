@@ -32,8 +32,6 @@ const SContainer = styled('section', {
   flexDirection: 'column',
   gap: '40px',
 
-  paddingLeft: '106px',
-
   '@laptop': {
     flexDirection: 'row',
     gap: '32px',
@@ -57,6 +55,7 @@ const SGuideBtn = styled('button', {
   backgroundColor: '$gray800',
 
   fontStyle: 'H2',
+  letterSpacing: '-0.4px',
   color: '$white',
 
   '@laptop': {
@@ -79,6 +78,7 @@ const SItem = styled('div', {
 
 const SItemLabel = styled('h3', {
   fontStyle: 'H2',
+  letterSpacing: '-0.4px',
   color: '$white',
   textAlign: 'center',
 
