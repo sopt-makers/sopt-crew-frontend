@@ -88,7 +88,7 @@ const SCarousel = styled('div', {
     maxWidth: '1328px',
     width: '100vw',
 
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       width: '848px',
       minWidth: '848px',
     },
@@ -106,7 +106,7 @@ const SCarousel = styled('div', {
       flexType: 'center',
     },
 
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       width: '732px',
       minWidth: '732px',
     },
@@ -119,7 +119,7 @@ const SCarousel = styled('div', {
   '.slick-next': {
     transform: 'rotate(180deg)',
     mr: '17px',
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       mr: '0px',
     },
   },
@@ -141,5 +141,5 @@ const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
   zIndex: '1',
-  '@media (max-width: 1259px)': {},
+  '@laptop': {},
 });

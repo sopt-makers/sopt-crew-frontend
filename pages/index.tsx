@@ -145,7 +145,7 @@ const GroupBrowsingCarouselContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     left: '-30px',
   },
 });

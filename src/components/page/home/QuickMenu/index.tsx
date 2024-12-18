@@ -34,7 +34,7 @@ const SContainer = styled('section', {
 
   paddingLeft: '106px',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     flexDirection: 'row',
     gap: '32px',
 
@@ -59,7 +59,7 @@ const SGuideBtn = styled('button', {
   fontStyle: 'H2',
   color: '$white',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     display: 'none',
   },
 });
@@ -71,7 +71,7 @@ const SItem = styled('div', {
 
   cursor: 'pointer',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     flexDirection: 'column',
     gap: '12px',
   },
@@ -82,7 +82,7 @@ const SItemLabel = styled('h3', {
   color: '$white',
   textAlign: 'center',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     flexDirection: 'column',
     gap: '12px',
 
