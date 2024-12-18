@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
-import CrewTab from '@components/Tab';
+import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 
 const Home: NextPage = () => {

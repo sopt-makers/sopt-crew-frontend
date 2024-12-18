@@ -17,7 +17,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
-import CrewTab from '@components/Tab';
+import CrewTab from '@components/CrewTab';
 
 const Home: NextPage = () => {
   const router = useRouter();

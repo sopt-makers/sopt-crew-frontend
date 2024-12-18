@@ -8,7 +8,6 @@ import { ReactNode } from 'react';
 const CrewTab = ({ children }: { children?: ReactNode }) => {
   const path = useRouter().pathname;
   const lastSegment = path.split('/').at(-1);
-  console.log({ path });
   const tabText =
     lastSegment === 'group'
       ? 'feedAll'

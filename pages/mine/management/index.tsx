@@ -17,7 +17,7 @@ import Filter from '@components/page/mine/management/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
 import { ampli } from '@/ampli';
 import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
-import CrewTab from '@components/Tab';
+import CrewTab from '@components/CrewTab';
 
 const ManagementPage = () => {
   const router = useRouter();
