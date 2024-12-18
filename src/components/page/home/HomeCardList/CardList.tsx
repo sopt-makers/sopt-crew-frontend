@@ -1,7 +1,6 @@
 import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 import HomeCard from '@components/page/home/HomeCardList/Card';
 import { styled } from 'stitches.config';
-import { Flex } from '@components/util/layout/Flex';
 
 type HomeCardProps = {
   label: string;
@@ -17,7 +16,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
         <STitleStyle>{label}</STitleStyle>
         {isMore && <SMoreBtn onClick={onMoreClick}>{'더보기 >'}</SMoreBtn>}
       </STitleWrapper>
-      <Flex columnGap="20px">
+      <SCardWrapper>
         {data.map(d => (
           <HomeCard
             key={d.id}
@@ -33,7 +32,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
             joinableParts={d.joinableParts}
           />
         ))}
-      </Flex>
+      </SCardWrapper>
     </SCardListWrapper>
   );
 };
@@ -67,4 +66,9 @@ const STitleStyle = styled('p', {
 const SMoreBtn = styled('button', {
   fontStyle: 'B2',
   color: '$gray200',
+});
+
+const SCardWrapper = styled('div', {
+  display: 'flex',
+  gap: '20px',
 });
