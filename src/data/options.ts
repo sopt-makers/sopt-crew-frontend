@@ -1,7 +1,7 @@
-export const numberOptionListDefault = { label: '10명씩 보기', value: '10' };
+export const numberOptionDefault = { label: '10명씩 보기', value: '10' };
 
 export const numberOptionList = [
-  numberOptionListDefault,
+  numberOptionDefault,
   { label: '30명씩 보기', value: '30' },
   { label: '50명씩 보기', value: '50' },
 ];
