@@ -1,4 +1,4 @@
-import Switch from '@components/button/Switch';
+import Switch from '@components/@common/button/Switch';
 import { Flex } from '@components/util/layout/Flex';
 import { useIsOnlyActiveGenerationParams } from '@hooks/queryString/custom';
 import { parseBool } from '@utils/parseBool';

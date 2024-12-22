@@ -1,4 +1,4 @@
-import FilterSelect from '@components/page/meetingList/Filter/Select';
+import FilterSelect from '@components/page/list/Filter/Select';
 import { Flex } from '@components/util/layout/Flex';
 import { FilterType } from '@constants/option';
 

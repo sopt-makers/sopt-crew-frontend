@@ -1,7 +1,7 @@
 import { crewToken, playgroundToken } from '@/stores/tokenStore';
 import { fetchMyProfile } from '@api/API_LEGACY/user';
 import Header from '@components/header/Header';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 import SEO from '@components/seo/SEO';
 import { setAccessTokens } from '@components/util/auth';
 import { OverlayProvider } from '@hooks/useOverlay/OverlayProvider';

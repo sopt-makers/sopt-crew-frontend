@@ -1,13 +1,11 @@
-import { ampli } from '@/ampli';
 import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts } from '@api/post/hooks';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
-import DesktopFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/DesktopFeedListSkeleton';
-import MobileFeedListSkeleton from '@components/page/meetingDetail/Feed/Skeleton/MobileFeedListSkeleton';
-import RenderPostsWithAds from '@components/page/meetingList/Advertisement';
-import FloatingButton from '@components/page/postList/FloatingButton';
-import { TabList } from '@components/tabList/TabList';
+import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
+import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
+import QuickMenu from '@components/page/home/QuickMenu';
+import FloatingButton from '@components/page/home/FloatingButton';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
@@ -16,9 +14,12 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
+import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
+import CrewTab from '@components/CrewTab';
+import HomeCardList from '@components/page/home/HomeCardList';
 
 const Home: NextPage = () => {
-  const { isTablet } = useDisplay();
+  const { isLaptop, isTablet } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -33,78 +34,76 @@ const Home: NextPage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <>
-      <div>
-        <Flex align="start" justify="between">
-          <TabList text="feedAll" size="big">
-            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">홈</TabList.Item>
+    <div>
+      <CrewTab />
+      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+      {isTablet ? (
+        <>
+          <SContentTitle style={{ marginTop: '16px' }}>
+            ⚡ ️솝트만의 일회성 모임, 번쩍
+            <Link href="/list?category=번쩍&page=1">
+              <SMoreButton>더보기 {'>'}</SMoreButton>
             </Link>
-            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-              <TabList.Item text="groupAll">전체 모임</TabList.Item>
-            </Link>
-            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </Link>
-          </TabList>
-        </Flex>
-
-        {isLoading &&
-          (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-
-        {isTablet ? (
-          <>
-            <SContentTitle style={{ marginTop: '16px' }}>
-              모임 둘러보기
-              <Link href="/list">
+          </SContentTitle>
+          {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+        </>
+      ) : (
+        <>
+          <Flex align="center" justify="center">
+            <SContentTitle style={{ marginTop: '54px' }}>
+              ⚡ ️솝트만의 일회성 모임, 번쩍
+              <Link href="/list?category=번쩍&page=1">
                 <SMoreButton>더보기 {'>'}</SMoreButton>
               </Link>
             </SContentTitle>
-            {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
-            <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
-          </>
-        ) : (
-          <>
-            <Flex align="center" justify="center">
-              <SContentTitle style={{ marginTop: '54px' }}>
-                모임 둘러보기
-                <Link href="/list">
-                  <SMoreButton>더보기 {'>'}</SMoreButton>
-                </Link>
-              </SContentTitle>
-            </Flex>
-            <GroupBrowsingCarouselContainer>
-              <SGradationContainer>
-                <SCarouselGradationRight />
-                {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
-              </SGradationContainer>
-            </GroupBrowsingCarouselContainer>
-            <SCarouselBlank />
-            <Flex align="center" justify="center">
-              <SContentTitle style={{ marginBottom: '0px' }}>최신 피드</SContentTitle>
-            </Flex>
-          </>
-        )}
+          </Flex>
+          <GroupBrowsingCarouselContainer>
+            <SGradationContainer>
+              <SCarouselGradationRight />
+              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            </SGradationContainer>
+          </GroupBrowsingCarouselContainer>
+        </>
+      )}
+      {isLaptop ? (
+        <>
+          <Flex justify="center">
+            <QuickMenu />
+          </Flex>
+          {groupBrowsingCardData && (
+            <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
+          )}
+        </>
+      ) : (
+        <>
+          <SCarouselBlank />
+          <Flex justify="center">
+            {groupBrowsingCardData && (
+              <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
+            )}
+            <div style={{ paddingLeft: '106px' }}>
+              <QuickMenu />
+            </div>
+          </Flex>
+        </>
+      )}
 
-        <RenderPostsWithAds />
+      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+      {!isFetchingNextPage && hasNextPage ? (
+        <div ref={ref} style={{ height: '1px' }} />
+      ) : (
+        <div style={{ height: '1px' }} />
+      )}
 
-        {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-        {!isFetchingNextPage && hasNextPage ? (
-          <div ref={ref} style={{ height: '1px' }} />
-        ) : (
-          <div style={{ height: '1px' }} />
-        )}
-
-        <FloatingButton />
-      </div>
-    </>
+      <FloatingButton />
+    </div>
   );
 };
 
 export default Home;
 
 const SContentTitle = styled('div', {
-  fontStyle: 'H2',
+  fontStyle: 'H1',
   color: '$white',
   mb: '$20',
   display: 'flex',
@@ -154,7 +153,7 @@ const GroupBrowsingCarouselContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
 
-  '@media (max-width: 1259px)': {
+  '@laptop': {
     left: '-30px',
   },
 });
