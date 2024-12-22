@@ -11,7 +11,7 @@ import { Option } from '@components/form/Select/OptionItem';
 import ItemDescriptionBox from '@components/page/meetingManagement/ItemDescriptionBox';
 import Pagination from '@components/page/meetingList/Pagination';
 import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
-import { numberOptionList, sortOptionList } from '@data/options';
+import { numberOptionListDefault, numberOptionList, sortOptionList, sortOptionListDefault } from '@data/options';
 import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import Filter from '@components/page/meetingManagement/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
@@ -30,13 +30,18 @@ const ManagementPage = () => {
   });
   const isHost = meetingData?.host ?? false;
   const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useMutationDownloadMeetingMemberCSV();
+
+  const convertedNumberTake = numberOptionList[Number(take)] ?? numberOptionListDefault;
+
+  const convertedSortTake = sortOptionList[Number(sortByDate)] ?? sortOptionListDefault;
+
   const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
     params: {
       id,
       page: (page || 0) as number,
-      take: Number(numberOptionList[Number(take) || 0].value),
+      take: Number(convertedNumberTake.value),
       status,
-      date: sortOptionList[Number(sortByDate) || 0].value as string,
+      date: sortOptionList[Number(sortByDate) || 0]?.value as string,
     },
   });
 
@@ -91,7 +96,7 @@ const ManagementPage = () => {
         ) : (
           <SSelectNumberWrapper>
             <Select
-              value={numberOptionList[Number(take) || 0]}
+              value={convertedNumberTake}
               options={numberOptionList}
               onChange={handleChangeSelectOption(setTake, numberOptionList)}
             />
@@ -105,14 +110,14 @@ const ManagementPage = () => {
             <div>
               <SSelectNumberWrapper>
                 <Select
-                  value={numberOptionList[Number(take) || 0]}
+                  value={convertedNumberTake}
                   options={numberOptionList}
                   onChange={handleChangeSelectOption(setTake, numberOptionList)}
                 />
               </SSelectNumberWrapper>
               <SSelectWrapper>
                 <Select
-                  value={sortOptionList[Number(sortByDate) || 0]}
+                  value={convertedSortTake}
                   options={sortOptionList}
                   onChange={handleChangeSelectOption(setSort, sortOptionList)}
                 />
