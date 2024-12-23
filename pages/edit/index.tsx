@@ -9,7 +9,7 @@ import { getMeeting, updateMeeting } from '@api/API_LEGACY/meeting';
 import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 import CheckIcon from '@assets/svg/check.svg';
 import dynamic from 'next/dynamic';
 import { parts } from '@data/options';

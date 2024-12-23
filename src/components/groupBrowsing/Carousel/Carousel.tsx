@@ -1,18 +1,17 @@
 import Slider from 'react-slick';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
-import { GroupBrowsingCardDetail } from '@api/API_LEGACY/meeting';
+import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
 import 'slick-carousel/slick/slick.css';
 import { useEffect, useRef, useState } from 'react';
 
 interface CarouselProps {
-  cardList: GroupBrowsingCardDetail[];
+  cardList: GroupBrowsingCardResponse;
 }
 
 const Carousel = ({ cardList }: CarouselProps) => {
   const cardListLength = cardList.length;
-  const [oldSlide, setOldSlide] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
 
   // 캐러셀 컴포넌트의 현재 width 값을 observe 하는 코드
@@ -38,17 +37,17 @@ const Carousel = ({ cardList }: CarouselProps) => {
 
   const settings = {
     prevArrow: isFirstPage ? (
-      <SPrevBlankArrow></SPrevBlankArrow>
+      <SBlankArrow></SBlankArrow>
     ) : (
       <SPrevArrowContainer>
-        <NextArrow className="prev" total={cardListLength} activeSlide={activeSlide} cardListLength={cardListLength} />
+        <NextArrow className="prev" total={cardListLength} />
       </SPrevArrowContainer>
     ),
     nextArrow: isLastPage ? (
-      <SNextBlankArrow></SNextBlankArrow>
+      <SBlankArrow></SBlankArrow>
     ) : (
       <SNextArrowContainer>
-        <NextArrow className="next" total={cardListLength} activeSlide={activeSlide} cardListLength={cardListLength} />
+        <NextArrow className="next" total={cardListLength} />
       </SNextArrowContainer>
     ),
     speed: 500,
@@ -56,7 +55,6 @@ const Carousel = ({ cardList }: CarouselProps) => {
     slidesToScroll: 4,
     infinite: false,
     beforeChange: (current: number, next: number) => {
-      setOldSlide(current);
       setActiveSlide(next);
     },
     responsive: [
@@ -90,7 +88,7 @@ const SCarousel = styled('div', {
     maxWidth: '1328px',
     width: '100vw',
 
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       width: '848px',
       minWidth: '848px',
     },
@@ -108,7 +106,7 @@ const SCarousel = styled('div', {
       flexType: 'center',
     },
 
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       width: '732px',
       minWidth: '732px',
     },
@@ -121,22 +119,16 @@ const SCarousel = styled('div', {
   '.slick-next': {
     transform: 'rotate(180deg)',
     mr: '17px',
-    '@media (max-width: 1259px)': {
+    '@laptop': {
       mr: '0px',
     },
   },
 });
 
-const SPrevBlankArrow = styled('div', {
+const SBlankArrow = styled('div', {
   width: '$40',
   position: 'absolute',
   left: '$0',
-});
-
-const SNextBlankArrow = styled('div', {
-  width: '$40',
-  position: 'absolute',
-  right: '$0',
 });
 
 const SPrevArrowContainer = styled('div', {
@@ -149,5 +141,5 @@ const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
   zIndex: '1',
-  '@media (max-width: 1259px)': {},
+  '@laptop': {},
 });

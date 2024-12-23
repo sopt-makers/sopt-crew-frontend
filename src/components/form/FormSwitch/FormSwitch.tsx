@@ -1,5 +1,5 @@
 import { Switch as HeadlessSwitch } from '@headlessui/react';
-import Switch, { SwitchProps } from '@components/button/Switch';
+import Switch, { SwitchProps } from '@components/@common/button/Switch';
 import { styled } from 'stitches.config';
 
 interface FormSwitchProps extends SwitchProps {

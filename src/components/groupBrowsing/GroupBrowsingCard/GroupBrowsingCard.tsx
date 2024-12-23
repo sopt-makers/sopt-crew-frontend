@@ -2,11 +2,10 @@ import React, { FC } from 'react';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg';
 import CalendarIcon from '@assets/svg/calendar.svg';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import {
-  categoryType,
-  GroupBrowsingCardDetail,
+  GroupBrowsingCardItem,
   parsePartValueToLabel,
   returnIsGroupActive,
   returnNewStatus,
@@ -14,47 +13,47 @@ import {
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
-import { PART_NAME, ACTION_STATUS, EActionStatus } from '@constants/option';
+import { PART_NAME, ACTION_STATUS, EActionStatus, CATEGORY_NAME, CategoryType } from '@constants/option';
 import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import Separator from '@assets/svg/GroupBrowsingCardSeparator.svg';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
+const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({
   id,
   title,
   category,
-  startDate,
-  mstartDate,
-  mendDate,
-  recentActivityDate,
+  // startDate,
+  mStartDate,
+  mEndDate,
+  // recentActivityDate,
   targetActiveGeneration,
   joinableParts,
   capacity,
-  applicantCount,
-  approvedUserCount,
+  appliedCount,
+  approvedCount,
   user,
   status,
   imageURL,
 }) => {
   const isAllParts = joinableParts?.length === Object.keys(PART_NAME).length || joinableParts === null;
-  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
+  const isGroupActive = returnIsGroupActive(mStartDate, mEndDate);
 
-  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
+  const newStatus = returnNewStatus(status, mStartDate, isGroupActive);
 
   type statusTextsType = {
     [key: number]: string;
   };
 
   const statusTexts: statusTextsType = {
-    [EActionStatus.BEFORE]: `${-dayjs().diff(startDate, 'day')}일 남음`,
-    [EActionStatus.RECRUITING]: `${applicantCount}명 신청 중`,
-    [EActionStatus.ACTING]:
-      dayjs().diff(recentActivityDate, 'day') === 0
-        ? '오늘 새 글'
-        : recentActivityDate === null
-        ? ''
-        : `${dayjs().diff(recentActivityDate, 'day')}일 전 활동`,
+    // [EActionStatus.BEFORE]: `${-dayjs().diff(startDate, 'day')}일 남음`,
+    [EActionStatus.RECRUITING]: `${appliedCount}명 신청 중`,
+    // [EActionStatus.ACTING]:
+    //   dayjs().diff(recentActivityDate, 'day') === 0
+    //     ? '오늘 새 글'
+    //     : recentActivityDate === null
+    //     ? ''
+    //     : `${dayjs().diff(recentActivityDate, 'day')}일 전 활동`,
   };
 
   return (
@@ -67,18 +66,18 @@ const GroupBrowsingCard: FC<GroupBrowsingCardDetail> = ({
         <SInfo>
           <STop>
             <Avatar src={user.profileImage} alt="" sx={{ width: 18, height: 18 }} /> <span>{user.name}</span>
-            <STopDivisor>|</STopDivisor> <span>{categoryType(category)}</span>
+            <STopDivisor>|</STopDivisor> <span>{CATEGORY_NAME(category as CategoryType)}</span>
           </STop>
           <STitle>{title}</STitle>
           <SContents>
             <SContent>
               <CalendarIcon />
-              {dayjs(mstartDate).format('YYYY.MM.DD')} - {dayjs(mendDate).format('YYYY.MM.DD')}
+              {dayjs(mStartDate).format('YYYY.MM.DD')} - {dayjs(mEndDate).format('YYYY.MM.DD')}
             </SContent>
             <SContent>
               <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>
                 <UserIcon style={{ marginRight: '6px' }} />
-                {approvedUserCount}/{capacity}명
+                {approvedCount}/{capacity}명
               </div>
               <Separator style={{ margin: '0 3' }} />
               <div>

@@ -3,7 +3,7 @@ import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import Textarea from '@components/form/Textarea';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 
 interface ApplicationModalContentProps {
   handleApplicationButton: (textareaValue: string) => void;

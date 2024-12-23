@@ -1,18 +1,16 @@
 import type { NextPage } from 'next';
 
-import { TabList } from '@components/tabList/TabList';
-import { Flex } from '@components/util/layout/Flex';
 import { Tab } from '@headlessui/react';
 import useSessionStorage from '@hooks/useSessionStorage';
-import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
-import GridLayout from '@components/page/meetingList/Grid/Layout';
-import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/meetingList/Grid/List';
+import CardSkeleton from '@components/page/list/Card/Skeleton';
+import GridLayout from '@components/page/list/Grid/Layout';
+import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import CrewTab from '@components/CrewTab';
 
 const enum MeetingType {
   APPLIED,
@@ -39,19 +37,7 @@ const MinePage: NextPage = () => {
 
   return (
     <div>
-      <Flex align="center" justify="between">
-        <TabList text="mine" size="big">
-          <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-            <TabList.Item text="feedAll">홈</TabList.Item>
-          </Link>
-          <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-            <TabList.Item text="groupAll">전체 모임</TabList.Item>
-          </Link>
-          <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-            <TabList.Item text="mine">내 모임</TabList.Item>
-          </Link>
-        </TabList>
-      </Flex>
+      <CrewTab />
       <Tab.Group selectedIndex={Number(selectedMeetingType)} onChange={setSelectedMeetingType}>
         <STabList>
           <Tab as={Fragment}>

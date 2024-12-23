@@ -18,7 +18,7 @@ import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import MentorTooltip from './MentorTooltip';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
-import ButtonLoader from '@components/loader/ButtonLoader';
+import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 import ProfileAnchor from './ProfileAnchor';
