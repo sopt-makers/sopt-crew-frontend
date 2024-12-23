@@ -17,6 +17,14 @@ type PropType = {
   options?: EmblaOptionsType;
 };
 
+const defaultSlides = {
+  advertisementId: 0,
+  desktopImageUrl: '',
+  mobileImageUrl: '',
+  advertisementLink: '',
+  advertisementStartDate: '',
+};
+
 const AdCarousel: React.FC<PropType> = props => {
   const { slides, options } = props;
 
@@ -24,7 +32,7 @@ const AdCarousel: React.FC<PropType> = props => {
     const shuffleArray = (array: typeof slides) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [array[i], array[j]] = [array[j] ?? defaultSlides, array[i] ?? defaultSlides];
       }
       return array;
     };

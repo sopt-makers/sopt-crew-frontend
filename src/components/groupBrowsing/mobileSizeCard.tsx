@@ -31,7 +31,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
         <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
+            backgroundImage: `url(${getResizedImage(imageURL[0]?.url ?? '', 140)})`,
             backgroundSize: 'cover',
           }}
         />

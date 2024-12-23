@@ -79,7 +79,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
             userId={Number(me?.orgId)}
             groupInfo={{
               title: postData?.meeting?.title || '',
-              imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
+              imageUrl: postData?.meeting?.imageURL[THUMBNAIL_IMAGE_INDEX]?.url || '',
               category: postData?.meeting?.category || '',
             }}
             title="피드 수정"
