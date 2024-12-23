@@ -34,7 +34,7 @@ jobs:
           echo "NEXT_PUBLIC_APP_ENV=development" >> .env
       - name: Build
         run: yarn build:ci
-      - name: Move artifacts into dist folder
+      - name: Move artifacts into dist folder4
         run: mkdir group && mv out/* group/ && mv group out
       - name: Publish
         run: yarn run wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message "${{ github.sha }}" --branch=main
