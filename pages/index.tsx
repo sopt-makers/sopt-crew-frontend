@@ -53,9 +53,9 @@ const Home: NextPage = () => {
       )}
       {isLaptop ? (
         <Flex direction="column" justify="center" align="center">
-          <Flex justify="center" style={{ marginTop: '60px', marginBottom: '72px' }}>
+          <QuickMenuWrapper>
             <QuickMenu />
-          </Flex>
+          </QuickMenuWrapper>
           {groupBrowsingCardData && (
             <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
           )}
@@ -95,12 +95,9 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
+
   '@laptop': {
     width: '790px',
-  },
-
-  '@media (max-width: 850px)': {
-    display: 'none',
   },
 
   '@tablet': {
@@ -116,5 +113,16 @@ const GroupBrowsingCarouselContainer = styled('div', {
 
   '@laptop': {
     left: '-20px',
+  },
+});
+
+const QuickMenuWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+
+  margin: '$60 0 $72',
+
+  '@mobile': {
+    margin: '0 0 $40',
   },
 });

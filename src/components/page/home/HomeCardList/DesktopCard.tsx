@@ -2,8 +2,9 @@ import Avatar from '@components/@common/avatar/Avatar';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg?rect';
 import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
+import Link from 'next/link';
 
-type HomeCardProps = {
+type DesktopCardProps = {
   id: number;
   imageURL?: string;
   title: string;
@@ -15,7 +16,7 @@ type HomeCardProps = {
   canJoinOnlyActiveGeneration: boolean;
   joinableParts: string[];
 };
-const HomeCard = ({
+const DesktopCard = ({
   id,
   imageURL,
   title,
@@ -26,31 +27,33 @@ const HomeCard = ({
   category,
   canJoinOnlyActiveGeneration,
   joinableParts,
-}: HomeCardProps) => {
+}: DesktopCardProps) => {
   return (
-    <SCardWrapper>
-      <SThumbnailImage src={imageURL} />
-      <SMetaWrapper style={{ paddingTop: '16px' }}>
-        <Avatar src={ownerImage} alt={`${title} 모임장 프로필`} sx={{ width: '18px', height: '18px' }} />
-        <SMetaStyle>
-          {ownerName}
-          <SMetaSubStyle>|</SMetaSubStyle>
-          {CATEGORY_NAME(category as CategoryType)}
-        </SMetaStyle>
-      </SMetaWrapper>
-      <STitleStyle>{title}</STitleStyle>
-      <SMetaWrapper>
-        <UserIcon />
-        <SInfoStyle>{`${approvedCount}/${capacity}명`}</SInfoStyle>
-        <SInfoStyle>{`${canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수'} / ${joinableParts.map(
-          part => PART_NAME[part]
-        )}`}</SInfoStyle>
-      </SMetaWrapper>
-    </SCardWrapper>
+    <Link href={`/detail?id=${id}`}>
+      <SCardWrapper>
+        <SThumbnailImage src={imageURL} />
+        <SMetaWrapper style={{ paddingTop: '16px' }}>
+          <Avatar src={ownerImage} alt={`${title} 모임장 프로필`} sx={{ width: '18px', height: '18px' }} />
+          <SMetaStyle>
+            {ownerName}
+            <SMetaSubStyle>|</SMetaSubStyle>
+            {CATEGORY_NAME(category as CategoryType)}
+          </SMetaStyle>
+        </SMetaWrapper>
+        <STitleStyle>{title}</STitleStyle>
+        <SMetaWrapper>
+          <UserIcon />
+          <SInfoStyle>{`${approvedCount}/${capacity}명`}</SInfoStyle>
+          <SInfoStyle>{`${canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수'} / ${joinableParts.map(
+            part => PART_NAME[part]
+          )}`}</SInfoStyle>
+        </SMetaWrapper>
+      </SCardWrapper>
+    </Link>
   );
 };
 
-export default HomeCard;
+export default DesktopCard;
 
 const SCardWrapper = styled('article', {
   display: 'flex',

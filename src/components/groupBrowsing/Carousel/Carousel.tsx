@@ -96,10 +96,6 @@ const SCarousel = styled('div', {
 
       left: '-27px',
     },
-
-    '@media (max-width: 850px)': {
-      display: 'none',
-    },
   },
 
   '.slick-list': {
