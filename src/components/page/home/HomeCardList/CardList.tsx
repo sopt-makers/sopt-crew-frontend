@@ -14,7 +14,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
     <SCardListWrapper>
       <STitleWrapper>
         <STitleStyle>{label}</STitleStyle>
-        {isMore && <SMoreBtn onClick={onMoreClick}>{'더보기 >'}</SMoreBtn>}
+        {/* {isMore && <SMoreBtn onClick={onMoreClick}>{'더보기 >'}</SMoreBtn>} */}
       </STitleWrapper>
       <SCardWrapper>
         {data.map(d => (
@@ -45,6 +45,11 @@ const SCardListWrapper = styled('section', {
 
   width: '894px',
   paddingBottom: '$80',
+
+  '@laptop': {
+    width: '790px',
+    overflow: 'hidden',
+  },
 });
 
 const STitleWrapper = styled('div', {
