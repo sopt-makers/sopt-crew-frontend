@@ -17,7 +17,11 @@ export default HomeCardList;
 
 const SWrapper = styled('div', {
   position: 'relative',
-  width: '100%',
+  width: '894px',
+
+  '@laptop': {
+    width: '100%',
+  },
 });
 
 const SGradationRight = styled('div', {
