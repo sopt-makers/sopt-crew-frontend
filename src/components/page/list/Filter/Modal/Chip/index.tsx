@@ -9,7 +9,6 @@ interface ChipProps {
 }
 
 function Chip({ css, filter }: ChipProps) {
-  //해당 Chip 선택시 Chip의 filter로 전달된 subject를 이용하여 쿼리 세팅
   const { label, subject, options } = filter;
   const { value: selectedValues, addValue, deleteValue } = useMultiQueryString(subject, true);
   return (

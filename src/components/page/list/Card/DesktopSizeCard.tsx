@@ -29,6 +29,7 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
 
       <STitleSection>
         <SCategory>{meetingData.category}</SCategory>
+        {meetingData.isMentorNeeded && <SCategory>멘토 구해요</SCategory>}
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 

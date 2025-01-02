@@ -60,7 +60,6 @@ interface UseMutateBody<T> {
 }
 
 export const useQueryMeetingListOfAll = () => {
-  //쿼리 파라미터값들을 읽어서, 서버에 모임 리스트 받아오는데 사용
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();

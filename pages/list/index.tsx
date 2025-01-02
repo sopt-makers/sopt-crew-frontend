@@ -49,7 +49,6 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 개설하기 */}
         <CrewTab>
           <SMobileButtonContainer>
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
@@ -60,18 +59,12 @@ const Home: NextPage = () => {
             <span>모임 개설하기</span>
           </SMakeMeetingButton>
         </CrewTab>
-
-        {/*Notice 슬라이더*/}
         <SNoticeWrapper>
           <NoticeSlider notices={notices} />
         </SNoticeWrapper>
-
-        {/*필터 - 필터, 모임 검색, 모임 신청 가이드, 필터 적용 후 생기는 FLEX 박스(chip 모임)*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
-
-        {/*모임 목록들 - MeetingListOfAll : 내부적으로 쿼리 파라미터 이용하여 필터링 적용*/}
         <SSRSafeSuspense
           fallback={
             <GridLayout mobileType="list">
@@ -84,7 +77,6 @@ const Home: NextPage = () => {
           <MeetingListOfAll />
         </SSRSafeSuspense>
       </div>
-
       <ConfirmModal
         isModalOpened={isModalOpened}
         message={`모임을 개설하려면\n프로필 작성이 필요해요`}

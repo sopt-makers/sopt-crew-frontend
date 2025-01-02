@@ -11,7 +11,6 @@ import { styled } from 'stitches.config';
 import { parseBool } from '@utils/parseBool';
 
 function Result() {
-  //설정된 쿼리 파라미터의 값을 가져와서  OR 연산으로 필터링한 모임 렌더링
   const { value: category, deleteValue: deleteCategoryValue } = useCategoryParams();
   const { value: status, deleteValue: deleteStatusValue } = useStatusParams();
   const { value: part, deleteValue: deletePartValue } = usePartParams();

@@ -1,6 +1,5 @@
 import { useMultiQueryString, useQueryString } from '.';
 
-//더욱 간단하게 쿼리 파라미터를 사용할 수 있도록 돕는 훅 (2차 추상화)
 export const usePageParams = () => useQueryString('page', '1');
 export const useSearchParams = () => useQueryString('search', '', true);
 export const useTakeParams = () => useQueryString('take', '0', true);
