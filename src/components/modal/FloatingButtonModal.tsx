@@ -107,7 +107,7 @@ const Container = styled('div', {
   },
   '@tablet': {
     width: '140px',
-    height: '90px',
+    height: 'auto',
     borderRadius: '18px',
     bottom: '72px',
     padding: '$6 $0 $6 $4',
