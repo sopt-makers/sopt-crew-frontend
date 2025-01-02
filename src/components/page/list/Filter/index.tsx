@@ -27,6 +27,7 @@ function Filter() {
         </SGuideButton>
       </Flex>
 
+      {/*필터 적용 결과 박스 (chip 모임)*/}
       <Result />
 
       {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
