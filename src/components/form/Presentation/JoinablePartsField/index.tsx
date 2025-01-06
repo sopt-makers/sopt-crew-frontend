@@ -1,5 +1,5 @@
 import { Option } from '@components/form/Select/OptionItem';
-import { parts } from '@data/options';
+import { defaultParts, parts } from '@data/options';
 import { Chip } from '@sopt-makers/ui';
 
 interface JoinablePartsFieldProps {
@@ -33,7 +33,7 @@ const JoinablePartsField = ({ value, onChange }: JoinablePartsFieldProps) => {
 
       // 모든 개별 파트가 선택되었으면 'all' 옵션도 활성화
       if (updatedParts.length === parts.length - 1) {
-        updatedParts.push(parts[0]); // 'all'을 활성화
+        updatedParts.push(parts[0] ?? defaultParts); // 'all'을 활성화
       }
     }
 

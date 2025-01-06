@@ -127,7 +127,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
             userId={Number(me?.orgId)}
             groupInfo={{
               title: detailData?.title || '',
-              imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX].url || '',
+              imageUrl: detailData?.imageURL[THUMBNAIL_IMAGE_INDEX]?.url || '',
               category: detailData?.category || '',
             }}
             title="피드 작성"

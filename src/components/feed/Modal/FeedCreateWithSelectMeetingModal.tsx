@@ -47,7 +47,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
 
   const { isValid } = formMethods.formState;
   const meetingType = formMethods.getValues('meetingId')
-    ? attendMeetingList?.data.filter(item => item.id == formMethods.getValues('meetingId'))[0].category
+    ? attendMeetingList?.data.filter(item => item.id == formMethods.getValues('meetingId'))[0]?.category
     : '';
 
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';

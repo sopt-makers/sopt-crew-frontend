@@ -21,7 +21,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
           <HomeCard
             key={d.id}
             id={d.id}
-            imageURL={d.imageURL[0].url}
+            imageURL={d.imageURL[0]?.url}
             title={d.title}
             ownerName={d.user.name}
             ownerImage={d.user.profileImage}

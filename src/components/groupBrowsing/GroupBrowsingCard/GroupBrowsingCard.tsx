@@ -60,7 +60,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
         css={{
-          backgroundImage: `url(${imageURL[0].url && getResizedImage(imageURL[0].url, 285)})`,
+          backgroundImage: `url(${getResizedImage(imageURL[0]?.url ?? '', 285)})`,
         }}
       >
         <SInfo>

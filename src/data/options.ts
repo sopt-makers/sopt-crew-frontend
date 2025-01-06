@@ -1,8 +1,12 @@
+export const numberOptionListDefault = { label: '10명씩 보기', value: '10' };
+
 export const numberOptionList = [
-  { label: '10명씩 보기', value: '10' },
+  numberOptionListDefault,
   { label: '30명씩 보기', value: '30' },
   { label: '50명씩 보기', value: '50' },
 ];
+
+export const sortOptionListDefault = { label: '최신순', value: 'desc' };
 
 export const sortOptionList = [
   { label: '최신순', value: 'desc' },
@@ -16,6 +20,8 @@ export const generationOptions = [
     value: gen.toString(),
   })),
 ];
+
+export const defaultParts = { label: '전체', value: 'all', order: 1 };
 
 export const parts = [
   { label: '전체', value: 'all', order: 1 },

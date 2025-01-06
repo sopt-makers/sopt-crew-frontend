@@ -44,7 +44,7 @@ export function MeetingListOfAll() {
 
             {meetingAds?.advertisements && meetingListData?.meta.page === 1 && (
               <Link
-                href={meetingAds?.advertisements[0]?.advertisementLink}
+                href={meetingAds?.advertisements[0]?.advertisementLink ?? ''}
                 target="_blank"
                 onClick={() =>
                   ampli.clickBanner({

@@ -23,8 +23,8 @@ import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
-import sopt_schedule_tooltip from 'public/assets/images/sopt_schedule_tooltip.png';
-import BubblePointIcon from 'public/assets/svg/bubble_point.svg';
+import sopt_schedule_tooltip from '@assets/images/sopt_schedule_tooltip.png';
+import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import CoLeader from './CoLeader';
 
@@ -115,7 +115,7 @@ function Presentation({
       return;
     }
     const [file] = [...e.target.files];
-    const url = await uploadFile(file);
+    const url = await uploadFile(file ?? new File([], 'default.txt'));
     handleChangeImage(index, url);
   };
 
@@ -146,7 +146,7 @@ function Presentation({
 
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension);
+    const { url, fields } = await getPresignedUrl(extension ?? '');
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
