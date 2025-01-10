@@ -18,7 +18,7 @@ const MeetingInformation = ({ meetingData }: MeetingInformationProps) => {
   return (
     <Link href={`/detail?id=${meetingId}`} passHref legacyBehavior>
       <SMeetingInformation>
-        <SImage src={imageURL[0].url} />
+        <SImage src={imageURL[0]?.url} />
         <div>
           <SCategory>{category}</SCategory>
           <STitle>

@@ -15,7 +15,7 @@ function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobile
           <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
           <SThumbnailImage
             css={{
-              backgroundImage: `url(${meetingData.imageURL[0].url})`,
+              backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
             }}
           />
         </ImageWrapper>

@@ -55,11 +55,11 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
       content: detailData?.note,
     },
   ];
-  const [selectedTab, setSelectedTab] = useState(detailList[0].title);
+  const [selectedTab, setSelectedTab] = useState(detailList[0]?.title);
 
   const handleChange = useCallback((text: string) => {
     setSelectedTab(text);
-    tabRef.current[detailList.findIndex(item => item.title === text)].scrollIntoView({ behavior: 'smooth' });
+    tabRef.current[detailList.findIndex(item => item.title === text)]?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   const handleContent = (content: string) => {
@@ -70,7 +70,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
   return (
     <SInformationPanel>
       {isMobile && (
-        <TabList text={selectedTab} size="small" onChange={handleChange}>
+        <TabList text={selectedTab ?? ''} size="small" onChange={handleChange}>
           {detailList.map(
             ({ id, title, content }) =>
               content && (

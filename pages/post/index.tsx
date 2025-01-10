@@ -75,7 +75,12 @@ export default function PostPage() {
   };
 
   const { setTarget } = useIntersectionObserver({
-    onIntersect: ([{ isIntersecting }]) => isIntersecting,
+    onIntersect: entries => {
+      const entry = entries[0];
+      if (entry?.isIntersecting) {
+        return entry?.isIntersecting;
+      }
+    },
   });
 
   const handleCreateComment = async (req: PostCommentWithMentionRequest) => {

@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
-  const { data: meetingListData, isLoading } = useQueryMeetingListOfAll();
+  const { data: meetingListData, isLoading } = useQueryMeetingListOfAll(); //쿼리 파라미터 값을 사용하여 서버에 요청 보내서 필터링 된 모임 리스트 받아옴
   const { data: meetingAds } = useGetMeetingAds();
 
   useScrollRestorationAfterLoading(isLoading);
@@ -44,7 +44,7 @@ export function MeetingListOfAll() {
 
             {meetingAds?.advertisements && meetingListData?.meta.page === 1 && (
               <Link
-                href={meetingAds?.advertisements[0]?.advertisementLink}
+                href={meetingAds?.advertisements[0]?.advertisementLink ?? ''}
                 target="_blank"
                 onClick={() =>
                   ampli.clickBanner({

@@ -22,14 +22,13 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
         <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${meetingData.imageURL[0].url})`,
+            backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
           }}
         />
       </ImageWrapper>
 
       <STitleSection>
         <SCategory>{meetingData.category}</SCategory>
-        {meetingData.isMentorNeeded && <SCategory>멘토 구해요</SCategory>}
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 

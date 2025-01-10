@@ -119,7 +119,7 @@ export default function FeedPostViewer({
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
           <GroupButton>
-            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
+            <GroupThumbnail src={post.meeting.imageURL[0]?.url} alt="" />
             <GroupInformation>
               <div>
                 <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>

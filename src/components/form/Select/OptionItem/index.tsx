@@ -14,6 +14,11 @@ export interface Option {
   order?: number;
 }
 
+export const defaultOption = {
+  label: '',
+  value: '',
+} as const;
+
 interface OptionItemProps {
   css?: CSSType;
   option: Option;
