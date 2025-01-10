@@ -28,7 +28,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
               <MobileCard
                 key={d.id}
                 id={d.id}
-                imageURL={d.imageURL[0].url}
+                imageURL={d.imageURL[0]?.url}
                 title={d.title}
                 ownerName={d.user.name}
                 ownerImage={d.user.profileImage}
@@ -46,7 +46,7 @@ const CardList = ({ label, isMore = false, onMoreClick = () => {}, data }: HomeC
               <DesktopCard
                 key={d.id}
                 id={d.id}
-                imageURL={d.imageURL[0].url}
+                imageURL={d.imageURL[0]?.url}
                 title={d.title}
                 ownerName={d.user.name}
                 ownerImage={d.user.profileImage}

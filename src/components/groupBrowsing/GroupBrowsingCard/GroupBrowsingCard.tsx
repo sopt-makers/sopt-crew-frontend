@@ -14,7 +14,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, mEndDate, user, imageURL }) => {
-  const imgSrc = imageURL[0].url && getResizedImage(imageURL[0].url, 285);
+  const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
   return (
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
