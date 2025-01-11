@@ -82,6 +82,8 @@ const Carousel = ({ cardList }: CarouselProps) => {
 export default Carousel;
 
 const SCarousel = styled('div', {
+  position: 'relative',
+
   '.slick-slider': {
     flexType: 'center',
     position: 'relative',
@@ -91,10 +93,8 @@ const SCarousel = styled('div', {
     '@laptop': {
       width: '848px',
       minWidth: '848px',
-    },
 
-    '@media (max-width: 850px)': {
-      display: 'none',
+      left: '-27px',
     },
   },
 
@@ -109,6 +109,17 @@ const SCarousel = styled('div', {
     '@laptop': {
       width: '732px',
       minWidth: '732px',
+
+      '&:after': {
+        content: '""',
+        position: 'absolute',
+        top: '0',
+        right: '-1px',
+        width: '100px',
+        height: '100%',
+        background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
+        pointerEvents: 'none',
+      },
     },
   },
 

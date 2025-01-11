@@ -10,7 +10,6 @@ import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
@@ -34,50 +33,36 @@ const Home: NextPage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <div>
+    <>
       <CrewTab />
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isTablet ? (
         <>
-          <SContentTitle style={{ marginTop: '16px' }}>
-            ⚡ ️솝트만의 일회성 모임, 번쩍
-            <Link href="/list?category=번쩍&page=1">
-              <SMoreButton>더보기 {'>'}</SMoreButton>
-            </Link>
-          </SContentTitle>
+          <SContentTitle style={{ marginTop: '16px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
           {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
           <Flex align="center" justify="center">
-            <SContentTitle style={{ marginTop: '54px' }}>
-              ⚡ ️솝트만의 일회성 모임, 번쩍
-              <Link href="/list?category=번쩍&page=1">
-                <SMoreButton>더보기 {'>'}</SMoreButton>
-              </Link>
-            </SContentTitle>
+            <SContentTitle style={{ marginTop: '54px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
-            <SGradationContainer>
-              <SCarouselGradationRight />
-              {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
-            </SGradationContainer>
+            {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
           </GroupBrowsingCarouselContainer>
         </>
       )}
       {isLaptop ? (
-        <>
-          <Flex justify="center">
+        <Flex direction="column" justify="center" align="center">
+          <QuickMenuWrapper>
             <QuickMenu />
-          </Flex>
+          </QuickMenuWrapper>
           {groupBrowsingCardData && (
             <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
           )}
-        </>
+        </Flex>
       ) : (
         <>
-          <SCarouselBlank />
-          <Flex justify="center">
+          <Flex justify="center" style={{ marginTop: '72px' }}>
             {groupBrowsingCardData && (
               <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
             )}
@@ -96,7 +81,7 @@ const Home: NextPage = () => {
       )}
 
       <FloatingButton />
-    </div>
+    </>
   );
 };
 
@@ -110,12 +95,9 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
+
   '@laptop': {
     width: '790px',
-  },
-
-  '@media (max-width: 850px)': {
-    display: 'none',
   },
 
   '@tablet': {
@@ -125,66 +107,22 @@ const SContentTitle = styled('div', {
   },
 });
 
-const SMoreButton = styled('button', {
-  color: '$gray200',
-  /* TODO: mds font 로 변환 */
-  fontSize: '$14',
-  fontWeight: '600',
-  lineHeight: '$18',
-  '@tablet': {
-    fontSize: '$12',
-  },
-
-  '&:hover': {
-    transition: 'background 0.1s ease-in-out',
-    color: '$gray100',
-  },
-
-  '&:not(:hover)': {
-    transition: 'background 0.1s ease-in-out',
-    fill: '$gray100',
-  },
-});
-
 const GroupBrowsingCarouselContainer = styled('div', {
-  width: '100vw',
-  position: 'absolute',
-  left: '0',
   display: 'flex',
   justifyContent: 'center',
 
   '@laptop': {
-    left: '-30px',
+    left: '-20px',
   },
 });
 
-const SCarouselBlank = styled('div', {
-  paddingBottom: '252px',
-  '@media (max-width: 850px)': {
-    display: 'none',
-  },
-});
+const QuickMenuWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
 
-const SGradationContainer = styled('div', {
-  position: 'relative',
-});
+  margin: '$60 0 $72',
 
-const SCarouselGradationRight = styled('div', {
-  width: '122px',
-  height: '180px',
-  background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
-
-  position: 'absolute',
-  zIndex: 1,
-  right: '0',
-  pointerEvents: 'none',
-  marginRight: '55px',
-
-  '@media (max-width: 850px)': {
-    display: 'none',
-  },
-
-  '@media (min-width: 1259px)': {
-    display: 'none',
+  '@mobile': {
+    margin: '0 0 $40',
   },
 });
