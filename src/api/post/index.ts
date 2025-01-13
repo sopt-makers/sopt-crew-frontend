@@ -1,7 +1,7 @@
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { UserResponse } from '@api/API_LEGACY/user';
 import { FormCreateType, FormEditType } from '@components/feed/Modal/feedSchema';
-import { Data, api, apiV2 } from '..';
+import { api, apiV2 } from '..';
 import { paths } from '@/__generated__/schema2';
 
 export interface PostResponse {

@@ -13,9 +13,9 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
+import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
@@ -25,6 +25,7 @@ const Home: NextPage = () => {
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const { data: groupBrowsingCardData } = useQueryGetGroupBrowsingCard();
+  const { data: inProgressMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [] });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -56,16 +57,12 @@ const Home: NextPage = () => {
           <QuickMenuWrapper>
             <QuickMenu />
           </QuickMenuWrapper>
-          {groupBrowsingCardData && (
-            <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
-          )}
+          {inProgressMeetings && <HomeCardList groupBrowsingCardData={inProgressMeetings} />}
         </Flex>
       ) : (
         <>
           <Flex justify="center" style={{ marginTop: '72px' }}>
-            {groupBrowsingCardData && (
-              <HomeCardList groupBrowsingCardData={groupBrowsingCardData as GroupBrowsingCardResponse} />
-            )}
+            {inProgressMeetings && <HomeCardList groupBrowsingCardData={inProgressMeetings} />}
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
             </div>
