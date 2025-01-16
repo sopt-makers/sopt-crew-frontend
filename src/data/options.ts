@@ -32,3 +32,22 @@ export const parts = [
   { label: 'iOS', value: 'IOS', order: 6 },
   { label: '서버', value: 'SERVER', order: 7 },
 ];
+
+export const bungaeTime = [
+  { label: '당일', value: '서버1' },
+  { label: '예정 기간 (협의 후 결정)', value: '서버2' },
+];
+
+export const bungaePlace = [
+  { label: '오프라인', value: '서버1' },
+  { label: '온라인', value: '서버2' },
+  { label: '협의 후 결정', value: '서버3' },
+];
+
+export const bungaeTags = [
+  { label: 'YB 환영', value: '서버1' },
+  { label: 'OB 환영', value: '서버2' },
+  { label: '초면 환영', value: '서버3' },
+  { label: '입문자 환영', value: '서버4' },
+  { label: '숙련자 환영', value: '서버5' },
+];
