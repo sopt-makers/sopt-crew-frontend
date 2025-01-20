@@ -34,20 +34,20 @@ export const parts = [
 ];
 
 export const bungaeTime = [
-  { label: '당일', value: '서버1' },
-  { label: '예정 기간 (협의 후 결정)', value: '서버2' },
+  { label: '당일', value: '당일' },
+  { label: '예정 기간 (협의 후 결정)', value: '예정 기간 (협의 후 결정)' },
 ];
 
 export const bungaePlace = [
-  { label: '오프라인', value: '서버1' },
-  { label: '온라인', value: '서버2' },
-  { label: '협의 후 결정', value: '서버3' },
+  { label: '오프라인', value: '오프라인' },
+  { label: '온라인', value: '온라인' },
+  { label: '협의 후 결정', value: '협의 후 결정' },
 ];
 
 export const bungaeTags = [
-  { label: 'YB 환영', value: '서버1' },
-  { label: 'OB 환영', value: '서버2' },
-  { label: '초면 환영', value: '서버3' },
-  { label: '입문자 환영', value: '서버4' },
-  { label: '숙련자 환영', value: '서버5' },
+  { label: 'YB 환영', value: 'YB 환영' },
+  { label: 'OB 환영', value: 'OB 환영' },
+  { label: '초면 환영', value: '초면 환영' },
+  { label: '입문자 환영', value: '입문자 환영' },
+  { label: '숙련자 환영', value: '숙련자 환영' },
 ];
