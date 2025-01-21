@@ -154,6 +154,18 @@ export const bungaeSchema = z.object({
     .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
     .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
   files: z.array(z.string()),
+  welcomeTags: z
+    .array(
+      z
+        .object({
+          label: z.string(),
+          value: z.string(),
+        })
+        .optional()
+        .nullable()
+    )
+    .optional()
+    .nullable(),
 });
 
 export type BungaeFormType = z.infer<typeof bungaeSchema>;

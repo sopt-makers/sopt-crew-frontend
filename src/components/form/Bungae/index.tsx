@@ -356,7 +356,8 @@ function Presentation({
             <STargetFieldWrapper>
               <STargetChipContainer>
                 <FormController
-                  name="detail.tags"
+                  name="welcomeTags"
+                  defaultValue={[]}
                   render={({ field: { value = [], onChange } }) => {
                     const selectedTags = Array.isArray(value) ? value : [];
                     return (

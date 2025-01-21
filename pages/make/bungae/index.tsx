@@ -2,7 +2,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { BungaeFormType, bungaeSchema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting } from '@api/API_LEGACY/meeting';
 import { useRouter } from 'next/router';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +10,7 @@ import { ampli } from '@/ampli';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import Presentation from '@components/form/Bungae';
+import { createBungae } from '@api/meeting';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -23,8 +23,8 @@ const Bungae = () => {
     resolver: zodResolver(bungaeSchema),
   });
   const { isValid, errors } = formMethods.formState;
-  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
-    // mutationFn: (formData: BungaeFormType) => createMeeting(formData),
+  const { mutateAsync: mutateCreateBungae, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: BungaeFormType) => createBungae(formData),
     onError: () => {
       alert('번쩍을 개설하지 못했습니다.');
     },
@@ -43,10 +43,10 @@ const Bungae = () => {
   };
 
   const onSubmit: SubmitHandler<BungaeFormType> = async formData => {
-    // const meetingId = await mutateCreateMeeting(formData);
+    const bungaeId = await mutateCreateBungae(formData);
     ampli.completedMakeGroup();
     alert('번쩍을 개설했습니다.');
-    // router.push(`/detail?id=${meetingId}`);
+    router.push(`/detail?id=${bungaeId}`);
   };
 
   return (
