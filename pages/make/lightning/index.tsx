@@ -43,10 +43,12 @@ const Lightning = () => {
   };
 
   const onSubmit: SubmitHandler<LightningFormType> = async formData => {
-    const bungaeId = await mutateCreateLightning(formData);
-    ampli.completedMakeGroup();
-    alert('번쩍을 개설했습니다.');
-    router.push(`/detail?id=${bungaeId}`);
+    mutateCreateLightning(formData, {
+      onSuccess: data => {
+        ampli.completedMakeGroup();
+        router.push(`/detail?id=${data}`);
+      },
+    });
   };
 
   return (

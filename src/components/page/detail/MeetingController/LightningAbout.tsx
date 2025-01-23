@@ -20,7 +20,7 @@ const LightningAbout = ({ detailData }: { detailData: GetLightningByIdResponse }
         <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
         <SPeriod>
           {`~${dayjs(endDate).format('YY.MM.DD')}`}
-          <span>|</span>
+          <Divider />
           {dayjs(endDate).format('HH:mm')}
         </SPeriod>
       </div>
@@ -97,6 +97,18 @@ const SRecruitStatus = styled('div', {
       },
     },
   },
+});
+
+const Divider = styled('hr', {
+  display: 'inline-block',
+
+  width: '$1',
+  height: '$16',
+  margin: '0 $8',
+
+  backgroundColor: '$gray500',
+  color: '$gray500',
+  border: 'none',
 });
 
 const SPeriod = styled('div', {

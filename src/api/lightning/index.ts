@@ -4,9 +4,9 @@ import { LightningFormType } from '@type/form';
 
 export const createLightning = async (formData: LightningFormType) => {
   const {
-    data: { lightningId },
-  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLightningFormData(formData));
-  return lightningId;
+    data: { meetingId },
+  } = await api.post<{ meetingId: number }>('/lightning/v2', filterLightningFormData(formData));
+  return meetingId;
 };
 
 const filterLightningFormData = (formData: LightningFormType) => {

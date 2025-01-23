@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { keyframes, styled } from 'stitches.config';
 import CalendarIcon from '@assets/svg/calendar.svg';
-import LocationIcon from '@assets/svg/location.svg';
 import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import { GroupBrowsingCardItem } from '@api/API_LEGACY/meeting';
@@ -12,6 +11,7 @@ import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
+import { IconLocation } from '@sopt-makers/icons';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, mEndDate, user, imageURL }) => {
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
@@ -43,7 +43,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, m
             </SDesc>
           </Flex>
           <Flex align="center">
-            <LocationIcon style={{ marginRight: '6px' }} />
+            <IconLocation style={{ marginRight: '6px' }} />
             <SDesc>건대입구역</SDesc>
           </Flex>
           <SChipWrapper>
