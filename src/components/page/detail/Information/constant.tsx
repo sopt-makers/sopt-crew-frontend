@@ -6,10 +6,11 @@ import 'dayjs/locale/ko';
 import { styled } from 'stitches.config';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
-import CalendarIcon from '@assets/svg/calendar.svg';
-import LocationIcon from '@assets/svg/location.svg';
+import CalendarIcon from '@assets/svg/calendar.svg?rect';
+import { GetLightningByIdResponse } from '@api/lightning';
+import { IconLocation } from '@sopt-makers/icons';
 
-export const meetingDetailList = (detailData: GetMeetingResponse) => [
+export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   {
     key: '모임 소개',
     Title: () => <STitle>모임 소개</STitle>,
@@ -63,46 +64,73 @@ export const meetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const LightningDetailList = (detailData: GetMeetingResponse) => [
+export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
   {
     key: '#환영 태그',
     Title: () => <STitle>#환영 태그</STitle>,
-    Content: () => (
-      <STarget>
-        {detailData?.welcomeMessageTypes.map(tag => (
-          <Chip key={tag} style={{ width: '80px', boxShadow: 'none' }} active>
-            {tag}
-          </Chip>
-        ))}
-      </STarget>
-    ),
-    isValid: detailData?.joinableParts,
+    Content: () => {
+      console.log(detailData.welcomeMessageTypes);
+      return (
+        <STarget>
+          {detailData?.welcomeMessageTypes.map(tag => (
+            <Chip key={tag} style={{ width: '80px', boxShadow: 'none' }} active>
+              {tag}
+            </Chip>
+          ))}
+        </STarget>
+      );
+    },
+    isValid: detailData?.welcomeMessageTypes,
   },
   {
     key: '설명',
     Title: () => <STitle>설명</STitle>,
-    Content: () => <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>,
+    Content: () => {
+      console.log(detailData.welcomeMessageTypes, detailData.welcomeMessageTypes.length);
+      return <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>;
+    },
     isValid: detailData?.desc,
   },
   {
     key: '진행일',
     Title: () => (
       <SIconTitleWrapper>
-        <CalendarIcon />
+        <SIconCalendar />
         <STitle>진행일</STitle>
       </SIconTitleWrapper>
     ),
-    isValid: detailData.activityStartDate,
+    Content: () => {
+      const isSingleDay = detailData.timingType === '당일';
+      return (
+        <SDescription style={{ color: 'white' }}>
+          {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
+            isSingleDay ? '' : ` ~${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
+          }`}
+          {isSingleDay && (
+            <>
+              <Divider />
+              기간 중 협의 후 결정
+            </>
+          )}
+        </SDescription>
+      );
+    },
+    isValid: detailData.activityStartDate && detailData.activityEndDate,
   },
   {
     key: '장소',
     Title: () => (
       <SIconTitleWrapper>
-        <LocationIcon />
+        <SIconLocation />
         <STitle>장소</STitle>
       </SIconTitleWrapper>
     ),
-    Content: () => <SDescription>{`${parsePlaceType(detailData.placeType, detailData.place)}`}</SDescription>,
+    Content: () => (
+      <SDescription style={{ color: 'white' }}>{`${parsePlaceType(
+        detailData.placeType,
+        detailData.place
+      )}`}</SDescription>
+    ),
     isValid: detailData.place,
   },
 ];
@@ -128,6 +156,32 @@ const STitle = styled('h2', {
   },
 });
 
+const SIconCalendar = styled(CalendarIcon, {
+  width: '24px',
+  height: '24px',
+
+  mb: '$24',
+
+  '& path': {
+    stroke: '$white',
+  },
+
+  '@tablet': {
+    mb: '$20',
+  },
+});
+
+const SIconLocation = styled(IconLocation, {
+  width: '24px',
+  height: '24px',
+
+  mb: '$24',
+
+  '@tablet': {
+    mb: '$20',
+  },
+});
+
 const SIconTitleWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
@@ -147,6 +201,18 @@ const SDescription = styled('p', {
   '@tablet': {
     fontStyle: 'B3',
   },
+});
+
+const Divider = styled('hr', {
+  display: 'inline-block',
+
+  width: '$2',
+  height: '$16',
+  margin: '0 $16',
+
+  backgroundColor: '$gray300',
+  color: '$gray300',
+  border: 'none',
 });
 
 const STarget = styled(SDescription, {

@@ -1,3 +1,4 @@
+import { paths } from '@/__generated__/schema2';
 import { api } from '@api/index';
 import { LightningFormType } from '@type/form';
 
@@ -32,4 +33,11 @@ const filterLightningFormData = (formData: LightningFormType) => {
     welcomeMessageTypes: convertedTags?.length === 0 ? null : convertedTags,
   };
   return data;
+};
+
+export type GetLightningByIdResponse =
+  paths['/lightning/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+
+export const getLightningById = async (meetingId: number): Promise<GetLightningByIdResponse> => {
+  return (await api.get<GetLightningByIdResponse>(`/lightning/v2/${meetingId}`)).data;
 };

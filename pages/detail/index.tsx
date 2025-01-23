@@ -15,6 +15,9 @@ import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetingController from '@components/page/detail/MeetingController';
+import { useLightningByIdQuery } from '@api/lightning/hook';
+import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
+import { GetLightningByIdResponse } from '@api/lightning';
 
 dayjs.locale('ko');
 
@@ -26,7 +29,8 @@ const enum SelectedTab {
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { data: detailData } = useQueryGetMeeting({ params: { id } });
+  const { data: meetingData } = useQueryGetMeeting({ params: { id } });
+  const { data: lightningData } = useLightningByIdQuery({ meetingId: +id });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
@@ -44,7 +48,7 @@ const DetailPage = () => {
     document.body.removeChild(script);
   }, []);
 
-  if (!detailData) {
+  if (!meetingData || !lightningData) {
     return (
       <>
         <Loader />
@@ -61,6 +65,7 @@ const DetailPage = () => {
       </>
     );
   }
+  const detailData: GetMeetingResponse | GetLightningByIdResponse = lightningData || meetingData;
 
   return (
     <>

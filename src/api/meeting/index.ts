@@ -1,7 +1,6 @@
 import { ApplicationStatusType, UserResponse } from '@api/user';
 import { api } from '..';
 import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
-import { LightningFormType } from '@type/form';
 interface PaginationType {
   page: number;
   take: number;

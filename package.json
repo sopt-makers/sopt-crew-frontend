@@ -13,7 +13,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate-types-v1": "openapi-typescript https://crew.api.dev.sopt.org/api-docs-json -o ./src/__generated__/schema1.d.ts",
-    "generate-types-v2": "openapi-typescript https://crew.api.develop.sopt.org/api-docs/json -o ./src/__generated__/schema2.d.ts",
+    "generate-types-v2": "openapi-typescript https://crew.api.dev.sopt.org/api-docs/json -o ./src/__generated__/schema2.d.ts",
     "generate-types": "cat ./src/__generated__/schema1.d.ts ./src/__generated__/schema2.d.ts > ./src/__generated__/schema.d.ts",
     "update-mds": "yarn up @sopt-makers/colors@latest @sopt-makers/fonts@latest @sopt-makers/playground-common@latest @sopt-makers/ui@latest @sopt-makers/icons@latest"
   },

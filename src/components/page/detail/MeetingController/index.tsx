@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { AxiosError, AxiosResponse } from 'axios';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
-import dayjs from 'dayjs';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
@@ -13,19 +12,21 @@ import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 import { PostApplicationRequest, GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
+import { ERecruitmentStatus } from '@constants/option';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import MentorTooltip from './MentorTooltip';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { ampli } from '@/ampli';
 import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
-import ProfileAnchor from './ProfileAnchor';
 import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
+import { GetLightningByIdResponse } from '@api/lightning';
+import MeetingAbout from '@components/page/detail/MeetingController/MeetingAbout';
+import LightningAbout from '@components/page/detail/MeetingController/LightningAbout';
+import { CAPACITY } from '@components/page/detail/MeetingController/constant';
 
 interface DetailHeaderProps {
-  detailData: GetMeetingResponse;
+  detailData: GetMeetingResponse | GetLightningByIdResponse;
   mutateMeetingDeletion: UseMutateFunction<
     {
       statusCode: number;
@@ -68,23 +69,8 @@ const MeetingController = ({
   mutateApplication,
   mutateApplicationDeletion,
 }: DetailHeaderProps) => {
-  const {
-    status,
-    startDate,
-    endDate,
-    category,
-    title,
-    user: { orgId: hostId, name: hostName, profileImage: hostProfileImage },
-    appliedInfo,
-    approved,
-    approvedApplyCount,
-    capacity,
-    isCoLeader,
-    coMeetingLeaders,
-    host: isHost,
-    apply: isApplied,
-    isMentorNeeded,
-  } = detailData;
+  const isLightning = detailData.category === '번쩍';
+  const { status, category, appliedInfo, approved, host: isHost, apply: isApplied } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
   const { data: me } = useQueryMyProfile();
@@ -114,7 +100,7 @@ const MeetingController = ({
   const handleRecruitmentStatusModal = () => {
     ampli.clickMemberStatus({ crew_status: approved || isHost });
     handleDefaultModalOpen();
-    setModalTitle(`모집 현황 (${approvedApplyCount}/${capacity}명)`);
+    setModalTitle(`모집 현황 (${CAPACITY(detailData)})`);
   };
 
   const handleHostModalOpen = () => {
@@ -268,32 +254,16 @@ const MeetingController = ({
   return (
     <>
       <SPanelWrapper>
-        <SAbout>
-          <div>
-            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
-            <SPeriod>
-              {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
-            </SPeriod>
-          </div>
-          <h1>
-            <span>{category}</span>
-            {title}
-          </h1>
-          <SHostWrapper>
-            <ProfileAnchor profileData={{ orgId: hostId, userprofileImage: hostProfileImage, userName: hostName }} />
-            {coMeetingLeaders?.map((item: typeof coMeetingLeaders[number]) => (
-              <ProfileAnchor profileData={item} />
-            ))}
-          </SHostWrapper>
-          {isMentorNeeded && <MentorTooltip />}
-        </SAbout>
+        {isLightning ? (
+          <LightningAbout detailData={detailData as GetLightningByIdResponse} />
+        ) : (
+          <MeetingAbout detailData={detailData as GetMeetingResponse} />
+        )}
         <div>
           <SStatusButton onClick={handleRecruitmentStatusModal}>
             <div>
               <span>모집 현황</span>
-              <span>
-                {approvedApplyCount}/{capacity}명
-              </span>
+              <span>{CAPACITY(detailData)}</span>
             </div>
             <ArrowSmallRightIcon />
           </SStatusButton>
@@ -342,7 +312,7 @@ const MeetingController = ({
             meetingId={Number(meetingId)}
             appliedInfo={appliedInfo}
             isHost={isHost}
-            isCoLeader={isCoLeader}
+            isCoLeader={'isCoLeader' in detailData ? detailData.isCoLeader : false}
             isApplied={isApplied}
           />
         )}
@@ -365,85 +335,6 @@ const SPanelWrapper = styled('div', {
     paddingBottom: '0',
     borderBottom: 'none',
     mb: '$64',
-  },
-});
-
-const SAbout = styled('div', {
-  mr: '$90',
-
-  '@tablet': {
-    mr: '$0',
-  },
-
-  '& > div': {
-    flexType: 'verticalCenter',
-    mb: '$12',
-  },
-
-  '& > h1': {
-    span: {
-      color: '$gray400',
-      mr: '$8',
-
-      '@tablet': {
-        mr: '$4',
-      },
-    },
-
-    fontAg: '34_bold_140',
-    color: '$gray10',
-    mb: '$20',
-
-    '@tablet': {
-      fontStyle: 'H3',
-    },
-  },
-});
-
-const SRecruitStatus = styled('div', {
-  width: 'fit-content',
-  padding: '$7 $8',
-  mr: '$12',
-  borderRadius: '6px',
-  fontAg: '16_bold_100',
-
-  '@tablet': {
-    padding: '$2 $6',
-    mr: '$8',
-    borderRadius: '5px',
-    fontStyle: 'B4',
-  },
-
-  variants: {
-    status: {
-      0: {
-        backgroundColor: '$gray600',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
-  },
-});
-
-const SPeriod = styled('div', {
-  fontAg: '20_bold_100',
-  color: '$gray300',
-
-  '@tablet': {
-    fontStyle: 'T6',
-  },
-});
-
-const SHostWrapper = styled('div', {
-  position: 'relative',
-  gap: '16px',
-  '@mobile': {
-    gap: '6px',
   },
 });
 
