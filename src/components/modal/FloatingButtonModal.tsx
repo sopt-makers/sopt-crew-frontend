@@ -39,7 +39,7 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
   const handleBoltCreateButtonClick = () => {
     //todo: 번쩍 개설을 위한 정보를 넘겨주면서 라우팅하기
     ampli.clickMakeGroup({ location: router.pathname });
-    router.push('/make/bungae');
+    router.push('/make/lightening');
   };
 
   const handleFeedCreateButtonClick = () => {

@@ -8,14 +8,14 @@ import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
-import { BungaeFormType, MAX_FILE_SIZE } from '@type/form';
+import { LighteningFormType, MAX_FILE_SIZE } from '@type/form';
 import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import { imageS3Bucket } from '@constants/url';
 import CalendarInputForm from '../Calendar';
 import { Chip, useDialog } from '@sopt-makers/ui';
 import ImagePreview from '../Presentation/ImagePreview';
-import { bungaePlace, bungaeTags, bungaeTime } from '@data/options';
+import { lighteningPlace, lighteningTags, lighteningTime } from '@data/options';
 import ErrorMessage from '../ErrorMessage';
 
 interface PresentationProps {
@@ -25,7 +25,7 @@ interface PresentationProps {
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled?: boolean;
-  errors: FieldErrors<BungaeFormType>;
+  errors: FieldErrors<LighteningFormType>;
 }
 interface FileChangeHandler {
   imageUrls: string[];
@@ -176,7 +176,7 @@ function Presentation({
                   name="timeInfo.time"
                   render={({ field: { value, onChange } }) => (
                     <>
-                      {bungaeTime.map(time => (
+                      {lighteningTime.map(time => (
                         <Chip
                           active={value.value === time.value}
                           onClick={() => {
@@ -249,7 +249,7 @@ function Presentation({
                   name="placeInfo.place"
                   render={({ field: { value, onChange } }) => (
                     <>
-                      {bungaePlace.map(place => (
+                      {lighteningPlace.map(place => (
                         <Chip
                           active={value.value === place.value}
                           onClick={() => {
@@ -362,7 +362,7 @@ function Presentation({
                     const selectedTags = Array.isArray(value) ? value : [];
                     return (
                       <>
-                        {bungaeTags.map(tag => {
+                        {lighteningTags.map(tag => {
                           const isActive = selectedTags.some(
                             (selectedTag: { label: string; value: string }) => selectedTag.value === tag.value
                           );

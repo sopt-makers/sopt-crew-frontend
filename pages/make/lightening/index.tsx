@@ -1,5 +1,5 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { BungaeFormType, bungaeSchema } from '@type/form';
+import { LighteningFormType, lighteningSchema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
@@ -10,21 +10,21 @@ import { ampli } from '@/ampli';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import Presentation from '@components/form/Bungae';
-import { createBungae } from '@api/meeting';
+import { createLightening } from '@api/lightning';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-const Bungae = () => {
+const Lightening = () => {
   const router = useRouter();
-  const formMethods = useForm<BungaeFormType>({
+  const formMethods = useForm<LighteningFormType>({
     mode: 'onChange',
-    resolver: zodResolver(bungaeSchema),
+    resolver: zodResolver(lighteningSchema),
   });
   const { isValid, errors } = formMethods.formState;
-  const { mutateAsync: mutateCreateBungae, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: BungaeFormType) => createBungae(formData),
+  const { mutateAsync: mutateCreateLightening, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: LighteningFormType) => createLightening(formData),
     onError: () => {
       alert('번쩍을 개설하지 못했습니다.');
     },
@@ -42,11 +42,11 @@ const Bungae = () => {
     formMethods.setValue('files', files);
   };
 
-  const onSubmit: SubmitHandler<BungaeFormType> = async formData => {
-    const bungaeId = await mutateCreateBungae(formData);
+  const onSubmit: SubmitHandler<LighteningFormType> = async formData => {
+    const lighteningId = await mutateCreateLightening(formData);
     ampli.completedMakeGroup();
     alert('번쩍을 개설했습니다.');
-    router.push(`/detail?id=${bungaeId}`);
+    router.push(`/detail?id=${lighteningId}`);
   };
 
   return (
@@ -78,7 +78,7 @@ const Bungae = () => {
   );
 };
 
-export default Bungae;
+export default Lightening;
 
 const SContainer = styled('div', {
   margin: '80px 0',

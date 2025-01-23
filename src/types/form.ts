@@ -87,7 +87,7 @@ export const MAX_FILE_SIZE = 20 * 1024 ** 2; // 5MB
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
 
-export const bungaeSchema = z.object({
+export const lighteningSchema = z.object({
   title: z
     .string()
     .max(30, { message: '30자 까지 입력할 수 있습니다.' })
@@ -168,4 +168,4 @@ export const bungaeSchema = z.object({
     .nullable(),
 });
 
-export type BungaeFormType = z.infer<typeof bungaeSchema>;
+export type LighteningFormType = z.infer<typeof lighteningSchema>;
