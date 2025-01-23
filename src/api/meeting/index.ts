@@ -2,6 +2,7 @@ import { ApplicationStatusType, UserResponse } from '@api/user';
 import { api } from '..';
 import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
 import { BungaeFormType } from '@type/form';
+import { paths } from '@/__generated__/schema2';
 interface PaginationType {
   page: number;
   take: number;
@@ -47,6 +48,15 @@ export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise
       },
     })
   ).data;
+};
+
+type RecommendMeetingListResponse =
+  paths['/meeting/v2/recommend']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+export const getRecommendMeetingList = async ({ meetingIds = [] }: { meetingIds: number[] }) => {
+  const meetingIdsParams = meetingIds.reduce((acc, id, idx) => {
+    return acc + (idx === 0 ? '?' : '&') + `meetingIds=${id}`;
+  }, '');
+  return (await api.get<RecommendMeetingListResponse>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data.meetings;
 };
 
 export const createBungae = async (formData: BungaeFormType) => {
