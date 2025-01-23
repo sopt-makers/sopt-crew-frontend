@@ -71,6 +71,7 @@ interface StringKeyObject {
 }
 
 export type CategoryType = 'STUDY' | 'EVENT' | 'SEMINAR' | '번쩍';
+export type CategoryKoType = '스터디' | '행사' | '세미나' | '번쩍';
 export const CATEGORY_NAME = (category: CategoryType) => {
   switch (category) {
     case '번쩍':

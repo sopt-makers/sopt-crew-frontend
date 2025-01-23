@@ -1,11 +1,12 @@
 import { Flex } from '@components/util/layout/Flex';
-import { RECRUITMENT_STATUS } from '@constants/option';
+import { CategoryKoType, RECRUITMENT_STATUS } from '@constants/option';
 import dayjs from 'dayjs';
 import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { paths } from '@/__generated__/schema2';
+import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
 
 interface CardProps {
   meetingData: Omit<
@@ -28,7 +29,10 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
       </ImageWrapper>
 
       <STitleSection>
-        <SCategory>{meetingData.category}</SCategory>
+        <CategoryChip
+          category={meetingData.category as CategoryKoType}
+          welcomeMessage={['YB 환영', 'OB 환영', '입문자 환영']}
+        />
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 
@@ -115,16 +119,6 @@ const STitleSection = styled('div', {
   },
 });
 
-const SCategory = styled('p', {
-  display: 'inline-block',
-  fontStyle: 'T6',
-  color: '$gray200',
-  border: '1px solid $gray700',
-  borderRadius: '37px',
-  px: '$10',
-  py: '$3',
-  mr: '$5',
-});
 const SProfileWrapper = styled('div', {
   flexType: 'verticalCenter',
   color: '$gray10',
