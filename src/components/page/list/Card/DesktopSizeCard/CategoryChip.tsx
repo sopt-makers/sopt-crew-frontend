@@ -21,8 +21,13 @@ export const CategoryChip = ({ category, welcomeMessage }: CategoryChipProps) =>
 
   return (
     <TagWrapper>
-      <Tag shape="pill" size="sm" type="line">
-        <CategoryIcon style={{ marginRight: '2px' }} width="18" height="18" fill="white" />
+      <Tag
+        shape="pill"
+        size="sm"
+        type="line"
+        style={{ display: 'flex', gap: '2px', justifyContent: 'center', padding: '3px 8px' }}
+      >
+        <CategoryIcon width="18" height="18" fill="white" />
         {category}
       </Tag>
       {category === '번쩍' && welcomeMessage?.map(message => <WelcomeTag>{message}</WelcomeTag>)}
