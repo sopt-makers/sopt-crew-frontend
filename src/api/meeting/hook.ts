@@ -1,5 +1,6 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from '@tanstack/react-query';
 import { MeetingPeopleResponse, getMeetingPeopleList } from '.';
+import { fetchMeetingListOfAll, getGroupBrowsingCard, GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
 
 interface UseQueryGetMeetingPeopleListParams {
   params: {

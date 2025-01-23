@@ -1,10 +1,10 @@
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { RECRUITMENT_STATUS } from '@constants/option';
 import React from 'react';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import MentorTooltip from '@components/page/detail/MeetingController/MentorTooltip';
 import ProfileAnchor from '@components/page/detail/MeetingController/ProfileAnchor';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
 const MeetingAbout = ({ detailData }: { detailData: GetMeetingResponse }) => {
   const {
@@ -20,12 +20,12 @@ const MeetingAbout = ({ detailData }: { detailData: GetMeetingResponse }) => {
 
   return (
     <SAbout>
-      <div>
-        <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
+      <SStatusWrapper>
+        <RecruitmentStatusTag status={status} />
         <SPeriod>
           {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
         </SPeriod>
-      </div>
+      </SStatusWrapper>
       <h1>
         <span>{category}</span>
         {title}
@@ -75,33 +75,11 @@ const SAbout = styled('div', {
   },
 });
 
-const SRecruitStatus = styled('div', {
-  width: 'fit-content',
-  padding: '$7 $8',
-  mr: '$12',
-  borderRadius: '6px',
-  fontAg: '16_bold_100',
-
+const SStatusWrapper = styled('div', {
+  display: 'flex',
+  gap: '$12',
   '@tablet': {
-    padding: '$2 $6',
-    mr: '$8',
-    borderRadius: '5px',
-    fontStyle: 'B4',
-  },
-
-  variants: {
-    status: {
-      0: {
-        backgroundColor: '$gray600',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
+    gap: '$8',
   },
 });
 

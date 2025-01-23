@@ -86,7 +86,6 @@ export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
     key: '설명',
     Title: () => <STitle>설명</STitle>,
     Content: () => {
-      console.log(detailData.welcomeMessageTypes, detailData.welcomeMessageTypes.length);
       return <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>;
     },
     isValid: detailData?.desc,
@@ -104,7 +103,7 @@ export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
       return (
         <SDescription style={{ color: 'white' }}>
           {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
-            isSingleDay ? '' : ` ~${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
+            isSingleDay ? '' : ` ~ ${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
           }`}
           {isSingleDay && (
             <>

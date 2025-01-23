@@ -1,4 +1,4 @@
-import { getLightningById, GetLightningByIdResponse } from '@api/lightning';
+import { getLightningById, GetLightningByIdResponse, getLightningList } from '@api/lightning';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
@@ -19,4 +19,19 @@ export const useLightningByIdQuery = ({
       }
     },
   });
+};
+
+export const useLightningListQuery = ({ page, take }: { page: number; take: number }) => {
+  return useQuery(
+    ['lightningList', page],
+    () =>
+      getLightningList({
+        page,
+        take,
+      }),
+    {
+      select: response => response.data,
+      suspense: true,
+    }
+  );
 };

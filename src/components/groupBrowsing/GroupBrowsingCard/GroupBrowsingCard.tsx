@@ -43,7 +43,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, m
             </SDesc>
           </Flex>
           <Flex align="center">
-            <IconLocation style={{ marginRight: '6px' }} />
+            <IconLocation style={{ width: '12px', height: '12px', marginRight: '6px', color: '#9D9DA4' }} />
             <SDesc>건대입구역</SDesc>
           </Flex>
           <SChipWrapper>

@@ -48,7 +48,7 @@ const DetailPage = () => {
     document.body.removeChild(script);
   }, []);
 
-  if (!meetingData || !lightningData) {
+  if (!meetingData) {
     return (
       <>
         <Loader />

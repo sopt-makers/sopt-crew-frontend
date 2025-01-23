@@ -4,6 +4,7 @@ import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import ProfileAnchor from '@components/page/detail/MeetingController/ProfileAnchor';
 import { GetLightningByIdResponse } from '@api/lightning';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
 const LightningAbout = ({ detailData }: { detailData: GetLightningByIdResponse }) => {
   const {
@@ -16,14 +17,14 @@ const LightningAbout = ({ detailData }: { detailData: GetLightningByIdResponse }
 
   return (
     <SAbout>
-      <div>
-        <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
+      <SStatusWrapper>
+        <RecruitmentStatusTag status={status} />
         <SPeriod>
           {`~${dayjs(endDate).format('YY.MM.DD')}`}
           <Divider />
           {dayjs(endDate).format('HH:mm')}
         </SPeriod>
-      </div>
+      </SStatusWrapper>
       <h1>
         <span>{category}</span>
         {title}
@@ -69,33 +70,11 @@ const SAbout = styled('div', {
   },
 });
 
-const SRecruitStatus = styled('div', {
-  width: 'fit-content',
-  padding: '$7 $8',
-  mr: '$12',
-  borderRadius: '6px',
-  fontAg: '16_bold_100',
-
+const SStatusWrapper = styled('div', {
+  display: 'flex',
+  gap: '$12',
   '@tablet': {
-    padding: '$2 $6',
-    mr: '$8',
-    borderRadius: '5px',
-    fontStyle: 'B4',
-  },
-
-  variants: {
-    status: {
-      0: {
-        backgroundColor: '$gray600',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
+    gap: '$8',
   },
 });
 
