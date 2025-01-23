@@ -23,6 +23,7 @@ import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 import ProfileAnchor from './ProfileAnchor';
 import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse;
@@ -269,12 +270,12 @@ const MeetingController = ({
     <>
       <SPanelWrapper>
         <SAbout>
-          <div>
-            <SRecruitStatus status={status}>{RECRUITMENT_STATUS[status]}</SRecruitStatus>
+          <SRecruitStatus>
+            <RecruitmentStatusTag status={status} />
             <SPeriod>
               {dayjs(startDate).format('YY.MM.DD')} - {dayjs(endDate).format('YY.MM.DD')}
             </SPeriod>
-          </div>
+          </SRecruitStatus>
           <h1>
             <span>{category}</span>
             {title}
@@ -401,32 +402,12 @@ const SAbout = styled('div', {
 });
 
 const SRecruitStatus = styled('div', {
-  width: 'fit-content',
-  padding: '$7 $8',
-  mr: '$12',
-  borderRadius: '6px',
-  fontAg: '16_bold_100',
+  display: 'flex',
+  gap: '$12',
+  alignItems: 'center',
 
   '@tablet': {
-    padding: '$2 $6',
-    mr: '$8',
-    borderRadius: '5px',
-    fontStyle: 'B4',
-  },
-
-  variants: {
-    status: {
-      0: {
-        backgroundColor: '$gray600',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
+    gap: '$8',
   },
 });
 

@@ -1,5 +1,5 @@
 import { Flex } from '@components/util/layout/Flex';
-import { CategoryKoType, RECRUITMENT_STATUS } from '@constants/option';
+import { CategoryKoType } from '@constants/option';
 import dayjs from 'dayjs';
 import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
@@ -7,6 +7,7 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { paths } from '@/__generated__/schema2';
 import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
 interface CardProps {
   meetingData: Omit<
@@ -20,7 +21,7 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
   return (
     <div>
       <ImageWrapper>
-        <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
+        <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
         <SThumbnailImage
           css={{
             backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
@@ -87,29 +88,6 @@ const SThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-});
-
-const SStatus = styled('div', {
-  position: 'absolute',
-  top: '16px',
-  left: '16px',
-  borderRadius: '$8',
-  padding: '$3 $8',
-  fontStyle: 'T5',
-  variants: {
-    recruitingStatus: {
-      0: {
-        backgroundColor: '$gray600',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
-  },
 });
 
 const STitleSection = styled('div', {
