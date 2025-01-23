@@ -73,7 +73,7 @@ export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
       return (
         <STarget>
           {detailData?.welcomeMessageTypes.map(tag => (
-            <Chip key={tag} style={{ width: '80px', boxShadow: 'none' }} active>
+            <Chip key={tag} style={{ boxShadow: 'none' }} active>
               {tag}
             </Chip>
           ))}

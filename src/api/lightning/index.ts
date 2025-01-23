@@ -46,7 +46,9 @@ export type GetLightningListRequest = paths['/meeting/v2']['get']['parameters'][
 export type GetLightningListResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 export const getLightningList = async ({ page, take }: Partial<GetLightningListRequest>) => {
-  return api.get<GetLightningListResponse>(
-    `/meeting/v2?&page=${page}&take=${take}&part=["PM", "DESIGN","IOS","ANDROID","SERVER","WEB"]&category="번쩍"&isOnlyActiveGeneration=false`
-  );
+  return (
+    await api.get<GetLightningListResponse>(
+      `/meeting/v2?&page=${page}&take=${take}&part=["PM", "DESIGN","IOS","ANDROID","SERVER","WEB"]&category="번쩍"&isOnlyActiveGeneration=false`
+    )
+  ).data;
 };
