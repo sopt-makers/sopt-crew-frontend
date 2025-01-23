@@ -14,14 +14,13 @@ import FeedPanel from '@components/page/detail/Feed/FeedPanel';
 import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { ERecruitmentStatus } from '@constants/option';
 import MeetingController from '@components/page/detail/MeetingController';
 
 dayjs.locale('ko');
 
 const enum SelectedTab {
-  FEED,
   INFORMATION,
+  FEED,
 }
 
 const DetailPage = () => {
@@ -32,12 +31,6 @@ const DetailPage = () => {
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
-
-  useEffect(() => {
-    if (detailData) {
-      setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
-    }
-  }, [detailData]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -82,18 +75,18 @@ const DetailPage = () => {
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>
             <Tab as={Fragment}>
-              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
+              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
             </Tab>
             <Tab as={Fragment}>
-              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
+              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
             </Tab>
           </STabList>
           <Tab.Panels>
             <Tab.Panel>
-              <FeedPanel isMember={detailData?.approved || detailData?.host} />
+              <InformationPanel detailData={detailData} />
             </Tab.Panel>
             <Tab.Panel>
-              <InformationPanel detailData={detailData} />
+              <FeedPanel isMember={detailData?.approved || detailData?.host} />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
