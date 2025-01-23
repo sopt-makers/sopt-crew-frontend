@@ -1,5 +1,5 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { LighteningFormType, lighteningSchema } from '@type/form';
+import { LightningFormType, lightningSchema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
@@ -10,21 +10,21 @@ import { ampli } from '@/ampli';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import Presentation from '@components/form/Bungae';
-import { createLightening } from '@api/lightning';
+import { createLightning } from '@api/lightning';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-const Lightening = () => {
+const Lightning = () => {
   const router = useRouter();
-  const formMethods = useForm<LighteningFormType>({
+  const formMethods = useForm<LightningFormType>({
     mode: 'onChange',
-    resolver: zodResolver(lighteningSchema),
+    resolver: zodResolver(lightningSchema),
   });
   const { isValid, errors } = formMethods.formState;
-  const { mutateAsync: mutateCreateLightening, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: LighteningFormType) => createLightening(formData),
+  const { mutateAsync: mutateCreateLightning, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: LightningFormType) => createLightning(formData),
     onError: () => {
       alert('번쩍을 개설하지 못했습니다.');
     },
@@ -42,11 +42,11 @@ const Lightening = () => {
     formMethods.setValue('files', files);
   };
 
-  const onSubmit: SubmitHandler<LighteningFormType> = async formData => {
-    const lighteningId = await mutateCreateLightening(formData);
+  const onSubmit: SubmitHandler<LightningFormType> = async formData => {
+    const bungaeId = await mutateCreateLightning(formData);
     ampli.completedMakeGroup();
     alert('번쩍을 개설했습니다.');
-    router.push(`/detail?id=${lighteningId}`);
+    router.push(`/detail?id=${bungaeId}`);
   };
 
   return (
@@ -78,7 +78,7 @@ const Lightening = () => {
   );
 };
 
-export default Lightening;
+export default Lightning;
 
 const SContainer = styled('div', {
   margin: '80px 0',

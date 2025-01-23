@@ -1,14 +1,14 @@
 import { api } from '@api/index';
-import { LighteningFormType } from '@type/form';
+import { LightningFormType } from '@type/form';
 
-export const createLightening = async (formData: LighteningFormType) => {
+export const createLightning = async (formData: LightningFormType) => {
   const {
     data: { lightningId },
-  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLighteningFormData(formData));
+  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLightningFormData(formData));
   return lightningId;
 };
 
-const filterLighteningFormData = (formData: LighteningFormType) => {
+const filterLightningFormData = (formData: LightningFormType) => {
   const convertedTags = formData.welcomeTags?.map(tag => {
     return tag?.value;
   });

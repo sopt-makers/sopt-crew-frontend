@@ -63,7 +63,7 @@ export const meetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const LighteningDetailList = (detailData: GetMeetingResponse) => [
+export const LightningDetailList = (detailData: GetMeetingResponse) => [
   {
     key: '#환영 태그',
     Title: () => <STitle>#환영 태그</STitle>,
