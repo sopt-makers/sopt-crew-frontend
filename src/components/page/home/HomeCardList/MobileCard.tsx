@@ -77,9 +77,7 @@ const SThumbnailImage = styled('img', {
   borderRadius: '$12',
 
   backgroundColor: '$gray800',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
+  objectFit: 'cover',
 });
 
 const STitleStyle = styled('h3', {
