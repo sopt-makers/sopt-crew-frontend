@@ -6,12 +6,14 @@ import 'dayjs/locale/ko';
 import { styled } from 'stitches.config';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
+import CalendarIcon from '@assets/svg/calendar.svg';
+import LocationIcon from '@assets/svg/location.svg';
 
 export const meetingDetailList = (detailData: GetMeetingResponse) => [
   {
     key: '모임 소개',
     Title: () => <STitle>모임 소개</STitle>,
-    Content: () => <SDescription>{parseTextToLink(detailData?.desc)},</SDescription>,
+    Content: () => <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>,
     isValid: detailData?.desc,
   },
   {
@@ -64,13 +66,57 @@ export const meetingDetailList = (detailData: GetMeetingResponse) => [
 export const LighteningDetailList = (detailData: GetMeetingResponse) => [
   {
     key: '#환영 태그',
-    content: detailData?.note,
+    Title: () => <STitle>#환영 태그</STitle>,
+    Content: () => (
+      <STarget>
+        {detailData?.welcomeMessageTypes.map(tag => (
+          <Chip key={tag} style={{ width: '80px', boxShadow: 'none' }} active>
+            {tag}
+          </Chip>
+        ))}
+      </STarget>
+    ),
+    isValid: detailData?.joinableParts,
   },
   {
     key: '설명',
-    content: detailData.desc,
+    Title: () => <STitle>설명</STitle>,
+    Content: () => <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>,
+    isValid: detailData?.desc,
+  },
+  {
+    key: '진행일',
+    Title: () => (
+      <SIconTitleWrapper>
+        <CalendarIcon />
+        <STitle>진행일</STitle>
+      </SIconTitleWrapper>
+    ),
+    isValid: detailData.activityStartDate,
+  },
+  {
+    key: '장소',
+    Title: () => (
+      <SIconTitleWrapper>
+        <LocationIcon />
+        <STitle>장소</STitle>
+      </SIconTitleWrapper>
+    ),
+    Content: () => <SDescription>{`${parsePlaceType(detailData.placeType, detailData.place)}`}</SDescription>,
+    isValid: detailData.place,
   },
 ];
+
+const parsePlaceType = (placeType: string, place: string) => {
+  switch (placeType) {
+    case '오프라인':
+      return place;
+    case '온라인':
+      return `온라인 , ${place}`;
+    case '협의 후 결정':
+      return placeType;
+  }
+};
 
 const STitle = styled('h2', {
   fontAg: '24_bold_100',
@@ -80,6 +126,12 @@ const STitle = styled('h2', {
     fontStyle: 'H4',
     mb: '$20',
   },
+});
+
+const SIconTitleWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '$12',
 });
 
 const SDescription = styled('p', {
