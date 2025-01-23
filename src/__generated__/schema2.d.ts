@@ -80,6 +80,10 @@ export interface paths {
     /** 일반 모임 지원 */
     post: operations["applyGeneralMeeting"];
   };
+  "/lightning/v2": {
+    /** 번쩍 모임 생성 */
+    post: operations["createLightning"];
+  };
   "/comment/v2": {
     /** 모임 게시글 댓글 리스트 조회 */
     get: operations["getComments"];
@@ -499,6 +503,84 @@ export interface components {
        * @example 1
        */
       applyId: number;
+    };
+    /** @description 번쩍 모임 생성 및 수정 request body dto */
+    LightningV2CreateLightningBodyDto: {
+      lightningBody: components["schemas"]["LightningV2CreateLightningBodyWithoutWelcomeMessageDto"];
+      /**
+       * @description 환영 메시지 타입 리스트
+       * @example [
+       *   "YB 환영",
+       *   "OB 환영"
+       * ]
+       */
+      welcomeMessageTypes?: string[];
+    };
+    /** @description 번쩍 모임 생성 및 수정 request body dto (환영 메시지 타입 제외) */
+    LightningV2CreateLightningBodyWithoutWelcomeMessageDto: {
+      /**
+       * @description 번쩍 모임 제목
+       * @example 알고보면 쓸데있는 개발 프로세스
+       */
+      title: string;
+      /**
+       * @description 번쩍 소개
+       * @example api 가 터졌다고? 깃이 터졌다고?
+       */
+      desc: string;
+      /**
+       * @description 번쩍 일정 결정 방식
+       * @example 예정 기간(협의 후 결정)
+       */
+      lightningTimingType: string;
+      /**
+       * @description 번쩍 활동 시작 날짜
+       * @example 2025.10.29
+       */
+      activityStartDate: string;
+      /**
+       * @description 번쩍 활동 종료 날짜
+       * @example 2025.10.30
+       */
+      activityEndDate: string;
+      /**
+       * @description 모임 장소 Tag
+       * @example 오프라인
+       */
+      lightningPlaceType: string;
+      /**
+       * @description 모임 장소
+       * @example 잠실역 5번 출구
+       */
+      lightningPlace?: string;
+      /**
+       * Format: int32
+       * @description 최소 모집 인원
+       * @example 1
+       */
+      minimumCapacity: number;
+      /**
+       * Format: int32
+       * @description 최대 모집 인원
+       * @example 5
+       */
+      maximumCapacity: number;
+      /**
+       * @description 모임 이미지 리스트, 최대 1개
+       * @example [
+       *   "https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/12/7bd87736-b557-4b26-a0d5-9b09f1f1d7df"
+       * ]
+       */
+      files: string[];
+    };
+    /** @description 번쩍 모임 생성 응답 Dto */
+    LightningV2CreateLightningResponseDto: {
+      /**
+       * Format: int32
+       * @description 번쩍 모임 id
+       * @example 1
+       */
+      lightningId: number;
     };
     /** @description 댓글 생성 request body dto */
     CommentV2CreateCommentBodyDto: {
@@ -1477,6 +1559,11 @@ export interface components {
       /** @description 공동 모임장 목록 */
       coMeetingLeaders?: components["schemas"]["MeetingV2CoLeaderResponseDto"][];
       /**
+       * @description 공동 모임장 여부
+       * @example false
+       */
+      isCoLeader: boolean;
+      /**
        * Format: int32
        * @description 모임 상태, 0: 모집전, 1: 모집중, 2: 모집종료
        * @example 1
@@ -2426,6 +2513,24 @@ export interface operations {
         };
       };
       /** @description "모임이 없습니다" or "기수/파트를 설정해주세요" or "정원이 꽉찼습니다" or "활동 기수가 아닙니다" or "지원 가능한 파트가 아닙니다" or "지원 가능한 기간이 아닙니다" */
+      400: never;
+    };
+  };
+  /** 번쩍 모임 생성 */
+  createLightning: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["LightningV2CreateLightningBodyDto"];
+      };
+    };
+    responses: {
+      /** @description lightningId: 10 */
+      201: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["LightningV2CreateLightningResponseDto"];
+        };
+      };
+      /** @description VALIDATION_EXCEPTION */
       400: never;
     };
   };
