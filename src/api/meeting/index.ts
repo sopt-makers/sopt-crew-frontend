@@ -59,14 +59,14 @@ export const getRecommendMeetingList = async ({ meetingIds = [] }: { meetingIds:
   return (await api.get<RecommendMeetingListResponse>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data.meetings;
 };
 
-export const createBungae = async (formData: LightningFormType) => {
+export const createLightning = async (formData: LightningFormType) => {
   const {
     data: { lightningId },
-  } = await api.post<{ lightningId: number }>('/lightning/v2', filterBungaeFormData(formData));
+  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLightningFormData(formData));
   return lightningId;
 };
 
-const filterBungaeFormData = (formData: LightningFormType) => {
+const filterLightningFormData = (formData: LightningFormType) => {
   const convertedTags = formData.welcomeTags?.map(tag => {
     return tag?.value;
   });

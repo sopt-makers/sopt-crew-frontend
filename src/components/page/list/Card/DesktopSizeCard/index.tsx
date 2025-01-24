@@ -1,38 +1,39 @@
 import { Flex } from '@components/util/layout/Flex';
 import { CategoryKoType } from '@constants/option';
-import dayjs from 'dayjs';
-import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
+import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
-import { paths } from '@/__generated__/schema2';
 import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
+import { useLightningByIdQuery } from '@api/lightning/hook';
+import { LightningInformation, MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
 
 interface CardProps {
-  meetingData: Omit<
-    paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number],
-    'isCoLeader'
-  > & { isCoLeader?: boolean };
-  isAllParts: boolean;
+  meetingData: MeetingListOfFilterResponse['meetings'][0];
 }
 
-function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
+function DesktopSizeCard({ meetingData }: CardProps) {
+  const { data: lightningData } = useLightningByIdQuery({ meetingId: +meetingData.id });
+
+  const detailData = lightningData ? lightningData : meetingData;
+  const detailInfo = lightningData ? LightningInformation(lightningData) : MeetingInformation(meetingData);
+
   return (
     <div>
       <ImageWrapper>
-        <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
+        <RecruitmentStatusTag status={detailData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
+            backgroundImage: `url(${detailData.imageURL[0]?.url})`,
           }}
         />
       </ImageWrapper>
 
       <STitleSection>
         <CategoryChip
-          category={meetingData.category as CategoryKoType}
-          welcomeMessage={['YB 환영', 'OB 환영', '입문자 환영']}
+          category={detailData.category as CategoryKoType}
+          welcomeMessage={lightningData ? lightningData.welcomeMessageTypes : []}
         />
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
@@ -47,30 +48,12 @@ function DesktopSizeCard({ meetingData, isAllParts }: CardProps) {
         </SProfileWrapper>
         <SName>{meetingData.user.name}</SName>
       </Flex>
-      <SInfoRow>
-        <SKey>활동 기간</SKey>
-        <SValue>
-          {dayjs(meetingData.mStartDate).format('YY.MM.DD')} - {dayjs(meetingData.mEndDate).format('YY.MM.DD')}
-        </SValue>
-      </SInfoRow>
-      <SInfoRow>
-        <SKey>모집 대상</SKey>
-        <SValue>
-          {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
-          {isAllParts
-            ? '전체 파트'
-            : meetingData.joinableParts
-                .map(part => parsePartValueToLabel(part))
-                .filter(item => item !== null)
-                .join(',')}
-        </SValue>
-      </SInfoRow>
-      <SInfoRow>
-        <SKey>모집 현황</SKey>
-        <SValue>
-          {meetingData.approvedCount}/{meetingData.capacity}명
-        </SValue>
-      </SInfoRow>
+      {detailInfo.map(({ label, value }) => (
+        <SInfoRow key={label}>
+          <SKey>{label}</SKey>
+          <SValue>{value()}</SValue>
+        </SInfoRow>
+      ))}
     </div>
   );
 }

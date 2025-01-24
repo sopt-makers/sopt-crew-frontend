@@ -1,12 +1,9 @@
+import { GetMeetingResponse, MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
 import CardType from './CardType';
 import ListType from './ListType';
-import { paths } from '@/__generated__/schema2';
 
 export interface MobileSizeCardProps {
-  meetingData: Omit<
-    paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number],
-    'isCoLeader'
-  > & { isCoLeader?: boolean };
+  meetingData: MeetingListOfFilterResponse['meetings'][0];
   isAllParts: boolean;
   mobileType: 'list' | 'card';
 }

@@ -1,18 +1,18 @@
 import { Flex } from '@components/util/layout/Flex';
-import { RECRUITMENT_STATUS } from '@constants/option';
 import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { Divider } from '@components/util/Divider';
 import { MobileSizeCardProps } from '.';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
 function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileType'>) {
   return (
     <Container>
       <Flex align="center" css={{ mb: '$16' }}>
         <ImageWrapper>
-          <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
+          <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '8px', left: '8px' }} />
           <SThumbnailImage
             css={{
               backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
@@ -73,28 +73,6 @@ const SThumbnailImage = styled('div', {
   backgroundRepeat: 'no-repeat',
 });
 
-const SStatus = styled('div', {
-  position: 'absolute',
-  fontStyle: 'B4',
-  top: '8px',
-  left: '8px',
-  borderRadius: '5px',
-  padding: '$2 $6',
-  variants: {
-    recruitingStatus: {
-      0: {
-        backgroundColor: '$gray500',
-      },
-      1: {
-        backgroundColor: '$secondary',
-        color: '$gray950',
-      },
-      2: {
-        backgroundColor: '$gray700',
-      },
-    },
-  },
-});
 const InfoGroup = styled('div', {
   ml: '$12',
 });
