@@ -33,18 +33,18 @@ export const parts = [
   { label: '서버', value: 'SERVER', order: 7 },
 ];
 
-export const bungaeTime = [
+export const lightningTime = [
   { label: '당일', value: '당일' },
   { label: '예정 기간 (협의 후 결정)', value: '예정 기간 (협의 후 결정)' },
 ];
 
-export const bungaePlace = [
+export const lightningPlace = [
   { label: '오프라인', value: '오프라인' },
   { label: '온라인', value: '온라인' },
   { label: '협의 후 결정', value: '협의 후 결정' },
 ];
 
-export const bungaeTags = [
+export const lightningTags = [
   { label: 'YB 환영', value: 'YB 환영' },
   { label: 'OB 환영', value: 'OB 환영' },
   { label: '초면 환영', value: '초면 환영' },

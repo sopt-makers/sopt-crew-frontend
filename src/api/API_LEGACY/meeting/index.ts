@@ -60,7 +60,7 @@ export interface MeetingResponse {
   targetActiveGeneration: number | null;
   joinableParts: string[];
 }
-type MeetingListOfFilterResponse =
+export type MeetingListOfFilterResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 /**

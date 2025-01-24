@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { keyframes, styled } from 'stitches.config';
 import CalendarIcon from '@assets/svg/calendar.svg';
-import LocationIcon from '@assets/svg/location.svg';
 import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import { GroupBrowsingCardItem } from '@api/API_LEGACY/meeting';
@@ -12,9 +11,25 @@ import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
+import { IconLocation } from '@sopt-makers/icons';
+import { useLightningByIdQuery } from '@api/lightning/hook';
 
-const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, mEndDate, user, imageURL }) => {
+const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageURL }) => {
+  const { data: lightningData } = useLightningByIdQuery({ meetingId: +id });
+
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
+
+  const parseAppliedInfo = () => {
+    switch (lightningData?.appliedInfo.length) {
+      case 0:
+        return '지금 첫 번째로 신청해보세요!';
+      case 1:
+        return `${lightningData.appliedInfo[0]?.user.name}님이 신청중이에요`;
+      default:
+        return `${lightningData?.appliedInfo[0]?.user.name}님 외 ${lightningData?.appliedInfo.length}명 신청중이에요`;
+    }
+  };
+
   return (
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
@@ -31,31 +46,28 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, mStartDate, m
         </SUser>
         <STitle>{title}</STitle>
         <SBottom>
-          <SDesc css={{ color: '$green400' }}>김솝트님 외 8명 신청중이에요</SDesc>
-          <SDesc>모집 2일 남음</SDesc>
+          <SDesc css={{ color: '$green400' }}>{parseAppliedInfo()}</SDesc>
+          <SDesc>{`모집 ${dayjs(lightningData?.endDate).diff(dayjs(), 'day')}일 남음`}</SDesc>
         </SBottom>
 
         <SOverlayContent>
           <Flex align="center">
             <CalendarIcon style={{ marginRight: '6px' }} />
             <SDesc>
-              {dayjs(mStartDate).format('YYYY.MM.DD')} - {dayjs(mEndDate).format('YYYY.MM.DD')}
+              {dayjs(lightningData?.activityStartDate).format('YYYY.MM.DD')} -{' '}
+              {dayjs(lightningData?.activityEndDate).format('YYYY.MM.DD')}
             </SDesc>
           </Flex>
           <Flex align="center">
-            <LocationIcon style={{ marginRight: '6px' }} />
-            <SDesc>건대입구역</SDesc>
+            <IconLocation style={{ width: '12px', height: '12px', marginRight: '6px', color: '#9D9DA4' }} />
+            <SDesc>{lightningData?.place}</SDesc>
           </Flex>
           <SChipWrapper>
-            <Tag size="sm" shape="pill" variant="secondary" type="solid">
-              YB 환영
-            </Tag>
-            <Tag size="sm" shape="pill" variant="secondary" type="solid">
-              입문자 환영
-            </Tag>
-            <Tag size="sm" shape="pill" variant="secondary" type="solid">
-              초면 환영
-            </Tag>
+            {lightningData?.welcomeMessageTypes.map(welcome => (
+              <Tag size="sm" shape="pill" variant="secondary" type="solid">
+                {welcome}
+              </Tag>
+            ))}
           </SChipWrapper>
         </SOverlayContent>
       </SGroupBrowsingCard>

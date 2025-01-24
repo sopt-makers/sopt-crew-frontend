@@ -2,14 +2,14 @@ import { RecommendMeetingListQueryResponse, useGetRecommendMeetingListQuery } fr
 import CardList from '@components/page/home/HomeCardList/CardList';
 import { styled } from 'stitches.config';
 
-const HomeCardList = ({ groupBrowsingCardData }: { groupBrowsingCardData: RecommendMeetingListQueryResponse }) => {
+const HomeCardList = ({ inProgressMeetingData }: { inProgressMeetingData: RecommendMeetingListQueryResponse }) => {
   const { data: recommendMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [359, 360, 361] });
 
   return (
     <SWrapper>
       <SGradationRight />
       {recommendMeetings && <CardList label="🔹 우리... 같이 솝커톤 할래?" data={recommendMeetings.slice(0, 3)} />}
-      <CardList label="🔥 지금 모집중인 모임" data={groupBrowsingCardData.slice(0, 3)} />
+      <CardList label="🔥 지금 모집중인 모임" data={inProgressMeetingData.slice(0, 3)} />
       {recommendMeetings && (
         <CardList label="🍀 1차 행사 신청이 얼마 남지 않았어요!" data={recommendMeetings.slice(0, 3)} />
       )}

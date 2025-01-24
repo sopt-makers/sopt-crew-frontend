@@ -6,7 +6,6 @@ import DefaultModal from '@components/modal/DefaultModal';
 import { useMutationUpdateApplication } from '@api/API_LEGACY/meeting/hooks';
 import { APPLICATION_TYPE, EApprovalStatus, APPROVAL_STATUS_ENGLISH_TO_KOREAN } from '@constants/option';
 import { playgroundLink } from '@sopt-makers/playground-common';
-import ArrowMiniIcon from '@assets/svg/arrow_mini.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import dayjs from 'dayjs';
 import { AxiosError } from 'axios';
@@ -429,28 +428,6 @@ const SCardGenerationAndPhone = styled('div', {
 const SPhone = styled('div', {
   width: '$166',
   textAlign: 'center',
-});
-
-const SDetailButton = styled('button', {
-  color: '$gray10',
-  textDecoration: 'underline',
-  textUnderlinePosition: 'under',
-  fontAg: '18_semibold_100',
-  width: '$216',
-  textAlign: 'center',
-});
-
-const SCardDetailButton = styled('button', {
-  display: 'flex',
-  justifyContent: 'flex-start',
-  mt: '$3',
-  height: 'fit-content',
-  fontAg: '12_medium_100',
-  color: '$gray400',
-
-  '& > span': {
-    mr: '$2',
-  },
 });
 
 const SButtonContainer = styled('div', {

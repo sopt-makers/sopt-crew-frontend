@@ -43,8 +43,7 @@ const CommonMention = ({
 }: CommonMentionProps) => {
   const { data: mentionUserList } = useQueryGetMentionUsers();
 
-  const { parentComment, user, isReCommentClicked, setIsReCommentClicked, setParentComment } =
-    useContext(MentionContext);
+  const { parentComment, user, isReCommentClicked } = useContext(MentionContext);
 
   useEffect(() => {
     //컨테이너의 ID일 경우 (즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)

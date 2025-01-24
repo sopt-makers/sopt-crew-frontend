@@ -4,7 +4,6 @@ import UserIcon from '@assets/svg/user.svg?rect';
 import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
 import Link from 'next/link';
 import { Flex } from '@components/util/layout/Flex';
-import { fontsObject } from '@sopt-makers/fonts';
 
 type MobileCardProps = {
   id: number;
@@ -77,9 +76,7 @@ const SThumbnailImage = styled('img', {
   borderRadius: '$12',
 
   backgroundColor: '$gray800',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
+  objectFit: 'cover',
 });
 
 const STitleStyle = styled('h3', {

@@ -1,7 +1,7 @@
 import { ApplicationStatusType, UserResponse } from '@api/user';
 import { api } from '..';
 import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
-import { BungaeFormType } from '@type/form';
+import { LightningFormType } from '@type/form';
 import { paths } from '@/__generated__/schema2';
 interface PaginationType {
   page: number;
@@ -59,14 +59,14 @@ export const getRecommendMeetingList = async ({ meetingIds = [] }: { meetingIds:
   return (await api.get<RecommendMeetingListResponse>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data.meetings;
 };
 
-export const createBungae = async (formData: BungaeFormType) => {
+export const createLightning = async (formData: LightningFormType) => {
   const {
     data: { lightningId },
-  } = await api.post<{ lightningId: number }>('/lightning/v2', filterBungaeFormData(formData));
+  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLightningFormData(formData));
   return lightningId;
 };
 
-const filterBungaeFormData = (formData: BungaeFormType) => {
+const filterLightningFormData = (formData: LightningFormType) => {
   const convertedTags = formData.welcomeTags?.map(tag => {
     return tag?.value;
   });

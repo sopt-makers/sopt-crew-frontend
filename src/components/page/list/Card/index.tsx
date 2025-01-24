@@ -6,14 +6,11 @@ import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
 import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { ampli } from '@/ampli';
-import { paths } from '@/__generated__/schema2';
+import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
 
 interface CardProps {
   bottom?: ReactNode;
-  meetingData: Omit<
-    paths['/user/v2/meeting']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'][number],
-    'isCoLeader'
-  > & { isCoLeader?: boolean };
+  meetingData: MeetingListOfFilterResponse['meetings'][number];
   mobileType: 'list' | 'card';
 }
 
@@ -37,7 +34,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
     >
       <Link href={`/detail?id=${meetingData.id}`}>
         <DesktopOnly>
-          <DesktopSizeCard meetingData={meetingData} isAllParts={isAllParts} />
+          <DesktopSizeCard meetingData={meetingData} />
         </DesktopOnly>
         <MobileOnly>
           <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
