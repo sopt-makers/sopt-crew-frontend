@@ -21,13 +21,9 @@ export const useLightningByIdQuery = ({
   });
 };
 
-export const useLightningListQuery = ({ page, take }: { page: number; take: number }) => {
+export const useLightningListQuery = () => {
   return useQuery({
-    queryKey: ['lightningList', page],
-    queryFn: () =>
-      getLightningList({
-        page,
-        take,
-      }),
+    queryKey: ['lightningList'],
+    queryFn: () => getLightningList(),
   });
 };

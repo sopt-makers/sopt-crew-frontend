@@ -1,4 +1,3 @@
-import { useQueryGetGroupBrowsingCard } from '@api/API_LEGACY/meeting/hooks';
 import { useInfinitePosts } from '@api/post/hooks';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
@@ -16,6 +15,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
+import { useLightningListQuery } from '@api/lightning/hook';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
-  const { data: groupBrowsingCardData } = useQueryGetGroupBrowsingCard();
+  const lightningList = useLightningListQuery().data?.meetings;
   const { data: inProgressMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [] });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
       {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
-          {groupBrowsingCardData && <GroupBrowsingSlider cardList={groupBrowsingCardData}></GroupBrowsingSlider>}
+          {lightningList && <GroupBrowsingSlider cardList={lightningList}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
             <SContentTitle style={{ marginTop: '54px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
-            {groupBrowsingCardData && <Carousel cardList={groupBrowsingCardData} />}
+            {lightningList && <Carousel cardList={lightningList} />}
           </GroupBrowsingCarouselContainer>
         </>
       )}
@@ -57,12 +57,12 @@ const Home: NextPage = () => {
           <QuickMenuWrapper>
             <QuickMenu />
           </QuickMenuWrapper>
-          {inProgressMeetings && <HomeCardList groupBrowsingCardData={inProgressMeetings} />}
+          {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
         </Flex>
       ) : (
         <>
           <Flex justify="center" style={{ marginTop: '72px' }}>
-            {inProgressMeetings && <HomeCardList groupBrowsingCardData={inProgressMeetings} />}
+            {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
             </div>
