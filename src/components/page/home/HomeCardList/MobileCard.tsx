@@ -4,7 +4,6 @@ import UserIcon from '@assets/svg/user.svg?rect';
 import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
 import Link from 'next/link';
 import { Flex } from '@components/util/layout/Flex';
-import { fontsObject } from '@sopt-makers/fonts';
 
 type MobileCardProps = {
   id: number;

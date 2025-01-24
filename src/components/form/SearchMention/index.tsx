@@ -53,27 +53,10 @@ const SearchMention = ({
 }: SearchMentionProps) => {
   //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
   const { user, setUser } = useContext(SearchMentionContext);
-  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
   const handleUserClick = (user: mentionableDataType) => {
     onUserSelect(user);
     setValue('');
-  };
-
-  //엔터만 눌러도 추가가 되도록 함수 구현 -> 지금은 사용하고 있지 않음.
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      const suggestions = getFilteredAndRandomUsers(
-        value,
-        mentionUserList.map(v => ({ ...v, id: v.orgId, display: v.userName }))
-      );
-
-      if (suggestions.length > 0) {
-        // select the first suggestion
-        handleUserClick(suggestions[0] ?? defaultMentionableDataType);
-        e.preventDefault();
-      }
-    }
   };
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {

@@ -25,8 +25,6 @@ import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
 import { MentionContext } from '../Mention/MentionContext';
 import { useToast } from '@sopt-makers/ui';
 import CommentBlocker from '@components/blocker/CommentBlocker';
-import { IconTrash, IconWrite } from '@sopt-makers/icons';
-import { IconAlertCircle } from '@sopt-makers/icons';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
@@ -59,7 +57,6 @@ export default function FeedCommentContainer({
   const initialReplyLength = useRef<number>(comment?.replies?.length);
 
   const { parentComment } = useContext(MentionContext);
-  const recommentRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
 

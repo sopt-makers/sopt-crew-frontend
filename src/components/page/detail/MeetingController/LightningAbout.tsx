@@ -1,4 +1,3 @@
-import { RECRUITMENT_STATUS } from '@constants/option';
 import React from 'react';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';

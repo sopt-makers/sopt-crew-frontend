@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { TabList } from '@components/@common/tabList/TabList';
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
 import MeetingInformationSkeleton from '@components/page/mine/management/Skeleton/MeetingInformationSkeleton';
 import ManagementListItem from '@components/page/mine/management/ManagementListItem';

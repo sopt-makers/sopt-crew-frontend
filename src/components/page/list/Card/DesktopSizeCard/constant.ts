@@ -15,11 +15,12 @@ export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['mee
       const part = isAllParts
         ? '전체 파트'
         : meetingData.joinableParts
-          .map(part => parsePartValueToLabel(part))
-          .filter(item => item !== null)
-          .join(',');
-      return `${meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'
-        } / ${part}`;
+            .map(part => parsePartValueToLabel(part))
+            .filter(item => item !== null)
+            .join(',');
+      return `${
+        meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'
+      } / ${part}`;
     },
   },
   {

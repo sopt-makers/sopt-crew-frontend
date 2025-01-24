@@ -58,7 +58,7 @@ export default function PostPage() {
     mutationFn: (comment: string) =>
       POST('/comment/v2', {
         body: {
-          postId: post!.id,
+          postId: post?.id,
           contents: comment,
           isParent: parentComment.parentComment,
           parentCommentId: parentComment.parentComment ? null : parentComment.parentCommentId,

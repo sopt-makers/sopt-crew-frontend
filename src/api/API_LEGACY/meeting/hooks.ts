@@ -28,7 +28,6 @@ import {
   UpdateApplicationRequest,
   downloadMeetingMemberCSV,
   getGroupBrowsingCard,
-  GroupBrowsingCardDetail,
   GetMeetingResponse,
   postEventApplication,
   GroupBrowsingCardResponse,

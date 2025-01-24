@@ -13,7 +13,7 @@ interface PostDeleteModalProps {
 }
 
 //todo: meetingId 없애기
-const PostDeleteModal = ({ isOpen, close, postId, meetingId }: PostDeleteModalProps) => {
+const PostDeleteModal = ({ isOpen, close, postId }: PostDeleteModalProps) => {
   const queryClient = useQueryClient();
 
   const { DELETE } = apiV2.get();

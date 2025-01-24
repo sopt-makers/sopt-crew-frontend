@@ -22,16 +22,12 @@ export const useLightningByIdQuery = ({
 };
 
 export const useLightningListQuery = ({ page, take }: { page: number; take: number }) => {
-  return useQuery(
-    ['lightningList', page],
-    () =>
+  return useQuery({
+    queryKey: ['lightningList', page],
+    queryFn: () =>
       getLightningList({
         page,
         take,
       }),
-    {
-      select: response => response.data,
-      suspense: true,
-    }
-  );
+  });
 };

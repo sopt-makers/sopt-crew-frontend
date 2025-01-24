@@ -32,7 +32,6 @@ interface FeedCommentViewerProps {
 export default function FeedCommentViewer({
   comment,
   commentParentId,
-  isMine,
   isPosterComment,
   Content,
   Actions,
