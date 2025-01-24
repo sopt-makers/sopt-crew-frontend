@@ -10,7 +10,7 @@ import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
 
 interface CardProps {
   bottom?: ReactNode;
-  meetingData: MeetingListOfFilterResponse['meetings'][0];
+  meetingData: MeetingListOfFilterResponse['meetings'][number];
   mobileType: 'list' | 'card';
 }
 
