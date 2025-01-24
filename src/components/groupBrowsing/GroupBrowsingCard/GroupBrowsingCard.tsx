@@ -18,6 +18,18 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
   const { data: lightningData } = useLightningByIdQuery({ meetingId: +id });
 
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
+
+  const parseAppliedInfo = () => {
+    switch (lightningData?.appliedInfo.length) {
+      case 0:
+        return '지금 첫 번째로 신청해보세요!';
+      case 1:
+        return `${lightningData.appliedInfo[0]?.user.name}님이 신청중이에요`;
+      default:
+        return `${lightningData?.appliedInfo[0]?.user.name}님 외 ${lightningData?.appliedInfo.length}명 신청중이에요`;
+    }
+  };
+
   return (
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
@@ -34,9 +46,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
         </SUser>
         <STitle>{title}</STitle>
         <SBottom>
-          <SDesc
-            css={{ color: '$green400' }}
-          >{`김솝트님 외 ${lightningData?.appliedInfo.length}명 신청중이에요`}</SDesc>
+          <SDesc css={{ color: '$green400' }}>{parseAppliedInfo()}</SDesc>
           <SDesc>{`모집 ${dayjs(lightningData?.endDate).diff(dayjs(), 'day')}일 남음`}</SDesc>
         </SBottom>
 
