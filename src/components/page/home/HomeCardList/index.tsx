@@ -3,16 +3,19 @@ import CardList from '@components/page/home/HomeCardList/CardList';
 import { styled } from 'stitches.config';
 
 const HomeCardList = ({ inProgressMeetingData }: { inProgressMeetingData: RecommendMeetingListQueryResponse }) => {
-  const { data: recommendMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [359, 360, 361] });
+  const { data: recommendMeetings1 } = useGetRecommendMeetingListQuery({ meetingIds: [401, 394, 387] });
+  const { data: recommendMeetings2 } = useGetRecommendMeetingListQuery({ meetingIds: [384, 320, 315] });
+  const { data: recommendMeetings3 } = useGetRecommendMeetingListQuery({ meetingIds: [334, 326, 316] });
 
   return (
     <SWrapper>
       <SGradationRight />
-      {recommendMeetings && <CardList label="🔹 우리... 같이 솝커톤 할래?" data={recommendMeetings.slice(0, 3)} />}
-      <CardList label="🔥 지금 모집중인 모임" data={inProgressMeetingData.slice(0, 3)} />
-      {recommendMeetings && (
-        <CardList label="🍀 1차 행사 신청이 얼마 남지 않았어요!" data={recommendMeetings.slice(0, 3)} />
+      {recommendMeetings1 && (
+        <CardList label="🔷 35기 AND 솝트 행사 뭐가 있을까?" data={recommendMeetings1.slice(0, 3)} />
       )}
+      {/* <CardList label="🔥 지금 모집중인 모임" data={inProgressMeetingData.slice(0, 3)} /> */}
+      {recommendMeetings2 && <CardList label="😋 쩝쩝박사들 모여라" data={recommendMeetings2.slice(0, 3)} />}
+      {recommendMeetings3 && <CardList label="🦴 역사와 전통이 있는 모임" data={recommendMeetings3.slice(0, 3)} />}
     </SWrapper>
   );
 };
