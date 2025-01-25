@@ -36,14 +36,14 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
       const startDate = dayjs(flashData.activityStartDate).format('YY.MM.dd');
       const endDate = dayjs(flashData.activityEndDate).format('YY.MM.dd');
 
-      if (flashData.timingType === '당일') return startDate;
+      if (flashData.flashTimingType === '당일') return startDate;
 
       return `${startDate} - ${endDate} / 협의 후 결정`;
     },
   },
   {
     label: '활동 장소',
-    value: () => flashData.place,
+    value: () => flashData.flashPlace,
   },
   {
     label: '모집 현황',

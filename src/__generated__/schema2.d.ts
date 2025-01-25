@@ -80,9 +80,9 @@ export interface paths {
     /** 일반 모임 지원 */
     post: operations["applyGeneralMeeting"];
   };
-  "/lightning/v2": {
+  "/flash/v2": {
     /** 번쩍 모임 생성 */
-    post: operations["createLightning"];
+    post: operations["createFlash"];
   };
   "/comment/v2": {
     /** 모임 게시글 댓글 리스트 조회 */
@@ -176,10 +176,6 @@ export interface paths {
     /** 모임 둘러보기 조회 */
     get: operations["getMeetingBanner"];
   };
-  "/lightning/v2/{meetingId}": {
-    /** 번쩍 모임 상세 조회 */
-    get: operations["getLightningByMeetingId"];
-  };
   "/internal/meetings": {
     /**
      * [Internal] 모임 전체 조회/검색/필터링
@@ -189,6 +185,10 @@ export interface paths {
   };
   "/internal/meeting/stats/approved-studies/{orgId}": {
     get: operations["getApprovedStudyCountByOrgId"];
+  };
+  "/flash/v2/{meetingId}": {
+    /** 번쩍 모임 상세 조회 */
+    get: operations["getFlashByMeetingId"];
   };
   "/advertisement/v2": {
     /**
@@ -509,8 +509,8 @@ export interface components {
       applyId: number;
     };
     /** @description 번쩍 모임 생성 및 수정 request body dto */
-    LightningV2CreateLightningBodyDto: {
-      lightningBody: components["schemas"]["LightningV2CreateLightningBodyWithoutWelcomeMessageDto"];
+    FlashV2CreateFlashBodyDto: {
+      flashBody: components["schemas"]["FlashV2CreateFlashBodyWithoutWelcomeMessageDto"];
       /**
        * @description 환영 메시지 타입 리스트
        * @example [
@@ -521,7 +521,7 @@ export interface components {
       welcomeMessageTypes?: string[];
     };
     /** @description 번쩍 모임 생성 및 수정 request body dto (환영 메시지 타입 제외) */
-    LightningV2CreateLightningBodyWithoutWelcomeMessageDto: {
+    FlashV2CreateFlashBodyWithoutWelcomeMessageDto: {
       /**
        * @description 번쩍 모임 제목
        * @example 알고보면 쓸데있는 개발 프로세스
@@ -534,9 +534,9 @@ export interface components {
       desc: string;
       /**
        * @description 번쩍 일정 결정 방식
-       * @example 예정 기간(협의 후 결정)
+       * @example 예정 기간 (협의 후 결정)
        */
-      lightningTimingType: string;
+      flashTimingType: string;
       /**
        * @description 번쩍 활동 시작 날짜
        * @example 2025.10.29
@@ -551,12 +551,12 @@ export interface components {
        * @description 모임 장소 Tag
        * @example 오프라인
        */
-      lightningPlaceType: string;
+      flashPlaceType: string;
       /**
        * @description 모임 장소
        * @example 잠실역 5번 출구
        */
-      lightningPlace?: string;
+      flashPlace?: string;
       /**
        * Format: int32
        * @description 최소 모집 인원
@@ -578,7 +578,7 @@ export interface components {
       files: string[];
     };
     /** @description 번쩍 모임 생성 응답 Dto */
-    LightningV2CreateLightningResponseDto: {
+    FlashV2CreateFlashResponseDto: {
       /**
        * Format: int32
        * @description 모임 id - 번쩍 카테고리
@@ -1813,7 +1813,7 @@ export interface components {
        * @example 스터디
        * @enum {string}
        */
-      category: "STUDY" | "LECTURE" | "LIGHTNING" | "EVENT" | "SEMINAR";
+      category: "STUDY" | "LECTURE" | "FLASH" | "EVENT" | "SEMINAR";
       /**
        * @description 모임 사진
        * @example [url] 형식
@@ -1903,122 +1903,6 @@ export interface components {
        */
       profileImage?: string;
     };
-    /** @description 번쩍 상세 조회 dto */
-    LightningV2GetLightningByMeetingIdResponseDto: {
-      /**
-       * Format: int32
-       * @description 모임 id
-       * @example 2
-       */
-      id: number;
-      /**
-       * Format: int32
-       * @description 번쩍장 id
-       * @example 184
-       */
-      leaderUserId: number;
-      /**
-       * @description 번쩍 제목
-       * @example 번쩍 제목입니다.
-       */
-      title: string;
-      /**
-       * @description 모임 카테고리(번쩍)
-       * @example 번쩍
-       */
-      category: string;
-      /**
-       * @description 번쩍 이미지
-       * @example [url 형식]
-       */
-      imageURL: components["schemas"]["ImageUrlVO"][];
-      /**
-       * Format: date-time
-       * @description 번쩍 신청 종료 시간
-       */
-      endDate: string;
-      /**
-       * Format: int32
-       * @description 최소 모집 인원
-       * @example 1
-       */
-      minimumCapacity: number;
-      /**
-       * Format: int32
-       * @description 최대 모집 인원
-       * @example 5
-       */
-      maximumCapacity: number;
-      /** @description 환영 메시지 타입 목록 */
-      welcomeMessageTypes: string[];
-      /**
-       * @description 번쩍 소개
-       * @example 번쩍 소개 입니다.
-       */
-      desc: string;
-      /**
-       * Format: date-time
-       * @description 번쩍 활동 시작 시간
-       */
-      activityStartDate: string;
-      /**
-       * Format: date-time
-       * @description 번쩍 활동 종료 시간
-       */
-      activityEndDate: string;
-      /**
-       * @description 번쩍 일시 타입
-       * @example 예정 기간(협의 후 결정)
-       */
-      timingType: string;
-      /**
-       * @description 번쩍 장소 타입
-       * @example 온라인
-       */
-      placeType: string;
-      /**
-       * @description 번쩍 장소
-       * @example Zoom 링크
-       */
-      place: string;
-      /**
-       * Format: int32
-       * @description 개설 기수
-       * @example 36
-       */
-      createdGeneration: number;
-      /**
-       * Format: int32
-       * @description 번쩍 상태, 0: 모집전, 1: 모집중, 2: 모집종료
-       * @example 1
-       * @enum {integer}
-       */
-      status: 0 | 1 | 2;
-      /**
-       * Format: int64
-       * @description 승인된 신청 수
-       * @example 7
-       */
-      approvedApplyCount: number;
-      /**
-       * @description 번쩍 개설자 여부
-       * @example true
-       */
-      host: boolean;
-      /**
-       * @description 번쩍 신청 여부
-       * @example false
-       */
-      apply: boolean;
-      /**
-       * @description 번쩍 승인 여부
-       * @example false
-       */
-      approved: boolean;
-      user: components["schemas"]["MeetingCreatorDto"];
-      /** @description 신청 목록 */
-      appliedInfo: components["schemas"]["ApplyWholeInfoDto"][];
-    };
     /** @description [Internal] 모임 목록 조회 응답 Dto */
     InternalMeetingGetAllMeetingDto: {
       /** @description 모임 객체 목록 */
@@ -2084,6 +1968,122 @@ export interface components {
        * @example 5
        */
       approvedStudyCount?: number;
+    };
+    /** @description 번쩍 상세 조회 dto */
+    FlashV2GetFlashByMeetingIdResponseDto: {
+      /**
+       * Format: int32
+       * @description 모임 id
+       * @example 2
+       */
+      id: number;
+      /**
+       * Format: int32
+       * @description 번쩍장 id
+       * @example 184
+       */
+      leaderUserId: number;
+      /**
+       * @description 번쩍 제목
+       * @example 번쩍 제목입니다.
+       */
+      title: string;
+      /**
+       * @description 모임 카테고리(번쩍)
+       * @example 번쩍
+       */
+      category: string;
+      /**
+       * @description 번쩍 이미지
+       * @example [url 형식]
+       */
+      imageURL: components["schemas"]["ImageUrlVO"][];
+      /**
+       * Format: date-time
+       * @description 번쩍 신청 종료 시간
+       */
+      endDate: string;
+      /**
+       * Format: int32
+       * @description 최소 모집 인원
+       * @example 1
+       */
+      minimumCapacity: number;
+      /**
+       * Format: int32
+       * @description 최대 모집 인원
+       * @example 5
+       */
+      maximumCapacity: number;
+      /** @description 환영 메시지 타입 목록 */
+      welcomeMessageTypes: string[];
+      /**
+       * @description 번쩍 소개
+       * @example 번쩍 소개 입니다.
+       */
+      desc: string;
+      /**
+       * Format: date-time
+       * @description 번쩍 활동 시작 시간
+       */
+      activityStartDate: string;
+      /**
+       * Format: date-time
+       * @description 번쩍 활동 종료 시간
+       */
+      activityEndDate: string;
+      /**
+       * @description 번쩍 일시 타입
+       * @example 예정 기간 (협의 후 결정)
+       */
+      flashTimingType: string;
+      /**
+       * @description 번쩍 장소 타입
+       * @example 온라인
+       */
+      flashPlaceType: string;
+      /**
+       * @description 번쩍 장소
+       * @example Zoom 링크
+       */
+      flashPlace: string;
+      /**
+       * Format: int32
+       * @description 개설 기수
+       * @example 36
+       */
+      createdGeneration: number;
+      /**
+       * Format: int32
+       * @description 번쩍 상태, 0: 모집전, 1: 모집중, 2: 모집종료
+       * @example 1
+       * @enum {integer}
+       */
+      status: 0 | 1 | 2;
+      /**
+       * Format: int64
+       * @description 승인된 신청 수
+       * @example 7
+       */
+      approvedApplyCount: number;
+      /**
+       * @description 번쩍 개설자 여부
+       * @example true
+       */
+      host: boolean;
+      /**
+       * @description 번쩍 신청 여부
+       * @example false
+       */
+      apply: boolean;
+      /**
+       * @description 번쩍 승인 여부
+       * @example false
+       */
+      approved: boolean;
+      user: components["schemas"]["MeetingCreatorDto"];
+      /** @description 신청 목록 */
+      appliedInfo: components["schemas"]["ApplyWholeInfoDto"][];
     };
     /** @description 댓글 객체 응답 Dto */
     CommentDto: {
@@ -2637,17 +2637,17 @@ export interface operations {
     };
   };
   /** 번쩍 모임 생성 */
-  createLightning: {
+  createFlash: {
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["LightningV2CreateLightningBodyDto"];
+        "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateFlashBodyDto"];
       };
     };
     responses: {
-      /** @description lightningId: 10 */
+      /** @description meetingId: 10 */
       201: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["LightningV2CreateLightningResponseDto"];
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateFlashResponseDto"];
         };
       };
       /** @description VALIDATION_EXCEPTION */
@@ -3016,24 +3016,6 @@ export interface operations {
       204: never;
     };
   };
-  /** 번쩍 모임 상세 조회 */
-  getLightningByMeetingId: {
-    parameters: {
-      path: {
-        meetingId: number;
-      };
-    };
-    responses: {
-      /** @description 번쩍 모임 상세 조회 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["LightningV2GetLightningByMeetingIdResponseDto"];
-        };
-      };
-      /** @description 번쩍 모임이 없습니다. */
-      400: never;
-    };
-  };
   /**
    * [Internal] 모임 전체 조회/검색/필터링
    * @description 모임 전체 조회/검색/필터링
@@ -3086,6 +3068,24 @@ export interface operations {
           "application/json;charset=UTF-8": components["schemas"]["ApprovedStudyCountResponseDto"];
         };
       };
+    };
+  };
+  /** 번쩍 모임 상세 조회 */
+  getFlashByMeetingId: {
+    parameters: {
+      path: {
+        meetingId: number;
+      };
+    };
+    responses: {
+      /** @description 번쩍 모임 상세 조회 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2GetFlashByMeetingIdResponseDto"];
+        };
+      };
+      /** @description 번쩍 모임이 없습니다. */
+      400: never;
     };
   };
   /**

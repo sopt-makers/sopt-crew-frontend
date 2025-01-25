@@ -60,7 +60,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
           </Flex>
           <Flex align="center">
             <IconLocation style={{ width: '12px', height: '12px', marginRight: '6px', color: '#9D9DA4' }} />
-            <SDesc>{flashData?.place}</SDesc>
+            <SDesc>{flashData?.flashPlace}</SDesc>
           </Flex>
           <SChipWrapper>
             {flashData?.welcomeMessageTypes.map(welcome => (

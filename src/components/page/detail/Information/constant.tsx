@@ -99,7 +99,7 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
       </SIconTitleWrapper>
     ),
     Content: () => {
-      const isSingleDay = detailData.timingType === '당일';
+      const isSingleDay = detailData.flashTimingType === '당일';
       return (
         <SDescription style={{ color: 'white' }}>
           {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
@@ -126,11 +126,11 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
     ),
     Content: () => (
       <SDescription style={{ color: 'white' }}>{`${parsePlaceType(
-        detailData.placeType,
-        detailData.place
+        detailData.flashPlaceType,
+        detailData.flashPlace
       )}`}</SDescription>
     ),
-    isValid: detailData.place,
+    isValid: detailData.flashPlace,
   },
 ];
 
