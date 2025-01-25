@@ -33,8 +33,8 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
   {
     label: '진행 일자',
     value: () => {
-      const startDate = dayjs(flashData.activityStartDate).format('YY.MM.dd');
-      const endDate = dayjs(flashData.activityEndDate).format('YY.MM.dd');
+      const startDate = dayjs(flashData.activityStartDate).format('YY.MM.DD');
+      const endDate = dayjs(flashData.activityEndDate).format('YY.MM.DD');
 
       if (flashData.flashTimingType === '당일') return startDate;
 
@@ -47,6 +47,6 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
   },
   {
     label: '모집 현황',
-    value: () => `${flashData.minimumCapacity} ~ ${flashData.maximumCapacity} / `,
+    value: () => `${flashData.appliedInfo.length} / ${flashData.minimumCapacity} ~ ${flashData.maximumCapacity}`,
   },
 ];
