@@ -12,21 +12,21 @@ import { getResizedImage } from '@utils/image';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
 import { IconLocation } from '@sopt-makers/icons';
-import { useLightningByIdQuery } from '@api/lightning/hook';
+import { useFlashByIdQuery } from '@api/flash/hook';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageURL }) => {
-  const { data: lightningData } = useLightningByIdQuery({ meetingId: +id });
+  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
 
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
 
   const parseAppliedInfo = () => {
-    switch (lightningData?.appliedInfo.length) {
+    switch (flashData?.appliedInfo.length) {
       case 0:
         return '지금 첫 번째로 신청해보세요!';
       case 1:
-        return `${lightningData.appliedInfo[0]?.user.name}님이 신청중이에요`;
+        return `${flashData.appliedInfo[0]?.user.name}님이 신청중이에요`;
       default:
-        return `${lightningData?.appliedInfo[0]?.user.name}님 외 ${lightningData?.appliedInfo.length}명 신청중이에요`;
+        return `${flashData?.appliedInfo[0]?.user.name}님 외 ${flashData?.appliedInfo.length}명 신청중이에요`;
     }
   };
 
@@ -47,23 +47,23 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
         <STitle>{title}</STitle>
         <SBottom>
           <SDesc css={{ color: '$green400' }}>{parseAppliedInfo()}</SDesc>
-          <SDesc>{`모집 ${dayjs(lightningData?.endDate).diff(dayjs(), 'day')}일 남음`}</SDesc>
+          <SDesc>{`모집 ${dayjs(flashData?.endDate).diff(dayjs(), 'day')}일 남음`}</SDesc>
         </SBottom>
 
         <SOverlayContent>
           <Flex align="center">
             <CalendarIcon style={{ marginRight: '6px' }} />
             <SDesc>
-              {dayjs(lightningData?.activityStartDate).format('YYYY.MM.DD')} -{' '}
-              {dayjs(lightningData?.activityEndDate).format('YYYY.MM.DD')}
+              {dayjs(flashData?.activityStartDate).format('YYYY.MM.DD')} -{' '}
+              {dayjs(flashData?.activityEndDate).format('YYYY.MM.DD')}
             </SDesc>
           </Flex>
           <Flex align="center">
             <IconLocation style={{ width: '12px', height: '12px', marginRight: '6px', color: '#9D9DA4' }} />
-            <SDesc>{lightningData?.place}</SDesc>
+            <SDesc>{flashData?.place}</SDesc>
           </Flex>
           <SChipWrapper>
-            {lightningData?.welcomeMessageTypes.map(welcome => (
+            {flashData?.welcomeMessageTypes.map(welcome => (
               <Tag size="sm" shape="pill" variant="secondary" type="solid">
                 {welcome}
               </Tag>

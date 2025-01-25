@@ -7,7 +7,7 @@ import { styled } from 'stitches.config';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
 import CalendarIcon from '@assets/svg/calendar.svg?rect';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 import { IconLocation } from '@sopt-makers/icons';
 
 export const MeetingDetailList = (detailData: GetMeetingResponse) => [
@@ -64,7 +64,7 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
+export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
   {
     key: '#환영 태그',
     Title: () => <STitle>#환영 태그</STitle>,

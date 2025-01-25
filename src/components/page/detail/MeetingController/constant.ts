@@ -1,7 +1,7 @@
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 
-export const CAPACITY = (detailData: GetMeetingResponse | GetLightningByIdResponse) => {
+export const CAPACITY = (detailData: GetMeetingResponse | GetFlashByIdResponse) => {
   if ('capacity' in detailData) {
     return `${detailData.approvedApplyCount}/${detailData.capacity}명`;
   }

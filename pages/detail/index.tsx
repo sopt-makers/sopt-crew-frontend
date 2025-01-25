@@ -15,9 +15,9 @@ import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetingController from '@components/page/detail/MeetingController';
-import { useLightningByIdQuery } from '@api/lightning/hook';
+import { useFlashByIdQuery } from '@api/flash/hook';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 
 dayjs.locale('ko');
 
@@ -30,7 +30,7 @@ const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
   const { data: meetingData } = useQueryGetMeeting({ params: { id } });
-  const { data: lightningData } = useLightningByIdQuery({ meetingId: +id });
+  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
@@ -65,7 +65,7 @@ const DetailPage = () => {
       </>
     );
   }
-  const detailData: GetMeetingResponse | GetLightningByIdResponse = lightningData || meetingData;
+  const detailData: GetMeetingResponse | GetFlashByIdResponse = flashData || meetingData;
 
   return (
     <>

@@ -2,10 +2,10 @@ import React from 'react';
 import { styled } from 'stitches.config';
 import dayjs from 'dayjs';
 import ProfileAnchor from '@components/page/detail/MeetingController/ProfileAnchor';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 
-const LightningAbout = ({ detailData }: { detailData: GetLightningByIdResponse }) => {
+const FlashAbout = ({ detailData }: { detailData: GetFlashByIdResponse }) => {
   const {
     title,
     status,
@@ -35,7 +35,7 @@ const LightningAbout = ({ detailData }: { detailData: GetLightningByIdResponse }
   );
 };
 
-export default LightningAbout;
+export default FlashAbout;
 
 const SAbout = styled('div', {
   mr: '$90',
