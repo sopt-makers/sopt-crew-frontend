@@ -1,7 +1,7 @@
 import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
-import { api } from '../..';
 import { GetMeetingResponse } from '../meeting';
 import { paths } from '@/__generated__/schema2';
+import { api } from '@api/index';
 
 /**
  * @deprecated

@@ -4,22 +4,20 @@ import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import CardSkeleton from '@components/page/meetingList/Card/Skeleton';
-import Filter from '@components/page/meetingList/Filter';
-import Search from '@components/page/meetingList/Filter/Search';
-import GridLayout from '@components/page/meetingList/Grid/Layout';
-import { MeetingListOfAll } from '@components/page/meetingList/Grid/List';
-import NoticeSlider from '@components/page/meetingList/Slider/NoticeSlider/NoticeSlider';
-import { TabList } from '@components/tabList/TabList';
+import CardSkeleton from '@components/page/list/Card/Skeleton';
+import Filter from '@components/page/list/Filter';
+import Search from '@components/page/list/Filter/Search';
+import GridLayout from '@components/page/list/Grid/Layout';
+import { MeetingListOfAll } from '@components/page/list/Grid/List';
+import NoticeSlider from '@components/page/list/Slider/NoticeSlider/NoticeSlider';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
-import { Flex } from '@components/util/layout/Flex';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
+import CrewTab from '@components/CrewTab';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -51,18 +49,8 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        <Flex align="start" justify="between">
-          <TabList text="groupAll" size="big">
-            <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-              <TabList.Item text="feedAll">홈</TabList.Item>
-            </Link>
-            <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-              <TabList.Item text="groupAll">전체 모임</TabList.Item>
-            </Link>
-            <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-              <TabList.Item text="mine">내 모임</TabList.Item>
-            </Link>
-          </TabList>
+        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 개설하기 */}
+        <CrewTab>
           <SMobileButtonContainer>
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
             <Search.Mobile />
@@ -71,13 +59,19 @@ const Home: NextPage = () => {
             <PlusIcon />
             <span>모임 개설하기</span>
           </SMakeMeetingButton>
-        </Flex>
+        </CrewTab>
+
+        {/*Notice 슬라이더*/}
         <SNoticeWrapper>
           <NoticeSlider notices={notices} />
         </SNoticeWrapper>
+
+        {/*필터 - 필터, 모임 검색, 모임 신청 가이드, 필터 적용 후 생기는 FLEX 박스(chip 모임)*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
+
+        {/*모임 목록들 - MeetingListOfAll : 내부적으로 쿼리 파라미터 이용하여 필터링 적용*/}
         <SSRSafeSuspense
           fallback={
             <GridLayout mobileType="list">
@@ -90,6 +84,7 @@ const Home: NextPage = () => {
           <MeetingListOfAll />
         </SSRSafeSuspense>
       </div>
+
       <ConfirmModal
         isModalOpened={isModalOpened}
         message={`모임을 개설하려면\n프로필 작성이 필요해요`}

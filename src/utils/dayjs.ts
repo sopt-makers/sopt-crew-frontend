@@ -9,7 +9,7 @@ dayjs.locale('ko');
 dayjs.extend(updateLocale);
 dayjs.updateLocale('ko', {
   relativeTime: {
-    ...localeList['ko'].relativeTime,
+    ...localeList['ko']?.relativeTime,
     s: '방금',
     h: '1시간',
     d: '1일',

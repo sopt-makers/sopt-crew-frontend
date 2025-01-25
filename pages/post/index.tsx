@@ -6,7 +6,7 @@ import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
-import LikeButton from '@components/button/LikeButton';
+import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
@@ -15,10 +15,10 @@ import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/Feed
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import { MentionContext } from '@components/feed/Mention/MentionContext';
 import FeedEditModal from '@components/feed/Modal/FeedEditModal';
-import Loader from '@components/loader/Loader';
+import Loader from '@components/@common/loader/Loader';
 import ConfirmModal from '@components/modal/ConfirmModal';
-import FeedItem from '@components/page/meetingDetail/Feed/FeedItem';
-import MeetingInfo from '@components/page/meetingDetail/Feed/FeedItem/MeetingInfo';
+import FeedItem from '@components/page/detail/Feed/FeedItem';
+import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { TAKE_COUNT } from '@constants/feed';
 import useComment from '@hooks/useComment/useComment';
 import useCommentMutation from '@hooks/useComment/useCommentMutation';
@@ -58,7 +58,7 @@ export default function PostPage() {
     mutationFn: (comment: string) =>
       POST('/comment/v2', {
         body: {
-          postId: post!.id,
+          postId: post?.id,
           contents: comment,
           isParent: parentComment.parentComment,
           parentCommentId: parentComment.parentComment ? null : parentComment.parentCommentId,
@@ -75,7 +75,12 @@ export default function PostPage() {
   };
 
   const { setTarget } = useIntersectionObserver({
-    onIntersect: ([{ isIntersecting }]) => isIntersecting,
+    onIntersect: entries => {
+      const entry = entries[0];
+      if (entry?.isIntersecting) {
+        return entry?.isIntersecting;
+      }
+    },
   });
 
   const handleCreateComment = async (req: PostCommentWithMentionRequest) => {

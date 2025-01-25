@@ -28,9 +28,9 @@ import {
   UpdateApplicationRequest,
   downloadMeetingMemberCSV,
   getGroupBrowsingCard,
-  GroupBrowsingCardDetail,
   GetMeetingResponse,
   postEventApplication,
+  GroupBrowsingCardResponse,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -59,6 +59,7 @@ interface UseMutateBody<T> {
 }
 
 export const useQueryMeetingListOfAll = () => {
+  //쿼리 파라미터값들을 읽어서, 서버에 모임 리스트 받아오는데 사용
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
@@ -191,7 +192,7 @@ export const useMutationDownloadMeetingMemberCSV = () =>
     },
   });
 
-export const useQueryGetGroupBrowsingCard = (): UseQueryResult<GroupBrowsingCardDetail[]> => {
+export const useQueryGetGroupBrowsingCard = (): UseQueryResult<GroupBrowsingCardResponse> => {
   return useQuery({
     queryKey: ['getGroupBrowsingCard'],
     queryFn: () => {

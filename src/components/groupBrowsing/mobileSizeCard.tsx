@@ -1,29 +1,13 @@
 import React, { FC } from 'react';
 import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
-import { ACTION_STATUS } from '@constants/option';
+import { ACTION_STATUS, CATEGORY_NAME, CategoryType } from '@constants/option';
 import Link from 'next/link';
-import { categoryType, GroupBrowsingCardDetail, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
+import { GroupBrowsingCardItem, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
 
-const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
-  id,
-  title,
-  category,
-  startDate,
-  mstartDate,
-  mendDate,
-  recentActivityDate,
-  targetActiveGeneration,
-  joinableParts,
-  capacity,
-  applicantCount,
-  approvedUserCount,
-  user,
-  status,
-  imageURL,
-}) => {
-  const isGroupActive = returnIsGroupActive(mstartDate, mendDate);
-  const newStatus = returnNewStatus(status, mstartDate, isGroupActive);
+const MobileSizeCard: FC<GroupBrowsingCardItem> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
+  const isGroupActive = returnIsGroupActive(mStartDate, mEndDate);
+  const newStatus = returnNewStatus(status, mStartDate, isGroupActive);
 
   return (
     <Link href={`/detail?id=${id}`}>
@@ -31,7 +15,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
         <SStatus recruitingStatus={newStatus}>{ACTION_STATUS[newStatus]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${getResizedImage(imageURL[0].url, 140)})`,
+            backgroundImage: `url(${getResizedImage(imageURL[0]?.url ?? '', 140)})`,
             backgroundSize: 'cover',
           }}
         />
@@ -39,7 +23,7 @@ const MobileSizeCard: FC<GroupBrowsingCardDetail> = ({
       <STitleSection>
         <STitle>
           {' '}
-          <SCategory isStudy={category === 'STUDY'}>{categoryType(category)}</SCategory>
+          <SCategory isStudy={category === 'STUDY'}>{CATEGORY_NAME(category as CategoryType)}</SCategory>
           {title}
         </STitle>
       </STitleSection>

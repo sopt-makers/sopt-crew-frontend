@@ -2,7 +2,7 @@ import { paths } from '@/__generated__/schema2';
 import LikeHoverIcon from '@assets/svg/like_hover_in_comment.svg';
 import MessageIcon from '@assets/svg/message-dots.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import { playgroundURL } from '@constants/url';
 import { Menu } from '@headlessui/react';
 import { colors } from '@sopt-makers/colors';
@@ -32,7 +32,6 @@ interface FeedCommentViewerProps {
 export default function FeedCommentViewer({
   comment,
   commentParentId,
-  isMine,
   isPosterComment,
   Content,
   Actions,

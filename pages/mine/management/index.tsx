@@ -1,22 +1,21 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { styled } from 'stitches.config';
-import { TabList } from '@components/tabList/TabList';
-import ManagementListSkeleton from '@components/page/meetingManagement/Skeleton/ManagementListSkeleton';
-import MeetingInformationSkeleton from '@components/page/meetingManagement/Skeleton/MeetingInformationSkeleton';
-import ManagementListItem from '@components/page/meetingManagement/ManagementListItem';
-import MeetingInformation from '@components/page/meetingManagement/MeetingInformation';
+import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
+import MeetingInformationSkeleton from '@components/page/mine/management/Skeleton/MeetingInformationSkeleton';
+import ManagementListItem from '@components/page/mine/management/ManagementListItem';
+import MeetingInformation from '@components/page/mine/management/MeetingInformation';
 import Select from '@components/form/Select';
 import { Option } from '@components/form/Select/OptionItem';
-import ItemDescriptionBox from '@components/page/meetingManagement/ItemDescriptionBox';
-import Pagination from '@components/page/meetingList/Pagination';
+import ItemDescriptionBox from '@components/page/mine/management/ItemDescriptionBox';
+import Pagination from '@components/page/list/Pagination';
 import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
-import { numberOptionList, sortOptionList } from '@data/options';
+import { numberOptionListDefault, numberOptionList, sortOptionList, sortOptionListDefault } from '@data/options';
 import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import Filter from '@components/page/meetingManagement/Filter';
+import Filter from '@components/page/mine/management/Filter';
 import DownloadIcon from '@assets/svg/download.svg';
 import { ampli } from '@/ampli';
 import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
+import CrewTab from '@components/CrewTab';
 
 const ManagementPage = () => {
   const router = useRouter();
@@ -30,13 +29,18 @@ const ManagementPage = () => {
   });
   const isHost = meetingData?.host ?? false;
   const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useMutationDownloadMeetingMemberCSV();
+
+  const convertedNumberTake = numberOptionList[Number(take)] ?? numberOptionListDefault;
+
+  const convertedSortTake = sortOptionList[Number(sortByDate)] ?? sortOptionListDefault;
+
   const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
     params: {
       id,
       page: (page || 0) as number,
-      take: Number(numberOptionList[Number(take) || 0].value),
+      take: Number(convertedNumberTake.value),
       status,
-      date: sortOptionList[Number(sortByDate) || 0].value as string,
+      date: sortOptionList[Number(sortByDate) || 0]?.value as string,
     },
   });
 
@@ -62,17 +66,7 @@ const ManagementPage = () => {
 
   return (
     <SManagementPage>
-      <TabList text="mine" size="big">
-        <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
-          <TabList.Item text="feedAll">홈</TabList.Item>
-        </Link>
-        <Link href="/list" onClick={() => ampli.clickNavbarGroup({ menu: '전체 모임' })}>
-          <TabList.Item text="groupAll">전체 모임</TabList.Item>
-        </Link>
-        <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
-          <TabList.Item text="mine">내 모임</TabList.Item>
-        </Link>
-      </TabList>
+      <CrewTab />
       {isMeetingDataLoading ? (
         <MeetingInformationSkeleton />
       ) : (
@@ -91,7 +85,7 @@ const ManagementPage = () => {
         ) : (
           <SSelectNumberWrapper>
             <Select
-              value={numberOptionList[Number(take) || 0]}
+              value={convertedNumberTake}
               options={numberOptionList}
               onChange={handleChangeSelectOption(setTake, numberOptionList)}
             />
@@ -105,14 +99,14 @@ const ManagementPage = () => {
             <div>
               <SSelectNumberWrapper>
                 <Select
-                  value={numberOptionList[Number(take) || 0]}
+                  value={convertedNumberTake}
                   options={numberOptionList}
                   onChange={handleChangeSelectOption(setTake, numberOptionList)}
                 />
               </SSelectNumberWrapper>
               <SSelectWrapper>
                 <Select
-                  value={sortOptionList[Number(sortByDate) || 0]}
+                  value={convertedSortTake}
                   options={sortOptionList}
                   onChange={handleChangeSelectOption(setSort, sortOptionList)}
                 />

@@ -21,7 +21,7 @@ export const APPROVAL_STATUS_KOREAN_TO_ENGLISH: StringKeyObject = {
   거절: 'REJECT',
 };
 export const APPLICATION_TYPE = ['신청', '초대'];
-export const CATEGORY_OPTIONS = ['스터디', '행사'];
+export const CATEGORY_OPTIONS = ['번쩍', '스터디', '세미나', '행사'];
 export const PART_OPTIONS = ['기획', '디자인', 'Android', 'iOS', '웹', '서버'];
 export const PART_VALUES = ['PM', 'DESIGN', 'ANDROID', 'IOS', 'WEB', 'SERVER'];
 export const ACTION_STATUS = ['모집 전', '모집 중', '모집 마감', '활동 중', '활동 종료'];
@@ -69,3 +69,20 @@ export const PART_FILTER = {
 interface StringKeyObject {
   [key: string]: string;
 }
+
+export type CategoryType = 'STUDY' | 'EVENT' | 'SEMINAR' | '번쩍';
+export type CategoryKoType = '스터디' | '행사' | '세미나' | '번쩍';
+export const CATEGORY_NAME = (category: CategoryType) => {
+  switch (category) {
+    case '번쩍':
+      return '번쩍';
+    case 'STUDY':
+      return '스터디';
+    case 'EVENT':
+      return '행사';
+    case 'SEMINAR':
+      return '세미나';
+    default:
+      return '';
+  }
+};

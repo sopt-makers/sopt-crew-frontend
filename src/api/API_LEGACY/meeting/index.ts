@@ -60,7 +60,7 @@ export interface MeetingResponse {
   targetActiveGeneration: number | null;
   joinableParts: string[];
 }
-type MeetingListOfFilterResponse =
+export type MeetingListOfFilterResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 /**
@@ -288,8 +288,11 @@ export const downloadMeetingMemberCSV = async (meetingId: string) => {
   return await api.get<{ url: string }>(`/meeting/v2/${meetingId}/list/csv?status=1&type=0,1&order=desc`);
 };
 
+export type GroupBrowsingCardResponse =
+  paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['meetings'];
+export type GroupBrowsingCardItem = GroupBrowsingCardResponse[0];
 export const getGroupBrowsingCard = async () => {
-  return (await api.get<Data<GroupBrowsingCardDetail>>('/meeting/v2/banner')).data;
+  return (await api.get<GroupBrowsingCardResponse>('/meeting/v2/banner')).data;
 };
 
 export const returnNewStatus = (status: number, mstartDate: string, isGroupActive: boolean) => {
@@ -304,12 +307,6 @@ export const returnNewStatus = (status: number, mstartDate: string, isGroupActiv
   }
   return 4;
 };
-
-export function categoryType(category: string) {
-  if (category === 'STUDY') return '스터디';
-  if (category == 'EVENT') return '행사';
-  if (category == 'SEMINAR') return '세미나';
-}
 
 export function returnIsGroupActive(mstartDate: string, mendDate: string) {
   return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate), 'day', '[]');

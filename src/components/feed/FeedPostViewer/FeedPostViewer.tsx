@@ -1,5 +1,5 @@
 import { Menu } from '@headlessui/react';
-import Avatar from '@components/avatar/Avatar';
+import Avatar from '@components/@common/avatar/Avatar';
 import ShareIcon from 'public/assets/svg/share.svg';
 import MenuIcon from 'public/assets/svg/ic_menu.svg';
 import ArrowIcon from '@assets/svg/arrow_card.svg';
@@ -119,7 +119,7 @@ export default function FeedPostViewer({
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
           <GroupButton>
-            <GroupThumbnail src={post.meeting.imageURL[0].url} alt="" />
+            <GroupThumbnail src={post.meeting.imageURL[0]?.url} alt="" />
             <GroupInformation>
               <div>
                 <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>

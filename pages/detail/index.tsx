@@ -1,4 +1,4 @@
-import Carousel from '@components/page/meetingDetail/Carousel';
+import Carousel from '@components/page/detail/Carousel';
 import { styled } from 'stitches.config';
 import {
   useMutationDeleteMeeting,
@@ -7,37 +7,34 @@ import {
   useQueryGetMeeting,
 } from '@api/API_LEGACY/meeting/hooks';
 import { useRouter } from 'next/router';
-import Loader from '@components/loader/Loader';
-import InformationPanel from '@components/page/meetingDetail/Information/InformationPanel';
+import Loader from '@components/@common/loader/Loader';
+import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
-import FeedPanel from '@components/page/meetingDetail/Feed/FeedPanel';
+import FeedPanel from '@components/page/detail/Feed/FeedPanel';
 import { Fragment, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import { ERecruitmentStatus } from '@constants/option';
-import MeetingController from '@components/page/meetingDetail/MeetingController';
+import MeetingController from '@components/page/detail/MeetingController';
+import { useFlashByIdQuery } from '@api/flash/hook';
+import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
+import { GetFlashByIdResponse } from '@api/flash';
 
 dayjs.locale('ko');
 
 const enum SelectedTab {
-  FEED,
   INFORMATION,
+  FEED,
 }
 
 const DetailPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { data: detailData } = useQueryGetMeeting({ params: { id } });
+  const { data: meetingData } = useQueryGetMeeting({ params: { id } });
+  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
-
-  useEffect(() => {
-    if (detailData) {
-      setSelectedIndex(detailData.status === ERecruitmentStatus.OVER ? SelectedTab.FEED : SelectedTab.INFORMATION);
-    }
-  }, [detailData]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -51,7 +48,7 @@ const DetailPage = () => {
     document.body.removeChild(script);
   }, []);
 
-  if (!detailData) {
+  if (!meetingData) {
     return (
       <>
         <Loader />
@@ -68,6 +65,7 @@ const DetailPage = () => {
       </>
     );
   }
+  const detailData: GetMeetingResponse | GetFlashByIdResponse = flashData || meetingData;
 
   return (
     <>
@@ -82,18 +80,18 @@ const DetailPage = () => {
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>
             <Tab as={Fragment}>
-              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
+              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
             </Tab>
             <Tab as={Fragment}>
-              <STabButton isSelected={selectedIndex === SelectedTab.INFORMATION}>모임 안내</STabButton>
+              <STabButton isSelected={selectedIndex === SelectedTab.FEED}>피드</STabButton>
             </Tab>
           </STabList>
           <Tab.Panels>
             <Tab.Panel>
-              <FeedPanel isMember={detailData?.approved || detailData?.host} />
+              <InformationPanel detailData={detailData} />
             </Tab.Panel>
             <Tab.Panel>
-              <InformationPanel detailData={detailData} />
+              <FeedPanel isMember={detailData?.approved || detailData?.host} />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

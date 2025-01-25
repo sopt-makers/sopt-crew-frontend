@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
+import BoltIcon from '@assets/svg/bolt_md.svg';
 import NoJoinedGroupModal from './NoJoinedGroupModal';
 
 const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () => void }) => {
@@ -35,6 +36,12 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
     router.push('/make');
   };
 
+  const handleBoltCreateButtonClick = () => {
+    //todo: 번쩍 개설을 위한 정보를 넘겨주면서 라우팅하기
+    ampli.clickMakeGroup({ location: router.pathname });
+    router.push('/make/flash');
+  };
+
   const handleFeedCreateButtonClick = () => {
     if (me?.orgId) {
       ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
@@ -44,6 +51,10 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
 
   return (
     <Container isActive={isActive}>
+      <Button onClick={handleBoltCreateButtonClick}>
+        <BoltIcon style={{ marginRight: '4px' }} />
+        번쩍 개설
+      </Button>
       <Button onClick={handleGroupCreateButtonClick}>
         <GroupIcon style={{ marginRight: '4px' }} />
         모임 개설
@@ -70,7 +81,7 @@ const fadeOut = keyframes({
 
 const Container = styled('div', {
   width: '160px',
-  height: '112px',
+  height: 'auto',
   zIndex: '$3',
   position: 'absolute',
   bottom: '76px',
@@ -96,7 +107,7 @@ const Container = styled('div', {
   },
   '@tablet': {
     width: '140px',
-    height: '90px',
+    height: 'auto',
     borderRadius: '18px',
     bottom: '72px',
     padding: '$6 $0 $6 $4',
