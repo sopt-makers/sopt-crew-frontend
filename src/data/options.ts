@@ -33,18 +33,18 @@ export const parts = [
   { label: '서버', value: 'SERVER', order: 7 },
 ];
 
-export const lightningTime = [
+export const flashTime = [
   { label: '당일', value: '당일' },
   { label: '예정 기간 (협의 후 결정)', value: '예정 기간 (협의 후 결정)' },
 ];
 
-export const lightningPlace = [
+export const flashPlace = [
   { label: '오프라인', value: '오프라인' },
   { label: '온라인', value: '온라인' },
   { label: '협의 후 결정', value: '협의 후 결정' },
 ];
 
-export const lightningTags = [
+export const flashTags = [
   { label: 'YB 환영', value: 'YB 환영' },
   { label: 'OB 환영', value: 'OB 환영' },
   { label: '초면 환영', value: '초면 환영' },

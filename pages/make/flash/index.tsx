@@ -1,5 +1,5 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { LightningFormType, lightningSchema } from '@type/form';
+import { FlashFormType, flashSchema } from '@type/form';
 import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
@@ -10,21 +10,21 @@ import { ampli } from '@/ampli';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
 import Presentation from '@components/form/Bungae';
-import { createLightning } from '@api/lightning';
+import { createFlash } from '@api/flash';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-const Lightning = () => {
+const Flash = () => {
   const router = useRouter();
-  const formMethods = useForm<LightningFormType>({
+  const formMethods = useForm<FlashFormType>({
     mode: 'onChange',
-    resolver: zodResolver(lightningSchema),
+    resolver: zodResolver(flashSchema),
   });
   const { isValid, errors } = formMethods.formState;
-  const { mutateAsync: mutateCreateLightning, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: LightningFormType) => createLightning(formData),
+  const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
+    mutationFn: (formData: FlashFormType) => createFlash(formData),
     onError: () => {
       alert('번쩍을 개설하지 못했습니다.');
     },
@@ -42,8 +42,8 @@ const Lightning = () => {
     formMethods.setValue('files', files);
   };
 
-  const onSubmit: SubmitHandler<LightningFormType> = async formData => {
-    mutateCreateLightning(formData, {
+  const onSubmit: SubmitHandler<FlashFormType> = async formData => {
+    mutateCreateFlash(formData, {
       onSuccess: data => {
         ampli.completedMakeGroup();
         router.push(`/detail?id=${data}`);
@@ -80,7 +80,7 @@ const Lightning = () => {
   );
 };
 
-export default Lightning;
+export default Flash;
 
 const SContainer = styled('div', {
   margin: '80px 0',

@@ -1,8 +1,8 @@
-import { GetMeetingResponse, MeetingListOfFilterResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { MeetingListOfFilterResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
+import { GetFlashByIdResponse } from '@api/flash';
 import dayjs from 'dayjs';
 
-export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['meetings'][0]) => [
+export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['meetings'][number]) => [
   {
     label: '활동 기간',
     value: () =>
@@ -29,24 +29,24 @@ export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['mee
   },
 ];
 
-export const LightningInformation = (lightningData: GetLightningByIdResponse) => [
+export const FlashInformation = (flashData: GetFlashByIdResponse) => [
   {
     label: '진행 일자',
     value: () => {
-      const startDate = dayjs(lightningData.activityStartDate).format('YY.MM.dd');
-      const endDate = dayjs(lightningData.activityEndDate).format('YY.MM.dd');
+      const startDate = dayjs(flashData.activityStartDate).format('YY.MM.dd');
+      const endDate = dayjs(flashData.activityEndDate).format('YY.MM.dd');
 
-      if (lightningData.timingType === '당일') return startDate;
+      if (flashData.flashTimingType === '당일') return startDate;
 
       return `${startDate} - ${endDate} / 협의 후 결정`;
     },
   },
   {
     label: '활동 장소',
-    value: () => lightningData.place,
+    value: () => flashData.flashPlace,
   },
   {
     label: '모집 현황',
-    value: () => `${lightningData.minimumCapacity} ~ ${lightningData.maximumCapacity} / `,
+    value: () => `${flashData.minimumCapacity} ~ ${flashData.maximumCapacity} / `,
   },
 ];

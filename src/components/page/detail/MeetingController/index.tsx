@@ -20,13 +20,13 @@ import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import { useDialog } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 import MeetingAbout from '@components/page/detail/MeetingController/MeetingAbout';
-import LightningAbout from '@components/page/detail/MeetingController/LightningAbout';
+import FlashAbout from '@components/page/detail/MeetingController/FlashAbout';
 import { CAPACITY } from '@components/page/detail/MeetingController/constant';
 
 interface DetailHeaderProps {
-  detailData: GetMeetingResponse | GetLightningByIdResponse;
+  detailData: GetMeetingResponse | GetFlashByIdResponse;
   mutateMeetingDeletion: UseMutateFunction<
     {
       statusCode: number;
@@ -69,7 +69,7 @@ const MeetingController = ({
   mutateApplication,
   mutateApplicationDeletion,
 }: DetailHeaderProps) => {
-  const isLightning = detailData.category === '번쩍';
+  const isFlash = detailData.category === '번쩍';
   const { status, category, appliedInfo, approved, host: isHost, apply: isApplied } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
@@ -254,8 +254,8 @@ const MeetingController = ({
   return (
     <>
       <SPanelWrapper>
-        {isLightning ? (
-          <LightningAbout detailData={detailData as GetLightningByIdResponse} />
+        {isFlash ? (
+          <FlashAbout detailData={detailData as GetFlashByIdResponse} />
         ) : (
           <MeetingAbout detailData={detailData as GetMeetingResponse} />
         )}

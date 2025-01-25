@@ -3,11 +3,11 @@ import { styled } from 'stitches.config';
 import { useDisplay } from '@hooks/useDisplay';
 import { useCallback, useRef, useState } from 'react';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { LightningDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
+import { GetFlashByIdResponse } from '@api/flash';
 
 interface InformationPanelProps {
-  detailData: GetMeetingResponse | GetLightningByIdResponse;
+  detailData: GetMeetingResponse | GetFlashByIdResponse;
 }
 
 const InformationPanel = ({ detailData }: InformationPanelProps) => {
@@ -15,7 +15,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
   const tabRef = useRef<HTMLElement[]>([]);
   const detailList =
     detailData.category === '번쩍'
-      ? LightningDetailList(detailData as GetLightningByIdResponse)
+      ? FlashDetailList(detailData as GetFlashByIdResponse)
       : MeetingDetailList(detailData as GetMeetingResponse);
   const [selectedTab, setSelectedTab] = useState(detailList[0]?.key);
 

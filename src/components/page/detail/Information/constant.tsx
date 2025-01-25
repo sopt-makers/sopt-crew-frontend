@@ -7,7 +7,7 @@ import { styled } from 'stitches.config';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
 import CalendarIcon from '@assets/svg/calendar.svg?rect';
-import { GetLightningByIdResponse } from '@api/lightning';
+import { GetFlashByIdResponse } from '@api/flash';
 import { IconLocation } from '@sopt-makers/icons';
 
 export const MeetingDetailList = (detailData: GetMeetingResponse) => [
@@ -64,7 +64,7 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
+export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
   {
     key: '#환영 태그',
     Title: () => <STitle>#환영 태그</STitle>,
@@ -99,7 +99,7 @@ export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
       </SIconTitleWrapper>
     ),
     Content: () => {
-      const isSingleDay = detailData.timingType === '당일';
+      const isSingleDay = detailData.flashTimingType === '당일';
       return (
         <SDescription style={{ color: 'white' }}>
           {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
@@ -126,11 +126,11 @@ export const LightningDetailList = (detailData: GetLightningByIdResponse) => [
     ),
     Content: () => (
       <SDescription style={{ color: 'white' }}>{`${parsePlaceType(
-        detailData.placeType,
-        detailData.place
+        detailData.flashPlaceType,
+        detailData.flashPlace
       )}`}</SDescription>
     ),
-    isValid: detailData.place,
+    isValid: detailData.flashPlace,
   },
 ];
 

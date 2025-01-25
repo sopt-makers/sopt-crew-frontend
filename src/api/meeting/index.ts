@@ -1,7 +1,7 @@
 import { ApplicationStatusType, UserResponse } from '@api/user';
 import { api } from '..';
 import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
-import { LightningFormType } from '@type/form';
+import { FlashFormType } from '@type/form';
 import { paths } from '@/__generated__/schema2';
 interface PaginationType {
   page: number;
@@ -59,30 +59,29 @@ export const getRecommendMeetingList = async ({ meetingIds = [] }: { meetingIds:
   return (await api.get<RecommendMeetingListResponse>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data.meetings;
 };
 
-export const createLightning = async (formData: LightningFormType) => {
+export const createFlash = async (formData: FlashFormType) => {
   const {
-    data: { lightningId },
-  } = await api.post<{ lightningId: number }>('/lightning/v2', filterLightningFormData(formData));
-  return lightningId;
+    data: { meetingId },
+  } = await api.post<{ meetingId: number }>('/flash/v2', filterFlashFormData(formData));
+  return meetingId;
 };
 
-const filterLightningFormData = (formData: LightningFormType) => {
+const filterFlashFormData = (formData: FlashFormType) => {
   const convertedTags = formData.welcomeTags?.map(tag => {
     return tag?.value;
   });
   const convertedEndDate =
     formData.timeInfo.time.value === '당일' ? formData.timeInfo.startDate : formData.timeInfo.endDate;
-  const convertedLightningPlace =
-    formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
+  const convertedFlashPlace = formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
   const data = {
-    lightningBody: {
+    flashBody: {
       title: formData.title,
       desc: formData.desc,
-      lightningTimingType: formData.timeInfo.time.value,
+      flashTimingType: formData.timeInfo.time.value,
       activityStartDate: formData.timeInfo.startDate,
       activityEndDate: convertedEndDate,
-      lightningPlaceType: formData.placeInfo.place.value,
-      lightningPlace: convertedLightningPlace,
+      flashPlaceType: formData.placeInfo.place.value,
+      flashPlace: convertedFlashPlace,
       minimumCapacity: formData.minCapacity,
       maximumCapacity: formData.maxCapacity,
       files: formData.files,

@@ -6,18 +6,18 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
-import { useLightningByIdQuery } from '@api/lightning/hook';
-import { LightningInformation, MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
+import { useFlashByIdQuery } from '@api/flash/hook';
+import { FlashInformation, MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
 
 interface CardProps {
-  meetingData: MeetingListOfFilterResponse['meetings'][0];
+  meetingData: MeetingListOfFilterResponse['meetings'][number];
 }
 
 function DesktopSizeCard({ meetingData }: CardProps) {
-  const { data: lightningData } = useLightningByIdQuery({ meetingId: +meetingData.id });
+  const { data: flashData } = useFlashByIdQuery({ meetingId: +meetingData.id });
 
-  const detailData = lightningData ? lightningData : meetingData;
-  const detailInfo = lightningData ? LightningInformation(lightningData) : MeetingInformation(meetingData);
+  const detailData = flashData ? flashData : meetingData;
+  const detailInfo = flashData ? FlashInformation(flashData) : MeetingInformation(meetingData);
 
   return (
     <div>
@@ -33,7 +33,7 @@ function DesktopSizeCard({ meetingData }: CardProps) {
       <STitleSection>
         <CategoryChip
           category={detailData.category as CategoryKoType}
-          welcomeMessage={lightningData ? lightningData.welcomeMessageTypes : []}
+          welcomeMessage={flashData ? flashData.welcomeMessageTypes : []}
         />
         <STitle>{meetingData.title}</STitle>
       </STitleSection>

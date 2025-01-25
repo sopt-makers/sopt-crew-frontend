@@ -15,7 +15,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
-import { useLightningListQuery } from '@api/lightning/hook';
+import { useFlashListQuery } from '@api/flash/hook';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
-  const lightningList = useLightningListQuery().data?.meetings;
+  const flashList = useFlashListQuery().data?.meetings;
   const { data: inProgressMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [] });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
       {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
-          {lightningList && <GroupBrowsingSlider cardList={lightningList}></GroupBrowsingSlider>}
+          {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
             <SContentTitle style={{ marginTop: '54px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
-            {lightningList && <Carousel cardList={lightningList} />}
+            {flashList && <Carousel cardList={flashList} />}
           </GroupBrowsingCarouselContainer>
         </>
       )}
