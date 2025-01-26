@@ -100,12 +100,13 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
     ),
     Content: () => {
       const isSingleDay = detailData.flashTimingType === '당일';
+      const isPeriodNotDecided = detailData.flashTimingType.includes('협의 후 결정');
       return (
         <SDescription style={{ color: 'white' }}>
           {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
             isSingleDay ? '' : ` ~ ${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
           }`}
-          {isSingleDay && (
+          {isPeriodNotDecided && (
             <>
               <Divider />
               기간 중 협의 후 결정
