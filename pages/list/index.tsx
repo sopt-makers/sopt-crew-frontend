@@ -9,7 +9,6 @@ import Filter from '@components/page/list/Filter';
 import Search from '@components/page/list/Filter/Search';
 import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfAll } from '@components/page/list/Grid/List';
-import NoticeSlider from '@components/page/list/Slider/NoticeSlider/NoticeSlider';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
@@ -23,7 +22,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { data: notices } = useNotices();
 
   const handleMakeMeeting = () => {
     if (!me?.hasActivities) {
@@ -60,11 +58,6 @@ const Home: NextPage = () => {
             <span>모임 개설하기</span>
           </SMakeMeetingButton>
         </CrewTab>
-
-        {/*Notice 슬라이더*/}
-        <SNoticeWrapper>
-          <NoticeSlider notices={notices} />
-        </SNoticeWrapper>
 
         {/*필터 - 필터, 모임 검색, 모임 신청 가이드, 필터 적용 후 생기는 FLEX 박스(chip 모임)*/}
         <SFilterWrapper>
