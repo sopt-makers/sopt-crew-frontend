@@ -3,7 +3,7 @@ import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
 import Result from './Result';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
 import FilterModalOpenButton from './Modal/OpenButton';
 
 function Filter() {
@@ -23,7 +23,7 @@ function Filter() {
           rel="noreferrer noopener"
         >
           모임 신청 가이드
-          <ArrowSmallRightIcon />
+          <ArrowRightCircleIcon />
         </SGuideButton>
       </Flex>
 
@@ -42,7 +42,7 @@ const SGuideButton = styled('a', {
   gap: '$8',
   color: '$gray10',
   padding: '$18 $20',
-  border: '1px solid $gray10',
+  //border: '1px solid $gray10',
   borderRadius: '14px',
   fontAg: '18_medium_100',
   boxSizing: 'border-box',
