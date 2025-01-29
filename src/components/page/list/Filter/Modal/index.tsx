@@ -2,7 +2,7 @@ import DefaultModal from '@components/modal/DefaultModal';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import { styled } from 'stitches.config';
 import InitializationButton from '../Result/InitializationButton';
-import Chip from './Chip';
+import Chips from './Chip';
 import Toggle from './Toggle';
 
 interface FilterSelectModalProps {
@@ -19,10 +19,10 @@ function FilterSelectModal({ isModalOpened, handleModalClose }: FilterSelectModa
       titleLeft={<InitializationButton withText={false} size={24} />}
     >
       <SSelectWrapper>
-        <Chip css={filterSectionStyle} filter={CATEGORY_FILTER} />
-        <Chip css={filterSectionStyle} filter={STATUS_FILTER} />
+        <Chips css={filterSectionStyle} filter={CATEGORY_FILTER} />
+        <Chips css={filterSectionStyle} filter={STATUS_FILTER} />
         <Toggle css={filterSectionStyle} label="대상 기수" />
-        <Chip css={filterSectionStyle} filter={PART_FILTER} />
+        <Chips css={filterSectionStyle} filter={PART_FILTER} />
       </SSelectWrapper>
     </DefaultModal>
   );
