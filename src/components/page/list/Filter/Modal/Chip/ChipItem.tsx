@@ -1,5 +1,6 @@
 import { ampli } from '@/ampli';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
+import { useMediaQuery } from '@hooks/useMediaQuery';
 import { Chip } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
@@ -13,6 +14,7 @@ interface ChipItemProps {
 }
 
 function ChipItem({ label, value, isSelected, addValue, deleteValue, resetQuery }: ChipItemProps) {
+  const isTablet = useMediaQuery('(max-width: 768px)');
   const toggle = () => {
     if (value === '전체') {
       resetQuery();
@@ -35,7 +37,7 @@ function ChipItem({ label, value, isSelected, addValue, deleteValue, resetQuery 
     return addValue(value);
   };
   return (
-    <Chip active={isSelected} onClick={toggle}>
+    <Chip size={isTablet ? 'sm' : 'md'} active={isSelected} onClick={toggle}>
       {value}
     </Chip>
   );

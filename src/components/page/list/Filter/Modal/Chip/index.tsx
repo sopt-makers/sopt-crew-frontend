@@ -16,7 +16,6 @@ function Chips({ css, filter }: ChipsProps) {
   const isEntire = !selectedValues.length;
   return (
     <SChipWrapper css={{ ...css }}>
-      {label && <SLabel>{label}</SLabel>}
       {options.map(option => (
         <ChipItem
           key={option}
