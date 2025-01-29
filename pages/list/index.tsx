@@ -18,7 +18,8 @@ import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 import Chips from '@components/page/list/Filter/Modal/Chip';
-import { CATEGORY_FILTER } from '@constants/option';
+import { CATEGORY_FILTER, PART_FILTER } from '@constants/option';
+import Toggle from '@components/page/list/Filter/Modal/Toggle';
 
 const Home: NextPage = () => {
   const router = useRouter();

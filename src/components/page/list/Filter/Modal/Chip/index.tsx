@@ -4,11 +4,12 @@ import { CSSType, styled } from 'stitches.config';
 import ChipItem from './ChipItem';
 
 interface ChipsProps {
+  isLabel?: boolean;
   css?: CSSType;
   filter: FilterType;
 }
 
-function Chips({ css, filter }: ChipsProps) {
+function Chips({ isLabel, css, filter }: ChipsProps) {
   //해당 Chip 선택시 Chip의 filter로 전달된 subject를 이용하여 쿼리 세팅
   const { label, subject, options } = filter;
   const { value: selectedValues, addValue, deleteValue, resetQuery } = useMultiQueryString(subject, true);
@@ -16,6 +17,7 @@ function Chips({ css, filter }: ChipsProps) {
   const isEntire = !selectedValues.length;
   return (
     <SChipWrapper css={{ ...css }}>
+      {isLabel && <SLabel>{label}</SLabel>}
       {options.map(option => (
         <ChipItem
           key={option}

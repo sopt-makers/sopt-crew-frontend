@@ -5,6 +5,9 @@ import Search from './Search';
 import Result from './Result';
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
 import FilterModalOpenButton from './Modal/OpenButton';
+import Toggle from './Modal/Toggle';
+import Chips from './Modal/Chip';
+import { PART_FILTER } from '@constants/option';
 
 function Filter() {
   const { value: search } = useSearchParams();
@@ -13,8 +16,9 @@ function Filter() {
     <>
       <Flex align="center" justify="between">
         <Flex>
-          <FilterModalOpenButton />
           <Search />
+          <Chips filter={PART_FILTER} />
+          <Toggle />
         </Flex>
 
         <SGuideButton
@@ -28,7 +32,7 @@ function Filter() {
       </Flex>
 
       {/*필터 적용 결과 박스 (chip 모임)*/}
-      <Result />
+      {/* <Result /> */}
 
       {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
     </>
@@ -38,13 +42,14 @@ function Filter() {
 export default Filter;
 
 const SGuideButton = styled('a', {
+  height: '$48',
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
   padding: '$18 $20',
   //border: '1px solid $gray10',
   borderRadius: '14px',
-  fontAg: '18_medium_100',
+  fontAg: '18_semibold_100',
   boxSizing: 'border-box',
   '@tablet': {
     padding: '$14 $12 $14 $16',
