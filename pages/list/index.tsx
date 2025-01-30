@@ -64,11 +64,12 @@ const Home: NextPage = () => {
           </SMakeMeetingButton>
         </CrewTab>
 
+        {/*카테고리 필터 칩*/}
         <SChipWrapper>
           <Chips css={categoryFilterStyle} filter={CATEGORY_FILTER} />
         </SChipWrapper>
 
-        {/*필터 - 필터, 모임 검색, 모임 신청 가이드, 필터 적용 후 생기는 FLEX 박스(chip 모임)*/}
+        {/*필터 - 모임 검색, 드롭다운, 토글, 모임 신청 가이드*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>

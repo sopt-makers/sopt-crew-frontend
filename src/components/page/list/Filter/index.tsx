@@ -2,12 +2,10 @@ import { styled } from 'stitches.config';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
-import Result from './Result';
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
-import FilterModalOpenButton from './Modal/OpenButton';
 import Toggle from './Modal/Toggle';
-import Chips from './Modal/Chip';
 import { PART_FILTER } from '@constants/option';
+import DropDownFilter from './DropDown';
 
 function Filter() {
   const { value: search } = useSearchParams();
@@ -17,7 +15,7 @@ function Filter() {
       <Flex align="center" justify="between">
         <Flex>
           <Search />
-          <Chips filter={PART_FILTER} />
+          <DropDownFilter filter={PART_FILTER} />
           <Toggle />
         </Flex>
 
@@ -30,9 +28,6 @@ function Filter() {
           <ArrowRightCircleIcon />
         </SGuideButton>
       </Flex>
-
-      {/*필터 적용 결과 박스 (chip 모임)*/}
-      {/* <Result /> */}
 
       {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
     </>
