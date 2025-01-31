@@ -34,7 +34,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
     <Link href={`/detail?id=${id}`} style={{ display: 'flex', justifyContent: 'start', width: '305px' }}>
       <SGroupBrowsingCard
         css={{
-          background: `linear-gradient(0deg, rgba(23, 24, 28, 0.30) 0%, rgba(23, 24, 28, 0.30) 100%), url(${imgSrc}) lightgray 50% / cover no-repeat`,
+          background: `linear-gradient(0deg, rgba(23, 24, 28, 0.60) 0%, rgba(23, 24, 28, 0.60) 100%), url(${imgSrc}) lightgray 50% / cover no-repeat`,
           '&:hover': {
             background: `linear-gradient(0deg, rgba(23, 24, 28, 0.80) 0%, rgba(23, 24, 28, 0.80) 100%), url(${imgSrc}) lightgray 50% / cover no-repeat`,
           },
