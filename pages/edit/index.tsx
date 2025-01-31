@@ -13,6 +13,7 @@ import Loader from '@components/@common/loader/Loader';
 import CheckIcon from '@assets/svg/check.svg';
 import dynamic from 'next/dynamic';
 import { parts } from '@data/options';
+import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -22,11 +23,7 @@ const EditPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const query = useQuery({
-    queryKey: ['meeting', id],
-    queryFn: () => getMeeting(id),
-    enabled: !!id,
-  });
+  const query = useQueryGetMeeting({ params: { id } });
   const { data: formData } = query;
   const { mutateAsync, isLoading: isSubmitting } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
