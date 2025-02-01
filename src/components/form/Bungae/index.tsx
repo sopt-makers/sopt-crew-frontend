@@ -55,7 +55,7 @@ function Presentation({
   const router = useRouter();
   const { open } = useDialog();
   const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(null);
-  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(null);
+  const [timeState, setTimeState] = useState<'하루' | '기간' | '협의 후 결정' | null>(null);
   const isEdit = router.asPath.includes('/edit');
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -161,7 +161,7 @@ function Presentation({
             <SLabelCheckboxWrapper>
               <SLabelWrapper>
                 <Label required={true} size="small">
-                  일시
+                  진행 예정일
                 </Label>
               </SLabelWrapper>
             </SLabelCheckboxWrapper>
@@ -180,7 +180,7 @@ function Presentation({
                         <Chip
                           active={value.value === time.value}
                           onClick={() => {
-                            setTimeState(time.label as '당일' | '예정 기간 (협의 후 결정)');
+                            setTimeState(time.value as '하루' | '기간' | '협의 후 결정');
                             onChange(time);
                           }}
                           key={time.value}
@@ -218,13 +218,13 @@ function Presentation({
                   }}
                 ></FormController>
               </SDateField>
-              {timeState === '예정 기간 (협의 후 결정)' && <span style={{ marginTop: '14px' }}>-</span>}
+              {timeState === '기간' && <span style={{ marginTop: '14px' }}>-</span>}
               <SDateField>
                 <FormController
                   name="timeInfo.endDate"
                   render={({ field }) => (
                     <>
-                      {timeState === '예정 기간 (협의 후 결정)' && (
+                      {timeState === '기간' && (
                         <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
                       )}
                     </>
