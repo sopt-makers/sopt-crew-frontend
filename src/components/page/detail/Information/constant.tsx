@@ -99,7 +99,7 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
       </SIconTitleWrapper>
     ),
     Content: () => {
-      const isSingleDay = detailData.flashTimingType === '당일';
+      const isSingleDay = detailData.flashTimingType === '하루';
       const isPeriodNotDecided = detailData.flashTimingType.includes('협의 후 결정');
       return (
         <SDescription style={{ color: 'white' }}>

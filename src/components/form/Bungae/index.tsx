@@ -178,7 +178,7 @@ function Presentation({
                     <>
                       {flashTime.map(time => (
                         <Chip
-                          active={value.value === time.value}
+                          active={value.value === time.label}
                           onClick={() => {
                             setTimeState(time.value as '하루' | '기간' | '협의 후 결정');
                             onChange(time);

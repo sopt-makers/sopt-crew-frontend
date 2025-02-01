@@ -36,7 +36,7 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
       const startDate = dayjs(flashData.activityStartDate).format('YY.MM.DD');
       const endDate = dayjs(flashData.activityEndDate).format('YY.MM.DD');
 
-      if (flashData.flashTimingType === '당일') return startDate;
+      if (flashData.flashTimingType === '하루') return startDate;
 
       return `${startDate} - ${endDate} / 협의 후 결정`;
     },

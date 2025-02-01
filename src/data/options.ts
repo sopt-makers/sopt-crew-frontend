@@ -36,7 +36,7 @@ export const parts = [
 export const flashTime = [
   { label: '하루', value: '하루' },
   { label: '기간', value: '기간' },
-  { label: '협의 후 결정', value: null },
+  { label: '협의 후 결정', value: '협의 후 결정' },
 ];
 
 export const flashPlace = [
