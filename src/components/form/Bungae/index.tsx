@@ -127,7 +127,7 @@ function Presentation({
               name="title"
               render={({ field, fieldState: { error } }) => (
                 <TextInput
-                  label="이름"
+                  label="번쩍 이름"
                   placeholder="번쩍 이름"
                   maxLength={30}
                   required
