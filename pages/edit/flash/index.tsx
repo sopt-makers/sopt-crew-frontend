@@ -21,11 +21,11 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 const EditPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const id = router.query.id || 0;
+  const id = +(router.query.id || 0);
 
-  const { data: formData } = useFlashByIdQuery({ meetingId: +id });
+  const { data: formData } = useFlashByIdQuery({ meetingId: id });
   const { mutateAsync, isLoading: isSubmitting } = useMutation({
-    mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) => updateMeeting(id, formData),
+    // mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) => updateMeeting(id + '', formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getFlash', id] });
     },
@@ -40,7 +40,7 @@ const EditPage = () => {
 
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {
-      await mutateAsync({ id, formData });
+      // await mutateAsync({ id, formData });
       // TODO: handle success
       alert('모임을 수정했습니다.');
       router.push(`/detail?id=${id}`);
@@ -62,7 +62,6 @@ const EditPage = () => {
     formMethods.setValue('files', files);
   };
 
-  // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
     if (!formData) {
       return;
@@ -74,13 +73,13 @@ const EditPage = () => {
         desc: formData?.desc,
         minCapacity: formData?.minimumCapacity,
         maxCapacity: formData?.maximumCapacity,
-        flashTimingType: formData?.flashTimingType,
-        activityStartDate: dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
-        activityEndDate: dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
-        flashPlaceType: formData?.flashPlaceType,
-        flashPlace: formData?.flashPlace,
-        welcomeMessageTypes: formData?.welcomeMessageTypes,
-        imageURL: formData?.imageURL,
+        // flashTimingType: formData?.flashTimingType,
+        // activityStartDate: dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
+        // activityEndDate: dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
+        // flashPlaceType: formData?.flashPlaceType,
+        // flashPlace: formData?.flashPlace,
+        // welcomeMessageTypes: formData?.welcomeMessageTypes,
+        // imageURL: formData?.imageURL,
       });
     }
 
