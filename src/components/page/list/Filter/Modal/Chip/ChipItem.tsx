@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
-import { useMediaQuery } from '@hooks/useMediaQuery';
+import { useDisplay } from '@hooks/useDisplay';
 import { Chip } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
@@ -14,7 +14,7 @@ interface ChipItemProps {
 }
 
 function ChipItem({ label, value, isSelected, addValue, deleteValue, resetQuery }: ChipItemProps) {
-  const isTablet = useMediaQuery('(max-width: 768px)');
+  const { isTablet } = useDisplay();
   const toggle = () => {
     if (value === '전체') {
       resetQuery();
