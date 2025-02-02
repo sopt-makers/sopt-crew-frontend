@@ -1,31 +1,30 @@
-import TableOfContents from '@components/form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { updateMeeting } from '@api/API_LEGACY/meeting';
 import { styled } from 'stitches.config';
-import dayjs from 'dayjs';
 import Loader from '@components/@common/loader/Loader';
 import dynamic from 'next/dynamic';
 import { useFlashByIdQuery } from '@api/flash/hook';
 import { FlashFormType, flashSchema } from '@type/form';
-import Presentation from '@components/form/Bungae';
+import Presentation from '@components/form/Flash';
 import BungaeIcon from '@assets/svg/bungae.svg';
+import { updateFlashById } from '@api/flash';
+import dayjs from 'dayjs';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
-const EditPage = () => {
+const FlashEditPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const id = +(router.query.id || 0);
 
   const { data: formData } = useFlashByIdQuery({ meetingId: id });
   const { mutateAsync, isLoading: isSubmitting } = useMutation({
-    // mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) => updateMeeting(id + '', formData),
+    mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) => updateFlashById({ id, formData }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getFlash', id] });
     },
@@ -40,7 +39,7 @@ const EditPage = () => {
 
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {
-      // await mutateAsync({ id, formData });
+      await mutateAsync({ id, formData });
       // TODO: handle success
       alert('모임을 수정했습니다.');
       router.push(`/detail?id=${id}`);
@@ -71,15 +70,23 @@ const EditPage = () => {
         ...formData,
         title: formData?.title,
         desc: formData?.desc,
+        timeInfo: {
+          time: {
+            label: formData?.flashTimingType,
+          },
+          startDate: dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
+          endDate: dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
+        },
+        placeInfo: {
+          place: {
+            label: formData?.flashPlaceType,
+          },
+          placeDetail: formData?.flashPlace,
+        },
         minCapacity: formData?.minimumCapacity,
         maxCapacity: formData?.maximumCapacity,
-        // flashTimingType: formData?.flashTimingType,
-        // activityStartDate: dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
-        // activityEndDate: dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
-        // flashPlaceType: formData?.flashPlaceType,
-        // flashPlace: formData?.flashPlace,
-        // welcomeMessageTypes: formData?.welcomeMessageTypes,
-        // imageURL: formData?.imageURL,
+        files: formData?.imageURL.map(({ url }) => url),
+        welcomeTags: formData?.welcomeMessageTypes.map(type => ({ label: type, value: type })),
       });
     }
 
@@ -112,7 +119,6 @@ const EditPage = () => {
             />
           </SFormWrapper>
         </SFormContainer>
-        <TableOfContents label="모임 수정" />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
@@ -121,7 +127,7 @@ const EditPage = () => {
   );
 };
 
-export default EditPage;
+export default FlashEditPage;
 
 const SContainer = styled('div', {
   margin: '80px 0',

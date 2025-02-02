@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { ampli } from '@/ampli';
 import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
-import Presentation from '@components/form/Bungae';
+import Presentation from '@components/form/Flash';
 import { createFlash } from '@api/flash';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {

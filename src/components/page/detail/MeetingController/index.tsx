@@ -276,7 +276,7 @@ const MeetingController = ({
           {isHost && (
             <SHostButtonContainer>
               <button onClick={handleHostModalOpen}>삭제</button>
-              <Link href={`/edit?id=${meetingId}`}>수정</Link>
+              <Link href={isFlash ? `/edit/flash?id=${meetingId}` : `/edit?id=${meetingId}`}>수정</Link>
             </SHostButtonContainer>
           )}
         </div>
