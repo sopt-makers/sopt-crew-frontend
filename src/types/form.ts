@@ -160,8 +160,8 @@ export const flashSchema = z.object({
       if (minCapacity > maxCapacity) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: '최소 인원수가 최대 인원보다 큽니다.',
-          path: ['maxCapacity'], // maxCapacity 필드에도 오류 표시 가능
+          message: '최소 인원수가 최대 인원수보다 큽니다.',
+          path: ['maxCapacity'],
         });
       }
     }),
