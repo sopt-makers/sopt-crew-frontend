@@ -139,20 +139,32 @@ export const flashSchema = z.object({
       }
       return false;
     }),
-  minCapacity: z
-    .number({
-      required_error: '모집 인원을 입력해주세요.',
-      invalid_type_error: '모집 인원을 입력해주세요.',
+  capacityInfo: z
+    .object({
+      minCapacity: z
+        .number({
+          required_error: '모집 인원을 입력해주세요.',
+          invalid_type_error: '모집 인원을 입력해주세요.',
+        })
+        .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
+        .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
+      maxCapacity: z
+        .number({
+          required_error: '모집 인원을 입력해주세요.',
+          invalid_type_error: '모집 인원을 입력해주세요.',
+        })
+        .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
+        .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
     })
-    .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
-    .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
-  maxCapacity: z
-    .number({
-      required_error: '모집 인원을 입력해주세요.',
-      invalid_type_error: '모집 인원을 입력해주세요.',
-    })
-    .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
-    .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
+    .superRefine(({ minCapacity, maxCapacity }, ctx) => {
+      if (minCapacity > maxCapacity) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: '최소 인원수가 최대 인원보다 큽니다.',
+          path: ['maxCapacity'], // maxCapacity 필드에도 오류 표시 가능
+        });
+      }
+    }),
   files: z.array(z.string()),
   welcomeTags: z
     .array(

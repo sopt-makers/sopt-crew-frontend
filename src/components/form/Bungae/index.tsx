@@ -318,7 +318,7 @@ function Presentation({
                 )}
               ></FormController>
               <FormController
-                name="maxCapacity"
+                name="capacityInfo.maxCapacity"
                 render={({ field, fieldState: { error } }) => (
                   <TextInput
                     type="number"
@@ -338,8 +338,10 @@ function Presentation({
                 )}
               ></FormController>
             </SPeopleWrapper>
-            {(errors.minCapacity || errors.maxCapacity) && (
-              <SErrorMessage>{errors.minCapacity?.message || errors.maxCapacity?.message}</SErrorMessage>
+            {(errors.capacityInfo?.minCapacity || errors.capacityInfo?.maxCapacity) && (
+              <SErrorMessage>
+                {errors.capacityInfo?.minCapacity?.message || errors.capacityInfo?.maxCapacity?.message}
+              </SErrorMessage>
             )}
           </div>
 
