@@ -42,7 +42,6 @@ const SGuideButton = styled('a', {
   gap: '$8',
   color: '$gray10',
   padding: '$18 $20',
-  //border: '1px solid $gray10',
   borderRadius: '14px',
   fontAg: '18_semibold_100',
   boxSizing: 'border-box',
