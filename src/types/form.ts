@@ -129,7 +129,7 @@ export const flashSchema = z.object({
         label: z.string(),
         value: z.string(),
       }),
-      placeDetail: z.string().nullable(),
+      placeDetail: z.string().nullable().optional(),
     })
     .refine(data => {
       if (data.place.label === '오프라인' || data.place.label === '온라인') {
