@@ -23,9 +23,9 @@ const Flash = () => {
     resolver: zodResolver(flashSchema),
   });
   const { isValid, errors } = formMethods.formState;
-  // console.log(formMethods.watch());
-  // console.log(errors);
-  // console.log(isValid);
+  console.log(formMethods.watch());
+  console.log(errors);
+  console.log(isValid);
   const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FlashFormType) => createFlash(formData),
     onError: () => {
