@@ -66,10 +66,9 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
 
 export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
   {
-    key: '#환영 태그',
+    key: '환영 태그',
     Title: () => <STitle>#환영 태그</STitle>,
     Content: () => {
-      console.log(detailData.welcomeMessageTypes);
       return (
         <STarget>
           {detailData?.welcomeMessageTypes.map(tag => (

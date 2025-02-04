@@ -54,3 +54,10 @@ export const getFlashList = async () => {
   };
   return (await api.get<GetMeetingListResponse>('/meeting/v2', { params })).data;
 };
+
+export const updateFlashById = async ({ id, formData }: { id: number; formData: FlashFormType }) => {
+  const {
+    data: { meetingId },
+  } = await api.put(`/flash/v2/${id}`, filterFlashFormData(formData));
+  return meetingId;
+};

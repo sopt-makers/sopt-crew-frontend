@@ -39,13 +39,13 @@ const Home: NextPage = () => {
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isTablet ? (
         <>
-          <SContentTitle style={{ marginTop: '16px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
+          <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
           <Flex align="center" justify="center">
-            <SContentTitle style={{ marginTop: '54px' }}>⚡ ️솝트만의 일회성 모임, 번쩍</SContentTitle>
+            <SContentTitle style={{ marginTop: '54px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
             {flashList && <Carousel cardList={flashList} />}

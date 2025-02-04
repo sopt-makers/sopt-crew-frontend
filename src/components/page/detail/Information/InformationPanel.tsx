@@ -29,10 +29,10 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
       {isMobile && (
         <TabList text={selectedTab ?? ''} size="small" onChange={handleChange}>
           {detailList.map(
-            ({ key, Title, isValid }) =>
+            ({ key, isValid }) =>
               isValid && (
                 <TabList.Item key={key} text={key}>
-                  <Title />
+                  {key}
                 </TabList.Item>
               )
           )}

@@ -26,7 +26,10 @@ interface PresentationProps {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled?: boolean;
   errors: FieldErrors<FlashFormType>;
+  placeType?: '오프라인' | '온라인' | '협의 후 결정' | null;
+  timeType?: '당일' | '예정 기간 (협의 후 결정)' | null;
 }
+
 interface FileChangeHandler {
   imageUrls: string[];
   onChange: (urls: string[]) => void;
@@ -51,11 +54,13 @@ function Presentation({
   onSubmit,
   disabled = true,
   errors,
+  placeType = null,
+  timeType = null,
 }: PresentationProps) {
   const router = useRouter();
   const { open } = useDialog();
-  const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(null);
-  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(null);
+  const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
+  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
 
   const formRef = useRef<HTMLFormElement>(null);
