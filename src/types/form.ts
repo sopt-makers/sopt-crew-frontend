@@ -3,6 +3,11 @@ import { z } from 'zod';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
+const capacitySchema = z.number({
+  required_error: '모집 인원을 입력해주세요.',
+  invalid_type_error: '모집 인원을 입력해주세요.',
+});
+
 export const schema = z.object({
   title: z
     .string()
@@ -32,12 +37,7 @@ export const schema = z.object({
     .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
       message: 'YYYY.MM.DD 형식으로 입력해주세요.',
     }),
-  capacity: z
-    .number({
-      required_error: '모집 인원을 입력해주세요.',
-      invalid_type_error: '모집 인원을 입력해주세요.',
-    })
-    .gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
+  capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
   detail: z.object({
     desc: z
       .string()
@@ -141,18 +141,10 @@ export const flashSchema = z.object({
     }),
   capacityInfo: z
     .object({
-      minCapacity: z
-        .number({
-          required_error: '모집 인원을 입력해주세요.',
-          invalid_type_error: '모집 인원을 입력해주세요.',
-        })
+      minCapacity: capacitySchema
         .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
         .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
-      maxCapacity: z
-        .number({
-          required_error: '모집 인원을 입력해주세요.',
-          invalid_type_error: '모집 인원을 입력해주세요.',
-        })
+      maxCapacity: capacitySchema
         .gt(0, { message: '0보다 큰 값을 입력해주세요.' })
         .lte(999, { message: '모집 인원을 다시 입력해주세요.' }),
     })
