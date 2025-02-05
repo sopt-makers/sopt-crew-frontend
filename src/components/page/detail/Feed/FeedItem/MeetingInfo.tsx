@@ -24,7 +24,7 @@ function MeetingInfo({ meetingInfo }: MeetingInfoProps) {
       }}
     >
       <MeetingInfoWrapper>
-        <MeetingType isStudy={meetingInfo.category === CATEGORY_OPTIONS[0]}>{meetingInfo.category}</MeetingType>
+        <MeetingType isStudy={meetingInfo.category === CATEGORY_OPTIONS[1]}>{meetingInfo.category}</MeetingType>
         <MeetingName>{meetingInfo.title}</MeetingName>
       </MeetingInfoWrapper>
       <Arrow css={{ margin: 0 }} direction="right" size={18} color="$gray200" strokeWidth={1.125} />

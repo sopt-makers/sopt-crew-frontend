@@ -122,7 +122,7 @@ export default function FeedPostViewer({
             <GroupThumbnail src={post.meeting.imageURL[0]?.url} alt="" />
             <GroupInformation>
               <div>
-                <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[0]}>
+                <GroupCategory isStudy={post.meeting.category === CATEGORY_OPTIONS[1]}>
                   {post.meeting.category}
                 </GroupCategory>
                 <span>{post.meeting.title}</span>
