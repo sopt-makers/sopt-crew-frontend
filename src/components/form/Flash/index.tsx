@@ -303,7 +303,7 @@ function Presentation({
             <HelpMessage>번쩍이 진행될 수 있는 최소 인원~최대 인원을 입력해주세요 (개설자 제외)</HelpMessage>
             <SPeopleWrapper>
               <FormController
-                name="minCapacity"
+                name="capacityInfo.minCapacity"
                 render={({ field, fieldState: { error } }) => (
                   <TextInput
                     type="number"
@@ -323,7 +323,7 @@ function Presentation({
                 )}
               ></FormController>
               <FormController
-                name="maxCapacity"
+                name="capacityInfo.maxCapacity"
                 render={({ field, fieldState: { error } }) => (
                   <TextInput
                     type="number"
@@ -343,8 +343,10 @@ function Presentation({
                 )}
               ></FormController>
             </SPeopleWrapper>
-            {(errors.minCapacity || errors.maxCapacity) && (
-              <SErrorMessage>{errors.minCapacity?.message || errors.maxCapacity?.message}</SErrorMessage>
+            {(errors.capacityInfo?.minCapacity || errors.capacityInfo?.maxCapacity) && (
+              <SErrorMessage>
+                {errors.capacityInfo?.minCapacity?.message || errors.capacityInfo?.maxCapacity?.message}
+              </SErrorMessage>
             )}
           </div>
 

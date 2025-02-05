@@ -85,8 +85,10 @@ const FlashEditPage = () => {
           },
           placeDetail: formData?.flashPlace,
         },
-        minCapacity: formData?.minimumCapacity,
-        maxCapacity: formData?.maximumCapacity,
+        capacityInfo: {
+          minCapacity: formData?.minimumCapacity,
+          maxCapacity: formData?.maximumCapacity,
+        },
         files: formData?.imageURL.map(({ url }) => url),
         welcomeTags: formData?.welcomeMessageTypes.map(type => ({ label: type, value: type })),
       });
