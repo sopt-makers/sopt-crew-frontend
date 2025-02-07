@@ -62,6 +62,12 @@ function Presentation({
   const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
   const [timeState, setTimeState] = useState<'하루' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
+  const { watch, setValue } = useFormContext();
+
+  const endDate = watch('timeInfo.endDate');
+  if (timeState === '하루' && endDate !== '') {
+    setValue('timeInfo.endDate', '');
+  }
 
   const formRef = useRef<HTMLFormElement>(null);
 
