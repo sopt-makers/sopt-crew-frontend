@@ -475,12 +475,10 @@ const STitleField = styled('div', {
   width: '100%',
 });
 const SFileInputWrapper = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '16px',
+  width: '260px',
 
-  '@tablet': {
-    gridTemplateColumns: 'repeat(2, 1fr)',
+  '@mobile': {
+    width: '256px',
   },
 });
 const SApplicationFieldWrapper = styled('div', {
