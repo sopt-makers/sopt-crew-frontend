@@ -156,7 +156,7 @@ const SearchMention = ({
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
           // 엔터 키를 눌렀을 때 기본 동작(개행) 방지
-          console.log('hi');
+          // console.log('hi');
           e.preventDefault();
         }
       }}

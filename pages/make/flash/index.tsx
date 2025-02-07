@@ -23,7 +23,6 @@ const Flash = () => {
     resolver: zodResolver(flashSchema),
   });
   const { isValid, errors } = formMethods.formState;
-
   const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FlashFormType) => createFlash(formData),
     onError: () => {

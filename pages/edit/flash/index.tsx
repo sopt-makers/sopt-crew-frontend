@@ -121,7 +121,7 @@ const FlashEditPage = () => {
               onSubmit={formMethods.handleSubmit(onSubmit)}
               disabled={isSubmitting || !isValid}
               placeType={formData.flashPlaceType as '협의 후 결정' | '오프라인' | '온라인'}
-              timeType={formData.flashTimingType as '당일' | '예정 기간 (협의 후 결정)'}
+              timeType={formData.flashTimingType as '하루' | '예정 기간 (협의 후 결정)'}
             />
           </SFormWrapper>
         </SFormContainer>

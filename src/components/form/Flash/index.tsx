@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
 import FormController from '../FormController';
@@ -27,7 +27,7 @@ interface PresentationProps {
   disabled?: boolean;
   errors: FieldErrors<FlashFormType>;
   placeType?: '오프라인' | '온라인' | '협의 후 결정' | null;
-  timeType?: '당일' | '예정 기간 (협의 후 결정)' | null;
+  timeType?: '하루' | '예정 기간 (협의 후 결정)' | null;
 }
 
 interface FileChangeHandler {
@@ -60,7 +60,7 @@ function Presentation({
   const router = useRouter();
   const { open } = useDialog();
   const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
-  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
+  const [timeState, setTimeState] = useState<'하루' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -185,7 +185,7 @@ function Presentation({
                         <Chip
                           active={value.value === time.value}
                           onClick={() => {
-                            setTimeState(time.label as '당일' | '예정 기간 (협의 후 결정)');
+                            setTimeState(time.label as '하루' | '예정 기간 (협의 후 결정)');
                             onChange(time);
                           }}
                           key={time.value}
@@ -254,18 +254,20 @@ function Presentation({
                   name="placeInfo.place"
                   render={({ field: { value, onChange } }) => (
                     <>
-                      {flashPlace.map(place => (
-                        <Chip
-                          active={value.value === place.value}
-                          onClick={() => {
-                            setPlaceState(place.label as '오프라인' | '온라인' | '협의 후 결정');
-                            onChange(place);
-                          }}
-                          key={place.value}
-                        >
-                          {place.label}
-                        </Chip>
-                      ))}
+                      {flashPlace.map(place => {
+                        return (
+                          <Chip
+                            active={value.value === place.value}
+                            onClick={() => {
+                              setPlaceState(place.label as '오프라인' | '온라인' | '협의 후 결정');
+                              onChange(place);
+                            }}
+                            key={place.value}
+                          >
+                            {place.label}
+                          </Chip>
+                        );
+                      })}
                     </>
                   )}
                 ></FormController>
