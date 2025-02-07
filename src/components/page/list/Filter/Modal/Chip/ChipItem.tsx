@@ -1,5 +1,7 @@
 import { ampli } from '@/ampli';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
+import { useDisplay } from '@hooks/useDisplay';
+import { Chip } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
 interface ChipItemProps {
@@ -8,10 +10,17 @@ interface ChipItemProps {
   isSelected: boolean;
   addValue: (val: string) => void;
   deleteValue: (val: string) => void;
+  resetQuery: () => void;
 }
 
-function ChipItem({ label, value, isSelected, addValue, deleteValue }: ChipItemProps) {
+function ChipItem({ label, value, isSelected, addValue, deleteValue, resetQuery }: ChipItemProps) {
+  const { isTablet } = useDisplay();
   const toggle = () => {
+    if (value === '전체') {
+      resetQuery();
+      return;
+    }
+
     switch (label) {
       case CATEGORY_FILTER.label:
         ampli.clickFilterCategory({ group_category: value });
@@ -28,9 +37,9 @@ function ChipItem({ label, value, isSelected, addValue, deleteValue }: ChipItemP
     return addValue(value);
   };
   return (
-    <SOption isSelected={isSelected} onClick={toggle}>
+    <Chip size={isTablet ? 'sm' : 'md'} active={isSelected} onClick={toggle}>
       {value}
-    </SOption>
+    </Chip>
   );
 }
 

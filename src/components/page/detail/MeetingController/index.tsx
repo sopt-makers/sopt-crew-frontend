@@ -8,7 +8,6 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import useModal from '@hooks/useModal';
 import DefaultModal from '@components/modal/DefaultModal';
 import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
-import GuestConfirmModal from './Modal/Confirm/GuestConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 import { PostApplicationRequest, GetMeetingResponse } from '@api/API_LEGACY/meeting';
@@ -70,20 +69,14 @@ const MeetingController = ({
   mutateApplicationDeletion,
 }: DetailHeaderProps) => {
   const isFlash = detailData.category === '번쩍';
-  const { status, category, appliedInfo, approved, host: isHost, apply: isApplied } = detailData;
+  const { status, category, appliedInfo, approved, host: isHost, apply: isApplied, id: meetingId } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
   const { data: me } = useQueryMyProfile();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const meetingId = router.query.id;
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
   const { mutate: mutateEventApplication } = useMutationPostEventApplication({});
-  const {
-    isModalOpened: isGuestModalOpened,
-    handleModalOpen: handleGuestModalOpen,
-    handleModalClose: handleGuestModalClose,
-  } = useModal();
   const {
     isModalOpened: isProfileModalOpened,
     handleModalOpen: handleProfileModalOpen,
@@ -130,10 +123,7 @@ const MeetingController = ({
   const handleApplicationModal = () => {
     if (!isApplied) {
       ampli.clickRegisterGroup({ user_id: Number(me?.orgId) });
-      //handleDefaultModalOpen();
-      //setModalTitle('모임 신청하기');
       handleApplicationButton('No resolution');
-
       return;
     }
 
@@ -163,7 +153,7 @@ const MeetingController = ({
         {
           onSuccess: async () => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId as string],
+              queryKey: ['getMeeting', meetingId + ''],
             });
             dialogOpen({
               title: '신청 완료 되었습니다',
@@ -177,7 +167,7 @@ const MeetingController = ({
           },
           onError: async (error: AxiosError) => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId as string],
+              queryKey: ['getMeeting', meetingId + ''],
             });
             const errorResponse = error.response as AxiosResponse;
             dialogOpen({
@@ -197,7 +187,10 @@ const MeetingController = ({
         {
           onSuccess: async () => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId as string],
+              queryKey: ['getMeeting', meetingId + ''],
+            });
+            await queryClient.refetchQueries({
+              queryKey: ['getFlash', meetingId],
             });
             dialogOpen({
               title: '신청 완료 되었습니다',
@@ -211,7 +204,10 @@ const MeetingController = ({
           },
           onError: async (error: AxiosError) => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId as string],
+              queryKey: ['getMeeting', meetingId + ''],
+            });
+            await queryClient.refetchQueries({
+              queryKey: ['getFlash', meetingId],
             });
             const errorResponse = error.response as AxiosResponse;
             dialogOpen({
@@ -233,20 +229,21 @@ const MeetingController = ({
     mutateApplicationDeletion(Number(meetingId), {
       onSuccess: async () => {
         await queryClient.refetchQueries({
-          queryKey: ['getMeeting', meetingId as string],
+          queryKey: ['getMeeting', meetingId + ''],
+        });
+        await queryClient.refetchQueries({
+          queryKey: ['getFlash', meetingId],
         });
         alert('신청이 취소됐습니다!');
         setIsSubmitting(false);
-        handleGuestModalClose();
       },
       onError: async (error: AxiosError) => {
         await queryClient.refetchQueries({
-          queryKey: ['getMeeting', meetingId as string],
+          queryKey: ['getMeeting', meetingId + ''],
         });
         const errorResponse = error.response as AxiosResponse;
         alert(errorResponse.data.errorCode);
         setIsSubmitting(false);
-        handleGuestModalClose();
       },
     });
   };
@@ -279,7 +276,7 @@ const MeetingController = ({
           {isHost && (
             <SHostButtonContainer>
               <button onClick={handleHostModalOpen}>삭제</button>
-              <Link href={`/edit?id=${meetingId}`}>수정</Link>
+              <Link href={isFlash ? `/edit/flash?id=${meetingId}` : `/edit?id=${meetingId}`}>수정</Link>
             </SHostButtonContainer>
           )}
         </div>
@@ -288,15 +285,6 @@ const MeetingController = ({
         isModalOpened={isProfileModalOpened}
         handleModalClose={handleProfileModalClose}
         handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
-      />
-      <GuestConfirmModal
-        isModalOpened={isGuestModalOpened}
-        message="신청을 취소하시겠습니까?"
-        handleModalClose={handleGuestModalClose}
-        handleConfirm={handleCancelApplication}
-        cancelButtonDisabled={isSubmitting}
-        confirmButtonDisabled={isSubmitting}
-        isSubmitting={isSubmitting}
       />
       <DefaultModal
         isModalOpened={isDefaultModalOpened}

@@ -82,11 +82,24 @@ export function useMultiQueryString(key: string, withPage?: boolean) {
     delete query[key];
     pushQuery(query);
   };
+
+  const resetQuery = () => {
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: {},
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return {
     value: splitQueryOfKey, // , 로 구분된 해당 key의 value들을 배열 형태로 반환
     setValue,
     addValue,
     deleteValue,
     deleteKey,
+    resetQuery,
   };
 }

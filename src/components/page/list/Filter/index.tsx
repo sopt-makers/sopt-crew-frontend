@@ -2,9 +2,10 @@ import { styled } from 'stitches.config';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
-import Result from './Result';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import FilterModalOpenButton from './Modal/OpenButton';
+import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import Toggle from './Modal/Toggle';
+import { PART_FILTER } from '@constants/option';
+import DropDownFilter from './DropDown';
 
 function Filter() {
   const { value: search } = useSearchParams();
@@ -13,8 +14,9 @@ function Filter() {
     <>
       <Flex align="center" justify="between">
         <Flex>
-          <FilterModalOpenButton />
           <Search />
+          <DropDownFilter filter={PART_FILTER} />
+          <Toggle />
         </Flex>
 
         <SGuideButton
@@ -23,12 +25,9 @@ function Filter() {
           rel="noreferrer noopener"
         >
           모임 신청 가이드
-          <ArrowSmallRightIcon />
+          <ArrowRightCircleIcon />
         </SGuideButton>
       </Flex>
-
-      {/*필터 적용 결과 박스 (chip 모임)*/}
-      <Result />
 
       {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
     </>
@@ -38,13 +37,13 @@ function Filter() {
 export default Filter;
 
 const SGuideButton = styled('a', {
+  height: '$48',
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
   padding: '$18 $20',
-  border: '1px solid $gray10',
   borderRadius: '14px',
-  fontAg: '18_medium_100',
+  fontAg: '18_semibold_100',
   boxSizing: 'border-box',
   '@tablet': {
     padding: '$14 $12 $14 $16',

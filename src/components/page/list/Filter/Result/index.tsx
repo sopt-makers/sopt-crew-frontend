@@ -10,6 +10,7 @@ import InitializationButton from './InitializationButton';
 import { styled } from 'stitches.config';
 import { parseBool } from '@utils/parseBool';
 
+//Notice: 현재 사용 중이지 않습니다.
 function Result() {
   //설정된 쿼리 파라미터의 값을 가져와서  OR 연산으로 필터링한 모임 렌더링
   const { value: category, deleteValue: deleteCategoryValue } = useCategoryParams();

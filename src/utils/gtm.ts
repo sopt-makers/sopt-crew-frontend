@@ -2,7 +2,7 @@ const dataLayer =
   typeof window === 'undefined'
     ? undefined
     : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).dataLayer;
+      (window as typeof window & { dataLayer?: { event: string; page: string }[] }).dataLayer;
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
 

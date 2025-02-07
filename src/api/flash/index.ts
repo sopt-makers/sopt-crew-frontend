@@ -25,8 +25,8 @@ const filterFlashFormData = (formData: FlashFormType) => {
       activityEndDate: convertedEndDate,
       flashPlaceType: formData.placeInfo.place.value,
       flashPlace: convertedFlashPlace,
-      minimumCapacity: formData.minCapacity,
-      maximumCapacity: formData.maxCapacity,
+      minimumCapacity: formData.capacityInfo.minCapacity,
+      maximumCapacity: formData.capacityInfo.maxCapacity,
       files: formData.files,
     },
     welcomeMessageTypes: convertedTags?.length === 0 ? null : convertedTags,
@@ -53,4 +53,11 @@ export const getFlashList = async () => {
     isOnlyActiveGeneration: false,
   };
   return (await api.get<GetMeetingListResponse>('/meeting/v2', { params })).data;
+};
+
+export const updateFlashById = async ({ id, formData }: { id: number; formData: FlashFormType }) => {
+  const {
+    data: { meetingId },
+  } = await api.put(`/flash/v2/${id}`, filterFlashFormData(formData));
+  return meetingId;
 };

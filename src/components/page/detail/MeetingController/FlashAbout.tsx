@@ -90,6 +90,9 @@ const Divider = styled('hr', {
 });
 
 const SPeriod = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+
   fontAg: '20_bold_100',
   color: '$gray300',
 
