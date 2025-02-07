@@ -27,7 +27,7 @@ interface PresentationProps {
   disabled?: boolean;
   errors: FieldErrors<FlashFormType>;
   placeType?: '오프라인' | '온라인' | '협의 후 결정' | null;
-  timeType?: '하루' | '예정 기간 (협의 후 결정)' | null;
+  timeType?: '당일' | '예정 기간 (협의 후 결정)' | null;
 }
 
 interface FileChangeHandler {
@@ -60,12 +60,12 @@ function Presentation({
   const router = useRouter();
   const { open } = useDialog();
   const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
-  const [timeState, setTimeState] = useState<'하루' | '예정 기간 (협의 후 결정)' | null>(timeType);
+  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
 
   const endDate = watch('timeInfo.endDate');
-  if (timeState === '하루' && endDate !== '') {
+  if (timeState === '당일' && endDate !== '') {
     setValue('timeInfo.endDate', '');
   }
 
@@ -191,7 +191,7 @@ function Presentation({
                         <Chip
                           active={value.value === time.value}
                           onClick={() => {
-                            setTimeState(time.label as '하루' | '예정 기간 (협의 후 결정)');
+                            setTimeState(time.label as '당일' | '예정 기간 (협의 후 결정)');
                             onChange(time);
                           }}
                           key={time.value}

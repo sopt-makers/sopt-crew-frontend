@@ -34,7 +34,7 @@ export const parts = [
 ];
 
 export const flashTime = [
-  { label: '하루', value: '당일' },
+  { label: '당일', value: '당일' },
   { label: '예정 기간 (협의 후 결정)', value: '예정 기간 (협의 후 결정)' },
 ];
 

@@ -121,7 +121,7 @@ export const flashSchema = z.object({
     })
     .refine(
       data =>
-        data.time.label === '하루' ||
+        data.time.label === '당일' ||
         (data.time.label === '예정 기간 (협의 후 결정)' && data.endDate && data.endDate.length === 10)
     ),
   placeInfo: z
