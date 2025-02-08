@@ -9,7 +9,6 @@ import Filter from '@components/page/list/Filter';
 import Search from '@components/page/list/Filter/Search';
 import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfAll } from '@components/page/list/Grid/List';
-import NoticeSlider from '@components/page/list/Slider/NoticeSlider/NoticeSlider';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
@@ -18,12 +17,15 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
+import Chips from '@components/page/list/Filter/Modal/Chip';
+import { CATEGORY_FILTER } from '@constants/option';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-  const { data: notices } = useNotices();
+
+  const categoryFilterStyle = { display: 'flex', alignItems: 'flex-start', gap: '$12', alignSelf: 'stretch' };
 
   const handleMakeMeeting = () => {
     if (!me?.hasActivities) {
@@ -61,12 +63,12 @@ const Home: NextPage = () => {
           </SMakeMeetingButton>
         </CrewTab>
 
-        {/*Notice 슬라이더*/}
-        <SNoticeWrapper>
-          <NoticeSlider notices={notices} />
-        </SNoticeWrapper>
+        {/*카테고리 필터 칩*/}
+        <SChipWrapper>
+          <Chips css={categoryFilterStyle} filter={CATEGORY_FILTER} />
+        </SChipWrapper>
 
-        {/*필터 - 필터, 모임 검색, 모임 신청 가이드, 필터 적용 후 생기는 FLEX 박스(chip 모임)*/}
+        {/*필터 - 모임 검색, 드롭다운, 토글, 모임 신청 가이드*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
@@ -136,10 +138,10 @@ const SMobileButtonContainer = styled('div', {
 });
 
 const SFilterWrapper = styled('div', {
-  mt: '$40',
+  mt: '$20',
   mb: '$64',
   '@tablet': {
-    mt: '$32',
+    mt: '$16',
     mb: '$24',
   },
 });
@@ -148,5 +150,12 @@ const SNoticeWrapper = styled('div', {
   mt: '$64',
   '@tablet': {
     mt: '$28',
+  },
+});
+
+const SChipWrapper = styled('div', {
+  mt: '$45',
+  '@tablet': {
+    mt: '$32',
   },
 });

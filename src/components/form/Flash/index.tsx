@@ -26,7 +26,10 @@ interface PresentationProps {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled?: boolean;
   errors: FieldErrors<FlashFormType>;
+  placeType?: '오프라인' | '온라인' | '협의 후 결정' | null;
+  timeType?: '당일' | '예정 기간 (협의 후 결정)' | null;
 }
+
 interface FileChangeHandler {
   imageUrls: string[];
   onChange: (urls: string[]) => void;
@@ -51,11 +54,13 @@ function Presentation({
   onSubmit,
   disabled = true,
   errors,
+  placeType = null,
+  timeType = null,
 }: PresentationProps) {
   const router = useRouter();
   const { open } = useDialog();
-  const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(null);
-  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(null);
+  const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
+  const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -298,7 +303,7 @@ function Presentation({
             <HelpMessage>번쩍이 진행될 수 있는 최소 인원~최대 인원을 입력해주세요 (개설자 제외)</HelpMessage>
             <SPeopleWrapper>
               <FormController
-                name="minCapacity"
+                name="capacityInfo.minCapacity"
                 render={({ field, fieldState: { error } }) => (
                   <TextInput
                     type="number"
@@ -318,7 +323,7 @@ function Presentation({
                 )}
               ></FormController>
               <FormController
-                name="maxCapacity"
+                name="capacityInfo.maxCapacity"
                 render={({ field, fieldState: { error } }) => (
                   <TextInput
                     type="number"
@@ -338,8 +343,10 @@ function Presentation({
                 )}
               ></FormController>
             </SPeopleWrapper>
-            {(errors.minCapacity || errors.maxCapacity) && (
-              <SErrorMessage>{errors.minCapacity?.message || errors.maxCapacity?.message}</SErrorMessage>
+            {(errors.capacityInfo?.minCapacity || errors.capacityInfo?.maxCapacity) && (
+              <SErrorMessage>
+                {errors.capacityInfo?.minCapacity?.message || errors.capacityInfo?.maxCapacity?.message}
+              </SErrorMessage>
             )}
           </div>
 
@@ -468,12 +475,10 @@ const STitleField = styled('div', {
   width: '100%',
 });
 const SFileInputWrapper = styled('div', {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '16px',
+  width: '260px',
 
-  '@tablet': {
-    gridTemplateColumns: 'repeat(2, 1fr)',
+  '@mobile': {
+    width: '256px',
   },
 });
 const SApplicationFieldWrapper = styled('div', {

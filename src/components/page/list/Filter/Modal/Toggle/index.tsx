@@ -7,7 +7,7 @@ import { Switch as HeadlessSwitch } from '@headlessui/react';
 import { ampli } from '@/ampli';
 interface ToggleProps {
   css?: CSSType;
-  label: string;
+  label?: string;
 }
 
 function Toggle({ css, label }: ToggleProps) {
