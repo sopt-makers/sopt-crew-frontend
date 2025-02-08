@@ -222,6 +222,7 @@ function Presentation({
             </SDateFieldWrapper>
             <SCheckBoxWrapper>
               <FormController
+                defaultValue={flashTime[0]}
                 name="timeInfo.time"
                 render={({ field: { value, onChange } }) => {
                   const isChecked = value.value === '예정 기간 (협의 후 결정)';
