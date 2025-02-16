@@ -4,7 +4,7 @@ import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
 import Toggle from './Modal/Toggle';
-import { PART_FILTER } from '@constants/option';
+import { CATEGORY_FILTER, GENERATION_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import DropDownFilter from './DropDown';
 
 function Filter() {
@@ -15,8 +15,10 @@ function Filter() {
       <Flex align="center" justify="between">
         <Flex>
           <Search />
+          <DropDownFilter filter={CATEGORY_FILTER} />
           <DropDownFilter filter={PART_FILTER} />
-          <Toggle />
+          <DropDownFilter filter={STATUS_FILTER} />
+          <DropDownFilter filter={GENERATION_FILTER} />
         </Flex>
 
         <SGuideButton
