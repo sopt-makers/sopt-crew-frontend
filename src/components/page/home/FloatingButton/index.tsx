@@ -1,13 +1,15 @@
 import { ampli } from '@/ampli';
+import PlusIcon from '@assets/svg/plus.svg';
 import Plus from '@assets/svg/plus.svg?rect';
 import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 import ModalBackground from '@components/modal/ModalBackground';
-import PlusIcon from '@assets/svg/plus.svg';
+import { useDisplay } from '@hooks/useDisplay';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
+  const { isTablet, isMobile } = useDisplay();
 
   const handleButtonClick = () => {
     if (!isActive) {
@@ -28,7 +30,11 @@ function FloatingButton() {
         }}
       />
       <Container isActive={isActive}>
-        {isActive ? (
+        {isTablet || isMobile ? (
+          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+            <Icon isActive={isActive} />
+          </OptionOpenButton>
+        ) : isActive ? (
           <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
             <Icon isActive={isActive} />
           </OptionOpenButton>

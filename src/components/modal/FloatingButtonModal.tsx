@@ -1,6 +1,7 @@
 import { ampli } from '@/ampli';
 import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import BoltIcon from '@assets/svg/bolt_md.svg';
 import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -8,8 +9,8 @@ import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
-import BoltIcon from '@assets/svg/bolt_md.svg';
 import NoJoinedGroupModal from './NoJoinedGroupModal';
+import KakaoLogoIcon from '@assets/svg/logo_kakao.svg';
 
 const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () => void }) => {
   const { isActive, handleOptionClose } = props;
@@ -50,8 +51,19 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
   };
 
   return (
-    <Wrapper>
-      {isActive && <KakaoQuestionButton>카카오톡 문의</KakaoQuestionButton>}
+    <Wrapper isActive={isActive}>
+      {isActive && (
+        <KakaoQuestionButton
+          onClick={() => {
+            window.Kakao?.Channel.chat({
+              channelPublicId: '_sxaIWG',
+            });
+          }}
+        >
+          <KakaoLogoIcon />
+          카카오톡 문의
+        </KakaoQuestionButton>
+      )}
 
       <Container isActive={isActive}>
         <Button onClick={handleBoltCreateButtonClick}>
@@ -92,6 +104,20 @@ const Wrapper = styled('div', {
   position: 'absolute',
   bottom: '76px',
   right: '5%',
+
+  transition: 'all 0.3s ease',
+  variants: {
+    isActive: {
+      true: {
+        animation: `${fadeIn} 200ms ease-out`,
+      },
+      false: {
+        animation: `${fadeOut} 200ms ease-out`,
+        opacity: '0',
+        display: 'none',
+      },
+    },
+  },
 });
 
 const Container = styled('div', {
@@ -157,13 +183,21 @@ const KakaoQuestionButton = styled('button', {
 
   display: 'flex',
   padding: '8px 6px',
-  flexDirection: 'column',
+
   justifyContent: 'center',
   alignItems: 'center',
   gap: '4px',
   alignSelf: 'stretch',
 
   borderRadius: '20px',
-  background: 'var(--Color-Gray-Scale-10, #FCFCFC)',
+  background: '$gray10',
   boxShadow: '0px 6px 20px 0px rgba(0, 0, 0, 0.35)',
+
+  '@tablet': {
+    width: '140px',
+    height: '38px',
+    borderRadius: '18px',
+    bottom: '72px',
+    padding: '$6 $0 $6 $4',
+  },
 });
