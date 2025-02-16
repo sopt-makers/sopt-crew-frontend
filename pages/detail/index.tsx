@@ -18,6 +18,7 @@ import MeetingController from '@components/page/detail/MeetingController';
 import { useFlashByIdQuery } from '@api/flash/hook';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { GetFlashByIdResponse } from '@api/flash';
+import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
 
 dayjs.locale('ko');
 
@@ -36,32 +37,13 @@ const DetailPage = () => {
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
-
   if (!meetingData) {
     return (
       <>
         <Loader />
-        <div
-          id="chat-channel-button"
-          data-channel-public-id="_sxaIWG"
-          data-title="question"
-          data-size="small"
-          data-color="mono"
-          data-shape="pc"
-          data-support-multiple-densities="true"
-          style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-        />
+        <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+          <KakaoFloatingButton />
+        </div>
       </>
     );
   }
@@ -96,16 +78,9 @@ const DetailPage = () => {
           </Tab.Panels>
         </Tab.Group>
       </SDetailPage>
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+      <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+        <KakaoFloatingButton />
+      </div>
     </>
   );
 };

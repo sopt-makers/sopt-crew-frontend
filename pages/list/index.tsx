@@ -1,7 +1,5 @@
 import { ampli } from '@/ampli';
-import useNotices from '@api/notice/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import CardSkeleton from '@components/page/list/Card/Skeleton';
@@ -14,7 +12,6 @@ import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 
@@ -34,18 +31,6 @@ const Home: NextPage = () => {
     ampli.clickMakeGroup({ location: router.pathname });
     router.push('/make');
   };
-
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   script.async = true;
-
-  //   window.Kakao?.Channel.createChatButton({
-  //     container: '#chat-channel-button',
-  //     channelPublicId: '_sxaIWG',
-  //   });
-  //   document.body.appendChild(script);
-  //   document.body.removeChild(script);
-  // }, []);
 
   return (
     <>
@@ -96,39 +81,11 @@ const Home: NextPage = () => {
       />
 
       <FloatingButton />
-
-      {/* <div style={{ position: 'fixed', bottom: '5%', right: '3%' }}>
-        <div
-          id="chat-channel-button"
-          data-channel-public-id="_sxaIWG"
-          data-title="question"
-          data-size="small"
-          data-color="mono"
-          data-shape="pc"
-          data-support-multiple-densities="true"
-        />
-        <FloatingButton />
-      </div> */}
     </>
   );
 };
 
 export default Home;
-
-const SMakeMeetingButton = styled('button', {
-  flexType: 'verticalCenter',
-  padding: '$16 $24 $16 $20',
-  background: '$gray10',
-  borderRadius: '16px',
-  '& > span': {
-    ml: '$12',
-    fontAg: '18_bold_100',
-    color: '$gray950',
-  },
-  '@tablet': {
-    display: 'none',
-  },
-});
 
 const SMobileButtonContainer = styled('div', {
   display: 'none',
@@ -147,20 +104,6 @@ const SFilterWrapper = styled('div', {
   '@tablet': {
     mt: '$16',
     mb: '$24',
-  },
-});
-
-const SNoticeWrapper = styled('div', {
-  mt: '$64',
-  '@tablet': {
-    mt: '$28',
-  },
-});
-
-const SChipWrapper = styled('div', {
-  mt: '$45',
-  '@tablet': {
-    mt: '$32',
   },
 });
 
