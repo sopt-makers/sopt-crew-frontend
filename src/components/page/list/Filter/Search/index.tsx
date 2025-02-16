@@ -35,25 +35,25 @@ function Search() {
     deleteKey();
   }
 
+  if (isTablet) return null;
+
   return (
-    !isTablet && (
-      <SearchField
-        className={buttonPositioner()}
-        placeholder="모임 검색"
-        value={inputValue}
-        onChange={e => {
-          setInputValue(e.target.value);
-        }}
-        onSubmit={() => {
-          setSearch(inputValue);
-          setInputValue(inputValue);
-        }}
-        onReset={() => {
-          setInputValue('');
-          deleteKey();
-        }}
-      />
-    )
+    <SearchField
+      className={buttonPositioner()}
+      placeholder="모임 검색"
+      value={inputValue}
+      onChange={e => {
+        setInputValue(e.target.value);
+      }}
+      onSubmit={() => {
+        setSearch(inputValue);
+        setInputValue(inputValue);
+      }}
+      onReset={() => {
+        setInputValue('');
+        deleteKey();
+      }}
+    />
   );
 }
 
