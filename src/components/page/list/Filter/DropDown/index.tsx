@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
 import { FilterType } from '@constants/option';
 import { useQueryString } from '@hooks/queryString';
-import { IconApple, IconFileX, IconXCircle } from '@sopt-makers/icons';
+import { IconXCircle } from '@sopt-makers/icons';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
 import { useRouter } from 'next/router';
@@ -11,6 +11,12 @@ import { styled } from 'stitches.config';
 interface DropDownFilterProps {
   filter: FilterType;
 }
+
+const autoClass = css({
+  '& > button > div': {
+    width: 'auto',
+  },
+});
 
 function DropDownFilter({ filter }: DropDownFilterProps) {
   const { subject, options, label } = filter;
@@ -47,7 +53,13 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
 
   return (
     <SDropDownContainer>
-      <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery}>
+      <SelectV2.Root
+        className={autoClass()}
+        type="text"
+        visibleOptions={6}
+        defaultValue={defaultValue}
+        onChange={setPartQuery}
+      >
         <SelectV2.Trigger>
           <SelectV2.TriggerContent
             placeholder={label}
