@@ -17,16 +17,14 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
-import Chips from '@components/page/list/Filter/Modal/Chip';
-import { CATEGORY_FILTER } from '@constants/option';
+
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import FloatingButton from '@components/page/list/FloatingButton';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-
-  const categoryFilterStyle = { display: 'flex', alignItems: 'flex-start', gap: '$12', alignSelf: 'stretch' };
 
   const handleMakeMeeting = () => {
     if (!me?.hasActivities) {
@@ -107,10 +105,7 @@ const Home: NextPage = () => {
           data-shape="pc"
           data-support-multiple-densities="true"
         />
-        <SMakeMeetingButton onClick={handleMakeMeeting}>
-          <PlusIcon />
-          <span>개설하기</span>
-        </SMakeMeetingButton>
+        <FloatingButton />
       </div>
     </>
   );
