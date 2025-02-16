@@ -4,9 +4,17 @@ import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
 import { CATEGORY_FILTER, GENERATION_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import DropDownFilter from './DropDown';
+import { SearchField } from '@sopt-makers/ui';
+import { FieldValues } from 'react-hook-form';
+import { useState } from 'react';
 
 function Filter() {
-  const { value: search } = useSearchParams();
+  // const [value, setValue] = useState('');
+  // const onSubmit = (value: FieldValues) => {
+  //   if (!value?.search) deleteKey();
+  //   if (value.search) setSearch(value.search);
+  // };
+  const { value: search, setValue: setSearch, deleteKey } = useSearchParams();
 
   return (
     <>
@@ -18,6 +26,17 @@ function Filter() {
           <DropDownFilter filter={GENERATION_FILTER} />
         </Flex>
 
+        {/* <SearchField
+          placeholder="모임 검색"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onSubmit={() => {
+            alert('hi');
+          }}
+          onReset={() => {
+            alert('tlqkf');
+          }}
+        /> */}
         <Search />
       </Flex>
 

@@ -12,10 +12,9 @@ interface DropDownFilterProps {
   filter: FilterType;
 }
 
+//notice: 현재 클래스 제대로 적용안되는 문제점으로 인해 !important 사용 필요
 const autoClass = css({
-  '& > button > div': {
-    width: 'auto',
-  },
+  width: 'auto !important',
 });
 
 function DropDownFilter({ filter }: DropDownFilterProps) {
@@ -53,15 +52,10 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
 
   return (
     <SDropDownContainer>
-      <SelectV2.Root
-        className={autoClass()}
-        type="text"
-        visibleOptions={6}
-        defaultValue={defaultValue}
-        onChange={setPartQuery}
-      >
+      <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery}>
         <SelectV2.Trigger>
           <SelectV2.TriggerContent
+            className={autoClass()}
             placeholder={label}
             icon={
               defaultValue ? (

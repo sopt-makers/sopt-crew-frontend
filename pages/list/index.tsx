@@ -52,7 +52,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div>
-        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 개설하기 */}
+        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 신청 가이드 */}
         <CrewTab>
           <SMobileButtonContainer>
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
@@ -69,7 +69,7 @@ const Home: NextPage = () => {
           </SGuideButton>
         </CrewTab>
 
-        {/*필터 - 모임 검색, 드롭다운, 토글, 모임 신청 가이드*/}
+        {/*필터 - 드롭다운, 모임 검색*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
