@@ -2,11 +2,10 @@ import { ampli } from '@/ampli';
 import PlusIcon from '@assets/svg/plus.svg';
 import Plus from '@assets/svg/plus.svg?rect';
 import FloatingButtonModal from '@components/modal/FloatingButtonModal';
-import ModalBackground from '@components/modal/ModalBackground';
 import { useDisplay } from '@hooks/useDisplay';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
-import KakaoLogoIcon from '@assets/svg/logo_kakao_32.svg';
+import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
@@ -23,17 +22,7 @@ function FloatingButton() {
   return (
     <>
       <ButtonWrapper>
-        {!isActive && (
-          <MiniKakaoButton>
-            <KakaoLogoIcon
-              onClick={() => {
-                window.Kakao?.Channel.chat({
-                  channelPublicId: '_sxaIWG',
-                });
-              }}
-            />
-          </MiniKakaoButton>
-        )}
+        {!isActive && <KakaoFloatingButton />}
 
         <Container isActive={isActive}>
           {isTablet || isMobile ? (
