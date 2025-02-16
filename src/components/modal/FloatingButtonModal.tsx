@@ -50,20 +50,24 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
   };
 
   return (
-    <Container isActive={isActive}>
-      <Button onClick={handleBoltCreateButtonClick}>
-        <BoltIcon style={{ marginRight: '4px' }} />
-        번쩍 개설
-      </Button>
-      <Button onClick={handleGroupCreateButtonClick}>
-        <GroupIcon style={{ marginRight: '4px' }} />
-        모임 개설
-      </Button>
-      <Button onClick={handleFeedCreateButtonClick}>
-        <FeedIcon style={{ marginRight: '4px' }} />
-        피드 작성
-      </Button>
-    </Container>
+    <Wrapper>
+      {isActive && <KakaoQuestionButton>카카오톡 문의</KakaoQuestionButton>}
+
+      <Container isActive={isActive}>
+        <Button onClick={handleBoltCreateButtonClick}>
+          <BoltIcon style={{ marginRight: '4px' }} />
+          번쩍 개설
+        </Button>
+        <Button onClick={handleGroupCreateButtonClick}>
+          <GroupIcon style={{ marginRight: '4px' }} />
+          모임 개설
+        </Button>
+        <Button onClick={handleFeedCreateButtonClick}>
+          <FeedIcon style={{ marginRight: '4px' }} />
+          피드 작성
+        </Button>
+      </Container>
+    </Wrapper>
   );
 };
 
@@ -79,13 +83,21 @@ const fadeOut = keyframes({
   to: { opacity: '0', transform: 'translateY(7px)' },
 });
 
-const Container = styled('div', {
-  width: '160px',
-  height: 'auto',
+const Wrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$8',
+
   zIndex: '$3',
   position: 'absolute',
   bottom: '76px',
   right: '5%',
+});
+
+const Container = styled('div', {
+  width: '160px',
+  height: 'auto',
+
   backgroundColor: '$gray10',
   borderRadius: '20px',
   color: '$gray600',
@@ -137,4 +149,21 @@ const Button = styled('button', {
     fontWeight: '600',
     lineHeight: '18px',
   },
+});
+
+const KakaoQuestionButton = styled('button', {
+  width: '162px',
+  height: '62px',
+
+  display: 'flex',
+  padding: '8px 6px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '4px',
+  alignSelf: 'stretch',
+
+  borderRadius: '20px',
+  background: 'var(--Color-Gray-Scale-10, #FCFCFC)',
+  boxShadow: '0px 6px 20px 0px rgba(0, 0, 0, 0.35)',
 });
