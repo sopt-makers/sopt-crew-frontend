@@ -19,6 +19,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 import Chips from '@components/page/list/Filter/Modal/Chip';
 import { CATEGORY_FILTER } from '@constants/option';
+import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -57,16 +58,16 @@ const Home: NextPage = () => {
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
             <Search.Mobile />
           </SMobileButtonContainer>
-          <SMakeMeetingButton onClick={handleMakeMeeting}>
-            <PlusIcon />
-            <span>모임 개설하기</span>
-          </SMakeMeetingButton>
-        </CrewTab>
 
-        {/*카테고리 필터 칩*/}
-        <SChipWrapper>
-          <Chips css={categoryFilterStyle} filter={CATEGORY_FILTER} />
-        </SChipWrapper>
+          <SGuideButton
+            target="_blank"
+            href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
+            rel="noreferrer noopener"
+          >
+            모임 신청 가이드
+            <ArrowRightCircleIcon />
+          </SGuideButton>
+        </CrewTab>
 
         {/*필터 - 모임 검색, 드롭다운, 토글, 모임 신청 가이드*/}
         <SFilterWrapper>
@@ -95,16 +96,22 @@ const Home: NextPage = () => {
         handleModalClose={handleModalClose}
         handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
       />
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+
+      <div style={{ position: 'fixed', bottom: '5%', right: '3%' }}>
+        <div
+          id="chat-channel-button"
+          data-channel-public-id="_sxaIWG"
+          data-title="question"
+          data-size="small"
+          data-color="mono"
+          data-shape="pc"
+          data-support-multiple-densities="true"
+        />
+        <SMakeMeetingButton onClick={handleMakeMeeting}>
+          <PlusIcon />
+          <span>개설하기</span>
+        </SMakeMeetingButton>
+      </div>
     </>
   );
 };
@@ -138,7 +145,7 @@ const SMobileButtonContainer = styled('div', {
 });
 
 const SFilterWrapper = styled('div', {
-  mt: '$20',
+  mt: '$45',
   mb: '$64',
   '@tablet': {
     mt: '$16',
@@ -157,5 +164,25 @@ const SChipWrapper = styled('div', {
   mt: '$45',
   '@tablet': {
     mt: '$32',
+  },
+});
+
+const SGuideButton = styled('a', {
+  height: '$48',
+  flexType: 'verticalCenter',
+  gap: '$8',
+  color: '$gray10',
+  padding: '$18 $20',
+  borderRadius: '14px',
+  fontAg: '18_semibold_100',
+  boxSizing: 'border-box',
+  '@tablet': {
+    padding: '$14 $12 $14 $16',
+    borderRadius: '10px',
+    fontAg: '14_medium_100',
+  },
+
+  path: {
+    stroke: '$gray10',
   },
 });

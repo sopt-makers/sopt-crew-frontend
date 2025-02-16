@@ -77,5 +77,5 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
 export default DropDownFilter;
 
 const SDropDownContainer = styled('div', {
-  ml: '$16',
+  mr: '$16',
 });
