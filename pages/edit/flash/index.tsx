@@ -36,6 +36,7 @@ const FlashEditPage = () => {
   });
 
   const { isValid, errors } = formMethods.formState;
+  console.log(formMethods.watch());
 
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {

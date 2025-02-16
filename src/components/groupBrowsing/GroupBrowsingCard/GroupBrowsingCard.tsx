@@ -47,7 +47,11 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
         <STitle>{title}</STitle>
         <SBottom>
           <SDesc css={{ color: '$green400' }}>{parseAppliedInfo()}</SDesc>
-          <SDesc>{`모집 ${dayjs(flashData?.endDate).diff(dayjs(), 'day')}일 남음`}</SDesc>
+          <SDesc>
+            {dayjs(flashData?.endDate).diff(dayjs(), 'day') >= 0
+              ? `모집 ${dayjs(flashData?.endDate).diff(dayjs(), 'day')}일 남음`
+              : '모집마감'}
+          </SDesc>
         </SBottom>
 
         <SOverlayContent>

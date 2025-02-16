@@ -37,6 +37,12 @@ export interface paths {
      */
     put: operations["updateApplyStatus"];
   };
+  "/flash/v2/{meetingId}": {
+    /** 번쩍 모임 상세 조회 */
+    get: operations["getFlashByMeetingId"];
+    /** 번쩍 모임 수정 */
+    put: operations["updateFlash"];
+  };
   "/comment/v2/{commentId}": {
     /** 모임 게시글 댓글 수정 */
     put: operations["updateComment"];
@@ -133,9 +139,6 @@ export interface paths {
     /** 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUser"];
   };
-  "/sentry": {
-    get: operations["testSentry"];
-  };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
     get: operations["getPostCount"];
@@ -183,12 +186,19 @@ export interface paths {
      */
     get: operations["getMeetings_1"];
   };
-  "/internal/meeting/stats/approved-studies/{orgId}": {
-    get: operations["getApprovedStudyCountByOrgId"];
+  "/internal/meeting/stats/fastest-applied/{orgId}": {
+    /**
+     * [Internal] 특정 유저가 가장 빠르게 신청한 모임 N개 조회
+     * @description 특정 유저가 가장 빠르게 신청한 모임 N개 조회하는 API입니다.
+     */
+    get: operations["getTopFastestAppliedMeetings"];
   };
-  "/flash/v2/{meetingId}": {
-    /** 번쩍 모임 상세 조회 */
-    get: operations["getFlashByMeetingId"];
+  "/internal/meeting/stats/approved-studies/{orgId}": {
+    /**
+     * [Internal] 모임 유저의 승인된 스터디 수 조회
+     * @description 특정 유저의 승인된 스터디 수를 조회하는 API입니다.
+     */
+    get: operations["getApprovedStudyCountByOrgId"];
   };
   "/advertisement/v2": {
     /**
@@ -364,6 +374,84 @@ export interface components {
        */
       status: number;
     };
+    /** @description 번쩍 모임 생성 및 수정 request body dto */
+    FlashV2CreateAndUpdateFlashBodyDto: {
+      flashBody: components["schemas"]["FlashV2CreateAndUpdateFlashBodyWithoutWelcomeMessageDto"];
+      /**
+       * @description 환영 메시지 타입 리스트
+       * @example [
+       *   "YB 환영",
+       *   "OB 환영"
+       * ]
+       */
+      welcomeMessageTypes?: string[];
+    };
+    /** @description 번쩍 모임 생성 및 수정 request body dto (환영 메시지 타입 제외) */
+    FlashV2CreateAndUpdateFlashBodyWithoutWelcomeMessageDto: {
+      /**
+       * @description 번쩍 모임 제목
+       * @example 알고보면 쓸데있는 개발 프로세스
+       */
+      title: string;
+      /**
+       * @description 번쩍 소개
+       * @example api 가 터졌다고? 깃이 터졌다고?
+       */
+      desc: string;
+      /**
+       * @description 번쩍 일정 결정 방식
+       * @example 예정 기간 (협의 후 결정)
+       */
+      flashTimingType: string;
+      /**
+       * @description 번쩍 활동 시작 날짜
+       * @example 2025.10.29
+       */
+      activityStartDate: string;
+      /**
+       * @description 번쩍 활동 종료 날짜
+       * @example 2025.10.30
+       */
+      activityEndDate: string;
+      /**
+       * @description 모임 장소 Tag
+       * @example 오프라인
+       */
+      flashPlaceType: string;
+      /**
+       * @description 모임 장소
+       * @example 잠실역 5번 출구
+       */
+      flashPlace?: string;
+      /**
+       * Format: int32
+       * @description 최소 모집 인원
+       * @example 1
+       */
+      minimumCapacity: number;
+      /**
+       * Format: int32
+       * @description 최대 모집 인원
+       * @example 5
+       */
+      maximumCapacity: number;
+      /**
+       * @description 모임 이미지 리스트, 최대 1개
+       * @example [
+       *   "https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/12/7bd87736-b557-4b26-a0d5-9b09f1f1d7df"
+       * ]
+       */
+      files: string[];
+    };
+    /** @description 번쩍 모임 생성 및 수정 응답 Dto */
+    FlashV2CreateAndUpdateResponseDto: {
+      /**
+       * Format: int32
+       * @description 모임 id - 번쩍 카테고리
+       * @example 1
+       */
+      meetingId: number;
+    };
     /** @description 댓글 수정 request body dto */
     CommentV2UpdateCommentBodyDto: {
       /**
@@ -507,84 +595,6 @@ export interface components {
        * @example 1
        */
       applyId: number;
-    };
-    /** @description 번쩍 모임 생성 및 수정 request body dto */
-    FlashV2CreateFlashBodyDto: {
-      flashBody: components["schemas"]["FlashV2CreateFlashBodyWithoutWelcomeMessageDto"];
-      /**
-       * @description 환영 메시지 타입 리스트
-       * @example [
-       *   "YB 환영",
-       *   "OB 환영"
-       * ]
-       */
-      welcomeMessageTypes?: string[];
-    };
-    /** @description 번쩍 모임 생성 및 수정 request body dto (환영 메시지 타입 제외) */
-    FlashV2CreateFlashBodyWithoutWelcomeMessageDto: {
-      /**
-       * @description 번쩍 모임 제목
-       * @example 알고보면 쓸데있는 개발 프로세스
-       */
-      title: string;
-      /**
-       * @description 번쩍 소개
-       * @example api 가 터졌다고? 깃이 터졌다고?
-       */
-      desc: string;
-      /**
-       * @description 번쩍 일정 결정 방식
-       * @example 예정 기간 (협의 후 결정)
-       */
-      flashTimingType: string;
-      /**
-       * @description 번쩍 활동 시작 날짜
-       * @example 2025.10.29
-       */
-      activityStartDate: string;
-      /**
-       * @description 번쩍 활동 종료 날짜
-       * @example 2025.10.30
-       */
-      activityEndDate: string;
-      /**
-       * @description 모임 장소 Tag
-       * @example 오프라인
-       */
-      flashPlaceType: string;
-      /**
-       * @description 모임 장소
-       * @example 잠실역 5번 출구
-       */
-      flashPlace?: string;
-      /**
-       * Format: int32
-       * @description 최소 모집 인원
-       * @example 1
-       */
-      minimumCapacity: number;
-      /**
-       * Format: int32
-       * @description 최대 모집 인원
-       * @example 5
-       */
-      maximumCapacity: number;
-      /**
-       * @description 모임 이미지 리스트, 최대 1개
-       * @example [
-       *   "https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/12/7bd87736-b557-4b26-a0d5-9b09f1f1d7df"
-       * ]
-       */
-      files: string[];
-    };
-    /** @description 번쩍 모임 생성 응답 Dto */
-    FlashV2CreateFlashResponseDto: {
-      /**
-       * Format: int32
-       * @description 모임 id - 번쩍 카테고리
-       * @example 1
-       */
-      meetingId: number;
     };
     /** @description 댓글 생성 request body dto */
     CommentV2CreateCommentBodyDto: {
@@ -1954,20 +1964,24 @@ export interface components {
        */
       isBlockedMeeting?: boolean;
     };
-    /** @description 승인된 스터디 수를 나타내는 DTO */
-    ApprovedStudyCountResponseDto: {
+    /** @description 가장 빠르게 신청한 모임 DTO */
+    TopFastestAppliedMeetingResponseDto: {
       /**
        * Format: int32
-       * @description 플레이그라운드 유저 ID(orgId)
-       * @example 1
+       * @description 가장 빠르게 신청한 모임 id
+       * @example 3
        */
-      orgId?: number;
+      meetingId?: number;
       /**
-       * Format: int64
-       * @description 승인된 스터디 수
-       * @example 5
+       * @description 가장 빠르게 신청한 모임 이름
+       * @example 가장 빠른 모임 1
        */
-      approvedStudyCount?: number;
+      title?: string;
+    };
+    /** @description 가장 빠르게 신청한 모임 목록 DTO */
+    TopFastestAppliedMeetingsResponseDto: {
+      /** @description 가장 빠르게 신청한 모임 */
+      topFastestAppliedMeetings?: components["schemas"]["TopFastestAppliedMeetingResponseDto"][];
     };
     /** @description 번쩍 상세 조회 dto */
     FlashV2GetFlashByMeetingIdResponseDto: {
@@ -2392,6 +2406,47 @@ export interface operations {
       200: never;
     };
   };
+  /** 번쩍 모임 상세 조회 */
+  getFlashByMeetingId: {
+    parameters: {
+      path: {
+        meetingId: number;
+      };
+    };
+    responses: {
+      /** @description 번쩍 모임 상세 조회 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2GetFlashByMeetingIdResponseDto"];
+        };
+      };
+      /** @description 번쩍 모임이 없습니다. */
+      400: never;
+    };
+  };
+  /** 번쩍 모임 수정 */
+  updateFlash: {
+    parameters: {
+      path: {
+        meetingId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateFlashBodyDto"];
+      };
+    };
+    responses: {
+      /** @description meetingId: 10 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateResponseDto"];
+        };
+      };
+      /** @description VALIDATION_EXCEPTION */
+      400: never;
+    };
+  };
   /** 모임 게시글 댓글 수정 */
   updateComment: {
     parameters: {
@@ -2640,14 +2695,14 @@ export interface operations {
   createFlash: {
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateFlashBodyDto"];
+        "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateFlashBodyDto"];
       };
     };
     responses: {
       /** @description meetingId: 10 */
       201: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateFlashResponseDto"];
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateResponseDto"];
         };
       };
       /** @description VALIDATION_EXCEPTION */
@@ -2833,16 +2888,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetAppliedMeetingByUserResponseDto"];
-        };
-      };
-    };
-  };
-  testSentry: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": string;
         };
       };
     };
@@ -3055,37 +3100,66 @@ export interface operations {
       };
     };
   };
-  getApprovedStudyCountByOrgId: {
+  /**
+   * [Internal] 특정 유저가 가장 빠르게 신청한 모임 N개 조회
+   * @description 특정 유저가 가장 빠르게 신청한 모임 N개 조회하는 API입니다.
+   */
+  getTopFastestAppliedMeetings: {
     parameters: {
+      query: {
+        "query-count"?: number;
+        "query-year": number;
+      };
       path: {
+        /**
+         * @description 플레이그라운드 유저 ID(orgId)
+         * @example 1
+         */
         orgId: number;
       };
     };
     responses: {
-      /** @description OK */
+      /** @description 가장 빠르게 신청한 모임 조회 성공 */
       200: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["ApprovedStudyCountResponseDto"];
+          "application/json;charset=UTF-8": components["schemas"]["TopFastestAppliedMeetingsResponseDto"];
+        };
+      };
+      /** @description 존재하지 않는 유저입니다. */
+      404: {
+        content: {
+          "application/json": unknown;
         };
       };
     };
   };
-  /** 번쩍 모임 상세 조회 */
-  getFlashByMeetingId: {
+  /**
+   * [Internal] 모임 유저의 승인된 스터디 수 조회
+   * @description 특정 유저의 승인된 스터디 수를 조회하는 API입니다.
+   */
+  getApprovedStudyCountByOrgId: {
     parameters: {
       path: {
-        meetingId: number;
+        /**
+         * @description 플레이그라운드 유저 ID(orgId)
+         * @example 1
+         */
+        orgId: number;
       };
     };
     responses: {
-      /** @description 번쩍 모임 상세 조회 성공 */
+      /** @description APPROVE된 스터디 수 조회 성공 */
       200: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["FlashV2GetFlashByMeetingIdResponseDto"];
+          "application/json": string;
         };
       };
-      /** @description 번쩍 모임이 없습니다. */
-      400: never;
+      /** @description 존재하지 않는 유저입니다. */
+      404: {
+        content: {
+          "application/json": unknown;
+        };
+      };
     };
   };
   /**
