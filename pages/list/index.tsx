@@ -35,17 +35,17 @@ const Home: NextPage = () => {
     router.push('/make');
   };
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.async = true;
 
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
+  //   window.Kakao?.Channel.createChatButton({
+  //     container: '#chat-channel-button',
+  //     channelPublicId: '_sxaIWG',
+  //   });
+  //   document.body.appendChild(script);
+  //   document.body.removeChild(script);
+  // }, []);
 
   return (
     <>
@@ -95,7 +95,9 @@ const Home: NextPage = () => {
         handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
       />
 
-      <div style={{ position: 'fixed', bottom: '5%', right: '3%' }}>
+      <FloatingButton />
+
+      {/* <div style={{ position: 'fixed', bottom: '5%', right: '3%' }}>
         <div
           id="chat-channel-button"
           data-channel-public-id="_sxaIWG"
@@ -106,7 +108,7 @@ const Home: NextPage = () => {
           data-support-multiple-densities="true"
         />
         <FloatingButton />
-      </div>
+      </div> */}
     </>
   );
 };

@@ -6,6 +6,7 @@ import ModalBackground from '@components/modal/ModalBackground';
 import { useDisplay } from '@hooks/useDisplay';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
+import KakaoLogoIcon from '@assets/svg/logo_kakao_32.svg';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
@@ -21,32 +22,38 @@ function FloatingButton() {
 
   return (
     <>
-      <ModalBackground
-        onClick={handleOptionClose}
-        css={{
-          background: isActive ? '$grayAlpha800' : 'rgba(0, 0, 0, 0)',
-          transition: 'all 0.3s ease',
-          pointerEvents: isActive ? 'auto' : 'none',
-        }}
-      />
-      <Container isActive={isActive}>
-        {isTablet || isMobile ? (
-          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-            <Icon isActive={isActive} />
-          </OptionOpenButton>
-        ) : isActive ? (
-          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-            <Icon isActive={isActive} />
-          </OptionOpenButton>
-        ) : (
-          <SMakeMeetingButton onClick={handleButtonClick}>
-            <PlusIcon />
-            <span>개설하기</span>
-          </SMakeMeetingButton>
+      <ButtonWrapper>
+        {!isActive && (
+          <MiniKakaoButton>
+            <KakaoLogoIcon
+              onClick={() => {
+                window.Kakao?.Channel.chat({
+                  channelPublicId: '_sxaIWG',
+                });
+              }}
+            />
+          </MiniKakaoButton>
         )}
 
-        <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
-      </Container>
+        <Container isActive={isActive}>
+          {isTablet || isMobile ? (
+            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+              <Icon isActive={isActive} />
+            </OptionOpenButton>
+          ) : isActive ? (
+            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+              <Icon isActive={isActive} />
+            </OptionOpenButton>
+          ) : (
+            <SMakeMeetingButton onClick={handleButtonClick}>
+              <PlusIcon />
+              <span>개설하기</span>
+            </SMakeMeetingButton>
+          )}
+
+          <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
+        </Container>
+      </ButtonWrapper>
     </>
   );
 }
@@ -54,9 +61,6 @@ function FloatingButton() {
 export default FloatingButton;
 
 const Container = styled('div', {
-  position: 'fixed',
-  bottom: '5%',
-  right: '5%',
   maxWidth: '142px',
   height: '56px',
   borderRadius: '20px',
@@ -132,4 +136,28 @@ const SMakeMeetingButton = styled('button', {
   '@tablet': {
     display: 'none',
   },
+});
+
+const MiniKakaoButton = styled('button', {
+  display: 'flex',
+  flexShrink: 0,
+  width: '56px',
+  height: '56px',
+  padding: '12px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '4px',
+  borderRadius: '20px',
+  background: '#FEE500',
+});
+
+const ButtonWrapper = styled('button', {
+  position: 'fixed',
+  bottom: '5%',
+  right: '5%',
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  gap: '$20',
 });
