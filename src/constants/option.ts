@@ -21,8 +21,7 @@ export const APPROVAL_STATUS_KOREAN_TO_ENGLISH: StringKeyObject = {
   거절: 'REJECT',
 };
 export const APPLICATION_TYPE = ['신청', '초대'];
-export const CATEGORY_OPTIONS = ['스터디', '세미나', '행사', '번쩍'];
-export const CATEGORY_FILTER_OPTIONS = ['번쩍', '스터디', '세미나', '행사'];
+export const CATEGORY_OPTIONS = ['번쩍', '스터디', '세미나', '행사'];
 export const PART_OPTIONS = ['기획', '디자인', 'Android', 'iOS', '웹', '서버'];
 export const PART_VALUES = ['PM', 'DESIGN', 'ANDROID', 'IOS', 'WEB', 'SERVER'];
 export const ACTION_STATUS = ['모집 전', '모집 중', '모집 마감', '활동 중', '활동 종료'];
@@ -57,7 +56,7 @@ export interface FilterType {
 export const CATEGORY_FILTER = {
   label: '카테고리',
   subject: 'category',
-  options: CATEGORY_FILTER_OPTIONS,
+  options: CATEGORY_OPTIONS,
 };
 export const STATUS_FILTER = {
   label: '모집 상태',
