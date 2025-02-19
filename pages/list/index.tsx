@@ -1,7 +1,5 @@
 import { ampli } from '@/ampli';
-import useNotices from '@api/notice/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import CardSkeleton from '@components/page/list/Card/Skeleton';
@@ -14,18 +12,16 @@ import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
-import Chips from '@components/page/list/Filter/Modal/Chip';
-import { CATEGORY_FILTER } from '@constants/option';
+
+import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import FloatingButton from '@components/page/list/FloatingButton';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { data: me } = useQueryMyProfile();
   const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
-
-  const categoryFilterStyle = { display: 'flex', alignItems: 'flex-start', gap: '$12', alignSelf: 'stretch' };
 
   const handleMakeMeeting = () => {
     if (!me?.hasActivities) {
@@ -36,39 +32,27 @@ const Home: NextPage = () => {
     router.push('/make');
   };
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
-
   return (
     <>
       <div>
-        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 개설하기 */}
+        {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 신청 가이드 */}
         <CrewTab>
           <SMobileButtonContainer>
             <WriteIcon onClick={handleMakeMeeting} className="make-button" />
             <Search.Mobile />
           </SMobileButtonContainer>
-          <SMakeMeetingButton onClick={handleMakeMeeting}>
-            <PlusIcon />
-            <span>모임 개설하기</span>
-          </SMakeMeetingButton>
+
+          <SGuideButton
+            target="_blank"
+            href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
+            rel="noreferrer noopener"
+          >
+            모임 신청 가이드
+            <ArrowRightCircleIcon />
+          </SGuideButton>
         </CrewTab>
 
-        {/*카테고리 필터 칩*/}
-        <SChipWrapper>
-          <Chips css={categoryFilterStyle} filter={CATEGORY_FILTER} />
-        </SChipWrapper>
-
-        {/*필터 - 모임 검색, 드롭다운, 토글, 모임 신청 가이드*/}
+        {/*필터 - 드롭다운, 모임 검색*/}
         <SFilterWrapper>
           <Filter />
         </SFilterWrapper>
@@ -95,36 +79,13 @@ const Home: NextPage = () => {
         handleModalClose={handleModalClose}
         handleConfirm={() => (window.location.href = `${playgroundLink.memberUpload()}`)}
       />
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+
+      <FloatingButton />
     </>
   );
 };
 
 export default Home;
-
-const SMakeMeetingButton = styled('button', {
-  flexType: 'verticalCenter',
-  padding: '$16 $24 $16 $20',
-  background: '$gray10',
-  borderRadius: '16px',
-  '& > span': {
-    ml: '$12',
-    fontAg: '18_bold_100',
-    color: '$gray950',
-  },
-  '@tablet': {
-    display: 'none',
-  },
-});
 
 const SMobileButtonContainer = styled('div', {
   display: 'none',
@@ -138,7 +99,7 @@ const SMobileButtonContainer = styled('div', {
 });
 
 const SFilterWrapper = styled('div', {
-  mt: '$20',
+  mt: '$45',
   mb: '$64',
   '@tablet': {
     mt: '$16',
@@ -146,16 +107,22 @@ const SFilterWrapper = styled('div', {
   },
 });
 
-const SNoticeWrapper = styled('div', {
-  mt: '$64',
+const SGuideButton = styled('a', {
+  height: '$48',
+  flexType: 'verticalCenter',
+  gap: '$8',
+  color: '$gray10',
+  padding: '$18 $20',
+  borderRadius: '14px',
+  fontAg: '18_semibold_100',
+  boxSizing: 'border-box',
   '@tablet': {
-    mt: '$28',
+    padding: '$14 $12 $14 $16',
+    borderRadius: '10px',
+    fontAg: '14_medium_100',
   },
-});
 
-const SChipWrapper = styled('div', {
-  mt: '$45',
-  '@tablet': {
-    mt: '$32',
+  path: {
+    stroke: '$gray10',
   },
 });

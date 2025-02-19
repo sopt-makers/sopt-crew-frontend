@@ -11,6 +11,7 @@ import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import CrewTab from '@components/CrewTab';
+import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
 
 const enum MeetingType {
   APPLIED,
@@ -22,18 +23,6 @@ const MinePage: NextPage = () => {
     'meetingType',
     MeetingType.APPLIED
   );
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
 
   return (
     <div>
@@ -88,16 +77,10 @@ const MinePage: NextPage = () => {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+
+      <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+        <KakaoFloatingButton />
+      </div>
     </div>
   );
 };
