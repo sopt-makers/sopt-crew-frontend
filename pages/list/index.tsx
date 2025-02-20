@@ -1,5 +1,4 @@
 import { ampli } from '@/ampli';
-import useNotices from '@api/notice/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import PlusIcon from '@assets/svg/plus.svg';
 import WriteIcon from '@assets/svg/write.svg';
