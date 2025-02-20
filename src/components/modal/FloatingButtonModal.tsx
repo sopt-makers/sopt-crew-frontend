@@ -183,8 +183,13 @@ const KakaoQuestionButton = styled('button', {
 
   display: 'flex',
   padding: '8px 6px',
+  paddingLeft: '20px',
 
-  justifyContent: 'center',
+  fontSize: '16px',
+  fontWeight: '600',
+  lineHeight: '22px',
+  color: '$gray600',
+
   alignItems: 'center',
   gap: '4px',
   alignSelf: 'stretch',
@@ -199,5 +204,9 @@ const KakaoQuestionButton = styled('button', {
     borderRadius: '18px',
     bottom: '72px',
     padding: '$6 $0 $6 $4',
+    paddingLeft: '$18',
+    fontSize: '14px',
+    fontWeight: '600',
+    lineHeight: '18px',
   },
 });
