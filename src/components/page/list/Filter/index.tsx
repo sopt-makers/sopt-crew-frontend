@@ -11,12 +11,14 @@ function Filter() {
   return (
     <>
       <Flex align="center" justify="between">
-        <Flex>
-          <DropDownFilter filter={CATEGORY_FILTER} />
-          <DropDownFilter filter={PART_FILTER} />
-          <DropDownFilter filter={STATUS_FILTER} />
-          <DropDownFilter filter={GENERATION_FILTER} />
-        </Flex>
+        <ScrollFilter>
+          <Flex>
+            <DropDownFilter filter={CATEGORY_FILTER} />
+            <DropDownFilter filter={PART_FILTER} />
+            <DropDownFilter filter={STATUS_FILTER} />
+            <DropDownFilter filter={GENERATION_FILTER} />
+          </Flex>
+        </ScrollFilter>
 
         <Search />
       </Flex>
@@ -32,4 +34,22 @@ const SearchResultMessage = styled('p', {
   fontAg: '24_medium_100',
   mt: '$80',
   '@tablet': { display: 'none' },
+});
+
+const ScrollFilter = styled('div', {
+  '@tablet': {
+    overflowX: 'scroll',
+
+    '&::-webkit-scrollbar': {
+      height: '2px',
+      width: '4px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'transparent',
+      borderRadius: '2px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+    },
+  },
 });
