@@ -113,10 +113,18 @@ const Icon = styled(Plus, {
 });
 
 const SMakeMeetingButton = styled('button', {
+  width: '100%',
+  height: '100%',
   flexType: 'verticalCenter',
   padding: '$16 $24 $16 $20',
   background: '$gray10',
-  borderRadius: '16px',
+  borderRadius: '20px',
+  '&:hover': {
+    background: '$gray50',
+  },
+  '&:active': {
+    background: '$gray100',
+  },
   '& > span': {
     ml: '$12',
     fontAg: '18_bold_100',
@@ -125,19 +133,6 @@ const SMakeMeetingButton = styled('button', {
   '@tablet': {
     display: 'none',
   },
-});
-
-const MiniKakaoButton = styled('button', {
-  display: 'flex',
-  flexShrink: 0,
-  width: '56px',
-  height: '56px',
-  padding: '12px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '4px',
-  borderRadius: '20px',
-  background: '#FEE500',
 });
 
 const ButtonWrapper = styled('button', {
@@ -149,4 +144,7 @@ const ButtonWrapper = styled('button', {
   flexDirection: 'column',
   alignItems: 'flex-end',
   gap: '$20',
+  '@tablet': {
+    gap: '$16',
+  },
 });
