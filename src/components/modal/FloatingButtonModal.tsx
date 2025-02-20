@@ -198,12 +198,19 @@ const KakaoQuestionButton = styled('button', {
   background: '$gray10',
   boxShadow: '0px 6px 20px 0px rgba(0, 0, 0, 0.35)',
 
+  '&:hover': {
+    background: '$gray50',
+  },
+  '&:active': {
+    background: '$gray100',
+  },
+
   '@tablet': {
     width: '140px',
-    height: '38px',
+    height: '50px',
     borderRadius: '18px',
     bottom: '72px',
-    padding: '$6 $0 $6 $4',
+    padding: '$6',
     paddingLeft: '$18',
     fontSize: '14px',
     fontWeight: '600',
