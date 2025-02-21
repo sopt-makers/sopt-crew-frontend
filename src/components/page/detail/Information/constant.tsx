@@ -67,9 +67,9 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
 export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
   {
     key: '환영 태그',
-    Title: () => <STitle>#환영 태그</STitle>,
+    Title: () => (detailData?.welcomeMessageTypes.length ? <STitle>#환영 태그</STitle> : null),
     Content: () => {
-      return (
+      return detailData?.welcomeMessageTypes.length ? (
         <STarget>
           {detailData?.welcomeMessageTypes.map(tag => (
             <Chip key={tag} style={{ boxShadow: 'none' }} active>
@@ -77,7 +77,7 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
             </Chip>
           ))}
         </STarget>
-      );
+      ) : null;
     },
     isValid: detailData?.welcomeMessageTypes,
   },
