@@ -167,12 +167,12 @@ function Presentation({
             ></FormController>
           </div>
 
-          {/* 번쩍 일시 */}
+          {/* 번쩍 진행일 */}
           <div>
             <SLabelCheckboxWrapper>
               <SLabelWrapper>
                 <Label required={true} size="small">
-                  일시
+                  진행일
                 </Label>
               </SLabelWrapper>
             </SLabelCheckboxWrapper>
