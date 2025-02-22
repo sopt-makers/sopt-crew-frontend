@@ -108,7 +108,8 @@ export const flashSchema = z.object({
         .string()
         .min(10, { message: '번쩍 기간을 입력해주세요.' })
         .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-        .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
+        .optional()
+        .refine(datetime => (datetime ? dayjs(datetime, 'YYYY.MM.DD').isValid() : true), {
           message: 'YYYY.MM.DD 형식으로 입력해주세요.',
         }),
       endDate: z

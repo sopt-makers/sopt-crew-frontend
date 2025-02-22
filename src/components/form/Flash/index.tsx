@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
 import FormController from '../FormController';
@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import { imageS3Bucket } from '@constants/url';
 import CalendarInputForm from '../Calendar';
-import { Chip, useDialog } from '@sopt-makers/ui';
+import { CheckBox, Chip, useDialog } from '@sopt-makers/ui';
 import ImagePreview from '../Presentation/ImagePreview';
 import { flashPlace, flashTags, flashTime } from '@data/options';
 import ErrorMessage from '../ErrorMessage';
@@ -55,13 +55,19 @@ function Presentation({
   disabled = true,
   errors,
   placeType = null,
-  timeType = null,
+  timeType = '당일',
 }: PresentationProps) {
   const router = useRouter();
   const { open } = useDialog();
   const [placeState, setPlaceState] = useState<'오프라인' | '온라인' | '협의 후 결정' | null>(placeType);
   const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
+  const { watch, setValue } = useFormContext();
+
+  const endDate = watch('timeInfo.endDate');
+  if (timeState === '당일' && endDate !== '') {
+    setValue('timeInfo.endDate', '');
+  }
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -132,7 +138,7 @@ function Presentation({
               name="title"
               render={({ field, fieldState: { error } }) => (
                 <TextInput
-                  label="이름"
+                  label="번쩍 이름"
                   placeholder="번쩍 이름"
                   maxLength={30}
                   required
@@ -161,43 +167,20 @@ function Presentation({
             ></FormController>
           </div>
 
-          {/* 번쩍 일시 */}
+          {/* 번쩍 진행일 */}
           <div>
             <SLabelCheckboxWrapper>
               <SLabelWrapper>
                 <Label required={true} size="small">
-                  일시
+                  진행일
                 </Label>
               </SLabelWrapper>
             </SLabelCheckboxWrapper>
             <HelpMessage>
-              번쩍 모임 1시간 전, 모집이 자동으로 마감돼요.
+              진행일 자정에 모집이 자동으로 마감돼요. (당일에는 번쩍을 개설할 수 없어요)
               <br />
               Tip) 진행 예정 기간을 정해두고 신청자들과 협의해서 날짜를 정할 수도 있어요.
             </HelpMessage>
-            <STargetFieldWrapper>
-              <STargetChipContainer>
-                <FormController
-                  name="timeInfo.time"
-                  render={({ field: { value, onChange } }) => (
-                    <>
-                      {flashTime.map(time => (
-                        <Chip
-                          active={value.value === time.value}
-                          onClick={() => {
-                            setTimeState(time.label as '당일' | '예정 기간 (협의 후 결정)');
-                            onChange(time);
-                          }}
-                          key={time.value}
-                        >
-                          {time.label}
-                        </Chip>
-                      ))}
-                    </>
-                  )}
-                ></FormController>
-              </STargetChipContainer>
-            </STargetFieldWrapper>
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
@@ -237,6 +220,30 @@ function Presentation({
                 ></FormController>
               </SDateField>
             </SDateFieldWrapper>
+            <SCheckBoxWrapper>
+              <FormController
+                defaultValue={flashTime[0]}
+                name="timeInfo.time"
+                render={({ field: { value, onChange } }) => {
+                  const isChecked = value.value === '예정 기간 (협의 후 결정)';
+                  const newTimeState = isChecked ? '당일' : '예정 기간 (협의 후 결정)';
+                  const newValue = isChecked ? flashTime[0] : flashTime[1];
+                  return (
+                    <>
+                      <CheckBox
+                        label="협의 후 결정"
+                        size="sm"
+                        checked={isChecked}
+                        onClick={() => {
+                          setTimeState(newTimeState);
+                          onChange(newValue);
+                        }}
+                      />
+                    </>
+                  );
+                }}
+              ></FormController>
+            </SCheckBoxWrapper>
           </div>
 
           {/* 번쩍 장소 */}
@@ -254,18 +261,20 @@ function Presentation({
                   name="placeInfo.place"
                   render={({ field: { value, onChange } }) => (
                     <>
-                      {flashPlace.map(place => (
-                        <Chip
-                          active={value.value === place.value}
-                          onClick={() => {
-                            setPlaceState(place.label as '오프라인' | '온라인' | '협의 후 결정');
-                            onChange(place);
-                          }}
-                          key={place.value}
-                        >
-                          {place.label}
-                        </Chip>
-                      ))}
+                      {flashPlace.map(place => {
+                        return (
+                          <Chip
+                            active={value.value === place.value}
+                            onClick={() => {
+                              setPlaceState(place.label as '오프라인' | '온라인' | '협의 후 결정');
+                              onChange(place);
+                            }}
+                            key={place.value}
+                          >
+                            {place.label}
+                          </Chip>
+                        );
+                      })}
                     </>
                   )}
                 ></FormController>
@@ -570,4 +579,8 @@ const SPeopleWrapper = styled('div', {
 });
 const SErrorMessage = styled(ErrorMessage, {
   marginTop: '12px',
+});
+
+const SCheckBoxWrapper = styled('div', {
+  marginTop: '$16',
 });

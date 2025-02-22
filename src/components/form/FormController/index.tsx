@@ -16,7 +16,6 @@ function FormController({ name, render, defaultValue }: FormControllerProps) {
       setValue(name, false);
     }
   }, [defaultValue, name, setValue]);
-
   return (
     <Controller
       name={name}

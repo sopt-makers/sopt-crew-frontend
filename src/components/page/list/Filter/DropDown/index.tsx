@@ -1,7 +1,9 @@
 import { ampli } from '@/ampli';
 import { FilterType } from '@constants/option';
 import { useQueryString } from '@hooks/queryString';
+import { IconXCircle } from '@sopt-makers/icons';
 import { SelectV2 } from '@sopt-makers/ui';
+import { css } from '@stitches/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { styled } from 'stitches.config';
@@ -10,15 +12,40 @@ interface DropDownFilterProps {
   filter: FilterType;
 }
 
-function DropDownFilter({ filter }: DropDownFilterProps) {
-  const router = useRouter();
-  const selectedPartQuery = router.query.part as string;
-  const defaultValue = selectedPartQuery ? { label: selectedPartQuery, value: selectedPartQuery } : undefined;
+//notice: 현재 클래스 제대로 적용안되는 문제점으로 인해 !important 사용 필요
+const autoClass = css({
+  width: 'auto !important',
+  minWidth: '100px',
+  whiteSpace: 'nowrap',
+});
 
-  const { subject, options } = filter;
+function DropDownFilter({ filter }: DropDownFilterProps) {
+  const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
 
-  const setPartQuery = (value: string) => {
+  const router = useRouter();
+  const selectedPartQuery = router.query[subject] as string;
+
+  const isActiveGeneration = subject === 'isOnlyActiveGeneration' && selectedPartQuery === 'true';
+  const defaultValue = isActiveGeneration
+    ? { label: '36기', value: '36기' }
+    : selectedPartQuery
+    ? { label: selectedPartQuery, value: selectedPartQuery }
+    : undefined;
+
+  const setPartQuery = (value: string | null) => {
+    if (value === null) {
+      return deleteKey();
+    }
+
+    //notice: 활동 기수 드롭다운의 경우, 특별 처리
+    if (subject === 'isOnlyActiveGeneration' && value === '36기') {
+      if (selectedValue) return deleteKey();
+      setValue('true');
+      ampli.clickFilterGeneration({ group_generation: true });
+      return;
+    }
+
     ampli.clickFilterPart({ group_part: value });
 
     if (selectedValue === value) return deleteKey();
@@ -29,7 +56,21 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent placeholder={'대상 파트'} />
+          <SelectV2.TriggerContent
+            className={autoClass()}
+            placeholder={label}
+            icon={
+              defaultValue ? (
+                <IconXCircle
+                  style={{ width: '20px', height: '20px', fill: 'white', color: 'black' }}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setPartQuery(null);
+                  }}
+                />
+              ) : null
+            }
+          />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (
@@ -44,5 +85,5 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
 export default DropDownFilter;
 
 const SDropDownContainer = styled('div', {
-  ml: '$16',
+  mr: '$16',
 });
