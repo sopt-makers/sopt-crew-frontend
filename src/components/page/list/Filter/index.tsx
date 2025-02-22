@@ -9,6 +9,7 @@ import { useDisplay } from '@hooks/useDisplay';
 function Filter() {
   const { value: search } = useSearchParams();
   const { isLaptop } = useDisplay();
+
   return (
     <>
       {isLaptop ? <Search /> : <></>}

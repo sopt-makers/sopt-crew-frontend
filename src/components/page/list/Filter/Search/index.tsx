@@ -1,15 +1,13 @@
 import { useSearchParams } from '@hooks/queryString/custom';
-
 import SearchMobile from './Mobile';
 import { SearchField } from '@sopt-makers/ui';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@stitches/react';
-import { useDisplay } from '@hooks/useDisplay';
 
 const buttonPositioner = css({
   display: 'flex',
-  width: '335px',
+  width: '100%',
   padding: '11px 16px',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -22,14 +20,13 @@ const buttonPositioner = css({
     bottom: 0,
   },
 
-  '@media (max-width: 1259px)': {
-    width: '790px',
+  '@media (min-width: 1261px)': {
+    width: '335px',
   },
 });
 
 function Search() {
   const { setValue: setSearch, deleteKey } = useSearchParams();
-  const { isTablet } = useDisplay();
 
   const router = useRouter();
   const searchQuery = String(router.query.search || '');
@@ -38,8 +35,6 @@ function Search() {
   if (!inputValue && searchQuery !== inputValue) {
     deleteKey();
   }
-
-  if (isTablet) return null;
 
   return (
     <SearchField

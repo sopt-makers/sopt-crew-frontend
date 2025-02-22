@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
@@ -49,13 +48,13 @@ export default Card;
 
 const CardWrapper = styled('li', {});
 const DesktopOnly = styled('div', {
-  '@tablet': {
+  '@media (max-width: 430px)': {
     display: 'none',
   },
 });
 const MobileOnly = styled('div', {
   display: 'none',
-  '@tablet': {
+  '@media (max-width: 430px)': {
     display: 'flex',
     width: '100%',
   },

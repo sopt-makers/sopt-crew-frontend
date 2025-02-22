@@ -37,11 +37,6 @@ const Home: NextPage = () => {
       <div>
         {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 신청 가이드 */}
         <CrewTab>
-          <SMobileButtonContainer>
-            <WriteIcon onClick={handleMakeMeeting} className="make-button" />
-            <Search.Mobile />
-          </SMobileButtonContainer>
-
           <SGuideButton
             target="_blank"
             href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
@@ -86,17 +81,6 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-const SMobileButtonContainer = styled('div', {
-  display: 'none',
-  '@tablet': {
-    flexType: 'verticalCenter',
-    gap: '16px',
-  },
-  svg: {
-    cursor: 'pointer',
-  },
-});
 
 const SFilterWrapper = styled('div', {
   mt: '$45',
