@@ -64,75 +64,77 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const FlashDetailList = (detailData: GetFlashByIdResponse) => [
-  {
-    key: '환영 태그',
-    Title: () => (detailData?.welcomeMessageTypes.length ? <STitle>#환영 태그</STitle> : null),
-    Content: () => {
-      return detailData?.welcomeMessageTypes.length ? (
-        <STarget>
-          {detailData?.welcomeMessageTypes.map(tag => (
-            <Chip key={tag} style={{ boxShadow: 'none' }} active>
-              {tag}
-            </Chip>
-          ))}
-        </STarget>
-      ) : null;
+export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
+  return [
+    {
+      key: detailData.welcomeMessageTypes.length ? '환영 태그' : '',
+      Title: () => (detailData?.welcomeMessageTypes.length ? <STitle>#환영 태그</STitle> : null),
+      Content: () => {
+        return detailData?.welcomeMessageTypes.length ? (
+          <STarget>
+            {detailData?.welcomeMessageTypes.map(tag => (
+              <Chip key={tag} style={{ boxShadow: 'none' }} active>
+                {tag}
+              </Chip>
+            ))}
+          </STarget>
+        ) : null;
+      },
+      isValid: detailData?.welcomeMessageTypes,
     },
-    isValid: detailData?.welcomeMessageTypes,
-  },
-  {
-    key: '설명',
-    Title: () => <STitle>설명</STitle>,
-    Content: () => {
-      return <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>;
+    {
+      key: '설명',
+      Title: () => <STitle>설명</STitle>,
+      Content: () => {
+        return <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>;
+      },
+      isValid: detailData?.desc,
     },
-    isValid: detailData?.desc,
-  },
-  {
-    key: '진행일',
-    Title: () => (
-      <SIconTitleWrapper>
-        <SIconCalendar />
-        <STitle>진행일</STitle>
-      </SIconTitleWrapper>
-    ),
-    Content: () => {
-      const isSingleDay = detailData.flashTimingType === '당일';
-      const isPeriodNotDecided = detailData.flashTimingType.includes('협의 후 결정');
-      return (
-        <SDescription style={{ color: 'white' }}>
-          {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
-            isSingleDay ? '' : ` ~ ${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
-          }`}
-          {isPeriodNotDecided && (
-            <>
-              <Divider />
-              기간 중 협의 후 결정
-            </>
-          )}
-        </SDescription>
-      );
+    {
+      key: '진행일',
+      Title: () => (
+        <SIconTitleWrapper>
+          <SIconCalendar />
+          <STitle>진행일</STitle>
+        </SIconTitleWrapper>
+      ),
+      Content: () => {
+        const isSingleDay = detailData.flashTimingType === '당일';
+        const isPeriodNotDecided = detailData.flashTimingType.includes('협의 후 결정');
+        return (
+          <SDescription style={{ color: 'white' }}>
+            {`${dayjs(detailData.activityStartDate).format('YYYY. MM. DD (dd)')}${
+              isSingleDay ? '' : ` ~ ${dayjs(detailData.activityEndDate).format('YYYY. MM. DD (dd)')}`
+            }`}
+            {isPeriodNotDecided && (
+              <>
+                <Divider />
+                기간 중 협의 후 결정
+              </>
+            )}
+          </SDescription>
+        );
+      },
+      isValid: detailData.activityStartDate && detailData.activityEndDate,
     },
-    isValid: detailData.activityStartDate && detailData.activityEndDate,
-  },
-  {
-    key: '장소',
-    Title: () => (
-      <SIconTitleWrapper>
-        <SIconLocation />
-        <STitle>장소</STitle>
-      </SIconTitleWrapper>
-    ),
-    Content: () => (
-      <SDescription style={{ color: 'white' }}>{`${parsePlaceType(
-        detailData.flashPlaceType,
-        detailData.flashPlace
-      )}`}</SDescription>
-    ),
-    isValid: detailData.flashPlace,
-  },
-];
+    {
+      key: '장소',
+      Title: () => (
+        <SIconTitleWrapper>
+          <SIconLocation />
+          <STitle>장소</STitle>
+        </SIconTitleWrapper>
+      ),
+      Content: () => (
+        <SDescription style={{ color: 'white' }}>{`${parsePlaceType(
+          detailData.flashPlaceType,
+          detailData.flashPlace
+        )}`}</SDescription>
+      ),
+      isValid: detailData.flashPlace,
+    },
+  ];
+};
 
 const parsePlaceType = (placeType: string, place: string) => {
   switch (placeType) {

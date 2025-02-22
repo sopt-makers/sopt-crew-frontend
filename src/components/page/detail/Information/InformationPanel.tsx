@@ -6,17 +6,23 @@ import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
 import { GetFlashByIdResponse } from '@api/flash';
 
+type DetailDataType = GetMeetingResponse | GetFlashByIdResponse;
+
 interface InformationPanelProps {
-  detailData: GetMeetingResponse | GetFlashByIdResponse;
+  detailData: DetailDataType;
 }
 
 const InformationPanel = ({ detailData }: InformationPanelProps) => {
   const { isMobile } = useDisplay();
   const tabRef = useRef<HTMLElement[]>([]);
-  const detailList =
-    detailData.category === '번쩍'
-      ? FlashDetailList(detailData as GetFlashByIdResponse)
-      : MeetingDetailList(detailData as GetMeetingResponse);
+
+  function isFlash(detailData: DetailDataType): detailData is GetFlashByIdResponse {
+    return detailData.category === '번쩍' && (detailData as GetFlashByIdResponse).welcomeMessageTypes !== undefined;
+  }
+
+  const detailList = isFlash(detailData)
+    ? FlashDetailList(detailData as GetFlashByIdResponse)
+    : MeetingDetailList(detailData as GetMeetingResponse);
   const [selectedTab, setSelectedTab] = useState(detailList[0]?.key);
 
   const handleChange = useCallback((text: string) => {
@@ -30,7 +36,8 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
         <TabList text={selectedTab ?? ''} size="small" onChange={handleChange}>
           {detailList.map(
             ({ key, isValid }) =>
-              isValid && (
+              isValid &&
+              key && (
                 <TabList.Item key={key} text={key}>
                   {key}
                 </TabList.Item>
