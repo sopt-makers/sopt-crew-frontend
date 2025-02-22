@@ -4,12 +4,14 @@ import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
 import { CATEGORY_FILTER, GENERATION_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import DropDownFilter from './DropDown';
+import { useDisplay } from '@hooks/useDisplay';
 
 function Filter() {
   const { value: search } = useSearchParams();
-
+  const { isLaptop } = useDisplay();
   return (
     <>
+      {isLaptop ? <Search /> : <></>}
       <Flex align="center" justify="between">
         <ScrollFilter>
           <Flex>
@@ -20,7 +22,7 @@ function Filter() {
           </Flex>
         </ScrollFilter>
 
-        <Search />
+        {isLaptop ? <></> : <Search />}
       </Flex>
 
       {!!search && <SearchResultMessage>"{search}"에 대한 검색결과입니다.</SearchResultMessage>}
@@ -37,6 +39,9 @@ const SearchResultMessage = styled('p', {
 });
 
 const ScrollFilter = styled('div', {
+  '@laptop': {
+    marginTop: '16px',
+  },
   '@tablet': {
     overflowX: 'scroll',
 

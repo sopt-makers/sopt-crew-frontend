@@ -21,6 +21,10 @@ const buttonPositioner = css({
   '& > button': {
     bottom: 0,
   },
+
+  '@media (max-width: 1259px)': {
+    width: '790px',
+  },
 });
 
 function Search() {
