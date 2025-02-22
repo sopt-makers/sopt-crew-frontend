@@ -67,7 +67,7 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
 export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
   return [
     {
-      key: detailData.welcomeMessageTypes?.length ? '환영 태그' : '',
+      key: detailData.welcomeMessageTypes.length ? '환영 태그' : '',
       Title: () => (detailData?.welcomeMessageTypes.length ? <STitle>#환영 태그</STitle> : null),
       Content: () => {
         return detailData?.welcomeMessageTypes.length ? (
