@@ -17,14 +17,12 @@ const StyledGridContainer = styled('div', {
   rowGap: '120px',
   placeItems: 'start center',
 
-  '@media (max-width: 1250px)': {
+  '@media (max-width: 1260px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
-  '@media (max-width: 850px)': {
-    columnGap: '10px',
-  },
-  '@media (max-width: 820px)': {
+  '@media (max-width: 849px)': {
     gridTemplateColumns: '1fr',
+    columnGap: '10px',
   },
   variants: {
     mobileType: {
