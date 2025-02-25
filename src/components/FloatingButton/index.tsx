@@ -5,7 +5,7 @@ import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 import { useDisplay } from '@hooks/useDisplay';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
-import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
+import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);

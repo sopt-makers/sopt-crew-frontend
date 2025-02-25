@@ -18,7 +18,7 @@ import MeetingController from '@components/page/detail/MeetingController';
 import { useFlashByIdQuery } from '@api/flash/hook';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { GetFlashByIdResponse } from '@api/flash';
-import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
+import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 dayjs.locale('ko');
 
