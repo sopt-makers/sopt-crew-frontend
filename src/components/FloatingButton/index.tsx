@@ -20,30 +20,28 @@ function FloatingButton() {
   const handleOptionClose = () => setIsActive(false);
 
   return (
-    <>
-      <ButtonWrapper>
-        {!isActive && <KakaoFloatingButton />}
+    <ButtonWrapper>
+      {!isActive && <KakaoFloatingButton />}
 
-        <Container isActive={isActive}>
-          {isTablet || isMobile ? (
-            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-              <Icon isActive={isActive} />
-            </OptionOpenButton>
-          ) : isActive ? (
-            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-              <Icon isActive={isActive} />
-            </OptionOpenButton>
-          ) : (
-            <SMakeMeetingButton onClick={handleButtonClick}>
-              <PlusIcon />
-              <span>개설하기</span>
-            </SMakeMeetingButton>
-          )}
+      <Container isActive={isActive}>
+        {isTablet || isMobile ? (
+          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+            <Icon isActive={isActive} />
+          </OptionOpenButton>
+        ) : isActive ? (
+          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+            <Icon isActive={isActive} />
+          </OptionOpenButton>
+        ) : (
+          <SMakeMeetingButton onClick={handleButtonClick}>
+            <PlusIcon />
+            <span>개설하기</span>
+          </SMakeMeetingButton>
+        )}
 
-          <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
-        </Container>
-      </ButtonWrapper>
-    </>
+        <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
+      </Container>
+    </ButtonWrapper>
   );
 }
 
@@ -139,6 +137,7 @@ const ButtonWrapper = styled('button', {
   position: 'fixed',
   bottom: '5%',
   right: '5%',
+  zIndex: 2,
 
   display: 'flex',
   flexDirection: 'column',
