@@ -16,7 +16,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
-import FloatingButton from '@components/page/list/FloatingButton';
+import FloatingButton from '@components/FloatingButton';
 
 const Home: NextPage = () => {
   const router = useRouter();

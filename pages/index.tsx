@@ -4,7 +4,7 @@ import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSl
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import QuickMenu from '@components/page/home/QuickMenu';
-import FloatingButton from '@components/page/home/FloatingButton';
+import FloatingButton from '@components/FloatingButton';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
