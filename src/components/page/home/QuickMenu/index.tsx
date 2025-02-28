@@ -10,7 +10,7 @@ const QuickMenu = () => {
   const { isTablet } = useDisplay();
 
   const menu = [
-    { Icon: BoltIcon, label: '번쩍 모임', link: '/list?category=번쩍' },
+    { Icon: BoltIcon, label: '번쩍', link: '/list?category=번쩍' },
     { Icon: StudyIcon, label: '스터디', link: '/list?category=스터디' },
     { Icon: SeminarIcon, label: '세미나', link: '/list?category=세미나' },
     { Icon: EventIcon, label: '행사', link: '/list?category=행사' },
