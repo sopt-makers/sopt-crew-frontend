@@ -37,7 +37,6 @@ const SGradationRight = styled('div', {
   background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
 
   position: 'absolute',
-  zIndex: 1,
   right: '-1px',
   pointerEvents: 'none',
 

@@ -16,6 +16,7 @@ import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 import { useFlashListQuery } from '@api/flash/hook';
+import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
@@ -35,7 +36,9 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <CrewTab />
+      <CrewTab>
+        <GuideButton />
+      </CrewTab>
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isTablet ? (
         <>
