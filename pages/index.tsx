@@ -19,7 +19,7 @@ import { useFlashListQuery } from '@api/flash/hook';
 import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
-  const { isLaptop, isTablet } = useDisplay();
+  const { isLaptop, isTablet, isMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
         <GuideButton />
       </CrewTab>
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isTablet ? (
+      {isMobile ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
