@@ -12,26 +12,25 @@ function GridLayout({ children, mobileType }: PropsWithChildren<{ mobileType: 'l
 const StyledGridContainer = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
+  rowGap: '104px',
   columnGap: '30px',
+
   margin: '24px 0 120px 0',
-  rowGap: '120px',
   placeItems: 'start center',
 
   '@laptop': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
+
   '@media (max-width: 849px)': {
     gridTemplateColumns: '1fr',
-    columnGap: '10px',
+    rowGap: '120px',
+    alignItems: 'center',
   },
+
   variants: {
     mobileType: {
-      list: {
-        '@media (max-width: 768px)': {
-          margin: '16px 0 40px 0',
-          rowGap: '16px',
-        },
-      },
+      list: {},
       card: {
         '@media (max-width: 768px)': {
           alignItems: 'center',

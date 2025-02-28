@@ -34,7 +34,9 @@ export function MeetingListOfAll() {
 
   return (
     <main>
-      <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
+      <SMeetingCountWrapper>
+        <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
+      </SMeetingCountWrapper>
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout mobileType="list">
@@ -147,10 +149,20 @@ export function MeetingListOfApplied() {
   );
 }
 
+const SMeetingCountWrapper = styled('div', {
+  display: 'flex',
+  '@media (max-width: 849px)': {
+    justifyContent: 'center',
+  },
+});
+
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '12_semibold_100',
+  },
+  '@media (max-width: 849px)': {
+    width: '380px',
   },
 });
 

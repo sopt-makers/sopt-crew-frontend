@@ -84,10 +84,9 @@ export default Home;
 
 const SFilterWrapper = styled('div', {
   mt: '$45',
-  mb: '$64',
-  '@media (max-width: 768px)': {
+  mb: '$40',
+  '@tablet': {
     mt: '$16',
-    mb: '$24',
   },
 });
 

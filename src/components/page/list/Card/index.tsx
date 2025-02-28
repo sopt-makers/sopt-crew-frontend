@@ -18,7 +18,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
 
   return (
     <CardWrapper
-      css={{ '@media (max-width: 768px)': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
+      css={{ '@mobile': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
       onClick={() => {
         ampli.clickGroupCard({
           group_id: meetingData.id,
