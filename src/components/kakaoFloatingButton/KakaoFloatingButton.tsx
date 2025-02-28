@@ -6,7 +6,7 @@ import { styled } from 'stitches.config';
 import { useDisplay } from '@hooks/useDisplay';
 
 function KakaoFloatingButton() {
-  const { isTablet } = useDisplay();
+  const { isMobile } = useDisplay();
 
   return (
     <MiniKakaoButton
@@ -16,7 +16,7 @@ function KakaoFloatingButton() {
         });
       }}
     >
-      {isTablet ? <KakaoLogoIcon28 /> : <KakaoLogoIcon32 />}
+      {isMobile ? <KakaoLogoIcon28 /> : <KakaoLogoIcon32 />}
     </MiniKakaoButton>
   );
 }
@@ -42,7 +42,7 @@ const MiniKakaoButton = styled('button', {
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), #FEE500',
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     '&:hover': {
       background: '#FEE500',
     },

@@ -9,7 +9,7 @@ import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingBu
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
-  const { isTablet, isMobile } = useDisplay();
+  const { isMobile } = useDisplay();
 
   const handleButtonClick = () => {
     if (!isActive) {
@@ -25,7 +25,7 @@ function FloatingButton() {
         {!isActive && <KakaoFloatingButton />}
 
         <Container isActive={isActive}>
-          {isTablet || isMobile ? (
+          {isMobile ? (
             <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
               <Icon isActive={isActive} />
             </OptionOpenButton>
@@ -65,7 +65,7 @@ const Container = styled('div', {
     },
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     width: '48px',
     height: '48px',
     borderRadius: '18px',
@@ -106,7 +106,7 @@ const Icon = styled(Plus, {
       },
     },
   },
-  '@media (max-width: 768px)': {
+  '@mobile': {
     width: '24px',
     height: '24px',
   },
@@ -130,7 +130,7 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$gray950',
   },
-  '@media (max-width: 768px)': {
+  '@mobile': {
     display: 'none',
   },
 });
@@ -144,7 +144,7 @@ const ButtonWrapper = styled('button', {
   flexDirection: 'column',
   alignItems: 'flex-end',
   gap: '$20',
-  '@media (max-width: 768px)': {
+  '@mobile': {
     gap: '$16',
   },
 });

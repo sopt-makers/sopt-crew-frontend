@@ -100,7 +100,7 @@ const SGuideButton = styled('a', {
   borderRadius: '14px',
   fontAg: '18_semibold_100',
   boxSizing: 'border-box',
-  '@media (max-width: 768px)': {
+  '@tablet': {
     padding: '$14 $12 $14 $16',
     borderRadius: '10px',
     fontAg: '14_medium_100',
