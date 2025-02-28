@@ -11,7 +11,7 @@ import Loader from '@components/@common/loader/Loader';
 import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/detail/Feed/FeedPanel';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetingController from '@components/page/detail/MeetingController';
