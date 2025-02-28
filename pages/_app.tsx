@@ -150,7 +150,7 @@ const Layout = styled('div', {
     width: '790px',
   },
   '@media (max-width: 849px)': {
-    width: '708px',
+    width: '780px',
   },
   '@tablet': {
     width: 'calc(100vw - 60px)',

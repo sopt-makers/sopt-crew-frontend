@@ -70,15 +70,12 @@ const SCardListWrapper = styled('section', {
   display: 'flex',
   flexDirection: 'column',
 
-  width: '894px',
+  width: '100%',
   paddingBottom: '$80',
 
-  '@laptop': {
-    width: '790px',
-    overflow: 'hidden',
-  },
-  '@media (max-width: 768px)': {
-    width: '100%',
+  overflow: 'hidden',
+
+  '@tablet': {
     paddingBottom: '$40',
   },
 });
@@ -112,7 +109,7 @@ const SCardWrapper = styled('div', {
   display: 'flex',
   gap: '20px',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     flexDirection: 'column',
     width: '100%',
   },
