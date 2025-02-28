@@ -45,6 +45,7 @@ const ScrollFilter = styled('div', {
   },
 
   '@media (max-width: 768px)': {
+    overflow: 'hidden',
     overflowX: 'scroll',
 
     '&::-webkit-scrollbar': {

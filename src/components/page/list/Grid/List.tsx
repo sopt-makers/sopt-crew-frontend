@@ -65,7 +65,7 @@ export function MeetingListOfAll() {
                 ) : (
                   <img
                     src={meetingAds?.advertisements[0]?.mobileImageUrl}
-                    style={{ width: '328px', height: '82px', borderRadius: '8px' }}
+                    style={{ width: '100%', height: '82px', borderRadius: '8px' }}
                   ></img>
                 )}
               </Link>
@@ -158,11 +158,12 @@ const SMeetingCountWrapper = styled('div', {
 
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
-  '@mobile': {
-    fontAg: '12_semibold_100',
-  },
   '@media (max-width: 849px)': {
     width: '380px',
+  },
+  '@mobile': {
+    fontAg: '14_semibold_100',
+    width: '100%',
   },
 });
 

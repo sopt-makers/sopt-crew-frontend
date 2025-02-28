@@ -88,24 +88,27 @@ const SFilterWrapper = styled('div', {
   '@tablet': {
     mt: '$16',
   },
+  '@mobile': {
+    mb: '$28',
+  },
 });
 
 const SGuideButton = styled('a', {
-  height: '$48',
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
-  padding: '$18 $20',
-  borderRadius: '14px',
+  padding: '$8 $6 0 0',
   fontAg: '18_semibold_100',
-  boxSizing: 'border-box',
+
   '@tablet': {
-    padding: '$14 $12 $14 $16',
-    borderRadius: '10px',
-    fontAg: '14_medium_100',
+    padding: '0 $12 0 0',
+    fontAg: '14_semibold_100',
   },
 
   path: {
     stroke: '$gray10',
+  },
+  '@media (max-width: 340px)': {
+    display: 'none',
   },
 });

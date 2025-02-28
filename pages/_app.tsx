@@ -157,9 +157,6 @@ const Layout = styled('div', {
   },
   '@mobile': {
     width: 'calc(100vw - 32px)',
-  },
-
-  '@media (max-width: 414px)': {
     marginTop: '70px',
   },
 });

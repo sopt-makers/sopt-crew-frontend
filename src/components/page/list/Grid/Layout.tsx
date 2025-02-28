@@ -30,7 +30,11 @@ const StyledGridContainer = styled('div', {
 
   variants: {
     mobileType: {
-      list: {},
+      list: {
+        '@mobile': {
+          rowGap: '16px',
+        },
+      },
       card: {
         '@media (max-width: 768px)': {
           alignItems: 'center',

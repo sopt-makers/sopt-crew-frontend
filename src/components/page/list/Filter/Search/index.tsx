@@ -39,7 +39,7 @@ function Search() {
   return (
     <SearchField
       className={buttonPositioner()}
-      placeholder="모임 검색"
+      placeholder="모임을 검색해보세요"
       value={inputValue}
       onChange={e => {
         setInputValue(e.target.value);
