@@ -1,8 +1,8 @@
 import { styled } from 'stitches.config';
-import BoltIcon from '@assets/svg/icon_bolt.svg?rect';
-import StudyIcon from '@assets/svg/icon_study.svg?rect';
-import SeminarIcon from '@assets/svg/icon_seminar.svg?rect';
-import EventIcon from '@assets/svg/icon_event.svg?rect';
+import BoltIcon from '@assets/svg/button_bolt.svg?rect';
+import StudyIcon from '@assets/svg/button_study.svg?rect';
+import SeminarIcon from '@assets/svg/button_seminar.svg?rect';
+import EventIcon from '@assets/svg/button_event.svg?rect';
 import Link from 'next/link';
 import { useDisplay } from '@hooks/useDisplay';
 
