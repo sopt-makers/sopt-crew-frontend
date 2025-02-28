@@ -131,7 +131,7 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
           detailData.flashPlace
         )}`}</SDescription>
       ),
-      isValid: detailData.flashPlace,
+      isValid: true,
     },
   ];
 };
