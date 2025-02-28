@@ -62,6 +62,10 @@ const SMenuBtn = styled('button', {
     padding: '8px',
     borderRadius: '14.667px',
   },
+
+  '&:hover': {
+    background: '$gray700',
+  },
 });
 
 const SItem = styled('div', {
