@@ -98,7 +98,7 @@ const CommentInput = styled('div', {
     color: '$gray300',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     position: 'relative',
   },
 });

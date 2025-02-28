@@ -497,7 +497,7 @@ const FeedListContainer = styled('div', {
     alignItems: 'flex-start',
     gap: '20px',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
@@ -19,7 +18,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
 
   return (
     <CardWrapper
-      css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
+      css={{ '@mobile': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
       onClick={() => {
         ampli.clickGroupCard({
           group_id: meetingData.id,
@@ -49,13 +48,13 @@ export default Card;
 
 const CardWrapper = styled('li', {});
 const DesktopOnly = styled('div', {
-  '@tablet': {
+  '@mobile': {
     display: 'none',
   },
 });
 const MobileOnly = styled('div', {
   display: 'none',
-  '@tablet': {
+  '@mobile': {
     display: 'flex',
     width: '100%',
   },

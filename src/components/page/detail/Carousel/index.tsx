@@ -45,7 +45,7 @@ const SCarousel = styled('div', {
     mt: '$60',
     mb: '$80',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       mt: '0',
       mb: '$32',
       width: 'calc(100% + 40px)',
@@ -54,7 +54,7 @@ const SCarousel = styled('div', {
       display: 'block',
     },
 
-    '@mobile': {
+    '@media (max-width: 414px)': {
       width: 'calc(100% + 32px)',
       marginLeft: '-16px',
     },
@@ -65,7 +65,7 @@ const SCarousel = styled('div', {
     maxWidth: '$869',
     borderRadius: '14px',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       borderRadius: '$0',
     },
   },
@@ -133,7 +133,7 @@ const SImageWrapper = styled('div', {
     height: '$594',
     margin: '0 auto',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       height: '$256',
     },
   },

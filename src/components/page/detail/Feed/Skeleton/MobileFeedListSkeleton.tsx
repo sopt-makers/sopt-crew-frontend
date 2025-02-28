@@ -32,7 +32,7 @@ const SFeedItemWrapper = styled('div', {
   width: 'calc(100% + 40px)',
   marginLeft: '-20px',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: 'calc(100% + 32px)',
     marginLeft: '-16px',
   },

@@ -12,30 +12,31 @@ function GridLayout({ children, mobileType }: PropsWithChildren<{ mobileType: 'l
 const StyledGridContainer = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
+  rowGap: '104px',
   columnGap: '30px',
+
   margin: '24px 0 120px 0',
-  rowGap: '120px',
   placeItems: 'start center',
 
-  '@media (max-width: 1250px)': {
+  '@laptop': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
-  '@media (max-width: 850px)': {
-    columnGap: '10px',
-  },
-  '@media (max-width: 820px)': {
+
+  '@media (max-width: 849px)': {
     gridTemplateColumns: '1fr',
+    rowGap: '120px',
+    alignItems: 'center',
   },
+
   variants: {
     mobileType: {
       list: {
-        '@tablet': {
-          margin: '16px 0 40px 0',
+        '@mobile': {
           rowGap: '16px',
         },
       },
       card: {
-        '@tablet': {
+        '@media (max-width: 768px)': {
           alignItems: 'center',
           gridTemplateColumns: 'repeat(3, 1fr)',
           margin: '16px 0 40px 0',

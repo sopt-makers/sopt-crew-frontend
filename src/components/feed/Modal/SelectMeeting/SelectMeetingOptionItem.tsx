@@ -56,7 +56,7 @@ const STitle = styled('p', {
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   wordBreak: 'break-all',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T4',
   },
 });
@@ -69,7 +69,7 @@ const SelectItemThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },

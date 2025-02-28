@@ -16,7 +16,7 @@ const Wrapper = styled(Flex.Center, {
   border: '1px solid $gray600',
   borderRadius: '10px',
   my: '$24',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: '556px',
   },
 });
@@ -24,7 +24,7 @@ const Wrapper = styled(Flex.Center, {
 const Message = styled('p', {
   fontAg: '24_medium_100',
   color: '$gray400',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '16_medium_100',
   },
 });

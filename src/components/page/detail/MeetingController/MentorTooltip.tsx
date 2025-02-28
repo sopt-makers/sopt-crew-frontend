@@ -28,7 +28,7 @@ const STooltip = styled('div', {
   fontAg: '14_medium_100',
   cursor: 'default',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     top: '-2px',
     left: '109px',
     fontAg: '12_medium_100',
@@ -61,7 +61,7 @@ const STooltipDescription = styled('div', {
   lineHeight: '140%',
 
   '& > p': {
-    '@tablet': {
+    '@media (max-width: 768px)': {
       fontSize: '$10',
       lineHeight: '150%',
     },
@@ -71,7 +71,7 @@ const STooltipDescription = styled('div', {
 const SQuestionMarkIcon = styled(QuestionMarkIcon, {
   marginLeft: '$10',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     ml: '$6',
     width: '$12',
     height: '$12',

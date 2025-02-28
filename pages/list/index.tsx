@@ -37,11 +37,6 @@ const Home: NextPage = () => {
       <div>
         {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 신청 가이드 */}
         <CrewTab>
-          <SMobileButtonContainer>
-            <WriteIcon onClick={handleMakeMeeting} className="make-button" />
-            <Search.Mobile />
-          </SMobileButtonContainer>
-
           <SGuideButton
             target="_blank"
             href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
@@ -87,42 +82,33 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const SMobileButtonContainer = styled('div', {
-  display: 'none',
-  '@tablet': {
-    flexType: 'verticalCenter',
-    gap: '16px',
-  },
-  svg: {
-    cursor: 'pointer',
-  },
-});
-
 const SFilterWrapper = styled('div', {
   mt: '$45',
-  mb: '$64',
+  mb: '$40',
   '@tablet': {
     mt: '$16',
-    mb: '$24',
+  },
+  '@mobile': {
+    mb: '$28',
   },
 });
 
 const SGuideButton = styled('a', {
-  height: '$48',
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
-  padding: '$18 $20',
-  borderRadius: '14px',
+  padding: '$8 $6 0 0',
   fontAg: '18_semibold_100',
-  boxSizing: 'border-box',
+
   '@tablet': {
-    padding: '$14 $12 $14 $16',
-    borderRadius: '10px',
-    fontAg: '14_medium_100',
+    padding: '0 $12 0 0',
+    fontAg: '14_semibold_100',
   },
 
   path: {
     stroke: '$gray10',
+  },
+  '@media (max-width: 359px)': {
+    display: 'none',
   },
 });

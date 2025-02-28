@@ -96,7 +96,7 @@ const InfoWrapper = styled('div', {
   mt: '$40',
   flexType: 'verticalCenter',
   cursor: 'pointer',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     px: '$20',
   },
 });
@@ -110,7 +110,7 @@ const SThumbnailImage = styled('div', {
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },
@@ -121,7 +121,7 @@ const SCategory = styled('p', {
   fontStyle: 'T3',
   whiteSpace: 'nowrap',
   ml: '$20',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T4',
     ml: '$12',
   },
@@ -136,7 +136,7 @@ const STitle = styled('p', {
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   wordBreak: 'break-all',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T4',
   },
 });
@@ -167,7 +167,7 @@ const SelectDesktopLayout = styled('div', {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -207,7 +207,7 @@ const SelectMobileLayout = styled('div', {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'block',
     position: 'absolute',
   },

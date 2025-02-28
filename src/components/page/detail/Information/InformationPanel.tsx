@@ -62,7 +62,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
 export default InformationPanel;
 
 const SInformationPanel = styled('div', {
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mt: '$8',
   },
 });
@@ -72,7 +72,7 @@ const SDetail = styled('section', {
   color: '$gray10',
   mt: '$120',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mt: '$56',
   },
 });

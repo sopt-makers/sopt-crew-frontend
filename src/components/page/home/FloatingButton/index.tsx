@@ -58,7 +58,7 @@ const Container = styled('div', {
     },
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '48px',
     height: '48px',
     borderRadius: '18px',
@@ -99,7 +99,7 @@ const Icon = styled(Plus, {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '24px',
     height: '24px',
   },

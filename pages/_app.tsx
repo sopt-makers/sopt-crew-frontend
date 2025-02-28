@@ -144,13 +144,19 @@ const Layout = styled('div', {
   color: theme.colors.white,
   mx: '$auto',
   marginTop: '128px',
-  maxWidth: '1260px',
-  px: '$30',
+  width: '1200px',
+
+  '@laptop': {
+    width: '790px',
+  },
+  '@media (max-width: 849px)': {
+    width: '708px',
+  },
   '@tablet': {
-    px: '$20',
+    width: 'calc(100vw - 60px)',
   },
   '@mobile': {
+    width: 'calc(100vw - 32px)',
     marginTop: '70px',
-    px: '$16',
   },
 });

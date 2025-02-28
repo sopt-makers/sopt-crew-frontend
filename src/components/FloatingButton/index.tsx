@@ -9,7 +9,7 @@ import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
-  const { isTablet, isMobile } = useDisplay();
+  const { isMobile } = useDisplay();
 
   const handleButtonClick = () => {
     if (!isActive) {
@@ -20,28 +20,30 @@ function FloatingButton() {
   const handleOptionClose = () => setIsActive(false);
 
   return (
-    <ButtonWrapper>
-      {!isActive && <KakaoFloatingButton />}
+    <>
+      <ButtonWrapper>
+        {!isActive && <KakaoFloatingButton />}
 
-      <Container isActive={isActive}>
-        {isTablet || isMobile ? (
-          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-            <Icon isActive={isActive} />
-          </OptionOpenButton>
-        ) : isActive ? (
-          <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
-            <Icon isActive={isActive} />
-          </OptionOpenButton>
-        ) : (
-          <SMakeMeetingButton onClick={handleButtonClick}>
-            <PlusIcon />
-            <span>개설하기</span>
-          </SMakeMeetingButton>
-        )}
+        <Container isActive={isActive}>
+          {isMobile ? (
+            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+              <Icon isActive={isActive} />
+            </OptionOpenButton>
+          ) : isActive ? (
+            <OptionOpenButton isActive={isActive} onClick={handleButtonClick}>
+              <Icon isActive={isActive} />
+            </OptionOpenButton>
+          ) : (
+            <SMakeMeetingButton onClick={handleButtonClick}>
+              <PlusIcon />
+              <span>개설하기</span>
+            </SMakeMeetingButton>
+          )}
 
-        <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
-      </Container>
-    </ButtonWrapper>
+          <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
+        </Container>
+      </ButtonWrapper>
+    </>
   );
 }
 
@@ -63,7 +65,7 @@ const Container = styled('div', {
     },
   },
 
-  '@tablet': {
+  '@mobile': {
     width: '48px',
     height: '48px',
     borderRadius: '18px',
@@ -104,7 +106,7 @@ const Icon = styled(Plus, {
       },
     },
   },
-  '@tablet': {
+  '@mobile': {
     width: '24px',
     height: '24px',
   },
@@ -128,7 +130,7 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$gray950',
   },
-  '@tablet': {
+  '@mobile': {
     display: 'none',
   },
 });
@@ -137,13 +139,12 @@ const ButtonWrapper = styled('button', {
   position: 'fixed',
   bottom: '5%',
   right: '5%',
-  zIndex: 2,
 
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
   gap: '$20',
-  '@tablet': {
+  '@mobile': {
     gap: '$16',
   },
 });

@@ -91,7 +91,7 @@ const STabList = styled(Tab.List, {
   flexType: 'center',
   marginTop: '126px',
   paddingBottom: '64px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     marginTop: '48px',
     paddingBottom: '24px',
   },
@@ -111,7 +111,7 @@ const STab = styled('button', {
       false: { color: '$gray500' },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_bold_100',
     py: '$12',
   },

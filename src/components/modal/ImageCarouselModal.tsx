@@ -85,7 +85,7 @@ const Counter = styled('div', {
   zIndex: '$1',
   color: 'white',
   fontStyle: 'T1',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     top: '8px',
     left: '16px',
     fontStyle: 'H3',
@@ -101,7 +101,7 @@ const CloseButton = styled('button', {
   height: '24px',
   border: 'none',
   outline: 'none',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     top: '10px',
     right: '13px',
   },
@@ -138,7 +138,7 @@ const ArrowButton = styled('button', {
   flexShrink: 0,
   borderRadius: '20px',
   background: '$gray800',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

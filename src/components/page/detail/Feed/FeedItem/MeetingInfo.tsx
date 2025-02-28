@@ -48,7 +48,7 @@ const Container = styled('div', {
   '&:hover': {
     border: '1px solid $gray500',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     background: '$gray900',
   },
 });

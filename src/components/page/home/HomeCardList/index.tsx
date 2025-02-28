@@ -44,7 +44,7 @@ const SGradationRight = styled('div', {
   '@media (min-width: 1259px)': {
     display: 'none',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

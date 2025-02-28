@@ -211,7 +211,7 @@ const LeadersContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     gap: '10px',
   },
 });
@@ -221,7 +221,7 @@ const LeadersWrapper = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     gap: '8px',
   },
 });
@@ -243,7 +243,7 @@ const Leader = styled('div', {
   color: '$white',
   position: 'relative',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '89px',
     height: '30px',
     padding: '5px 8px',
@@ -257,7 +257,7 @@ const LeaderName = styled('span', {
   ...fontsObject.BODY_2_16_M,
   whiteSpace: 'nowrap',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     ...fontsObject.LABEL_5_11_SB,
   },
 });
@@ -273,7 +273,7 @@ const DeleteButton = styled('button', {
   borderRadius: '50px',
   background: '$gray700',
   cursor: 'pointer',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '12px',
     height: '12px',
   },
@@ -298,7 +298,7 @@ const CommentInput = styled('div', {
   width: '170px',
   height: '64px',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     position: 'fixed',
     //부모 요소 : transform, perspective, 또는 position: fixed 등의 속성
     //자식 요소의 fixed 위치가 의도대로 표시되지 않음 -> 따라서 top 속성을 unset으로 제거해줘야 함
@@ -339,7 +339,7 @@ const InputBox = styled('div', {
       },
     },
   },
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '328px',
     height: '48px',
   },
@@ -366,7 +366,7 @@ const AddButton = styled('button', {
       },
     },
   },
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '24px',
     height: '24px',
     padding: '3.75px',
@@ -390,11 +390,11 @@ const SProfile = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     background: '$gray700',
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: '$32',
       height: '$32',
     },
-    '@mobile': {
+    '@media (max-width: 414px)': {
       width: '$20',
       height: '$20',
     },
@@ -405,7 +405,7 @@ const StyledIconXCircle = styled(IconXCircle, {
   width: '24px',
   height: '24px',
   cursor: 'pointer',
-  '@mobile': {},
+  '@media (max-width: 414px)': {},
 });
 
 const StyledIconSearch = styled(IconSearch, {
@@ -419,7 +419,7 @@ const StyledIconPlus = styled(IconPlus, {
   height: '22px',
   color: 'white',
   cursor: 'pointer',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '16.5px',
     height: '16.5px',
   },
@@ -428,7 +428,7 @@ const StyledIconPlus = styled(IconPlus, {
 const StyledIconXClose = styled(IconXClose, {
   width: '12px',
   height: '12px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '8px',
     height: '8px',
   },
@@ -439,7 +439,7 @@ const StyledIconXClose = styled(IconXClose, {
 const StyledProfileDefaultIcon = styled(ProfileDefaultIcon, {
   width: '32px',
   height: '32px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '20px',
     height: '20px',
   },

@@ -21,7 +21,7 @@ const SMeetingInformationSkeleton = styled('div', {
   mt: '$64',
   flexType: 'verticalCenter',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '$0',
     borderRadius: '8px',
     mt: '$48',
@@ -35,7 +35,7 @@ const SImage = styled('div', {
   width: '$167',
   height: '$109',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -43,7 +43,7 @@ const SImage = styled('div', {
 const STextArea = styled('div', {
   ml: '$24',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
