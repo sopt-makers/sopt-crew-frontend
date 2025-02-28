@@ -11,7 +11,7 @@ import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import CrewTab from '@components/CrewTab';
-import KakaoFloatingButton from '@components/kakaoFloatingButton/KakaoFloatingButton';
+import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 const enum MeetingType {
   APPLIED,

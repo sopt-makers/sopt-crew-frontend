@@ -5,6 +5,7 @@ import ModalBackground from '@components/modal/ModalBackground';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 
+//note: deprecated
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
 
