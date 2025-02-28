@@ -77,7 +77,7 @@ const SFilterWrapper = styled('div', {
   mt: '$45',
   mb: '$40',
   '@tablet': {
-    mt: '$16',
+    mt: '$30',
   },
   '@mobile': {
     mb: '$28',
