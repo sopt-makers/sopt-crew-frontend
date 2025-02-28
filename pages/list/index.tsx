@@ -108,7 +108,7 @@ const SGuideButton = styled('a', {
   path: {
     stroke: '$gray10',
   },
-  '@media (max-width: 340px)': {
+  '@media (max-width: 359px)': {
     display: 'none',
   },
 });
