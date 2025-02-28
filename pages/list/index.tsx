@@ -1,10 +1,8 @@
 import { ampli } from '@/ampli';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import WriteIcon from '@assets/svg/write.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import CardSkeleton from '@components/page/list/Card/Skeleton';
 import Filter from '@components/page/list/Filter';
-import Search from '@components/page/list/Filter/Search';
 import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfAll } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
