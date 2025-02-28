@@ -1,25 +1,29 @@
 import { styled } from 'stitches.config';
-import BoltIcon from '@assets/svg/button_bolt.svg?rect';
-import StudyIcon from '@assets/svg/button_study.svg?rect';
-import SeminarIcon from '@assets/svg/button_seminar.svg?rect';
-import EventIcon from '@assets/svg/button_event.svg?rect';
+import BoltIcon from '@assets/svg/icon_bolt.svg?rect';
+import StudyIcon from '@assets/svg/icon_study.svg?rect';
+import SeminarIcon from '@assets/svg/icon_seminar.svg?rect';
+import EventIcon from '@assets/svg/icon_event.svg?rect';
 import Link from 'next/link';
+import { useDisplay } from '@hooks/useDisplay';
 
 const QuickMenu = () => {
+  const { isTablet } = useDisplay();
+
   const menu = [
-    { Icon: SBoltIcon, label: '번쩍 모임', link: '/list?category=번쩍' },
-    { Icon: SStudyIcon, label: '스터디', link: '/list?category=스터디' },
-    { Icon: SSeminarIcon, label: '세미나', link: '/list?category=세미나' },
-    { Icon: SEventIcon, label: '행사', link: '/list?category=행사' },
+    { Icon: BoltIcon, label: '번쩍 모임', link: '/list?category=번쩍' },
+    { Icon: StudyIcon, label: '스터디', link: '/list?category=스터디' },
+    { Icon: SeminarIcon, label: '세미나', link: '/list?category=세미나' },
+    { Icon: EventIcon, label: '행사', link: '/list?category=행사' },
   ];
 
   return (
     <SContainer>
-      <SGuideBtn>모임 신청 가이드</SGuideBtn>
       {menu.map(item => (
         <Link key={item.label} href={item.link}>
           <SItem>
-            <item.Icon />
+            <SMenuBtn>
+              <item.Icon width={isTablet ? 30 : 40} height={isTablet ? 30 : 40} />
+            </SMenuBtn>
             <SItemLabel>{item.label}</SItemLabel>
           </SItem>
         </Link>
@@ -37,7 +41,7 @@ const SContainer = styled('section', {
 
   '@laptop': {
     flexDirection: 'row',
-    gap: '32px',
+    gap: '40px',
 
     paddingLeft: '0',
   },
@@ -46,23 +50,17 @@ const SContainer = styled('section', {
   },
 });
 
-const SGuideBtn = styled('button', {
+const SMenuBtn = styled('button', {
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
 
-  padding: '20px 36px',
-  height: 'fit-content',
+  padding: '20px',
 
-  borderRadius: '9999px',
-  backgroundColor: '$gray800',
+  borderRadius: '28px',
+  background: '$gray900',
 
-  fontStyle: 'H2',
-  letterSpacing: '-0.4px',
-  color: '$white',
-
-  '@laptop': {
-    display: 'none',
+  '@tablet': {
+    padding: '8px',
+    borderRadius: '14.667px',
   },
 });
 
@@ -100,52 +98,5 @@ const SItemLabel = styled('h3', {
     fontSize: '11px',
     fontWeight: '600',
     lineHeight: '14px',
-  },
-});
-
-const SBoltIcon = styled(BoltIcon, {
-  width: '80px',
-  height: '80px',
-
-  cursor: 'pointer',
-
-  '@media (max-width: 768px)': {
-    width: '40px',
-    height: 'auto',
-  },
-});
-
-const SStudyIcon = styled(StudyIcon, {
-  width: '80px',
-  height: '80px',
-  objectFit: 'contain',
-
-  cursor: 'pointer',
-
-  '@media (max-width: 768px)': {
-    width: '40px',
-    height: '40px',
-  },
-});
-
-const SSeminarIcon = styled(SeminarIcon, {
-  width: '80px',
-  height: '80px',
-
-  cursor: 'pointer',
-
-  '@media (max-width: 768px)': {
-    width: '40px',
-    height: '40px',
-  },
-});
-
-const SEventIcon = styled(EventIcon, {
-  width: '80px',
-  height: '80px',
-
-  '@media (max-width: 768px)': {
-    width: '40px',
-    height: '40px',
   },
 });
