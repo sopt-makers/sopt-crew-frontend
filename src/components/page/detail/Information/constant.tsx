@@ -151,7 +151,7 @@ const STitle = styled('h2', {
   fontAg: '24_bold_100',
   mb: '$24',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'H4',
     mb: '$20',
   },
@@ -167,7 +167,7 @@ const SIconCalendar = styled(CalendarIcon, {
     stroke: '$white',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$20',
   },
 });
@@ -178,7 +178,7 @@ const SIconLocation = styled(IconLocation, {
 
   mb: '$24',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$20',
   },
 });
@@ -199,7 +199,7 @@ const SDescription = styled('p', {
     wordBreak: 'break-all',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'B3',
   },
 });
@@ -225,7 +225,7 @@ const STarget = styled(SDescription, {
 
   mb: '$24',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$20',
   },
 });

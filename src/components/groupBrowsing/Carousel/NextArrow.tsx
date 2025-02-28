@@ -29,7 +29,7 @@ const SButton = styled('button', {
   height: '$40',
   cursor: 'pointer',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 

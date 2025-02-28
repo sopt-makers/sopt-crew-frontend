@@ -60,7 +60,7 @@ const SInput = styled('input', {
     color: '$gray300',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '16px',
   },
 });

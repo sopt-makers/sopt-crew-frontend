@@ -40,7 +40,7 @@ const SProfileAnchor = styled('a', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '14px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     padding: '5px 8px',
     gap: '6px',
     br: '6.25px',
@@ -53,11 +53,11 @@ const SProfileAnchor = styled('a', {
     objectFit: 'cover',
 
     background: '$gray700',
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: '$32',
       height: '$32',
     },
-    '@mobile': {
+    '@media (max-width: 414px)': {
       width: '$20',
       height: '$20',
     },
@@ -67,11 +67,11 @@ const SProfileAnchor = styled('a', {
     width: '$48',
     height: '$48',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: '$32',
       height: '$32',
     },
-    '@mobile': {
+    '@media (max-width: 414px)': {
       width: '$20',
       height: '$20',
     },
@@ -81,10 +81,10 @@ const SProfileAnchor = styled('a', {
     ...fontsObject.TITLE_3_24_SB,
     fontWeight: 500,
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       fontStyle: 'T5',
     },
-    '@mobile': {
+    '@media (max-width: 414px)': {
       ...fontsObject.LABEL_5_11_SB,
     },
   },

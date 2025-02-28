@@ -20,7 +20,7 @@ const buttonPositioner = css({
     bottom: 0,
   },
 
-  '@media (min-width: 1261px)': {
+  '@media (min-width: 1260px)': {
     width: '335px',
   },
 });

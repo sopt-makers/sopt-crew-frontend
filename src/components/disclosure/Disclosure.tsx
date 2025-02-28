@@ -44,7 +44,7 @@ const Container = styled('div', {
   padding: '48px',
   background: '$gray800',
   borderRadius: '20px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     padding: '24px 16px',
     borderRadius: '12px',
   },
@@ -54,21 +54,21 @@ const STitleContainer = styled(Flex, {
 });
 const STitleWrapper = styled(Flex, {
   gap: '14px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     gap: '6px',
   },
 });
 const STitle = styled('h1', {
   fontStyle: 'H1',
   color: '$white',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     fontStyle: 'H5',
   },
 });
 const SSubTitle = styled('h4', {
   fontStyle: 'T4',
   color: 'gray300',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     fontStyle: 'B4',
   },
 });
@@ -83,7 +83,7 @@ const SArrowIcon = styled(ArrowIcon, {
       },
     },
   },
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '24px',
     height: '24px',
   },
@@ -92,7 +92,7 @@ const SDivider = styled('div', {
   height: '1px',
   margin: '36px 0 32px 0',
   background: '$gray600',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     margin: '20px 0',
   },
 });
@@ -101,27 +101,27 @@ const SContents = styled('div', {
   fontStyle: 'B2',
   color: '$gray100',
   whiteSpace: 'pre',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     fontStyle: 'B4',
   },
 });
 const SInfo = styled(Flex, {
   gap: '6px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     marginTop: '14px',
   },
 });
 const SCreatedAt = styled('span', {
   fontStyle: 'T6',
   color: '$gray500',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     fontStyle: 'C1',
   },
 });
 const SDate = styled('span', {
   fontStyle: 'B4',
   color: '$gray300',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     fontStyle: 'C1',
   },
 });

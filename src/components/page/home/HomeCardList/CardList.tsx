@@ -77,7 +77,7 @@ const SCardListWrapper = styled('section', {
     width: '790px',
     overflow: 'hidden',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100%',
     paddingBottom: '$40',
   },
@@ -98,7 +98,7 @@ const STitleStyle = styled('p', {
   fontStyle: 'H1',
   color: '$white',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     ...fontsObject.TITLE_6_16_SB,
   },
 });
@@ -112,7 +112,7 @@ const SCardWrapper = styled('div', {
   display: 'flex',
   gap: '20px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     flexDirection: 'column',
     width: '100%',
   },

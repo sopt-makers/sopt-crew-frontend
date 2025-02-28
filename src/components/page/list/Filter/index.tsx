@@ -36,14 +36,15 @@ export default Filter;
 const SearchResultMessage = styled('p', {
   fontAg: '24_medium_100',
   mt: '$80',
-  '@tablet': { display: 'none' },
+  '@media (max-width: 768px)': { display: 'none' },
 });
 
 const ScrollFilter = styled('div', {
   '@laptop': {
     marginTop: '16px',
   },
-  '@tablet': {
+
+  '@media (max-width: 768px)': {
     overflowX: 'scroll',
 
     '&::-webkit-scrollbar': {

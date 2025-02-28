@@ -17,7 +17,7 @@ const StyledGridContainer = styled('div', {
   rowGap: '120px',
   placeItems: 'start center',
 
-  '@media (max-width: 1260px)': {
+  '@laptop': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
   '@media (max-width: 849px)': {
@@ -27,13 +27,13 @@ const StyledGridContainer = styled('div', {
   variants: {
     mobileType: {
       list: {
-        '@tablet': {
+        '@media (max-width: 768px)': {
           margin: '16px 0 40px 0',
           rowGap: '16px',
         },
       },
       card: {
-        '@tablet': {
+        '@media (max-width: 768px)': {
           alignItems: 'center',
           gridTemplateColumns: 'repeat(3, 1fr)',
           margin: '16px 0 40px 0',

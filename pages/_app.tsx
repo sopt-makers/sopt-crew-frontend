@@ -146,17 +146,17 @@ const Layout = styled('div', {
   marginTop: '128px',
   width: '1200px',
 
-  '@media (max-width: 1260px)': {
+  '@laptop': {
     width: '790px',
   },
   '@media (max-width: 849px)': {
     width: '708px',
   },
-  '@media (max-width: 430px)': {
+  '@mobile': {
     width: 'calc(100vw - 32px)',
   },
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     marginTop: '70px',
   },
 });

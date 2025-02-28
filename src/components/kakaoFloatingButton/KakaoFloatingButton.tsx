@@ -42,7 +42,7 @@ const MiniKakaoButton = styled('button', {
     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), #FEE500',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     '&:hover': {
       background: '#FEE500',
     },

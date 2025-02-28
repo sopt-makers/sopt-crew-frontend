@@ -65,7 +65,7 @@ const SOption = styled('button', {
         '&:hover': {
           color: '$gray10',
         },
-        '@tablet': {
+        '@media (max-width: 768px)': {
           backgroundColor: '$gray600',
           color: '$gray300',
         },
@@ -73,7 +73,7 @@ const SOption = styled('button', {
     },
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '12_semibold_100',
     borderRadius: '20px',
     px: '$12',

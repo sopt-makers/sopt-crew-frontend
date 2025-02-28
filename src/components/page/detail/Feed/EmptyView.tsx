@@ -44,7 +44,7 @@ const SContent = styled('div', {
   color: '$gray200',
   fontStyle: 'T1',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'H4',
   },
 
@@ -56,7 +56,7 @@ const SContent = styled('div', {
     borderRadius: '14px',
     fontStyle: 'H2',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       mt: '$32',
       padding: '$10 $20',
       borderRadius: '8px',
@@ -68,7 +68,7 @@ const SContent = styled('div', {
 const SEmoji = styled('p', {
   mb: '$20',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$12',
   },
 });

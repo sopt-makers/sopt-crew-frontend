@@ -53,7 +53,7 @@ const SLayout = styled(Flex, {
   transition: 'height 0.5s',
   color: '#fff',
   display: 'none',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'flex',
   },
 });

@@ -318,7 +318,7 @@ const SPanelWrapper = styled('div', {
   borderBottom: `2px solid $gray700`,
   mb: '$40',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'block',
     paddingBottom: '0',
     borderBottom: 'none',
@@ -341,7 +341,7 @@ const SStatusButton = styled(Button, {
   backgroundColor: '$gray800',
   fontAg: '18_semibold_100',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100%',
     height: '$46',
     padding: '$13 0',
@@ -370,7 +370,7 @@ const SGuestButton = styled(Button, {
   padding: '$20 0',
   textAlign: 'center',
   color: '$gray950',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100%',
     height: '$46',
     fontStyle: 'T5',
@@ -412,7 +412,7 @@ const SHostButtonContainer = styled('div', {
     borderRadius: '$50',
     fontAg: '20_bold_100',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: 'calc(50% - 3.5px)',
       padding: '$16 0',
       fontAg: '14_bold_100',
@@ -423,7 +423,7 @@ const SHostButtonContainer = styled('div', {
     border: `2px solid $gray600`,
     mr: '$12',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       mr: '$7',
     },
   },

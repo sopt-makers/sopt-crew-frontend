@@ -143,7 +143,7 @@ const Container = styled('div', {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '140px',
     height: 'auto',
     borderRadius: '18px',
@@ -166,7 +166,7 @@ const Button = styled('button', {
     borderRadius: '16px',
     backgroundColor: '$gray30',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     '&:hover': {
       backgroundColor: '$gray10',
     },
@@ -205,7 +205,7 @@ const KakaoQuestionButton = styled('button', {
     background: '$gray100',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '140px',
     height: '50px',
     borderRadius: '18px',

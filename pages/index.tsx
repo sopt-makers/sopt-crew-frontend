@@ -97,7 +97,7 @@ const SContentTitle = styled('div', {
     width: '790px',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'flex',
     width: '100%',
     fontSize: '16px',
@@ -119,7 +119,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     margin: '0 0 $40',
   },
 });

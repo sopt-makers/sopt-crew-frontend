@@ -297,7 +297,7 @@ const SCustomSuggestionsContainer = styled('div', {
     backgroundColor: 'transparent',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     position: 'absolute',
     left: '0',
     bottom: '120px',
@@ -337,7 +337,7 @@ const SRenderSuggestion = styled('button', {
     ...fontsObject.BODY_4_13_R,
     color: colors.gray100,
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '16px 12px',
   },
 });

@@ -90,7 +90,7 @@ export default DetailPage;
 const SDetailPage = styled('div', {
   mb: '$374',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$122',
   },
 });
@@ -98,12 +98,12 @@ const SDetailPage = styled('div', {
 const STabList = styled('div', {
   display: 'flex',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: 'calc(100% + 40px)',
     marginLeft: '-20px',
   },
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: 'calc(100% + 32px)',
     marginLeft: '-16px',
   },
@@ -119,7 +119,7 @@ const STabButton = styled('button', {
     color: '$gray10',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T3',
     padding: '$16 0',
     mr: '$0',
@@ -132,14 +132,14 @@ const STabButton = styled('button', {
       true: {
         color: '$gray10',
         borderBottom: `4px solid $gray10`,
-        '@tablet': {
+        '@media (max-width: 768px)': {
           borderWidth: '2px',
         },
       },
       false: {
         color: '$gray500',
         paddingBottom: '$28',
-        '@tablet': {
+        '@media (max-width: 768px)': {
           paddingBottom: '$18',
         },
       },

@@ -84,7 +84,7 @@ const SContainer = styled('div', {
   position: 'sticky',
   top: '$80',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

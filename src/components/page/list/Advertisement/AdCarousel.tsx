@@ -136,7 +136,7 @@ export const Embla = styled('div', {
   width: '380px',
   height: '380px',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '320px',
     height: '320px',
   },
@@ -175,7 +175,7 @@ export const EmblaSlideImage = styled('img', {
   width: '380px',
   height: '380px',
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: '320px',
     height: '320px',
   },

@@ -57,7 +57,7 @@ const HeaderWrapper = styled('div', {
 const SDesktopHeaderWrapper = styled(HeaderWrapper, {
   display: 'block',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -69,7 +69,7 @@ const SMobileHeaderWrapper = styled(HeaderWrapper, {
     width: '100%',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'block',
   },
 });

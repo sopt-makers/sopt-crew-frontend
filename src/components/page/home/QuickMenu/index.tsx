@@ -41,7 +41,7 @@ const SContainer = styled('section', {
 
     paddingLeft: '0',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gap: '9px',
   },
 });
@@ -92,7 +92,7 @@ const SItemLabel = styled('h3', {
     fontStyle: 'H4',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'H4',
     flexDirection: 'column',
     gap: '12px',
@@ -109,7 +109,7 @@ const SBoltIcon = styled(BoltIcon, {
 
   cursor: 'pointer',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: 'auto',
   },
@@ -122,7 +122,7 @@ const SStudyIcon = styled(StudyIcon, {
 
   cursor: 'pointer',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },
@@ -134,7 +134,7 @@ const SSeminarIcon = styled(SeminarIcon, {
 
   cursor: 'pointer',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },
@@ -144,7 +144,7 @@ const SEventIcon = styled(EventIcon, {
   width: '80px',
   height: '80px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },

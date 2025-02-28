@@ -60,7 +60,7 @@ const SDialogWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: 'calc(100% - 40px)',
     height: '$194',
     padding: '$32',
@@ -74,7 +74,7 @@ const SDialogWrapper = styled('div', {
     flex: '1',
     flexType: 'center',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       fontAg: '16_bold_150',
     },
   },
@@ -87,7 +87,7 @@ const SDialogWrapper = styled('div', {
     textAlign: 'center',
     color: '$gray10',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: 'calc(50% - 10px)',
       padding: '$16 0',
       fontAg: '14_bold_100',

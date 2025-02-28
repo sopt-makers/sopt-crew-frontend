@@ -85,7 +85,7 @@ export default Home;
 const SFilterWrapper = styled('div', {
   mt: '$45',
   mb: '$64',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mt: '$16',
     mb: '$24',
   },
@@ -100,7 +100,7 @@ const SGuideButton = styled('a', {
   borderRadius: '14px',
   fontAg: '18_semibold_100',
   boxSizing: 'border-box',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '$14 $12 $14 $16',
     borderRadius: '10px',
     fontAg: '14_medium_100',
