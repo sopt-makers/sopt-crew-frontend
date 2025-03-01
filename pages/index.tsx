@@ -100,7 +100,7 @@ const SContentTitle = styled('div', {
     width: '790px',
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     display: 'flex',
     width: '100%',
     fontSize: '16px',
@@ -110,10 +110,6 @@ const SContentTitle = styled('div', {
 const GroupBrowsingCarouselContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
-
-  '@laptop': {
-    left: '-20px',
-  },
 });
 
 const QuickMenuWrapper = styled('div', {

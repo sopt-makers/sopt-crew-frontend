@@ -45,7 +45,7 @@ const SCarousel = styled('div', {
     mt: '$60',
     mb: '$80',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       mt: '0',
       mb: '$32',
       width: 'calc(100% + 40px)',
@@ -65,7 +65,7 @@ const SCarousel = styled('div', {
     maxWidth: '$869',
     borderRadius: '14px',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       borderRadius: '$0',
     },
   },
@@ -133,7 +133,7 @@ const SImageWrapper = styled('div', {
     height: '$594',
     margin: '0 auto',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       height: '$256',
     },
   },
