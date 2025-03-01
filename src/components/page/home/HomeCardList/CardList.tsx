@@ -95,7 +95,7 @@ const STitleStyle = styled('p', {
   fontStyle: 'H1',
   color: '$white',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     ...fontsObject.TITLE_6_16_SB,
   },
 });

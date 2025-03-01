@@ -45,7 +45,7 @@ const SContainer = styled('section', {
 
     paddingLeft: '0',
   },
-  '@media (max-width: 768px)': {
+  '@mobile': {
     gap: '9px',
   },
 });
@@ -89,18 +89,16 @@ const SItemLabel = styled('h3', {
 
   '@laptop': {
     flexDirection: 'column',
-    gap: '12px',
 
     fontStyle: 'H4',
   },
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     fontStyle: 'H4',
     flexDirection: 'column',
-    gap: '12px',
 
-    fontSize: '11px',
-    fontWeight: '600',
-    lineHeight: '14px',
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '13px',
   },
 });
