@@ -122,7 +122,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@media (max-width: 414px)': {
-    margin: '0 0 $40',
+  '@tablet': {
+    margin: '$40 0',
   },
 });
