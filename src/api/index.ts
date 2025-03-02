@@ -15,6 +15,8 @@ const playgroundBaseURL =
     ? 'https://playground.api.sopt.org/'
     : 'https://playground.dev.sopt.org/';
 
+export const baseApi = axios.create({ baseURL });
+
 export const api = axios.create({
   baseURL,
 });
