@@ -57,15 +57,6 @@ const Carousel = ({ cardList }: CarouselProps) => {
     beforeChange: (current: number, next: number) => {
       setActiveSlide(next);
     },
-    // responsive: [
-    //   {
-    //     breakpoint: 1259,
-    //     settings: {
-    //       slidesToShow: 2.44,
-    //       slidesToScroll: 2,
-    //     },
-    //   },
-    // ],
   };
 
   return (
@@ -95,6 +86,12 @@ const SCarousel = styled('div', {
 
       left: '-27px',
     },
+    '@tablet': {
+      width: 'calc(100vw - 30px)',
+      minWidth: 'calc(100vw - 30px)',
+
+      left: '20px',
+    },
   },
 
   '.slick-list': {
@@ -119,10 +116,6 @@ const SCarousel = styled('div', {
         background: 'linear-gradient(270deg, #0F0F12 0%, rgba(15, 15, 18, 0.00) 100%)',
         pointerEvents: 'none',
       },
-    },
-    '@tablet': {
-      width: '100vw',
-      minWidth: '100vw',
     },
   },
 
