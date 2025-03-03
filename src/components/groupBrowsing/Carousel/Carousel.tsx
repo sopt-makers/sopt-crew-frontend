@@ -57,15 +57,6 @@ const Carousel = ({ cardList }: CarouselProps) => {
     beforeChange: (current: number, next: number) => {
       setActiveSlide(next);
     },
-    // responsive: [
-    //   {
-    //     breakpoint: 1259,
-    //     settings: {
-    //       slidesToShow: 2.44,
-    //       slidesToScroll: 2,
-    //     },
-    //   },
-    // ],
   };
 
   return (
@@ -121,8 +112,9 @@ const SCarousel = styled('div', {
       },
     },
     '@tablet': {
-      width: '100vw',
-      minWidth: '100vw',
+      width: 'calc(100vw - 30px)',
+      minWidth: 'calc(100vw - 30px)',
+      left: '30px',
     },
   },
 
