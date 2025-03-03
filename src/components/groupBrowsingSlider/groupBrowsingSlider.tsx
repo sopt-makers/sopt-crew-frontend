@@ -25,5 +25,4 @@ const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
   overflowX: 'auto',
-  paddingBottom: '40px',
 });
