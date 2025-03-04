@@ -5,6 +5,7 @@ import ModalBackground from '@components/modal/ModalBackground';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 
+//note: deprecated
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
 
@@ -57,7 +58,7 @@ const Container = styled('div', {
     },
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '48px',
     height: '48px',
     borderRadius: '18px',
@@ -98,7 +99,7 @@ const Icon = styled(Plus, {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '24px',
     height: '24px',
   },

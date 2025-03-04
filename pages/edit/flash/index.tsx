@@ -36,6 +36,7 @@ const FlashEditPage = () => {
   });
 
   const { isValid, errors } = formMethods.formState;
+  console.log(formMethods.watch());
 
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {
@@ -140,7 +141,7 @@ const SContainer = styled('div', {
   display: 'flex',
   gap: '30px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     margin: 0,
   },
 });
@@ -149,7 +150,7 @@ const SFormContainer = styled('div', {
   padding: '44px 40px 56px',
   borderRadius: '15px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '40px 0 0 0',
     background: '$gray950',
   },
@@ -159,14 +160,14 @@ const SFormName = styled('h1', {
   color: '$gray10',
   marginBottom: '90px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     margin: 0,
     paddingBottom: '40px',
     borderBottom: '1px solid $gray700',
   },
 });
 const SFormWrapper = styled('div', {
-  '@tablet': {
+  '@media (max-width: 768px)': {
     paddingTop: '40px',
   },
 });

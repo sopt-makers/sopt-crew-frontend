@@ -63,7 +63,7 @@ const Editor = styled('div', {
   border: 'none',
   outline: 'none',
   resize: 'none',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     position: 'relative',
   },
 });

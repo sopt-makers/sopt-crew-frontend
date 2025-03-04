@@ -54,7 +54,7 @@ const CommentWrapper = styled('button', {
   flexType: 'center',
   color: '$gray300',
   fontStyle: 'T5',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '50%',
     fontStyle: 'T6',
   },

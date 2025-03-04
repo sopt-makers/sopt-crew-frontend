@@ -18,7 +18,7 @@ const SItemSkeleton = styled('div', {
   background: '$gray800',
   mb: '$16',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: '$56',
     borderRadius: '10px',
     mb: '$10',

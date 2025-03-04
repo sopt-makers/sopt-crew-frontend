@@ -4,7 +4,7 @@ import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSl
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import QuickMenu from '@components/page/home/QuickMenu';
-import FloatingButton from '@components/page/home/FloatingButton';
+import FloatingButton from '@components/FloatingButton';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
@@ -16,9 +16,10 @@ import CrewTab from '@components/CrewTab';
 import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 import { useFlashListQuery } from '@api/flash/hook';
+import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
-  const { isLaptop, isTablet } = useDisplay();
+  const { isLaptop, isTablet, isMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -35,9 +36,11 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <CrewTab />
+      <CrewTab>
+        <GuideButton />
+      </CrewTab>
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isTablet ? (
+      {isMobile ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
@@ -97,7 +100,7 @@ const SContentTitle = styled('div', {
     width: '790px',
   },
 
-  '@tablet': {
+  '@mobile': {
     display: 'flex',
     width: '100%',
     fontSize: '16px',
@@ -107,10 +110,6 @@ const SContentTitle = styled('div', {
 const GroupBrowsingCarouselContainer = styled('div', {
   display: 'flex',
   justifyContent: 'center',
-
-  '@laptop': {
-    left: '-20px',
-  },
 });
 
 const QuickMenuWrapper = styled('div', {
@@ -119,7 +118,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@mobile': {
-    margin: '0 0 $40',
+  '@tablet': {
+    margin: '$40 0',
   },
 });

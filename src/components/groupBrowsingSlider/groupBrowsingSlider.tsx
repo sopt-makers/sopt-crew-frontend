@@ -9,13 +9,11 @@ interface CarouselProps {
 
 const GroupBrowsingSlider = ({ cardList }: CarouselProps) => {
   return (
-    <>
-      <SSlider>
-        {cardList.map(card => (
-          <MobileSizeCard key={card.id} {...card} />
-        ))}{' '}
-      </SSlider>
-    </>
+    <SSlider>
+      {cardList.map(card => (
+        <MobileSizeCard key={card.id} {...card} />
+      ))}{' '}
+    </SSlider>
   );
 };
 
@@ -25,5 +23,4 @@ const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
   overflowX: 'auto',
-  paddingBottom: '40px',
 });

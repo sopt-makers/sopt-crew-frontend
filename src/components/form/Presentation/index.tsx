@@ -575,7 +575,7 @@ const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '60px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gap: '56px',
   },
 });
@@ -587,7 +587,7 @@ const SFileInputWrapper = styled('div', {
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '16px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
 });
@@ -600,7 +600,7 @@ const SApplicationField = styled('div', {
   width: '100%',
   maxWidth: '205px',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     maxWidth: '151px',
   },
 });
@@ -637,7 +637,7 @@ const ButtonContainer = styled('div', {
   gap: '20px',
   alignSelf: 'flex-end',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     flexDirection: 'column-reverse',
     width: '100%',
     marginBottom: '20px',
@@ -655,7 +655,7 @@ const Button = styled('button', {
   fontAg: '18_bold_100',
   color: '$gray10',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gap: '10px',
     width: '100%',
     fontAg: '16_bold_100',

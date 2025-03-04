@@ -168,7 +168,7 @@ const SFeedItem = styled('div', {
   '&:hover': {
     transform: 'translateY(-10px)',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '$24 0 $28 0',
     background: 'transparent',
     borderRadius: 0,
@@ -272,7 +272,7 @@ const STitle = styled('div', {
   mb: '$8',
   fontStyle: 'H3',
   wordBreak: 'break-all',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'H4',
   },
 });
@@ -288,7 +288,7 @@ const SContent = styled('div', {
   WebkitBoxOrient: 'vertical',
   WebkitLineClamp: 3,
   overflow: 'hidden',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'B3',
   },
 });
@@ -308,7 +308,7 @@ const SThumbnail = styled('img', {
   aspectRatio: '4 / 3',
   objectFit: 'cover',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     maxWidth: '100%',
   },
 });
@@ -327,7 +327,7 @@ const SThumbnailCount = styled('div', {
   height: '40px',
   flexType: 'center',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '36px',
     height: '36px',
   },

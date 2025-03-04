@@ -51,21 +51,12 @@ const Carousel = ({ cardList }: CarouselProps) => {
       </SNextArrowContainer>
     ),
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
+    variableWidth: true,
     infinite: false,
     beforeChange: (current: number, next: number) => {
       setActiveSlide(next);
     },
-    responsive: [
-      {
-        breakpoint: 1259,
-        settings: {
-          slidesToShow: 2.44,
-          slidesToScroll: 2,
-        },
-      },
-    ],
   };
 
   return (
@@ -91,10 +82,15 @@ const SCarousel = styled('div', {
     width: '100vw',
 
     '@laptop': {
-      width: '848px',
-      minWidth: '848px',
+      width: '100%',
 
       left: '-27px',
+    },
+    '@tablet': {
+      width: 'calc(100vw - 30px)',
+      minWidth: 'calc(100vw - 30px)',
+
+      left: '20px',
     },
   },
 
@@ -152,5 +148,4 @@ const SNextArrowContainer = styled('div', {
   position: 'absolute',
   right: '$0',
   zIndex: '1',
-  '@laptop': {},
 });

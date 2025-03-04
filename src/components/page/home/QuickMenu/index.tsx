@@ -4,22 +4,26 @@ import StudyIcon from '@assets/svg/button_study.svg?rect';
 import SeminarIcon from '@assets/svg/button_seminar.svg?rect';
 import EventIcon from '@assets/svg/button_event.svg?rect';
 import Link from 'next/link';
+import { useDisplay } from '@hooks/useDisplay';
 
 const QuickMenu = () => {
+  const { isTablet } = useDisplay();
+
   const menu = [
-    { Icon: SBoltIcon, label: '번쩍 모임', link: '/list?category=번쩍' },
-    { Icon: SStudyIcon, label: '스터디', link: '/list?category=스터디' },
-    { Icon: SSeminarIcon, label: '세미나', link: '/list?category=세미나' },
-    { Icon: SEventIcon, label: '행사', link: '/list?category=행사' },
+    { Icon: BoltIcon, label: '번쩍', link: '/list?category=번쩍' },
+    { Icon: StudyIcon, label: '스터디', link: '/list?category=스터디' },
+    { Icon: SeminarIcon, label: '세미나', link: '/list?category=세미나' },
+    { Icon: EventIcon, label: '행사', link: '/list?category=행사' },
   ];
 
   return (
     <SContainer>
-      <SGuideBtn>모임 신청 가이드</SGuideBtn>
       {menu.map(item => (
         <Link key={item.label} href={item.link}>
           <SItem>
-            <item.Icon />
+            <SMenuBtn>
+              <item.Icon width={isTablet ? 30 : 40} height={isTablet ? 30 : 40} />
+            </SMenuBtn>
             <SItemLabel>{item.label}</SItemLabel>
           </SItem>
         </Link>
@@ -37,32 +41,30 @@ const SContainer = styled('section', {
 
   '@laptop': {
     flexDirection: 'row',
-    gap: '32px',
+    gap: '40px',
 
     paddingLeft: '0',
   },
-  '@tablet': {
+  '@mobile': {
     gap: '9px',
   },
 });
 
-const SGuideBtn = styled('button', {
+const SMenuBtn = styled('button', {
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
 
-  padding: '20px 36px',
-  height: 'fit-content',
+  padding: '20px',
 
-  borderRadius: '9999px',
-  backgroundColor: '$gray800',
+  borderRadius: '28px',
+  background: '$gray900',
 
-  fontStyle: 'H2',
-  letterSpacing: '-0.4px',
-  color: '$white',
+  '@tablet': {
+    padding: '8px',
+    borderRadius: '14.667px',
+  },
 
-  '@laptop': {
-    display: 'none',
+  '&:hover': {
+    background: '$gray700',
   },
 });
 
@@ -87,7 +89,6 @@ const SItemLabel = styled('h3', {
 
   '@laptop': {
     flexDirection: 'column',
-    gap: '12px',
 
     fontStyle: 'H4',
   },
@@ -95,57 +96,9 @@ const SItemLabel = styled('h3', {
   '@tablet': {
     fontStyle: 'H4',
     flexDirection: 'column',
-    gap: '12px',
 
-    fontSize: '11px',
-    fontWeight: '600',
-    lineHeight: '14px',
-  },
-});
-
-const SBoltIcon = styled(BoltIcon, {
-  width: '80px',
-  height: '80px',
-
-  cursor: 'pointer',
-
-  '@tablet': {
-    width: '40px',
-    height: 'auto',
-  },
-});
-
-const SStudyIcon = styled(StudyIcon, {
-  width: '80px',
-  height: '80px',
-  objectFit: 'contain',
-
-  cursor: 'pointer',
-
-  '@tablet': {
-    width: '40px',
-    height: '40px',
-  },
-});
-
-const SSeminarIcon = styled(SeminarIcon, {
-  width: '80px',
-  height: '80px',
-
-  cursor: 'pointer',
-
-  '@tablet': {
-    width: '40px',
-    height: '40px',
-  },
-});
-
-const SEventIcon = styled(EventIcon, {
-  width: '80px',
-  height: '80px',
-
-  '@tablet': {
-    width: '40px',
-    height: '40px',
+    fontSize: '13px',
+    fontWeight: '500',
+    lineHeight: '13px',
   },
 });

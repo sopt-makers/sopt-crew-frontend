@@ -51,6 +51,7 @@ export const getFlashList = async () => {
     category: '번쩍',
     joinableParts: ['PM', 'DESIGN', 'IOS', 'ANDROID', 'SERVER', 'WEB'].join(','),
     isOnlyActiveGeneration: false,
+    paginationType: 'DEFAULT',
   };
   return (await api.get<GetMeetingListResponse>('/meeting/v2', { params })).data;
 };

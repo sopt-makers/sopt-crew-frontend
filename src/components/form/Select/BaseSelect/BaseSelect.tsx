@@ -84,7 +84,7 @@ const SOptionList = styled(Listbox.Options, {
   overflow: 'auto',
   zIndex: 100,
   gap: '6px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
   '&::-webkit-scrollbar': {

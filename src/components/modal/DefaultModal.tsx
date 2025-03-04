@@ -46,7 +46,7 @@ const SDialogWrapper = styled('div', {
   width: '$646',
   boxShadow: '4px 4px 40px #181818',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: 'calc(100% - 40px)',
   },
 });
@@ -72,7 +72,7 @@ const SHeader = styled('div', {
     backgroundSize: 'cover',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     borderBottom: 'none',
     padding: '$24',
 

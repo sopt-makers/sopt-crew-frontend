@@ -68,7 +68,7 @@ const SDot = styled('div', {
 const SPlaceholder = styled('div', {
   width: '100%',
   minHeight: '158px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     minHeight: '86px',
   },
 });

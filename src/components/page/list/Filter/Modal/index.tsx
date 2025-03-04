@@ -11,7 +11,7 @@ interface FilterSelectModalProps {
 
 //Notice: 현재 사용 중이지 않습니다.
 function FilterSelectModal({ isModalOpened, handleModalClose }: FilterSelectModalProps) {
-  const filterSectionStyle = { mb: '$48', '@tablet': { mb: '$40' } };
+  const filterSectionStyle = { mb: '$48', '@media (max-width: 768px)': { mb: '$40' } };
   return (
     <DefaultModal
       isModalOpened={isModalOpened}

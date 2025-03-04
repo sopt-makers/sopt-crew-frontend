@@ -75,7 +75,7 @@ const SThumbnailImage = styled('div', {
 
 const STitleSection = styled('div', {
   my: '$16',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     my: '$8',
   },
 });

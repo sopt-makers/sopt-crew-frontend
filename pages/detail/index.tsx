@@ -11,13 +11,14 @@ import Loader from '@components/@common/loader/Loader';
 import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import { Tab } from '@headlessui/react';
 import FeedPanel from '@components/page/detail/Feed/FeedPanel';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetingController from '@components/page/detail/MeetingController';
 import { useFlashByIdQuery } from '@api/flash/hook';
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { GetFlashByIdResponse } from '@api/flash';
+import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 dayjs.locale('ko');
 
@@ -36,32 +37,13 @@ const DetailPage = () => {
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
-
   if (!meetingData) {
     return (
       <>
         <Loader />
-        <div
-          id="chat-channel-button"
-          data-channel-public-id="_sxaIWG"
-          data-title="question"
-          data-size="small"
-          data-color="mono"
-          data-shape="pc"
-          data-support-multiple-densities="true"
-          style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-        />
+        <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+          <KakaoFloatingButton />
+        </div>
       </>
     );
   }
@@ -96,16 +78,9 @@ const DetailPage = () => {
           </Tab.Panels>
         </Tab.Group>
       </SDetailPage>
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+      <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+        <KakaoFloatingButton />
+      </div>
     </>
   );
 };
@@ -115,7 +90,7 @@ export default DetailPage;
 const SDetailPage = styled('div', {
   mb: '$374',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mb: '$122',
   },
 });
@@ -123,12 +98,12 @@ const SDetailPage = styled('div', {
 const STabList = styled('div', {
   display: 'flex',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: 'calc(100% + 40px)',
     marginLeft: '-20px',
   },
 
-  '@mobile': {
+  '@media (max-width: 414px)': {
     width: 'calc(100% + 32px)',
     marginLeft: '-16px',
   },
@@ -144,7 +119,7 @@ const STabButton = styled('button', {
     color: '$gray10',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T3',
     padding: '$16 0',
     mr: '$0',
@@ -157,14 +132,14 @@ const STabButton = styled('button', {
       true: {
         color: '$gray10',
         borderBottom: `4px solid $gray10`,
-        '@tablet': {
+        '@media (max-width: 768px)': {
           borderWidth: '2px',
         },
       },
       false: {
         color: '$gray500',
         paddingBottom: '$28',
-        '@tablet': {
+        '@media (max-width: 768px)': {
           paddingBottom: '$18',
         },
       },

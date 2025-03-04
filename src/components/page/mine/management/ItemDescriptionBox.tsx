@@ -27,7 +27,7 @@ const SItemDescriptionBox = styled('div', {
   color: '$gray400',
   fontAg: '16_bold_100',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

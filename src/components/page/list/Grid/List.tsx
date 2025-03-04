@@ -34,7 +34,9 @@ export function MeetingListOfAll() {
 
   return (
     <main>
-      <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
+      <SMeetingCountWrapper>
+        <SMeetingCount>{meetingListData?.meta.itemCount}개의 모임</SMeetingCount>
+      </SMeetingCountWrapper>
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout mobileType="list">
@@ -63,7 +65,7 @@ export function MeetingListOfAll() {
                 ) : (
                   <img
                     src={meetingAds?.advertisements[0]?.mobileImageUrl}
-                    style={{ width: '328px', height: '82px', borderRadius: '8px' }}
+                    style={{ width: '100%', height: '82px', borderRadius: '8px' }}
                   ></img>
                 )}
               </Link>
@@ -147,10 +149,21 @@ export function MeetingListOfApplied() {
   );
 }
 
+const SMeetingCountWrapper = styled('div', {
+  display: 'flex',
+  '@media (max-width: 849px)': {
+    justifyContent: 'center',
+  },
+});
+
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
-  '@tablet': {
-    fontAg: '12_semibold_100',
+  '@media (max-width: 849px)': {
+    width: '380px',
+  },
+  '@mobile': {
+    fontAg: '14_semibold_100',
+    width: '100%',
   },
 });
 
@@ -161,7 +174,7 @@ const SBlankManageMentButton = styled('div', {
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
   //background: '$gray800',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '91px',
     //todo: 참여자 리스트 버튼으로 바꾸기
     height: '30px',

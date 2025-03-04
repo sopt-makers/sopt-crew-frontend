@@ -1,56 +1,61 @@
-import SearchIcon from '@assets/svg/search.svg';
-import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
-
-import { FieldValues, useForm } from 'react-hook-form';
-import { styled } from 'stitches.config';
 import SearchMobile from './Mobile';
+import { SearchField } from '@sopt-makers/ui';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { css } from '@stitches/react';
+
+const buttonPositioner = css({
+  display: 'flex',
+  width: '100%',
+  padding: '11px 16px',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  flexShrink: 0,
+  borderRadius: '10px',
+  background: 'var(--Color-Gray-Scale-800, #202025)',
+
+  //notice: MDS Input styling 에러로 인해, 직접 스타일링함함
+  '& > button': {
+    bottom: 0,
+  },
+
+  '@media (min-width: 1260px)': {
+    width: '335px',
+  },
+});
 
 function Search() {
-  const { register, handleSubmit } = useForm();
   const { setValue: setSearch, deleteKey } = useSearchParams();
 
-  const onSubmit = (value: FieldValues) => {
-    if (!value?.search) deleteKey();
-    if (value.search) setSearch(value.search);
-  };
+  const router = useRouter();
+  const searchQuery = String(router.query.search || '');
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  if (!inputValue && searchQuery !== inputValue) {
+    deleteKey();
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <SSearchWrapper align="center" justify="between">
-        <SSearchInput type="text" placeholder="모임 검색" {...register('search')} />
-        <SSearchButton className="search-button">
-          <SearchIcon />
-        </SSearchButton>
-      </SSearchWrapper>
-    </form>
+    <SearchField
+      className={buttonPositioner()}
+      placeholder="모임을 검색해보세요"
+      value={inputValue}
+      onChange={e => {
+        setInputValue(e.target.value);
+      }}
+      onSubmit={() => {
+        setSearch(inputValue);
+        setInputValue(inputValue);
+      }}
+      onReset={() => {
+        setInputValue('');
+        deleteKey();
+      }}
+    />
   );
 }
 
 export default Search;
-const SSearchWrapper = styled(Flex, {
-  height: '$48',
-  py: '$15',
-  px: '$20',
-  border: '1px solid $gray600',
-  borderRadius: '14px',
-  '@tablet': {
-    display: 'none',
-  },
-});
-
-const SSearchInput = styled('input', {
-  width: '160px',
-  color: '$gray10',
-  fontAg: '18_medium_100',
-
-  '&::placeholder': {
-    fontAg: '18_medium_100',
-  },
-});
-
-const SSearchButton = styled('button', {
-  flexType: 'center',
-});
 
 Search.Mobile = SearchMobile;
