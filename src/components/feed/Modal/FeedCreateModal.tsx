@@ -65,7 +65,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
       if (mentionedOrgIds.length > 0) {
         mutatePostPostWithMention({
           postId: res.postId,
-          orgIds: parseMentionedUserIds(formMethods.getValues().contents),
+          orgIds: mentionedOrgIds,
           content: formMethods.getValues().contents,
         });
       }
