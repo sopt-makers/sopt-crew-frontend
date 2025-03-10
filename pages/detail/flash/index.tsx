@@ -4,7 +4,6 @@ import {
   useMutationDeleteMeeting,
   useMutationPostApplication,
   useMutationDeleteApplication,
-  useQueryGetMeeting,
 } from '@api/API_LEGACY/meeting/hooks';
 import { useRouter } from 'next/router';
 import Loader from '@components/@common/loader/Loader';
@@ -15,6 +14,7 @@ import { Fragment, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetingController from '@components/page/detail/MeetingController';
+import { useFlashByIdQuery } from '@api/flash/hook';
 import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 dayjs.locale('ko');
@@ -24,16 +24,16 @@ const enum SelectedTab {
   FEED,
 }
 
-const DetailPage = () => {
+const DetailFlashPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { data: meetingData } = useQueryGetMeeting({ params: { id } });
+  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
   const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
   const { mutate: mutatePostApplication } = useMutationPostApplication({});
   const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
-  if (!meetingData) {
+  if (!flashData) {
     return (
       <>
         <Loader />
@@ -47,9 +47,9 @@ const DetailPage = () => {
   return (
     <>
       <SDetailPage>
-        <Carousel imageList={meetingData?.imageURL} />
+        <Carousel imageList={flashData?.imageURL} />
         <MeetingController
-          detailData={meetingData}
+          detailData={flashData}
           mutateMeetingDeletion={mutateDeleteMeeting}
           mutateApplication={mutatePostApplication}
           mutateApplicationDeletion={mutateDeleteApplication}
@@ -65,10 +65,10 @@ const DetailPage = () => {
           </STabList>
           <Tab.Panels>
             <Tab.Panel>
-              <InformationPanel detailData={meetingData} />
+              <InformationPanel detailData={flashData} />
             </Tab.Panel>
             <Tab.Panel>
-              <FeedPanel isMember={meetingData?.approved || meetingData?.host} />
+              <FeedPanel isMember={flashData?.approved || flashData?.host} />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
@@ -80,7 +80,7 @@ const DetailPage = () => {
   );
 };
 
-export default DetailPage;
+export default DetailFlashPage;
 
 const SDetailPage = styled('div', {
   mb: '$374',
