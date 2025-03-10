@@ -101,7 +101,7 @@ export default function PostPage() {
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
 
   const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: () => DELETE('/post/v2/{postId}', { params: { path: { postId: post!.id } } }),
+    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: post!.id } } }),
     onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
   });
 
@@ -111,6 +111,7 @@ export default function PostPage() {
         paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
       >(`/post/v2/${postId}/report`, {}),
   });
+
   const handleConfirmReportPost =
     ({ postId, callback }: { postId: number; callback: () => void }) =>
     async () => {

@@ -29,6 +29,7 @@ import { api, apiV2 } from '@/api';
 import { AxiosError } from 'axios';
 import { paths } from '@/__generated__/schema2';
 import { useToast } from '@sopt-makers/ui';
+import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -150,59 +151,13 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
                   location: router.pathname,
                 })
               }
-              Actions={
-                isMyPost
-                  ? [
-                      <FeedActionButton
-                        onClick={() =>
-                          feedCreateOverlay.open(({ isOpen, close }) => (
-                            <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
-                          ))
-                        }
-                      >
-                        <ReWriteIcon />
-                        수정
-                      </FeedActionButton>,
-                      <FeedActionButton
-                        onClick={() => {
-                          feedCreateOverlay.open(({ isOpen, close }) => (
-                            // eslint-disable-next-line prettier/prettier
-                            <ConfirmModal
-                              isModalOpened={isOpen}
-                              message="게시글을 삭제하시겠습니까?"
-                              cancelButton="돌아가기"
-                              confirmButton="삭제하기"
-                              handleModalClose={close}
-                              handleConfirm={() => mutateDeletePost(post.id)}
-                            />
-                          ));
-                        }}
-                      >
-                        <TrashIcon />
-                        삭제
-                      </FeedActionButton>,
-                    ]
-                  : [
-                      <FeedActionButton
-                        onClick={() => {
-                          feedCreateOverlay.open(({ isOpen, close }) => (
-                            // eslint-disable-next-line prettier/prettier
-                            <ConfirmModal
-                              isModalOpened={isOpen}
-                              message="게시글을 신고하시겠습니까?"
-                              cancelButton="돌아가기"
-                              confirmButton="신고하기"
-                              handleModalClose={close}
-                              handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                            />
-                          ));
-                        }}
-                      >
-                        <AlertIcon />
-                        신고
-                      </FeedActionButton>,
-                    ]
-              }
+              Actions={FeedActionsContainer({
+                postId: post.id,
+                isMine: isMyPost,
+                handleDelete: () => mutateDeletePost(post.id),
+                handleReport: () => handleConfirmReportPost({ postId: post.id, callback: close }),
+                overlay: feedCreateOverlay,
+              })}
             />
           </Link>
         )}
