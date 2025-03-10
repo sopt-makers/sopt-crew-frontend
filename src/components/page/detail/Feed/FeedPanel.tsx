@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
+import { useInfinitePosts, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
@@ -11,13 +11,23 @@ import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import ReWriteIcon from '@assets/svg/comment-write.svg';
+import ConfirmModal from '@components/modal/ConfirmModal';
+import TrashIcon from '@assets/svg/trash.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api, apiV2 } from '@/api';
+import { AxiosError } from 'axios';
+import { paths } from '@/__generated__/schema2';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -28,6 +38,8 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
   const { ref, inView } = useInView();
+  const { POST, DELETE } = apiV2.get();
+  const queryClient = useQueryClient();
 
   const { isMobile, isTablet } = useDisplay();
   const { data: me } = useQueryMyProfile();
@@ -39,8 +51,19 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     isLoading,
   } = useInfinitePosts(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
+
   const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
+
+  console.log(postsData);
+
+  const { mutate: mutateDeletePost } = useMutation({
+    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: postId } } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getPosts']);
+      feedCreateOverlay.close();
+    },
+  });
 
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -63,6 +86,34 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     ampli.clickFeedlistLike({ location: router.pathname });
   };
 
+  const { mutateAsync: mutateReportPost } = useMutation({
+    mutationFn: (postId: number) =>
+      api.post<
+        paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
+      >(`/post/v2/${postId}/report`, {}),
+  });
+
+  const handleConfirmReportPost =
+    ({ postId, callback }: { postId: number; callback: () => void }) =>
+    async () => {
+      try {
+        await mutateReportPost(postId);
+        open({
+          icon: 'success',
+          content: '게시글을 신고했습니다',
+        });
+        callback();
+      } catch (error) {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
+        open({
+          icon: 'error',
+          content: axiosError?.response?.data?.errorCode as string,
+        });
+        callback();
+        return;
+      }
+    };
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -71,6 +122,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
+    const isMyPost = me?.id === post.user.id;
     return (
       <>
         {post.isBlockedPost ? (
@@ -97,6 +149,59 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
                   platform_type: isMobile ? 'MO' : 'PC',
                   location: router.pathname,
                 })
+              }
+              Actions={
+                isMyPost
+                  ? [
+                      <FeedActionButton
+                        onClick={() =>
+                          feedCreateOverlay.open(({ isOpen, close }) => (
+                            <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
+                          ))
+                        }
+                      >
+                        <ReWriteIcon />
+                        수정
+                      </FeedActionButton>,
+                      <FeedActionButton
+                        onClick={() => {
+                          feedCreateOverlay.open(({ isOpen, close }) => (
+                            // eslint-disable-next-line prettier/prettier
+                            <ConfirmModal
+                              isModalOpened={isOpen}
+                              message="게시글을 삭제하시겠습니까?"
+                              cancelButton="돌아가기"
+                              confirmButton="삭제하기"
+                              handleModalClose={close}
+                              handleConfirm={() => mutateDeletePost(post.id)}
+                            />
+                          ));
+                        }}
+                      >
+                        <TrashIcon />
+                        삭제
+                      </FeedActionButton>,
+                    ]
+                  : [
+                      <FeedActionButton
+                        onClick={() => {
+                          feedCreateOverlay.open(({ isOpen, close }) => (
+                            // eslint-disable-next-line prettier/prettier
+                            <ConfirmModal
+                              isModalOpened={isOpen}
+                              message="게시글을 신고하시겠습니까?"
+                              cancelButton="돌아가기"
+                              confirmButton="신고하기"
+                              handleModalClose={close}
+                              handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
+                            />
+                          ));
+                        }}
+                      >
+                        <AlertIcon />
+                        신고
+                      </FeedActionButton>,
+                    ]
               }
             />
           </Link>
