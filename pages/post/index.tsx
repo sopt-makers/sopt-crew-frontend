@@ -295,7 +295,7 @@ export default function PostPage() {
             <FeedList>
               {postsInMeeting?.map(post => {
                 if (!post) return;
-                const isMine = post.user.id === me?.id;
+                const isMyFeed = post.user.id === me?.id;
                 return (
                   <>
                     {post.isBlockedPost ? (
@@ -317,7 +317,7 @@ export default function PostPage() {
                             />
                           }
                           Actions={
-                            isMine
+                            isMyFeed
                               ? [
                                   <FeedActionButton
                                     onClick={() =>
@@ -387,7 +387,7 @@ export default function PostPage() {
           <FeedList>
             {allMeetingPosts?.map(post => {
               if (!post) return;
-              const isMine = post.user.id === me?.id;
+              const isMyFeed = post.user.id === me?.id;
               return (
                 <>
                   {post.isBlockedPost ? (
@@ -410,7 +410,7 @@ export default function PostPage() {
                           />
                         }
                         Actions={
-                          isMine
+                          isMyFeed
                             ? [
                                 <FeedActionButton
                                   onClick={() =>
