@@ -15,6 +15,7 @@ interface CardProps {
 
 function Card({ bottom, meetingData, mobileType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
+  const isFlash = meetingData.category === '번쩍';
 
   return (
     <CardWrapper
@@ -31,7 +32,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
         });
       }}
     >
-      <Link href={`/detail?id=${meetingData.id}`}>
+      <Link href={isFlash ? `/detail/flash?id=${meetingData.id}` : `/detail?id=${meetingData.id}`}>
         <DesktopOnly>
           <DesktopSizeCard meetingData={meetingData} />
         </DesktopOnly>
