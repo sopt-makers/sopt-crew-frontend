@@ -51,3 +51,8 @@ export const postLike = async (postId: number) => {
 export const deleteComment = async (commentId: number) => {
   return (await api.delete(`/comment/v2/${commentId}`)).data;
 };
+
+export const deletePost = async (postId: number) => {
+  console.log(postId);
+  return (await api.delete(`/post/v2/${postId}`)).data;
+};

@@ -5,7 +5,13 @@ import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
+import {
+  useInfinitePosts,
+  useMutationDeletePost,
+  useMutationPostLike,
+  useMutationUpdateLike,
+  useQueryGetPost,
+} from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
@@ -99,11 +105,27 @@ export default function PostPage() {
   };
 
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
+  const { mutate: mutateDeletePost } = useMutationDeletePost();
 
-  const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: post!.id } } }),
-    onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
-  });
+  const handleDeleteSubPost = (postId: number) => {
+    mutateDeletePost(postId, {
+      onSuccess: () => {
+        overlay.close();
+        open({
+          icon: 'success',
+          content: '게시글을 삭제했습니다',
+        });
+      },
+      onError: error => {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
+        overlay.close();
+        open({
+          icon: 'error',
+          content: axiosError?.response?.data?.errorCode as string,
+        });
+      },
+    });
+  };
 
   const { mutateAsync: mutateReportPost } = useMutation({
     mutationFn: (postId: number) =>
@@ -141,8 +163,6 @@ export default function PostPage() {
     ): comment is paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number] =>
       !!comment
   );
-
-  console.log({ comments });
 
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
@@ -191,7 +211,10 @@ export default function PostPage() {
         Actions={FeedActionsContainer({
           postId: post.id,
           isMine: isMine,
-          handleDelete: mutateDeletePost,
+          handleDelete: () => {
+            mutateDeletePost(post.id);
+            router.replace(`/detail?id=${post.meeting.id}`);
+          },
           handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
           overlay: overlay,
         })}
@@ -274,7 +297,7 @@ export default function PostPage() {
                           Actions={FeedActionsContainer({
                             postId: post.id,
                             isMine: isMyFeed,
-                            handleDelete: mutateDeletePost,
+                            handleDelete: () => handleDeleteSubPost(post.id),
                             handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
                             overlay: overlay,
                           })}
@@ -317,7 +340,7 @@ export default function PostPage() {
                         Actions={FeedActionsContainer({
                           postId: post.id,
                           isMine: isMyFeed,
-                          handleDelete: mutateDeletePost,
+                          handleDelete: () => handleDeleteSubPost(post.id),
                           handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
                           overlay: overlay,
                         })}
