@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
+import { useInfinitePosts, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
@@ -57,14 +57,27 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
+  const { mutate: mutateDeletePost } = useMutationDeletePost();
 
-  const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: postId! } } }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getPosts']);
-      feedCreateOverlay.close();
-    },
-  });
+  const handleDeletePost = (postId: number) => {
+    mutateDeletePost(postId, {
+      onSuccess: () => {
+        feedCreateOverlay.close();
+        open({
+          icon: 'success',
+          content: '게시글을 삭제했습니다',
+        });
+      },
+      onError: error => {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
+        feedCreateOverlay.close();
+        open({
+          icon: 'error',
+          content: axiosError?.response?.data?.errorCode as string,
+        });
+      },
+    });
+  };
 
   const isEmpty = !postsData?.pages[0];
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -154,7 +167,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
               Actions={FeedActionsContainer({
                 postId: post.id,
                 isMine: isMyPost,
-                handleDelete: () => mutateDeletePost(post.id),
+                handleDelete: () => handleDeletePost(post.id),
                 handleReport: () => handleConfirmReportPost({ postId: post.id, callback: close }),
                 overlay: feedCreateOverlay,
               })}
