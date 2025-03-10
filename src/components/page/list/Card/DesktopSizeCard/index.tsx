@@ -6,35 +6,36 @@ import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
 import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
-import { useFlashByIdQuery } from '@api/flash/hook';
-import { FlashInformation, MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
+import { MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
 
 interface CardProps {
   meetingData: MeetingListOfFilterResponse['meetings'][number];
+  isFlash?: boolean;
+  welcomeMessageTypes?: string[];
+  flashDetailInfo?: {
+    label: string;
+    value: () => string;
+  }[];
 }
 
-function DesktopSizeCard({ meetingData }: CardProps) {
-  const { data: flashData } = useFlashByIdQuery({ meetingId: +meetingData.id });
-
-  const detailData = flashData ? flashData : meetingData;
-  const detailInfo = flashData ? FlashInformation(flashData) : MeetingInformation(meetingData);
+function DesktopSizeCard({ meetingData, isFlash = false, welcomeMessageTypes, flashDetailInfo }: CardProps) {
+  const detailInfo = isFlash && flashDetailInfo ? flashDetailInfo : MeetingInformation(meetingData);
 
   return (
     <div>
       <ImageWrapper>
-        <RecruitmentStatusTag status={detailData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
+        <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${detailData.imageURL[0]?.url})`,
+            backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
           }}
         />
       </ImageWrapper>
 
       <STitleSection>
-        <CategoryChip
-          category={detailData.category as CategoryKoType}
-          welcomeMessage={flashData ? flashData.welcomeMessageTypes : []}
-        />
+        {isFlash && (
+          <CategoryChip category={meetingData.category as CategoryKoType} welcomeMessage={welcomeMessageTypes} />
+        )}
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 
