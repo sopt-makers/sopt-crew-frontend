@@ -58,7 +58,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
 
   const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: postId } } }),
+    mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: postId! } } }),
     onSuccess: () => {
       queryClient.invalidateQueries(['getPosts']);
       feedCreateOverlay.close();
