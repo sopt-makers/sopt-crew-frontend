@@ -6,6 +6,7 @@ import { styled } from 'stitches.config';
 import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { ampli } from '@/ampli';
 import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
+import DesktopSizeFlashCard from '@components/page/list/Card/DesktopSizeCard/DesktopSizeFlashCard';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -34,7 +35,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
     >
       <Link href={isFlash ? `/detail/flash?id=${meetingData.id}` : `/detail?id=${meetingData.id}`}>
         <DesktopOnly>
-          <DesktopSizeCard meetingData={meetingData} />
+          {isFlash ? <DesktopSizeFlashCard meetingData={meetingData} /> : <DesktopSizeCard meetingData={meetingData} />}
         </DesktopOnly>
         <MobileOnly>
           <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
