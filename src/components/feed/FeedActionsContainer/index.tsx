@@ -5,6 +5,7 @@ import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { CreateOverlayElement } from '@hooks/useOverlay/types';
+import React from 'react';
 
 interface FeedActionsProps {
   postId: number;
