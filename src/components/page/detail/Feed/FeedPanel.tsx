@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useInfinitePosts, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
+import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
@@ -28,6 +28,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api, apiV2 } from '@/api';
 import { AxiosError } from 'axios';
 import { paths } from '@/__generated__/schema2';
+import { useToast } from '@sopt-makers/ui';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -38,8 +39,9 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
   const { ref, inView } = useInView();
-  const { POST, DELETE } = apiV2.get();
+  const { DELETE } = apiV2.get();
   const queryClient = useQueryClient();
+  const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
   const { data: me } = useQueryMyProfile();
@@ -54,8 +56,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
-
-  console.log(postsData);
 
   const { mutate: mutateDeletePost } = useMutation({
     mutationFn: postId => DELETE('/post/v2/{postId}', { params: { path: { postId: postId } } }),
