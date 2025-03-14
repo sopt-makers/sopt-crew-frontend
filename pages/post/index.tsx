@@ -40,7 +40,7 @@ import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
-  const { open } = useToast();
+  const { open, close } = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
@@ -137,14 +137,14 @@ export default function PostPage() {
           icon: 'success',
           content: '게시글을 신고했습니다',
         });
-        callback();
+        overlay.close();
       } catch (error) {
         const axiosError = error as AxiosError<{ errorCode: string }>;
         open({
           icon: 'error',
           content: axiosError?.response?.data?.errorCode as string,
         });
-        callback();
+        overlay.close();
         return;
       }
     };
