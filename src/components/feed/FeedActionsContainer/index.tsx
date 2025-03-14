@@ -30,7 +30,7 @@ const FeedActionsContainer = ({
       <FeedActionButton
         onClick={() =>
           overlay.open(({ isOpen, close }) => (
-            <FeedEditModal isModalOpened={isOpen} postId={String(postId)} handleModalClose={close} />
+            <FeedEditModal isModalOpened={isOpen} postId={postId} handleModalClose={close} />
           ))
         }
       >

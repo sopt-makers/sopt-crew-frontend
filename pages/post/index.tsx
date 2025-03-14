@@ -14,15 +14,12 @@ import {
 } from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import { MentionContext } from '@components/feed/Mention/MentionContext';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import Loader from '@components/@common/loader/Loader';
-import ConfirmModal from '@components/modal/ConfirmModal';
 import FeedItem from '@components/page/detail/Feed/FeedItem';
 import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { TAKE_COUNT } from '@constants/feed';
@@ -37,9 +34,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from 'stitches.config';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { AxiosError } from 'axios';
 import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
@@ -50,7 +44,7 @@ export default function PostPage() {
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
-  const { POST, DELETE } = apiV2.get();
+  const { POST } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
