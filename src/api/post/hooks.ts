@@ -1,10 +1,7 @@
-// import { paths } from '@/__generated__/schema';
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
 import { deleteComment, deletePost, getPost, getPosts, postLike } from '.';
 import { paths } from '@/__generated__/schema2';
-import { apiV2 } from '@/api';
-import { router } from 'next/client';
 
 export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
