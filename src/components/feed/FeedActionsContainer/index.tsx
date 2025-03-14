@@ -41,7 +41,6 @@ const FeedActionsContainer = ({
       <FeedActionButton
         onClick={() => {
           overlay.open(({ isOpen, close }) => (
-            // eslint-disable-next-line prettier/prettier
             <ConfirmModal
               isModalOpened={isOpen}
               message="게시글을 삭제하시겠습니까?"
@@ -63,7 +62,6 @@ const FeedActionsContainer = ({
     <FeedActionButton
       onClick={() => {
         overlay.open(({ isOpen, close }) => (
-          // eslint-disable-next-line prettier/prettier
           <ConfirmModal
             isModalOpened={isOpen}
             message="게시글을 신고하시겠습니까?"
