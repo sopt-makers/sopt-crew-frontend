@@ -18,6 +18,11 @@ interface FeedActionsProps {
   };
 }
 
+interface openOverlayProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
 const FeedActionsContainer = ({
   postId,
   isMine,
@@ -25,12 +30,16 @@ const FeedActionsContainer = ({
   handleReport,
   overlay,
 }: FeedActionsProps): React.ReactNode[] => {
+  const openOverlay = (Component: (props: openOverlayProps) => JSX.Element) => {
+    overlay.open(({ isOpen, close }) => <Component isOpen={isOpen} close={close} />);
+  };
+
   if (isMine) {
     return [
       <FeedActionButton
         onClick={() =>
-          overlay.open(({ isOpen, close }) => (
-            <FeedEditModal isModalOpened={isOpen} postId={postId} handleModalClose={close} />
+          openOverlay(({ isOpen, close }) => (
+            <FeedEditModal postId={postId} isModalOpened={isOpen} handleModalClose={close} />
           ))
         }
       >
@@ -39,7 +48,7 @@ const FeedActionsContainer = ({
       </FeedActionButton>,
       <FeedActionButton
         onClick={() => {
-          overlay.open(({ isOpen, close }) => (
+          openOverlay(({ isOpen, close }) => (
             <ConfirmModal
               isModalOpened={isOpen}
               message="게시글을 삭제하시겠습니까?"
@@ -60,7 +69,7 @@ const FeedActionsContainer = ({
   return [
     <FeedActionButton
       onClick={() => {
-        overlay.open(({ isOpen, close }) => (
+        openOverlay(({ isOpen, close }) => (
           <ConfirmModal
             isModalOpened={isOpen}
             message="게시글을 신고하시겠습니까?"
