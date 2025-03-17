@@ -8,6 +8,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
 import CalendarIcon from '@assets/svg/calendar_big.svg';
+import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 interface Props {
   selectedDate: string | null;
   setSelectedDate: Dispatch<SetStateAction<string | null>>;
@@ -69,7 +70,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
-            <CalendarIcon />
+            {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
           {isOpen && (
             <div>
@@ -83,7 +84,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
-            <CalendarIcon />
+            <SCalendarIcon />
           </SInputWrapper>
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
@@ -132,6 +133,16 @@ const SInputWrapper = styled('div', {
 
   '@media (max-width: 768px)': {
     padding: '16px',
+  },
+});
+
+const SCalendarIcon = styled(CalendarIcon, {
+  width: '24px',
+  height: '24px',
+
+  '@media (max-width: 430px)': {
+    width: '20px',
+    height: '20px',
   },
 });
 
