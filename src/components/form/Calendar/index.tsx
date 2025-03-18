@@ -9,21 +9,66 @@ import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
 import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
+import { useFormContext } from 'react-hook-form';
+
 interface Props {
-  selectedDate: string | null;
-  setSelectedDate: Dispatch<SetStateAction<string | null>>;
+  selectedDate: string[] | null;
+  setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
   error?: string;
+  type?: 'start' | 'end';
 }
 
-const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
+const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { getValues, setValue } = useFormContext();
+
+  const handleDateChange = (date: Date) => {
+    const formattedDate = dayjs(date).format('YYYY.MM.DD');
+
+    const currentDates = getValues('detail.mStartDate') ?? [];
+    const [start, end] = Array.isArray(currentDates) ? currentDates : ['', ''];
+    // prev 의미와 같음. 이전에 선택된 날짜
+
+    if (currentDates.length === 0) {
+      setSelectedDate([formattedDate, '']);
+    }
+
+    if (type === 'start') {
+      if (start && formattedDate < start) {
+        setSelectedDate([formattedDate, '']);
+      }
+      const sortedRange = [formattedDate, end].sort(
+        (a, b) => dayjs(a, 'YYYY.MM.DD').valueOf() - dayjs(b, 'YYYY.MM.DD').valueOf()
+      ) as [string, string];
+
+      setSelectedDate(sortedRange);
+    }
+
+    if (type === 'end') {
+      if (end && formattedDate > end) {
+        setSelectedDate([start, formattedDate]);
+      }
+      const sortedRange = [start, formattedDate].sort(
+        (a, b) => dayjs(a, 'YYYY.MM.DD').valueOf() - dayjs(b, 'YYYY.MM.DD').valueOf()
+      ) as [string, string];
+
+      setSelectedDate(sortedRange);
+    }
+
+    console.log('selectedDate:', selectedDate);
+  };
 
   const CalendarComponent = () => {
     return (
       <>
         <Calendar
-          value={selectedDate ? dayjs(selectedDate, 'YYYY-MM-DD').toDate() : null}
-          onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
+          value={
+            selectedDate && selectedDate.length === 2
+              ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
+              : null
+          }
+          selectRange={true}
+          onClickDay={handleDateChange}
           formatDay={(locale, date) => dayjs(date).format('D')}
           formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
           showNeighboringMonth={false}
@@ -33,7 +78,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
           maxDetail="month"
           calendarType="US"
           tileContent={({ date, view }) => {
-            if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
+            if (selectedDate?.includes(dayjs(date).format('YYYY.MM.DD'))) {
               return (
                 <SDotWrapper>
                   <SDot></SDot>
@@ -69,7 +114,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
+            <SInput value={type === 'start' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
           {isOpen && (
@@ -83,7 +128,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
+            <SInput value={type === 'start' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
             <SCalendarIcon />
           </SInputWrapper>
           {isOpen && (
@@ -119,6 +164,7 @@ const SDotWrapper = styled('div', {
   justifyContent: 'center',
   position: 'absolute',
   alignItems: 'center',
+  '& > react-calendar__tile--range': {},
 });
 
 const SInputWrapper = styled('div', {

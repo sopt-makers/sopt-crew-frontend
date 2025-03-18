@@ -330,6 +330,7 @@ function Presentation({
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
                         error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                        type="start"
                       />
                     );
                   }}
@@ -338,9 +339,9 @@ function Presentation({
               <span style={{ marginTop: '14px' }}>-</span>
               <SDateField>
                 <FormController
-                  name="detail.mEndDate"
+                  name="detail.mStartDate"
                   render={({ field }) => (
-                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} type="end" />
                   )}
                 ></FormController>
               </SDateField>
