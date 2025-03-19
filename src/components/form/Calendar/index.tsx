@@ -27,35 +27,50 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props
 
     const currentDates = getValues('detail.mStartDate') ?? [];
     const [start, end] = Array.isArray(currentDates) ? currentDates : ['', ''];
-    // prev 의미와 같음. 이전에 선택된 날짜
 
+    // prev 의미와 같음. 이전에 선택된 날짜
     if (currentDates.length === 0) {
       setSelectedDate([formattedDate, '']);
     }
 
-    if (type === 'start') {
-      if (start && formattedDate < start) {
-        setSelectedDate([formattedDate, '']);
-      }
-      const sortedRange = [formattedDate, end].sort(
-        (a, b) => dayjs(a, 'YYYY.MM.DD').valueOf() - dayjs(b, 'YYYY.MM.DD').valueOf()
-      ) as [string, string];
-
-      setSelectedDate(sortedRange);
+    // start 만 선택된 상태, end 을 누르지 않은 상태, 에서 신규날짜를 누를 때
+    if (start && !end) {
+      setSelectedDate([start, formattedDate]);
+    }
+    // start 만 선택 된 상태, 신규날짜가 start 보다 이전일 때
+    if (start && formattedDate < start) {
+      setSelectedDate([formattedDate, '']);
     }
 
-    if (type === 'end') {
-      if (end && formattedDate > end) {
+    // end 만 선택된 상태, 신규날짜가 end 보다 이후일 때
+    if (end && formattedDate > end) {
+      setSelectedDate(['', formattedDate]);
+    }
+    // end 만 선택된 상태, start 를 누르지 않은 상태, 에서 신규날짜를 누를 때
+    if (!start && end) {
+      setSelectedDate([formattedDate, end]);
+    }
+
+    // start 와 end 가 모두 선택된 상태에서
+    if (start && end) {
+      // start 와 end 사이를 눌렀을 때
+      if (formattedDate > start && formattedDate < end) {
+        // 근데 캘린더 type 이 start 일 때
+        if (type === 'start') {
+          setSelectedDate([formattedDate, end]);
+        } else {
+          setSelectedDate([start, formattedDate]);
+        }
+      }
+      // start 보다 이전을 눌렀을 때
+      if (formattedDate < start) {
+        setSelectedDate([formattedDate, end]);
+      }
+      // end 보다 이후를 눌렀을 때
+      if (formattedDate > end) {
         setSelectedDate([start, formattedDate]);
       }
-      const sortedRange = [start, formattedDate].sort(
-        (a, b) => dayjs(a, 'YYYY.MM.DD').valueOf() - dayjs(b, 'YYYY.MM.DD').valueOf()
-      ) as [string, string];
-
-      setSelectedDate(sortedRange);
     }
-
-    console.log('selectedDate:', selectedDate);
   };
 
   const CalendarComponent = () => {
