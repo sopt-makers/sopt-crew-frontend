@@ -48,20 +48,6 @@ export const schema = z.object({
         message: '진행 방식 소개를 입력해주세요.',
       })
       .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
-    mStartDate: z
-      .string()
-      .min(10, { message: '활동 기간을 입력해주세요.' })
-      .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-      .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
-        message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-      }),
-    mEndDate: z
-      .string()
-      .min(10, { message: '활동 기간을 입력해주세요.' })
-      .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-      .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
-        message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-      }),
     mDateRange: z
       .array(
         z
