@@ -20,55 +20,45 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getValues, setValue } = useFormContext();
+  const { getValues } = useFormContext();
 
   const handleDateChange = (date: Date) => {
-    const formattedDate = dayjs(date).format('YYYY.MM.DD');
+    const newDate = dayjs(date).format('YYYY.MM.DD');
+    const [startDate, endDate] = getValues('detail.mDate') ?? ['', ''];
 
-    const currentDates = getValues('detail.mDate') ?? [];
-    const [start, end] = Array.isArray(currentDates) ? currentDates : ['', ''];
-
-    // prev 의미와 같음. 이전에 선택된 날짜
-    if (currentDates.length === 0) {
-      setSelectedDate([formattedDate, '']);
+    // 첫 번째 날짜 선택
+    if (!startDate && !endDate) {
+      return setSelectedDate([newDate, '']);
     }
 
-    // start 만 선택된 상태, end 을 누르지 않은 상태, 에서 신규날짜를 누를 때
-    if (start && !end) {
-      setSelectedDate([start, formattedDate]);
-    }
-    // start 만 선택 된 상태, 신규날짜가 start 보다 이전일 때
-    if (start && formattedDate < start) {
-      setSelectedDate([formattedDate, '']);
+    // startDate만 선택된 상태에서 새로운 날짜 선택
+    if (startDate && !endDate) {
+      return newDate < startDate
+        ? setSelectedDate([newDate, '']) // 새로운 날짜가 startDate보다 이전이면 startDate 변경
+        : setSelectedDate([startDate, newDate]); // 아니면 end 설정
     }
 
-    // end 만 선택된 상태, 신규날짜가 end 보다 이후일 때
-    if (end && formattedDate > end) {
-      setSelectedDate(['', formattedDate]);
-    }
-    // end 만 선택된 상태, start 를 누르지 않은 상태, 에서 신규날짜를 누를 때
-    if (!start && end) {
-      setSelectedDate([formattedDate, end]);
+    // end 만 선택된 상태에서 새로운 날짜 선택
+    if (!startDate && endDate) {
+      return newDate > endDate
+        ? setSelectedDate(['', newDate]) // 새로운 날짜가 end보다 이후면 end 변경
+        : setSelectedDate([newDate, endDate]); // 아니면 start 설정
     }
 
-    // start 와 end 가 모두 선택된 상태에서
-    if (start && end) {
-      // start 와 end 사이를 눌렀을 때
-      if (formattedDate > start && formattedDate < end) {
-        // 근데 캘린더 type 이 start 일 때
-        if (type === 'start') {
-          setSelectedDate([formattedDate, end]);
-        } else {
-          setSelectedDate([start, formattedDate]);
-        }
+    // start 와 end  모두 선택된 상태에서 새로운 날짜 선택
+    if (startDate && endDate) {
+      if (newDate < startDate) {
+        return setSelectedDate([newDate, endDate]); // start보다 이전 날짜 클릭 → start 변경
       }
-      // start 보다 이전을 눌렀을 때
-      if (formattedDate < start) {
-        setSelectedDate([formattedDate, end]);
+      if (newDate > endDate) {
+        return setSelectedDate([startDate, newDate]); // end보다 이후 날짜 클릭 → end 변경
       }
-      // end 보다 이후를 눌렀을 때
-      if (formattedDate > end) {
-        setSelectedDate([start, formattedDate]);
+
+      // start와 end 사이의 날짜 선택
+      if (newDate > startDate && newDate < endDate) {
+        return type === 'start'
+          ? setSelectedDate([newDate, endDate]) // type이 start일 때 → start 변경
+          : setSelectedDate([startDate, newDate]); // type이 end일 때 → end 변경
       }
     }
   };
