@@ -76,7 +76,7 @@ export const schema = z.object({
       .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
         message: 'YYYY.MM.DD 형식으로 입력해주세요.',
       }),
-    mDate: z
+    mDateRange: z
       .array(
         z
           .string()
