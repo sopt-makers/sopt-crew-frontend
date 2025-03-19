@@ -267,6 +267,8 @@ body {
 
   .react-calendar__tile--range{
     border-radius: 0;
+    background: var(--colors-gray500);
+
 
     &:hover {
       background: var(--colors-gray500);
@@ -283,6 +285,7 @@ body {
   }
 
   .react-calendar__tile--hasActive{
+    background: none;
     &:hover {
       background: var(--colors-gray500);
     }
