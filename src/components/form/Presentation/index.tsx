@@ -325,11 +325,12 @@ function Presentation({
                           mEndDate?: FieldError;
                         })
                       | undefined;
+                    console.log(field);
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
-                        selectedDateFieldName={'detail.mDate'}
+                        selectedDateFieldName={field.name}
                         error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                         type="start"
                       />
@@ -342,7 +343,12 @@ function Presentation({
                 <FormController
                   name="detail.mDate"
                   render={({ field }) => (
-                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} type="end" />
+                    <CalendarInputForm
+                      selectedDate={field.value}
+                      setSelectedDate={field.onChange}
+                      type="end"
+                      selectedDateFieldName={field.name}
+                    />
                   )}
                 ></FormController>
               </SDateField>
@@ -389,6 +395,7 @@ function Presentation({
                           <CalendarInputForm
                             selectedDate={field.value}
                             setSelectedDate={field.onChange}
+                            selectedDateFieldName={field.name}
                             error={dateError?.startDate?.message || dateError?.endDate?.message}
                           />
                         );
@@ -400,7 +407,11 @@ function Presentation({
                     <FormController
                       name="endDate"
                       render={({ field }) => (
-                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                        <CalendarInputForm
+                          selectedDate={field.value}
+                          setSelectedDate={field.onChange}
+                          selectedDateFieldName={field.name}
+                        />
                       )}
                     ></FormController>
                   </SApplicationField>

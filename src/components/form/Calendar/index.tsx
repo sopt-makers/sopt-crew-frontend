@@ -14,7 +14,7 @@ import { useFormContext } from 'react-hook-form';
 interface Props {
   selectedDate: string[] | null;
   setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
-  selectedDateFieldName?: string;
+  selectedDateFieldName: string;
   error?: string;
   type?: 'start' | 'end';
 }
