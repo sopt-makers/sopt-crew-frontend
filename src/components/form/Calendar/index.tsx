@@ -16,10 +16,10 @@ interface Props {
   setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
   selectedDateFieldName: string;
   error?: string;
-  type?: 'start' | 'end';
+  dateType?: 'startDate' | 'endDate';
 }
 
-const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selectedDateFieldName }: Props) => {
+const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { getValues } = useFormContext();
 
@@ -32,32 +32,32 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selecte
       return setSelectedDate([newDate, '']);
     }
 
-    // startDate만 선택된 상태에서 새로운 날짜 선택
+    // startDate 만 선택된 상태,  새로운 날짜 선택
     if (startDate && !endDate) {
-      return newDate < startDate
-        ? setSelectedDate([newDate, '']) // 새로운 날짜가 startDate보다 이전이면 startDate 변경
-        : setSelectedDate([startDate, newDate]); // 아니면 end 설정
+      // 새로운 날짜가 startDate 보다 전이면 startDate 변경
+      return newDate < startDate ? setSelectedDate([newDate, '']) : setSelectedDate([startDate, newDate]);
     }
 
-    // end 만 선택된 상태에서 새로운 날짜 선택
+    // end 만 선택된 상태,  새로운 날짜 선택
     if (!startDate && endDate) {
-      return newDate > endDate
-        ? setSelectedDate(['', newDate]) // 새로운 날짜가 end보다 이후면 end 변경
-        : setSelectedDate([newDate, endDate]); // 아니면 start 설정
+      // 새로운 날짜가 end보다 이후면 end 변경
+      return newDate > endDate ? setSelectedDate(['', newDate]) : setSelectedDate([newDate, endDate]);
     }
 
-    // start 와 end  모두 선택된 상태에서 새로운 날짜 선택
+    // start 와 end 모두 선택된 상태,  새로운 날짜 선택
     if (startDate && endDate) {
+      // start보다 이전 날짜 클릭 → start 변경
       if (newDate < startDate) {
-        return setSelectedDate([newDate, endDate]); // start보다 이전 날짜 클릭 → start 변경
+        return setSelectedDate([newDate, endDate]);
       }
+      // end보다 이후 날짜 클릭 → end 변경
       if (newDate > endDate) {
-        return setSelectedDate([startDate, newDate]); // end보다 이후 날짜 클릭 → end 변경
+        return setSelectedDate([startDate, newDate]);
       }
 
       // start와 end 사이의 날짜 선택
       if (newDate > startDate && newDate < endDate) {
-        return type === 'start'
+        return dateType === 'startDate'
           ? setSelectedDate([newDate, endDate]) // type이 start일 때 → start 변경
           : setSelectedDate([startDate, newDate]); // type이 end일 때 → end 변경
       }
@@ -120,7 +120,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selecte
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={type === 'start' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
+            <SInput value={dateType === 'startDate' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
           {isOpen && (
@@ -134,7 +134,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selecte
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={type === 'start' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
+            <SInput value={dateType === 'startDate' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
             <CalendarIcon />
           </SInputWrapper>
           {isOpen && (

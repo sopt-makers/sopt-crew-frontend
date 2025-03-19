@@ -316,8 +316,7 @@ function Presentation({
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
-                  name="detail.mDate"
-                  defaultValue={[]}
+                  name="detail.mDateRange"
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
@@ -331,7 +330,7 @@ function Presentation({
                         setSelectedDate={field.onChange}
                         selectedDateFieldName={field.name}
                         error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
-                        type="start"
+                        dateType="startDate"
                       />
                     );
                   }}
@@ -340,12 +339,12 @@ function Presentation({
               <span style={{ marginTop: '14px' }}>-</span>
               <SDateField>
                 <FormController
-                  name="detail.mDate"
+                  name="detail.mDateRange"
                   render={({ field }) => (
                     <CalendarInputForm
                       selectedDate={field.value}
                       setSelectedDate={field.onChange}
-                      type="end"
+                      dateType="endDate"
                       selectedDateFieldName={field.name}
                     />
                   )}
@@ -396,6 +395,7 @@ function Presentation({
                             setSelectedDate={field.onChange}
                             selectedDateFieldName={field.name}
                             error={dateError?.startDate?.message || dateError?.endDate?.message}
+                            dateType="startDate"
                           />
                         );
                       }}
@@ -410,6 +410,7 @@ function Presentation({
                           selectedDate={field.value}
                           setSelectedDate={field.onChange}
                           selectedDateFieldName={field.name}
+                          dateType="endDate"
                         />
                       )}
                     ></FormController>
