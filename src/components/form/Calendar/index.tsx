@@ -57,9 +57,8 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
       // start와 end 사이의 날짜 선택
       if (newDate > startDate && newDate < endDate) {
-        return dateType === 'startDate'
-          ? setSelectedDate([newDate, endDate]) // type이 start일 때 → start 변경
-          : setSelectedDate([startDate, newDate]); // type이 end일 때 → end 변경
+        // 캘린더가 시작일 캘린더이냐 종료일 캘린더이냐
+        return dateType === 'startDate' ? setSelectedDate([newDate, endDate]) : setSelectedDate([startDate, newDate]);
       }
     }
   };

@@ -23,20 +23,6 @@ export const schema = z.object({
   files: z
     .array(z.string(), { required_error: '이미지를 추가해주세요.' })
     .min(1, { message: '이미지를 추가해주세요.' }),
-  startDate: z
-    .string()
-    .min(10, { message: '모집 기간을 입력해주세요.' })
-    .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-    .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
-      message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-    }),
-  endDate: z
-    .string()
-    .min(10, { message: '모집 기간을 입력해주세요.' })
-    .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-    .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
-      message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-    }),
   dateRange: z
     .array(
       z
