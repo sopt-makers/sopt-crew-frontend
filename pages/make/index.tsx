@@ -29,6 +29,9 @@ const MakePage = () => {
     },
   });
   const { isValid } = formMethods.formState;
+  console.log(formMethods.getValues('detail.mDateRange'));
+  console.log(formMethods.getValues('dateRange'));
+  console.log(isValid);
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
     onError: () => {
