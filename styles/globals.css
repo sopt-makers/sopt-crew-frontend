@@ -318,6 +318,21 @@ body {
     }
   }
 
+  .react-calendar__tile.react-calendar__tile--range {
+    &:hover {
+      background: var(--colors-gray500);
+    }
+
+    &:enabled:hover {
+      background: var(--colors-gray500);
+    }
+    &:enabled:focus {
+      background: var(--colors-gray500);
+    }
+
+  }
+
+
   .react-calendar__tile--rangeStart {
     background-color: var(--colors-gray500);
     border-radius: 47% 0 0 47%;
