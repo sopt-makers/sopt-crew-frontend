@@ -184,7 +184,7 @@ function Presentation({
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
-                  name="timeInfo.startDate"
+                  name="timeInfo.dateRange"
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
@@ -210,7 +210,7 @@ function Presentation({
               {timeState === '예정 기간 (협의 후 결정)' && <span style={{ marginTop: '14px' }}>-</span>}
               <SDateField>
                 <FormController
-                  name="timeInfo.endDate"
+                  name="timeInfo.dateRange"
                   render={({ field }) => (
                     <>
                       {timeState === '예정 기간 (협의 후 결정)' && (

@@ -24,7 +24,7 @@ interface Props {
   setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
   selectedDateFieldName: string;
   error?: string;
-  dateType?: 'startDate' | 'endDate' | 'date';
+  dateType?: 'startDate' | 'endDate' | 'singleSelect';
 }
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
@@ -80,7 +80,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
               ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
               : null
           }
-          selectRange={true}
+          selectRange={dateType !== 'singleSelect'}
           onClickDay={handleDateChange}
           formatDay={(locale, date) => dayjs(date).format('D')}
           formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
