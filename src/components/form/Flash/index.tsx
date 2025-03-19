@@ -199,6 +199,7 @@ function Presentation({
                             selectedDate={field.value}
                             setSelectedDate={field.onChange}
                             error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                            selectedDateFieldName={field.name}
                           />
                         )}
                       </>
@@ -213,7 +214,11 @@ function Presentation({
                   render={({ field }) => (
                     <>
                       {timeState === '예정 기간 (협의 후 결정)' && (
-                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                        <CalendarInputForm
+                          selectedDate={field.value}
+                          setSelectedDate={field.onChange}
+                          selectedDateFieldName={field.name}
+                        />
                       )}
                     </>
                   )}
