@@ -37,6 +37,17 @@ export const schema = z.object({
     .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
       message: 'YYYY.MM.DD 형식으로 입력해주세요.',
     }),
+  dateRange: z
+    .array(
+      z
+        .string()
+        .min(10, { message: '모집 기간을 입력해주세요.' })
+        .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
+        .refine(date => dayjs(date, 'YYYY.MM.DD').isValid(), {
+          message: 'YYYY.MM.DD 형식으로 입력해주세요.',
+        })
+    )
+    .length(2, { message: '모집 시작일과 종료일을 입력해주세요.' }),
   capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
   detail: z.object({
     desc: z

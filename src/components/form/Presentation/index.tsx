@@ -383,7 +383,7 @@ function Presentation({
                 <SApplicationFieldWrapper>
                   <SApplicationField>
                     <FormController
-                      name="startDate"
+                      name="dateRange"
                       render={({ field, formState: { errors } }) => {
                         const dateError = errors as
                           | {
@@ -405,7 +405,7 @@ function Presentation({
                   <span style={{ marginTop: '14px' }}>-</span>
                   <SApplicationField>
                     <FormController
-                      name="endDate"
+                      name="dateRange"
                       render={({ field }) => (
                         <CalendarInputForm
                           selectedDate={field.value}
