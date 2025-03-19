@@ -312,7 +312,6 @@ function Presentation({
                   </ToolTipDiv>
                 )}
               </div>
-              {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SDateFieldWrapper>
               <SDateField>
