@@ -308,7 +308,9 @@ body {
     padding: 0;
     width: 40px;
     height: 38px !important;
-
+    @media (max-width: 768px) {
+      border-radius: 0 19px 19px 0;
+    }
     abbr {
       background-color: var(--colors-gray10);
       width: 30px;
@@ -318,6 +320,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+
     }
   }
 
@@ -342,7 +345,9 @@ body {
     padding: 0;
     width: 40px;
     height: 38px !important;
-
+    @media (max-width: 768px) {
+      border-radius: 19px 0 0 19px;
+    }
     abbr {
       background-color: var(--colors-gray10);
       width: 30px;
