@@ -11,12 +11,20 @@ import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 import { useFormContext } from 'react-hook-form';
 
+/**
+ * CalendarInputForm
+ * @param selectedDate 선택된 날짜
+ * @param setSelectedDate 선택된 날짜 변경 함수
+ * @param error 에러 메시지
+ * @param dateType 캘린더 타입, startDate(시작일 캘린더), endDate(마감일 캘린더), date(단일선택 캘린더)
+ */
+
 interface Props {
   selectedDate: string[] | null;
   setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
   selectedDateFieldName: string;
   error?: string;
-  dateType?: 'startDate' | 'endDate';
+  dateType?: 'startDate' | 'endDate' | 'date';
 }
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
