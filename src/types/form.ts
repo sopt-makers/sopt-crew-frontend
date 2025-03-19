@@ -65,6 +65,17 @@ export const schema = z.object({
       .refine(datetime => dayjs(datetime, 'YYYY.MM.DD').isValid(), {
         message: 'YYYY.MM.DD 형식으로 입력해주세요.',
       }),
+    mDate: z
+      .array(
+        z
+          .string()
+          .min(10, { message: '활동 기간을 입력해주세요.' })
+          .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
+          .refine(date => dayjs(date, 'YYYY.MM.DD').isValid(), {
+            message: 'YYYY.MM.DD 형식으로 입력해주세요.',
+          })
+      )
+      .length(2, { message: '활동 시작일과 종료일을 입력해주세요.' }),
     leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),

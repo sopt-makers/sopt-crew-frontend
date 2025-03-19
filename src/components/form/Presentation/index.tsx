@@ -316,7 +316,8 @@ function Presentation({
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
-                  name="detail.mStartDate"
+                  name="detail.mDate"
+                  defaultValue={[]}
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
@@ -338,7 +339,7 @@ function Presentation({
               <span style={{ marginTop: '14px' }}>-</span>
               <SDateField>
                 <FormController
-                  name="detail.mStartDate"
+                  name="detail.mDate"
                   render={({ field }) => (
                     <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} type="end" />
                   )}

@@ -25,7 +25,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props
   const handleDateChange = (date: Date) => {
     const formattedDate = dayjs(date).format('YYYY.MM.DD');
 
-    const currentDates = getValues('detail.mStartDate') ?? [];
+    const currentDates = getValues('detail.mDate') ?? [];
     const [start, end] = Array.isArray(currentDates) ? currentDates : ['', ''];
 
     // prev 의미와 같음. 이전에 선택된 날짜
