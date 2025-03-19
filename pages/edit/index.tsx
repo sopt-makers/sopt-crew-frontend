@@ -82,15 +82,16 @@ const EditPage = () => {
       formMethods.reset({
         ...formData,
         files: formData?.imageURL.map(image => image.url),
-        startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
-        endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
+        dateRange: [dayjs(formData?.startDate).format('YYYY.MM.DD'), dayjs(formData?.endDate).format('YYYY.MM.DD')],
         category: { label: formData?.category, value: formData?.category },
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
           processDesc: formData?.processDesc,
-          mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
-          mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
+          mDateRange: [
+            dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
+            dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
+          ],
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
