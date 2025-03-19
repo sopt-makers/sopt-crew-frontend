@@ -329,6 +329,7 @@ function Presentation({
                       <CalendarInputForm
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
+                        selectedDateFieldName={'detail.mDate'}
                         error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                         type="start"
                       />

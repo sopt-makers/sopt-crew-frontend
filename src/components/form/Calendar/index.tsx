@@ -14,17 +14,18 @@ import { useFormContext } from 'react-hook-form';
 interface Props {
   selectedDate: string[] | null;
   setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
+  selectedDateFieldName?: string;
   error?: string;
   type?: 'start' | 'end';
 }
 
-const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props) => {
+const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { getValues } = useFormContext();
 
   const handleDateChange = (date: Date) => {
     const newDate = dayjs(date).format('YYYY.MM.DD');
-    const [startDate, endDate] = getValues('detail.mDate') ?? ['', ''];
+    const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
 
     // 첫 번째 날짜 선택
     if (!startDate && !endDate) {
