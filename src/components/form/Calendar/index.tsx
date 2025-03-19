@@ -135,7 +135,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type, selecte
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInput value={type === 'start' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
-            <SCalendarIcon />
+            <CalendarIcon />
           </SInputWrapper>
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
@@ -170,7 +170,6 @@ const SDotWrapper = styled('div', {
   justifyContent: 'center',
   position: 'absolute',
   alignItems: 'center',
-  '& > react-calendar__tile--range': {},
 });
 
 const SInputWrapper = styled('div', {
@@ -185,16 +184,6 @@ const SInputWrapper = styled('div', {
 
   '@media (max-width: 768px)': {
     padding: '16px',
-  },
-});
-
-const SCalendarIcon = styled(CalendarIcon, {
-  width: '24px',
-  height: '24px',
-
-  '@media (max-width: 430px)': {
-    width: '20px',
-    height: '20px',
   },
 });
 

@@ -325,7 +325,6 @@ function Presentation({
                           mEndDate?: FieldError;
                         })
                       | undefined;
-                    console.log(field);
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
