@@ -91,7 +91,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, type }: Props
           prev2Label={null}
           minDetail="month"
           maxDetail="month"
-          calendarType="US"
+          calendarType="gregory"
           tileContent={({ date, view }) => {
             if (selectedDate?.includes(dayjs(date).format('YYYY.MM.DD'))) {
               return (
