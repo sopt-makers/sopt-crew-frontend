@@ -16,7 +16,7 @@ import { useFormContext } from 'react-hook-form';
  * @param selectedDate 선택된 날짜
  * @param setSelectedDate 선택된 날짜 변경 함수
  * @param error 에러 메시지
- * @param dateType 캘린더 타입, startDate(시작일 캘린더), endDate(마감일 캘린더), date(단일선택 캘린더)
+ * @param dateType 캘린더 타입, startDate(시작일 캘린더), endDate(마감일 캘린더), singleSelect(단일선택 캘린더)
  */
 
 interface Props {
@@ -146,7 +146,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={dateType === 'startDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
+            <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
             <CalendarIcon />
           </SInputWrapper>
           {isOpen && (
