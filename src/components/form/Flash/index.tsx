@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -64,10 +64,12 @@ function Presentation({
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
 
-  const endDate = watch('timeInfo.endDate');
-  if (timeState === '당일' && endDate !== '') {
-    setValue('timeInfo.endDate', '');
-  }
+  // useEffect(() => {
+  //   const dateRange = watch('timeInfo.dateRange');
+  //   if (timeState === '당일' && dateRange) {
+  //     setValue('timeInfo.dateRange', [dateRange[0], '']);
+  //   }
+  // }, [timeState]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -244,6 +246,9 @@ function Presentation({
                         onClick={() => {
                           setTimeState(newTimeState);
                           onChange(newValue);
+                          if (!isChecked) {
+                            setValue('timeInfo.dateRange', [new Date().toISOString().split('T')[0], '']);
+                          }
                         }}
                       />
                     </>

@@ -21,7 +21,7 @@ const filterFlashFormData = (formData: FlashFormType) => {
       title: formData.title,
       desc: formData.desc,
       flashTimingType: formData.timeInfo.time.value,
-      activityStartDate: formData.timeInfo.startDate,
+      activityStartDate: formData.timeInfo.dateRange[0],
       activityEndDate: convertedEndDate,
       flashPlaceType: formData.placeInfo.place.value,
       flashPlace: convertedFlashPlace,
