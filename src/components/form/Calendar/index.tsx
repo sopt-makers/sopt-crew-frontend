@@ -35,6 +35,11 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     const newDate = dayjs(date).format('YYYY.MM.DD');
     const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
 
+    if (dateType === 'singleSelect') {
+      setSelectedDate([newDate]);
+      return;
+    }
+
     // 첫 번째 날짜 선택
     if (!startDate && !endDate) {
       return setSelectedDate([newDate, '']);
@@ -76,7 +81,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       <>
         <Calendar
           value={
-            selectedDate && selectedDate.length === 2
+            selectedDate
               ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
               : null
           }
@@ -127,7 +132,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={dateType === 'startDate' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
+            <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
           {isOpen && (
@@ -141,7 +146,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={dateType === 'startDate' ? selectedDate?.[0] : selectedDate?.[1]} placeholder="YYYY.MM.DD" />
+            <SInput value={dateType === 'startDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
             <CalendarIcon />
           </SInputWrapper>
           {isOpen && (

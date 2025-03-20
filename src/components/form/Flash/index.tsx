@@ -200,6 +200,7 @@ function Presentation({
                             setSelectedDate={field.onChange}
                             error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                             selectedDateFieldName={field.name}
+                            dateType={timeState === '예정 기간 (협의 후 결정)' ? 'startDate' : 'singleSelect'}
                           />
                         )}
                       </>
@@ -218,6 +219,7 @@ function Presentation({
                           selectedDate={field.value}
                           setSelectedDate={field.onChange}
                           selectedDateFieldName={field.name}
+                          dateType={timeState === '예정 기간 (협의 후 결정)' ? 'endDate' : 'singleSelect'}
                         />
                       )}
                     </>
