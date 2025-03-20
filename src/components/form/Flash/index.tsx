@@ -63,7 +63,7 @@ function Presentation({
   const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
-
+  const dateRange = watch('timeInfo.dateRange');
   // useEffect(() => {
   //   const dateRange = watch('timeInfo.dateRange');
   //   if (timeState === '당일' && dateRange) {
@@ -247,7 +247,7 @@ function Presentation({
                           setTimeState(newTimeState);
                           onChange(newValue);
                           if (!isChecked) {
-                            setValue('timeInfo.dateRange', [new Date().toISOString().split('T')[0], '']);
+                            setValue('timeInfo.dateRange', [dateRange[0], '']);
                           }
                         }}
                       />
