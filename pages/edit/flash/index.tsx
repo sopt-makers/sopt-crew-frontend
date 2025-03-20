@@ -75,8 +75,10 @@ const FlashEditPage = () => {
             label: formData?.flashTimingType,
             value: formData?.flashTimingType,
           },
-          startDate: dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
-          endDate: dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
+          dateRange: [
+            dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
+            dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
+          ],
         },
         placeInfo: {
           place: {
