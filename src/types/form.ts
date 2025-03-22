@@ -27,11 +27,22 @@ export const schema = z.object({
     .array(
       z
         .string()
-        .min(10, { message: '모집 기간을 입력해주세요.' })
+        .min(1, { message: '모집 기간을 입력해주세요.' })
         .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-        .refine(date => dayjs(date, 'YYYY.MM.DD').isValid(), {
-          message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-        })
+
+        .refine(
+          date => {
+            const d = dayjs(date, 'YYYY.MM.DD');
+            const year = d.year();
+            const month = d.month() + 1;
+            const day = d.date();
+
+            return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
+          },
+          {
+            message: '유효한 날짜가 아닙니다',
+          }
+        )
     )
     .length(2, { message: '모집 시작일과 종료일을 입력해주세요.' }),
   capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
@@ -54,9 +65,19 @@ export const schema = z.object({
           .string()
           .min(10, { message: '활동 기간을 입력해주세요.' })
           .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-          .refine(date => dayjs(date, 'YYYY.MM.DD').isValid(), {
-            message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-          })
+          .refine(
+            date => {
+              const d = dayjs(date, 'YYYY.MM.DD');
+              const year = d.year();
+              const month = d.month() + 1;
+              const day = d.date();
+
+              return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
+            },
+            {
+              message: '유효한 날짜가 아닙니다',
+            }
+          )
       )
       .length(2, { message: '활동 시작일과 종료일을 입력해주세요.' }),
     leaderDesc: z.string().optional().nullable(),
@@ -103,9 +124,19 @@ export const flashSchema = z.object({
           .string()
           .min(10, { message: '번쩍 기간을 입력해주세요.' })
           .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-          .refine(date => dayjs(date, 'YYYY.MM.DD').isValid(), {
-            message: 'YYYY.MM.DD 형식으로 입력해주세요.',
-          })
+          .refine(
+            date => {
+              const d = dayjs(date, 'YYYY.MM.DD');
+              const year = d.year();
+              const month = d.month() + 1;
+              const day = d.date();
+
+              return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
+            },
+            {
+              message: '유효한 날짜가 아닙니다',
+            }
+          )
       ),
     })
     .superRefine(({ time, dateRange }, ctx) => {
