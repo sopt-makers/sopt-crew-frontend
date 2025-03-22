@@ -10,6 +10,8 @@ import { fontsObject } from '@sopt-makers/fonts';
 import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 import { useFormContext } from 'react-hook-form';
+import { formatCalendarDate } from '@utils/dayjs';
+import { date } from 'zod';
 
 /**
  * CalendarInputForm
@@ -29,52 +31,96 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getValues } = useFormContext();
+  const { getValues, setValue } = useFormContext();
+  const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
+  const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
+
+  console.log(error);
 
   const handleDateChange = (date: Date) => {
-    const newDate = dayjs(date).format('YYYY.MM.DD');
-    const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
+    const newDate = formatCalendarDate(date);
+    let newSelectedDate: string[] = [startDate, endDate];
 
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate]);
+      setInputValue(newDate);
       return;
     }
 
-    // 첫 번째 날짜 선택
     if (!startDate && !endDate) {
-      return setSelectedDate([newDate, '']);
-    }
-
-    // startDate 만 선택된 상태,  새로운 날짜 선택
-    if (startDate && !endDate) {
+      // 첫 번째 날짜 선택
+      newSelectedDate = [newDate, ''];
+    } else if (startDate && !endDate) {
+      // startDate 만 선택된 상태,  새로운 날짜 선택
       // 새로운 날짜가 startDate 보다 전이면 startDate 변경
-      return newDate < startDate ? setSelectedDate([newDate, '']) : setSelectedDate([startDate, newDate]);
-    }
-
-    // end 만 선택된 상태,  새로운 날짜 선택
-    if (!startDate && endDate) {
+      newSelectedDate = newDate < startDate ? [newDate, ''] : [startDate, newDate];
+    } else if (!startDate && endDate) {
+      // end 만 선택된 상태,  새로운 날짜 선택
       // 새로운 날짜가 end보다 이후면 end 변경
-      return newDate > endDate ? setSelectedDate(['', newDate]) : setSelectedDate([newDate, endDate]);
-    }
-
-    // start 와 end 모두 선택된 상태,  새로운 날짜 선택
-    if (startDate && endDate) {
-      // start보다 이전 날짜 클릭 → start 변경
+      newSelectedDate = newDate > endDate ? ['', newDate] : [newDate, endDate];
+    } else if (startDate && endDate) {
+      // start 와 end 모두 선택된 상태,  새로운 날짜 선택
       if (newDate < startDate) {
-        return setSelectedDate([newDate, endDate]);
+        // start보다 이전 날짜 클릭 → start 변경
+        newSelectedDate = [newDate, endDate];
+      } else if (newDate > endDate) {
+        // end보다 이후 날짜 클릭 → end 변경
+        newSelectedDate = [startDate, newDate];
+      } else if (newDate > startDate && newDate < endDate) {
+        // start와 end 사이의 날짜 선택
+        newSelectedDate = dateType === 'startDate' ? [newDate, endDate] : [startDate, newDate];
+      } else {
+        newSelectedDate = dateType === 'startDate' ? [newDate, endDate] : [startDate, newDate];
       }
-      // end보다 이후 날짜 클릭 → end 변경
-      if (newDate > endDate) {
-        return setSelectedDate([startDate, newDate]);
-      }
+    }
+    setSelectedDate(newSelectedDate);
+    setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
+  };
 
-      // start와 end 사이의 날짜 선택
-      if (newDate > startDate && newDate < endDate) {
-        // 캘린더가 시작일 캘린더이냐 종료일 캘린더이냐
-        return dateType === 'startDate' ? setSelectedDate([newDate, endDate]) : setSelectedDate([startDate, newDate]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { isDesktop, isMobile, isTablet } = useDisplay();
+
+  const handleOutsideClick = useCallback((event: any) => {
+    if (!containerRef.current || !containerRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = event.target.value.replace(/\D/g, '');
+    let formattedValue = '';
+
+    if (rawValue.length > 0) formattedValue += rawValue.substring(0, 4);
+    if (rawValue.length > 4) formattedValue += '.' + rawValue.substring(4, 6);
+    if (rawValue.length > 6) formattedValue += '.' + rawValue.substring(6, 8);
+
+    setInputValue(formattedValue);
+
+    if (rawValue.length === 8) {
+      if (dateType === 'endDate') {
+        setSelectedDate([startDate, formattedValue]);
+        setValue(selectedDateFieldName, [startDate, formattedValue]);
+      } else {
+        setSelectedDate([formattedValue, endDate]);
+        setValue(selectedDateFieldName, [formattedValue, endDate]);
       }
     }
   };
+
+  useEffect(() => {
+    if (selectedDate) {
+      setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    if (isDesktop && !isMobile && !isTablet) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
+    }
+  }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
   const CalendarComponent = () => {
     return (
@@ -96,7 +142,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
           maxDetail="month"
           calendarType="gregory"
           tileContent={({ date, view }) => {
-            if (selectedDate?.includes(dayjs(date).format('YYYY.MM.DD'))) {
+            if (selectedDate?.includes(formatCalendarDate(date))) {
               return (
                 <SDotWrapper>
                   <SDot></SDot>
@@ -109,29 +155,17 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       </>
     );
   };
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const { isDesktop, isMobile, isTablet } = useDisplay();
-
-  const handleOutsideClick = useCallback((event: any) => {
-    if (!containerRef.current || !containerRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isDesktop && !isMobile && !isTablet) {
-      document.addEventListener('mousedown', handleOutsideClick);
-      return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-      };
-    }
-  }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
   return (
     <>
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
+            <SStyledInput>
+              <span className="filled">{inputValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
+              <input type="text" value={inputValue} onChange={handleInputChange} maxLength={10} placeholder="" />
+            </SStyledInput>
             <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
@@ -146,9 +180,15 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
+            <SStyledInput>
+              <span className="filled">{inputValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
+              <input type="text" value={inputValue} onChange={handleInputChange} maxLength={10} placeholder="" />
+            </SStyledInput>
+            {/*<SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />*/}
             <CalendarIcon />
           </SInputWrapper>
+          {error && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
               <CalendarComponent />
@@ -161,6 +201,34 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 };
 
 export default CalendarInputForm;
+
+const SStyledInput = styled('div', {
+  position: 'relative',
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  color: '$gray10',
+  caretColor: '$gray10',
+
+  '& .filled': {
+    color: '$gray10',
+  },
+  '& .placeholder': {
+    color: '$gray500',
+  },
+
+  '& input': {
+    position: 'absolute',
+    width: '100%',
+    opacity: 0, // 실제 input 필드는 숨김 (유저가 입력 가능하지만 보이지 않음)
+    caretColor: '$gray10',
+    background: 'transparent',
+    letterSpacing: '-0.24px',
+    lineHeight: '26px',
+    border: 'none',
+    outline: 'none',
+  },
+});
 
 const SCalendarWrapper = styled('div', {
   backgroundColor: '$gray700',

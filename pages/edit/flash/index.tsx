@@ -12,6 +12,7 @@ import Presentation from '@components/form/Flash';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import { updateFlashById } from '@api/flash';
 import dayjs from 'dayjs';
+import { formatCalendarDate } from '@utils/dayjs';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -75,10 +76,7 @@ const FlashEditPage = () => {
             label: formData?.flashTimingType,
             value: formData?.flashTimingType,
           },
-          dateRange: [
-            dayjs(formData?.activityStartDate).format('YYYY.MM.DD'),
-            dayjs(formData?.activityEndDate).format('YYYY.MM.DD'),
-          ],
+          dateRange: [formatCalendarDate(formData?.activityStartDate), formatCalendarDate(formData?.activityEndDate)],
         },
         placeInfo: {
           place: {

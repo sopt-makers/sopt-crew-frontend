@@ -64,13 +64,8 @@ function Presentation({
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
   const dateRange = watch('timeInfo.dateRange');
-  // useEffect(() => {
-  //   const dateRange = watch('timeInfo.dateRange');
-  //   if (timeState === '당일' && dateRange) {
-  //     setValue('timeInfo.dateRange', [dateRange[0], '']);
-  //   }
-  // }, [timeState]);
 
+  console.log(errors);
   const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
