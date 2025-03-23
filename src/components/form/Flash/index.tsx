@@ -184,8 +184,7 @@ function Presentation({
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
-                          mStartDate?: FieldError;
-                          mEndDate?: FieldError;
+                          dateRange?: FieldError[];
                         })
                       | undefined;
                     return (
@@ -194,7 +193,10 @@ function Presentation({
                           <CalendarInputForm
                             selectedDate={field.value}
                             setSelectedDate={field.onChange}
-                            error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                            error={
+                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
+                              (dateError?.dateRange as FieldError[])?.[1]?.message
+                            }
                             selectedDateFieldName={field.name}
                             dateType={timeState === '예정 기간 (협의 후 결정)' ? 'startDate' : 'singleSelect'}
                           />
@@ -208,18 +210,30 @@ function Presentation({
               <SDateField>
                 <FormController
                   name="timeInfo.dateRange"
-                  render={({ field }) => (
-                    <>
-                      {timeState === '예정 기간 (협의 후 결정)' && (
-                        <CalendarInputForm
-                          selectedDate={field.value}
-                          setSelectedDate={field.onChange}
-                          selectedDateFieldName={field.name}
-                          dateType={timeState === '예정 기간 (협의 후 결정)' ? 'endDate' : 'singleSelect'}
-                        />
-                      )}
-                    </>
-                  )}
+                  render={({ field, formState: { errors } }) => {
+                    const dateError = errors.detail as
+                      | (FieldError & {
+                          dateRange?: FieldError[];
+                        })
+                      | undefined;
+
+                    return (
+                      <>
+                        {timeState === '예정 기간 (협의 후 결정)' && (
+                          <CalendarInputForm
+                            selectedDate={field.value}
+                            setSelectedDate={field.onChange}
+                            selectedDateFieldName={field.name}
+                            error={
+                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
+                              (dateError?.dateRange as FieldError[])?.[1]?.message
+                            }
+                            dateType={timeState === '예정 기간 (협의 후 결정)' ? 'endDate' : 'singleSelect'}
+                          />
+                        )}
+                      </>
+                    );
+                  }}
                 ></FormController>
               </SDateField>
             </SDateFieldWrapper>

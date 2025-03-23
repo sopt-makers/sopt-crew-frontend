@@ -79,7 +79,41 @@ export const schema = z.object({
             }
           )
       )
-      .length(2, { message: '활동 시작일과 종료일을 입력해주세요.' }),
+      .superRefine((dates, ctx) => {
+        dates.forEach((date, index) => {
+          if (!date || date.trim() === '') {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '활동 기간을 입력해주세요.',
+              path: [index],
+            });
+            return;
+          }
+
+          const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
+          if (!isValidFormat) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '유효한 날짜가 아닙니다',
+              path: [index],
+            });
+            return;
+          }
+
+          const d = dayjs(date, 'YYYY.MM.DD');
+          const year = d.year();
+          const month = d.month() + 1;
+          const day = d.date();
+
+          if (year < 2020 || year > 2030 || month < 1 || month > 12 || day < 1 || day > 31) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '2020년부터 2030년 사이의 유효한 날짜를 입력해주세요.',
+              path: [index],
+            });
+          }
+        });
+      }),
     leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),

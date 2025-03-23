@@ -122,35 +122,32 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
   const CalendarComponent = () => {
     return (
-      <>
-        <Calendar
-          value={
-            selectedDate
-              ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
-              : null
+      <Calendar
+        value={
+          selectedDate
+            ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
+            : null
+        }
+        selectRange={dateType !== 'singleSelect'}
+        onClickDay={handleDateChange}
+        formatDay={(locale, date) => dayjs(date).format('D')}
+        formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
+        showNeighboringMonth={false}
+        next2Label={null}
+        prev2Label={null}
+        minDetail="month"
+        maxDetail="month"
+        calendarType="gregory"
+        tileContent={({ date, view }) => {
+          if (selectedDate?.includes(formatCalendarDate(date))) {
+            return (
+              <SDotWrapper>
+                <SDot></SDot>
+              </SDotWrapper>
+            );
           }
-          selectRange={dateType !== 'singleSelect'}
-          onClickDay={handleDateChange}
-          formatDay={(locale, date) => dayjs(date).format('D')}
-          formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
-          showNeighboringMonth={false}
-          next2Label={null}
-          prev2Label={null}
-          minDetail="month"
-          maxDetail="month"
-          calendarType="gregory"
-          tileContent={({ date, view }) => {
-            if (selectedDate?.includes(formatCalendarDate(date))) {
-              return (
-                <SDotWrapper>
-                  <SDot></SDot>
-                </SDotWrapper>
-              );
-            }
-          }}
-        />
-        {error && <SErrorMessage>{error}</SErrorMessage>}
-      </>
+        }}
+      />
     );
   };
 
@@ -162,11 +159,19 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
             <SStyledInput>
               <span className="filled">{inputValue}</span>
               <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
-              <input type="text" value={inputValue} onChange={handleInputChange} maxLength={10} placeholder="" />
+              <input
+                type="text"
+                name={selectedDateFieldName}
+                value={inputValue}
+                onChange={handleInputChange}
+                maxLength={10}
+                placeholder=""
+              />
             </SStyledInput>
             <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
+          {error && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <div>
               <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
@@ -181,7 +186,14 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
             <SStyledInput>
               <span className="filled">{inputValue}</span>
               <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
-              <input type="text" value={inputValue} onChange={handleInputChange} maxLength={10} placeholder="" />
+              <input
+                type="text"
+                name={selectedDateFieldName}
+                value={inputValue}
+                onChange={handleInputChange}
+                maxLength={10}
+                placeholder=""
+              />
             </SStyledInput>
             {/*<SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />*/}
             <CalendarIcon />
