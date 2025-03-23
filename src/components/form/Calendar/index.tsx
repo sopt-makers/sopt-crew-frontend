@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useCallback, useState } from 'react';
 import { styled } from 'stitches.config';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -11,7 +11,6 @@ import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 import { useFormContext } from 'react-hook-form';
 import { formatCalendarDate } from '@utils/dayjs';
-import { date } from 'zod';
 
 /**
  * CalendarInputForm
@@ -78,8 +77,8 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { isDesktop, isMobile, isTablet } = useDisplay();
 
-  const handleOutsideClick = useCallback((event: any) => {
-    if (!containerRef.current || !containerRef.current.contains(event.target)) {
+  const handleOutsideClick = useCallback((event: MouseEvent) => {
+    if (!containerRef.current || !containerRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   }, []);
@@ -156,10 +155,10 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SStyledInput>
+            <SInputCustom>
               <span className="filled">{inputValue}</span>
               <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
-              <input
+              <SInput
                 type="text"
                 name={selectedDateFieldName}
                 value={inputValue}
@@ -167,11 +166,10 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
                 maxLength={10}
                 placeholder=""
               />
-            </SStyledInput>
-            <SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />
+            </SInputCustom>
             {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
-          {error && <SErrorMessage>{error}</SErrorMessage>}
+          {error && selectedDate?.[0] && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <div>
               <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
@@ -183,22 +181,21 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SStyledInput>
+            <SInputCustom>
               <span className="filled">{inputValue}</span>
               <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
-              <input
+              <SInput
                 type="text"
                 name={selectedDateFieldName}
                 value={inputValue}
                 onChange={handleInputChange}
                 maxLength={10}
-                placeholder=""
+                placeholder="YYYY.MM.DD"
               />
-            </SStyledInput>
-            {/*<SInput value={dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]} placeholder="YYYY.MM.DD" />*/}
+            </SInputCustom>
             <CalendarIcon />
           </SInputWrapper>
-          {error && <SErrorMessage>{error}</SErrorMessage>}
+          {error && dateType !== 'endDate' && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
               <CalendarComponent />
@@ -212,9 +209,9 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
 export default CalendarInputForm;
 
-const SStyledInput = styled('div', {
+const SInputCustom = styled('div', {
   position: 'relative',
-  width: '100%',
+  width: '80%',
   display: 'flex',
   alignItems: 'center',
   color: '$gray10',
@@ -230,7 +227,7 @@ const SStyledInput = styled('div', {
   '& input': {
     position: 'absolute',
     width: '100%',
-    opacity: 0, // 실제 input 필드는 숨김 (유저가 입력 가능하지만 보이지 않음)
+    opacity: 0,
     caretColor: '$gray10',
     background: 'transparent',
     letterSpacing: '-0.24px',

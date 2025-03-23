@@ -99,7 +99,6 @@ function Presentation({
         setIsSoptScheduleOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거

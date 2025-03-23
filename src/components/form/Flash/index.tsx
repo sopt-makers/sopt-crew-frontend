@@ -64,7 +64,6 @@ function Presentation({
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
   const dateRange = watch('timeInfo.dateRange');
-
   const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {

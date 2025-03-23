@@ -29,22 +29,20 @@ export const schema = z.object({
         .string()
         .min(1, { message: '모집 기간을 입력해주세요.' })
         .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-
-        .refine(
-          date => {
-            const d = dayjs(date, 'YYYY.MM.DD');
-            const year = d.year();
-            const month = d.month() + 1;
-            const day = d.date();
-
-            return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
-          },
-          {
-            message: '유효한 날짜가 아닙니다',
-          }
-        )
     )
-    .length(2, { message: '모집 시작일과 종료일을 입력해주세요.' }),
+    .superRefine((dates, ctx) => {
+      dates.forEach((date, index) => {
+        const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
+        if (!isValidFormat) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '유효한 날짜가 아닙니다',
+            path: [index],
+          });
+          return;
+        }
+      });
+    }),
   capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
   detail: z.object({
     desc: z
@@ -65,31 +63,9 @@ export const schema = z.object({
           .string()
           .min(10, { message: '활동 기간을 입력해주세요.' })
           .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-          .refine(
-            date => {
-              const d = dayjs(date, 'YYYY.MM.DD');
-              const year = d.year();
-              const month = d.month() + 1;
-              const day = d.date();
-
-              return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
-            },
-            {
-              message: '유효한 날짜가 아닙니다',
-            }
-          )
       )
       .superRefine((dates, ctx) => {
         dates.forEach((date, index) => {
-          if (!date || date.trim() === '') {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '활동 기간을 입력해주세요.',
-              path: [index],
-            });
-            return;
-          }
-
           const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
           if (!isValidFormat) {
             ctx.addIssue({
@@ -98,19 +74,6 @@ export const schema = z.object({
               path: [index],
             });
             return;
-          }
-
-          const d = dayjs(date, 'YYYY.MM.DD');
-          const year = d.year();
-          const month = d.month() + 1;
-          const day = d.date();
-
-          if (year < 2020 || year > 2030 || month < 1 || month > 12 || day < 1 || day > 31) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '2020년부터 2030년 사이의 유효한 날짜를 입력해주세요.',
-              path: [index],
-            });
           }
         });
       }),
@@ -153,25 +116,26 @@ export const flashSchema = z.object({
         label: z.string(),
         value: z.string(),
       }),
-      dateRange: z.array(
-        z
-          .string()
-          .min(10, { message: '번쩍 기간을 입력해주세요.' })
-          .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-          .refine(
-            date => {
-              const d = dayjs(date, 'YYYY.MM.DD');
-              const year = d.year();
-              const month = d.month() + 1;
-              const day = d.date();
-
-              return year >= 2020 && year <= 2030 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
-            },
-            {
-              message: '유효한 날짜가 아닙니다',
+      dateRange: z
+        .array(
+          z
+            .string()
+            .min(10, { message: '번쩍 기간을 입력해주세요.' })
+            .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
+        )
+        .superRefine((dates, ctx) => {
+          dates.forEach((date, index) => {
+            const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
+            if (!isValidFormat) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: '유효한 날짜가 아닙니다',
+                path: [index],
+              });
+              return;
             }
-          )
-      ),
+          });
+        }),
     })
     .superRefine(({ time, dateRange }, ctx) => {
       if (time.label === '당일') {
