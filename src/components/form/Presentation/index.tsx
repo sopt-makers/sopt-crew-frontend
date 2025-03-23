@@ -320,8 +320,7 @@ function Presentation({
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
-                          mStartDate?: FieldError;
-                          mEndDate?: FieldError;
+                          mDateRange?: FieldError[];
                         })
                       | undefined;
                     return (
@@ -329,7 +328,10 @@ function Presentation({
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
                         selectedDateFieldName={field.name}
-                        error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                        error={
+                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
+                          (dateError?.mDateRange as FieldError[])?.[1]?.message
+                        }
                         dateType="startDate"
                       />
                     );
@@ -340,14 +342,25 @@ function Presentation({
               <SDateField>
                 <FormController
                   name="detail.mDateRange"
-                  render={({ field }) => (
-                    <CalendarInputForm
-                      selectedDate={field.value}
-                      setSelectedDate={field.onChange}
-                      dateType="endDate"
-                      selectedDateFieldName={field.name}
-                    />
-                  )}
+                  render={({ field, formState: { errors } }) => {
+                    const dateError = errors.detail as
+                      | (FieldError & {
+                          mDateRange?: FieldError[];
+                        })
+                      | undefined;
+                    return (
+                      <CalendarInputForm
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
+                        dateType="endDate"
+                        error={
+                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
+                          (dateError?.mDateRange as FieldError[])?.[1]?.message
+                        }
+                        selectedDateFieldName={field.name}
+                      />
+                    );
+                  }}
                 ></FormController>
               </SDateField>
             </SDateFieldWrapper>
@@ -385,8 +398,7 @@ function Presentation({
                       render={({ field, formState: { errors } }) => {
                         const dateError = errors as
                           | {
-                              startDate?: FieldError;
-                              endDate?: FieldError;
+                              dateRange?: FieldError[];
                             }
                           | undefined;
                         return (
@@ -394,7 +406,10 @@ function Presentation({
                             selectedDate={field.value}
                             setSelectedDate={field.onChange}
                             selectedDateFieldName={field.name}
-                            error={dateError?.startDate?.message || dateError?.endDate?.message}
+                            error={
+                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
+                              (dateError?.dateRange as FieldError[])?.[1]?.message
+                            }
                             dateType="startDate"
                           />
                         );

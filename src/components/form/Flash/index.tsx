@@ -65,7 +65,6 @@ function Presentation({
   const { watch, setValue } = useFormContext();
   const dateRange = watch('timeInfo.dateRange');
 
-  console.log(errors);
   const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {

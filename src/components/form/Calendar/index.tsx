@@ -35,8 +35,6 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
   const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
 
-  console.log(error);
-
   const handleDateChange = (date: Date) => {
     const newDate = formatCalendarDate(date);
     let newSelectedDate: string[] = [startDate, endDate];
