@@ -22,7 +22,7 @@ import { formatCalendarDate } from '@utils/dayjs';
 
 interface Props {
   selectedDate: string[] | null;
-  setSelectedDate: Dispatch<SetStateAction<string[] | null>>;
+  setSelectedDate: Dispatch<SetStateAction<string[] | string | null>>;
   selectedDateFieldName: string;
   error?: string;
   dateType?: 'startDate' | 'endDate' | 'singleSelect';
@@ -39,7 +39,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     let newSelectedDate: string[] = [startDate, endDate];
 
     if (dateType === 'singleSelect') {
-      setSelectedDate([newDate]);
+      setSelectedDate([newDate, '']);
       setInputValue(newDate);
       return;
     }

@@ -181,11 +181,12 @@ function Presentation({
                 <FormController
                   name="timeInfo.dateRange"
                   render={({ field, formState: { errors } }) => {
-                    const dateError = errors.detail as
+                    const dateError = errors.timeInfo as
                       | (FieldError & {
-                          dateRange?: FieldError[];
+                          dateRange?: FieldError[] | FieldError;
                         })
                       | undefined;
+                    console.log(dateError);
                     return (
                       <>
                         {timeState && (
@@ -215,6 +216,7 @@ function Presentation({
                           dateRange?: FieldError[];
                         })
                       | undefined;
+                    console.log(dateError);
 
                     return (
                       <>

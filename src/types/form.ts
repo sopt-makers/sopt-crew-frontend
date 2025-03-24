@@ -8,6 +8,8 @@ const capacitySchema = z.number({
   invalid_type_error: '모집 인원을 입력해주세요.',
 });
 
+const isValidDate = (date?: string) => dayjs(date, 'YYYY.MM.DD', true).isValid();
+
 export const schema = z.object({
   title: z
     .string()
@@ -32,8 +34,7 @@ export const schema = z.object({
     )
     .superRefine((dates, ctx) => {
       dates.forEach((date, index) => {
-        const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
-        if (!isValidFormat) {
+        if (!isValidDate(date)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '유효한 날짜가 아닙니다',
@@ -66,8 +67,7 @@ export const schema = z.object({
       )
       .superRefine((dates, ctx) => {
         dates.forEach((date, index) => {
-          const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
-          if (!isValidFormat) {
+          if (!isValidDate(date)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: '유효한 날짜가 아닙니다',
@@ -116,44 +116,40 @@ export const flashSchema = z.object({
         label: z.string(),
         value: z.string(),
       }),
-      dateRange: z
-        .array(
-          z
-            .string()
-            .min(10, { message: '번쩍 기간을 입력해주세요.' })
-            .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-        )
-        .superRefine((dates, ctx) => {
-          dates.forEach((date, index) => {
-            const isValidFormat = dayjs(date, 'YYYY.MM.DD', true).isValid();
-            if (!isValidFormat) {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: '유효한 날짜가 아닙니다',
-                path: [index],
-              });
-              return;
-            }
-          });
-        }),
+      dateRange: z.array(z.string().max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })),
     })
     .superRefine(({ time, dateRange }, ctx) => {
       if (time.label === '당일') {
-        if (!dateRange[0]) {
+        if (dateRange[0] === '') {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '번쩍 진행일을 입력해주세요.',
             path: ['dateRange', 0],
           });
+        } else if (!isValidDate(dateRange[0])) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '유효한 날짜가 아닙니다.',
+            path: ['dateRange', 0],
+          });
         }
       } else if (time.label === '예정 기간 (협의 후 결정)') {
-        if (!dateRange[0] || !dateRange[1]) {
+        if (dateRange.length !== 2 || dateRange.some(date => date === '')) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '번쩍 시작일과 종료일을 입력해주세요.',
             path: ['dateRange'],
           });
         }
+        dateRange.forEach((date, index) => {
+          if (!isValidDate(date)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '유효한 날짜가 아닙니다.',
+              path: ['dateRange', index],
+            });
+          }
+        });
       }
     }),
   placeInfo: z
