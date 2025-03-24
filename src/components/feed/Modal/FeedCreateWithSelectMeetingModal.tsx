@@ -103,8 +103,6 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
     ampli.completedFeedPosting({ user_id: Number(me?.orgId), platform_type: platform, feed_upload: formatDate() });
   }, 5000);
 
-  useEffect(() => {}, [formMethods, isModalOpened]);
-
   useEffect(() => {
     return () => {
       ampli.completedFeedPostingCanceled({ user_id: Number(me?.orgId), platform_type: platform });

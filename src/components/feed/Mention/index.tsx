@@ -48,10 +48,12 @@ const CommonMention = ({
   useEffect(() => {
     //컨테이너의 ID일 경우 (즉, 답글 달기에 매칭되는 댓글 or 대댓글인 경우)
     if (parentComment.parentCommentId === commentId) {
+      //고치기
       if (inputRef.current) {
         inputRef.current.focus();
       }
 
+      //고치기
       if (isReCommentClicked) {
         setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
       }
