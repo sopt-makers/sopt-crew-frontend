@@ -59,7 +59,7 @@ const SResultWrapper = styled(Flex, {
   padding: '20px 24px',
   backgroundColor: '$gray800',
   borderRadius: '10px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '12px 20px',
     marginRight: '-20px',
     marginLeft: '-20px',

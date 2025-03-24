@@ -220,7 +220,7 @@ const SListItem = styled('div', {
   height: '$80',
   mb: '$16',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     borderRadius: '8px',
     mb: '$10',
     padding: '$16',
@@ -231,7 +231,7 @@ const SListItem = styled('div', {
 const SDesktopListItem = styled(SListItem, {
   display: 'flex',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -239,7 +239,7 @@ const SDesktopListItem = styled(SListItem, {
 const SMobileCard = styled('div', {
   display: 'none',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'block',
   },
 });
@@ -268,7 +268,7 @@ const SProfileImage = styled('div', {
 });
 
 const SGuestProfileImage = styled(SProfileImage, {
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '$24',
     height: '$24',
     margin: 0,
@@ -304,7 +304,7 @@ const SUserInformation = styled('div', {
 const SProfile = styled('div', {
   flexType: 'verticalCenter',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     flex: 1,
   },
 });
@@ -320,7 +320,7 @@ const SVerticalLine = styled('div', {
   mr: '$30',
   backgroundColor: '$gray500',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -334,7 +334,7 @@ const SName = styled('button', {
   textAlign: 'center',
   minWidth: '$48',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_bold_100',
     minWidth: 'fit-content',
   },
@@ -358,7 +358,7 @@ const SDate = styled('div', {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '12_medium_100',
     color: '$gray400',
     justifyContent: 'space-between',
@@ -370,7 +370,7 @@ const STime = styled('div', {
   fontAg: '18_semibold_100',
   color: '$gray300',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     ml: '$4',
     fontAg: '12_medium_100',
     color: '$gray500',
@@ -518,7 +518,7 @@ const SEmptyText = styled('p', {
   textAlign: 'center',
   color: '$gray400',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '$100 0',
     fontAg: '14_medium_100',
   },

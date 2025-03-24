@@ -32,7 +32,7 @@ const SRecruitmentStatusList = styled('div', {
   overflowY: 'scroll',
   alignContent: 'flex-start',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: '$160',
     pl: '$20',
     pr: '$6',
@@ -65,7 +65,7 @@ const SRecruitmentStatusItem = styled('div', {
     mb: '$12',
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: 'calc(50% - 4px)',
     height: '$48',
     padding: '$11 $12',
@@ -87,7 +87,7 @@ const SRecruitmentStatusItem = styled('div', {
     objectFit: 'cover',
     background: '$gray600',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: '$26',
       height: '$26',
     },
@@ -97,7 +97,7 @@ const SRecruitmentStatusItem = styled('div', {
     width: '$32',
     height: '$32',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       width: '$26',
       height: '$26',
     },
@@ -110,7 +110,7 @@ const SRecruitmentStatusItem = styled('div', {
     textOverflow: 'ellipsis',
     maxWidth: '$154',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       maxWidth: '$61',
     },
   },
@@ -118,7 +118,7 @@ const SRecruitmentStatusItem = styled('div', {
   '&:nth-child(2n)': {
     ml: '$12',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       ml: '$8',
     },
   },
@@ -140,7 +140,7 @@ const SStatusText = styled('div', {
     },
   },
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     ml: '$9',
     fontSize: '$10',
   },

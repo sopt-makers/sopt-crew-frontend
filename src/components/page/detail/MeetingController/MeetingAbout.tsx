@@ -46,7 +46,7 @@ export default MeetingAbout;
 const SAbout = styled('div', {
   mr: '$90',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     mr: '$0',
   },
 
@@ -60,7 +60,7 @@ const SAbout = styled('div', {
       color: '$gray400',
       mr: '$8',
 
-      '@tablet': {
+      '@media (max-width: 768px)': {
         mr: '$4',
       },
     },
@@ -69,7 +69,7 @@ const SAbout = styled('div', {
     color: '$gray10',
     mb: '$20',
 
-    '@tablet': {
+    '@media (max-width: 768px)': {
       fontStyle: 'H3',
     },
   },
@@ -78,7 +78,7 @@ const SAbout = styled('div', {
 const SStatusWrapper = styled('div', {
   display: 'flex',
   gap: '$12',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gap: '$8',
   },
 });
@@ -87,7 +87,7 @@ const SPeriod = styled('div', {
   fontAg: '20_bold_100',
   color: '$gray300',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'T6',
   },
 });
@@ -95,7 +95,7 @@ const SPeriod = styled('div', {
 const SHostWrapper = styled('div', {
   position: 'relative',
   gap: '16px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     gap: '6px',
   },
 });

@@ -152,7 +152,7 @@ const Container = styled('div', {
   border: '1px solid $gray700',
   background: '$gray950',
   mb: '$80',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100%',
     border: 'none',
     mb: '$0',
@@ -163,7 +163,7 @@ const ContentWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     gap: '16px',
     padding: '0 0 20px 0',
   },
@@ -193,7 +193,7 @@ const AuthorName = styled('span', {
   fontWeight: '600',
   fontSize: '16px',
   lineHeight: '22px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontSize: '14px',
     lineHeight: '18px',
   },
@@ -203,7 +203,7 @@ const UpdatedDate = styled('span', {
   fontWeight: '600',
   fontSize: '14px',
   lineHeight: '18px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontSize: '12px',
     lineHeight: '16px',
   },
@@ -225,7 +225,7 @@ const GroupButton = styled('a', {
   '&:hover': {
     outline: '1px solid $gray500',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: 'fit-content',
     padding: '$14 $12 $14 $14',
   },
@@ -235,7 +235,7 @@ const GroupThumbnail = styled('img', {
   height: '100%',
   objectFit: 'cover',
   borderRadius: '8px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
@@ -251,14 +251,14 @@ const GroupInformation = styled('div', {
     fontWeight: '600',
     fontSize: '16px',
     lineHeight: '22px',
-    '@tablet': {
+    '@media (max-width: 768px)': {
       fontSize: '14px',
       lineHeight: '18px',
     },
   },
   'span + span': {
     marginLeft: '$8',
-    '@tablet': {
+    '@media (max-width: 768px)': {
       marginLeft: '$6',
     },
   },
@@ -283,14 +283,14 @@ const GroupDescription = styled('p', {
   display: '-webkit-box',
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });
 const Title = styled('h2', {
   color: 'white',
   fontStyle: 'H2',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'H4',
   },
 });
@@ -300,13 +300,13 @@ const Contents = styled('p', {
   fontStyle: 'B2',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'B3',
   },
 });
 const ImageSection = styled('section', {
   margin: '24px 0',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     margin: '16px 0',
   },
 });
@@ -316,7 +316,7 @@ const BigImage = styled('img', {
   objectFit: 'cover',
   borderRadius: '10px',
   cursor: 'pointer',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: '219px',
   },
 });
@@ -324,7 +324,7 @@ const ImageListWrapper = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(5, 1fr)',
   gap: '8px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'flex',
     gap: '6px',
     overflowX: 'scroll',
@@ -341,7 +341,7 @@ const ImageListItem = styled('img', {
   objectFit: 'cover',
   borderRadius: '8px',
   cursor: 'pointer',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     height: '144px',
   },
 });
@@ -349,7 +349,7 @@ const ViewCount = styled('span', {
   alignSelf: 'flex-end',
   color: '$gray200',
   fontStyle: 'B4',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontStyle: 'C1',
   },
 });
@@ -388,7 +388,7 @@ const CommentLikeWrapper = styled('div', {
   flexType: 'center',
   borderTop: '1px solid $gray700',
   borderBottom: '1px solid $gray700',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',
   },
@@ -398,7 +398,7 @@ const CommentListWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '24px 0 32px 0',
     gap: '36px',
   },
@@ -406,7 +406,7 @@ const CommentListWrapper = styled('div', {
 const SAvatar = styled(Avatar, {
   width: '44px',
   height: '44px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '40px',
     height: '40px',
   },

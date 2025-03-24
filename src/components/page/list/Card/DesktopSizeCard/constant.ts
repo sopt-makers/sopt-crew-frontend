@@ -43,7 +43,7 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
   },
   {
     label: '활동 장소',
-    value: () => flashData.flashPlace,
+    value: () => flashData.flashPlace ?? '협의 후 결정',
   },
   {
     label: '모집 현황',

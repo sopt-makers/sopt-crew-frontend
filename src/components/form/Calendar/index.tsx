@@ -130,7 +130,7 @@ const SInputWrapper = styled('div', {
   justifyContent: 'space-between',
   cursor: 'pointer',
 
-  '@tablet': {
+  '@media (max-width: 768px)': {
     padding: '16px',
   },
 });
@@ -155,7 +155,7 @@ const SInput = styled('input', {
   caretColor: '$transparent',
   '&::placeholder': {
     color: '$gray500',
-    '@tablet': {
+    '@media (max-width: 768px)': {
       ...fontsObject.LABEL_5_11_SB,
     },
   },

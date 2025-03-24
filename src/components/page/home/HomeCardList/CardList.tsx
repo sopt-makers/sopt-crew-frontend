@@ -70,15 +70,12 @@ const SCardListWrapper = styled('section', {
   display: 'flex',
   flexDirection: 'column',
 
-  width: '894px',
+  width: '100%',
   paddingBottom: '$80',
 
-  '@laptop': {
-    width: '790px',
-    overflow: 'hidden',
-  },
+  overflow: 'hidden',
+
   '@tablet': {
-    width: '100%',
     paddingBottom: '$40',
   },
 });
@@ -98,7 +95,7 @@ const STitleStyle = styled('p', {
   fontStyle: 'H1',
   color: '$white',
 
-  '@tablet': {
+  '@mobile': {
     ...fontsObject.TITLE_6_16_SB,
   },
 });

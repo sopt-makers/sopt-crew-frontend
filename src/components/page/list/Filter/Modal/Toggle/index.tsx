@@ -39,7 +39,7 @@ const SLabel = styled('p', {
   color: '$gray10',
   fontAg: '18_bold_100',
   mb: '$20',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_bold_100',
     mb: '$16',
   },
@@ -49,7 +49,7 @@ const SSwitchWrapper = styled(Flex, {
   borderRadius: '14px',
   width: '163px',
   height: '46px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '124px',
     height: '36px',
     borderRadius: '10px',
@@ -60,7 +60,7 @@ const SToggleDetailWord = styled('div', {
   color: '$gray300',
   mt: '$1',
   mr: '$15',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '12_semibold_100',
     mr: '$8',
   },

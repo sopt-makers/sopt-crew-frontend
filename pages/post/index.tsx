@@ -5,18 +5,21 @@ import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import { useInfinitePosts, useMutationPostLike, useMutationUpdateLike, useQueryGetPost } from '@api/post/hooks';
+import {
+  useInfinitePosts,
+  useMutationDeletePost,
+  useMutationPostLike,
+  useMutationUpdateLike,
+  useQueryGetPost,
+} from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import { MentionContext } from '@components/feed/Mention/MentionContext';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
 import Loader from '@components/@common/loader/Loader';
-import ConfirmModal from '@components/modal/ConfirmModal';
 import FeedItem from '@components/page/detail/Feed/FeedItem';
 import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { TAKE_COUNT } from '@constants/feed';
@@ -31,19 +34,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from 'stitches.config';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
 import { AxiosError } from 'axios';
+import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
-  const { open } = useToast();
+  const { open, close } = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
-  const { POST, DELETE } = apiV2.get();
+  const { POST } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
@@ -98,11 +99,27 @@ export default function PostPage() {
   };
 
   const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
+  const { mutate: mutateDeletePost } = useMutationDeletePost();
 
-  const { mutate: mutateDeletePost } = useMutation({
-    mutationFn: () => DELETE('/post/v2/{postId}', { params: { path: { postId: post!.id } } }),
-    onSuccess: () => router.replace(`/detail?id=${post?.meeting.id}`),
-  });
+  const handleDeleteSubPost = (postId: number) => {
+    mutateDeletePost(postId, {
+      onSuccess: () => {
+        overlay.close();
+        open({
+          icon: 'success',
+          content: '게시글을 삭제했습니다',
+        });
+      },
+      onError: error => {
+        const axiosError = error as AxiosError<{ errorCode: string }>;
+        overlay.close();
+        open({
+          icon: 'error',
+          content: axiosError?.response?.data?.errorCode as string,
+        });
+      },
+    });
+  };
 
   const { mutateAsync: mutateReportPost } = useMutation({
     mutationFn: (postId: number) =>
@@ -110,6 +127,7 @@ export default function PostPage() {
         paths['/post/v2/{postId}/report']['post']['responses']['201']['content']['application/json;charset=UTF-8']
       >(`/post/v2/${postId}/report`, {}),
   });
+
   const handleConfirmReportPost =
     ({ postId, callback }: { postId: number; callback: () => void }) =>
     async () => {
@@ -119,14 +137,14 @@ export default function PostPage() {
           icon: 'success',
           content: '게시글을 신고했습니다',
         });
-        callback();
+        overlay.close();
       } catch (error) {
         const axiosError = error as AxiosError<{ errorCode: string }>;
         open({
           icon: 'error',
           content: axiosError?.response?.data?.errorCode as string,
         });
-        callback();
+        overlay.close();
         return;
       }
     };
@@ -139,8 +157,6 @@ export default function PostPage() {
     ): comment is paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number] =>
       !!comment
   );
-
-  console.log({ comments });
 
   const handleClickComment = () => {
     const refCurrent = commentRef.current;
@@ -186,60 +202,16 @@ export default function PostPage() {
     <Container>
       <FeedPostViewer
         post={post}
-        // TODO: Actions 합성하는 부분 추상화 한번 더 하자. 너무 verbose 하다.
-        Actions={
-          isMine
-            ? [
-                <FeedActionButton
-                  onClick={() =>
-                    overlay.open(({ isOpen, close }) => (
-                      <FeedEditModal isModalOpened={isOpen} postId={String(post.id)} handleModalClose={close} />
-                    ))
-                  }
-                >
-                  <ReWriteIcon />
-                  수정
-                </FeedActionButton>,
-                <FeedActionButton
-                  onClick={() => {
-                    overlay.open(({ isOpen, close }) => (
-                      // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 삭제하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="삭제하기"
-                        handleModalClose={close}
-                        handleConfirm={mutateDeletePost}
-                      />
-                    ));
-                  }}
-                >
-                  <TrashIcon />
-                  삭제
-                </FeedActionButton>,
-              ]
-            : [
-                <FeedActionButton
-                  onClick={() => {
-                    overlay.open(({ isOpen, close }) => (
-                      // eslint-disable-next-line prettier/prettier
-                      <ConfirmModal
-                        isModalOpened={isOpen}
-                        message="게시글을 신고하시겠습니까?"
-                        cancelButton="돌아가기"
-                        confirmButton="신고하기"
-                        handleModalClose={close}
-                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                      />
-                    ));
-                  }}
-                >
-                  <AlertIcon />
-                  신고
-                </FeedActionButton>,
-              ]
-        }
+        Actions={FeedActionsContainer({
+          postId: post.id,
+          isMine: isMine,
+          handleDelete: () => {
+            mutateDeletePost(post.id);
+            router.replace(`/detail?id=${post.meeting.id}`);
+          },
+          handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+          overlay: overlay,
+        })}
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
@@ -295,6 +267,7 @@ export default function PostPage() {
             <FeedList>
               {postsInMeeting?.map(post => {
                 if (!post) return;
+                const isMyFeed = post.user.id === me?.id;
                 return (
                   <>
                     {post.isBlockedPost ? (
@@ -315,63 +288,13 @@ export default function PostPage() {
                               onClickLike={handleClickLike(post.id)(mutateLike)}
                             />
                           }
-                          Actions={
-                            isMine
-                              ? [
-                                  <FeedActionButton
-                                    onClick={() =>
-                                      overlay.open(({ isOpen, close }) => (
-                                        <FeedEditModal
-                                          isModalOpened={isOpen}
-                                          postId={String(post.id)}
-                                          handleModalClose={close}
-                                        />
-                                      ))
-                                    }
-                                  >
-                                    <ReWriteIcon />
-                                    수정
-                                  </FeedActionButton>,
-                                  <FeedActionButton
-                                    onClick={() => {
-                                      overlay.open(({ isOpen, close }) => (
-                                        // eslint-disable-next-line prettier/prettier
-                                        <ConfirmModal
-                                          isModalOpened={isOpen}
-                                          message="게시글을 삭제하시겠습니까?"
-                                          cancelButton="돌아가기"
-                                          confirmButton="삭제하기"
-                                          handleModalClose={close}
-                                          handleConfirm={mutateDeletePost}
-                                        />
-                                      ));
-                                    }}
-                                  >
-                                    <TrashIcon />
-                                    삭제
-                                  </FeedActionButton>,
-                                ]
-                              : [
-                                  <FeedActionButton
-                                    onClick={() => {
-                                      overlay.open(({ isOpen, close }) => (
-                                        // eslint-disable-next-line prettier/prettier
-                                        <ConfirmModal
-                                          isModalOpened={isOpen}
-                                          message="게시글을 신고하시겠습니까?"
-                                          cancelButton="돌아가기"
-                                          confirmButton="신고하기"
-                                          handleModalClose={close}
-                                          handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                                        />
-                                      ));
-                                    }}
-                                  >
-                                    <AlertIcon />
-                                    신고
-                                  </FeedActionButton>,
-                                ]
-                          }
+                          Actions={FeedActionsContainer({
+                            postId: post.id,
+                            isMine: isMyFeed,
+                            handleDelete: () => handleDeleteSubPost(post.id),
+                            handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+                            overlay: overlay,
+                          })}
                         />
                       </Link>
                     )}
@@ -386,6 +309,7 @@ export default function PostPage() {
           <FeedList>
             {allMeetingPosts?.map(post => {
               if (!post) return;
+              const isMyFeed = post.user.id === me?.id;
               return (
                 <>
                   {post.isBlockedPost ? (
@@ -407,63 +331,13 @@ export default function PostPage() {
                             onClickLike={handleClickLike(post.id)(mutateLikeInAllPost)}
                           />
                         }
-                        Actions={
-                          isMine
-                            ? [
-                                <FeedActionButton
-                                  onClick={() =>
-                                    overlay.open(({ isOpen, close }) => (
-                                      <FeedEditModal
-                                        isModalOpened={isOpen}
-                                        postId={String(post.id)}
-                                        handleModalClose={close}
-                                      />
-                                    ))
-                                  }
-                                >
-                                  <ReWriteIcon />
-                                  수정
-                                </FeedActionButton>,
-                                <FeedActionButton
-                                  onClick={() => {
-                                    overlay.open(({ isOpen, close }) => (
-                                      // eslint-disable-next-line prettier/prettier
-                                      <ConfirmModal
-                                        isModalOpened={isOpen}
-                                        message="게시글을 삭제하시겠습니까?"
-                                        cancelButton="돌아가기"
-                                        confirmButton="삭제하기"
-                                        handleModalClose={close}
-                                        handleConfirm={mutateDeletePost}
-                                      />
-                                    ));
-                                  }}
-                                >
-                                  <TrashIcon />
-                                  삭제
-                                </FeedActionButton>,
-                              ]
-                            : [
-                                <FeedActionButton
-                                  onClick={() => {
-                                    overlay.open(({ isOpen, close }) => (
-                                      // eslint-disable-next-line prettier/prettier
-                                      <ConfirmModal
-                                        isModalOpened={isOpen}
-                                        message="게시글을 신고하시겠습니까?"
-                                        cancelButton="돌아가기"
-                                        confirmButton="신고하기"
-                                        handleModalClose={close}
-                                        handleConfirm={handleConfirmReportPost({ postId: post.id, callback: close })}
-                                      />
-                                    ));
-                                  }}
-                                >
-                                  <AlertIcon />
-                                  신고
-                                </FeedActionButton>,
-                              ]
-                        }
+                        Actions={FeedActionsContainer({
+                          postId: post.id,
+                          isMine: isMyFeed,
+                          handleDelete: () => handleDeleteSubPost(post.id),
+                          handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+                          overlay: overlay,
+                        })}
                       />
                     </Link>
                   )}
@@ -497,7 +371,7 @@ const FeedListContainer = styled('div', {
     alignItems: 'flex-start',
     gap: '20px',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

@@ -11,6 +11,7 @@ import GridLayout from '@components/page/list/Grid/Layout';
 import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
 import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
 import CrewTab from '@components/CrewTab';
+import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 const enum MeetingType {
   APPLIED,
@@ -22,18 +23,6 @@ const MinePage: NextPage = () => {
     'meetingType',
     MeetingType.APPLIED
   );
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-
-    window.Kakao?.Channel.createChatButton({
-      container: '#chat-channel-button',
-      channelPublicId: '_sxaIWG',
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-  }, []);
 
   return (
     <div>
@@ -88,16 +77,10 @@ const MinePage: NextPage = () => {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-      <div
-        id="chat-channel-button"
-        data-channel-public-id="_sxaIWG"
-        data-title="question"
-        data-size="small"
-        data-color="mono"
-        data-shape="pc"
-        data-support-multiple-densities="true"
-        style={{ position: 'fixed', bottom: '2%', right: '5%' }}
-      />
+
+      <div style={{ position: 'fixed', bottom: '2%', right: '5%' }}>
+        <KakaoFloatingButton />
+      </div>
     </div>
   );
 };
@@ -108,7 +91,7 @@ const STabList = styled(Tab.List, {
   flexType: 'center',
   marginTop: '126px',
   paddingBottom: '64px',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     marginTop: '48px',
     paddingBottom: '24px',
   },
@@ -128,7 +111,7 @@ const STab = styled('button', {
       false: { color: '$gray500' },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_bold_100',
     py: '$12',
   },

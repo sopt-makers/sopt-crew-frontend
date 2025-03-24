@@ -56,7 +56,7 @@ const SStatus = styled('div', {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '10_bold_100',
     top: '8px',
     left: '8px',
@@ -66,7 +66,7 @@ const SStatus = styled('div', {
 
 const STitleSection = styled('div', {
   my: '$16',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     my: '$8',
   },
 });
@@ -75,7 +75,7 @@ const STitle = styled('p', {
   maxWidth: '380px',
   fontStyle: 'H2',
   mt: '$8',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_semibold_140',
     maxWidth: '162px',
     minHeight: '40px',

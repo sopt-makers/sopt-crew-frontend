@@ -12,7 +12,7 @@ export default function DotWrapper(dots: React.ReactNode) {
 const SDotWrapper = styled(Flex, {
   marginTop: '20px',
   gap: '4px',
-  '@mobile': {
+  '@media (max-width: 414px)': {
     display: 'none',
   },
 });

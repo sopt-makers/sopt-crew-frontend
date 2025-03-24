@@ -19,12 +19,12 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 });
 
 interface EditModal extends ModalContainerProps {
-  postId: string;
+  postId: number;
 }
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const queryClient = useQueryClient();
-  const { data: postData } = useQueryGetPost(postId);
+  const { data: postData } = useQueryGetPost(String(postId));
   const exitModal = useModal();
   const submitModal = useModal();
   const { data: me } = useQueryMyProfile();
@@ -134,7 +134,7 @@ const SDialogWrapper = styled('div', {
   '&::-webkit-scrollbar': {
     display: 'none',
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '100%',
     height: '100%',
     boxShadow: 'none',

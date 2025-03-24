@@ -27,7 +27,7 @@ function InitializationButton({ css, withText = true, size = 16 }: Initializatio
       as="button"
       css={mergeCss(
         {
-          '@tablet': {
+          '@media (max-width: 768px)': {
             alignSelf: 'start',
             marginTop: '16px',
           },
@@ -49,7 +49,7 @@ const InitializationText = styled('span', {
   color: '$gray10',
   ml: '$6',
   whiteSpace: 'nowrap',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     display: 'none',
   },
 });

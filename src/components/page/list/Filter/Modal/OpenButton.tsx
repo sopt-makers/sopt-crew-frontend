@@ -74,7 +74,7 @@ const SSelectModalOpenButton = styled('div', {
       },
     },
   },
-  '@tablet': {
+  '@media (max-width: 768px)': {
     width: '112px',
     py: '$14',
     paddingRight: '$12',
@@ -85,7 +85,7 @@ const SSelectModalOpenButton = styled('div', {
 const SLabel = styled('span', {
   fontAg: '18_medium_100',
   color: '$gray10',
-  '@tablet': {
+  '@media (max-width: 768px)': {
     fontAg: '14_medium_100',
   },
 });

@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
 import { styled } from 'stitches.config';
 import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { ampli } from '@/ampli';
 import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
+import DesktopSizeFlashCard from '@components/page/list/Card/DesktopSizeCard/DesktopSizeFlashCard';
 
 interface CardProps {
   bottom?: ReactNode;
@@ -16,10 +16,11 @@ interface CardProps {
 
 function Card({ bottom, meetingData, mobileType }: CardProps) {
   const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
+  const isFlash = meetingData.category === '번쩍';
 
   return (
     <CardWrapper
-      css={{ '@tablet': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
+      css={{ '@mobile': { width: mobileType === 'list' ? '100%' : 'fit-content' } }}
       onClick={() => {
         ampli.clickGroupCard({
           group_id: meetingData.id,
@@ -32,9 +33,9 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
         });
       }}
     >
-      <Link href={`/detail?id=${meetingData.id}`}>
+      <Link href={isFlash ? `/detail/flash?id=${meetingData.id}` : `/detail?id=${meetingData.id}`}>
         <DesktopOnly>
-          <DesktopSizeCard meetingData={meetingData} />
+          {isFlash ? <DesktopSizeFlashCard meetingData={meetingData} /> : <DesktopSizeCard meetingData={meetingData} />}
         </DesktopOnly>
         <MobileOnly>
           <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
@@ -49,13 +50,13 @@ export default Card;
 
 const CardWrapper = styled('li', {});
 const DesktopOnly = styled('div', {
-  '@tablet': {
+  '@mobile': {
     display: 'none',
   },
 });
 const MobileOnly = styled('div', {
   display: 'none',
-  '@tablet': {
+  '@mobile': {
     display: 'flex',
     width: '100%',
   },
