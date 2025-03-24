@@ -11,14 +11,7 @@ const DesktopSizeFlashCard = ({ meetingData }: DesktopSizeFlashCardProps) => {
 
   const detailInfo = flashData ? FlashInformation(flashData) : undefined;
 
-  return (
-    <DesktopSizeCard
-      meetingData={meetingData}
-      isFlash
-      welcomeMessageTypes={flashData?.welcomeMessageTypes}
-      flashDetailInfo={detailInfo}
-    />
-  );
+  return <DesktopSizeCard meetingData={meetingData} />;
 };
 
 export default DesktopSizeFlashCard;
