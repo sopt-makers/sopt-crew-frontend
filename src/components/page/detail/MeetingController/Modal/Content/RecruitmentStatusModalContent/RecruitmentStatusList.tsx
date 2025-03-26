@@ -9,35 +9,32 @@ interface RecruitmentStatusProps {
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
   return (
-    <SRecruitmentStatusList>
-      {recruitmentStatusList.map(({ status, applyNumber, user: { id, name, profileImage } }) => (
-        <SRecruitmentStatusItem key={id}>
-          <div>
-            <AppliedNumberText>{applyNumber}</AppliedNumberText>
-            {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
-            <span>{name}</span>
-          </div>
-          <SStatusText isApproved={status === EApprovalStatus.APPROVE}>{APPROVAL_STATUS[status]}</SStatusText>
-        </SRecruitmentStatusItem>
-      ))}
-    </SRecruitmentStatusList>
+    <SRecruitmentStatusListWrapper>
+      <SRecruitmentStatusList>
+        {recruitmentStatusList.map(({ status, applyNumber, user: { id, name, profileImage } }) => (
+          <SRecruitmentStatusItem key={id}>
+            <div>
+              <AppliedNumberText>{applyNumber}</AppliedNumberText>
+              {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
+              <span>{name}</span>
+            </div>
+            <SStatusText isApproved={status === EApprovalStatus.APPROVE}>{APPROVAL_STATUS[status]}</SStatusText>
+          </SRecruitmentStatusItem>
+        ))}
+      </SRecruitmentStatusList>
+    </SRecruitmentStatusListWrapper>
   );
 };
 
 export default RecruitmentStatusList;
 
-const SRecruitmentStatusList = styled('div', {
-  display: 'flex',
-  flexWrap: 'wrap',
+const SRecruitmentStatusListWrapper = styled('div', {
   height: '$219',
+
   overflowY: 'scroll',
-  alignContent: 'flex-start',
 
   '@media (max-width: 768px)': {
     height: '$160',
-    pl: '$20',
-    pr: '$6',
-    mr: '$8',
   },
 
   '&::-webkit-scrollbar': {
@@ -51,30 +48,42 @@ const SRecruitmentStatusList = styled('div', {
   },
 });
 
+const SRecruitmentStatusList = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
+  gap: '$12',
+
+  padding: '0 $24',
+
+  '@media (max-width: 768px)': {
+    gap: '$8',
+
+    padding: '0 $20',
+  },
+
+  '@mobile': {
+    gridTemplateColumns: '1fr',
+  },
+});
+
 const SRecruitmentStatusItem = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
-  width: 'calc(50% - 11px)',
+
+  width: '100%',
   height: '$64',
   padding: '$16 $20',
+
   borderRadius: '12px',
   backgroundColor: '$gray700',
   color: '$gray10',
+
   fontAg: '16_semibold_100',
 
-  '&:not(:nth-last-child(-n + 2))': {
-    mb: '$12',
-  },
-
   '@media (max-width: 768px)': {
-    width: 'calc(50% - 4px)',
     height: '$48',
     padding: '$11 $12',
     fontAg: '14_medium_100',
-
-    '&:not(:nth-last-child(-n + 2))': {
-      mb: '$8',
-    },
   },
 
   div: {
@@ -113,14 +122,6 @@ const SRecruitmentStatusItem = styled('div', {
 
     '@media (max-width: 768px)': {
       maxWidth: '$61',
-    },
-  },
-
-  '&:nth-child(2n)': {
-    ml: '$12',
-
-    '@media (max-width: 768px)': {
-      ml: '$8',
     },
   },
 });
