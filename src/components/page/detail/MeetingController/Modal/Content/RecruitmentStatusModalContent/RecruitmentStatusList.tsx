@@ -10,9 +10,10 @@ interface RecruitmentStatusProps {
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
   return (
     <SRecruitmentStatusList>
-      {recruitmentStatusList.map(({ status, user: { id, name, profileImage } }) => (
+      {recruitmentStatusList.map(({ status, applyNumber, user: { id, name, profileImage } }) => (
         <SRecruitmentStatusItem key={id}>
           <div>
+            <AppliedNumberText>{applyNumber}</AppliedNumberText>
             {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
             <span>{name}</span>
           </div>
@@ -122,6 +123,15 @@ const SRecruitmentStatusItem = styled('div', {
       ml: '$8',
     },
   },
+});
+
+const AppliedNumberText = styled('p', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  width: '$30',
+  mr: '$10',
 });
 
 const SStatusText = styled('div', {

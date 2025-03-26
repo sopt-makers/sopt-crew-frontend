@@ -186,6 +186,13 @@ export interface paths {
      */
     get: operations["getMeetings_1"];
   };
+  "/internal/meeting/stats/studies": {
+    /**
+     * [Internal] 특정 기수의 총 스터디 개수 반환
+     * @description 특정 기수의 총 스터디 개수를 반환합니다.
+     */
+    get: operations["getMeetingCountByGeneration"];
+  };
   "/internal/meeting/stats/fastest-applied/{orgId}": {
     /**
      * [Internal] 특정 유저가 가장 빠르게 신청한 모임 N개 조회
@@ -1262,6 +1269,8 @@ export interface components {
       isOnlyActiveGeneration: boolean;
       joinableParts?: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
       query?: string;
+      /** @enum {string} */
+      paginationType?: "ADVERTISEMENT" | "DEFAULT";
     };
     /** @description 모임 Dto */
     MeetingResponseDto: {
@@ -1400,6 +1409,12 @@ export interface components {
        * @example 3
        */
       id: number;
+      /**
+       * Format: int32
+       * @description 신청 번호
+       * @example 1
+       */
+      applyNumber: number;
       /**
        * Format: int32
        * @description 신청 타입
@@ -1658,14 +1673,20 @@ export interface components {
        */
       phone?: string;
     };
-    /** @description 모임 신청 객체 Dto */
-    ApplyInfoDto: {
+    /** @description 모임 신청 객체 Dto 상세 -> 신청 번호 추가 */
+    ApplyInfoDetailDto: {
       /**
        * Format: int32
        * @description 신청 id
        * @example 1
        */
       id: number;
+      /**
+       * Format: int32
+       * @description 신청 번호
+       * @example 1
+       */
+      applyNumber: number;
       /**
        * @description 전하는 말
        * @example 저 뽑아주세요.
@@ -1687,7 +1708,7 @@ export interface components {
     /** @description 모임 신청 목록 응답 Dto */
     MeetingGetApplyListResponseDto: {
       /** @description 신청 목록 */
-      apply: components["schemas"]["ApplyInfoDto"][];
+      apply: components["schemas"]["ApplyInfoDetailDto"][];
       meta: components["schemas"]["PageMetaDto"];
     };
     /** @description csv url Dto */
@@ -2644,6 +2665,11 @@ export interface operations {
          * @example 고수스터디 검색
          */
         query?: string;
+        /**
+         * @description 페이지네이션 타입
+         * @example ADVERTISEMENT
+         */
+        paginationType?: string;
       };
     };
     responses: {
@@ -3096,6 +3122,31 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["InternalMeetingGetAllMeetingDto"];
+        };
+      };
+    };
+  };
+  /**
+   * [Internal] 특정 기수의 총 스터디 개수 반환
+   * @description 특정 기수의 총 스터디 개수를 반환합니다.
+   */
+  getMeetingCountByGeneration: {
+    parameters: {
+      query: {
+        generation: number;
+      };
+    };
+    responses: {
+      /** @description 특정 기수의 총 스터디 개수 조회 성공 */
+      200: {
+        content: {
+          "application/json": string;
+        };
+      };
+      /** @description 올바르지 않은 요청입니다. */
+      400: {
+        content: {
+          "application/json": unknown;
         };
       };
     };
