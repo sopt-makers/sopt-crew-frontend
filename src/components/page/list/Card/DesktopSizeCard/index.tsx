@@ -25,7 +25,7 @@ function DesktopSizeCard({ meetingData }: CardProps) {
         <RecruitmentStatusTag status={detailData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${detailData.imageURL[0]?.url})`,
+            backgroundImage: `url(${getResizedImage(meetingData.imageURL[0]?.url ?? '', 380)})`,
           }}
         />
       </ImageWrapper>
