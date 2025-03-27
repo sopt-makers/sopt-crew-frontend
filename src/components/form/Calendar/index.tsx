@@ -36,7 +36,6 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
   const handleDateChange = (date: Date) => {
     const newDate = formatCalendarDate(date);
-    let newSelectedDate: string[] = [startDate, endDate];
 
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
@@ -44,34 +43,27 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       return;
     }
 
-    if (!startDate && !endDate) {
-      // 첫 번째 날짜 선택
-      newSelectedDate = [newDate, ''];
-    } else if (startDate && !endDate) {
-      // startDate 만 선택된 상태,  새로운 날짜 선택
-      // 새로운 날짜가 startDate 보다 전이면 startDate 변경
-      newSelectedDate = newDate < startDate ? [newDate, ''] : [startDate, newDate];
-    } else if (!startDate && endDate) {
-      // end 만 선택된 상태,  새로운 날짜 선택
-      // 새로운 날짜가 end보다 이후면 end 변경
-      newSelectedDate = newDate > endDate ? ['', newDate] : [newDate, endDate];
-    } else if (startDate && endDate) {
-      // start 와 end 모두 선택된 상태,  새로운 날짜 선택
-      if (newDate < startDate) {
-        // start보다 이전 날짜 클릭 → start 변경
-        newSelectedDate = [newDate, endDate];
-      } else if (newDate > endDate) {
-        // end보다 이후 날짜 클릭 → end 변경
-        newSelectedDate = [startDate, newDate];
-      } else if (newDate > startDate && newDate < endDate) {
-        // start와 end 사이의 날짜 선택
-        newSelectedDate = dateType === 'startDate' ? [newDate, endDate] : [startDate, newDate];
-      } else {
-        newSelectedDate = dateType === 'startDate' ? [newDate, endDate] : [startDate, newDate];
-      }
+    // 이미 두 날짜가 선택된 상태면 초기화하고 새로 선택한 날짜를 첫 번째 날짜로 설정
+    if (startDate && endDate) {
+      setSelectedDate([newDate, '']);
+      setInputValue(newDate);
+      return;
     }
-    setSelectedDate(newSelectedDate);
-    setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
+
+    // 첫 번째 날짜 선택
+    if (!startDate && !endDate) {
+      setSelectedDate([newDate, '']);
+      setInputValue(newDate);
+      return;
+    }
+
+    // 두 번째 날짜 선택
+    if (startDate && !endDate) {
+      // 두 번째 날짜가 첫 번째 날짜보다 빠르면 순서를 바꿔서 저장
+      const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
+      setSelectedDate(newSelectedDate);
+      setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
+    }
   };
 
   const containerRef = useRef<HTMLDivElement | null>(null);
