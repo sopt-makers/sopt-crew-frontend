@@ -3,7 +3,6 @@ import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg?rect';
 import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
 import Link from 'next/link';
-import { getResizedImage } from '@utils/image';
 
 type DesktopCardProps = {
   id: number;
@@ -32,7 +31,7 @@ const DesktopCard = ({
   return (
     <Link href={`/detail?id=${id}`}>
       <SCardWrapper>
-        <SThumbnailImage src={getResizedImage(imageURL ?? '', 180)} />
+        <SThumbnailImage src={imageURL} />
         <SMetaWrapper style={{ paddingTop: '16px' }}>
           <Avatar src={ownerImage} alt={`${title} 모임장 프로필`} sx={{ width: '18px', height: '18px' }} />
           <SMetaStyle>
