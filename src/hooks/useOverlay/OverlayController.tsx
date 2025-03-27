@@ -30,6 +30,7 @@ export const OverlayController = forwardRef(function OverlayController(
   );
 
   useEffect(() => {
+    //좀 어려울 것 같지만 고치기
     requestAnimationFrame(() => {
       setIsOpen(true);
     });

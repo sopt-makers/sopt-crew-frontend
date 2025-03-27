@@ -44,6 +44,7 @@ function Pagination({ totalPagesLength = 1, currentPageIndex = 1, changeCurrentP
   };
 
   useEffect(() => {
+    //고치기
     setPagesIndex(Math.floor((currentPageIndex - 1) / BUNDLE_SIZE));
   }, [currentPageIndex]);
 

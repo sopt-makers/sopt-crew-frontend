@@ -62,6 +62,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
     await mutateEditFeed(formMethods.getValues());
   };
 
+  //고치기
   useEffect(() => {
     if (!postData) return;
     formMethods.reset({

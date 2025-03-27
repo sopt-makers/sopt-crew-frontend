@@ -11,6 +11,7 @@ interface FormControllerProps {
 function FormController({ name, render, defaultValue }: FormControllerProps) {
   const { control, formState, setValue } = useFormContext();
 
+  //고치기
   useEffect(() => {
     if (defaultValue === false) {
       setValue(name, false);
