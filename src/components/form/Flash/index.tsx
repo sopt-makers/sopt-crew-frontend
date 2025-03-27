@@ -216,7 +216,6 @@ function Presentation({
                           dateRange?: FieldError[];
                         })
                       | undefined;
-                    console.log(dateError);
 
                     return (
                       <>
@@ -256,7 +255,7 @@ function Presentation({
                           setTimeState(newTimeState);
                           onChange(newValue);
                           if (!isChecked) {
-                            setValue('timeInfo.dateRange', [dateRange[0], '']);
+                            setValue('timeInfo.dateRange', [isChecked ? dateRange : dateRange[0], '']);
                           }
                         }}
                       />

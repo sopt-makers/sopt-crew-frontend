@@ -16,6 +16,7 @@ import { formatCalendarDate } from '@utils/dayjs';
  * CalendarInputForm
  * @param selectedDate 선택된 날짜
  * @param setSelectedDate 선택된 날짜 변경 함수
+ * @param selectedDateFieldName 선택된 날짜 필드 이름
  * @param error 에러 메시지
  * @param dateType 캘린더 타입, startDate(시작일 캘린더), endDate(마감일 캘린더), singleSelect(단일선택 캘린더)
  */
@@ -34,46 +35,36 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
   const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
 
-  const handleDateChange = (date: Date) => {
-    const newDate = formatCalendarDate(date);
-
+  const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
       setInputValue(newDate);
       return;
     }
 
-    // 이미 두 날짜가 선택된 상태면 초기화하고 새로 선택한 날짜를 첫 번째 날짜로 설정
     if (startDate && endDate) {
       setSelectedDate([newDate, '']);
       setInputValue(newDate);
       return;
     }
 
-    // 첫 번째 날짜 선택
     if (!startDate && !endDate) {
       setSelectedDate([newDate, '']);
       setInputValue(newDate);
       return;
     }
 
-    // 두 번째 날짜 선택
     if (startDate && !endDate) {
-      // 두 번째 날짜가 첫 번째 날짜보다 빠르면 순서를 바꿔서 저장
       const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
       setSelectedDate(newSelectedDate);
       setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
     }
   };
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const { isDesktop, isMobile, isTablet } = useDisplay();
-
-  const handleOutsideClick = useCallback((event: MouseEvent) => {
-    if (!containerRef.current || !containerRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  }, []);
+  const handleDateChange = (date: Date) => {
+    const newDate = formatCalendarDate(date);
+    handleDateSelection(newDate);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, '');
@@ -86,15 +77,18 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     setInputValue(formattedValue);
 
     if (rawValue.length === 8) {
-      if (dateType === 'endDate') {
-        setSelectedDate([startDate, formattedValue]);
-        setValue(selectedDateFieldName, [startDate, formattedValue]);
-      } else {
-        setSelectedDate([formattedValue, endDate]);
-        setValue(selectedDateFieldName, [formattedValue, endDate]);
-      }
+      handleDateSelection(formattedValue);
     }
   };
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { isDesktop, isMobile, isTablet } = useDisplay();
+
+  const handleOutsideClick = useCallback((event: MouseEvent) => {
+    if (!containerRef.current || !containerRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedDate) {
