@@ -15,7 +15,7 @@ function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobile
           <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '8px', left: '8px' }} />
           <SThumbnailImage
             css={{
-              backgroundImage: `url(${getResizedImage(meetingData.imageURL[0]?.url ?? '', 120)})`,
+              backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
             }}
           />
         </ImageWrapper>

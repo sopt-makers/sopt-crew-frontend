@@ -1,7 +1,6 @@
 import { RECRUITMENT_STATUS } from '@constants/option';
 import { styled } from 'stitches.config';
 import { MobileSizeCardProps } from '.';
-import { getResizedImage } from '@utils/image';
 
 function CardType({ meetingData }: Pick<MobileSizeCardProps, 'meetingData'>) {
   return (
@@ -10,7 +9,7 @@ function CardType({ meetingData }: Pick<MobileSizeCardProps, 'meetingData'>) {
         <SStatus recruitingStatus={meetingData.status}>{RECRUITMENT_STATUS[meetingData.status]}</SStatus>
         <SThumbnailImage
           css={{
-            backgroundImage: `url(${getResizedImage(meetingData.imageURL[0]?.url ?? '', 162)})`,
+            backgroundImage: `url(${meetingData.imageURL[0]?.url})`,
             backgroundSize: 'cover',
           }}
         />
