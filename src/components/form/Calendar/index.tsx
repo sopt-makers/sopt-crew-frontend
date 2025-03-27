@@ -32,7 +32,7 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getValues, setValue } = useFormContext();
+  const { getValues } = useFormContext();
   const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
   const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
 
@@ -91,7 +91,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     if (selectedDate) {
       setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
     }
-  }, [selectedDate]);
+  }, [selectedDate, dateType]);
 
   useEffect(() => {
     if (isDesktop && !isMobile && !isTablet) {
