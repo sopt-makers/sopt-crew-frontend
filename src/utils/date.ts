@@ -4,6 +4,10 @@
  * @param rawValue
  */
 
+export const MAX_DATE_INPUT_LENGTH = 8;
+
+export const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
+
 export const formatDateInput = (rawValue: string): string => {
   let formattedValue = '';
 

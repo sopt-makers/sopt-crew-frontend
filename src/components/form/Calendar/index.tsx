@@ -11,7 +11,7 @@ import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 import { useFormContext } from 'react-hook-form';
 import { formatCalendarDate } from '@utils/dayjs';
-import { formatDateInput } from '@utils/date';
+import { formatDateInput, MAX_DATE_INPUT_LENGTH, WEEKDAYS } from '@utils/date';
 
 /**
  * CalendarInputForm
@@ -73,7 +73,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
     setInputValue(formattedValue);
 
-    if (rawValue.length === 8) {
+    if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
       handleDateSelection(formattedValue);
     }
   };
@@ -113,7 +113,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         selectRange={dateType !== 'singleSelect'}
         onClickDay={handleDateChange}
         formatDay={(locale, date) => dayjs(date).format('D')}
-        formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
+        formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}
         showNeighboringMonth={false}
         next2Label={null}
         prev2Label={null}
