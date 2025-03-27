@@ -11,6 +11,7 @@ import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
 import { useFormContext } from 'react-hook-form';
 import { formatCalendarDate } from '@utils/dayjs';
+import { formatDateInput } from '@utils/date';
 
 /**
  * CalendarInputForm
@@ -68,11 +69,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, '');
-    let formattedValue = '';
-
-    if (rawValue.length > 0) formattedValue += rawValue.substring(0, 4);
-    if (rawValue.length > 4) formattedValue += '.' + rawValue.substring(4, 6);
-    if (rawValue.length > 6) formattedValue += '.' + rawValue.substring(6, 8);
+    const formattedValue = formatDateInput(rawValue);
 
     setInputValue(formattedValue);
 
