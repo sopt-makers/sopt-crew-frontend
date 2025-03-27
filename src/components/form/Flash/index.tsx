@@ -186,7 +186,6 @@ function Presentation({
                           dateRange?: FieldError[] | FieldError;
                         })
                       | undefined;
-                    console.log(dateError);
                     return (
                       <>
                         {timeState && (
