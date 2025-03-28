@@ -43,6 +43,21 @@ export const schema = z.object({
           return;
         }
       });
+
+      // 시작일과 종료일이 모두 있을 때만 1년 범위 체크
+      if (dates[0] && dates[1]) {
+        const startDate = dayjs(dates[0], 'YYYY.MM.DD');
+        const endDate = dayjs(dates[1], 'YYYY.MM.DD');
+        const diffInYears = endDate.diff(startDate, 'year');
+
+        if (diffInYears > 1) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '모집 기간은 1년을 초과할 수 없습니다.',
+            path: [1],
+          });
+        }
+      }
     }),
   capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
   detail: z.object({
