@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { categories } from '@data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
@@ -65,6 +65,7 @@ function Presentation({
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
   const isEdit = router.asPath.includes('/edit');
+  const { setValue } = useFormContext();
 
   const schedule: React.ReactNode = (
     <>
@@ -325,7 +326,7 @@ function Presentation({
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={field.onChange}
+                        setSelectedDate={value => setValue(field.name, value)}
                         selectedDateFieldName={field.name}
                         error={
                           (dateError?.mDateRange as FieldError[])?.[0]?.message ||
@@ -351,7 +352,7 @@ function Presentation({
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={field.onChange}
+                        setSelectedDate={value => setValue(field.name, value)}
                         dateType="endDate"
                         error={
                           (dateError?.mDateRange as FieldError[])?.[0]?.message ||
@@ -404,7 +405,7 @@ function Presentation({
                         return (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={field.onChange}
+                            setSelectedDate={value => setValue(field.name, value)}
                             selectedDateFieldName={field.name}
                             error={
                               (dateError?.dateRange as FieldError[])?.[0]?.message ||
@@ -423,7 +424,7 @@ function Presentation({
                       render={({ field }) => (
                         <CalendarInputForm
                           selectedDate={field.value}
-                          setSelectedDate={field.onChange}
+                          setSelectedDate={value => setValue(field.name, value)}
                           selectedDateFieldName={field.name}
                           dateType="endDate"
                         />
