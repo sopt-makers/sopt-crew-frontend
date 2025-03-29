@@ -186,13 +186,9 @@ body {
 
     &:enabled:hover {
       background: none;
-
-      /*background: var(--colors-gray500);*/
     }
     &:enabled:focus {
       background: none;
-
-      /*background: var(--colors-gray500);*/
     }
 
     abbr {

@@ -32,33 +32,28 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getValues, setValue } = useFormContext();
-  const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
-  const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
+  const [startDate, endDate] = selectedDate ?? ['', ''];
+  const newValue = dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0];
 
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
-      setInputValue(newDate);
       return;
     }
 
     if (startDate && endDate) {
       setSelectedDate([newDate, '']);
-      setInputValue(newDate);
       return;
     }
 
     if (!startDate && !endDate) {
       setSelectedDate([newDate, '']);
-      setInputValue(newDate);
       return;
     }
 
     if (startDate && !endDate) {
       const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
       setSelectedDate(newSelectedDate);
-      setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
     }
   };
 
@@ -70,19 +65,9 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, '');
     const formattedValue = formatDateInput(rawValue);
-    setInputValue(formattedValue);
 
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
-      if (dateType === 'endDate') {
-        const newSelectedEndDate =
-          formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
-        setSelectedDate(newSelectedEndDate);
-        setValue(selectedDateFieldName, newSelectedEndDate);
-      } else {
-        const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
-        setSelectedDate(newSelectedStartDate);
-        setValue(selectedDateFieldName, newSelectedStartDate);
-      }
+      handleDateSelection(formattedValue);
     }
   };
 
@@ -95,11 +80,11 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     }
   }, []);
 
-  useEffect(() => {
-    if (selectedDate) {
-      setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
-    }
-  }, [selectedDate, dateType]);
+  // useEffect(() => {
+  //   if (selectedDate) {
+  //     setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
+  //   }
+  // }, [selectedDate, dateType]);
 
   useEffect(() => {
     if (isDesktop && !isMobile && !isTablet) {
@@ -147,12 +132,12 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInputCustom>
-              <span className="filled">{inputValue}</span>
-              <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
+              <span className="filled">{newValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(newValue?.length ?? 0)}</span>
               <SInput
                 type="text"
                 name={selectedDateFieldName}
-                value={inputValue}
+                value={newValue}
                 onChange={handleInputChange}
                 maxLength={10}
                 placeholder=""
@@ -173,12 +158,12 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInputCustom>
-              <span className="filled">{inputValue}</span>
-              <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
+              <span className="filled">{newValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(newValue?.length ?? 0)}</span>
               <SInput
                 type="text"
                 name={selectedDateFieldName}
-                value={inputValue}
+                value={newValue}
                 onChange={handleInputChange}
                 maxLength={10}
                 placeholder="YYYY.MM.DD"
