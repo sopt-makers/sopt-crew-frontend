@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { keyframes, styled } from 'stitches.config';
-import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
 import { GroupBrowsingCardItem } from '@api/API_LEGACY/meeting';
@@ -11,7 +10,7 @@ import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
-import { IconLocation } from '@sopt-makers/icons';
+import { IconCalendar, IconLocation } from '@sopt-makers/icons';
 import { useFlashByIdQuery } from '@api/flash/hook';
 
 const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageURL }) => {
@@ -56,7 +55,7 @@ const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageUR
 
         <SOverlayContent>
           <Flex align="center">
-            <CalendarIcon style={{ marginRight: '6px' }} />
+            <IconCalendar style={{ width: '12px', height: '12px', marginRight: '6px', color: '#9D9DA4' }} />
             <SDesc>
               {dayjs(flashData?.activityStartDate).format('YYYY.MM.DD')} -{' '}
               {dayjs(flashData?.activityEndDate).format('YYYY.MM.DD')}
