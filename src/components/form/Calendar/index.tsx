@@ -115,7 +115,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
           if (selectedDate?.includes(formatCalendarDate(date))) {
             return (
               <SDotWrapper>
-                <SDot/>
+                <SDot />
               </SDotWrapper>
             );
           }
