@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -7,9 +7,7 @@ import ErrorMessage from '../ErrorMessage';
 import { useDisplay } from '@hooks/useDisplay';
 import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
-import CalendarIcon from '@assets/svg/calendar_big.svg';
-import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
-import { useFormContext } from 'react-hook-form';
+import { IconCalendar } from '@sopt-makers/icons';
 import { formatCalendarDate } from '@utils/dayjs';
 import { formatDateInput, MAX_DATE_INPUT_LENGTH, WEEKDAYS } from '@utils/date';
 
@@ -32,28 +30,33 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, endDate] = selectedDate ?? ['', ''];
   const newValue = dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0];
+  const [inputValue, setInputValue] = useState(newValue);
+  const [startDate, endDate] = selectedDate ?? ['', ''];
 
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
+      setInputValue(newDate);
       return;
     }
 
     if (startDate && endDate) {
       setSelectedDate([newDate, '']);
+      setInputValue(newDate);
       return;
     }
 
     if (!startDate && !endDate) {
       setSelectedDate([newDate, '']);
+      setInputValue(newDate);
       return;
     }
 
     if (startDate && !endDate) {
       const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
       setSelectedDate(newSelectedDate);
+      setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
     }
   };
 
@@ -65,6 +68,8 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, '');
     const formattedValue = formatDateInput(rawValue);
+
+    setInputValue(formattedValue);
 
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
       handleDateSelection(formattedValue);
@@ -132,18 +137,18 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
             <SInputCustom>
-              <span className="filled">{newValue}</span>
-              <span className="placeholder">{'YYYY.MM.DD'.substring(newValue?.length ?? 0)}</span>
+              <span className="filled">{inputValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(inputValue?.length ?? 0)}</span>
               <SInput
                 type="text"
                 name={selectedDateFieldName}
-                value={newValue}
+                value={inputValue}
                 onChange={handleInputChange}
                 maxLength={10}
                 placeholder=""
               />
             </SInputCustom>
-            {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
+            {isMobile ? <IconCalendar style={{ width: '20' }} /> : <IconCalendar style={{ width: '24' }} />}
           </SInputWrapper>
           {error && selectedDate?.[0] && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
@@ -169,7 +174,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
                 placeholder="YYYY.MM.DD"
               />
             </SInputCustom>
-            <CalendarIcon />
+            <IconCalendar style={{ width: '24' }} />
           </SInputWrapper>
           {error && dateType !== 'endDate' && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
