@@ -253,7 +253,9 @@ function Presentation({
                         onClick={() => {
                           setTimeState(newTimeState);
                           onChange(newValue);
-                          setValue('timeInfo.dateRange', [dateRange[0], '']);
+                          if (isChecked) {
+                            setValue('timeInfo.dateRange', [!isChecked ? dateRange : dateRange[0], '']);
+                          }
                         }}
                       />
                     </>
