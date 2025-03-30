@@ -156,6 +156,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
                 onChange={handleInputChange}
                 maxLength={10}
                 placeholder=""
+                autoComplete="off"
               />
             </SInputCustom>
             {isMobile ? <IconCalendar style={{ width: '20' }} /> : <IconCalendar style={{ width: '24' }} />}
@@ -182,6 +183,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
                 onChange={handleInputChange}
                 maxLength={10}
                 placeholder="YYYY.MM.DD"
+                autoComplete="off"
               />
             </SInputCustom>
             <IconCalendar style={{ width: '24' }} />
