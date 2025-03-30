@@ -51,8 +51,8 @@ const WelcomeTag = styled('span', {
   padding: '$3 $10',
 
   borderRadius: '37px',
-  border: '1px solid $gray700',
+  border: '1px solid $gray600',
 
-  color: '$gray200',
+  color: '$gray100',
   fontStyle: 'T6',
 });

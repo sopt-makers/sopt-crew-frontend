@@ -61,11 +61,14 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     onSuccess: res => {
       queryClient.invalidateQueries(['getPosts']);
       alert('피드를 작성했습니다.');
-      mutatePostPostWithMention({
-        postId: res.postId,
-        orgIds: parseMentionedUserIds(formMethods.getValues().contents),
-        content: formMethods.getValues().contents,
-      });
+      const mentionedOrgIds = parseMentionedUserIds(formMethods.getValues().contents);
+      if (mentionedOrgIds.length > 0) {
+        mutatePostPostWithMention({
+          postId: res.postId,
+          orgIds: mentionedOrgIds,
+          content: formMethods.getValues().contents,
+        });
+      }
       submitModal.handleModalClose();
       handleModalClose();
       open({
@@ -104,6 +107,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     });
   }, 5000);
 
+  //고치기
   useEffect(() => {
     formMethods.reset({ meetingId: Number(meetingId) });
   }, [formMethods, isModalOpened]);

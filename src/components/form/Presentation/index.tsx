@@ -23,7 +23,6 @@ import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
-import sopt_schedule_tooltip from '@assets/images/sopt_schedule_tooltip.png';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import CoLeader from './CoLeader';
@@ -69,17 +68,17 @@ function Presentation({
   const schedule: React.ReactNode = (
     <>
       • 1~8차 세미나 <br />
-      &nbsp;&nbsp;&nbsp;2024.10.05 ~ 2024.12.28 <br />
-      • 1차 행사 <br />
-      &nbsp;&nbsp;&nbsp;2024.11.09 <br />
+      &nbsp;&nbsp;&nbsp;2025.04.05 ~ 2025.06.21 <br />
       • 솝커톤 <br />
-      &nbsp;&nbsp;&nbsp;2024.11.23 ~ 2024.11.24 <br />
+      &nbsp;&nbsp;&nbsp;2025.05.17 ~ 2025.05.18 <br />
+      • 네트워킹 행사 <br />
+      &nbsp;&nbsp;&nbsp;2025.05.31 <br />
       • 기획 경선 <br />
-      &nbsp;&nbsp;&nbsp;2024.12.14 <br />
-      • 2차 행사 <br />
-      &nbsp;&nbsp;&nbsp;2024.12.07 <br />
+      &nbsp;&nbsp;&nbsp;2025.06.07 <br />
       • 앱잼 <br />
-      &nbsp;&nbsp;&nbsp;2024.12.21 ~ 2025.01.25
+      &nbsp;&nbsp;&nbsp;2025.06.14 ~ 2025.07.19 <br />
+      • 종무식 <br />
+      &nbsp;&nbsp;&nbsp;2025.07.26
     </>
   );
 
@@ -170,7 +169,7 @@ function Presentation({
   return (
     <SForm onSubmit={onSubmit} ref={formRef}>
       <div>
-        <SFormSectionDevider>1. 모임 정보</SFormSectionDevider>
+        <SFormSectionDivider>1. 모임 정보</SFormSectionDivider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           {/* 모임 제목 */}
@@ -253,31 +252,20 @@ function Presentation({
             <FormController
               name="detail.desc"
               render={({ field, fieldState: { error } }) => (
-                <>
-                  <Textarea
-                    placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
-                    maxLength={1000}
-                    error={error?.message}
-                    {...field}
-                  />
-                  {/* <TextField
-                    labelText="모임 소개"
-                    placeholder={`ex.\n• 모임 성격\n</br>• 모임 개설 배경/목적\n• 모임의 효능`}
-                    required
-                    style={TextFieldStyle}
-                    maxLength={1000}
-                    {...field}
-                  /> */}
-                </>
+                <Textarea
+                  placeholder={`ex.\n• 모임 성격\n• 모임 개설 배경/목적\n• 모임의 효능`}
+                  maxLength={1000}
+                  error={error?.message}
+                  {...field}
+                />
               )}
             ></FormController>
           </div>
         </div>
       </div>
       {/* 모임 정보 끝 */}
-
       <div>
-        <SFormSectionDevider>2. 활동 정보</SFormSectionDevider>
+        <SFormSectionDivider>2. 활동 정보</SFormSectionDivider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           {/* 활동 정보 - 모임 기간 */}
@@ -299,23 +287,23 @@ function Presentation({
                 {isSoptScheduleOpen && (
                   <ToolTipDiv>
                     <Pointdiv>
-                      <BubblePoint />
+                      <BubblePointIcon />
                     </Pointdiv>
                     <TextDiv>
-                      <div>• 1~8차 세미나: 2024.10.05 ~ 2024.12.28</div>
-                      <div>• 1차 행사: 2024.11.09</div>
-                      <div>• 솝커톤: 2024.11.23 ~2024.11.24</div>
-                      <div>• 기획 경선: 2024.12.14</div>
-                      <div>• 2차 행사: 2024.12.12</div>
-                      <div>• 앱잼: 2024.12.21 ~ 2025.01.25</div>
+                      <TextStyle>• 1~8차 세미나: 2025.04.05 ~ 2025.06.21</TextStyle>
+                      <TextStyle>• 솝커톤: 2025.05.17 ~ 2025.05.18</TextStyle>
+                      <TextStyle>• 네트워킹 행사: 2025.05.31</TextStyle>
+                      <TextStyle>• 기획 경선: 2025.06.07</TextStyle>
+                      <TextStyle>• 앱잼: 2025.06.14 ~ 2025.07.19</TextStyle>
+                      <TextStyle>• 종무식: 2025.07.26</TextStyle>
                     </TextDiv>
                   </ToolTipDiv>
                 )}
               </div>
               {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
-            <SDateFieldWrapper>
-              <SDateField>
+            <SApplicationFieldWrapper>
+              <SApplicationField>
                 <FormController
                   name="detail.mStartDate"
                   render={({ field, formState: { errors } }) => {
@@ -334,17 +322,17 @@ function Presentation({
                     );
                   }}
                 ></FormController>
-              </SDateField>
+              </SApplicationField>
               <span style={{ marginTop: '14px' }}>-</span>
-              <SDateField>
+              <SApplicationField>
                 <FormController
                   name="detail.mEndDate"
                   render={({ field }) => (
                     <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
                   )}
                 ></FormController>
-              </SDateField>
-            </SDateFieldWrapper>
+              </SApplicationField>
+            </SApplicationFieldWrapper>
           </div>
           {/* 모임 정보 - 진행 방식 소개 */}
           <div>
@@ -365,7 +353,7 @@ function Presentation({
           </div>
           {/* 활동 정보 끝 */}
           <div>
-            <SFormSectionDevider>3. 모집 정보</SFormSectionDevider>
+            <SFormSectionDivider>3. 모집 정보</SFormSectionDivider>
             <SectionLine />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
               {/* 모집 기간 */}
@@ -488,7 +476,7 @@ function Presentation({
 
           {/* 추가 정보 - 공동 모임장 */}
           <div>
-            <SFormSectionDevider>4. 추가 정보</SFormSectionDevider>
+            <SFormSectionDivider>4. 추가 정보</SFormSectionDivider>
             <SectionLine />
             <Label size="small">공동 모임장</Label>
             <HelpMessage>
@@ -550,10 +538,10 @@ function Presentation({
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
         {cancelButtonLabel && (
-          <CancelButton type="button" onClick={() => router.back()}>
+          <Button type="button" onClick={() => router.back()}>
             <CancelIcon />
             {cancelButtonLabel}
-          </CancelButton>
+          </Button>
         )}
         <SubmitButton
           type="button"
@@ -604,8 +592,6 @@ const SApplicationField = styled('div', {
     maxWidth: '151px',
   },
 });
-const SDateFieldWrapper = styled(SApplicationFieldWrapper);
-const SDateField = styled(SApplicationField);
 const SNeedMentorFieldWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
@@ -661,7 +647,6 @@ const Button = styled('button', {
     fontAg: '16_bold_100',
   },
 });
-const CancelButton = styled(Button, {});
 const SubmitButton = styled(Button, {
   background: '$gray10',
   color: '$gray950',
@@ -671,7 +656,7 @@ const SubmitButton = styled(Button, {
   },
 });
 
-const SFormSectionDevider = styled('div', {
+const SFormSectionDivider = styled('div', {
   ...fontsObject.HEADING_4_24_B,
   paddingBottom: '12px',
   display: 'flex',
@@ -683,19 +668,6 @@ const SectionLine = styled('div', {
   height: '1px',
   background: `${colors.gray800}`,
   mb: '$20',
-});
-
-const SSectionCountBox = styled('div', {
-  ...fontsObject.LABEL_4_12_SB,
-  width: '50px',
-  height: '24px',
-  padding: '6px 0px',
-  display: 'flex',
-  justifyContent: 'center',
-  borderRadius: '6px',
-  ml: '$10',
-  background: `${colors.gray700}`,
-  color: `${colors.white}`,
 });
 
 const SMemberCountWrapper = styled('div', {
@@ -728,12 +700,6 @@ const SLabelCheckboxWrapper = styled('div', {
   justifyContent: 'space-between',
 });
 
-const ImageHelpMessage = styled('div', {
-  marginBottom: '18px',
-  fontAg: '14_medium_100',
-  color: '$gray500',
-});
-
 const SoptNotice = styled('span', {
   cursor: 'pointer',
   display: 'inline-block',
@@ -762,8 +728,6 @@ const Pointdiv = styled('div', {
   alignItems: 'flex-start',
 });
 
-const BubblePoint = styled(BubblePointIcon);
-
 const TextDiv = styled('div', {
   display: 'inline-flex',
   padding: '16px',
@@ -772,34 +736,15 @@ const TextDiv = styled('div', {
   alignItems: 'flex-start',
   gap: '4px',
 
+  width: '255px',
+
   borderRadius: '10px',
   backgroundColor: '$gray600',
 
   color: '$gray50',
-  ...fontsObject.LABEL_4_12_SB,
 });
 
-const SoptScheduleDiv = styled('div', {
-  position: 'absolute',
-  top: '$20',
-  right: '$0',
-  isolate: 'isolation',
-
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  gap: '$4',
-
-  color: '$gray100',
+const TextStyle = styled('p', {
   ...fontsObject.LABEL_4_12_SB,
-
-  padding: '$16',
-  paddingTop: '$32',
-
-  width: '252px',
-  height: '162px', //148 + 16
-  backgroundImage: `url(${sopt_schedule_tooltip.src})`,
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'contain',
+  letterSpacing: '-0.24px',
 });

@@ -92,11 +92,7 @@ const RenderPostsWithAds = () => {
                               <FeedActionButton
                                 onClick={() =>
                                   overlay.open(({ isOpen, close }) => (
-                                    <FeedEditModal
-                                      isModalOpened={isOpen}
-                                      postId={String(post.id)}
-                                      handleModalClose={close}
-                                    />
+                                    <FeedEditModal isModalOpened={isOpen} postId={post.id} handleModalClose={close} />
                                   ))
                                 }
                               >
@@ -181,11 +177,7 @@ const RenderPostsWithAds = () => {
                               <FeedActionButton
                                 onClick={() =>
                                   overlay.open(({ isOpen, close }) => (
-                                    <FeedEditModal
-                                      isModalOpened={isOpen}
-                                      postId={String(post.id)}
-                                      handleModalClose={close}
-                                    />
+                                    <FeedEditModal isModalOpened={isOpen} postId={post.id} handleModalClose={close} />
                                   ))
                                 }
                               >
@@ -273,11 +265,7 @@ const RenderPostsWithAds = () => {
                               <FeedActionButton
                                 onClick={() =>
                                   overlay.open(({ isOpen, close }) => (
-                                    <FeedEditModal
-                                      isModalOpened={isOpen}
-                                      postId={String(post.id)}
-                                      handleModalClose={close}
-                                    />
+                                    <FeedEditModal isModalOpened={isOpen} postId={post.id} handleModalClose={close} />
                                   ))
                                 }
                               >
@@ -362,11 +350,7 @@ const RenderPostsWithAds = () => {
                               <FeedActionButton
                                 onClick={e => {
                                   overlay.open(({ isOpen, close }) => (
-                                    <FeedEditModal
-                                      isModalOpened={isOpen}
-                                      postId={String(post.id)}
-                                      handleModalClose={close}
-                                    />
+                                    <FeedEditModal isModalOpened={isOpen} postId={post.id} handleModalClose={close} />
                                   ));
                                 }}
                               >

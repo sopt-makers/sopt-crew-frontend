@@ -22,7 +22,7 @@ export const createPost = async (formData: FormCreateType) => {
   return data;
 };
 
-export const editPost = async (postId: string, formData: FormEditType) => {
+export const editPost = async (postId: number, formData: FormEditType) => {
   type editPostType =
     paths['/post/v2/{postId}']['put']['responses']['200']['content']['application/json;charset=UTF-8'];
   const { data } = await api.put<editPostType>(`/post/v2/${postId}`, formData);
@@ -50,4 +50,8 @@ export const postLike = async (postId: number) => {
 
 export const deleteComment = async (commentId: number) => {
   return (await api.delete(`/comment/v2/${commentId}`)).data;
+};
+
+export const deletePost = async (postId: number) => {
+  return (await api.delete(`/post/v2/${postId}`)).data;
 };
