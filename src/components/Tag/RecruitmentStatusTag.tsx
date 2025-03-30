@@ -1,4 +1,5 @@
 import { RECRUITMENT_STATUS } from '@constants/option';
+import { fontsObject } from '@sopt-makers/fonts';
 import { HTMLAttributes } from 'react';
 import { styled } from 'stitches.config';
 
@@ -11,7 +12,7 @@ const RecruitmentStatusTag = ({ status, ...props }: RecruitmentStatusTagProps) =
   // TODO: mds 태그로 변경 필요 (아직 mds 안 나옴)
   return (
     <CustomTag variant={tagVariant[status]} {...props}>
-      {RECRUITMENT_STATUS[status]}
+      <CustomTagText>{RECRUITMENT_STATUS[status]}</CustomTagText>
     </CustomTag>
   );
 };
@@ -43,19 +44,15 @@ const CustomTag = styled('div', {
   padding: '$3 $8',
   borderRadius: '$4',
 
-  fontSize: '$16',
-  fontStyle: 'normal',
-  fontWeight: '$600',
-  lineHeight: '$22',
-  letterSpacing: '-0.32px',
-
   '@mobile': {
     padding: '$3 $6',
+  },
+});
 
-    fontSize: '$11',
-    fontStyle: 'normal',
-    fontWeight: '$600',
-    lineHeight: '$14',
-    letterSpacing: '-0.22px',
+const CustomTagText = styled('p', {
+  ...fontsObject.LABEL_2_16_SB,
+
+  '@mobile': {
+    ...fontsObject.LABEL_5_11_SB,
   },
 });
