@@ -22,7 +22,7 @@ import { useFormContext } from 'react-hook-form';
  */
 
 interface Props {
-  selectedDate: string[] | null;
+  selectedDate: string[] | string | null;
   setSelectedDate: Dispatch<SetStateAction<string[] | string | null>>;
   selectedDateFieldName: string;
   error?: string;
@@ -31,9 +31,9 @@ interface Props {
 
 const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getValues, setValue } = useFormContext();
   const [inputValue, setInputValue] = useState(dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0]);
-  const [startDate, endDate] = getValues(selectedDateFieldName) ?? ['', ''];
+  const startDate = selectedDate?.[0] ?? '';
+  const endDate = selectedDate?.[1] ?? '';
 
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
@@ -71,17 +71,17 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     const formattedValue = formatDateInput(rawValue);
 
     setInputValue(formattedValue);
-
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
+      console.log(dateType);
       if (dateType === 'endDate') {
         const newSelectedEndDate =
           formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
         setSelectedDate(newSelectedEndDate);
-        setValue(selectedDateFieldName, newSelectedEndDate);
+      } else if (dateType === 'singleSelect') {
+        setSelectedDate([formattedValue, '']);
       } else {
         const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
         setSelectedDate(newSelectedStartDate);
-        setValue(selectedDateFieldName, newSelectedStartDate);
       }
     }
   };
