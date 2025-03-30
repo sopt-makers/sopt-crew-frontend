@@ -9,9 +9,8 @@ import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
 import CalendarIcon from '@assets/svg/calendar_big.svg';
 import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
-import { useFormContext } from 'react-hook-form';
 import { formatCalendarDate } from '@utils/dayjs';
-import { formatDateInput, MAX_DATE_INPUT_LENGTH, WEEKDAYS } from '@utils/date';
+import { formatDateInput, WEEKDAYS } from '@utils/date';
 
 /**
  * CalendarInputForm
@@ -36,11 +35,6 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const newValue = dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0];
 
   const handleDateSelection = (newDate: string) => {
-    if (dateType === 'singleSelect') {
-      setSelectedDate([newDate, '']);
-      return;
-    }
-
     if (startDate && endDate) {
       setSelectedDate([newDate, '']);
       return;
@@ -54,6 +48,18 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     if (startDate && !endDate) {
       const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
       setSelectedDate(newSelectedDate);
+      return;
+    }
+
+    if (!startDate && endDate) {
+      const newSelectedDate = newDate < endDate ? [newDate, endDate] : [endDate, newDate];
+      setSelectedDate(newSelectedDate);
+      return;
+    }
+
+    if (dateType === 'singleSelect') {
+      setSelectedDate([newDate, '']);
+      return;
     }
   };
 
@@ -66,8 +72,15 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     const rawValue = event.target.value.replace(/\D/g, '');
     const formattedValue = formatDateInput(rawValue);
 
-    if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
-      handleDateSelection(formattedValue);
+    // handleDateSelection(formattedValue);
+    if (dateType === 'startDate') {
+      setSelectedDate([formattedValue, endDate ?? '']);
+    }
+    if (dateType === 'endDate') {
+      setSelectedDate([startDate ?? '', formattedValue]);
+    }
+    if (dateType === 'singleSelect') {
+      setSelectedDate([formattedValue, '']);
     }
   };
 
@@ -95,15 +108,33 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     }
   }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
+  const tryParseDate = (str: string | undefined, format: string) => {
+    const d = dayjs(str, format);
+
+    if (d.isValid()) {
+      return d.toDate();
+    }
+    return null;
+  };
+
+  const start = tryParseDate(selectedDate?.[0], 'YYYY.MM.DD');
+  const end = tryParseDate(selectedDate?.[1], 'YYYY.MM.DD');
+
+  const getDefaultActiveStartDate = () => {
+    if (dateType === 'startDate' && start) {
+      return start;
+    }
+    if (dateType === 'endDate' && end) {
+      return end;
+    }
+  };
+
   const CalendarComponent = () => {
     return (
       <Calendar
-        value={
-          selectedDate
-            ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
-            : null
-        }
+        value={[start, end]}
         selectRange={dateType !== 'singleSelect'}
+        defaultActiveStartDate={getDefaultActiveStartDate()}
         onClickDay={handleDateChange}
         formatDay={(locale, date) => dayjs(date).format('D')}
         formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}

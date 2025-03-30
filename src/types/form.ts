@@ -33,6 +33,13 @@ export const schema = z.object({
         .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
     )
     .superRefine((dates, ctx) => {
+      if (dates[0] && dates[1] && dates[0] > dates[1]) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: '유효한 날짜 범위가 아닙니다',
+          path: [0],
+        });
+      }
       dates.forEach((date, index) => {
         if (!isValidDate(date)) {
           ctx.addIssue({
@@ -66,6 +73,14 @@ export const schema = z.object({
           .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
       )
       .superRefine((dates, ctx) => {
+        console.log(dates);
+        if (dates[0] && dates[1] && dates[0] > dates[1]) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '유효한 날짜 범위가 아닙니다',
+            path: [0],
+          });
+        }
         dates.forEach((date, index) => {
           if (!isValidDate(date)) {
             ctx.addIssue({
