@@ -64,7 +64,8 @@ const SearchMention = ({
   };
 
   const getRandomUsers = (users: mentionableDataType[]) => {
-    const shuffled = users?.sort(() => 0.5 - Math.random());
+    if (!users) return [];
+    const shuffled = users.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 30);
   };
 
