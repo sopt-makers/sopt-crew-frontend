@@ -9,6 +9,7 @@ import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconXClose } from '@sopt-makers/icons';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useDisplay } from '@hooks/useDisplay';
 
 interface CoLeaderFieldProps {
   value: mentionableDataType[];
@@ -41,6 +42,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const { data: user } = useQueryMyProfile();
   const { data: mentionUserList } = useQueryGetMentionUsers();
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { isMobile } = useDisplay();
 
   const filteredMeList = mentionUserList?.filter((mentionUser: metionUserType) => mentionUser.userId !== user?.id);
 
@@ -59,21 +61,13 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const [userId, setUserId] = useState<number | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 414);
-    };
-    window.addEventListener('resize', handleResize);
-
     const handleClickOutSide = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) setShowInput(false);
     };
 
-    handleResize(); // Initial check
     document.addEventListener('mousedown', handleClickOutSide);
     return () => {
-      window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousedown', handleClickOutSide);
     };
   }, []);
