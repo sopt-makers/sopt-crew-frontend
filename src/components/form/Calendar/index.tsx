@@ -36,12 +36,6 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const endDate = selectedDate?.[1] ?? '';
 
   const handleDateSelection = (newDate: string) => {
-    if (dateType === 'singleSelect') {
-      setSelectedDate([newDate, '']);
-      setInputValue(newDate);
-      return;
-    }
-
     if (startDate && endDate) {
       setSelectedDate([newDate, '']);
       setInputValue(newDate);
@@ -59,6 +53,12 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
       setSelectedDate(newSelectedDate);
       setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
     }
+
+    if (dateType === 'singleSelect') {
+      setSelectedDate([newDate, '']);
+      setInputValue(newDate);
+      return;
+    }
   };
 
   const handleDateChange = (date: Date) => {
@@ -72,16 +72,17 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
 
     setInputValue(formattedValue);
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
-      console.log(dateType);
       if (dateType === 'endDate') {
         const newSelectedEndDate =
           formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
         setSelectedDate(newSelectedEndDate);
-      } else if (dateType === 'singleSelect') {
-        setSelectedDate([formattedValue, '']);
-      } else {
+      }
+      if (dateType === 'startDate') {
         const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
         setSelectedDate(newSelectedStartDate);
+      }
+      if (dateType === 'singleSelect') {
+        setSelectedDate([formattedValue, '']);
       }
     }
   };

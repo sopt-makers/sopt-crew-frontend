@@ -326,7 +326,7 @@ function Presentation({
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={field.onChange}
+                        setSelectedDate={value => setValue(field.name, value)}
                         selectedDateFieldName={field.name}
                         error={
                           (dateError?.mDateRange as FieldError[])?.[0]?.message ||
@@ -405,7 +405,7 @@ function Presentation({
                         return (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={field.onChange}
+                            setSelectedDate={value => setValue(field.name, value)}
                             selectedDateFieldName={field.name}
                             error={
                               (dateError?.dateRange as FieldError[])?.[0]?.message ||
