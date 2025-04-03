@@ -52,7 +52,7 @@ const SearchMention = ({
   onUserSelect,
 }: SearchMentionProps) => {
   //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
-  const { user, setUser } = useContext(SearchMentionContext);
+  const { user } = useContext(SearchMentionContext);
 
   const handleUserClick = (user: mentionableDataType) => {
     onUserSelect(user);
@@ -303,9 +303,9 @@ const SCustomSuggestionsContainer = styled('div', {
     position: 'absolute',
     left: '0',
     bottom: '120px',
-    width: '100%',
+    width: '170px',
     maxHeight: '418px',
-    height: '100%',
+    height: '230px',
     border: 'none',
     borderRadius: '20px',
   },
