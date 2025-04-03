@@ -22,7 +22,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
   //console.log('이미지', isImageValid);
   const isDescriptionValid = form.detail && form.detail.desc && !errors.detail;
   //console.log('모임소개', isImageValid);
-  const isApplicationDateValid = form.startDate && form.endDate && !errors.startDate && !errors.endDate;
+  const isApplicationDateValid =
+    form.dateRange && form.dateRange[0] && form.dateRange[1] && !errors.dateRange && !errors.dateRange;
   const isTargetValid =
     form.detail &&
     form.detail.joinableParts &&
@@ -30,7 +31,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.capacity &&
     !errors.capacity &&
     !errors.detail;
-  const isActivationDateValid = form.detail && form.detail.mStartDate && form.detail.mEndDate;
+  const isActivationDateValid =
+    form.detail && form.detail.mDateRange && form.detail.mDateRange[0] && form.detail.mDateRange[1];
   const isProcessDesc = form.detail?.processDesc;
   return (
     <SContainer>
