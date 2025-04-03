@@ -303,15 +303,15 @@ const SCustomSuggestionsContainer = styled('div', {
     position: 'absolute',
     left: '0',
     bottom: '120px',
-    width: '170px',
+    width: '100%',
     maxHeight: '418px',
-    height: '230px',
+    height: '100%',
     border: 'none',
     borderRadius: '20px',
   },
 
   //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
-  '@media (max-width: 414px)': {
+  '@media (max-width: 430px)': {
     position: 'fixed',
     top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
     bottom: '66px', //8 + 48 + 10

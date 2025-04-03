@@ -42,7 +42,6 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const { data: user } = useQueryMyProfile();
   const { data: mentionUserList } = useQueryGetMentionUsers();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const { isMobile } = useDisplay();
 
   const filteredMeList = mentionUserList?.filter((mentionUser: metionUserType) => mentionUser.userId !== user?.id);
 
@@ -61,13 +60,21 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const [userId, setUserId] = useState<number | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 431);
+    };
+    window.addEventListener('resize', handleResize);
+
     const handleClickOutSide = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) setShowInput(false);
     };
 
+    handleResize(); // Initial check
     document.addEventListener('mousedown', handleClickOutSide);
     return () => {
+      window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousedown', handleClickOutSide);
     };
   }, []);
@@ -205,7 +212,7 @@ const LeadersContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     gap: '10px',
   },
 });
@@ -215,7 +222,7 @@ const LeadersWrapper = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     gap: '8px',
   },
 });
@@ -237,7 +244,7 @@ const Leader = styled('div', {
   color: '$white',
   position: 'relative',
 
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '89px',
     height: '30px',
     padding: '5px 8px',
@@ -251,7 +258,7 @@ const LeaderName = styled('span', {
   ...fontsObject.BODY_2_16_M,
   whiteSpace: 'nowrap',
 
-  '@media (max-width: 414px)': {
+  '@mobile': {
     ...fontsObject.LABEL_5_11_SB,
   },
 });
@@ -267,7 +274,7 @@ const DeleteButton = styled('button', {
   borderRadius: '50px',
   background: '$gray700',
   cursor: 'pointer',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '12px',
     height: '12px',
   },
@@ -292,7 +299,7 @@ const CommentInput = styled('div', {
   width: '170px',
   height: '64px',
 
-  '@media (max-width: 414px)': {
+  '@mobile': {
     position: 'fixed',
     //부모 요소 : transform, perspective, 또는 position: fixed 등의 속성
     //자식 요소의 fixed 위치가 의도대로 표시되지 않음 -> 따라서 top 속성을 unset으로 제거해줘야 함
@@ -333,7 +340,7 @@ const InputBox = styled('div', {
       },
     },
   },
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '328px',
     height: '48px',
   },
@@ -360,7 +367,7 @@ const AddButton = styled('button', {
       },
     },
   },
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '24px',
     height: '24px',
     padding: '3.75px',
@@ -384,11 +391,11 @@ const SProfile = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     background: '$gray700',
-    '@media (max-width: 768px)': {
+    '@desktop': {
       width: '$32',
       height: '$32',
     },
-    '@media (max-width: 414px)': {
+    '@mobile': {
       width: '$20',
       height: '$20',
     },
@@ -413,7 +420,7 @@ const StyledIconPlus = styled(IconPlus, {
   height: '22px',
   color: 'white',
   cursor: 'pointer',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '16.5px',
     height: '16.5px',
   },
@@ -422,7 +429,7 @@ const StyledIconPlus = styled(IconPlus, {
 const StyledIconXClose = styled(IconXClose, {
   width: '12px',
   height: '12px',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '8px',
     height: '8px',
   },
@@ -433,7 +440,7 @@ const StyledIconXClose = styled(IconXClose, {
 const StyledProfileDefaultIcon = styled(ProfileDefaultIcon, {
   width: '32px',
   height: '32px',
-  '@media (max-width: 414px)': {
+  '@mobile': {
     width: '20px',
     height: '20px',
   },
