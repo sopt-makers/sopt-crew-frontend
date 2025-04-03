@@ -405,7 +405,6 @@ const StyledIconXCircle = styled(IconXCircle, {
   width: '24px',
   height: '24px',
   cursor: 'pointer',
-  '@media (max-width: 414px)': {},
 });
 
 const StyledIconSearch = styled(IconSearch, {

@@ -52,7 +52,7 @@ const SearchMention = ({
   onUserSelect,
 }: SearchMentionProps) => {
   //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
-  const { user, setUser } = useContext(SearchMentionContext);
+  const { user } = useContext(SearchMentionContext);
 
   const handleUserClick = (user: mentionableDataType) => {
     onUserSelect(user);
@@ -64,7 +64,8 @@ const SearchMention = ({
   };
 
   const getRandomUsers = (users: mentionableDataType[]) => {
-    const shuffled = users?.sort(() => 0.5 - Math.random());
+    if (!users) return [];
+    const shuffled = users.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 30);
   };
 
@@ -271,6 +272,7 @@ const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
   width: '170px',
+  height: '230px',
   padding: '8px',
   background: '#17181c',
   position: 'absolute',
@@ -301,9 +303,7 @@ const SCustomSuggestionsContainer = styled('div', {
     position: 'absolute',
     left: '0',
     bottom: '120px',
-    width: '100%',
     maxHeight: '418px',
-    height: '100%',
     border: 'none',
     borderRadius: '20px',
   },
