@@ -9,7 +9,6 @@ import { useQueryGetMentionUsers } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconXClose } from '@sopt-makers/icons';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { useDisplay } from '@hooks/useDisplay';
 
 interface CoLeaderFieldProps {
   value: mentionableDataType[];
