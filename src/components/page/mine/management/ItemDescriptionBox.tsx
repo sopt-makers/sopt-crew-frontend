@@ -4,12 +4,12 @@ const ItemDescriptionBox = () => {
   return (
     <SItemDescriptionBox>
       <SLeft>
+        <SOrderNumber>신청 순서</SOrderNumber>
         <SProfile>프로필 (상태)</SProfile>
         <SGeneration>최근 기수</SGeneration>
         <SPhone>연락처</SPhone>
         <SDate>신청 일시</SDate>
       </SLeft>
-      <SManagement>관리</SManagement>
     </SItemDescriptionBox>
   );
 };
@@ -40,6 +40,11 @@ const Item = styled('div', {
   textAlign: 'center',
 });
 
+const SOrderNumber = styled(Item, {
+  width: '$60',
+  marginLeft: '$24',
+});
+
 const SProfile = styled(Item, {
   width: '$187',
 });
@@ -55,9 +60,4 @@ const SPhone = styled(Item, {
 const SDate = styled(Item, {
   width: '$168',
   marginLeft: '$20',
-});
-
-const SManagement = styled('div', {
-  minWidth: '$28',
-  mr: '$90',
 });
