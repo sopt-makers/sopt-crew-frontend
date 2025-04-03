@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { styled } from 'stitches.config';
 import { getResizedImage } from '@utils/image';
-import { ACTION_STATUS, CATEGORY_NAME, CategoryType } from '@constants/option';
+import { ACTION_STATUS } from '@constants/option';
 import Link from 'next/link';
 import { GroupBrowsingCardItem, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
 
@@ -23,7 +23,7 @@ const MobileSizeCard: FC<GroupBrowsingCardItem> = ({ id, title, category, mStart
       <STitleSection>
         <STitle>
           {' '}
-          <SCategory isStudy={category === 'STUDY'}>{CATEGORY_NAME(category as CategoryType)}</SCategory>
+          <SCategory isStudy={category === 'STUDY'}>{category}</SCategory>
           {title}
         </STitle>
       </STitleSection>

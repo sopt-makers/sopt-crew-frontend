@@ -1,7 +1,7 @@
 import Avatar from '@components/@common/avatar/Avatar';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg?rect';
-import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
+import { PART_NAME } from '@constants/option';
 import Link from 'next/link';
 import { getResizedImage } from '@utils/image';
 
@@ -38,7 +38,7 @@ const DesktopCard = ({
           <SMetaStyle>
             {ownerName}
             <SMetaSubStyle>|</SMetaSubStyle>
-            {CATEGORY_NAME(category as CategoryType)}
+            {category}
           </SMetaStyle>
         </SMetaWrapper>
         <STitleStyle>{title}</STitleStyle>

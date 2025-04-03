@@ -33,9 +33,7 @@ function DesktopSizeCard({ meetingData, isFlash = false, welcomeMessageTypes, fl
       </ImageWrapper>
 
       <STitleSection>
-        {isFlash && (
-          <CategoryChip category={meetingData.category as CategoryKoType} welcomeMessage={welcomeMessageTypes} />
-        )}
+        <CategoryChip category={meetingData.category as CategoryKoType} welcomeMessage={welcomeMessageTypes} />
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 
