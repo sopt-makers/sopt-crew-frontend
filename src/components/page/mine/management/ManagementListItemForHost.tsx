@@ -22,6 +22,7 @@ type ManagementListItemForHostProps = {
   meetingId: number;
   application: MeetingPeopleResponse['apply'][number];
 };
+
 const ManagementListItemForHost = ({ meetingId, application }: ManagementListItemForHostProps) => {
   const { appliedDate, status = 'WAITING', user, applyNumber } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
@@ -44,6 +45,39 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
         },
       }
     );
+  };
+
+  const statusButtonConfig = {
+    WAITING: [
+      {
+        type: 'reject',
+        label: '거절',
+        action: EApprovalStatus.REJECT,
+        ButtonComponent: SRejectButton,
+      },
+      {
+        type: 'approve',
+        label: '승인',
+        action: EApprovalStatus.APPROVE,
+        ButtonComponent: SApproveButton,
+      },
+    ],
+    APPROVE: [
+      {
+        type: 'cancel',
+        label: '승인 취소',
+        action: EApprovalStatus.WAITING,
+        ButtonComponent: SCancelButton,
+      },
+    ],
+    REJECT: [
+      {
+        type: 'cancel',
+        label: '거절 취소',
+        action: EApprovalStatus.WAITING,
+        ButtonComponent: SCancelButton,
+      },
+    ],
   };
 
   return (
@@ -125,42 +159,11 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
           </SCardApplicationInformation>
         </SCardContent>
         <SCardButtonContainer>
-          {
-            <>
-              {status === 'WAITING' && (
-                <>
-                  <SRejectButton
-                    disabled={isMutateLoading}
-                    onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
-                  >
-                    거절
-                  </SRejectButton>
-                  <SApproveButton
-                    disabled={isMutateLoading}
-                    onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
-                  >
-                    승인
-                  </SApproveButton>
-                </>
-              )}
-              {status === 'APPROVE' && (
-                <SCancelButton
-                  disabled={isMutateLoading}
-                  onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
-                >
-                  승인 취소
-                </SCancelButton>
-              )}
-              {status === 'REJECT' && (
-                <SCancelButton
-                  disabled={isMutateLoading}
-                  onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
-                >
-                  거절 취소
-                </SCancelButton>
-              )}
-            </>
-          }
+          {statusButtonConfig[status]?.map(({ type, label, action, ButtonComponent }) => (
+            <ButtonComponent key={type} disabled={isMutateLoading} onClick={handleChangeApplicationStatus(action)}>
+              {label}
+            </ButtonComponent>
+          ))}
         </SCardButtonContainer>
       </SMobileCard>
     </>
