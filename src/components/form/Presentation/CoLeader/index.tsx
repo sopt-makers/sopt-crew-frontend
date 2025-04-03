@@ -63,7 +63,7 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 431);
+      setIsMobile(window.innerWidth <= 414);
     };
     window.addEventListener('resize', handleResize);
 
