@@ -149,7 +149,7 @@ export const STime = styled('p', {
   },
 });
 
-const SOrderNumber = styled('p', {
+export const SOrderNumber = styled('p', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

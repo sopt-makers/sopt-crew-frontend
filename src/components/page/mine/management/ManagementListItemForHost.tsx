@@ -1,20 +1,18 @@
-import { ampli } from '@/ampli';
 import { useMutationUpdateApplication } from '@api/API_LEGACY/meeting/hooks';
 import { MeetingPeopleResponse } from '@api/meeting';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import DefaultModal from '@components/modal/DefaultModal';
 import {
   navigateToUserProfileWithTracking,
   SDate,
   SListItem,
   SName,
+  SOrderNumber,
   SProfile,
   SProfileImage,
   STime,
   SUserInformation,
 } from '@components/page/mine/management/ManagementListItem';
-import { APPLICATION_TYPE, APPROVAL_STATUS_ENGLISH_TO_KOREAN, EApprovalStatus } from '@constants/option';
-import useModal from '@hooks/useModal';
+import { APPROVAL_STATUS_ENGLISH_TO_KOREAN, EApprovalStatus } from '@constants/option';
 import { useQueryClient } from '@tanstack/react-query';
 import alertErrorMessage from '@utils/alertErrorMessage';
 import { AxiosError } from 'axios';
@@ -27,14 +25,13 @@ type ManagementListItemForHostProps = {
   application: MeetingPeopleResponse['apply'][number];
 };
 const ManagementListItemForHost = ({ meetingId, application }: ManagementListItemForHostProps) => {
-  const { appliedDate, content = '', status = 'WAITING', user, type, applyNumber } = application;
+  const { appliedDate, status = 'WAITING', user, applyNumber } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
   const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
   const queryClient = useQueryClient();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
-  const { isModalOpened, handleModalOpen, handleModalClose } = useModal();
   const handleChangeApplicationStatus = (status: number) => async () => {
     setIsMutateLoading(true);
     try {
@@ -58,15 +55,11 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
   const addHyphenToPhoneNumber = (phoneNumber: string) =>
     phoneNumber.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
-  const handleDetailButtonClick = () => {
-    ampli.clickManagementListPromise({ submit_promise: content ? true : false });
-    handleModalOpen();
-  };
-
   return (
     <>
       <SDesktopListItem>
         <SUserInformation>
+          <SOrderNumber>{applyNumber}</SOrderNumber>
           <SDesktopProfile>
             <SProfileImage>
               {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
@@ -124,6 +117,7 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
         <SCardContent>
           <SCardUserInformation>
             <div>
+              <SOrderNumber>{applyNumber}</SOrderNumber>
               <SCardName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SCardName>
               <SCardUserStatus status={status}>{APPROVAL_STATUS_ENGLISH_TO_KOREAN[status]}</SCardUserStatus>
             </div>
@@ -178,15 +172,6 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
           }
         </SCardButtonContainer>
       </SMobileCard>
-      {isModalOpened && (
-        <DefaultModal
-          isModalOpened={isModalOpened}
-          title={`${APPLICATION_TYPE[type]}내역`}
-          handleModalClose={handleModalClose}
-        >
-          {content ? <SDetailText>{content}</SDetailText> : <SEmptyText>입력한 내용이 없습니다.</SEmptyText>}
-        </DefaultModal>
-      )}
     </>
   );
 };
