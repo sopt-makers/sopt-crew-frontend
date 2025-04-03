@@ -35,9 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# vscode
-.vscode/
-
 # __generated__
 src/__generated__/open-api-specification.json
 
