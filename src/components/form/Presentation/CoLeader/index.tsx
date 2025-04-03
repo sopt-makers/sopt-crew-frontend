@@ -391,7 +391,7 @@ const SProfile = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     background: '$gray700',
-    '@desktop': {
+    '@media (max-width: 768px)': {
       width: '$32',
       height: '$32',
     },
