@@ -48,36 +48,46 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
   };
 
   const statusButtonConfig = {
-    WAITING: [
-      {
-        type: 'reject',
-        label: '거절',
-        action: EApprovalStatus.REJECT,
-        ButtonComponent: SRejectButton,
-      },
-      {
-        type: 'approve',
-        label: '승인',
-        action: EApprovalStatus.APPROVE,
-        ButtonComponent: SApproveButton,
-      },
-    ],
-    APPROVE: [
-      {
-        type: 'cancel',
-        label: '승인 취소',
-        action: EApprovalStatus.WAITING,
-        ButtonComponent: SCancelButton,
-      },
-    ],
-    REJECT: [
-      {
-        type: 'cancel',
-        label: '거절 취소',
-        action: EApprovalStatus.WAITING,
-        ButtonComponent: SCancelButton,
-      },
-    ],
+    desktop: {
+      WAITING: [
+        { type: 'approve', label: '승인', action: EApprovalStatus.APPROVE, ButtonComponent: SWhiteButton },
+        { type: 'reject', label: '거절', action: EApprovalStatus.REJECT, ButtonComponent: SGrayButton },
+      ],
+      APPROVE: [{ type: 'cancel', label: '승인 취소', action: EApprovalStatus.WAITING, ButtonComponent: SGrayButton }],
+      REJECT: [{ type: 'cancel', label: '거절 취소', action: EApprovalStatus.WAITING, ButtonComponent: SGrayButton }],
+    },
+    mobile: {
+      WAITING: [
+        {
+          type: 'reject',
+          label: '거절',
+          action: EApprovalStatus.REJECT,
+          ButtonComponent: SRejectButton,
+        },
+        {
+          type: 'approve',
+          label: '승인',
+          action: EApprovalStatus.APPROVE,
+          ButtonComponent: SApproveButton,
+        },
+      ],
+      APPROVE: [
+        {
+          type: 'cancel',
+          label: '승인 취소',
+          action: EApprovalStatus.WAITING,
+          ButtonComponent: SCancelButton,
+        },
+      ],
+      REJECT: [
+        {
+          type: 'cancel',
+          label: '거절 취소',
+          action: EApprovalStatus.WAITING,
+          ButtonComponent: SCancelButton,
+        },
+      ],
+    },
   };
 
   return (
@@ -100,42 +110,11 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
           </SDateAndTime>
         </SUserInformation>
         <SButtonContainer>
-          {
-            <>
-              {status === 'WAITING' && (
-                <>
-                  <SWhiteButton
-                    disabled={isMutateLoading}
-                    onClick={handleChangeApplicationStatus(EApprovalStatus.APPROVE)}
-                  >
-                    승인
-                  </SWhiteButton>
-                  <SGrayButton
-                    disabled={isMutateLoading}
-                    onClick={handleChangeApplicationStatus(EApprovalStatus.REJECT)}
-                  >
-                    거절
-                  </SGrayButton>
-                </>
-              )}
-              {status === 'APPROVE' && (
-                <SGrayButton
-                  disabled={isMutateLoading}
-                  onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
-                >
-                  승인 취소
-                </SGrayButton>
-              )}
-              {status === 'REJECT' && (
-                <SGrayButton
-                  disabled={isMutateLoading}
-                  onClick={handleChangeApplicationStatus(EApprovalStatus.WAITING)}
-                >
-                  거절 취소
-                </SGrayButton>
-              )}
-            </>
-          }
+          {statusButtonConfig['desktop'][status]?.map(({ type, label, action, ButtonComponent }) => (
+            <ButtonComponent key={type} disabled={isMutateLoading} onClick={handleChangeApplicationStatus(action)}>
+              {label}
+            </ButtonComponent>
+          ))}
         </SButtonContainer>
       </SDesktopListItem>
       <SMobileCard>
@@ -147,8 +126,8 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
               <SCardUserStatus status={status}>{APPROVAL_STATUS_ENGLISH_TO_KOREAN[status]}</SCardUserStatus>
             </div>
             <SCardGenerationAndPhone>
-              <div>{user.recentActivity.generation}기</div>
-              <div>{user.phone ? `, ${addHyphenToPhoneNumber(user.phone)}` : ''}</div>
+              <p>{user.recentActivity.generation}기</p>
+              <p>{user.phone ? `, ${addHyphenToPhoneNumber(user.phone)}` : ''}</p>
             </SCardGenerationAndPhone>
           </SCardUserInformation>
           <SCardApplicationInformation>
@@ -159,7 +138,7 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
           </SCardApplicationInformation>
         </SCardContent>
         <SCardButtonContainer>
-          {statusButtonConfig[status]?.map(({ type, label, action, ButtonComponent }) => (
+          {statusButtonConfig['mobile'][status]?.map(({ type, label, action, ButtonComponent }) => (
             <ButtonComponent key={type} disabled={isMutateLoading} onClick={handleChangeApplicationStatus(action)}>
               {label}
             </ButtonComponent>
@@ -352,28 +331,4 @@ const SApproveButton = styled('button', {
 const SCancelButton = styled('button', {
   ...buttonStyles,
   width: '100%',
-});
-
-const SDetailText = styled('p', {
-  backgroundColor: '$gray700',
-  margin: '$24',
-  padding: '$16',
-  borderRadius: '19.711px',
-  height: '$200',
-  fontAg: '16_medium_150',
-  color: '$gray10',
-  boxSizing: 'border-box',
-  wordBreak: 'break-word',
-});
-
-const SEmptyText = styled('p', {
-  padding: '$104 0 $124 0',
-  fontAg: '20_medium_100',
-  textAlign: 'center',
-  color: '$gray400',
-
-  '@media (max-width: 768px)': {
-    padding: '$100 0',
-    fontAg: '14_medium_100',
-  },
 });
