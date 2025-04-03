@@ -311,7 +311,7 @@ const SCustomSuggestionsContainer = styled('div', {
   },
 
   //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
-  '@media (max-width: 430px)': {
+  '@media (max-width: 414px)': {
     position: 'fixed',
     top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
     bottom: '66px', //8 + 48 + 10
