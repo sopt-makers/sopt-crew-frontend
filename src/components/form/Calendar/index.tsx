@@ -36,29 +36,21 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const endDate = selectedDate?.[1] ?? '';
 
   const handleDateSelection = (newDate: string) => {
-    if (startDate && endDate) {
-      setSelectedDate([newDate, '']);
-      setInputValue(newDate);
-      return;
-    }
-
-    if (!startDate && !endDate) {
-      setSelectedDate([newDate, '']);
-      setInputValue(newDate);
-      return;
-    }
-
-    if (startDate && !endDate) {
-      const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
-      setSelectedDate(newSelectedDate);
-      setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
-    }
-
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
       setInputValue(newDate);
       return;
     }
+
+    if (!startDate || (startDate && endDate)) {
+      setSelectedDate([newDate, '']);
+      setInputValue(newDate);
+      return;
+    }
+
+    const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
+    setSelectedDate(newSelectedDate);
+    setInputValue(dateType === 'endDate' ? newSelectedDate[1] : newSelectedDate[0]);
   };
 
   const handleDateChange = (date: Date) => {
