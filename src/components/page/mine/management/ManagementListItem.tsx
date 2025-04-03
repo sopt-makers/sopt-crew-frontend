@@ -21,7 +21,7 @@ const ManagementListItem = ({ application }: ManagementListItemProps) => {
           <SOrderNumber>{applyNumber}</SOrderNumber>
           <SProfile>
             <SGuestProfileImage>
-              {user.profileImage ? <img src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+              {user.profileImage ? <img src={user.profileImage} alt="user profile image" /> : <ProfileDefaultIcon />}
             </SGuestProfileImage>
             <SName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SName>
           </SProfile>
