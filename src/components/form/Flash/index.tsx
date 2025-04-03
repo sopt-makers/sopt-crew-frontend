@@ -243,7 +243,6 @@ function Presentation({
                   const isChecked = value.value === '예정 기간 (협의 후 결정)';
                   const newTimeState = isChecked ? '당일' : '예정 기간 (협의 후 결정)';
                   const newValue = isChecked ? flashTime[0] : flashTime[1];
-                  console.log(newValue, dateRange);
                   return (
                     <>
                       <CheckBox
