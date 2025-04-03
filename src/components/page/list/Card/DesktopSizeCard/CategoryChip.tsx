@@ -30,7 +30,9 @@ export const CategoryChip = ({ category, welcomeMessage }: CategoryChipProps) =>
         <CategoryIcon width="18" height="18" fill="white" />
         {category}
       </Tag>
-      {category === '번쩍' && welcomeMessage?.map(message => <WelcomeTag>{message}</WelcomeTag>)}
+      {welcomeMessage?.map((message, idx) => (
+        <WelcomeTag key={idx}>{message}</WelcomeTag>
+      ))}
     </TagWrapper>
   );
 };
