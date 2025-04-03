@@ -1,7 +1,7 @@
 import Avatar from '@components/@common/avatar/Avatar';
 import { styled } from 'stitches.config';
 import UserIcon from '@assets/svg/user.svg?rect';
-import { CATEGORY_NAME, CategoryType, PART_NAME } from '@constants/option';
+import { PART_NAME } from '@constants/option';
 import Link from 'next/link';
 import { Flex } from '@components/util/layout/Flex';
 
@@ -52,7 +52,7 @@ const MobileCard = ({
             />
             <SMetaStyle>{ownerName}</SMetaStyle>
             <SMetaSubStyle>|</SMetaSubStyle>
-            <SMetaStyle>{CATEGORY_NAME(category as CategoryType)}</SMetaStyle>
+            <SMetaStyle>{category}</SMetaStyle>
           </Flex>
         </SMetaWrapper>
       </SCardWrapper>
