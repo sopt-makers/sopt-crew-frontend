@@ -13,9 +13,7 @@ import {
   SUserInformation,
 } from '@components/page/mine/management/ManagementListItem';
 import { APPROVAL_STATUS_ENGLISH_TO_KOREAN, EApprovalStatus } from '@constants/option';
-import { useQueryClient } from '@tanstack/react-query';
-import alertErrorMessage from '@utils/alertErrorMessage';
-import { AxiosError } from 'axios';
+import { addHyphenToPhoneNumber } from '@utils/addHypenToPhoneNumber';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
@@ -29,31 +27,24 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
-  const { mutateAsync: mutateUpdateApplication } = useMutationUpdateApplication({});
-  const queryClient = useQueryClient();
+  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
   const [isMutateLoading, setIsMutateLoading] = useState(false);
-  const handleChangeApplicationStatus = (status: number) => async () => {
+
+  const handleChangeApplicationStatus = (status: number) => () => {
     setIsMutateLoading(true);
-    try {
-      await mutateUpdateApplication({
+    mutateUpdateApplication(
+      {
         id: meetingId,
         applyId: application.id,
         status,
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ['getMeetingPeopleList'],
-      });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        alertErrorMessage(error);
+      },
+      {
+        onSuccess: () => {
+          setIsMutateLoading(false);
+        },
       }
-    } finally {
-      setIsMutateLoading(false);
-    }
+    );
   };
-
-  const addHyphenToPhoneNumber = (phoneNumber: string) =>
-    phoneNumber.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
   return (
     <>
