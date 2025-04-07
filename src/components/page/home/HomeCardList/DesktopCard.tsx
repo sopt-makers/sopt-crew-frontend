@@ -32,7 +32,7 @@ const DesktopCard = ({
   return (
     <Link href={`/detail?id=${id}`}>
       <SCardWrapper>
-        <SThumbnailImage src={getResizedImage(imageURL ?? '', 180)} />
+        <SThumbnailImage src={getResizedImage(imageURL ?? '', 285)} />
         <SMetaWrapper style={{ paddingTop: '16px' }}>
           <Avatar src={ownerImage} alt={`${title} 모임장 프로필`} sx={{ width: '18px', height: '18px' }} />
           <SMetaStyle>
