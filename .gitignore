@@ -37,6 +37,7 @@ next-env.d.ts
 
 # vscode
 .vscode/
+.idea
 
 # __generated__
 src/__generated__/open-api-specification.json

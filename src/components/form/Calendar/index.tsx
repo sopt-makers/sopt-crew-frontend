@@ -61,7 +61,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, '');
     const formattedValue = formatDateInput(rawValue);
-
+    console.log(formattedValue);
     setInputValue(formattedValue);
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
       if (dateType === 'endDate') {
@@ -70,8 +70,12 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         setSelectedDate(newSelectedEndDate);
       }
       if (dateType === 'startDate') {
-        const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
-        setSelectedDate(newSelectedStartDate);
+        if (!endDate) {
+          setSelectedDate([formattedValue, '']);
+        } else {
+          const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
+          setSelectedDate(newSelectedStartDate);
+        }
       }
       if (dateType === 'singleSelect') {
         setSelectedDate([formattedValue, '']);
@@ -92,6 +96,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     if (selectedDate) {
       setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
     }
+    console.log(selectedDate);
   }, [selectedDate, dateType]);
 
   useEffect(() => {
@@ -107,8 +112,10 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     return (
       <Calendar
         value={
-          selectedDate
+          selectedDate?.[0] && selectedDate?.[1]
             ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
+            : selectedDate?.[0]
+            ? dayjs(selectedDate[0], 'YYYY.MM.DD').toDate()
             : null
         }
         selectRange={dateType !== 'singleSelect'}
