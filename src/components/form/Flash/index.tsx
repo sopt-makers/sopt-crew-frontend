@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
 import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -63,7 +63,12 @@ function Presentation({
   const [timeState, setTimeState] = useState<'당일' | '예정 기간 (협의 후 결정)' | null>(timeType);
   const isEdit = router.asPath.includes('/edit');
   const { watch, setValue } = useFormContext();
-  const dateRange = watch('timeInfo.dateRange');
+
+  const endDate = watch('timeInfo.endDate');
+  if (timeState === '당일' && endDate !== '') {
+    setValue('timeInfo.endDate', '');
+  }
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,11 +184,12 @@ function Presentation({
             <SDateFieldWrapper>
               <SDateField>
                 <FormController
-                  name="timeInfo.dateRange"
+                  name="timeInfo.startDate"
                   render={({ field, formState: { errors } }) => {
-                    const dateError = errors.timeInfo as
+                    const dateError = errors.detail as
                       | (FieldError & {
-                          dateRange?: FieldError[] | FieldError;
+                          mStartDate?: FieldError;
+                          mEndDate?: FieldError;
                         })
                       | undefined;
                     return (
@@ -191,13 +197,8 @@ function Presentation({
                         {timeState && (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
-                            error={
-                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
-                              (dateError?.dateRange as FieldError[])?.[1]?.message
-                            }
-                            selectedDateFieldName={field.name}
-                            dateType={timeState === '예정 기간 (협의 후 결정)' ? 'startDate' : 'singleSelect'}
+                            setSelectedDate={field.onChange}
+                            error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                           />
                         )}
                       </>
@@ -208,30 +209,14 @@ function Presentation({
               {timeState === '예정 기간 (협의 후 결정)' && <span style={{ marginTop: '14px' }}>-</span>}
               <SDateField>
                 <FormController
-                  name="timeInfo.dateRange"
-                  render={({ field, formState: { errors } }) => {
-                    const dateError = errors.detail as
-                      | (FieldError & {
-                          dateRange?: FieldError[];
-                        })
-                      | undefined;
-                    return (
-                      <>
-                        {timeState === '예정 기간 (협의 후 결정)' && (
-                          <CalendarInputForm
-                            selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
-                            selectedDateFieldName={field.name}
-                            error={
-                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
-                              (dateError?.dateRange as FieldError[])?.[1]?.message
-                            }
-                            dateType={timeState === '예정 기간 (협의 후 결정)' ? 'endDate' : 'singleSelect'}
-                          />
-                        )}
-                      </>
-                    );
-                  }}
+                  name="timeInfo.endDate"
+                  render={({ field }) => (
+                    <>
+                      {timeState === '예정 기간 (협의 후 결정)' && (
+                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                      )}
+                    </>
+                  )}
                 ></FormController>
               </SDateField>
             </SDateFieldWrapper>
@@ -252,9 +237,6 @@ function Presentation({
                         onClick={() => {
                           setTimeState(newTimeState);
                           onChange(newValue);
-                          if (isChecked) {
-                            setValue('timeInfo.dateRange', [!isChecked ? dateRange : dateRange[0], '']);
-                          }
                         }}
                       />
                     </>
