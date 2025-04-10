@@ -71,14 +71,14 @@ const filterFlashFormData = (formData: FlashFormType) => {
     return tag?.value;
   });
   const convertedEndDate =
-    formData.timeInfo.time.value === '당일' ? formData.timeInfo.dateRange[0] : formData.timeInfo.dateRange[1];
+    formData.timeInfo.time.value === '당일' ? formData.timeInfo.startDate : formData.timeInfo.endDate;
   const convertedFlashPlace = formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
   const data = {
     flashBody: {
       title: formData.title,
       desc: formData.desc,
       flashTimingType: formData.timeInfo.time.value,
-      activityStartDate: formData.timeInfo.dateRange[0],
+      activityStartDate: formData.timeInfo.startDate,
       activityEndDate: convertedEndDate,
       flashPlaceType: formData.placeInfo.place.value,
       flashPlace: convertedFlashPlace,

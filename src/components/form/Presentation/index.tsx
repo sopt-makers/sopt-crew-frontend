@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
+import { FieldError, FieldErrors } from 'react-hook-form';
 import { categories } from '@data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
@@ -64,7 +64,6 @@ function Presentation({
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
   const isEdit = router.asPath.includes('/edit');
-  const { setValue } = useFormContext();
 
   const schedule: React.ReactNode = (
     <>
@@ -99,6 +98,7 @@ function Presentation({
         setIsSoptScheduleOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
@@ -300,27 +300,24 @@ function Presentation({
                   </ToolTipDiv>
                 )}
               </div>
+              {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SApplicationFieldWrapper>
               <SApplicationField>
                 <FormController
-                  name="detail.mDateRange"
+                  name="detail.mStartDate"
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
-                          mDateRange?: FieldError[];
+                          mStartDate?: FieldError;
+                          mEndDate?: FieldError;
                         })
                       | undefined;
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={value => setValue(field.name, value)}
-                        selectedDateFieldName={field.name}
-                        error={
-                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
-                          (dateError?.mDateRange as FieldError[])?.[1]?.message
-                        }
-                        dateType="startDate"
+                        setSelectedDate={field.onChange}
+                        error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
                       />
                     );
                   }}
@@ -329,27 +326,10 @@ function Presentation({
               <span style={{ marginTop: '14px' }}>-</span>
               <SApplicationField>
                 <FormController
-                  name="detail.mDateRange"
-                  render={({ field, formState: { errors } }) => {
-                    const dateError = errors.detail as
-                      | (FieldError & {
-                          mDateRange?: FieldError[];
-                        })
-                      | undefined;
-
-                    return (
-                      <CalendarInputForm
-                        selectedDate={field.value}
-                        setSelectedDate={value => setValue(field.name, value)}
-                        dateType="endDate"
-                        error={
-                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
-                          (dateError?.mDateRange as FieldError[])?.[1]?.message
-                        }
-                        selectedDateFieldName={field.name}
-                      />
-                    );
-                  }}
+                  name="detail.mEndDate"
+                  render={({ field }) => (
+                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                  )}
                 ></FormController>
               </SApplicationField>
             </SApplicationFieldWrapper>
@@ -383,23 +363,19 @@ function Presentation({
                 <SApplicationFieldWrapper>
                   <SApplicationField>
                     <FormController
-                      name="dateRange"
+                      name="startDate"
                       render={({ field, formState: { errors } }) => {
                         const dateError = errors as
                           | {
-                              dateRange?: FieldError[];
+                              startDate?: FieldError;
+                              endDate?: FieldError;
                             }
                           | undefined;
                         return (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
-                            selectedDateFieldName={field.name}
-                            error={
-                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
-                              (dateError?.dateRange as FieldError[])?.[1]?.message
-                            }
-                            dateType="startDate"
+                            setSelectedDate={field.onChange}
+                            error={dateError?.startDate?.message || dateError?.endDate?.message}
                           />
                         );
                       }}
@@ -408,14 +384,9 @@ function Presentation({
                   <span style={{ marginTop: '14px' }}>-</span>
                   <SApplicationField>
                     <FormController
-                      name="dateRange"
+                      name="endDate"
                       render={({ field }) => (
-                        <CalendarInputForm
-                          selectedDate={field.value}
-                          setSelectedDate={value => setValue(field.name, value)}
-                          selectedDateFieldName={field.name}
-                          dateType="endDate"
-                        />
+                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
                       )}
                     ></FormController>
                   </SApplicationField>
