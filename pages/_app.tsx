@@ -22,11 +22,6 @@ import { MentionProvider } from '@components/feed/Mention/MentionContext';
 import { globalStyles } from 'styles/globals';
 import { SearchMentionProvider } from '@components/form/SearchMention/SearchMentionContext';
 
-// 리액트 하이드레이션 에러를 피하기 위해 사용. 렌더링에 관여하지 않는 코드여서 if 문으로 분기처리
-if (typeof window !== 'undefined') {
-  setAccessTokens();
-}
-
 function MyApp({ Component, pageProps }: AppProps) {
   globalStyles();
 
@@ -95,6 +90,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     } catch (e) {
       console.debug(e);
     }
+  }, []);
+
+  useEffect(() => {
+    setAccessTokens();
+    const intervalId = setInterval(setAccessTokens, 9 * 60 * 60 * 1000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
