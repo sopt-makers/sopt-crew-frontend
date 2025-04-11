@@ -190,6 +190,9 @@ body {
     &:enabled:focus {
       background: none;
     }
+    &:disabled {
+      background: none;
+    }
 
     abbr {
       &:hover {
@@ -360,6 +363,7 @@ body {
 
   .react-calendar__tile--hoverStart{
     background-color: var(--colors-gray500) !important;
+    border-radius: 47% 0 0 47%;
 
   }
 
@@ -367,6 +371,10 @@ body {
     background-color: var(--colors-gray500) !important;
     border-radius: 0 47% 47% 0;
 
+  }
+
+  .react-calendar__tile--range.single-select-mode {
+    background: unset !important;
   }
 
 }

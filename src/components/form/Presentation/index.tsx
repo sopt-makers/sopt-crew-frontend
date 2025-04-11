@@ -64,7 +64,6 @@ function Presentation({
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
   const isEdit = router.asPath.includes('/edit');
-  const { setValue } = useFormContext();
 
   const schedule: React.ReactNode = (
     <>

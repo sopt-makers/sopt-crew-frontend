@@ -10,7 +10,6 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { IconCalendar } from '@sopt-makers/icons';
 import { formatCalendarDate } from '@utils/dayjs';
 import { formatDateInput, MAX_DATE_INPUT_LENGTH, WEEKDAYS } from '@utils/date';
-import { useFormContext } from 'react-hook-form';
 
 /**
  * CalendarInputForm
@@ -91,6 +90,16 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     }
   }, []);
 
+  const getCalendarValue = (): Date | [Date, Date] | null => {
+    if (dateType === 'singleSelect') {
+      return startDate ? dayjs(startDate, 'YYYY.MM.DD').toDate() : null;
+    }
+    if (startDate && endDate) {
+      return [dayjs(startDate).toDate(), dayjs(endDate).toDate()] as [Date, Date];
+    }
+    return startDate ? dayjs(startDate).toDate() : null;
+  };
+
   useEffect(() => {
     if (selectedDate) {
       setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
@@ -111,24 +120,15 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const CalendarComponent = () => {
     return (
       <Calendar
-        value={
-          dateType === 'singleSelect'
-            ? selectedDate?.[0]
-              ? dayjs(selectedDate[0], 'YYYY.MM.DD').toDate()
-              : null
-            : selectedDate?.[0] && selectedDate?.[1]
-            ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
-            : selectedDate?.[0]
-            ? dayjs(selectedDate[0], 'YYYY.MM.DD').toDate()
-            : null
-        }
-        selectRange={false}
+        value={getCalendarValue()}
+        selectRange={isRange}
         onClickDay={handleDateChange}
         formatDay={(locale, date) => dayjs(date).format('D')}
         formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}
         showNeighboringMonth={false}
         next2Label={null}
         prev2Label={null}
+        minDate={new Date()}
         minDetail="month"
         maxDetail="month"
         calendarType="gregory"
@@ -139,6 +139,11 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
                 <SDot />
               </SDotWrapper>
             );
+          }
+        }}
+        tileClassName={() => {
+          if (dateType === 'singleSelect') {
+            return 'single-select-mode';
           }
         }}
       />
