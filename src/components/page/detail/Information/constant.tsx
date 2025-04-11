@@ -6,8 +6,9 @@ import 'dayjs/locale/ko';
 import { styled } from 'stitches.config';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
+import CalendarIcon from '@assets/svg/calendar.svg?rect';
 import { GetFlashByIdResponse } from '@api/flash';
-import { IconCalendar, IconLocation } from '@sopt-makers/icons';
+import { IconLocation } from '@sopt-makers/icons';
 
 export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   {
@@ -156,7 +157,7 @@ const STitle = styled('h2', {
   },
 });
 
-const SIconCalendar = styled(IconCalendar, {
+const SIconCalendar = styled(CalendarIcon, {
   width: '24px',
   height: '24px',
 

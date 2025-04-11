@@ -14,7 +14,6 @@ import CheckIcon from '@assets/svg/check.svg';
 import dynamic from 'next/dynamic';
 import { parts } from '@data/options';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { formatCalendarDate } from '@utils/dayjs';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -84,13 +83,15 @@ const EditPage = () => {
       formMethods.reset({
         ...formData,
         files: formData?.imageURL.map(image => image.url),
-        dateRange: [formatCalendarDate(formData?.startDate), formatCalendarDate(formData?.endDate)],
+        startDate: dayjs(formData?.startDate).format('YYYY.MM.DD'),
+        endDate: dayjs(formData?.endDate).format('YYYY.MM.DD'),
         category: { label: formData?.category, value: formData?.category },
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
           processDesc: formData?.processDesc,
-          mDateRange: [formatCalendarDate(formData?.mStartDate), formatCalendarDate(formData?.mEndDate)],
+          mStartDate: dayjs(formData?.mStartDate).format('YYYY.MM.DD'),
+          mEndDate: dayjs(formData?.mEndDate).format('YYYY.MM.DD'),
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
