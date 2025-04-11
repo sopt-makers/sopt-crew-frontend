@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useCallback, useState } from 'react';
 import { styled } from 'stitches.config';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -8,51 +8,96 @@ import { useDisplay } from '@hooks/useDisplay';
 import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
 import CalendarIcon from '@assets/svg/calendar_big.svg';
+import CalendarMobileIcon from '@assets/svg/calendar_small.svg';
+import { formatCalendarDate } from '@utils/dayjs';
+import { formatDateInput, WEEKDAYS } from '@utils/date';
+
+/**
+ * CalendarInputForm
+ * @param selectedDate 선택된 날짜
+ * @param setSelectedDate 선택된 날짜 변경 함수
+ * @param selectedDateFieldName 선택된 날짜 필드 이름
+ * @param error 에러 메시지
+ * @param dateType 캘린더 타입, startDate(시작일 캘린더), endDate(마감일 캘린더), singleSelect(단일선택 캘린더)
+ */
+
 interface Props {
-  selectedDate: string | null;
-  setSelectedDate: Dispatch<SetStateAction<string | null>>;
+  selectedDate: string[] | null;
+  setSelectedDate: Dispatch<SetStateAction<string[] | string | null>>;
+  selectedDateFieldName: string;
   error?: string;
+  dateType?: 'startDate' | 'endDate' | 'singleSelect';
 }
 
-const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
+const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, selectedDateFieldName }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [startDate, endDate] = selectedDate ?? ['', ''];
+  const newValue = dateType === 'endDate' ? selectedDate?.[1] : selectedDate?.[0];
 
-  const CalendarComponent = () => {
-    return (
-      <>
-        <Calendar
-          value={selectedDate ? dayjs(selectedDate, 'YYYY-MM-DD').toDate() : null}
-          onClickDay={date => setSelectedDate(dayjs(date).format('YYYY.MM.DD'))}
-          formatDay={(locale, date) => dayjs(date).format('D')}
-          formatShortWeekday={(locale, date) => ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][date.getDay()] ?? ''}
-          showNeighboringMonth={false}
-          next2Label={null}
-          prev2Label={null}
-          minDetail="month"
-          maxDetail="month"
-          calendarType="US"
-          tileContent={({ date, view }) => {
-            if (selectedDate == dayjs(date).format('YYYY.MM.DD')) {
-              return (
-                <SDotWrapper>
-                  <SDot></SDot>
-                </SDotWrapper>
-              );
-            }
-          }}
-        />
-        {error && <SErrorMessage>{error}</SErrorMessage>}
-      </>
-    );
+  const handleDateSelection = (newDate: string) => {
+    if (startDate && endDate) {
+      setSelectedDate([newDate, '']);
+      return;
+    }
+
+    if (!startDate && !endDate) {
+      setSelectedDate([newDate, '']);
+      return;
+    }
+
+    if (startDate && !endDate) {
+      const newSelectedDate = newDate < startDate ? [newDate, startDate] : [startDate, newDate];
+      setSelectedDate(newSelectedDate);
+      return;
+    }
+
+    if (!startDate && endDate) {
+      const newSelectedDate = newDate < endDate ? [newDate, endDate] : [endDate, newDate];
+      setSelectedDate(newSelectedDate);
+      return;
+    }
+
+    if (dateType === 'singleSelect') {
+      setSelectedDate([newDate, '']);
+      return;
+    }
   };
+
+  const handleDateChange = (date: Date) => {
+    const newDate = formatCalendarDate(date);
+    handleDateSelection(newDate);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = event.target.value.replace(/\D/g, '');
+    const formattedValue = formatDateInput(rawValue);
+
+    // handleDateSelection(formattedValue);
+    if (dateType === 'startDate') {
+      setSelectedDate([formattedValue, endDate ?? '']);
+    }
+    if (dateType === 'endDate') {
+      setSelectedDate([startDate ?? '', formattedValue]);
+    }
+    if (dateType === 'singleSelect') {
+      setSelectedDate([formattedValue, '']);
+    }
+  };
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { isDesktop, isMobile, isTablet } = useDisplay();
 
-  const handleOutsideClick = useCallback((event: any) => {
-    if (!containerRef.current || !containerRef.current.contains(event.target)) {
+  const handleOutsideClick = useCallback((event: MouseEvent) => {
+    if (!containerRef.current || !containerRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   }, []);
+
+  // useEffect(() => {
+  //   if (selectedDate) {
+  //     setInputValue(dateType === 'endDate' ? selectedDate[1] : selectedDate[0]);
+  //   }
+  // }, [selectedDate, dateType]);
 
   useEffect(() => {
     if (isDesktop && !isMobile && !isTablet) {
@@ -63,14 +108,75 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
     }
   }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
+  const tryParseDate = (str: string | undefined, format: string) => {
+    const d = dayjs(str, format);
+
+    if (d.isValid()) {
+      return d.toDate();
+    }
+    return null;
+  };
+
+  const start = tryParseDate(selectedDate?.[0], 'YYYY.MM.DD');
+  const end = tryParseDate(selectedDate?.[1], 'YYYY.MM.DD');
+
+  const getDefaultActiveStartDate = () => {
+    if (dateType === 'startDate' && start) {
+      return start;
+    }
+    if (dateType === 'endDate' && end) {
+      return end;
+    }
+  };
+
+  const CalendarComponent = () => {
+    return (
+      <Calendar
+        value={[start, end]}
+        selectRange={dateType !== 'singleSelect'}
+        defaultActiveStartDate={getDefaultActiveStartDate()}
+        onClickDay={handleDateChange}
+        formatDay={(locale, date) => dayjs(date).format('D')}
+        formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}
+        showNeighboringMonth={false}
+        next2Label={null}
+        prev2Label={null}
+        minDetail="month"
+        maxDetail="month"
+        calendarType="gregory"
+        tileContent={({ date, view }) => {
+          if (selectedDate?.includes(formatCalendarDate(date))) {
+            return (
+              <SDotWrapper>
+                <SDot></SDot>
+              </SDotWrapper>
+            );
+          }
+        }}
+      />
+    );
+  };
+
   return (
     <>
       {!isDesktop && (isMobile || isTablet) ? (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
-            <CalendarIcon />
+            <SInputCustom>
+              <span className="filled">{newValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(newValue?.length ?? 0)}</span>
+              <SInput
+                type="text"
+                name={selectedDateFieldName}
+                value={newValue}
+                onChange={handleInputChange}
+                maxLength={10}
+                placeholder=""
+              />
+            </SInputCustom>
+            {isMobile ? <CalendarMobileIcon /> : <CalendarIcon />}
           </SInputWrapper>
+          {error && selectedDate?.[0] && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <div>
               <BottomSheetDialog label={''} handleClose={() => setIsOpen(false)} isOpen={isOpen}>
@@ -82,9 +188,21 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
       ) : (
         <>
           <SInputWrapper onClick={() => setIsOpen(true)}>
-            <SInput value={selectedDate as string | number | readonly string[] | undefined} placeholder="YYYY.MM.DD" />
+            <SInputCustom>
+              <span className="filled">{newValue}</span>
+              <span className="placeholder">{'YYYY.MM.DD'.substring(newValue?.length ?? 0)}</span>
+              <SInput
+                type="text"
+                name={selectedDateFieldName}
+                value={newValue}
+                onChange={handleInputChange}
+                maxLength={10}
+                placeholder="YYYY.MM.DD"
+              />
+            </SInputCustom>
             <CalendarIcon />
           </SInputWrapper>
+          {error && dateType !== 'endDate' && <SErrorMessage>{error}</SErrorMessage>}
           {isOpen && (
             <SCalendarWrapper ref={containerRef}>
               <CalendarComponent />
@@ -97,6 +215,34 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error }: Props) => {
 };
 
 export default CalendarInputForm;
+
+const SInputCustom = styled('div', {
+  position: 'relative',
+  width: '80%',
+  display: 'flex',
+  alignItems: 'center',
+  color: '$gray10',
+  caretColor: '$gray10',
+
+  '& .filled': {
+    color: '$gray10',
+  },
+  '& .placeholder': {
+    color: '$gray500',
+  },
+
+  '& input': {
+    position: 'absolute',
+    width: '100%',
+    opacity: 0,
+    caretColor: '$gray10',
+    background: 'transparent',
+    letterSpacing: '-0.24px',
+    lineHeight: '26px',
+    border: 'none',
+    outline: 'none',
+  },
+});
 
 const SCalendarWrapper = styled('div', {
   backgroundColor: '$gray700',
