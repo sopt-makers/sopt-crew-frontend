@@ -1,16 +1,7 @@
-import { ApplicationStatusType, UserResponse } from '@api/user';
-import { api } from '..';
+import { paths } from '@/__generated__/schema2';
 import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
 import { FlashFormType } from '@type/form';
-import { paths } from '@/__generated__/schema2';
-interface PaginationType {
-  page: number;
-  take: number;
-  itemCount: number;
-  pageCount: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-}
+import { api } from '..';
 
 interface OptionData {
   id: string;
@@ -19,18 +10,9 @@ interface OptionData {
   status: string[];
   date: string;
 }
-export interface ApplicationData {
-  id: number;
-  type: number;
-  appliedDate: string;
-  content?: string;
-  status: ApplicationStatusType;
-  user: UserResponse;
-}
-export interface MeetingPeopleResponse {
-  apply: ApplicationData[];
-  meta: PaginationType;
-}
+
+export type MeetingPeopleResponse =
+  paths['/meeting/v2/{meetingId}/list']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise<MeetingPeopleResponse> => {
   const { status } = rest;

@@ -11,26 +11,28 @@ import {
   UseMutationOptions,
   UseMutationResult,
   useQuery,
+  useQueryClient,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import alertErrorMessage from '@utils/alertErrorMessage';
 import { AxiosError } from 'axios';
 import {
+  deleteApplication,
   deleteMeeting,
+  downloadMeetingMemberCSV,
   fetchMeetingListOfAll,
+  getGroupBrowsingCard,
   getMeeting,
   getMeetingPeopleList,
-  PostApplicationRequest,
+  GetMeetingResponse,
+  GroupBrowsingCardResponse,
   MeetingPeopleResponse,
   postApplication,
-  deleteApplication,
+  PostApplicationRequest,
+  postEventApplication,
   updateApplication,
   UpdateApplicationRequest,
-  downloadMeetingMemberCSV,
-  getGroupBrowsingCard,
-  GetMeetingResponse,
-  postEventApplication,
-  GroupBrowsingCardResponse,
 } from '.';
 
 interface UseQueryGetMeetingParams {
@@ -172,10 +174,20 @@ export const useMutationUpdateApplication = ({
   AxiosError,
   UpdateApplicationRequest
 > => {
+  const queryClient = useQueryClient();
+
   return useMutation<{ statusCode: number }, AxiosError, UpdateApplicationRequest>({
     ...useMutationOptions,
     mutationKey: ['updateApplication'],
     mutationFn: updateApplication,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getMeetingPeopleList'],
+      });
+    },
+    onError: (error: AxiosError) => {
+      alertErrorMessage(error);
+    },
   });
 };
 
