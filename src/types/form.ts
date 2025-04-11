@@ -26,19 +26,29 @@ export const schema = z.object({
     .array(z.string(), { required_error: '이미지를 추가해주세요.' })
     .min(1, { message: '이미지를 추가해주세요.' }),
   dateRange: z
-    .array(
-      z
-        .string()
-        .min(1, { message: '모집 기간을 입력해주세요.' })
-        .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-    )
+    .array(z.string())
+    .min(1, { message: '모집 기간을 입력해주세요.' })
+    .max(2, { message: '시작일과 종료일만 입력해주세요.' })
+
     .superRefine((dates, ctx) => {
+      console.log('superRefine 실행', dates);
+
+      // 날짜 형식 검사
       dates.forEach((date, index) => {
+        if (!date) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '모집 기간을 입력해주세요.',
+            path: [],
+          });
+          return;
+        }
+
         if (!isValidDate(date)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '유효한 날짜가 아닙니다',
-            path: [index],
+            path: [],
           });
           return;
         }
@@ -74,14 +84,23 @@ export const schema = z.object({
       })
       .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     mDateRange: z
-      .array(
-        z
-          .string()
-          .min(10, { message: '활동 기간을 입력해주세요.' })
-          .max(10, { message: 'YYYY.MM.DD 형식으로 입력해주세요.' })
-      )
+      .array(z.string())
+      .min(1, { message: '활동 기간을 입력해주세요.' })
+      .max(2, { message: '시작일과 종료일만 입력해주세요.' })
       .superRefine((dates, ctx) => {
+        console.log('mDateRange superRefine 실행', dates);
+
+        // 날짜 형식 검사
         dates.forEach((date, index) => {
+          if (!date) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '활동 기간을 입력해주세요.',
+              path: [index],
+            });
+            return;
+          }
+
           if (!isValidDate(date)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
@@ -91,6 +110,21 @@ export const schema = z.object({
             return;
           }
         });
+
+        // 시작일과 종료일이 모두 있을 때만 1년 범위 체크
+        if (dates[0] && dates[1]) {
+          const startDate = dayjs(dates[0], 'YYYY.MM.DD');
+          const endDate = dayjs(dates[1], 'YYYY.MM.DD');
+          const diffInYears = endDate.diff(startDate, 'year');
+
+          if (diffInYears > 1) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '활동 기간은 1년을 초과할 수 없습니다.',
+              path: [1],
+            });
+          }
+        }
       }),
     leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),

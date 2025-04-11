@@ -35,6 +35,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const startDate = selectedDate?.[0] ?? '';
   const endDate = selectedDate?.[1] ?? '';
 
+  console.log(error);
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
