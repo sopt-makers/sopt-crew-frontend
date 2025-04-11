@@ -280,6 +280,7 @@ body {
     }
   }
 
+
   .react-calendar__tile--hasActive{
     background: none;
     &:hover {
@@ -351,6 +352,21 @@ body {
       border-radius: 50%;
       color: var(--colors-gray800);
     }
+  }
+
+  .react-calendar__tile--hover{
+    background-color: var(--colors-gray500) !important;
+  }
+
+  .react-calendar__tile--hoverStart{
+    background-color: var(--colors-gray500) !important;
+
+  }
+
+  .react-calendar__tile--hoverEnd{
+    background-color: var(--colors-gray500) !important;
+    border-radius: 0 47% 47% 0;
+
   }
 
 }
