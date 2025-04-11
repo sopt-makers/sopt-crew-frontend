@@ -21,6 +21,7 @@ const MakePage = () => {
   const router = useRouter();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
+    reValidateMode: 'onChange',
     resolver: zodResolver(schema),
     defaultValues: {
       detail: {

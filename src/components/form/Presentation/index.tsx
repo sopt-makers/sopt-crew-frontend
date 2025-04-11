@@ -314,7 +314,7 @@ function Presentation({
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={value => setValue(field.name, value)}
+                        setSelectedDate={field.onChange}
                         selectedDateFieldName={field.name}
                         error={
                           (dateError?.mDateRange as FieldError[])?.[0]?.message ||
@@ -340,7 +340,7 @@ function Presentation({
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
-                        setSelectedDate={value => setValue(field.name, value)}
+                        setSelectedDate={field.onChange}
                         dateType="endDate"
                         error={
                           (dateError?.mDateRange as FieldError[])?.[0]?.message ||
@@ -393,7 +393,7 @@ function Presentation({
                         return (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
+                            setSelectedDate={field.onChange}
                             selectedDateFieldName={field.name}
                             error={
                               (dateError?.dateRange as FieldError[])?.[0]?.message ||
@@ -412,7 +412,7 @@ function Presentation({
                       render={({ field }) => (
                         <CalendarInputForm
                           selectedDate={field.value}
-                          setSelectedDate={value => setValue(field.name, value)}
+                          setSelectedDate={field.onChange}
                           selectedDateFieldName={field.name}
                           dateType="endDate"
                         />

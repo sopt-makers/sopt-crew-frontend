@@ -90,7 +90,6 @@ export const schema = z.object({
       .superRefine((dates, ctx) => {
         console.log('mDateRange superRefine 실행', dates);
 
-        // 날짜 형식 검사
         dates.forEach((date, index) => {
           if (!date) {
             ctx.addIssue({
@@ -104,19 +103,27 @@ export const schema = z.object({
           if (!isValidDate(date)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: '유효한 날짜가 아닙니다',
+              message: '유효한 날짜가 아닙니다.',
               path: [index],
             });
             return;
           }
         });
 
-        // 시작일과 종료일이 모두 있을 때만 1년 범위 체크
+        // 👉 1년 범위 초과 여부 체크
         if (dates[0] && dates[1]) {
           const startDate = dayjs(dates[0], 'YYYY.MM.DD');
           const endDate = dayjs(dates[1], 'YYYY.MM.DD');
-          const diffInYears = endDate.diff(startDate, 'year');
 
+          if (endDate.isBefore(startDate)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '종료일은 시작일보다 이후여야 합니다.',
+              path: [1],
+            });
+          }
+
+          const diffInYears = endDate.diff(startDate, 'year', true); // 소수점 단위로 비교 가능
           if (diffInYears > 1) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,

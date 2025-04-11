@@ -186,13 +186,12 @@ function Presentation({
                           dateRange?: FieldError[] | FieldError;
                         })
                       | undefined;
-                    console.log(errors);
                     return (
                       <>
                         {timeState && (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
+                            setSelectedDate={field.onChange}
                             error={
                               (dateError?.dateRange as FieldError[])?.[0]?.message ||
                               (dateError?.dateRange as FieldError[])?.[1]?.message
@@ -221,7 +220,7 @@ function Presentation({
                         {timeState === '예정 기간 (협의 후 결정)' && (
                           <CalendarInputForm
                             selectedDate={field.value}
-                            setSelectedDate={value => setValue(field.name, value)}
+                            setSelectedDate={field.onChange}
                             selectedDateFieldName={field.name}
                             error={
                               (dateError?.dateRange as FieldError[])?.[0]?.message ||
