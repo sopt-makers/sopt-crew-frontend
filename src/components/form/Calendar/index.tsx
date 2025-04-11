@@ -106,17 +106,23 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     }
   }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
 
+  const isRange = dateType !== 'singleSelect';
+
   const CalendarComponent = () => {
     return (
       <Calendar
         value={
-          selectedDate?.[0] && selectedDate?.[1]
+          dateType === 'singleSelect'
+            ? selectedDate?.[0]
+              ? dayjs(selectedDate[0], 'YYYY.MM.DD').toDate()
+              : null
+            : selectedDate?.[0] && selectedDate?.[1]
             ? [dayjs(selectedDate[0], 'YYYY.MM.DD').toDate(), dayjs(selectedDate[1], 'YYYY.MM.DD').toDate()]
             : selectedDate?.[0]
             ? dayjs(selectedDate[0], 'YYYY.MM.DD').toDate()
             : null
         }
-        selectRange={dateType !== 'singleSelect'}
+        selectRange={false}
         onClickDay={handleDateChange}
         formatDay={(locale, date) => dayjs(date).format('D')}
         formatShortWeekday={(locale, date) => WEEKDAYS[date.getDay()] ?? ''}
