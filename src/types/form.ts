@@ -10,6 +10,15 @@ const capacitySchema = z.number({
 
 const isValidDate = (date?: string) => dayjs(date, 'YYYY.MM.DD', true).isValid();
 
+export const isOverOneYear = (start?: string, end?: string) => {
+  if (!start || !end) return false;
+
+  const startDate = dayjs(start, 'YYYY.MM.DD', true);
+  const endDate = dayjs(end, 'YYYY.MM.DD', true);
+
+  return startDate.isValid() && endDate.isValid() ? endDate.isAfter(startDate.add(1, 'year')) : false;
+};
+
 export const schema = z.object({
   title: z
     .string()
@@ -31,15 +40,12 @@ export const schema = z.object({
     .max(2, { message: '시작일과 종료일만 입력해주세요.' })
 
     .superRefine((dates, ctx) => {
-      console.log('superRefine 실행', dates);
-
-      // 날짜 형식 검사
       dates.forEach((date, index) => {
         if (!date) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: '모집 기간을 입력해주세요.',
-            path: [],
+            message: '기간을 입력해주세요.',
+            path: [index],
           });
           return;
         }
@@ -47,26 +53,19 @@ export const schema = z.object({
         if (!isValidDate(date)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: '유효한 날짜가 아닙니다',
-            path: [],
+            message: '유효한 날짜가 아닙니다.',
+            path: [index],
           });
           return;
         }
       });
 
-      // 시작일과 종료일이 모두 있을 때만 1년 범위 체크
-      if (dates[0] && dates[1]) {
-        const startDate = dayjs(dates[0], 'YYYY.MM.DD');
-        const endDate = dayjs(dates[1], 'YYYY.MM.DD');
-        const diffInYears = endDate.diff(startDate, 'year');
-
-        if (diffInYears > 1) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: '모집 기간은 1년을 초과할 수 없습니다.',
-            path: [1],
-          });
-        }
+      if (isOverOneYear(dates[0], dates[1])) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: '기간은 1년을 초과할 수 없습니다.',
+          path: [1],
+        });
       }
     }),
   capacity: capacitySchema.gt(0, { message: '0보다 큰 값을 입력해주세요.' }),
@@ -88,13 +87,11 @@ export const schema = z.object({
       .min(1, { message: '활동 기간을 입력해주세요.' })
       .max(2, { message: '시작일과 종료일만 입력해주세요.' })
       .superRefine((dates, ctx) => {
-        console.log('mDateRange superRefine 실행', dates);
-
         dates.forEach((date, index) => {
           if (!date) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: '활동 기간을 입력해주세요.',
+              message: '기간을 입력해주세요.',
               path: [index],
             });
             return;
@@ -110,27 +107,12 @@ export const schema = z.object({
           }
         });
 
-        // 👉 1년 범위 초과 여부 체크
-        if (dates[0] && dates[1]) {
-          const startDate = dayjs(dates[0], 'YYYY.MM.DD');
-          const endDate = dayjs(dates[1], 'YYYY.MM.DD');
-
-          if (endDate.isBefore(startDate)) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '종료일은 시작일보다 이후여야 합니다.',
-              path: [1],
-            });
-          }
-
-          const diffInYears = endDate.diff(startDate, 'year', true); // 소수점 단위로 비교 가능
-          if (diffInYears > 1) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '활동 기간은 1년을 초과할 수 없습니다.',
-              path: [1],
-            });
-          }
+        if (isOverOneYear(dates[0], dates[1])) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '기간은 1년을 초과할 수 없습니다.',
+            path: [1],
+          });
         }
       }),
     leaderDesc: z.string().optional().nullable(),
@@ -198,14 +180,32 @@ export const flashSchema = z.object({
           });
         }
         dateRange.forEach((date, index) => {
+          if (!date) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '기간을 입력해주세요.',
+              path: [index],
+            });
+            return;
+          }
+
           if (!isValidDate(date)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: '유효한 날짜가 아닙니다.',
-              path: ['dateRange', index],
+              path: [index],
             });
+            return;
           }
         });
+
+        if (isOverOneYear(dateRange[0], dateRange[1])) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '기간은 1년을 초과할 수 없습니다.',
+            path: [1],
+          });
+        }
       }
     }),
   placeInfo: z
