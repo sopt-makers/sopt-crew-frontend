@@ -20,3 +20,5 @@ dayjs.updateLocale('ko', {
 export const fromNow = (date: string) => dayjs(date).subtract(1, 's').fromNow();
 
 export const formatDate = (date?: string) => dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+
+export const formatCalendarDate = (date?: string | Date) => dayjs(date).format('YYYY.MM.DD');
