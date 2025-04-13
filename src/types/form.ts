@@ -12,11 +12,12 @@ const isValidDate = (date?: string) => dayjs(date, 'YYYY.MM.DD', true).isValid()
 
 export const isOverOneYear = (start?: string, end?: string) => {
   if (!start || !end) return false;
+  if (!isValidDate(start) || !isValidDate(end)) return false;
 
   const startDate = dayjs(start, 'YYYY.MM.DD', true);
   const endDate = dayjs(end, 'YYYY.MM.DD', true);
 
-  return startDate.isValid() && endDate.isValid() ? endDate.isAfter(startDate.add(1, 'year')) : false;
+  return endDate.isAfter(startDate.add(1, 'year'));
 };
 
 export const schema = z.object({
@@ -40,6 +41,8 @@ export const schema = z.object({
     .max(2, { message: '시작일과 종료일만 입력해주세요.' })
 
     .superRefine((dates, ctx) => {
+      let hasInvalid = false;
+
       dates.forEach((date, index) => {
         if (!date) {
           ctx.addIssue({
@@ -47,6 +50,7 @@ export const schema = z.object({
             message: '기간을 입력해주세요.',
             path: [index],
           });
+          hasInvalid = true;
           return;
         }
 
@@ -56,9 +60,12 @@ export const schema = z.object({
             message: '유효한 날짜가 아닙니다.',
             path: [index],
           });
+          hasInvalid = true;
           return;
         }
       });
+
+      if (hasInvalid) return;
 
       if (isOverOneYear(dates[0], dates[1])) {
         ctx.addIssue({
@@ -87,6 +94,8 @@ export const schema = z.object({
       .min(1, { message: '활동 기간을 입력해주세요.' })
       .max(2, { message: '시작일과 종료일만 입력해주세요.' })
       .superRefine((dates, ctx) => {
+        let hasInvalid = false;
+
         dates.forEach((date, index) => {
           if (!date) {
             ctx.addIssue({
@@ -94,6 +103,7 @@ export const schema = z.object({
               message: '기간을 입력해주세요.',
               path: [index],
             });
+            hasInvalid = true;
             return;
           }
 
@@ -103,9 +113,12 @@ export const schema = z.object({
               message: '유효한 날짜가 아닙니다.',
               path: [index],
             });
+            hasInvalid = true;
             return;
           }
         });
+
+        if (hasInvalid) return;
 
         if (isOverOneYear(dates[0], dates[1])) {
           ctx.addIssue({
@@ -179,6 +192,8 @@ export const flashSchema = z.object({
             path: ['dateRange'],
           });
         }
+        let hasInvalid = false;
+
         dateRange.forEach((date, index) => {
           if (!date) {
             ctx.addIssue({
@@ -186,6 +201,7 @@ export const flashSchema = z.object({
               message: '기간을 입력해주세요.',
               path: [index],
             });
+            hasInvalid = true;
             return;
           }
 
@@ -195,9 +211,12 @@ export const flashSchema = z.object({
               message: '유효한 날짜가 아닙니다.',
               path: [index],
             });
+            hasInvalid = true;
             return;
           }
         });
+
+        if (hasInvalid) return;
 
         if (isOverOneYear(dateRange[0], dateRange[1])) {
           ctx.addIssue({

@@ -34,6 +34,8 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const startDate = selectedDate?.[0] ?? '';
   const endDate = selectedDate?.[1] ?? '';
 
+  console.log(error);
+
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
@@ -62,6 +64,13 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     const formattedValue = formatDateInput(rawValue);
     setInputValue(formattedValue);
     if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
+      const isDateValid = dayjs(formattedValue, 'YYYY.MM.DD', true).isValid();
+
+      if (!isDateValid) {
+        setInputValue(formattedValue);
+        return;
+      }
+
       if (dateType === 'endDate') {
         const newSelectedEndDate =
           formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
