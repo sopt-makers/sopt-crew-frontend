@@ -34,8 +34,6 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   const startDate = selectedDate?.[0] ?? '';
   const endDate = selectedDate?.[1] ?? '';
 
-  console.log(error);
-
   const handleDateSelection = (newDate: string) => {
     if (dateType === 'singleSelect') {
       setSelectedDate([newDate, '']);
@@ -63,27 +61,33 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
     const rawValue = event.target.value.replace(/\D/g, '');
     const formattedValue = formatDateInput(rawValue);
     setInputValue(formattedValue);
-    if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
-      const isDateValid = dayjs(formattedValue, 'YYYY.MM.DD', true).isValid();
 
-      if (!isDateValid) {
-        setInputValue(formattedValue);
-        return;
-      }
+    if (rawValue.length === MAX_DATE_INPUT_LENGTH) {
+      const isValidFormatted = dayjs(formattedValue, 'YYYY.MM.DD', true).isValid();
+      const isValidStart = dayjs(startDate, 'YYYY.MM.DD', true).isValid();
+      const isValidEnd = dayjs(endDate, 'YYYY.MM.DD', true).isValid();
 
       if (dateType === 'endDate') {
-        const newSelectedEndDate =
-          formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
-        setSelectedDate(newSelectedEndDate);
+        if (isValidFormatted && isValidStart) {
+          const newSelectedEndDate =
+            formattedValue < startDate ? [formattedValue, startDate] : [startDate, formattedValue];
+          setSelectedDate(newSelectedEndDate);
+        } else {
+          setSelectedDate([startDate, formattedValue]); // invalid도 넘겨서 폼에서 에러처리
+        }
       }
+
       if (dateType === 'startDate') {
         if (!endDate) {
           setSelectedDate([formattedValue, '']);
-        } else {
+        } else if (isValidFormatted && isValidEnd) {
           const newSelectedStartDate = formattedValue > endDate ? [endDate, formattedValue] : [formattedValue, endDate];
           setSelectedDate(newSelectedStartDate);
+        } else {
+          setSelectedDate([formattedValue, endDate]);
         }
       }
+
       if (dateType === 'singleSelect') {
         setSelectedDate([formattedValue, '']);
       }
@@ -100,13 +104,22 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
   }, []);
 
   const getCalendarValue = (): Date | [Date, Date] | null => {
+    const isValidStart = dayjs(startDate, 'YYYY.MM.DD', true).isValid();
+    const isValidEnd = dayjs(endDate, 'YYYY.MM.DD', true).isValid();
+
     if (dateType === 'singleSelect') {
-      return startDate ? dayjs(startDate, 'YYYY.MM.DD').toDate() : null;
+      return isValidStart ? dayjs(startDate, 'YYYY.MM.DD').toDate() : null;
     }
-    if (startDate && endDate) {
-      return [dayjs(startDate).toDate(), dayjs(endDate).toDate()] as [Date, Date];
+
+    if (isValidStart && isValidEnd) {
+      return [dayjs(startDate, 'YYYY.MM.DD').toDate(), dayjs(endDate, 'YYYY.MM.DD').toDate()] as [Date, Date];
     }
-    return startDate ? dayjs(startDate).toDate() : null;
+
+    if (isValidStart) {
+      return dayjs(startDate, 'YYYY.MM.DD').toDate();
+    }
+
+    return null;
   };
 
   useEffect(() => {

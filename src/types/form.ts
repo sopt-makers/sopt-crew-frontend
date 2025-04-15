@@ -171,7 +171,7 @@ export const flashSchema = z.object({
     })
     .superRefine(({ time, dateRange }, ctx) => {
       if (time.label === '당일') {
-        if (dateRange[0] === '') {
+        if (!dateRange[0]) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '번쩍 진행일을 입력해주세요.',
@@ -183,15 +183,16 @@ export const flashSchema = z.object({
             message: '유효한 날짜가 아닙니다.',
             path: ['dateRange', 0],
           });
-        }
-      } else if (time.label === '예정 기간 (협의 후 결정)') {
-        if (dateRange.length !== 2 || dateRange.some(date => date === '')) {
+        } else if (dateRange[0].length !== 10) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: '번쩍 시작일과 종료일을 입력해주세요.',
-            path: ['dateRange'],
+            message: 'YYYY.MM.DD 형식으로 입력해주세요.',
+            path: ['dateRange', 0],
           });
         }
+      }
+
+      if (time.label === '예정 기간 (협의 후 결정)') {
         let hasInvalid = false;
 
         dateRange.forEach((date, index) => {
@@ -199,7 +200,17 @@ export const flashSchema = z.object({
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: '기간을 입력해주세요.',
-              path: [index],
+              path: ['dateRange', index],
+            });
+            hasInvalid = true;
+            return;
+          }
+
+          if (date.length !== 10) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'YYYY.MM.DD 형식으로 입력해주세요.',
+              path: ['dateRange', index],
             });
             hasInvalid = true;
             return;
@@ -209,7 +220,7 @@ export const flashSchema = z.object({
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: '유효한 날짜가 아닙니다.',
-              path: [index],
+              path: ['dateRange', index],
             });
             hasInvalid = true;
             return;
@@ -222,7 +233,7 @@ export const flashSchema = z.object({
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: '기간은 1년을 초과할 수 없습니다.',
-            path: [1],
+            path: ['dateRange', 1],
           });
         }
       }
