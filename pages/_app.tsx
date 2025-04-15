@@ -94,7 +94,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setAccessTokens();
-    const intervalId = setInterval(setAccessTokens, 9 * 60 * 60 * 1000);
+    const refreshTime = process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 9 * 60 * 60 * 1000 : 2 * 60 * 1000;
+    const intervalId = setInterval(setAccessTokens, refreshTime);
     return () => clearInterval(intervalId);
   }, []);
 
