@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { categories } from '@data/categories';
 import { styled } from 'stitches.config';
 import FileInput from '../FileInput';
@@ -98,7 +98,6 @@ function Presentation({
         setIsSoptScheduleOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
@@ -300,24 +299,27 @@ function Presentation({
                   </ToolTipDiv>
                 )}
               </div>
-              {/* TODO: SOPT 공식 일정 확인하기 TooTip 추가 */}
             </div>
             <SApplicationFieldWrapper>
               <SApplicationField>
                 <FormController
-                  name="detail.mStartDate"
+                  name="detail.mDateRange"
                   render={({ field, formState: { errors } }) => {
                     const dateError = errors.detail as
                       | (FieldError & {
-                          mStartDate?: FieldError;
-                          mEndDate?: FieldError;
+                          mDateRange?: FieldError[];
                         })
                       | undefined;
                     return (
                       <CalendarInputForm
                         selectedDate={field.value}
                         setSelectedDate={field.onChange}
-                        error={dateError?.mStartDate?.message || dateError?.mEndDate?.message}
+                        selectedDateFieldName={field.name}
+                        error={
+                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
+                          (dateError?.mDateRange as FieldError[])?.[1]?.message
+                        }
+                        dateType="startDate"
                       />
                     );
                   }}
@@ -326,10 +328,27 @@ function Presentation({
               <span style={{ marginTop: '14px' }}>-</span>
               <SApplicationField>
                 <FormController
-                  name="detail.mEndDate"
-                  render={({ field }) => (
-                    <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
-                  )}
+                  name="detail.mDateRange"
+                  render={({ field, formState: { errors } }) => {
+                    const dateError = errors.detail as
+                      | (FieldError & {
+                          mDateRange?: FieldError[];
+                        })
+                      | undefined;
+
+                    return (
+                      <CalendarInputForm
+                        selectedDate={field.value}
+                        setSelectedDate={field.onChange}
+                        dateType="endDate"
+                        error={
+                          (dateError?.mDateRange as FieldError[])?.[0]?.message ||
+                          (dateError?.mDateRange as FieldError[])?.[1]?.message
+                        }
+                        selectedDateFieldName={field.name}
+                      />
+                    );
+                  }}
                 ></FormController>
               </SApplicationField>
             </SApplicationFieldWrapper>
@@ -363,19 +382,23 @@ function Presentation({
                 <SApplicationFieldWrapper>
                   <SApplicationField>
                     <FormController
-                      name="startDate"
+                      name="dateRange"
                       render={({ field, formState: { errors } }) => {
                         const dateError = errors as
                           | {
-                              startDate?: FieldError;
-                              endDate?: FieldError;
+                              dateRange?: FieldError[];
                             }
                           | undefined;
                         return (
                           <CalendarInputForm
                             selectedDate={field.value}
                             setSelectedDate={field.onChange}
-                            error={dateError?.startDate?.message || dateError?.endDate?.message}
+                            selectedDateFieldName={field.name}
+                            error={
+                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
+                              (dateError?.dateRange as FieldError[])?.[1]?.message
+                            }
+                            dateType="startDate"
                           />
                         );
                       }}
@@ -384,9 +407,14 @@ function Presentation({
                   <span style={{ marginTop: '14px' }}>-</span>
                   <SApplicationField>
                     <FormController
-                      name="endDate"
+                      name="dateRange"
                       render={({ field }) => (
-                        <CalendarInputForm selectedDate={field.value} setSelectedDate={field.onChange} />
+                        <CalendarInputForm
+                          selectedDate={field.value}
+                          setSelectedDate={field.onChange}
+                          selectedDateFieldName={field.name}
+                          dateType="endDate"
+                        />
                       )}
                     ></FormController>
                   </SApplicationField>
