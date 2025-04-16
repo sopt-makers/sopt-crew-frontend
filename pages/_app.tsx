@@ -78,6 +78,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     return () => {
       ampli.flush();
+      ampli.startGroup({ screen_width: window.innerWidth });
     };
   }, []);
 

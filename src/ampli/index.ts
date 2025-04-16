@@ -118,6 +118,25 @@ export interface IdentifyProperties {
   user_id?: string;
 }
 
+export interface ActiveScreenWidthProperties {
+  /**
+   * 유저의 디바이스 해상도를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  screen_width: number;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
 export interface AttachFeedPhotoProperties {
   /**
    * 어떤 플랫폼으로 접속했는지를 의미합니다.
@@ -681,11 +700,32 @@ export interface ImpressionBannerProperties {
   banner_url?: string;
 }
 
+export interface StartGroupProperties {
+  /**
+   * 유저의 디바이스 해상도를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  screen_width: number;
+}
+
 export class Identify implements BaseEvent {
   event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
   constructor(
     public event_properties?: IdentifyProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ActiveScreenWidth implements BaseEvent {
+  event_type = 'Active-screenWidth';
+
+  constructor(
+    public event_properties: ActiveScreenWidthProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1113,6 +1153,16 @@ export class ImpressionBanner implements BaseEvent {
   }
 }
 
+export class StartGroup implements BaseEvent {
+  event_type = 'Start-group';
+
+  constructor(
+    public event_properties: StartGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
 export type PromiseResult<T> = { promise: Promise<T | void> };
 
 const getVoidPromiseResult = () => ({ promise: Promise.resolve() });
@@ -1228,6 +1278,23 @@ export class Ampli {
     }
 
     return this.amplitude!.track(event, undefined, options);
+  }
+
+  /**
+   * Active-screenWidth
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Active-screenWidth)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. screen_width)
+   * @param options Amplitude event options.
+   */
+  activeScreenWidth(
+    properties: ActiveScreenWidthProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ActiveScreenWidth(properties), options);
   }
 
   /**
@@ -1970,6 +2037,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ImpressionBanner(properties), options);
+  }
+
+  /**
+   * Start-group
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Start-group)
+   *
+   * 헤더에서 \[모임\] 메뉴 버튼 클릭했을 때 수집되는 이벤트
+   *
+   * @param properties The event's properties (e.g. screen_width)
+   * @param options Amplitude event options.
+   */
+  startGroup(
+    properties: StartGroupProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new StartGroup(properties), options);
   }
 }
 
