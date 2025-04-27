@@ -1,22 +1,25 @@
-import { useRouter } from 'next/router';
-import { styled } from 'stitches.config';
-import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
-import MeetingInformationSkeleton from '@components/page/mine/management/Skeleton/MeetingInformationSkeleton';
-import ManagementListItem from '@components/page/mine/management/ManagementListItem';
-import MeetingInformation from '@components/page/mine/management/MeetingInformation';
+import { ampli } from '@/ampli';
+import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
+import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
+import DownloadIcon from '@assets/svg/download.svg';
+import CrewTab from '@components/CrewTab';
 import Select from '@components/form/Select';
 import { Option } from '@components/form/Select/OptionItem';
-import ItemDescriptionBox from '@components/page/mine/management/ItemDescriptionBox';
 import Pagination from '@components/page/list/Pagination';
-import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
-import { numberOptionListDefault, numberOptionList, sortOptionList, sortOptionListDefault } from '@data/options';
-import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import Filter from '@components/page/mine/management/Filter';
-import DownloadIcon from '@assets/svg/download.svg';
-import { ampli } from '@/ampli';
-import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
-import CrewTab from '@components/CrewTab';
+import ItemDescriptionBox from '@components/page/mine/management/ItemDescriptionBox';
+import ManagementListItem from '@components/page/mine/management/ManagementListItem';
+import ManagementListItemForHost from '@components/page/mine/management/ManagementListItemForHost';
+import MeetingInformation from '@components/page/mine/management/MeetingInformation';
+import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
+import MeetingInformationSkeleton from '@components/page/mine/management/Skeleton/MeetingInformationSkeleton';
+import { numberOptionList, numberOptionListDefault, sortOptionList, sortOptionListDefault } from '@data/options';
+import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { styled } from 'stitches.config';
 
+// TODO: 컴포넌트 책임이 너무 큼 (host 여부에 따라 컴포넌트 분리 필요)
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
@@ -122,12 +125,13 @@ const ManagementPage = () => {
         <>
           {management && management.apply?.length > 0 ? (
             management?.apply.map(application => (
-              <ManagementListItem
-                key={application.id}
-                meetingId={Number(id)}
-                application={application}
-                isHost={isHost}
-              />
+              <React.Fragment key={application.id}>
+                {isHost ? (
+                  <ManagementListItemForHost meetingId={Number(id)} application={application} />
+                ) : (
+                  <ManagementListItem application={application} />
+                )}
+              </React.Fragment>
             ))
           ) : (
             <SEmptyView>{isHost ? '신청자' : '참여자'}가 없습니다.</SEmptyView>
