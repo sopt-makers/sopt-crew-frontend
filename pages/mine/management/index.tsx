@@ -43,7 +43,7 @@ const ManagementPage = () => {
       page: (page || 0) as number,
       take: Number(convertedNumberTake.value),
       status,
-      date: sortOptionList[Number(sortByDate) || 0]?.value as string,
+      date: sortOptionList[Number(sortByDate) || 1]?.value as string,
     },
   });
 
