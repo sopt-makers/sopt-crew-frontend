@@ -1,15 +1,39 @@
 import { ampli } from '@/ampli';
+import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
 import PlusIcon from '@assets/svg/plus.svg';
 import Plus from '@assets/svg/plus.svg?rect';
-import FloatingButtonModal from '@components/modal/FloatingButtonModal';
-import { useDisplay } from '@hooks/useDisplay';
-import { useState } from 'react';
-import { styled } from 'stitches.config';
+import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
 import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
+import FloatingButtonModal from '@components/modal/FloatingButtonModal';
+import NoJoinedGroupModal from '@components/modal/NoJoinedGroupModal';
+import { useDisplay } from '@hooks/useDisplay';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { styled } from 'stitches.config';
 
 function FloatingButton() {
   const [isActive, setIsActive] = useState(false);
   const { isMobile } = useDisplay();
+  const router = useRouter();
+  const { modal } = router.query;
+  const overlay = useOverlay();
+  const queryClient = useQueryClient();
+  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
+    onSuccess: data => {
+      setIsActive(false);
+      router.push('/', undefined, { shallow: true });
+      queryClient.setQueryData(['fetchMeetingList', 'all'], data);
+      if (data.data.length === 0) {
+        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+      } else {
+        overlay.open(({ isOpen, close }) => (
+          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+        ));
+      }
+    },
+  });
 
   const handleButtonClick = () => {
     if (!isActive) {
@@ -17,7 +41,12 @@ function FloatingButton() {
     }
     setIsActive(isActive => !isActive);
   };
-  const handleOptionClose = () => setIsActive(false);
+
+  useEffect(() => {
+    if (modal === 'create-feed') {
+      fetchUserAttendMeetingListMutate();
+    }
+  }, [modal, fetchUserAttendMeetingListMutate]);
 
   return (
     <>
@@ -40,7 +69,7 @@ function FloatingButton() {
             </SMakeMeetingButton>
           )}
 
-          <FloatingButtonModal isActive={isActive} handleOptionClose={handleOptionClose} />
+          <FloatingButtonModal isActive={isActive} />
         </Container>
       </ButtonWrapper>
     </>
