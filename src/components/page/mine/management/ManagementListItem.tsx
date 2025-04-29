@@ -7,30 +7,29 @@ import { styled } from 'stitches.config';
 
 interface ManagementListItemProps {
   application: MeetingPeopleResponse['apply'][number];
+  isActive?: boolean;
 }
 
-const ManagementListItem = ({ application }: ManagementListItemProps) => {
+const ManagementListItem = ({ application, isActive = false }: ManagementListItemProps) => {
   const { appliedDate, user, applyNumber } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
   return (
-    <>
-      <SListItem>
-        <SUserInformation>
-          <SOrderNumber>{applyNumber}</SOrderNumber>
-          <SProfile>
-            <SGuestProfileImage>
-              {user.profileImage ? <img src={user.profileImage} alt="user profile image" /> : <ProfileDefaultIcon />}
-            </SGuestProfileImage>
-            <SName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SName>
-          </SProfile>
-          <SVerticalLine />
-          <SDate>{date}</SDate>
-          <STime>{time}</STime>
-        </SUserInformation>
-      </SListItem>
-    </>
+    <SListItem isActive={isActive}>
+      <SUserInformation>
+        <SOrderNumber>{applyNumber}</SOrderNumber>
+        <SProfile>
+          <SGuestProfileImage>
+            {user.profileImage ? <img src={user.profileImage} alt="user profile image" /> : <ProfileDefaultIcon />}
+          </SGuestProfileImage>
+          <SName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SName>
+        </SProfile>
+        <SVerticalLine />
+        <SDate>{date}</SDate>
+        <STime>{time}</STime>
+      </SUserInformation>
+    </SListItem>
   );
 };
 
@@ -56,7 +55,18 @@ export const SListItem = styled('div', {
   height: '$80',
   mb: '$16',
 
-  '@media (max-width: 768px)': {
+  variants: {
+    isActive: {
+      true: {
+        border: '1px solid $gray10',
+      },
+      false: {
+        border: 'none',
+      },
+    },
+  },
+
+  '@mobile': {
     borderRadius: '8px',
     mb: '$10',
     padding: '$16',
@@ -71,7 +81,7 @@ const SVerticalLine = styled('div', {
   mr: '$30',
   backgroundColor: '$gray500',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     display: 'none',
   },
 });
@@ -79,7 +89,7 @@ const SVerticalLine = styled('div', {
 export const SProfile = styled('div', {
   flexType: 'verticalCenter',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     flex: 1,
   },
 });
@@ -99,7 +109,7 @@ export const SProfileImage = styled('div', {
 });
 
 const SGuestProfileImage = styled(SProfileImage, {
-  '@media (max-width: 768px)': {
+  '@mobile': {
     width: '$24',
     height: '$24',
     margin: 0,
@@ -120,7 +130,7 @@ export const SName = styled('button', {
   textAlign: 'center',
   minWidth: '$48',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '14_bold_100',
     minWidth: 'fit-content',
   },
@@ -130,7 +140,7 @@ export const SDate = styled('p', {
   flexType: 'verticalCenter',
   fontAg: '18_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '12_medium_100',
     color: '$gray400',
     justifyContent: 'space-between',
@@ -142,7 +152,7 @@ export const STime = styled('p', {
   fontAg: '18_semibold_100',
   color: '$gray300',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     ml: '$4',
     fontAg: '12_medium_100',
     color: '$gray500',
@@ -159,7 +169,7 @@ export const SOrderNumber = styled('p', {
 
   fontAg: '16_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '14_medium_100',
     color: '$gray400',
     justifyContent: 'space-between',
