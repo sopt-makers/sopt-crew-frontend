@@ -7,30 +7,29 @@ import { styled } from 'stitches.config';
 
 interface ManagementListItemProps {
   application: MeetingPeopleResponse['apply'][number];
+  isActive?: boolean;
 }
 
-const ManagementListItem = ({ application }: ManagementListItemProps) => {
+const ManagementListItem = ({ application, isActive = false }: ManagementListItemProps) => {
   const { appliedDate, user, applyNumber } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
   return (
-    <>
-      <SListItem>
-        <SUserInformation>
-          <SOrderNumber>{applyNumber}</SOrderNumber>
-          <SProfile>
-            <SGuestProfileImage>
-              {user.profileImage ? <img src={user.profileImage} alt="user profile image" /> : <ProfileDefaultIcon />}
-            </SGuestProfileImage>
-            <SName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SName>
-          </SProfile>
-          <SVerticalLine />
-          <SDate>{date}</SDate>
-          <STime>{time}</STime>
-        </SUserInformation>
-      </SListItem>
-    </>
+    <SListItem isActive={isActive}>
+      <SUserInformation>
+        <SOrderNumber>{applyNumber}</SOrderNumber>
+        <SProfile>
+          <SGuestProfileImage>
+            {user.profileImage ? <img src={user.profileImage} alt="user profile image" /> : <ProfileDefaultIcon />}
+          </SGuestProfileImage>
+          <SName onClick={() => navigateToUserProfileWithTracking(user.orgId)}>{user.name}</SName>
+        </SProfile>
+        <SVerticalLine />
+        <SDate>{date}</SDate>
+        <STime>{time}</STime>
+      </SUserInformation>
+    </SListItem>
   );
 };
 
@@ -55,6 +54,17 @@ export const SListItem = styled('div', {
   minWidth: 'fit-content',
   height: '$80',
   mb: '$16',
+
+  variants: {
+    isActive: {
+      true: {
+        border: '1px solid $gray10',
+      },
+      false: {
+        border: 'none',
+      },
+    },
+  },
 
   '@mobile': {
     borderRadius: '8px',

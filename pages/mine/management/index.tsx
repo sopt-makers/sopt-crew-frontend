@@ -1,5 +1,6 @@
 import { ampli } from '@/ampli';
 import { useMutationDownloadMeetingMemberCSV, useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
 import DownloadIcon from '@assets/svg/download.svg';
 import CrewTab from '@components/CrewTab';
@@ -23,6 +24,7 @@ import { styled } from 'stitches.config';
 const ManagementPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
+  const { data: me } = useQueryMyProfile();
   const { value: page, setValue: setPage } = usePageParams();
   const { value: status } = useStatusParams();
   const { value: take, setValue: setTake } = useTakeParams();
@@ -129,7 +131,7 @@ const ManagementPage = () => {
                 {isHost ? (
                   <ManagementListItemForHost meetingId={Number(id)} application={application} />
                 ) : (
-                  <ManagementListItem application={application} />
+                  <ManagementListItem application={application} isActive={me?.orgId === application.user.orgId} />
                 )}
               </React.Fragment>
             ))
