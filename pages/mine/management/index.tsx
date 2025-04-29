@@ -157,7 +157,7 @@ const SManagementPage = styled('div', {
   mt: '$100',
   mb: '$180',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     mt: '$31',
     mb: '$66',
   },
@@ -170,7 +170,7 @@ const SListHeader = styled('div', {
   mb: '$48',
   position: 'relative',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     mt: '$40',
     mb: '$24',
   },
@@ -179,7 +179,7 @@ const SListHeader = styled('div', {
 const SListTitle = styled('div', {
   fontAg: '32_bold_100',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '18_bold_100',
   },
 });
@@ -196,7 +196,7 @@ const SDownloadButton = styled('button', {
     mr: '$12',
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     border: 'none',
     padding: '$0',
 
@@ -220,7 +220,7 @@ const SSelectContainer = styled('div', {
     flexType: 'verticalCenter',
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     mb: '$16',
   },
 });
@@ -231,7 +231,7 @@ const SSelectWrapper = styled('div', {
     border: '1px solid $gray600',
     backgroundColor: '$gray950',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       borderRadius: '8px',
       minWidth: '$96',
       height: '$36',
@@ -257,7 +257,7 @@ const SSelectWrapper = styled('div', {
 });
 
 const SSelectNumberWrapper = styled(SSelectWrapper, {
-  '@media (max-width: 768px)': {
+  '@mobile': {
     display: 'none',
   },
 });
@@ -270,7 +270,7 @@ const SEmptyView = styled('div', {
   fontAg: '24_medium_100',
   color: '$gray400',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     fontAg: '16_medium_100',
     height: '$556',
   },
@@ -279,7 +279,7 @@ const SEmptyView = styled('div', {
 const SPaginationWrapper = styled('div', {
   mt: '$80',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     mt: '$40',
   },
 });
