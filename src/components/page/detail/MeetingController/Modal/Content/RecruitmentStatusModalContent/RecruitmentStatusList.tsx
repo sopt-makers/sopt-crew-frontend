@@ -1,4 +1,5 @@
 import { paths } from '@/__generated__/schema2';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
 import { styled } from 'stitches.config';
@@ -8,11 +9,13 @@ interface RecruitmentStatusProps {
 }
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
+  const { data: me } = useQueryMyProfile();
+
   return (
     <SRecruitmentStatusListWrapper>
       <SRecruitmentStatusList>
-        {recruitmentStatusList.map(({ status, applyNumber, user: { id, name, profileImage } }) => (
-          <SRecruitmentStatusItem key={id}>
+        {recruitmentStatusList.map(({ status, applyNumber, user: { orgId, id, name, profileImage } }) => (
+          <SRecruitmentStatusItem key={id} isActive={me?.orgId === orgId}>
             <div>
               <AppliedNumberText>{applyNumber}</AppliedNumberText>
               {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
@@ -122,6 +125,17 @@ const SRecruitmentStatusItem = styled('div', {
 
     '@media (max-width: 768px)': {
       maxWidth: '$61',
+    },
+  },
+
+  variants: {
+    isActive: {
+      true: {
+        border: '1px solid $gray10',
+      },
+      false: {
+        border: 'none',
+      },
     },
   },
 });
