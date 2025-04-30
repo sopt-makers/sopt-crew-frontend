@@ -1,6 +1,6 @@
+import { Dialog } from '@headlessui/react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { styled } from 'stitches.config';
-import { Dialog } from '@headlessui/react';
 import ModalContainer from './ModalContainer';
 
 interface DefaultModalProps {
@@ -46,7 +46,7 @@ const SDialogWrapper = styled('div', {
   width: '$646',
   boxShadow: '4px 4px 40px #181818',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     width: 'calc(100% - 40px)',
   },
 });
@@ -72,7 +72,7 @@ const SHeader = styled('div', {
     backgroundSize: 'cover',
   },
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     borderBottom: 'none',
     padding: '$24',
 

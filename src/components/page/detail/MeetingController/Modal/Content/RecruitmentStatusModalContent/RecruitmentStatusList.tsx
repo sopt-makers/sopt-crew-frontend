@@ -1,4 +1,5 @@
 import { paths } from '@/__generated__/schema2';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
 import { styled } from 'stitches.config';
@@ -8,11 +9,13 @@ interface RecruitmentStatusProps {
 }
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
+  const { data: me } = useQueryMyProfile();
+
   return (
     <SRecruitmentStatusListWrapper>
       <SRecruitmentStatusList>
-        {recruitmentStatusList.map(({ status, applyNumber, user: { id, name, profileImage } }) => (
-          <SRecruitmentStatusItem key={id}>
+        {recruitmentStatusList.map(({ status, applyNumber, user: { orgId, id, name, profileImage } }) => (
+          <SRecruitmentStatusItem key={id} isActive={me?.orgId === orgId}>
             <div>
               <AppliedNumberText>{applyNumber}</AppliedNumberText>
               {profileImage ? <img src={profileImage} alt="" /> : <ProfileDefaultIcon />}
@@ -33,7 +36,7 @@ const SRecruitmentStatusListWrapper = styled('div', {
 
   overflowY: 'scroll',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     height: '$160',
   },
 
@@ -55,7 +58,7 @@ const SRecruitmentStatusList = styled('div', {
 
   padding: '0 $24',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     gap: '$8',
 
     padding: '0 $20',
@@ -80,7 +83,7 @@ const SRecruitmentStatusItem = styled('div', {
 
   fontAg: '16_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     height: '$48',
     padding: '$11 $12',
     fontAg: '14_medium_100',
@@ -97,7 +100,7 @@ const SRecruitmentStatusItem = styled('div', {
     objectFit: 'cover',
     background: '$gray600',
 
-    '@media (max-width: 768px)': {
+    '@tablet': {
       width: '$26',
       height: '$26',
     },
@@ -107,7 +110,7 @@ const SRecruitmentStatusItem = styled('div', {
     width: '$32',
     height: '$32',
 
-    '@media (max-width: 768px)': {
+    '@tablet': {
       width: '$26',
       height: '$26',
     },
@@ -120,8 +123,19 @@ const SRecruitmentStatusItem = styled('div', {
     textOverflow: 'ellipsis',
     maxWidth: '$154',
 
-    '@media (max-width: 768px)': {
+    '@tablet': {
       maxWidth: '$61',
+    },
+  },
+
+  variants: {
+    isActive: {
+      true: {
+        border: '1px solid $gray10',
+      },
+      false: {
+        border: 'none',
+      },
     },
   },
 });
@@ -151,7 +165,7 @@ const SStatusText = styled('div', {
     },
   },
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     ml: '$9',
     fontSize: '$10',
   },
