@@ -6,6 +6,7 @@ import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
@@ -13,7 +14,6 @@ import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import Pagination from '../Pagination';
 import GridLayout from './Layout';
-import { useEffect } from 'react';
 
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
@@ -95,7 +95,6 @@ const PaginationWrapper = styled('div', {
 
 export function MeetingListOfMine() {
   const { data: mineData, isLoading } = useQueryMeetingListOfMine();
-  console.log(mineData);
   useScrollRestorationAfterLoading(isLoading);
   return (
     <main style={{ marginBottom: '20%' }}>

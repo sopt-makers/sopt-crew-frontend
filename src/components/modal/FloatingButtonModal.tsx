@@ -1,36 +1,15 @@
 import { ampli } from '@/ampli';
-import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import BoltIcon from '@assets/svg/bolt_md.svg';
-import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import KakaoLogoIcon from '@assets/svg/logo_kakao.svg';
 import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
 import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
-import NoJoinedGroupModal from './NoJoinedGroupModal';
-import KakaoLogoIcon from '@assets/svg/logo_kakao.svg';
 
-const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () => void }) => {
-  const { isActive, handleOptionClose } = props;
+const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
   const router = useRouter();
-  const overlay = useOverlay();
   const { data: me } = useQueryMyProfile();
-  const queryClient = useQueryClient();
-  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
-    onSuccess: data => {
-      handleOptionClose();
-      queryClient.setQueryData(['fetchMeetingList', 'all'], data);
-      if (data.data.length === 0) {
-        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
-      } else {
-        overlay.open(({ isOpen, close }) => (
-          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
-        ));
-      }
-    },
-  });
 
   const handleGroupCreateButtonClick = () => {
     ampli.clickMakeGroup({ location: router.pathname });
@@ -47,7 +26,7 @@ const FloatingButtonModal = (props: { isActive: boolean; handleOptionClose: () =
     if (me?.orgId) {
       ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
     }
-    fetchUserAttendMeetingListMutate();
+    router.push('?modal=create-feed', undefined, { shallow: true });
   };
 
   return (
