@@ -1,9 +1,9 @@
+import { paths } from '@/__generated__/schema2';
+import { ampli } from '@/ampli';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
 import RecruitmentStatusList from './RecruitmentStatusList';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import { ampli } from '@/ampli';
-import { paths } from '@/__generated__/schema2';
 
 interface RecruitmentStatusModalContentProps {
   meetingId: number;
@@ -54,7 +54,7 @@ export default RecruitmentStatusModalContent;
 const SRecruitmentStatusListWrapper = styled('div', {
   padding: '$24 $24 0 $24',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     padding: '$0',
   },
 });
@@ -66,7 +66,7 @@ const SEmptyText = styled('p', {
   color: '$gray400',
   fontAg: '18_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     height: '$184',
     fontAg: '14_medium_100',
   },
@@ -77,7 +77,7 @@ const SRecruitmentStatusModalBottom = styled('div', {
   flexType: 'verticalCenter',
   justifyContent: 'space-between',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     margin: '$16 $20 $24 $20',
   },
 });
@@ -86,7 +86,7 @@ const STotal = styled('p', {
   color: '$gray400',
   fontAg: '16_medium_100',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     fontAg: '12_medium_100',
   },
 });
@@ -98,7 +98,7 @@ const SManagementAnchor = styled('a', {
   position: 'absolute',
   right: '$42',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     fontAg: '12_semibold_100',
     right: '$20',
   },
