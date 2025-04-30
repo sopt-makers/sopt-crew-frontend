@@ -36,7 +36,7 @@ const SRecruitmentStatusListWrapper = styled('div', {
 
   overflowY: 'scroll',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     height: '$160',
   },
 
@@ -58,7 +58,7 @@ const SRecruitmentStatusList = styled('div', {
 
   padding: '0 $24',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     gap: '$8',
 
     padding: '0 $20',
@@ -83,7 +83,7 @@ const SRecruitmentStatusItem = styled('div', {
 
   fontAg: '16_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     height: '$48',
     padding: '$11 $12',
     fontAg: '14_medium_100',
@@ -100,7 +100,7 @@ const SRecruitmentStatusItem = styled('div', {
     objectFit: 'cover',
     background: '$gray600',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       width: '$26',
       height: '$26',
     },
@@ -110,7 +110,7 @@ const SRecruitmentStatusItem = styled('div', {
     width: '$32',
     height: '$32',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       width: '$26',
       height: '$26',
     },
@@ -123,7 +123,7 @@ const SRecruitmentStatusItem = styled('div', {
     textOverflow: 'ellipsis',
     maxWidth: '$154',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       maxWidth: '$61',
     },
   },
@@ -165,7 +165,7 @@ const SStatusText = styled('div', {
     },
   },
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     ml: '$9',
     fontSize: '$10',
   },

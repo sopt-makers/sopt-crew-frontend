@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { AxiosError, AxiosResponse } from 'axios';
-import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
-import { styled } from 'stitches.config';
-import { playgroundLink } from '@sopt-makers/playground-common';
-import useModal from '@hooks/useModal';
+import { ampli } from '@/ampli';
+import { GetMeetingResponse, PostApplicationRequest } from '@api/API_LEGACY/meeting';
+import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
+import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { GetFlashByIdResponse } from '@api/flash';
+import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
+import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import DefaultModal from '@components/modal/DefaultModal';
+import FlashAbout from '@components/page/detail/MeetingController/FlashAbout';
+import MeetingAbout from '@components/page/detail/MeetingController/MeetingAbout';
+import { CAPACITY } from '@components/page/detail/MeetingController/constant';
+import { ERecruitmentStatus } from '@constants/option';
+import useModal from '@hooks/useModal';
+import { playgroundLink } from '@sopt-makers/playground-common';
+import { useDialog } from '@sopt-makers/ui';
+import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ReactNode, useState } from 'react';
+import { styled } from 'stitches.config';
 import ProfileConfirmModal from './Modal/Confirm/ProfileConfirmModal';
 import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
-import { PostApplicationRequest, GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { ERecruitmentStatus } from '@constants/option';
-import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { ampli } from '@/ampli';
-import ButtonLoader from '@components/@common/loader/ButtonLoader';
-import { useDialog } from '@sopt-makers/ui';
-import { ReactNode } from 'react';
-import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
-import { GetFlashByIdResponse } from '@api/flash';
-import MeetingAbout from '@components/page/detail/MeetingController/MeetingAbout';
-import FlashAbout from '@components/page/detail/MeetingController/FlashAbout';
-import { CAPACITY } from '@components/page/detail/MeetingController/constant';
 
 interface DetailHeaderProps {
   detailData: GetMeetingResponse | GetFlashByIdResponse;
@@ -318,7 +317,7 @@ const SPanelWrapper = styled('div', {
   borderBottom: `2px solid $gray700`,
   mb: '$40',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     display: 'block',
     paddingBottom: '0',
     borderBottom: 'none',
@@ -341,7 +340,7 @@ const SStatusButton = styled(Button, {
   backgroundColor: '$gray800',
   fontAg: '18_semibold_100',
 
-  '@media (max-width: 768px)': {
+  '@mobile': {
     width: '100%',
     height: '$46',
     padding: '$13 0',
@@ -370,7 +369,7 @@ const SGuestButton = styled(Button, {
   padding: '$20 0',
   textAlign: 'center',
   color: '$gray950',
-  '@media (max-width: 768px)': {
+  '@mobile': {
     width: '100%',
     height: '$46',
     fontStyle: 'T5',
@@ -412,7 +411,7 @@ const SHostButtonContainer = styled('div', {
     borderRadius: '$50',
     fontAg: '20_bold_100',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       width: 'calc(50% - 3.5px)',
       padding: '$16 0',
       fontAg: '14_bold_100',
@@ -423,7 +422,7 @@ const SHostButtonContainer = styled('div', {
     border: `2px solid $gray600`,
     mr: '$12',
 
-    '@media (max-width: 768px)': {
+    '@mobile': {
       mr: '$7',
     },
   },
