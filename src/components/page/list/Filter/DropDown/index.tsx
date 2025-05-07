@@ -20,55 +20,59 @@ const autoClass = css({
 
 function DropDownFilter({ filter }: DropDownFilterProps) {
   const { subject, options, label } = filter;
+
+  // 'category', [카테고리에 대한 옵션], '카테고리'
+  // console.log(subject, options, label);
+
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
 
-  const router = useRouter();
-  const selectedPartQuery = router.query[subject] as string;
+  console.log(selectedValue);
 
-  const isActiveGeneration = subject === 'isOnlyActiveGeneration' && selectedPartQuery === 'true';
-  const defaultValue = isActiveGeneration
-    ? { label: '36기', value: '36기' }
-    : selectedPartQuery
-    ? { label: selectedPartQuery, value: selectedPartQuery }
-    : undefined;
+  // const router = useRouter();
+  // const selectedPartQuery = router.query[subject] as string;
+  //
+  // const isActiveGeneration = subject === 'isOnlyActiveGeneration' && selectedPartQuery === 'true';
+  const defaultValue = selectedValue
+    ? selectedValue.split(',').map(opt => ({ label: opt, value: opt }))
+    : options.map(opt => ({ label: opt, value: opt }));
 
-  const setPartQuery = (value: string | null) => {
-    if (value === null) {
-      return deleteKey();
-    }
+  const setPartQuery = (value: string[] | null) => {
+    if (!value || value.length === 0) return deleteKey();
 
-    //notice: 활동 기수 드롭다운의 경우, 특별 처리
-    if (subject === 'isOnlyActiveGeneration' && value === '36기') {
-      if (selectedValue) return deleteKey();
-      setValue('true');
-      ampli.clickFilterGeneration({ group_generation: true });
-      return;
-    }
+    const newValue = value.join(',');
 
-    ampli.clickFilterPart({ group_part: value });
+    ampli.clickFilterPart({ group_part: newValue });
 
-    if (selectedValue === value) return deleteKey();
-    return setValue(value);
+    if (selectedValue === newValue) return deleteKey();
+
+    setValue(newValue);
   };
+
+  React.useEffect(() => {
+    if (!selectedValue) {
+      const joined = options.join(',');
+      setValue(joined);
+    }
+  }, []);
 
   return (
     <SDropDownContainer>
-      <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery}>
+      <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
           <SelectV2.TriggerContent
             className={autoClass()}
             placeholder={label}
-            icon={
-              defaultValue ? (
-                <IconXCircle
-                  style={{ width: '20px', height: '20px', fill: 'white', color: 'black' }}
-                  onClick={e => {
-                    e.stopPropagation();
-                    setPartQuery(null);
-                  }}
-                />
-              ) : null
-            }
+            label={label}
+            // icon={
+            //   defaultValue.length > 0 ? (
+            //     <IconXCircle
+            //       style={{ width: '20px', height: '20px', fill: 'white', color: 'black' }}
+            //       onClick={e => {
+            //         e.stopPropagation();
+            //         setPartQuery(null);
+            //       }}
+            //     />
+            //   ) : null
           />
         </SelectV2.Trigger>
         <SelectV2.Menu>
