@@ -3,8 +3,9 @@ import { FilterType } from '@constants/option';
 import { useQueryString } from '@hooks/queryString';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
+import useDebounce from '@hooks/useDebounce';
 
 interface DropDownFilterProps {
   filter: FilterType;
@@ -19,20 +20,23 @@ const autoClass = css({
 function DropDownFilter({ filter }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
+  const [rawSelected, setRawSelected] = useState<string>('');
+  const debounceValue = useDebounce(rawSelected, 1300);
 
   const defaultValue = selectedValue ? selectedValue.split(',').map(opt => ({ label: opt, value: opt })) : [];
 
   const setPartQuery = (value: string | string[]) => {
     const values = typeof value === 'string' ? [value] : value;
-
     if (!values || values.length === 0) return deleteKey();
     const newValue = values.join(',');
 
     ampli.clickFilterPart({ group_part: newValue });
-
-    if (selectedValue === newValue) return deleteKey();
-    setValue(newValue);
+    setRawSelected(newValue);
   };
+
+  useEffect(() => {
+    if (debounceValue) setValue(debounceValue);
+  }, [debounceValue]);
 
   return (
     <SDropDownContainer>
