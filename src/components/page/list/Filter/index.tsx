@@ -2,7 +2,7 @@ import { styled } from 'stitches.config';
 import { Flex } from '@components/util/layout/Flex';
 import { useSearchParams } from '@hooks/queryString/custom';
 import Search from './Search';
-import { CATEGORY_FILTER, GENERATION_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
+import { CATEGORY_FILTER, GENERATION_FILTER, KEYWORD_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import DropDownFilter from './DropDown';
 import { useDisplay } from '@hooks/useDisplay';
 import FilterResetButton from '@components/page/list/Filter/Reset';
@@ -18,8 +18,9 @@ function Filter() {
         <ScrollFilter>
           <Flex>
             <DropDownFilter filter={CATEGORY_FILTER} />
-            <DropDownFilter filter={PART_FILTER} />
+            <DropDownFilter filter={KEYWORD_FILTER} />
             <DropDownFilter filter={STATUS_FILTER} />
+            <DropDownFilter filter={PART_FILTER} />
             <DropDownFilter filter={GENERATION_FILTER} />
             <FilterResetButton />
           </Flex>
