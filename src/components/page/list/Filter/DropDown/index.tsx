@@ -13,7 +13,8 @@ interface DropDownFilterProps {
 
 //notice: 현재 클래스 제대로 적용안되는 문제점으로 인해 !important 사용 필요
 const autoClass = css({
-  width: '120px !important',
+  minWidth: '140px !important',
+  width: '140px !important',
   whiteSpace: 'nowrap',
 });
 
