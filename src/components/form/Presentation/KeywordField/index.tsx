@@ -12,7 +12,7 @@ const KeywordField = () => {
       <Label required={true}>모임 키워드</Label>
       <HelpMessage>최대 2개까지 선택할 수 있어요</HelpMessage>
       <FormController
-        name="keyword"
+        name="meetingKeywordTypes"
         defaultValue={[]}
         render={({ field: { value, onChange } }) => {
           const handleClick = (option: Option) => {

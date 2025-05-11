@@ -32,7 +32,7 @@ export const schema = z.object({
       invalid_type_error: '카테고리를 선택해주세요.',
     }),
   }),
-  keyword: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
+  meetingKeywordTypes: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
   files: z
     .array(z.string(), { required_error: '이미지를 추가해주세요.' })
     .min(1, { message: '이미지를 추가해주세요.' }),
@@ -286,7 +286,7 @@ export const flashSchema = z.object({
     )
     .optional()
     .nullable(),
-  keyword: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
+  meetingKeywordTypes: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
 });
 
 export type FlashFormType = z.infer<typeof flashSchema>;

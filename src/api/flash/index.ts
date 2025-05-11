@@ -30,7 +30,7 @@ const filterFlashFormData = (formData: FlashFormType) => {
       files: formData.files,
     },
     welcomeMessageTypes: convertedTags?.length === 0 ? null : convertedTags,
-    meetingKeywordTypes: formData.keyword,
+    meetingKeywordTypes: formData.meetingKeywordTypes,
   };
   return data;
 };

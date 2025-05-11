@@ -250,7 +250,6 @@ const serializeFormData = (formData: FormType) => {
     note: formData.detail.note,
     detail: undefined,
     coLeaderUserIds: formData.detail.coLeader?.map(user => user.userId),
-    meetingKeywordTypes: formData.keyword,
   };
   return data;
 };
