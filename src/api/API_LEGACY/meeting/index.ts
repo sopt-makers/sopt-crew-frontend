@@ -60,7 +60,7 @@ export interface MeetingResponse {
   targetActiveGeneration: number | null;
   joinableParts: string[];
 }
-export type MeetingListOfFilterResponse =
+export type MeetingListResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 /**
@@ -154,7 +154,7 @@ export const fetchMeetingListOfAll = async ({
   isOnlyActiveGeneration,
   part,
 }: filterData) => {
-  return api.get<MeetingListOfFilterResponse>(`/meeting/v2`, {
+  return api.get<MeetingListResponse>(`/meeting/v2`, {
     params: {
       category: category.join(','),
       ...(status?.length && {
