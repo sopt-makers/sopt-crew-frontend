@@ -1,3 +1,4 @@
+import { components } from '@/__generated__/schema2';
 import Select from '@components/form/Select';
 import { Option } from '@components/form/Select/OptionItem';
 import Filter from '@components/page/mine/management/Filter';
@@ -7,6 +8,7 @@ import ManagementListItemForHost from '@components/page/mine/management/Manageme
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
 import { numberOptionList, sortOptionList } from '@data/options';
 import { styled } from 'stitches.config';
+
 type ManagementForHostProps = {
   isManagementDataLoading: boolean;
   management: {
