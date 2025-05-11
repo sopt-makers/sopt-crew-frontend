@@ -31,12 +31,12 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
     if (!values || values.length === 0) return deleteKey();
     const newValue = values.join(',');
 
-    ampli.clickFilterPart({ group_part: newValue });
     setRawSelected(newValue);
   };
 
   useEffect(() => {
     if (debounceValue) setValue(debounceValue);
+    ampli.clickFilterPart({ group_part: debounceValue });
   }, [debounceValue]);
 
   return (
