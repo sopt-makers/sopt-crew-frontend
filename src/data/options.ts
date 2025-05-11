@@ -27,9 +27,9 @@ export const parts = [
   { label: '전체', value: 'all', order: 1 },
   { label: '기획', value: 'PM', order: 2 },
   { label: '디자인', value: 'DESIGN', order: 3 },
-  { label: '웹', value: 'WEB', order: 4 },
   { label: 'Android', value: 'ANDROID', order: 5 },
   { label: 'iOS', value: 'IOS', order: 6 },
+  { label: '웹', value: 'WEB', order: 4 },
   { label: '서버', value: 'SERVER', order: 7 },
 ];
 
