@@ -1,17 +1,17 @@
+import { updateFlashById } from '@api/flash';
+import { useFlashByIdQuery } from '@api/flash/hook';
+import BungaeIcon from '@assets/svg/bungae.svg';
+import Loader from '@components/@common/loader/Loader';
+import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FlashFormType, flashSchema } from '@type/form';
+import { formatCalendarDate } from '@utils/dayjs';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import Loader from '@components/@common/loader/Loader';
-import dynamic from 'next/dynamic';
-import { useFlashByIdQuery } from '@api/flash/hook';
-import { FlashFormType, flashSchema } from '@type/form';
-import Presentation from '@components/form/Flash';
-import BungaeIcon from '@assets/svg/bungae.svg';
-import { updateFlashById } from '@api/flash';
-import { formatCalendarDate } from '@utils/dayjs';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -90,7 +90,7 @@ const FlashEditPage = () => {
           maxCapacity: formData?.maximumCapacity,
         },
         files: formData?.imageURL.map(({ url }) => url),
-        welcomeTags: formData?.welcomeMessageTypes.map(type => ({ label: type, value: type })),
+        welcomeMessageTypes: formData?.welcomeMessageTypes,
       });
     }
 
@@ -107,7 +107,7 @@ const FlashEditPage = () => {
         <SFormContainer>
           <SFormName>번쩍 수정하기</SFormName>
           <SFormWrapper>
-            <Presentation
+            <FlashPresentation
               errors={errors}
               submitButtonLabel={
                 <>

@@ -5,6 +5,7 @@ import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
+import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { imageS3Bucket } from '@constants/url';
 import { categories } from '@data/categories';
 import { colors } from '@sopt-makers/colors';
@@ -547,6 +548,9 @@ function Presentation({
               )}
             ></FormController>
           </div>
+
+          {/* 추가 정보 - 환영 태그*/}
+          <WelcomeMessageField />
 
           {/* 추가 정보 - 유의사항 */}
           <div>
