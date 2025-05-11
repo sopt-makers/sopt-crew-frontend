@@ -15,7 +15,6 @@ interface CardProps {
 }
 
 function Card({ bottom, meetingData, mobileType }: CardProps) {
-  const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
   const isFlash = meetingData.category === '번쩍';
 
   return (
@@ -38,7 +37,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
           {isFlash ? <DesktopSizeFlashCard meetingData={meetingData} /> : <DesktopSizeCard meetingData={meetingData} />}
         </DesktopOnly>
         <MobileOnly>
-          <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
+          <MobileSizeCard meetingData={meetingData} mobileType={mobileType} />
         </MobileOnly>
       </Link>
       {bottom}
