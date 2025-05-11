@@ -1,0 +1,56 @@
+import FormController from '@components/form/FormController';
+import HelpMessage from '@components/form/HelpMessage';
+import Label from '@components/form/Label';
+import { Option } from '@components/form/Select/OptionItem';
+import { keywordOptions } from '@data/options';
+import { Chip } from '@sopt-makers/ui';
+import { styled } from 'stitches.config';
+
+const KeywordField = () => {
+  return (
+    <div>
+      <Label required={true}>모임 키워드</Label>
+      <HelpMessage>최대 2개까지 선택할 수 있어요</HelpMessage>
+      <FormController
+        name="keyword"
+        defaultValue={[]}
+        render={({ field: { value, onChange } }) => {
+          const handleClick = (option: Option) => {
+            let updatedKeywords = [...value];
+            if (updatedKeywords.includes(option.value)) {
+              updatedKeywords = updatedKeywords.filter(keyword => keyword !== option.value);
+            } else {
+              updatedKeywords.push(option.value);
+            }
+
+            if (updatedKeywords.length > 2) return;
+
+            onChange(updatedKeywords);
+          };
+
+          return (
+            <SChipContainer>
+              {keywordOptions.map(option => (
+                <Chip key={option.value} active={value.includes(option.value)} onClick={() => handleClick(option)}>
+                  {option.label}
+                </Chip>
+              ))}
+            </SChipContainer>
+          );
+        }}
+      ></FormController>
+    </div>
+  );
+};
+
+export default KeywordField;
+
+const SChipContainer = styled('div', {
+  display: 'flex',
+  gap: '$10',
+  flexWrap: 'wrap',
+
+  '@media(max-width: 430px)': {
+    maxWidth: '320px',
+  },
+});

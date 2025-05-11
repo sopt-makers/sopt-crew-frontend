@@ -51,3 +51,13 @@ export const flashTags = [
   { label: '입문자 환영', value: '입문자 환영' },
   { label: '숙련자 환영', value: '숙련자 환영' },
 ];
+
+export const keywordOptions = [
+  { label: '운동', value: '운동' },
+  { label: '먹방', value: '먹방' },
+  { label: '취미', value: '취미' },
+  { label: '학습', value: '학습' },
+  { label: '자기게발', value: '자기게발' },
+  { label: '네트워킹', value: '네트워킹' },
+  { label: '기타', value: '기타' },
+];

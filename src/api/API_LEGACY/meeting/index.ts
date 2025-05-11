@@ -1,11 +1,11 @@
-import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
+import { paths } from '@/__generated__/schema2';
+import { APPLICATION_TYPE, APPROVAL_STATUS, PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { FormType } from '@type/form';
-import { api, Data, PromiseResponse } from '../..';
-import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { paths } from '@/__generated__/schema2';
+import { api, PromiseResponse } from '../..';
+import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 /**
  * @deprecated
@@ -247,10 +247,10 @@ const serializeFormData = (formData: FormType) => {
     isMentorNeeded: formData.detail.isMentorNeeded,
     canJoinOnlyActiveGeneration: formData.detail.canJoinOnlyActiveGeneration,
     joinableParts: refinedParts,
-    //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
     coLeaderUserIds: formData.detail.coLeader?.map(user => user.userId),
+    meetingKeywordTypes: formData.keyword,
   };
   return data;
 };

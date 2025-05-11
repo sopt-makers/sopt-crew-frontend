@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { z } from 'zod';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { z } from 'zod';
 dayjs.extend(customParseFormat);
 
 const capacitySchema = z.number({
@@ -32,6 +32,7 @@ export const schema = z.object({
       invalid_type_error: '카테고리를 선택해주세요.',
     }),
   }),
+  keyword: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
   files: z
     .array(z.string(), { required_error: '이미지를 추가해주세요.' })
     .min(1, { message: '이미지를 추가해주세요.' }),
