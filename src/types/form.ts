@@ -286,6 +286,7 @@ export const flashSchema = z.object({
     )
     .optional()
     .nullable(),
+  keyword: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
 });
 
 export type FlashFormType = z.infer<typeof flashSchema>;

@@ -1,23 +1,23 @@
-import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import CancelIcon from '@assets/svg/x.svg';
+import { imageS3Bucket } from '@constants/url';
+import { flashPlace, flashTags, flashTime } from '@data/options';
+import { CheckBox, Chip, useDialog } from '@sopt-makers/ui';
+import { FlashFormType, MAX_FILE_SIZE } from '@type/form';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
+import CalendarInputForm from '../Calendar';
+import ErrorMessage from '../ErrorMessage';
 import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
+import ImagePreview from '../Presentation/ImagePreview';
+import KeywordField from '../Presentation/KeywordField';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
-import { FlashFormType, MAX_FILE_SIZE } from '@type/form';
-import { useRouter } from 'next/router';
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
-import { imageS3Bucket } from '@constants/url';
-import CalendarInputForm from '../Calendar';
-import { CheckBox, Chip, useDialog } from '@sopt-makers/ui';
-import ImagePreview from '../Presentation/ImagePreview';
-import { flashPlace, flashTags, flashTime } from '@data/options';
-import ErrorMessage from '../ErrorMessage';
-
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -143,6 +143,9 @@ function Presentation({
               )}
             ></FormController>
           </STitleField>
+
+          {/* 키워드 */}
+          <KeywordField />
 
           {/* 번쩍 설명 */}
           <div>
