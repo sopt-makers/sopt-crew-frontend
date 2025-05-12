@@ -23,6 +23,10 @@ const getAutoClass = (width?: string) =>
 function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
+  const selectedValueArray = selectedValue ? selectedValue.split(',') : [];
+  const [filterLabel, setFilterLabel] = useState<string | undefined>(
+    selectedValueArray.length > 1 ? label : selectedValueArray[0] ?? label
+  );
   const [rawSelected, setRawSelected] = useState<string>('');
   const debounceValue = useDebounce(rawSelected, 1300);
 
@@ -35,8 +39,14 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
       return deleteKey();
     }
 
-    const newValue = values.join(',');
+    /* 단일 선택 시 label에 선택한 값 세팅 */
+    if (values.length == 1) {
+      setFilterLabel(values[0]);
+    } else {
+      setFilterLabel(label);
+    }
 
+    const newValue = values.join(',');
     setRawSelected(newValue);
   };
 
@@ -49,7 +59,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={label} />
+          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={filterLabel} label={filterLabel} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (
