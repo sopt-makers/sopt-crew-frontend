@@ -27,9 +27,9 @@ export const parts = [
   { label: '전체', value: 'all', order: 1 },
   { label: '기획', value: 'PM', order: 2 },
   { label: '디자인', value: 'DESIGN', order: 3 },
-  { label: '웹', value: 'WEB', order: 4 },
   { label: 'Android', value: 'ANDROID', order: 5 },
   { label: 'iOS', value: 'IOS', order: 6 },
+  { label: '웹', value: 'WEB', order: 4 },
   { label: '서버', value: 'SERVER', order: 7 },
 ];
 
@@ -50,4 +50,14 @@ export const flashTags = [
   { label: '초면 환영', value: '초면 환영' },
   { label: '입문자 환영', value: '입문자 환영' },
   { label: '숙련자 환영', value: '숙련자 환영' },
+];
+
+export const keywordOptions = [
+  { label: '운동', value: '운동' },
+  { label: '먹방', value: '먹방' },
+  { label: '취미', value: '취미' },
+  { label: '학습', value: '학습' },
+  { label: '자기게발', value: '자기게발' },
+  { label: '네트워킹', value: '네트워킹' },
+  { label: '기타', value: '기타' },
 ];

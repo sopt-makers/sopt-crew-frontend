@@ -1,8 +1,24 @@
-import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import BubblePointIcon from '@assets/svg/bubble_point.svg';
+import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
+import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
-import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
+import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
+import KeywordField from '@components/form/Presentation/KeywordField';
+import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
+import { imageS3Bucket } from '@constants/url';
 import { categories } from '@data/categories';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { IconAlertCircle } from '@sopt-makers/icons';
+import { useDialog } from '@sopt-makers/ui';
+import { MAX_FILE_SIZE } from '@type/form';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { FieldError, FieldErrors } from 'react-hook-form';
 import { styled } from 'stitches.config';
+import CalendarInputForm from '../Calendar';
+import NeedMentor from '../CheckBox/NeedMentor';
 import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
@@ -10,22 +26,8 @@ import Label from '../Label';
 import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
-import ImagePreview from './ImagePreview';
-import { MAX_FILE_SIZE } from '@type/form';
-import NeedMentor from '../CheckBox/NeedMentor';
-import { useRouter } from 'next/router';
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
-import { imageS3Bucket } from '@constants/url';
-import CalendarInputForm from '../Calendar';
-import { fontsObject } from '@sopt-makers/fonts';
-import { colors } from '@sopt-makers/colors';
-import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
-import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
-import { IconAlertCircle } from '@sopt-makers/icons';
-import { useDialog } from '@sopt-makers/ui';
-import BubblePointIcon from '@assets/svg/bubble_point.svg';
-import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import CoLeader from './CoLeader';
+import ImagePreview from './ImagePreview';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -209,6 +211,9 @@ function Presentation({
               );
             }}
           ></FormController>
+
+          {/* 모임 키워드 */}
+          <KeywordField />
 
           {/* 이미지 */}
           <div>
@@ -543,6 +548,9 @@ function Presentation({
               )}
             ></FormController>
           </div>
+
+          {/* 추가 정보 - 환영 태그*/}
+          <WelcomeMessageField />
 
           {/* 추가 정보 - 유의사항 */}
           <div>

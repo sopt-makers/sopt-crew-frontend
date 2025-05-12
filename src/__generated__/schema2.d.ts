@@ -139,6 +139,14 @@ export interface paths {
     /** 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUser"];
   };
+  "/property/v2/home": {
+    /** 프로퍼티/홈 컨텐츠 조회 */
+    get: operations["getHomeProperty"];
+  };
+  "/property/v2/all": {
+    /** 프로퍼티/조회 */
+    get: operations["allProperties"];
+  };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
     get: operations["getPostCount"];
@@ -278,7 +286,7 @@ export interface components {
       images?: string[];
     };
     /** @description 모임 생성 및 수정 request body dto */
-    MeetingV2CreateMeetingBodyDto: {
+    MeetingV2CreateAndUpdateMeetingBodyDto: {
       /**
        * @description 모임 제목
        * @example 알고보면 쓸데있는 개발 프로세스
@@ -362,9 +370,28 @@ export interface components {
       joinableParts: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
       /**
        * @description 공동 모임장 userId (크루에서 사용하는 userId)
-       * @example [251, 942]
+       * @example [
+       *   1304,
+       *   1305
+       * ]
        */
       coLeaderUserIds?: number[];
+      /**
+       * @description 환영 메시지 타입 리스트
+       * @example [
+       *   "YB 환영",
+       *   "OB 환영"
+       * ]
+       */
+      welcomeMessageTypes?: string[];
+      /**
+       * @description 모임 키워드 타입 리스트
+       * @example [
+       *   "운동",
+       *   "자기개발"
+       * ]
+       */
+      meetingKeywordTypes?: string[];
     };
     /** @description 모임 지원자 상태 변경 request body dto */
     ApplyV2UpdateStatusBodyDto: {
@@ -392,6 +419,14 @@ export interface components {
        * ]
        */
       welcomeMessageTypes?: string[];
+      /**
+       * @description 모임 키워드 타입 리스트
+       * @example [
+       *   "운동",
+       *   "자기개발"
+       * ]
+       */
+      meetingKeywordTypes?: string[];
     };
     /** @description 번쩍 모임 생성 및 수정 request body dto (환영 메시지 타입 제외) */
     FlashV2CreateAndUpdateFlashBodyWithoutWelcomeMessageDto: {
@@ -449,15 +484,6 @@ export interface components {
        * ]
        */
       files: string[];
-    };
-    /** @description 번쩍 모임 생성 및 수정 응답 Dto */
-    FlashV2CreateAndUpdateResponseDto: {
-      /**
-       * Format: int32
-       * @description 모임 id - 번쩍 카테고리
-       * @example 1
-       */
-      meetingId: number;
     };
     /** @description 댓글 수정 request body dto */
     CommentV2UpdateCommentBodyDto: {
@@ -571,7 +597,7 @@ export interface components {
       exposeEndDate?: string;
       noticeSecretKey?: string;
     };
-    /** @description 모임 생성 응답 Dto */
+    /** @description 일반 모임 생성 응답 Dto */
     MeetingV2CreateMeetingResponseDto: {
       /**
        * Format: int32
@@ -579,6 +605,12 @@ export interface components {
        * @example 1
        */
       meetingId: number;
+      /**
+       * Format: int32
+       * @description 태그 id - 일반 모임 카테고리
+       * @example 1
+       */
+      tagId: number;
     };
     /** @description 모임 지원 request body dto */
     MeetingV2ApplyMeetingDto: {
@@ -602,6 +634,21 @@ export interface components {
        * @example 1
        */
       applyId: number;
+    };
+    /** @description 번쩍 모임 생성 응답 Dto */
+    FlashV2CreateResponseDto: {
+      /**
+       * Format: int32
+       * @description 모임 id - 번쩍 카테고리
+       * @example 1
+       */
+      meetingId: number;
+      /**
+       * Format: int32
+       * @description 태그 id - 번쩍 카테고리
+       * @example 1
+       */
+      tagId: number;
     };
     /** @description 댓글 생성 request body dto */
     CommentV2CreateCommentBodyDto: {
@@ -999,6 +1046,19 @@ export interface components {
        */
       count: number;
     };
+    HomePropertyResponse: {
+      home?: components["schemas"]["MainPageContentVo"][];
+    };
+    MainPageContentVo: {
+      title?: string;
+      meetingIds?: number[];
+    };
+    PropertyResponse: {
+      key?: string;
+      value?: {
+        [key: string]: Record<string, never> | undefined;
+      };
+    };
     /** @description 페이지 메타 정보 */
     PageMetaDto: {
       /**
@@ -1265,6 +1325,7 @@ export interface components {
        */
       take?: number;
       category?: string[];
+      keyword?: string[];
       status?: string[];
       isOnlyActiveGeneration: boolean;
       joinableParts?: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
@@ -1345,15 +1406,14 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /**
        * Format: int32
-       * @description TODO: FE에서 수정 완료 후 삭제
-       */
-      appliedCount: number;
-      /**
-       * Format: int32
        * @description 승인된 신청자 수
        * @example 3
        */
       approvedCount: number;
+      /** @description 환영 메시지 타입 목록 */
+      welcomeMessageTypes: string[];
+      /** @description 모임 키워드 타입 목록 */
+      meetingKeywordTypes: string[];
     };
     /** @description 모임 조회 응답 Dto */
     MeetingV2GetAllMeetingDto: {
@@ -1623,6 +1683,10 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /** @description 신청 목록 */
       appliedInfo: components["schemas"]["ApplyWholeInfoDto"][];
+      /** @description 환영 메시지 타입 목록 */
+      welcomeMessageTypes: string[];
+      /** @description 모임 키워드 타입 목록 */
+      meetingKeywordTypes: string[];
     };
     MeetingGetAppliesQueryDto: {
       /**
@@ -2052,6 +2116,8 @@ export interface components {
       maximumCapacity: number;
       /** @description 환영 메시지 타입 목록 */
       welcomeMessageTypes: string[];
+      /** @description 모임 키워드 타입 목록 */
+      meetingKeywordTypes: string[];
       /**
        * @description 번쩍 소개
        * @example 번쩍 소개 입니다.
@@ -2384,7 +2450,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["MeetingV2CreateMeetingBodyDto"];
+        "application/json;charset=UTF-8": components["schemas"]["MeetingV2CreateAndUpdateMeetingBodyDto"];
       };
     };
     responses: {
@@ -2458,12 +2524,8 @@ export interface operations {
       };
     };
     responses: {
-      /** @description meetingId: 10 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateResponseDto"];
-        };
-      };
+      /** @description meetingId: 10, tagId: 5 */
+      200: never;
       /** @description VALIDATION_EXCEPTION */
       400: never;
     };
@@ -2642,9 +2704,14 @@ export interface operations {
         take?: number;
         /**
          * @description 카테고리
-         * @example 스터디,번개
+         * @example 스터디,번쩍
          */
         category?: string;
+        /**
+         * @description 키워드
+         * @example 먹방,자기개발,기타
+         */
+        keyword?: string;
         /**
          * @description 모임 모집 상태
          * @example 0,1
@@ -2685,7 +2752,7 @@ export interface operations {
   createMeeting: {
     requestBody: {
       content: {
-        "application/json;charset=UTF-8": components["schemas"]["MeetingV2CreateMeetingBodyDto"];
+        "application/json;charset=UTF-8": components["schemas"]["MeetingV2CreateAndUpdateMeetingBodyDto"];
       };
     };
     responses: {
@@ -2725,10 +2792,10 @@ export interface operations {
       };
     };
     responses: {
-      /** @description meetingId: 10 */
+      /** @description meetingId: 10, tagId: 4 */
       201: {
         content: {
-          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateAndUpdateResponseDto"];
+          "application/json;charset=UTF-8": components["schemas"]["FlashV2CreateResponseDto"];
         };
       };
       /** @description VALIDATION_EXCEPTION */
@@ -2916,6 +2983,32 @@ export interface operations {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetAppliedMeetingByUserResponseDto"];
         };
       };
+    };
+  };
+  /** 프로퍼티/홈 컨텐츠 조회 */
+  getHomeProperty: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["HomePropertyResponse"];
+        };
+      };
+      /** @description 유효하지 않는 토큰입니다. */
+      401: never;
+    };
+  };
+  /** 프로퍼티/조회 */
+  allProperties: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["PropertyResponse"][];
+        };
+      };
+      /** @description 유효하지 않는 토큰입니다. */
+      401: never;
     };
   };
   /** 모임 게시글 개수 조회 */

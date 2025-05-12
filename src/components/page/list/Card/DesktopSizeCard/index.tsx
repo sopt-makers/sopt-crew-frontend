@@ -1,24 +1,23 @@
+import { MeetingListResponse } from '@api/API_LEGACY/meeting';
+import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
+import { MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
+import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 import { Flex } from '@components/util/layout/Flex';
 import { CategoryKoType } from '@constants/option';
-import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
-import { styled } from 'stitches.config';
-import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { getResizedImage } from '@utils/image';
-import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
-import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
-import { MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
+import { styled } from 'stitches.config';
 
 interface CardProps {
-  meetingData: MeetingListOfFilterResponse['meetings'][number];
+  meetingData: MeetingListResponse['meetings'][number];
   isFlash?: boolean;
-  welcomeMessageTypes?: string[];
   flashDetailInfo?: {
     label: string;
     value: () => string;
   }[];
 }
 
-function DesktopSizeCard({ meetingData, isFlash = false, welcomeMessageTypes, flashDetailInfo }: CardProps) {
+function DesktopSizeCard({ meetingData, isFlash = false, flashDetailInfo }: CardProps) {
   const detailInfo = isFlash && flashDetailInfo ? flashDetailInfo : MeetingInformation(meetingData);
 
   return (
@@ -33,7 +32,10 @@ function DesktopSizeCard({ meetingData, isFlash = false, welcomeMessageTypes, fl
       </ImageWrapper>
 
       <STitleSection>
-        <CategoryChip category={meetingData.category as CategoryKoType} welcomeMessage={welcomeMessageTypes} />
+        <CategoryChip
+          category={meetingData.category as CategoryKoType}
+          meetingKeywordTypes={meetingData.meetingKeywordTypes}
+        />
         <STitle>{meetingData.title}</STitle>
       </STitleSection>
 

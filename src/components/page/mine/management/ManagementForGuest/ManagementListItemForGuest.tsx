@@ -5,12 +5,12 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 import dayjs from 'dayjs';
 import { styled } from 'stitches.config';
 
-interface ManagementListItemProps {
+interface ManagementListItemForGuestProps {
   application: MeetingPeopleResponse['apply'][number];
   isActive?: boolean;
 }
 
-const ManagementListItem = ({ application, isActive = false }: ManagementListItemProps) => {
+const ManagementListItemForGuest = ({ application, isActive = false }: ManagementListItemForGuestProps) => {
   const { appliedDate, user, applyNumber } = application;
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
@@ -38,7 +38,7 @@ export const navigateToUserProfileWithTracking = (memberId: number) => {
   window.location.href = `${playgroundLink.memberDetail(memberId)}`;
 };
 
-export default ManagementListItem;
+export default ManagementListItemForGuest;
 
 export const SUserInformation = styled('div', {
   flexType: 'verticalCenter',

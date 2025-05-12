@@ -28,15 +28,19 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
 
   const setPartQuery = (value: string | string[]) => {
     const values = typeof value === 'string' ? [value] : value;
-    if (!values || values.length === 0) return deleteKey();
+    if (!values || values.length === 0) {
+      setRawSelected('');
+      return deleteKey();
+    }
+
     const newValue = values.join(',');
 
-    ampli.clickFilterPart({ group_part: newValue });
     setRawSelected(newValue);
   };
 
   useEffect(() => {
     if (debounceValue) setValue(debounceValue);
+    ampli.clickFilterPart({ group_part: debounceValue });
   }, [debounceValue]);
 
   return (
