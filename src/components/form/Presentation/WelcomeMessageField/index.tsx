@@ -4,9 +4,25 @@ import Label from '@components/form/Label';
 import { Option } from '@components/form/Select/OptionItem';
 import { flashTags } from '@data/options';
 import { Chip } from '@sopt-makers/ui';
+import { useCallback } from 'react';
 import { styled } from 'stitches.config';
 
 const WelcomeMessageField = () => {
+  const handleClick = useCallback((option: Option, value: string[], onChange: (value: string[]) => void) => {
+    if (!option.value) return;
+
+    let updatedKeywords = [...value];
+    if (updatedKeywords.includes(option.value)) {
+      updatedKeywords = updatedKeywords.filter(keyword => keyword !== option.value);
+    } else {
+      updatedKeywords.push(option.value);
+    }
+
+    if (updatedKeywords.length > 3) return;
+
+    onChange(updatedKeywords);
+  }, []);
+
   return (
     <div>
       <SLabelCheckboxWrapper>
@@ -23,24 +39,15 @@ const WelcomeMessageField = () => {
             name="welcomeMessageTypes"
             defaultValue={[]}
             render={({ field: { value = [], onChange } }) => {
-              const handleClick = (option: Option) => {
-                let updatedKeywords = [...value];
-                if (updatedKeywords.includes(option.value)) {
-                  updatedKeywords = updatedKeywords.filter(keyword => keyword !== option.value);
-                } else {
-                  updatedKeywords.push(option.value);
-                }
-
-                if (updatedKeywords.length > 3) return;
-
-                onChange(updatedKeywords);
-              };
-
               return (
                 <>
                   {flashTags.map(tag => {
                     return (
-                      <Chip active={value.includes(tag.value)} onClick={() => handleClick(tag)} key={tag.value}>
+                      <Chip
+                        active={value.includes(tag.value)}
+                        onClick={() => handleClick(tag, value, onChange)}
+                        key={tag.value}
+                      >
                         {tag.label}
                       </Chip>
                     );
