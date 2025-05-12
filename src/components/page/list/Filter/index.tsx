@@ -5,6 +5,7 @@ import Search from './Search';
 import { CATEGORY_FILTER, GENERATION_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import DropDownFilter from './DropDown';
 import { useDisplay } from '@hooks/useDisplay';
+import FilterResetButton from '@components/page/list/Filter/Reset';
 
 function Filter() {
   const { value: search } = useSearchParams();
@@ -20,6 +21,7 @@ function Filter() {
             <DropDownFilter filter={PART_FILTER} />
             <DropDownFilter filter={STATUS_FILTER} />
             <DropDownFilter filter={GENERATION_FILTER} />
+            <FilterResetButton />
           </Flex>
         </ScrollFilter>
 
