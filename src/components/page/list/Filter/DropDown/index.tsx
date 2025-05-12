@@ -3,7 +3,7 @@ import { FilterType } from '@constants/option';
 import { useQueryString } from '@hooks/queryString';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { styled } from 'stitches.config';
 import useDebounce from '@hooks/useDebounce';
 
@@ -23,15 +23,14 @@ const getAutoClass = (width?: string) =>
 function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
-  const selectedValueArray = selectedValue ? selectedValue.split(',') : [];
-  const [filterLabel, setFilterLabel] = useState<string | undefined>(
+  const selectedValueArray = useMemo(() => (selectedValue ? selectedValue.split(',') : []), [selectedValue]);
+  const [filterLabel, setFilterLabel] = useState<string>(
     selectedValueArray.length > 1 ? label : selectedValueArray[0] ?? label
   );
   const [rawSelected, setRawSelected] = useState<string>('');
   const debounceValue = useDebounce(rawSelected, 1300);
 
-  const defaultValue = selectedValue ? selectedValue.split(',').map(opt => ({ label: opt, value: opt })) : [];
-
+  const defaultValue = useMemo(() => selectedValueArray.map(opt => ({ label: opt, value: opt })), [selectedValueArray]);
   const setPartQuery = (value: string | string[]) => {
     const values = typeof value === 'string' ? [value] : value;
     if (!values || values.length === 0) {
@@ -40,14 +39,8 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     }
 
     /* 단일 선택 시 label에 선택한 값 세팅 */
-    if (values.length == 1) {
-      setFilterLabel(values[0]);
-    } else {
-      setFilterLabel(label);
-    }
-
-    const newValue = values.join(',');
-    setRawSelected(newValue);
+    setFilterLabel(values.length > 1 ? label : values[0]);
+    setRawSelected(values.join(','));
   };
 
   useEffect(() => {
