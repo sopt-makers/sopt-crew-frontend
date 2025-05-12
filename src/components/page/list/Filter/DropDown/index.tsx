@@ -9,16 +9,18 @@ import useDebounce from '@hooks/useDebounce';
 
 interface DropDownFilterProps {
   filter: FilterType;
+  width?: string;
 }
 
 //notice: 현재 클래스 제대로 적용안되는 문제점으로 인해 !important 사용 필요
-const autoClass = css({
-  minWidth: '140px !important',
-  width: '140px !important',
-  whiteSpace: 'nowrap',
-});
+const getAutoClass = (width?: string) =>
+  css({
+    minWidth: `${width ?? '140px'} !important`,
+    width: `${width ?? '140px'} !important`,
+    whiteSpace: 'nowrap',
+  });
 
-function DropDownFilter({ filter }: DropDownFilterProps) {
+function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
   const [rawSelected, setRawSelected] = useState<string>('');
@@ -47,7 +49,7 @@ function DropDownFilter({ filter }: DropDownFilterProps) {
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent className={autoClass()} placeholder={label} label={label} />
+          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={label} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (

@@ -72,7 +72,7 @@ export const STATUS_FILTER = {
   options: RECRUITMENT_STATUS,
 };
 export const PART_FILTER = {
-  label: '대상 파트',
+  label: '파트',
   subject: 'part',
   options: PART_OPTIONS,
 };

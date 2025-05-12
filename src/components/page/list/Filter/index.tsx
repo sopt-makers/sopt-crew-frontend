@@ -17,11 +17,11 @@ function Filter() {
       <Flex align="center" justify="between">
         <ScrollFilter>
           <Flex>
-            <DropDownFilter filter={CATEGORY_FILTER} />
-            <DropDownFilter filter={KEYWORD_FILTER} />
-            <DropDownFilter filter={STATUS_FILTER} />
-            <DropDownFilter filter={PART_FILTER} />
-            <DropDownFilter filter={GENERATION_FILTER} />
+            <DropDownFilter filter={CATEGORY_FILTER} width={'149px'} />
+            <DropDownFilter filter={KEYWORD_FILTER} width={'133px'} />
+            <DropDownFilter filter={STATUS_FILTER} width={'152px'} />
+            <DropDownFilter filter={PART_FILTER} width={'121px'} />
+            <DropDownFilter filter={GENERATION_FILTER} width={'110px'} />
             <FilterResetButton />
           </Flex>
         </ScrollFilter>
