@@ -24,7 +24,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
   const selectedValueArray = useMemo(() => (selectedValue ? selectedValue.split(',') : []), [selectedValue]);
-  const [filterLabel, setFilterLabel] = useState<string>(
+  const [filterLabel, setFilterLabel] = useState<string | undefined>(
     selectedValueArray.length > 1 ? label : selectedValueArray[0] ?? label
   );
   const [rawSelected, setRawSelected] = useState<string>('');
