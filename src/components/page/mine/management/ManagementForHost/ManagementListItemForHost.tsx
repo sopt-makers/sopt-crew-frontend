@@ -11,7 +11,7 @@ import {
   SProfileImage,
   STime,
   SUserInformation,
-} from '@components/page/mine/management/ManagementListItem';
+} from '@components/page/mine/management/ManagementForGuest/ManagementListItemForGuest';
 import { APPROVAL_STATUS_ENGLISH_TO_KOREAN, EApprovalStatus } from '@constants/option';
 import { addHyphenToPhoneNumber } from '@utils/addHypenToPhoneNumber';
 import dayjs from 'dayjs';
