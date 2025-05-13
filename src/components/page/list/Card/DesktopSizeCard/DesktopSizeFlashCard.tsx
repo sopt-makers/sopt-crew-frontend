@@ -12,7 +12,7 @@ const DesktopSizeFlashCard = ({ meetingData }: DesktopSizeFlashCardProps) => {
   if (!flashData) return null;
 
   const detailInfo = FlashInformation(flashData);
-  const flashCount = `${flashData.approvedApplyCount} / ${flashData.minimumCapacity} ~ ${flashData.maximumCapacity}명`;
+  const flashCount = `${flashData.approvedApplyCount} / ${flashData.minimumCapacity}~${flashData.maximumCapacity}명`;
 
   return <DesktopSizeCard meetingData={meetingData} isFlash flashDetailInfo={detailInfo} flashCount={flashCount} />;
 };
