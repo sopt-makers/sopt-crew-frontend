@@ -52,7 +52,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={filterLabel} label={filterLabel} />
+          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={filterLabel} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (
