@@ -26,11 +26,9 @@ function DesktopSizeCard({ meetingData, isFlash = false, flashDetailInfo, flashC
     <div>
       <ImageWrapper>
         <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
-        <STab size="md">
-          <SMemberCountText>
-            {isFlash ? flashCount : `${meetingData.approvedCount} / ${meetingData.capacity}명`}
-          </SMemberCountText>
-        </STab>
+        <STag size="md" type="solid">
+          {isFlash ? flashCount : `${meetingData.approvedCount} / ${meetingData.capacity}명`}
+        </STag>
         <SThumbnailImage
           css={{
             backgroundImage: `url(${getResizedImage(meetingData.imageURL[0]?.url ?? '', 380)})`,
@@ -71,10 +69,7 @@ const ImageWrapper = styled('div', {
   position: 'relative',
 });
 
-const STab = styled(Tag, {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
+const STag = styled(Tag, {
   position: 'absolute',
   top: '16px',
   right: '16px',
