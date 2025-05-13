@@ -24,7 +24,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
   const selectedValueArray = useMemo(() => (selectedValue ? selectedValue.split(',') : []), [selectedValue]);
-  const [filterLabel, setFilterLabel] = useState<string | undefined>(
+  const [filterLabel, setFilterLabel] = useState<string>(
     selectedValueArray.length > 1 ? label : selectedValueArray[0] ?? label
   );
   const [rawSelected, setRawSelected] = useState<string>('');
@@ -39,7 +39,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     }
 
     /* 단일 선택 시 label에 선택한 값 세팅 */
-    setFilterLabel(values.length > 1 ? label : values[0]);
+    setFilterLabel(values.length > 1 ? label : values[0] ?? label);
     setRawSelected(values.join(','));
   };
 
