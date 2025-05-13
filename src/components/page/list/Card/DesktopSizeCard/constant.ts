@@ -6,7 +6,7 @@ export const MeetingInformation = (meetingData: MeetingListResponse['meetings'][
   {
     label: '활동 기간',
     value: () =>
-      `${dayjs(meetingData.mStartDate).format('YY.MM.DD')} - ${dayjs(meetingData.mEndDate).format('YY.MM.DD')}`,
+      `${dayjs(meetingData.startDate).format('YY.MM.DD')} - ${dayjs(meetingData.endDate).format('YY.MM.DD')}`,
   },
   {
     label: '모집 대상',
