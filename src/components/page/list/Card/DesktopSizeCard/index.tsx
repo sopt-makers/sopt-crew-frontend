@@ -86,13 +86,6 @@ const SThumbnailImage = styled('div', {
   backgroundRepeat: 'no-repeat',
 });
 
-const SMemberCountText = styled('p', {
-  textAlign: 'center',
-
-  fontStyle: 'L2',
-  color: '$gray100',
-});
-
 const STitleSection = styled('div', {
   my: '$16',
   '@media (max-width: 768px)': {
