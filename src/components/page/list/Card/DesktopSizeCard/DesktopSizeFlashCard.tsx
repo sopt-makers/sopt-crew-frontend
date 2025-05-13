@@ -9,9 +9,12 @@ type DesktopSizeFlashCardProps = {
 const DesktopSizeFlashCard = ({ meetingData }: DesktopSizeFlashCardProps) => {
   const { data: flashData } = useFlashByIdQuery({ meetingId: +meetingData.id });
 
-  const detailInfo = flashData ? FlashInformation(flashData) : undefined;
+  if (!flashData) return null;
 
-  return <DesktopSizeCard meetingData={meetingData} isFlash flashDetailInfo={detailInfo} />;
+  const detailInfo = FlashInformation(flashData);
+  const flashCount = `${flashData.approvedApplyCount} / ${flashData.minimumCapacity} ~ ${flashData.maximumCapacity}명`;
+
+  return <DesktopSizeCard meetingData={meetingData} isFlash flashDetailInfo={detailInfo} flashCount={flashCount} />;
 };
 
 export default DesktopSizeFlashCard;
