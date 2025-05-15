@@ -25,6 +25,7 @@ import TextInput from '../TextInput';
 import ActivityPeriodField from './ActivityPeriodField';
 import CoLeader from './CoLeader';
 import DescriptionField from './DescriptionField';
+import ProcessIntroductionField from './ProcessIntroductionField';
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -96,25 +97,8 @@ function Presentation({
         <SFormSectionDivider>2. 활동 정보</SFormSectionDivider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-          {/* 활동 정보 - 모임 기간 */}
           <ActivityPeriodField />
-          {/* 모임 정보 - 진행 방식 소개 */}
-          <div>
-            <Label required={true} size="small">
-              진행 방식 소개
-            </Label>
-            <FormController
-              name="detail.processDesc"
-              render={({ field, fieldState: { error } }) => (
-                <Textarea
-                  placeholder={`ex.\n• 활동 방법\n• 커리큘럼\n• 모임 내 소통 방식`}
-                  maxLength={1000}
-                  error={error?.message}
-                  {...field}
-                />
-              )}
-            ></FormController>
-          </div>
+          <ProcessIntroductionField />
           {/* 활동 정보 끝 */}
           <div>
             <SFormSectionDivider>3. 모집 정보</SFormSectionDivider>
