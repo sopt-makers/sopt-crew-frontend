@@ -1,6 +1,7 @@
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
+import ApplicationPeriodField from '@components/form/Presentation/ApplicationPeriodField';
 import CategoryField from '@components/form/Presentation/CategoryField';
 import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
@@ -15,7 +16,6 @@ import { useRouter } from 'next/router';
 import React, { ChangeEvent, ReactNode, useRef } from 'react';
 import { FieldError, FieldErrors } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import CalendarInputForm from '../Calendar';
 import NeedMentor from '../CheckBox/NeedMentor';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
@@ -99,57 +99,11 @@ function Presentation({
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           <ActivityPeriodField />
           <ProcessIntroductionField />
-          {/* 활동 정보 끝 */}
           <div>
             <SFormSectionDivider>3. 모집 정보</SFormSectionDivider>
             <SectionLine />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-              {/* 모집 기간 */}
-              <div>
-                <Label required={true}>신청 기간</Label>
-                <HelpMessage>설정한 신청 기간 시작일의 자정(AM 12:00)에 '신청하기' 버튼이 활성화돼요</HelpMessage>
-                <SApplicationFieldWrapper>
-                  <SApplicationField>
-                    <FormController
-                      name="dateRange"
-                      render={({ field, formState: { errors } }) => {
-                        const dateError = errors as
-                          | {
-                              dateRange?: FieldError[];
-                            }
-                          | undefined;
-                        return (
-                          <CalendarInputForm
-                            selectedDate={field.value}
-                            setSelectedDate={field.onChange}
-                            selectedDateFieldName={field.name}
-                            error={
-                              (dateError?.dateRange as FieldError[])?.[0]?.message ||
-                              (dateError?.dateRange as FieldError[])?.[1]?.message
-                            }
-                            dateType="startDate"
-                          />
-                        );
-                      }}
-                    ></FormController>
-                  </SApplicationField>
-                  <span style={{ marginTop: '14px' }}>-</span>
-                  <SApplicationField>
-                    <FormController
-                      name="dateRange"
-                      render={({ field }) => (
-                        <CalendarInputForm
-                          selectedDate={field.value}
-                          setSelectedDate={field.onChange}
-                          selectedDateFieldName={field.name}
-                          dateType="endDate"
-                        />
-                      )}
-                    ></FormController>
-                  </SApplicationField>
-                </SApplicationFieldWrapper>
-              </div>
-
+              <ApplicationPeriodField />
               {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
               <div>
                 <SLabelCheckboxWrapper>
@@ -327,19 +281,7 @@ const SForm = styled('form', {
     gap: '56px',
   },
 });
-const SApplicationFieldWrapper = styled('div', {
-  display: 'flex',
-  color: '$gray500',
-  gap: '12px',
-});
-const SApplicationField = styled('div', {
-  width: '100%',
-  maxWidth: '205px',
 
-  '@media (max-width: 768px)': {
-    maxWidth: '151px',
-  },
-});
 const SNeedMentorFieldWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
