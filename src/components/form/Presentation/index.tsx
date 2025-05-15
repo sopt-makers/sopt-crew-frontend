@@ -3,6 +3,7 @@ import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
 import CategoryField from '@components/form/Presentation/CategoryField';
+import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
@@ -18,14 +19,12 @@ import { FieldError, FieldErrors } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import CalendarInputForm from '../Calendar';
 import NeedMentor from '../CheckBox/NeedMentor';
-import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import CoLeader from './CoLeader';
-import ImagePreview from './ImageField/ImagePreview';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -133,41 +132,7 @@ function Presentation({
           <TitleField />
           <CategoryField />
           <KeywordField />
-
-          {/* 이미지 */}
-          <div>
-            <Label required={true}>소개 이미지</Label>
-            <HelpMessage>
-              6개까지 첨부 가능하며 5MB 이내로 <br />
-              가로는 716px, 세로는453px 사이즈를 권장해요
-            </HelpMessage>
-            <SFileInputWrapper>
-              <FormController
-                name="files"
-                defaultValue={[]}
-                render={({ field: { value: imageUrls, onChange, onBlur }, fieldState: { error } }) => (
-                  <>
-                    {(imageUrls as string[]).map((url, idx) => (
-                      <ImagePreview
-                        key={`${url}-${idx}`}
-                        url={url}
-                        onChange={handleChangeFile(idx)}
-                        onDelete={handleDeleteFile(idx)}
-                      />
-                    ))}
-                    {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
-                    <div style={{ display: imageUrls.length < 6 ? 'block' : 'none' }}>
-                      <FileInput
-                        error={error?.message}
-                        onChange={handleAddFiles({ imageUrls, onChange })}
-                        onBlur={onBlur}
-                      />
-                    </div>
-                  </>
-                )}
-              />
-            </SFileInputWrapper>
-          </div>
+          <ImageField onChangeFile={handleChangeFile} onDeleteFile={handleDeleteFile} onAddFiles={handleAddFiles} />
 
           {/* 모임 소개 */}
           <div>

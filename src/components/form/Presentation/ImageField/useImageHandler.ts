@@ -3,7 +3,7 @@ import { imageS3Bucket } from '@constants/url';
 import { MAX_FILE_SIZE } from '@type/form';
 import { ChangeEvent } from 'react';
 
-interface FileChangeHandler {
+export interface FileChangeHandler {
   imageUrls: string[];
   onChange: (urls: string[]) => void;
 }
