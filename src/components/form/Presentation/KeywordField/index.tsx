@@ -6,11 +6,13 @@ import { keywordOptions } from '@data/options';
 import { Chip } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
+const MAX_KEYWORD_COUNT = 2;
+
 const KeywordField = () => {
   return (
     <div>
       <Label required={true}>모임 키워드</Label>
-      <HelpMessage>최대 2개까지 선택할 수 있어요</HelpMessage>
+      <HelpMessage>최대 {MAX_KEYWORD_COUNT}개까지 선택할 수 있어요</HelpMessage>
       <FormController
         name="meetingKeywordTypes"
         defaultValue={[]}
@@ -23,18 +25,26 @@ const KeywordField = () => {
               updatedKeywords.push(option.value);
             }
 
-            if (updatedKeywords.length > 2) return;
+            if (updatedKeywords.length > MAX_KEYWORD_COUNT) return;
 
             onChange(updatedKeywords);
           };
 
           return (
             <SChipContainer>
-              {keywordOptions.map(option => (
-                <Chip key={option.value} active={value.includes(option.value)} onClick={() => handleClick(option)}>
-                  {option.label}
-                </Chip>
-              ))}
+              {keywordOptions.map(option => {
+                const isSelected = value.includes(option.value);
+                return (
+                  <Chip
+                    disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
+                    key={option.value}
+                    active={isSelected}
+                    onClick={() => handleClick(option)}
+                  >
+                    {option.label}
+                  </Chip>
+                );
+              })}
             </SChipContainer>
           );
         }}
