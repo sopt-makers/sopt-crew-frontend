@@ -1,3 +1,4 @@
+import ErrorMessage from '@components/form/ErrorMessage';
 import FormController from '@components/form/FormController';
 import HelpMessage from '@components/form/HelpMessage';
 import Label from '@components/form/Label';
@@ -32,23 +33,28 @@ const KeywordField = () => {
       <FormController
         name="meetingKeywordTypes"
         defaultValue={[]}
-        render={({ field: { value, onChange } }) => {
+        render={({ field: { value, onChange }, fieldState: { error: keywordError } }) => {
+          const m = keywordError?.message;
+
           return (
-            <SChipContainer>
-              {keywordOptions.map(option => {
-                const isSelected = value.includes(option.value);
-                return (
-                  <Chip
-                    disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
-                    key={option.value}
-                    active={isSelected}
-                    onClick={() => handleClick(option, value, onChange)}
-                  >
-                    {option.label}
-                  </Chip>
-                );
-              })}
-            </SChipContainer>
+            <>
+              <SChipContainer>
+                {keywordOptions.map(option => {
+                  const isSelected = value.includes(option.value);
+                  return (
+                    <Chip
+                      disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
+                      key={option.value}
+                      active={isSelected}
+                      onClick={() => handleClick(option, value, onChange)}
+                    >
+                      {option.label}
+                    </Chip>
+                  );
+                })}
+              </SChipContainer>
+              <ErrorMessage style={{ marginTop: '12px' }}>{keywordError?.message}</ErrorMessage>
+            </>
           );
         }}
       ></FormController>

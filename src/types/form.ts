@@ -32,7 +32,10 @@ export const schema = z.object({
       invalid_type_error: '카테고리를 선택해주세요.',
     }),
   }),
-  meetingKeywordTypes: z.array(z.string()).max(2, { message: '최대 2개까지 선택할 수 있어요' }),
+  meetingKeywordTypes: z
+    .array(z.string())
+    .max(2, { message: '최대 2개까지 선택할 수 있어요' })
+    .min(1, { message: '키워드를 선택해주세요' }),
   welcomeMessageTypes: z.array(z.string()).max(3, { message: '최대 3개까지 선택할 수 있어요' }).optional().nullable(),
   files: z
     .array(z.string(), { required_error: '이미지를 추가해주세요.' })
