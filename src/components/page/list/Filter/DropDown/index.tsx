@@ -1,11 +1,11 @@
 import { ampli } from '@/ampli';
 import { FilterType } from '@constants/option';
-import { useQueryString } from '@hooks/queryString';
+import { useMultiQueryString } from '@hooks/queryString';
+import useDebounce from '@hooks/useDebounce';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { styled } from 'stitches.config';
-import useDebounce from '@hooks/useDebounce';
 
 interface DropDownFilterProps {
   filter: FilterType;
@@ -21,30 +21,35 @@ const getAutoClass = (width?: string) =>
   });
 
 function DropDownFilter({ filter, width }: DropDownFilterProps) {
-  const { subject, options, label } = filter;
-  const { value: selectedValue, setValue, deleteKey } = useQueryString(subject);
-  const selectedValueArray = useMemo(() => (selectedValue ? selectedValue.split(',') : []), [selectedValue]);
-  const [filterLabel, setFilterLabel] = useState<string>(
-    selectedValueArray.length > 1 ? label : selectedValueArray[0] ?? label
-  );
+  const { subject, options, label } = filter as { subject: string; options: string[]; label: string };
+  const { value: selectedValue, setValue, deleteKey } = useMultiQueryString(subject);
+  const selectedValueArray = useMemo(() => selectedValue || [], [selectedValue]);
   const [rawSelected, setRawSelected] = useState<string>('');
   const debounceValue = useDebounce(rawSelected, 1300);
 
-  const defaultValue = useMemo(() => selectedValueArray.map(opt => ({ label: opt, value: opt })), [selectedValueArray]);
+  const defaultValue = useMemo(
+    () => selectedValueArray.map((opt: string) => ({ label: opt, value: opt })),
+    [selectedValueArray]
+  );
+
+  const getResolvedLabel = () => {
+    const selected = rawSelected ? rawSelected.split(',') : selectedValueArray;
+    if (selected.length === 0) return label;
+    if (selected.length === 1) return selected[0];
+    return label;
+  };
+
   const setPartQuery = (value: string | string[]) => {
     const values = typeof value === 'string' ? [value] : value;
     if (!values || values.length === 0) {
       setRawSelected('');
       return deleteKey();
     }
-
-    /* 단일 선택 시 label에 선택한 값 세팅 */
-    setFilterLabel(values.length > 1 ? label : values[0] ?? label);
     setRawSelected(values.join(','));
   };
 
   useEffect(() => {
-    if (debounceValue) setValue(debounceValue);
+    if (debounceValue) setValue(debounceValue.split(','));
     ampli.clickFilterPart({ group_part: debounceValue });
   }, [debounceValue]);
 
@@ -52,7 +57,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={filterLabel} />
+          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={getResolvedLabel()} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (
