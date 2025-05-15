@@ -5,6 +5,7 @@ import CoLeaderField from '@components/form/Presentation/CoLeaderField';
 import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
 import KeywordField from '@components/form/Presentation/KeywordField';
+import LeaderDescriptionField from '@components/form/Presentation/LeaderDescriptionField';
 import TargetField from '@components/form/Presentation/TargetField';
 import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
@@ -14,9 +15,7 @@ import { useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useRef } from 'react';
 import { styled } from 'stitches.config';
-import NeedMentor from '../CheckBox/NeedMentor';
 import FormController from '../FormController';
-import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Textarea from '../Textarea';
 import ActivityPeriodField from './ActivityPeriodField';
@@ -103,38 +102,12 @@ function Presentation({
               <TargetField />
             </div>
           </div>
-          {/* 추가 정보 - 공동 모임장 */}
           <div>
             <SFormSectionDivider>4. 추가 정보</SFormSectionDivider>
             <SectionLine />
             <CoLeaderField />
           </div>
-
-          {/* 추가 정보 - 모임장 소개 */}
-          <div>
-            <Label size="small">모임장 소개</Label>
-
-            <SNeedMentorFieldWrapper>
-              <HelpMessage>멘토가 필요하다면 '멘토 구해요'를 체크해주세요</HelpMessage>
-              <FormController
-                name="detail.isMentorNeeded"
-                defaultValue={false}
-                render={({ field }) => <NeedMentor {...field} />}
-              ></FormController>
-            </SNeedMentorFieldWrapper>
-            <FormController
-              name="detail.leaderDesc"
-              render={({ field, fieldState: { error } }) => (
-                <Textarea
-                  placeholder={`ex.\n• 모임장 연락망\n• 모임장의 tmi(모임과 관련 있으면 더 좋아요!)`}
-                  maxLength={1000}
-                  error={error?.message}
-                  {...field}
-                />
-              )}
-            ></FormController>
-          </div>
-
+          <LeaderDescriptionField />
           {/* 추가 정보 - 환영 태그*/}
           <WelcomeMessageField />
 
@@ -187,16 +160,6 @@ const SForm = styled('form', {
   gap: '60px',
   '@media (max-width: 768px)': {
     gap: '56px',
-  },
-});
-
-const SNeedMentorFieldWrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-
-  '@media(max-width: 385px)': {
-    flexDirection: 'column',
-    marginBottom: '$18',
   },
 });
 
