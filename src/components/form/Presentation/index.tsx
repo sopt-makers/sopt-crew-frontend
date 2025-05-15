@@ -6,6 +6,7 @@ import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
 import KeywordField from '@components/form/Presentation/KeywordField';
 import LeaderDescriptionField from '@components/form/Presentation/LeaderDescriptionField';
+import NoticeField from '@components/form/Presentation/NoticeField';
 import TargetField from '@components/form/Presentation/TargetField';
 import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
@@ -15,9 +16,6 @@ import { useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useRef } from 'react';
 import { styled } from 'stitches.config';
-import FormController from '../FormController';
-import Label from '../Label';
-import Textarea from '../Textarea';
 import ActivityPeriodField from './ActivityPeriodField';
 import DescriptionField from './DescriptionField';
 import ProcessIntroductionField from './ProcessIntroductionField';
@@ -108,27 +106,10 @@ function Presentation({
             <CoLeaderField />
           </div>
           <LeaderDescriptionField />
-          {/* 추가 정보 - 환영 태그*/}
           <WelcomeMessageField />
-
-          {/* 추가 정보 - 유의사항 */}
-          <div>
-            <Label size="small">유의사항</Label>
-            <FormController
-              name="detail.note"
-              render={({ field, fieldState: { error } }) => (
-                <Textarea
-                  placeholder={`ex.\n• 신청 전 알아두어야 할 공지`}
-                  maxLength={1000}
-                  error={error?.message}
-                  {...field}
-                />
-              )}
-            ></FormController>
-          </div>
+          <NoticeField />
         </div>
       </div>
-      {/* 활동 정보 끝 */}
 
       {/* TODO: icon이 포함된 컴포넌트를 주입받아야 한다. */}
       <ButtonContainer>
