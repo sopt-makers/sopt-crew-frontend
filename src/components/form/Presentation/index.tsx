@@ -1,6 +1,7 @@
 import CancelIcon from '@assets/svg/x.svg';
 import ApplicationPeriodField from '@components/form/Presentation/ApplicationPeriodField';
 import CategoryField from '@components/form/Presentation/CategoryField';
+import CoLeaderField from '@components/form/Presentation/CoLeaderField';
 import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
 import KeywordField from '@components/form/Presentation/KeywordField';
@@ -19,7 +20,6 @@ import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Textarea from '../Textarea';
 import ActivityPeriodField from './ActivityPeriodField';
-import CoLeader from './CoLeader';
 import DescriptionField from './DescriptionField';
 import ProcessIntroductionField from './ProcessIntroductionField';
 interface PresentationProps {
@@ -107,17 +107,7 @@ function Presentation({
           <div>
             <SFormSectionDivider>4. 추가 정보</SFormSectionDivider>
             <SectionLine />
-            <Label size="small">공동 모임장</Label>
-            <HelpMessage>
-              공동 모임장은 총 3명까지 등록 가능해요. 플레이그라운드에서의 모임 관리/편집은 모임 개설자만 가능해요.
-            </HelpMessage>
-
-            <FormController
-              name="detail.coLeader"
-              render={({ field: { value, onChange }, fieldState: { error } }) => {
-                return <CoLeader value={value} onChange={onChange} error={error?.message} />;
-              }}
-            ></FormController>
+            <CoLeaderField />
           </div>
 
           {/* 추가 정보 - 모임장 소개 */}
