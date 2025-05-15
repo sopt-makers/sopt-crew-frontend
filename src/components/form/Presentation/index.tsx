@@ -1,27 +1,23 @@
-import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
-import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
 import ApplicationPeriodField from '@components/form/Presentation/ApplicationPeriodField';
 import CategoryField from '@components/form/Presentation/CategoryField';
 import ImageField from '@components/form/Presentation/ImageField';
 import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
-import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
+import TargetField from '@components/form/Presentation/TargetField';
 import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, ReactNode, useRef } from 'react';
-import { FieldError, FieldErrors } from 'react-hook-form';
+import React, { ReactNode, useRef } from 'react';
 import { styled } from 'stitches.config';
 import NeedMentor from '../CheckBox/NeedMentor';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
 import Textarea from '../Textarea';
-import TextInput from '../TextInput';
 import ActivityPeriodField from './ActivityPeriodField';
 import CoLeader from './CoLeader';
 import DescriptionField from './DescriptionField';
@@ -104,87 +100,9 @@ function Presentation({
             <SectionLine />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
               <ApplicationPeriodField />
-              {/* 모임 정보 - 모집 대상 / 대상 파트 / 대상 기수 */}
-              <div>
-                <SLabelCheckboxWrapper>
-                  <SLabelWrapper>
-                    <Label required={true} size="small">
-                      모집 대상
-                    </Label>
-                  </SLabelWrapper>
-                </SLabelCheckboxWrapper>
-                <HelpMessage>모임장을 제외한 인원 수를 입력해주세요</HelpMessage>
-                <FormController
-                  name="detail.targetDesc"
-                  render={({ field, formState: { errors }, fieldState: { error: targetDescError } }) => {
-                    const detailError = errors.detail as FieldErrors | undefined;
-                    const joinablePartsError = detailError?.joinableParts as FieldError;
-                    const errorMessage = () => {
-                      if (targetDescError) {
-                        if (joinablePartsError) {
-                          return '대상 파트를 선택하고 상세 내용을 작성해주세요.';
-                        }
-                        return targetDescError.message;
-                      }
-                      if (joinablePartsError) {
-                        return joinablePartsError.message;
-                      }
-                    };
-                    return (
-                      <STargetFieldWrapper>
-                        <STargetChipContainer>
-                          <FormController
-                            name="detail.joinableParts"
-                            render={({ field: { value, onChange } }) => (
-                              <JoinablePartsField value={value} onChange={onChange} />
-                            )}
-                          ></FormController>
-                        </STargetChipContainer>
-                        {/* 모집 인원 */}
-                        <SMemberCountWrapper>
-                          <div style={{ width: '119px' }}>
-                            <FormController
-                              name="capacity"
-                              render={({ field, fieldState: { error } }) => (
-                                <TextInput
-                                  type="number"
-                                  placeholder="총 인원 수"
-                                  style={{ width: '95px', height: '48px', padding: '11px 16px' }}
-                                  right={<span style={{ marginLeft: '10px', color: '#a9a9a9' }}>명</span>}
-                                  required
-                                  {...field}
-                                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                    field.onChange(+e.target.value > 0 && +e.target.value)
-                                  }
-                                />
-                              )}
-                            ></FormController>
-                          </div>
-
-                          <FormController
-                            name="detail.canJoinOnlyActiveGeneration"
-                            defaultValue={false}
-                            render={({ field: { value, onChange } }) => (
-                              <SFormCheckBox active={value} onClick={() => onChange(!value)}>
-                                {value ? (
-                                  <CheckSelectedIcon style={{ marginRight: '8px' }} />
-                                ) : (
-                                  <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-                                )}
-                                활동 기수만
-                              </SFormCheckBox>
-                            )}
-                          ></FormController>
-                        </SMemberCountWrapper>
-                      </STargetFieldWrapper>
-                    );
-                  }}
-                ></FormController>
-              </div>
+              <TargetField />
             </div>
           </div>
-          {/* 모집 정보 끝 */}
-
           {/* 추가 정보 - 공동 모임장 */}
           <div>
             <SFormSectionDivider>4. 추가 정보</SFormSectionDivider>
@@ -291,22 +209,6 @@ const SNeedMentorFieldWrapper = styled('div', {
     marginBottom: '$18',
   },
 });
-const STargetFieldWrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$16',
-  marginBottom: '16px',
-});
-
-const STargetChipContainer = styled('div', {
-  display: 'flex',
-  gap: '$10',
-  flexWrap: 'wrap',
-
-  '@media(max-width: 430px)': {
-    maxWidth: '320px',
-  },
-});
 
 const ButtonContainer = styled('div', {
   display: 'flex',
@@ -358,34 +260,4 @@ const SectionLine = styled('div', {
   height: '1px',
   background: `${colors.gray800}`,
   mb: '$20',
-});
-
-const SMemberCountWrapper = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '16px',
-  width: '227px',
-  height: '48px',
-});
-
-const SFormCheckBox = styled('div', {
-  ...fontsObject.BODY_3_14_R,
-  display: 'flex',
-  alignItems: 'center',
-  color: '$gray300',
-  variants: {
-    active: {
-      true: { color: '$gray10' },
-    },
-  },
-  cursor: 'pointer',
-});
-
-const SLabelWrapper = styled('div', {
-  width: 'fit-content',
-});
-
-const SLabelCheckboxWrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
 });
