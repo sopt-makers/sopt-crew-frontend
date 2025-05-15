@@ -1,19 +1,17 @@
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
 import CategoryField from '@components/form/Presentation/CategoryField';
+import useImageHandler from '@components/form/Presentation/ImageField/useImageHandler';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
 import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
-import { imageS3Bucket } from '@constants/url';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { useDialog } from '@sopt-makers/ui';
-import { MAX_FILE_SIZE } from '@type/form';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { FieldError, FieldErrors } from 'react-hook-form';
@@ -27,7 +25,7 @@ import Label from '../Label';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import CoLeader from './CoLeader';
-import ImagePreview from './ImagePreview';
+import ImagePreview from './ImageField/ImagePreview';
 
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
@@ -36,10 +34,6 @@ interface PresentationProps {
   handleDeleteImage: (index: number) => void;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   disabled?: boolean;
-}
-interface FileChangeHandler {
-  imageUrls: string[];
-  onChange: (urls: string[]) => void;
 }
 interface TypeOptionsProp {
   cancelButtonText?: string;
@@ -65,6 +59,11 @@ function Presentation({
   const { open } = useDialog();
   const [isSoptScheduleOpen, setIsSoptScheduleOpen] = useState(false);
   const soptScheduleRef = useRef<HTMLDivElement | null>(null);
+  const { handleChangeFile, handleDeleteFile, handleAddFiles } = useImageHandler({
+    onChangeImage: handleChangeImage,
+    onDeleteImage: handleDeleteImage,
+  });
+
   const isEdit = router.asPath.includes('/edit');
 
   const schedule: React.ReactNode = (
@@ -110,48 +109,6 @@ function Presentation({
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const onChangeFile = (index: number) => async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
-      return;
-    }
-    const [file] = [...e.target.files];
-    const url = await uploadFile(file ?? new File([], 'default.txt'));
-    handleChangeImage(index, url);
-  };
-
-  const onDeleteFile = (index: number) => () => {
-    handleDeleteImage(index);
-  };
-
-  const handleAddFiles =
-    ({ imageUrls, onChange }: FileChangeHandler) =>
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files) {
-        return;
-      }
-      const newFiles = Array.from(e.target.files);
-      if (newFiles.some(file => file.size > MAX_FILE_SIZE)) {
-        alert('5MB 이하의 사진만 업로드할 수 있습니다.');
-        return;
-      }
-      const filesCount = imageUrls.length + newFiles.length;
-      if (filesCount > 6) {
-        alert('이미지는 최대 6개까지 업로드 가능합니다.');
-        return;
-      } else {
-        const urls = await Promise.all(newFiles.map(async file => await uploadFile(file)));
-        onChange([...imageUrls, ...urls]);
-      }
-    };
-
-  const uploadFile = async (file: File) => {
-    const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension ?? '');
-    await uploadImage(file, url, fields);
-    const imageUrls = imageS3Bucket + fields.key;
-    return imageUrls;
-  };
-
   const dialogOption: DialogOptionType = {
     title: `모임을 ${isEdit ? '수정' : '개설'}하시겠습니까?`,
     description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
@@ -194,8 +151,8 @@ function Presentation({
                       <ImagePreview
                         key={`${url}-${idx}`}
                         url={url}
-                        onChange={onChangeFile(idx)}
-                        onDelete={onDeleteFile(idx)}
+                        onChange={handleChangeFile(idx)}
+                        onDelete={handleDeleteFile(idx)}
                       />
                     ))}
                     {/* NOTE: 이미지 개수가 6개 미만일때만 파일 입력 필드를 보여준다. */}
