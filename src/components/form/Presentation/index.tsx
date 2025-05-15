@@ -3,12 +3,12 @@ import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
+import CategoryField from '@components/form/Presentation/CategoryField';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
 import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { imageS3Bucket } from '@constants/url';
-import { categories } from '@data/categories';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconAlertCircle } from '@sopt-makers/icons';
@@ -24,7 +24,6 @@ import FileInput from '../FileInput';
 import FormController from '../FormController';
 import HelpMessage from '../HelpMessage';
 import Label from '../Label';
-import Select from '../Select';
 import Textarea from '../Textarea';
 import TextInput from '../TextInput';
 import CoLeader from './CoLeader';
@@ -174,32 +173,8 @@ function Presentation({
         <SFormSectionDivider>1. 모임 정보</SFormSectionDivider>
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-          {/* 모임 제목 */}
           <TitleField />
-
-          {/* 모임 카테고리 */}
-          <FormController
-            name="category"
-            defaultValue={categories[0]}
-            render={({ field: { value, onChange, onBlur }, fieldState }) => {
-              const error = (fieldState.error as (FieldError & { value: FieldError }) | undefined)?.value;
-              return (
-                <div style={{ width: '260px' }}>
-                  <Select
-                    label="모임 카테고리"
-                    options={categories}
-                    required
-                    error={error?.message}
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                  />
-                </div>
-              );
-            }}
-          ></FormController>
-
-          {/* 모임 키워드 */}
+          <CategoryField />
           <KeywordField />
 
           {/* 이미지 */}
