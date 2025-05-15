@@ -5,6 +5,7 @@ import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import CancelIcon from '@assets/svg/x.svg';
 import JoinablePartsField from '@components/form/Presentation/JoinablePartsField';
 import KeywordField from '@components/form/Presentation/KeywordField';
+import TitleField from '@components/form/Presentation/TitleField';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { imageS3Bucket } from '@constants/url';
 import { categories } from '@data/categories';
@@ -174,21 +175,7 @@ function Presentation({
         <SectionLine />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
           {/* 모임 제목 */}
-          <STitleField>
-            <FormController
-              name="title"
-              render={({ field, fieldState: { error } }) => (
-                <TextInput
-                  label="모임 이름"
-                  placeholder="모임 이름"
-                  maxLength={30}
-                  required
-                  error={error?.message}
-                  {...field}
-                />
-              )}
-            ></FormController>
-          </STitleField>
+          <TitleField />
 
           {/* 모임 카테고리 */}
           <FormController
