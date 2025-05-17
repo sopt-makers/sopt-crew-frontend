@@ -29,9 +29,10 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
 
   const resolvedLabel = useMemo(() => {
     const selected = rawSelected.length > 0 ? rawSelected : selectedValue;
-    if (selected.length === 0) return label;
+    // 단일 선택시 label 은 유저가 선택한 값
     if (selected.length === 1) return selected[0];
-    return label;
+    // 다중 선택 시 label 은 필터라벨
+    else return label;
   }, [label, rawSelected, selectedValue]);
 
   const setPartQuery = (value: string | string[]) => {
