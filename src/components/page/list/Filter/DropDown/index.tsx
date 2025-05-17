@@ -44,9 +44,29 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     setRawSelected(values);
   };
 
+  const handleAmpliLog = (value: string[]) => {
+    const joined = value.join(',');
+
+    switch (subject) {
+      case 'category':
+        ampli.clickFilterCategory({ group_category: joined });
+        break;
+      case 'status':
+        ampli.clickFilterStatus({ group_status: joined });
+        break;
+      case 'part':
+        ampli.clickFilterPart({ group_part: joined });
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
-    if (debounceValue && rawSelected?.length > 0) setValue(debounceValue);
-    // ampli.clickFilterPart({ group_part: debounceValue });
+    if (debounceValue && rawSelected?.length > 0) {
+      setValue(debounceValue);
+      handleAmpliLog(debounceValue);
+    }
   }, [debounceValue]);
 
   return (
