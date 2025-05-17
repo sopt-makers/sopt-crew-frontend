@@ -1,17 +1,17 @@
+import { ampli } from '@/ampli';
+import { createMeeting } from '@api/API_LEGACY/meeting';
+import PlusIcon from '@assets/svg/plus.svg';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { FormType, schema } from '@type/form';
-import { styled } from 'stitches.config';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMeeting } from '@api/API_LEGACY/meeting';
-import { useRouter } from 'next/router';
-import PlusIcon from '@assets/svg/plus.svg';
-import { useMutation } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
-import { ampli } from '@/ampli';
-import { fontsObject } from '@sopt-makers/fonts';
 import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
+import { useMutation } from '@tanstack/react-query';
+import { FormType, schema } from '@type/form';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { styled } from 'stitches.config';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -29,7 +29,7 @@ const MakePage = () => {
       },
     },
   });
-  const { isValid } = formMethods.formState;
+  const { isValid, errors, isDirty } = formMethods.formState;
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
     onError: () => {
@@ -72,7 +72,7 @@ const MakePage = () => {
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid}
+            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
         <TableOfContents label="모임 개설" />

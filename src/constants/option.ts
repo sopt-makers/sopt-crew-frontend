@@ -1,10 +1,10 @@
 export const PART_NAME: Record<string, string> = {
   PM: '기획',
   DESIGN: '디자인',
-  IOS: 'iOS',
   ANDROID: 'Android',
-  SERVER: '서버',
+  IOS: 'iOS',
   WEB: '웹',
+  SERVER: '서버',
 };
 
 export const RECRUITMENT_STATUS = ['모집 전', '모집 중', '모집 마감'];

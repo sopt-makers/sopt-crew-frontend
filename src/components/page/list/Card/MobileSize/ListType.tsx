@@ -1,13 +1,12 @@
-import { Flex } from '@components/util/layout/Flex';
-import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
-import { styled } from 'stitches.config';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import { getResizedImage } from '@utils/image';
-import { Divider } from '@components/util/Divider';
-import { MobileSizeCardProps } from '.';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
+import { Divider } from '@components/util/Divider';
+import { Flex } from '@components/util/layout/Flex';
+import { getResizedImage } from '@utils/image';
+import { styled } from 'stitches.config';
+import { MobileSizeCardProps } from '.';
 
-function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobileType'>) {
+function ListType({ meetingData }: Omit<MobileSizeCardProps, 'mobileType'>) {
   return (
     <Container>
       <Flex align="center" css={{ mb: '$16' }}>
@@ -20,21 +19,7 @@ function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobile
           />
         </ImageWrapper>
         <InfoGroup>
-          <STitleSection>
-            <STitle>{meetingData.title}</STitle>
-          </STitleSection>
-          <SInfoRow>
-            <SKey>모집 대상</SKey>
-            <SValue>
-              {meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'} /{' '}
-              {isAllParts
-                ? '전체 파트'
-                : meetingData.joinableParts
-                    .map(part => parsePartValueToLabel(part))
-                    .filter(item => item !== null)
-                    .join(',')}
-            </SValue>
-          </SInfoRow>
+          <STitle>{meetingData.title}</STitle>
           <Flex align="center">
             <SProfileWrapper>
               {meetingData.user.profileImage ? (
@@ -46,6 +31,11 @@ function ListType({ meetingData, isAllParts }: Omit<MobileSizeCardProps, 'mobile
             <SUserInfo>{meetingData.user.name}</SUserInfo>
             <SUserInfo>|</SUserInfo>
             <SCategory>{meetingData.category}</SCategory>
+          </Flex>
+          <Flex>
+            {meetingData.meetingKeywordTypes?.map(keyword => (
+              <WelcomeTag key={keyword}>{keyword}</WelcomeTag>
+            ))}
           </Flex>
         </InfoGroup>
       </Flex>
@@ -74,10 +64,11 @@ const SThumbnailImage = styled('div', {
 });
 
 const InfoGroup = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$8',
+
   ml: '$12',
-});
-const STitleSection = styled('div', {
-  my: '$8',
 });
 
 const SProfileWrapper = styled('div', {
@@ -114,19 +105,17 @@ const SUserInfo = styled('p', {
 const SCategory = styled(SUserInfo, {
   color: '$gray200',
 });
-const SInfoRow = styled(Flex, {
-  mt: '$8',
-  mb: '$10',
-});
-const SInfo = styled('p', {
-  fontStyle: 'T6',
-});
-const SKey = styled(SInfo, {
-  color: '$gray500',
-  mr: '$4',
-  whiteSpace: 'nowrap',
-});
-const SValue = styled(SInfo, {
-  color: '$gray300',
-  wordBreak: 'keep-all',
+
+const WelcomeTag = styled('span', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  padding: '$3 $8',
+
+  borderRadius: '37px',
+  border: '1px solid $gray600',
+
+  color: '$gray100',
+  fontStyle: 'L2',
 });
