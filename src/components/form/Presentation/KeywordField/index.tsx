@@ -33,30 +33,26 @@ const KeywordField = () => {
       <FormController
         name="meetingKeywordTypes"
         defaultValue={[]}
-        render={({ field: { value, onChange }, fieldState: { error: keywordError } }) => {
-          const m = keywordError?.message;
-
-          return (
-            <>
-              <SChipContainer>
-                {keywordOptions.map(option => {
-                  const isSelected = value.includes(option.value);
-                  return (
-                    <Chip
-                      disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
-                      key={option.value}
-                      active={isSelected}
-                      onClick={() => handleClick(option, value, onChange)}
-                    >
-                      {option.label}
-                    </Chip>
-                  );
-                })}
-              </SChipContainer>
-              <ErrorMessage style={{ marginTop: '12px' }}>{keywordError?.message}</ErrorMessage>
-            </>
-          );
-        }}
+        render={({ field: { value, onChange }, fieldState: { error: keywordError } }) => (
+          <>
+            <SChipContainer>
+              {keywordOptions.map(option => {
+                const isSelected = value.includes(option.value);
+                return (
+                  <Chip
+                    disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
+                    key={option.value}
+                    active={isSelected}
+                    onClick={() => handleClick(option, value, onChange)}
+                  >
+                    {option.label}
+                  </Chip>
+                );
+              })}
+            </SChipContainer>
+            {keywordError && <ErrorMessage style={{ marginTop: '12px' }}>{keywordError.message}</ErrorMessage>}
+          </>
+        )}
       ></FormController>
     </div>
   );
