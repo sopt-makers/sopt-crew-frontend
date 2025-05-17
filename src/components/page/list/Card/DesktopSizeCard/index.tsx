@@ -5,6 +5,7 @@ import { MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/c
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
 import { Flex } from '@components/util/layout/Flex';
 import { CategoryKoType } from '@constants/option';
+import { Tag } from '@sopt-makers/ui';
 import { getResizedImage } from '@utils/image';
 import { styled } from 'stitches.config';
 
@@ -15,15 +16,19 @@ interface CardProps {
     label: string;
     value: () => string;
   }[];
+  flashCount?: string;
 }
 
-function DesktopSizeCard({ meetingData, isFlash = false, flashDetailInfo }: CardProps) {
+function DesktopSizeCard({ meetingData, isFlash = false, flashDetailInfo, flashCount }: CardProps) {
   const detailInfo = isFlash && flashDetailInfo ? flashDetailInfo : MeetingInformation(meetingData);
 
   return (
     <div>
       <ImageWrapper>
         <RecruitmentStatusTag status={meetingData.status} style={{ position: 'absolute', top: '16px', left: '16px' }} />
+        <STag size="md" type="solid">
+          {isFlash ? flashCount : `${meetingData.approvedCount} / ${meetingData.capacity}명`}
+        </STag>
         <SThumbnailImage
           css={{
             backgroundImage: `url(${getResizedImage(meetingData.imageURL[0]?.url ?? '', 380)})`,
@@ -63,6 +68,13 @@ export default DesktopSizeCard;
 const ImageWrapper = styled('div', {
   position: 'relative',
 });
+
+const STag = styled(Tag, {
+  position: 'absolute',
+  top: '16px',
+  right: '16px',
+});
+
 const SThumbnailImage = styled('div', {
   width: '380px',
   height: '260px',

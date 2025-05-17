@@ -139,6 +139,9 @@ export interface paths {
     /** 내가 신청한 모임 조회 */
     get: operations["getAppliedMeetingByUser"];
   };
+  "/property/v2": {
+    get: operations["getProperty"];
+  };
   "/property/v2/home": {
     /** 프로퍼티/홈 컨텐츠 조회 */
     get: operations["getHomeProperty"];
@@ -388,7 +391,7 @@ export interface components {
        * @description 모임 키워드 타입 리스트
        * @example [
        *   "운동",
-       *   "자기개발"
+       *   "자기계발"
        * ]
        */
       meetingKeywordTypes?: string[];
@@ -423,7 +426,7 @@ export interface components {
        * @description 모임 키워드 타입 리스트
        * @example [
        *   "운동",
-       *   "자기개발"
+       *   "자기계발"
        * ]
        */
       meetingKeywordTypes?: string[];
@@ -938,14 +941,24 @@ export interface components {
       isMentorNeeded: boolean;
       /**
        * Format: date-time
+       * @description 모임 모집 시작일
+       */
+      startDate: string;
+      /**
+       * Format: date-time
+       * @description 모임 모집 종료일
+       */
+      endDate: string;
+      /**
+       * Format: date-time
        * @description 모임 활동 시작일
        */
-      mStartDate: string;
+      getmStartDate: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료일
        */
-      mEndDate: string;
+      getmEndDate: string;
       /**
        * Format: int32
        * @description 모집 인원
@@ -955,16 +968,14 @@ export interface components {
       user: components["schemas"]["MeetingCreatorDto"];
       /**
        * Format: int32
-       * @description [DEPRECATED] TODO: FE에서 수정 완료 후 삭제
-       * @example 7
-       */
-      appliedCount: number;
-      /**
-       * Format: int32
        * @description 신청자 수
        * @example 7
        */
       approvedCount: number;
+      /** @description 환영 메시지 타입 목록 */
+      welcomeMessageTypes: string[];
+      /** @description 모임 키워드 타입 목록 */
+      meetingKeywordTypes: string[];
     };
     /** @description 활동 기수 */
     UserActivityVO: {
@@ -1387,6 +1398,16 @@ export interface components {
        * @example false
        */
       isMentorNeeded: boolean;
+      /**
+       * Format: date-time
+       * @description 모임 모집 시작일
+       */
+      startDate: string;
+      /**
+       * Format: date-time
+       * @description 모임 모집 종료일
+       */
+      endDate: string;
       /**
        * Format: date-time
        * @description 모임 활동 시작일
@@ -2709,7 +2730,7 @@ export interface operations {
         category?: string;
         /**
          * @description 키워드
-         * @example 먹방,자기개발,기타
+         * @example 먹방,자기계발,기타
          */
         keyword?: string;
         /**
@@ -2981,6 +3002,23 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["UserV2GetAppliedMeetingByUserResponseDto"];
+        };
+      };
+    };
+  };
+  getProperty: {
+    parameters: {
+      query: {
+        key: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": {
+            [key: string]: Record<string, never> | undefined;
+          };
         };
       };
     };

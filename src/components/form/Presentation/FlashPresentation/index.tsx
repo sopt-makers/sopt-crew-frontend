@@ -17,7 +17,7 @@ import HelpMessage from '../../HelpMessage';
 import Label from '../../Label';
 import Textarea from '../../Textarea';
 import TextInput from '../../TextInput';
-import ImagePreview from '../ImagePreview';
+import ImagePreview from '../ImageField/ImagePreview';
 import KeywordField from '../KeywordField';
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
