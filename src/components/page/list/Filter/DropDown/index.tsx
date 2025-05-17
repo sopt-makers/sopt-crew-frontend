@@ -21,43 +21,38 @@ const getAutoClass = (width?: string) =>
   });
 
 function DropDownFilter({ filter, width }: DropDownFilterProps) {
-  const { subject, options, label } = filter as { subject: string; options: string[]; label: string };
+  const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useMultiQueryString(subject);
-  const selectedValueArray = useMemo(() => selectedValue || [], [selectedValue]);
-  const [rawSelected, setRawSelected] = useState<string>('');
+  const [rawSelected, setRawSelected] = useState<string[]>([]);
   const debounceValue = useDebounce(rawSelected, 1300);
+  const defaultValue = useMemo(() => selectedValue.map((opt: string) => ({ label: opt, value: opt })), [selectedValue]);
 
-  const defaultValue = useMemo(
-    () => selectedValueArray.map((opt: string) => ({ label: opt, value: opt })),
-    [selectedValueArray]
-  );
-
-  const getResolvedLabel = () => {
-    const selected = rawSelected ? rawSelected.split(',') : selectedValueArray;
+  const resolvedLabel = useMemo(() => {
+    const selected = rawSelected.length > 0 ? rawSelected : selectedValue;
     if (selected.length === 0) return label;
     if (selected.length === 1) return selected[0];
     return label;
-  };
+  }, [label, rawSelected, selectedValue]);
 
   const setPartQuery = (value: string | string[]) => {
     const values = typeof value === 'string' ? [value] : value;
-    if (!values || values.length === 0) {
-      setRawSelected('');
+    if (values.length === 0) {
+      setRawSelected([]);
       return deleteKey();
     }
-    setRawSelected(values.join(','));
+    setRawSelected(values);
   };
 
   useEffect(() => {
-    if (debounceValue) setValue(debounceValue.split(','));
-    ampli.clickFilterPart({ group_part: debounceValue });
+    if (debounceValue && rawSelected?.length > 0) setValue(debounceValue);
+    // ampli.clickFilterPart({ group_part: debounceValue });
   }, [debounceValue]);
 
   return (
     <SDropDownContainer>
       <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
         <SelectV2.Trigger>
-          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={getResolvedLabel()} />
+          <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={resolvedLabel} />
         </SelectV2.Trigger>
         <SelectV2.Menu>
           {options.map(option => (
