@@ -1,6 +1,7 @@
 import {
   useCategoryParams,
   useIsOnlyActiveGenerationParams,
+  useKeywordParams,
   usePageParams,
   usePartParams,
   useSearchParams,
@@ -66,15 +67,17 @@ export const useQueryMeetingListOfAll = () => {
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
   const { value: page } = usePageParams();
+  const { value: keyword } = useKeywordParams();
   const { value: isOnlyActiveGeneration } = useIsOnlyActiveGenerationParams();
   const { value: part } = usePartParams();
   return useQuery(
-    ['fetchMeetingList', 'all', page, category, status, search, isOnlyActiveGeneration, part],
+    ['fetchMeetingList', 'all', page, category, status, search, keyword, isOnlyActiveGeneration, part],
     () =>
       fetchMeetingListOfAll({
         page: Number(page),
         category,
         status,
+        keyword,
         search: search as string,
         isOnlyActiveGeneration,
         part,

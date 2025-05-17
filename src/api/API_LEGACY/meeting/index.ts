@@ -23,6 +23,7 @@ interface filterData {
   page?: number;
   category: string[];
   status?: string[];
+  keyword?: string[];
   search?: string;
   isOnlyActiveGeneration?: string | null;
   part?: string[];
@@ -151,12 +152,16 @@ export const fetchMeetingListOfAll = async ({
   category,
   status,
   search,
+  keyword,
   isOnlyActiveGeneration,
   part,
 }: filterData) => {
   return api.get<MeetingListResponse>(`/meeting/v2`, {
     params: {
       category: category.join(','),
+      ...(keyword?.length && {
+        keyword: keyword.join(','),
+      }),
       ...(status?.length && {
         status: status
           .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))

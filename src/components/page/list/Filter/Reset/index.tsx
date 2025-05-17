@@ -3,6 +3,7 @@ import { styled } from '../../../../../../stitches.config';
 import {
   useCategoryParams,
   useIsOnlyActiveGenerationParams,
+  useKeywordParams,
   usePartParams,
   useSearchParams,
   useStatusParams,
@@ -13,12 +14,14 @@ const FilterResetButton = () => {
   const { deleteKey: deleteStatus } = useStatusParams();
   const { deleteKey: deletePart } = usePartParams();
   const { deleteKey: deleteIsOnlyActive } = useIsOnlyActiveGenerationParams();
+  const { deleteKey: deleteKeyword } = useKeywordParams();
 
   const handleFilterRefresh = () => {
     deleteCategory();
     deleteStatus();
     deletePart();
     deleteIsOnlyActive();
+    deleteKeyword();
   };
 
   return (
