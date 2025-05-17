@@ -22,7 +22,7 @@ const Flash = () => {
     mode: 'onChange',
     resolver: zodResolver(flashSchema),
   });
-  const { isValid, errors } = formMethods.formState;
+  const { isValid, errors, isDirty } = formMethods.formState;
   const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FlashFormType) => createFlash(formData),
     onError: () => {
@@ -69,7 +69,7 @@ const Flash = () => {
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid}
+            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
       </SContainer>
