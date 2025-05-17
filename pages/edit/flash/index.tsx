@@ -35,7 +35,7 @@ const FlashEditPage = () => {
     resolver: zodResolver(flashSchema),
   });
 
-  const { isValid, errors } = formMethods.formState;
+  const { isValid, errors, isDirty } = formMethods.formState;
 
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {
@@ -119,7 +119,7 @@ const FlashEditPage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid}
+              disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
               placeType={formData.flashPlaceType as '협의 후 결정' | '오프라인' | '온라인'}
               timeType={formData.flashTimingType as '당일' | '예정 기간 (협의 후 결정)'}
             />

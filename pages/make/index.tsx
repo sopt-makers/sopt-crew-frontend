@@ -29,7 +29,7 @@ const MakePage = () => {
       },
     },
   });
-  const { isValid } = formMethods.formState;
+  const { isValid, errors, isDirty } = formMethods.formState;
   const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FormType) => createMeeting(formData),
     onError: () => {
@@ -72,7 +72,7 @@ const MakePage = () => {
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid}
+            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
         <TableOfContents label="모임 개설" />
