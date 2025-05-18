@@ -1,24 +1,20 @@
-import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
+import { MeetingListResponse } from '@api/API_LEGACY/meeting';
 import { useFlashByIdQuery } from '@api/flash/hook';
 import DesktopSizeCard from '@components/page/list/Card/DesktopSizeCard';
 import { FlashInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
 
 type DesktopSizeFlashCardProps = {
-  meetingData: MeetingListOfFilterResponse['meetings'][number];
+  meetingData: MeetingListResponse['meetings'][number];
 };
 const DesktopSizeFlashCard = ({ meetingData }: DesktopSizeFlashCardProps) => {
   const { data: flashData } = useFlashByIdQuery({ meetingId: +meetingData.id });
 
-  const detailInfo = flashData ? FlashInformation(flashData) : undefined;
+  if (!flashData) return null;
 
-  return (
-    <DesktopSizeCard
-      meetingData={meetingData}
-      isFlash
-      welcomeMessageTypes={flashData?.welcomeMessageTypes}
-      flashDetailInfo={detailInfo}
-    />
-  );
+  const detailInfo = FlashInformation(flashData);
+  const flashCount = `${flashData.approvedApplyCount} / ${flashData.minimumCapacity}~${flashData.maximumCapacity}명`;
+
+  return <DesktopSizeCard meetingData={meetingData} isFlash flashDetailInfo={detailInfo} flashCount={flashCount} />;
 };
 
 export default DesktopSizeFlashCard;
