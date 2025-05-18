@@ -175,7 +175,7 @@ export const fetchMeetingListOfAll = async ({
           .join(','),
       }),
       ...(search && { query: search }),
-      isOnlyActiveGeneration: parseBool(isOnlyActiveGeneration),
+      isOnlyActiveGeneration: isOnlyActiveGeneration === '36기만',
     },
   });
 };
