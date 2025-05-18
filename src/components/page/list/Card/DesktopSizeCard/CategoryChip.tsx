@@ -1,17 +1,17 @@
+import { Tag } from '@sopt-makers/ui';
 import BoltIcon from '@assets/svg/icon_bolt.svg?rect';
+import StudyIcon from '@assets/svg/icon_study.svg?rect';
 import EventIcon from '@assets/svg/icon_event.svg?rect';
 import SeminarIcon from '@assets/svg/icon_seminar.svg?rect';
-import StudyIcon from '@assets/svg/icon_study.svg?rect';
 import { CategoryKoType } from '@constants/option';
-import { Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
 type CategoryChipProps = {
   category: CategoryKoType;
-  meetingKeywordTypes?: string[];
+  welcomeMessage?: string[];
 };
 
-export const CategoryChip = ({ category, meetingKeywordTypes }: CategoryChipProps) => {
+export const CategoryChip = ({ category, welcomeMessage }: CategoryChipProps) => {
   const CategoryIcon = {
     번쩍: BoltIcon,
     스터디: StudyIcon,
@@ -30,7 +30,7 @@ export const CategoryChip = ({ category, meetingKeywordTypes }: CategoryChipProp
         <CategoryIcon width="18" height="18" fill="white" />
         {category}
       </Tag>
-      {meetingKeywordTypes?.map((message, idx) => (
+      {welcomeMessage?.map((message, idx) => (
         <WelcomeTag key={idx}>{message}</WelcomeTag>
       ))}
     </TagWrapper>

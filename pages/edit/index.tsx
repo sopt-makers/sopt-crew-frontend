@@ -1,19 +1,20 @@
-import { updateMeeting } from '@api/API_LEGACY/meeting';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import CheckIcon from '@assets/svg/check.svg';
-import Loader from '@components/@common/loader/Loader';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
-import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FormType, schema } from '@type/form';
-import { formatCalendarDate } from '@utils/dayjs';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { updateMeeting } from '@api/API_LEGACY/meeting';
+import { FormType, schema } from '@type/form';
 import { styled } from 'stitches.config';
+import dayjs from 'dayjs';
+import Loader from '@components/@common/loader/Loader';
+import CheckIcon from '@assets/svg/check.svg';
+import dynamic from 'next/dynamic';
+import { parts } from '@data/options';
+import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
+import { formatCalendarDate } from '@utils/dayjs';
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
@@ -40,7 +41,6 @@ const EditPage = () => {
       },
     },
   });
-  const { isValid, errors, isDirty } = formMethods.formState;
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
@@ -125,7 +125,7 @@ const EditPage = () => {
               handleChangeImage={handleChangeImage}
               handleDeleteImage={handleDeleteImage}
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+              disabled={isSubmitting}
             />
           </SFormWrapper>
         </SFormContainer>

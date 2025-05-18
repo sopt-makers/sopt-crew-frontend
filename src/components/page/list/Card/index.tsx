@@ -1,20 +1,21 @@
-import { ampli } from '@/ampli';
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
-import DesktopSizeFlashCard from '@components/page/list/Card/DesktopSizeCard/DesktopSizeFlashCard';
-import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { styled } from 'stitches.config';
 import DesktopSizeCard from './DesktopSizeCard';
 import MobileSizeCard from './MobileSize';
+import { styled } from 'stitches.config';
+import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
+import { ampli } from '@/ampli';
+import { MeetingListOfFilterResponse } from '@api/API_LEGACY/meeting';
+import DesktopSizeFlashCard from '@components/page/list/Card/DesktopSizeCard/DesktopSizeFlashCard';
 
 interface CardProps {
   bottom?: ReactNode;
-  meetingData: MeetingListResponse['meetings'][number];
+  meetingData: MeetingListOfFilterResponse['meetings'][number];
   mobileType: 'list' | 'card';
 }
 
 function Card({ bottom, meetingData, mobileType }: CardProps) {
+  const isAllParts = meetingData.joinableParts?.length === 6 || meetingData.joinableParts === null;
   const isFlash = meetingData.category === '번쩍';
 
   return (
@@ -37,7 +38,7 @@ function Card({ bottom, meetingData, mobileType }: CardProps) {
           {isFlash ? <DesktopSizeFlashCard meetingData={meetingData} /> : <DesktopSizeCard meetingData={meetingData} />}
         </DesktopOnly>
         <MobileOnly>
-          <MobileSizeCard meetingData={meetingData} mobileType={mobileType} />
+          <MobileSizeCard meetingData={meetingData} isAllParts={isAllParts} mobileType={mobileType} />
         </MobileOnly>
       </Link>
       {bottom}

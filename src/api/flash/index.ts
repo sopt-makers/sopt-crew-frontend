@@ -10,6 +10,9 @@ export const createFlash = async (formData: FlashFormType) => {
 };
 
 const filterFlashFormData = (formData: FlashFormType) => {
+  const convertedTags = formData.welcomeTags?.map(tag => {
+    return tag?.value;
+  });
   const convertedEndDate =
     formData.timeInfo.time.value === '당일' ? formData.timeInfo.dateRange[0] : formData.timeInfo.dateRange[1];
   const convertedFlashPlace = formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
@@ -26,8 +29,7 @@ const filterFlashFormData = (formData: FlashFormType) => {
       maximumCapacity: formData.capacityInfo.maxCapacity,
       files: formData.files,
     },
-    meetingKeywordTypes: formData.meetingKeywordTypes,
-    welcomeMessageTypes: formData.welcomeMessageTypes,
+    welcomeMessageTypes: convertedTags?.length === 0 ? null : convertedTags,
   };
   return data;
 };

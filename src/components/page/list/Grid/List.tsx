@@ -1,6 +1,5 @@
 import { ampli } from '@/ampli';
 import { useGetMeetingAds } from '@api/advertisement/hook';
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
 import { useQueryMeetingListOfAll } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine, useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
@@ -105,8 +104,7 @@ export function MeetingListOfMine() {
           {mineData?.meetings.map(meetingData => (
             <Card
               key={meetingData.id}
-              // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes 가 현재 없지만, 곧 서버에서 내려줄 예정
-              meetingData={meetingData as unknown as MeetingListResponse['meetings'][number]}
+              meetingData={meetingData}
               mobileType="card"
               bottom={
                 meetingData?.isCoLeader ? (
@@ -137,8 +135,7 @@ export function MeetingListOfApplied() {
           {applyData?.apply.map(applyData => (
             <Card
               key={applyData.id}
-              // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes 가 현재 없지만, 곧 서버에서 내려줄 예정
-              meetingData={applyData.meeting as unknown as MeetingListResponse['meetings'][number]}
+              meetingData={applyData.meeting}
               mobileType="card"
               bottom={<Status status={applyData.status} />}
             />

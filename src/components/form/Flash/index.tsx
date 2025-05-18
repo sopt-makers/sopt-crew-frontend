@@ -1,24 +1,23 @@
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import React, { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import CancelIcon from '@assets/svg/x.svg';
-import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
-import { imageS3Bucket } from '@constants/url';
-import { flashPlace, flashTime } from '@data/options';
-import { CheckBox, Chip, useDialog } from '@sopt-makers/ui';
-import { FlashFormType, MAX_FILE_SIZE } from '@type/form';
-import { useRouter } from 'next/router';
-import React, { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import { FieldError, FieldErrors, useFormContext } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import CalendarInputForm from '../../Calendar';
-import ErrorMessage from '../../ErrorMessage';
-import FileInput from '../../FileInput';
-import FormController from '../../FormController';
-import HelpMessage from '../../HelpMessage';
-import Label from '../../Label';
-import Textarea from '../../Textarea';
-import TextInput from '../../TextInput';
-import ImagePreview from '../ImageField/ImagePreview';
-import KeywordField from '../KeywordField';
+import FileInput from '../FileInput';
+import FormController from '../FormController';
+import HelpMessage from '../HelpMessage';
+import Label from '../Label';
+import Textarea from '../Textarea';
+import TextInput from '../TextInput';
+import { FlashFormType, MAX_FILE_SIZE } from '@type/form';
+import { useRouter } from 'next/router';
+import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import { imageS3Bucket } from '@constants/url';
+import CalendarInputForm from '../Calendar';
+import { CheckBox, Chip, useDialog } from '@sopt-makers/ui';
+import ImagePreview from '../Presentation/ImagePreview';
+import { flashPlace, flashTags, flashTime } from '@data/options';
+import ErrorMessage from '../ErrorMessage';
+
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -47,7 +46,7 @@ interface DialogOptionType {
   typeOptions?: TypeOptionsProp;
 }
 
-function FlashPresentation({
+function Presentation({
   submitButtonLabel,
   cancelButtonLabel,
   handleChangeImage,
@@ -144,9 +143,6 @@ function FlashPresentation({
               )}
             ></FormController>
           </STitleField>
-
-          {/* 키워드 */}
-          <KeywordField />
 
           {/* 번쩍 설명 */}
           <div>
@@ -382,7 +378,55 @@ function FlashPresentation({
           </div>
 
           {/* 번쩍 환영 태그 */}
-          <WelcomeMessageField />
+          <div>
+            <SLabelCheckboxWrapper>
+              <SLabelWrapper>
+                <Label size="small">#환영 태그</Label>
+              </SLabelWrapper>
+            </SLabelCheckboxWrapper>
+            <HelpMessage>
+              멤버들이 신청을 주저하지 않도록 환영의 의사를 알려주는건 어떨까요? 최대 3개까지 선택 가능해요.
+            </HelpMessage>
+            <STargetFieldWrapper>
+              <STargetChipContainer>
+                <FormController
+                  name="welcomeTags"
+                  defaultValue={[]}
+                  render={({ field: { value = [], onChange } }) => {
+                    const selectedTags = Array.isArray(value) ? value : [];
+                    return (
+                      <>
+                        {flashTags.map(tag => {
+                          const isActive = selectedTags.some(
+                            (selectedTag: { label: string; value: string }) => selectedTag.value === tag.value
+                          );
+                          return (
+                            <Chip
+                              active={isActive}
+                              onClick={() => {
+                                if (isActive) {
+                                  onChange(
+                                    selectedTags.filter(
+                                      (selectedTag: { label: string; value: string }) => selectedTag.value !== tag.value
+                                    )
+                                  );
+                                } else if (selectedTags.length < 3) {
+                                  onChange([...selectedTags, tag]);
+                                }
+                              }}
+                              key={tag.value}
+                            >
+                              {tag.label}
+                            </Chip>
+                          );
+                        })}
+                      </>
+                    );
+                  }}
+                ></FormController>
+              </STargetChipContainer>
+            </STargetFieldWrapper>
+          </div>
 
           {/* 이미지 */}
           <div>
@@ -444,7 +488,7 @@ function FlashPresentation({
   );
 }
 
-export default FlashPresentation;
+export default Presentation;
 
 const SForm = styled('form', {
   display: 'flex',

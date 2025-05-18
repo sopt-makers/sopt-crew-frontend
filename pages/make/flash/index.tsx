@@ -1,16 +1,16 @@
-import { ampli } from '@/ampli';
-import { createFlash } from '@api/flash';
-import BungaeIcon from '@assets/svg/bungae.svg';
-import FlashPresentation from '@components/form/Presentation/FlashPresentation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
-import { useMutation } from '@tanstack/react-query';
-import { FlashFormType, flashSchema } from '@type/form';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FlashFormType, flashSchema } from '@type/form';
 import { styled } from 'stitches.config';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/router';
+import BungaeIcon from '@assets/svg/bungae.svg';
+import { useMutation } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+import { ampli } from '@/ampli';
+import { fontsObject } from '@sopt-makers/fonts';
+import { colors } from '@sopt-makers/colors';
+import Presentation from '@components/form/Flash';
+import { createFlash } from '@api/flash';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -22,7 +22,7 @@ const Flash = () => {
     mode: 'onChange',
     resolver: zodResolver(flashSchema),
   });
-  const { isValid, errors, isDirty } = formMethods.formState;
+  const { isValid, errors } = formMethods.formState;
   const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
     mutationFn: (formData: FlashFormType) => createFlash(formData),
     onError: () => {
@@ -57,7 +57,7 @@ const Flash = () => {
         <SFormContainer>
           <SFormName>번쩍 개설하기</SFormName>
           <SFormCaution>개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
-          <FlashPresentation
+          <Presentation
             errors={errors}
             submitButtonLabel={
               <>
@@ -69,7 +69,7 @@ const Flash = () => {
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+            disabled={isSubmitting || !isValid}
           />
         </SFormContainer>
       </SContainer>
