@@ -1,39 +1,21 @@
 import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { GetFlashByIdResponse } from '@api/flash';
-import CalendarIcon from '@assets/svg/calendar.svg?rect';
-import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PART_NAME } from '@constants/option';
-import { IconLocation } from '@sopt-makers/icons';
 import { Chip } from '@sopt-makers/ui';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { styled } from 'stitches.config';
+import { parseTextToLink } from '@components/util/parseTextToLink';
 dayjs.locale('ko');
+import CalendarIcon from '@assets/svg/calendar.svg?rect';
+import { GetFlashByIdResponse } from '@api/flash';
+import { IconLocation } from '@sopt-makers/icons';
 
 export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   {
     key: '모임 소개',
     Title: () => <STitle>모임 소개</STitle>,
-    Content: () => {
-      return (
-        <>
-          <STarget>
-            {detailData?.meetingKeywordTypes.map(tag => (
-              <Chip key={tag} style={{ boxShadow: 'none' }} active>
-                {tag}
-              </Chip>
-            ))}
-            {detailData?.welcomeMessageTypes.map(tag => (
-              <Chip key={tag} style={{ boxShadow: 'none' }}>
-                {tag}
-              </Chip>
-            ))}
-          </STarget>
-          <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>
-        </>
-      );
-    },
-    isValid: detailData?.meetingKeywordTypes.length || detailData?.welcomeMessageTypes.length || detailData?.desc,
+    Content: () => <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>,
+    isValid: detailData?.desc,
   },
   {
     key: '활동 기간',
@@ -85,28 +67,28 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
 export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
   return [
     {
-      key: '모임 소개',
-      Title: () => <STitle>모임 소개</STitle>,
+      key: detailData.welcomeMessageTypes.length ? '환영 태그' : '',
+      Title: () => (detailData?.welcomeMessageTypes.length ? <STitle>#환영 태그</STitle> : null),
       Content: () => {
-        return (
-          <>
-            <STarget>
-              {detailData?.meetingKeywordTypes.map(tag => (
-                <Chip key={tag} style={{ boxShadow: 'none' }} active>
-                  {tag}
-                </Chip>
-              ))}
-              {detailData?.welcomeMessageTypes.map(tag => (
-                <Chip key={tag} style={{ boxShadow: 'none' }}>
-                  {tag}
-                </Chip>
-              ))}
-            </STarget>
-            <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>
-          </>
-        );
+        return detailData?.welcomeMessageTypes.length ? (
+          <STarget>
+            {detailData?.welcomeMessageTypes.map(tag => (
+              <Chip key={tag} style={{ boxShadow: 'none' }} active>
+                {tag}
+              </Chip>
+            ))}
+          </STarget>
+        ) : null;
       },
-      isValid: detailData?.meetingKeywordTypes.length || detailData?.welcomeMessageTypes.length || detailData?.desc,
+      isValid: detailData?.welcomeMessageTypes,
+    },
+    {
+      key: '설명',
+      Title: () => <STitle>설명</STitle>,
+      Content: () => {
+        return <SDescription>{parseTextToLink(detailData?.desc)}</SDescription>;
+      },
+      isValid: detailData?.desc,
     },
     {
       key: '진행일',

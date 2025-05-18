@@ -11,4 +11,3 @@ export const useCategoryParams = () => useMultiQueryString('category', true);
 export const useStatusParams = () => useMultiQueryString('status', true);
 export const useTypeParams = () => useMultiQueryString('type', true);
 export const usePartParams = () => useMultiQueryString('part', true);
-export const useKeywordParams = () => useMultiQueryString('keyword', true);
