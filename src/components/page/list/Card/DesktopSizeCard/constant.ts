@@ -1,12 +1,12 @@
-import { MeetingListOfFilterResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
+import { MeetingListResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { GetFlashByIdResponse } from '@api/flash';
 import dayjs from 'dayjs';
 
-export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['meetings'][number]) => [
+export const MeetingInformation = (meetingData: MeetingListResponse['meetings'][number]) => [
   {
     label: '활동 기간',
     value: () =>
-      `${dayjs(meetingData.mStartDate).format('YY.MM.DD')} - ${dayjs(meetingData.mEndDate).format('YY.MM.DD')}`,
+      `${dayjs(meetingData.startDate).format('YY.MM.DD')} - ${dayjs(meetingData.endDate).format('YY.MM.DD')}`,
   },
   {
     label: '모집 대상',
@@ -24,8 +24,8 @@ export const MeetingInformation = (meetingData: MeetingListOfFilterResponse['mee
     },
   },
   {
-    label: '모집 현황',
-    value: () => `${meetingData.approvedCount}/${meetingData.capacity}명`,
+    label: '환영 태그',
+    value: () => meetingData.welcomeMessageTypes?.map(message => `#${message}`).join(' '),
   },
 ];
 
@@ -46,7 +46,7 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
     value: () => flashData.flashPlace ?? '협의 후 결정',
   },
   {
-    label: '모집 현황',
-    value: () => `${flashData.appliedInfo.length} / ${flashData.minimumCapacity} ~ ${flashData.maximumCapacity}`,
+    label: '환영 태그',
+    value: () => flashData.welcomeMessageTypes?.map(message => `#${message}`).join(' '),
   },
 ];

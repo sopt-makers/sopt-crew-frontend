@@ -1,11 +1,11 @@
-import { APPROVAL_STATUS, APPLICATION_TYPE, RECRUITMENT_STATUS, PART_OPTIONS, PART_VALUES } from '@constants/option';
+import { paths } from '@/__generated__/schema2';
+import { APPLICATION_TYPE, APPROVAL_STATUS, PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { FormType } from '@type/form';
-import { api, Data, PromiseResponse } from '../..';
-import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { paths } from '@/__generated__/schema2';
+import { api, PromiseResponse } from '../..';
+import { ApplicationStatusType, ApplyResponse, UserResponse } from '../user';
 
 /**
  * @deprecated
@@ -23,6 +23,7 @@ interface filterData {
   page?: number;
   category: string[];
   status?: string[];
+  keyword?: string[];
   search?: string;
   isOnlyActiveGeneration?: string | null;
   part?: string[];
@@ -60,7 +61,7 @@ export interface MeetingResponse {
   targetActiveGeneration: number | null;
   joinableParts: string[];
 }
-export type MeetingListOfFilterResponse =
+export type MeetingListResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 
 /**
@@ -151,29 +152,32 @@ export const fetchMeetingListOfAll = async ({
   category,
   status,
   search,
+  keyword,
   isOnlyActiveGeneration,
   part,
 }: filterData) => {
-  return api.get<MeetingListOfFilterResponse>(
-    `/meeting/v2?${page ? `&page=${page}` : ''}${page === 1 ? `&take=${11}` : `&take=${12}`}${
-      status?.length
-        ? `&status=${status
-            .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
-            .filter(item => item !== null)
-            .join(',')}`
-        : ''
-    }${
-      part?.length
-        ? `${part
-            .map((item: string) => parsePartLabelToValue(item))
-            .filter(item => item !== null)
-            .map(item => `&joinableParts=${item}`)
-            .join('')}`
-        : ''
-    }${category?.length ? `&category=${category.join(',')}` : ''}${
-      search ? `&query=${search}` : ''
-    }${`&isOnlyActiveGeneration=${parseBool(isOnlyActiveGeneration)}`}`
-  );
+  return api.get<MeetingListResponse>(`/meeting/v2`, {
+    params: {
+      category: category.join(','),
+      ...(keyword?.length && {
+        keyword: keyword.join(','),
+      }),
+      ...(status?.length && {
+        status: status
+          .map(item => parseStatusToNumber(item, RECRUITMENT_STATUS))
+          .filter(item => item !== null)
+          .join(','),
+      }),
+      ...(part?.length && {
+        joinableParts: part
+          .map((item: string) => parsePartLabelToValue(item))
+          .filter(item => item !== null)
+          .join(','),
+      }),
+      ...(search && { query: search }),
+      isOnlyActiveGeneration: parseBool(isOnlyActiveGeneration),
+    },
+  });
 };
 
 export type GetMeetingResponse =
@@ -248,7 +252,6 @@ const serializeFormData = (formData: FormType) => {
     isMentorNeeded: formData.detail.isMentorNeeded,
     canJoinOnlyActiveGeneration: formData.detail.canJoinOnlyActiveGeneration,
     joinableParts: refinedParts,
-    //targetDesc: formData.detail.targetDesc,
     note: formData.detail.note,
     detail: undefined,
     coLeaderUserIds: formData.detail.coLeader?.map(user => user.userId),
