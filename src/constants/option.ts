@@ -1,10 +1,10 @@
 export const PART_NAME: Record<string, string> = {
   PM: '기획',
   DESIGN: '디자인',
-  IOS: 'iOS',
   ANDROID: 'Android',
-  SERVER: '서버',
+  IOS: 'iOS',
   WEB: '웹',
+  SERVER: '서버',
 };
 
 export const RECRUITMENT_STATUS = ['모집 전', '모집 중', '모집 마감'];
@@ -22,12 +22,13 @@ export const APPROVAL_STATUS_KOREAN_TO_ENGLISH: StringKeyObject = {
 };
 export const APPLICATION_TYPE = ['신청', '초대'];
 export const CATEGORY_OPTIONS = ['번쩍', '스터디', '세미나', '행사'];
+export const KEYWORD_OPTIONS = ['학습', '취미', '먹방', '운동', '자기계발', '네트워킹', '기타'];
 export const PART_OPTIONS = ['기획', '디자인', 'Android', 'iOS', '웹', '서버'];
 export const PART_VALUES = ['PM', 'DESIGN', 'ANDROID', 'IOS', 'WEB', 'SERVER'];
 export const ACTION_STATUS = ['모집 전', '모집 중', '모집 마감', '활동 중', '활동 종료'];
 
 //todo: 서버 API 만들어지면 자동으로 기수가져와서 옵션에 넣기.
-export const GENERATION_OPTION = ['36기'];
+export const GENERATION_OPTION = ['36기만'];
 
 export const enum ERecruitmentStatus {
   BEFORE,
@@ -58,13 +59,20 @@ export const CATEGORY_FILTER = {
   subject: 'category',
   options: CATEGORY_OPTIONS,
 };
+
+export const KEYWORD_FILTER = {
+  label: '키워드',
+  subject: 'keyword',
+  options: KEYWORD_OPTIONS,
+};
+
 export const STATUS_FILTER = {
   label: '모집 상태',
   subject: 'status',
   options: RECRUITMENT_STATUS,
 };
 export const PART_FILTER = {
-  label: '대상 파트',
+  label: '파트',
   subject: 'part',
   options: PART_OPTIONS,
 };
