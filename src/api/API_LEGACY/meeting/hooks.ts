@@ -79,7 +79,7 @@ export const useQueryMeetingListOfAll = () => {
         status,
         keyword,
         search: search as string,
-        isOnlyActiveGeneration,
+        isOnlyActiveGeneration: isOnlyActiveGeneration === '36기만',
         part,
       }),
     {

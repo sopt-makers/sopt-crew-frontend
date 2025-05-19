@@ -1,7 +1,6 @@
 import { paths } from '@/__generated__/schema2';
 import { APPLICATION_TYPE, APPROVAL_STATUS, PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import { FormType } from '@type/form';
-import { parseBool } from '@utils/parseBool';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { api, PromiseResponse } from '../..';
@@ -25,7 +24,7 @@ interface filterData {
   status?: string[];
   keyword?: string[];
   search?: string;
-  isOnlyActiveGeneration?: string | null;
+  isOnlyActiveGeneration?: boolean;
   part?: string[];
 }
 export interface ImageURLType {
@@ -158,7 +157,7 @@ export const fetchMeetingListOfAll = async ({
 }: filterData) => {
   return api.get<MeetingListResponse>(`/meeting/v2`, {
     params: {
-      category: category.join(','),
+      ...(category?.length && { category: category.join(',') }),
       ...(keyword?.length && {
         keyword: keyword.join(','),
       }),
@@ -175,8 +174,8 @@ export const fetchMeetingListOfAll = async ({
           .join(','),
       }),
       ...(search && { query: search }),
-      isOnlyActiveGeneration: parseBool(isOnlyActiveGeneration),
-      page: page,
+      isOnlyActiveGeneration,
+      page,
     },
   });
 };
