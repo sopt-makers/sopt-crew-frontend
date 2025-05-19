@@ -175,7 +175,7 @@ export const fetchMeetingListOfAll = async ({
       }),
       ...(search && { query: search }),
       isOnlyActiveGeneration,
-      page: page,
+      page,
     },
   });
 };
