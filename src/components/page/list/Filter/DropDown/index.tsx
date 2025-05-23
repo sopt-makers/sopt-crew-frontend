@@ -24,7 +24,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useMultiQueryString(subject);
   const [rawSelected, setRawSelected] = useState<string[]>([]);
-  const debounceValue = useDebounce(rawSelected, 1300);
+  const debounceValue = useDebounce(rawSelected, 800);
   const defaultValue = useMemo(() => selectedValue.map((opt: string) => ({ label: opt, value: opt })), [selectedValue]);
 
   const resolvedLabel = useMemo(() => {
