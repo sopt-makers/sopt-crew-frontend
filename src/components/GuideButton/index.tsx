@@ -1,16 +1,21 @@
 import { styled } from 'stitches.config';
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import { ToolTip } from '@components/ToolTip/ToolTip';
+import { useState } from 'react';
 
 const GuideButton = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <SGuideButton
-      target="_blank"
-      href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
-      rel="noreferrer noopener"
-    >
-      모임 신청 가이드
-      <ArrowRightCircleIcon />
-    </SGuideButton>
+    <ToolTip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
+      <ToolTip.Trigger>
+        <SGuideButton>
+          모임 신청 가이드
+          <ArrowRightCircleIcon />
+        </SGuideButton>
+      </ToolTip.Trigger>
+      <ToolTip.Content>This is a tooltip</ToolTip.Content>
+    </ToolTip.Root>
   );
 };
 
