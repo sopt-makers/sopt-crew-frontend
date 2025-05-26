@@ -23,6 +23,7 @@ export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipPro
     onTooltipToggle?.(open);
   };
 
+  // @todo 마우스 호버 시 열리는 정책이 아니라면 필요함.
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
@@ -41,6 +42,7 @@ export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipPro
       <div
         ref={tooltipRef}
         style={{ position: 'relative', zIndex: 1 }}
+        // @todo 마우스 호버 시 열리는 정책이 아니라면 지워.
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
       >
