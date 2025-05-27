@@ -159,7 +159,7 @@ const Layout = styled('div', {
     width: 'calc(100vw - 60px)',
   },
   '@mobile': {
-    width: 'calc(100vw - 32px)',
+    width: 'calc(100vw - 64px)',
     marginTop: '70px',
   },
 });
