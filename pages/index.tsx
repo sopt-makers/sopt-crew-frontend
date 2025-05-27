@@ -102,6 +102,8 @@ const SContentTitle = styled('div', {
   },
 
   '@laptop': {
+    marginTop: '45px',
+
     width: '790px',
   },
 
