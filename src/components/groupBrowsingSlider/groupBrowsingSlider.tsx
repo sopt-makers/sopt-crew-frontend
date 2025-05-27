@@ -12,7 +12,7 @@ const GroupBrowsingSlider = ({ cardList }: CarouselProps) => {
     <SSlider>
       {cardList.map(card => (
         <MobileSizeCard key={card.id} {...card} />
-      ))}{' '}
+      ))}
     </SSlider>
   );
 };

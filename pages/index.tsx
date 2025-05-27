@@ -42,7 +42,7 @@ const Home: NextPage = () => {
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isMobile ? (
         <>
-          <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
+          <SContentTitle style={{ marginTop: '30px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
         </>
       ) : (
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
         </Flex>
       ) : (
         <>
-          <Flex justify="center" style={{ marginTop: '72px' }}>
+          <Flex justify="center" style={{ marginTop: '72px', gap: '16px' }}>
             {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
