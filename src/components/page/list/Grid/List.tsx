@@ -153,14 +153,14 @@ export function MeetingListOfApplied() {
 
 const SMeetingCountWrapper = styled('div', {
   display: 'flex',
-  '@tablet': {
+  '@media (max-width: 849px)': {
     justifyContent: 'center',
   },
 });
 
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
-  '@tablet': {
+  '@media (max-width: 849px)': {
     width: '380px',
   },
   '@mobile': {
@@ -175,8 +175,8 @@ const SBlankManageMentButton = styled('div', {
   borderRadius: '71px',
   fontAg: '16_bold_100',
   whiteSpace: 'nowrap',
-
-  '@tablet': {
+  //background: '$gray800',
+  '@media (max-width: 768px)': {
     width: '91px',
     //todo: 참여자 리스트 버튼으로 바꾸기
     height: '30px',
