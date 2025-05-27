@@ -12,7 +12,7 @@ const GroupBrowsingSlider = ({ cardList }: CarouselProps) => {
     <SSlider>
       {cardList.map(card => (
         <MobileSizeCard key={card.id} {...card} />
-      ))}{' '}
+      ))}
     </SSlider>
   );
 };
@@ -23,4 +23,5 @@ const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
   overflowX: 'auto',
+  scrollbarWidth: 'none',
 });

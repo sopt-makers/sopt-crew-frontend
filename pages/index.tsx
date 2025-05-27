@@ -17,6 +17,7 @@ import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 import { useFlashListQuery } from '@api/flash/hook';
 import GuideButton from '@components/GuideButton';
+import { fontsObject } from '@sopt-makers/fonts';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet, isMobile } = useDisplay();
@@ -42,13 +43,13 @@ const Home: NextPage = () => {
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isMobile ? (
         <>
-          <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
+          <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
           <Flex align="center" justify="center">
-            <SContentTitle style={{ marginTop: '54px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
+            <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
             {flashList && <Carousel cardList={flashList} />}
@@ -64,7 +65,7 @@ const Home: NextPage = () => {
         </Flex>
       ) : (
         <>
-          <Flex justify="center" style={{ marginTop: '72px' }}>
+          <Flex justify="center" style={{ marginTop: '72px', gap: '16px' }}>
             {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
@@ -95,15 +96,21 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
+  marginTop: '45px',
+
+  '@mobile': {
+    marginTop: '30px',
+  },
 
   '@laptop': {
     width: '790px',
   },
 
-  '@mobile': {
+  '@tablet': {
+    ...fontsObject.HEADING_4_24_B,
     display: 'flex',
     width: '100%',
-    fontSize: '16px',
+    marginTop: '28px',
   },
 });
 
