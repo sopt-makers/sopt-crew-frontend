@@ -20,7 +20,7 @@ function Filter() {
             <DropDownFilter filter={CATEGORY_FILTER} width={'149px'} />
             <DropDownFilter filter={KEYWORD_FILTER} width={'133px'} />
             <DropDownFilter filter={STATUS_FILTER} width={'152px'} />
-            <DropDownFilter filter={PART_FILTER} width={'121px'} />
+            <DropDownFilter filter={PART_FILTER} width={'120px'} />
             <DropDownFilter filter={GENERATION_FILTER} width={'110px'} />
             <FilterResetButton />
           </Flex>
