@@ -12,14 +12,6 @@ export function useDisplay() {
   const laptop = useMediaQuery({ query: '(max-width: 1259px)' });
   const desktop = useMediaQuery({ query: '(min-width: 1024px)' }); // default is desktop
 
-  // 430/840/850/1260
-  // const mobile = useMediaQuery({ query: '(max-width: 430px)' });
-  // const tablet = useMediaQuery({ query: '(max-width: 840px)' });
-  // const laptop = useMediaQuery({ query: '(max-width: 1259px)' });
-  // const desktop = useMediaQuery({ query: '(min-width: 768px)' });
-
-  // 767/1023/1260
-
   useIsomorphicLayoutEffect(() => {
     setIsMobile(mobile);
   }, [mobile]);
