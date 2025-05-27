@@ -3,17 +3,28 @@ import { useState } from 'react';
 import { ToolTip } from '@components/ToolTip/ToolTip';
 import { Tag } from '@sopt-makers/ui';
 import { IconBell, IconChevronRight, IconXClose } from '@sopt-makers/icons';
+import { useDisplay } from '@hooks/useDisplay';
 
 const AlarmSettingButton = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const { isLaptop, isTablet } = useDisplay();
+
   return (
     <ToolTip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
       <ToolTip.Trigger>
-        <SSettingButton>
-          <IconBell style={{ width: '20px', height: '20px' }} />
-          키워드 알림 설정
-          <IconChevronRight style={{ width: '20px', height: '20px' }} />
-        </SSettingButton>
+        {isTablet && (
+          <SSettingButton>
+            키워드 알림 설정
+            <IconBell style={{ width: '20px', height: '20px' }} />
+          </SSettingButton>
+        )}
+        {isLaptop && (
+          <SSettingButton>
+            <IconBell style={{ width: '20px', height: '20px' }} />
+            키워드 알림 설정
+            <IconChevronRight style={{ width: '20px', height: '20px' }} />
+          </SSettingButton>
+        )}
       </ToolTip.Trigger>
       <ToolTip.Content
         ToolTipClose={<ToolTip.Close icon={<IconXClose />} />}
