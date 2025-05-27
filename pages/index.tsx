@@ -96,14 +96,13 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
+  marginTop: '45px',
 
   '@mobile': {
     marginTop: '30px',
   },
 
   '@laptop': {
-    marginTop: '45px',
-
     width: '790px',
   },
 
