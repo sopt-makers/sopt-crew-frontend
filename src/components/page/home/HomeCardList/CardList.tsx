@@ -4,6 +4,7 @@ import MobileCard from '@components/page/home/HomeCardList/MobileCard';
 import { useDisplay } from '@hooks/useDisplay';
 import { fontsObject } from '@sopt-makers/fonts';
 import { styled } from 'stitches.config';
+import mobile from '@components/page/list/Filter/Search/Mobile';
 
 type HomeCardProps = {
   label: string;
@@ -87,6 +88,10 @@ const STitleWrapper = styled('div', {
 
   width: '100%',
   paddingBottom: '$20',
+
+  '@mobile': {
+    paddingBottom: '$16',
+  },
 });
 
 const STitleStyle = styled('p', {

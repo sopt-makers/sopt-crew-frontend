@@ -22,10 +22,14 @@ const StyledGridContainer = styled('div', {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
 
-  '@media (max-width: 849px)': {
+  '@tablet': {
     gridTemplateColumns: '1fr',
     rowGap: '120px',
     alignItems: 'center',
+  },
+
+  '@mobile': {
+    margin: '14px 0 120px 0',
   },
 
   variants: {
