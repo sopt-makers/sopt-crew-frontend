@@ -1,46 +1,38 @@
 import { styled } from 'stitches.config';
-import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import { useState } from 'react';
+import { ToolTip } from '@components/ToolTip/ToolTip';
+import { Tag } from '@sopt-makers/ui';
+import { IconArrowLeft, IconBell, IconChevronRight, IconXClose } from '@sopt-makers/icons';
 
-const GuideButton = () => {
+const AlarmSettingButton = () => {
+  const [isOpen, setIsOpen] = useState(true);
   return (
-    <SGuideButton
-      target="_blank"
-      href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
-      rel="noreferrer noopener"
-    >
-      모임 신청 가이드
-      <ArrowRightCircleIcon />
-    </SGuideButton>
+    <ToolTip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
+      <ToolTip.Trigger>
+        <SSettingButton>
+          <IconBell style={{ width: '20px', height: '20px' }} />
+          키워드 알림 설정
+          <IconChevronRight style={{ width: '20px', height: '20px' }} />
+        </SSettingButton>
+      </ToolTip.Trigger>
+      <ToolTip.Content
+        ToolTipClose={<ToolTip.Close icon={<IconXClose />} />}
+        title={'키워드 알림'}
+        titleRightIcon={
+          <Tag variant="primary" size="sm">
+            NEW
+          </Tag>
+        }
+      >
+        This is a tooltip
+      </ToolTip.Content>
+    </ToolTip.Root>
   );
-
-  // @TODO 다음 PR 에서 바로 적용 예정
-  // const [isOpen, setIsOpen] = useState(true);
-  // return (
-  //   <ToolTip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
-  //     <ToolTip.Trigger>
-  //       <SGuideButton>
-  //         모임 신청 가이드
-  //         <ArrowRightCircleIcon />
-  //       </SGuideButton>
-  //     </ToolTip.Trigger>
-  //     <ToolTip.Content
-  //       ToolTipClose={<ToolTip.Close icon={<IconXClose />} />}
-  //       title={'키워드 알림'}
-  //       titleRightIcon={
-  //         <Tag variant="primary" size="sm">
-  //           NEW
-  //         </Tag>
-  //       }
-  //     >
-  //       This is a tooltip
-  //     </ToolTip.Content>
-  //   </ToolTip.Root>
-  // );
 };
 
-export default GuideButton;
+export default AlarmSettingButton;
 
-const SGuideButton = styled('a', {
+const SSettingButton = styled('a', {
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
