@@ -11,10 +11,9 @@ interface TooltipProps {
 }
 
 export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipProps) => {
-  const [internalOpen, setInternalOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(true);
   const isControlled = isTooltipOpen !== undefined;
   const isOpen = isControlled ? isTooltipOpen : internalOpen;
-  const tooltipRef = useRef<HTMLDivElement>(null);
 
   const setIsOpen = (open: boolean) => {
     if (!isControlled) {
@@ -23,31 +22,9 @@ export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipPro
     onTooltipToggle?.(open);
   };
 
-  // @todo 마우스 호버 시 열리는 정책이 아니라면 필요함.
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-        setInternalOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [tooltipRef]);
-
   return (
     <TooltipContext.Provider value={{ isOpen, setIsOpen }}>
-      <div
-        ref={tooltipRef}
-        style={{ position: 'relative', zIndex: 1 }}
-        // @todo 마우스 호버 시 열리는 정책이 아니라면 지워.
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-      >
-        {children}
-      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
     </TooltipContext.Provider>
   );
 };
