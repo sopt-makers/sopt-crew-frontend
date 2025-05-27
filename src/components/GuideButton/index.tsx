@@ -2,7 +2,7 @@ import { styled } from 'stitches.config';
 import { useState } from 'react';
 import { ToolTip } from '@components/ToolTip/ToolTip';
 import { Tag } from '@sopt-makers/ui';
-import { IconArrowLeft, IconBell, IconChevronRight, IconXClose } from '@sopt-makers/icons';
+import { IconBell, IconChevronRight, IconXClose } from '@sopt-makers/icons';
 
 const AlarmSettingButton = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -24,7 +24,9 @@ const AlarmSettingButton = () => {
           </Tag>
         }
       >
-        This is a tooltip
+        관심 키워드 설정하고
+        <br />
+        신규 모임 개설 알림을 받아보세요
       </ToolTip.Content>
     </ToolTip.Root>
   );
