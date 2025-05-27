@@ -28,6 +28,10 @@ const StyledGridContainer = styled('div', {
     alignItems: 'center',
   },
 
+  '@mobile': {
+    margin: '14px 0 120px 0',
+  },
+
   variants: {
     mobileType: {
       list: {
