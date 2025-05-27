@@ -13,6 +13,7 @@ const GuideButton = () => {
     </SGuideButton>
   );
 
+  // @TODO 다음 PR 에서 바로 적용 예정
   // const [isOpen, setIsOpen] = useState(true);
   // return (
   //   <ToolTip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
