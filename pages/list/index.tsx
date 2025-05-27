@@ -50,7 +50,7 @@ const SFilterWrapper = styled('div', {
   '@tablet': {
     mt: '$30',
   },
-  '@tablet': {
+  '@mobile': {
     mb: '$28',
   },
 });
