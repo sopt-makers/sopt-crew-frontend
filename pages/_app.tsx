@@ -152,11 +152,8 @@ const Layout = styled('div', {
   '@laptop': {
     width: '790px',
   },
-  '@media (max-width: 849px)': {
-    width: '780px',
-  },
   '@tablet': {
-    width: 'calc(100vw - 60px)',
+    width: '709px',
   },
   '@mobile': {
     width: 'calc(100vw - 64px)',

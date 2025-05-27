@@ -45,6 +45,9 @@ const SContainer = styled('section', {
 
     paddingLeft: '0',
   },
+  '@tablet': {
+    gap: '20px',
+  },
   '@mobile': {
     gap: '16px',
   },
