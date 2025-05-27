@@ -23,4 +23,5 @@ const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
   overflowX: 'auto',
+  scrollbarWidth: 'none',
 });

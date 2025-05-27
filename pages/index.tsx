@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           </GroupBrowsingCarouselContainer>
         </>
       )}
-      {isLaptop ? (
+      {isTablet ? (
         <Flex direction="column" justify="center" align="center">
           <QuickMenuWrapper>
             <QuickMenu />
@@ -100,7 +100,7 @@ const SContentTitle = styled('div', {
     width: '790px',
   },
 
-  '@mobile': {
+  '@tablet': {
     display: 'flex',
     width: '100%',
     fontSize: '16px',
