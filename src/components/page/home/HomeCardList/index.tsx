@@ -11,7 +11,7 @@ const HomeCardList = () => {
   return (
     <SWrapper>
       <SGradationRight />
-      {property?.[HOME_PROPERTY_KEY].map((prop: { title: string; meetingIds: number[] }, idx: number) => (
+      {property?.map((prop: { title: string; meetingIds: number[] }, idx: number) => (
         <CardList key={idx} label={prop.title} meetingIds={prop.meetingIds} />
       ))}
     </SWrapper>
