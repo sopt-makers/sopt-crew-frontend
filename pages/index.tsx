@@ -20,7 +20,7 @@ import GuideButton from '@components/GuideButton';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const Home: NextPage = () => {
-  const { isLaptop, isTablet, isMobile } = useDisplay();
+  const { isNewLaptop, isNewTablet, isNewMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -40,8 +40,9 @@ const Home: NextPage = () => {
       <CrewTab>
         <GuideButton />
       </CrewTab>
-      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isMobile ? (
+      {isLoading &&
+        (isNewTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+      {isNewMobile ? (
         <>
           <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
@@ -56,7 +57,7 @@ const Home: NextPage = () => {
           </GroupBrowsingCarouselContainer>
         </>
       )}
-      {isLaptop ? (
+      {isNewLaptop ? (
         <Flex direction="column" justify="center" align="center">
           <QuickMenuWrapper>
             <QuickMenu />
@@ -74,7 +75,7 @@ const Home: NextPage = () => {
         </>
       )}
 
-      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+      {isFetchingNextPage && isNewTablet && <MobileFeedListSkeleton count={3} />}
       {!isFetchingNextPage && hasNextPage ? (
         <div ref={ref} style={{ height: '1px' }} />
       ) : (
