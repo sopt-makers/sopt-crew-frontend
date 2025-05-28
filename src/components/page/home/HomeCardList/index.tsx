@@ -3,13 +3,15 @@ import CardList from '@components/page/home/HomeCardList/CardList';
 import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
+const HOME_PROPERTY_KEY = 'home';
+
 const HomeCardList = () => {
-  const { data: property } = useQuery(useGetPropertyQueryOption('home'));
+  const { data: property } = useQuery(useGetPropertyQueryOption(HOME_PROPERTY_KEY));
 
   return (
     <SWrapper>
       <SGradationRight />
-      {property?.home.map((prop: { title: string; meetingIds: number[] }, idx: number) => (
+      {property?.[HOME_PROPERTY_KEY].map((prop: { title: string; meetingIds: number[] }, idx: number) => (
         <CardList key={idx} label={prop.title} meetingIds={prop.meetingIds} />
       ))}
     </SWrapper>
