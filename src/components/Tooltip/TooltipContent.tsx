@@ -17,31 +17,31 @@ export const TooltipContent = ({ children, title, titleRightIcon, TooltipClose }
   if (!isOpen) return null;
 
   return (
-    <TooltipDiv>
-      <PointDiv>
+    <STooltipDiv>
+      <SPointDiv>
         <BubblePointIcon />
-      </PointDiv>
-      <TextDiv>
-        <TooltipHeader>
-          <TitleDiv>
+      </SPointDiv>
+      <STextDiv>
+        <STooltipHeader>
+          <STitleDiv>
             {title}
             {titleRightIcon && titleRightIcon}
-          </TitleDiv>
+          </STitleDiv>
           {TooltipClose && TooltipClose}
-        </TooltipHeader>
+        </STooltipHeader>
         {children}
-      </TextDiv>
-    </TooltipDiv>
+      </STextDiv>
+    </STooltipDiv>
   );
 };
 
-const TooltipHeader = styled('div', {
+const STooltipHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
 });
 
-const TitleDiv = styled('div', {
+const STitleDiv = styled('div', {
   ...fontsObject.TITLE_7_14_SB,
 
   display: 'flex',
@@ -51,7 +51,7 @@ const TitleDiv = styled('div', {
   color: '$gray30',
 });
 
-const TooltipDiv = styled('div', {
+const STooltipDiv = styled('div', {
   width: '252px',
   height: '162px',
   display: 'flex',
@@ -64,14 +64,14 @@ const TooltipDiv = styled('div', {
   isolate: 'isolation',
 });
 
-const PointDiv = styled('div', {
+const SPointDiv = styled('div', {
   display: 'inline-flex',
   padding: '1px 16px 0 0',
   flexDirection: 'column',
   alignItems: 'flex-start',
 });
 
-const TextDiv = styled('div', {
+const STextDiv = styled('div', {
   ...fontsObject.BODY_4_13_M,
 
   padding: '16px',

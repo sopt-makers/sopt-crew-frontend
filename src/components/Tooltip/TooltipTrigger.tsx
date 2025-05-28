@@ -6,10 +6,10 @@ interface TooltipTriggerProps {
 }
 
 export const TooltipTrigger = ({ children }: TooltipTriggerProps) => {
-  return <TooltipTriggerStyle>{children}</TooltipTriggerStyle>;
+  return <SToolTipTrigger>{children}</SToolTipTrigger>;
 };
 
-const TooltipTriggerStyle = styled('div', {
+const SToolTipTrigger = styled('div', {
   position: 'relative',
   zIndex: 1,
 });

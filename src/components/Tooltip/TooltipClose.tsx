@@ -11,13 +11,13 @@ export const TooltipClose = ({ icon }: TooltipCloseProps) => {
   const { setIsOpen } = useTooltipContext();
 
   return (
-    <TooltipCloseStyle className="Tooltip-close" aria-label="Close Tooltip" onClick={() => setIsOpen(false)}>
+    <STooltipClose className="Tooltip-close" aria-label="Close Tooltip" onClick={() => setIsOpen(false)}>
       {icon ? icon : <IconXClose />}
-    </TooltipCloseStyle>
+    </STooltipClose>
   );
 };
 
-const TooltipCloseStyle = styled('button', {
+const STooltipClose = styled('button', {
   width: '$20',
   height: '$20',
   color: '$white',
