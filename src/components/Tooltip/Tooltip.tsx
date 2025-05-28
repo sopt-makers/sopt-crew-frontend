@@ -1,8 +1,8 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { TooltipContext } from './ToolTopContext';
-import { ToolTipTrigger } from '@components/ToolTip/ToolTipTrigger';
-import { ToolTipContent } from '@components/ToolTip/ToolTipContent';
-import { ToolTipClose } from '@components/ToolTip/ToolTipClose';
+import { ReactNode, useState } from 'react';
+import { TooltipContext } from './TooltipContext';
+import { TooltipTrigger } from '@components/Tooltip/TooltipTrigger';
+import { TooltipContent } from '@components/Tooltip/TooltipContent';
+import { TooltipClose } from '@components/Tooltip/TooltipClose';
 
 interface TooltipProps {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface TooltipProps {
   onTooltipToggle?: (open: boolean) => void;
 }
 
-export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipProps) => {
+export const TooltipRoot = ({ children, isTooltipOpen, onTooltipToggle }: TooltipProps) => {
   const [internalOpen, setInternalOpen] = useState(true);
   const isControlled = isTooltipOpen !== undefined;
   const isOpen = isControlled ? isTooltipOpen : internalOpen;
@@ -29,9 +29,9 @@ export const Tooltip = ({ children, isTooltipOpen, onTooltipToggle }: TooltipPro
   );
 };
 
-export const ToolTip = {
-  Root: Tooltip,
-  Trigger: ToolTipTrigger,
-  Content: ToolTipContent,
-  Close: ToolTipClose,
+export const Tooltip = {
+  Root: TooltipRoot,
+  Trigger: TooltipTrigger,
+  Content: TooltipContent,
+  Close: TooltipClose,
 };

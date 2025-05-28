@@ -1,4 +1,4 @@
-export const ToolTipHeader = () => {
+export const TooltipHeader = () => {
   return (
     <div
       style={{

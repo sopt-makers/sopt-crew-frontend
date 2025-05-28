@@ -1,41 +1,41 @@
-import { useTooltipContext } from '@components/ToolTip/ToolTopContext';
+import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 import { ReactNode } from 'react';
 import { styled } from '../../../stitches.config';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import { fontsObject } from '@sopt-makers/fonts';
 
-interface ToolTipContentProps {
+interface TooltipContentProps {
   children: ReactNode;
   title?: string;
   titleRightIcon?: ReactNode;
-  ToolTipClose?: ReactNode;
+  TooltipClose?: ReactNode;
 }
 
-export const ToolTipContent = ({ children, title, titleRightIcon, ToolTipClose }: ToolTipContentProps) => {
+export const TooltipContent = ({ children, title, titleRightIcon, TooltipClose }: TooltipContentProps) => {
   const { isOpen } = useTooltipContext();
 
   if (!isOpen) return null;
 
   return (
-    <ToolTipDiv>
+    <TooltipDiv>
       <PointDiv>
         <BubblePointIcon />
       </PointDiv>
       <TextDiv>
-        <ToolTipHeader>
+        <TooltipHeader>
           <TitleDiv>
             {title}
             {titleRightIcon && titleRightIcon}
           </TitleDiv>
-          {ToolTipClose && ToolTipClose}
-        </ToolTipHeader>
+          {TooltipClose && TooltipClose}
+        </TooltipHeader>
         {children}
       </TextDiv>
-    </ToolTipDiv>
+    </TooltipDiv>
   );
 };
 
-const ToolTipHeader = styled('div', {
+const TooltipHeader = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -51,7 +51,7 @@ const TitleDiv = styled('div', {
   color: '$gray30',
 });
 
-const ToolTipDiv = styled('div', {
+const TooltipDiv = styled('div', {
   width: '252px',
   height: '162px',
   display: 'flex',
