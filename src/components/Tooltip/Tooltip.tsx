@@ -24,7 +24,9 @@ export const TooltipRoot = ({ children, isTooltipOpen, onTooltipToggle }: Toolti
 
   return (
     <TooltipContext.Provider value={{ isOpen, setIsOpen }}>
-      <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
+      <div style={{ position: 'relative', zIndex: 1 }} role="tooltip">
+        {children}
+      </div>
     </TooltipContext.Provider>
   );
 };
