@@ -99,15 +99,15 @@ const SContentTitle = styled('div', {
   width: '1200px',
   marginTop: '45px',
 
-  '@mobile': {
+  '@newMobile': {
     marginTop: '30px',
   },
 
-  '@laptop': {
+  '@newLaptop': {
     width: '790px',
   },
 
-  '@tablet': {
+  '@newTablet': {
     ...fontsObject.HEADING_4_24_B,
     display: 'flex',
     width: '100%',
@@ -126,7 +126,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@tablet': {
+  '@newTablet': {
     margin: '$40 0',
   },
 });
