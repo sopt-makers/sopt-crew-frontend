@@ -17,9 +17,10 @@ import HomeCardList from '@components/page/home/HomeCardList';
 import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 import { useFlashListQuery } from '@api/flash/hook';
 import GuideButton from '@components/GuideButton';
+import { fontsObject } from '@sopt-makers/fonts';
 
 const Home: NextPage = () => {
-  const { isLaptop, isTablet, isMobile } = useDisplay();
+  const { isNewLaptop, isNewTablet, isNewMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -39,23 +40,24 @@ const Home: NextPage = () => {
       <CrewTab>
         <GuideButton />
       </CrewTab>
-      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isMobile ? (
+      {isLoading &&
+        (isNewTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+      {isNewMobile ? (
         <>
-          <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
+          <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
         </>
       ) : (
         <>
           <Flex align="center" justify="center">
-            <SContentTitle style={{ marginTop: '54px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
+            <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
             {flashList && <Carousel cardList={flashList} />}
           </GroupBrowsingCarouselContainer>
         </>
       )}
-      {isLaptop ? (
+      {isNewLaptop ? (
         <Flex direction="column" justify="center" align="center">
           <QuickMenuWrapper>
             <QuickMenu />
@@ -64,7 +66,7 @@ const Home: NextPage = () => {
         </Flex>
       ) : (
         <>
-          <Flex justify="center" style={{ marginTop: '72px' }}>
+          <Flex justify="center" style={{ marginTop: '72px', gap: '16px' }}>
             {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
@@ -73,7 +75,7 @@ const Home: NextPage = () => {
         </>
       )}
 
-      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
+      {isFetchingNextPage && isNewTablet && <MobileFeedListSkeleton count={3} />}
       {!isFetchingNextPage && hasNextPage ? (
         <div ref={ref} style={{ height: '1px' }} />
       ) : (
@@ -95,15 +97,21 @@ const SContentTitle = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '1200px',
+  marginTop: '45px',
 
-  '@laptop': {
+  '@newMobile': {
+    marginTop: '30px',
+  },
+
+  '@newLaptop': {
     width: '790px',
   },
 
-  '@mobile': {
+  '@newTablet': {
+    ...fontsObject.HEADING_4_24_B,
     display: 'flex',
     width: '100%',
-    fontSize: '16px',
+    marginTop: '28px',
   },
 });
 
@@ -118,7 +126,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@tablet': {
+  '@newTablet': {
     margin: '$40 0',
   },
 });

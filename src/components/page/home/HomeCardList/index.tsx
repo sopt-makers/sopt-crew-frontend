@@ -28,7 +28,7 @@ const SWrapper = styled('div', {
   position: 'relative',
   width: '894px',
 
-  '@laptop': {
+  '@newLaptop': {
     width: '100%',
   },
 });
@@ -42,10 +42,10 @@ const SGradationRight = styled('div', {
   right: '-1px',
   pointerEvents: 'none',
 
-  '@media (min-width: 1259px)': {
+  '@newLaptop': {
     display: 'none',
   },
-  '@media (max-width: 768px)': {
+  '@newMobile': {
     display: 'none',
   },
 });
