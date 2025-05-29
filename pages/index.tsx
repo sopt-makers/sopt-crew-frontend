@@ -1,10 +1,14 @@
+import { useFlashListQuery } from '@api/flash/hook';
 import { useInfinitePosts } from '@api/post/hooks';
+import CrewTab from '@components/CrewTab';
+import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
+import GuideButton from '@components/GuideButton';
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
+import HomeCardList from '@components/page/home/HomeCardList';
 import QuickMenu from '@components/page/home/QuickMenu';
-import FloatingButton from '@components/FloatingButton';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
@@ -12,11 +16,6 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import CrewTab from '@components/CrewTab';
-import HomeCardList from '@components/page/home/HomeCardList';
-import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
-import { useFlashListQuery } from '@api/flash/hook';
-import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet, isMobile } = useDisplay();
@@ -26,7 +25,6 @@ const Home: NextPage = () => {
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
 
   const flashList = useFlashListQuery().data?.meetings;
-  const { data: inProgressMeetings } = useGetRecommendMeetingListQuery({ meetingIds: [] });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -60,12 +58,12 @@ const Home: NextPage = () => {
           <QuickMenuWrapper>
             <QuickMenu />
           </QuickMenuWrapper>
-          {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
+          <HomeCardList />
         </Flex>
       ) : (
         <>
           <Flex justify="center" style={{ marginTop: '72px' }}>
-            {inProgressMeetings && <HomeCardList inProgressMeetingData={inProgressMeetings} />}
+            <HomeCardList />
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
             </div>

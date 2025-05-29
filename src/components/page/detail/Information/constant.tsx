@@ -97,7 +97,7 @@ export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
                 </Chip>
               ))}
               {detailData?.welcomeMessageTypes.map(tag => (
-                <Chip key={tag} style={{ boxShadow: 'none' }}>
+                <Chip key={tag} disabled style={{ boxShadow: 'none' }}>
                   {tag}
                 </Chip>
               ))}
