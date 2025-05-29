@@ -1,19 +1,23 @@
-import { useGetPropertyQueryOption } from '@api/property/hooks';
+import { RecommendMeetingListQueryResponse, useGetRecommendMeetingListQuery } from '@api/meeting/hook';
 import CardList from '@components/page/home/HomeCardList/CardList';
-import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
-const HOME_PROPERTY_KEY = 'home';
-
-const HomeCardList = () => {
-  const { data: property } = useQuery(useGetPropertyQueryOption(HOME_PROPERTY_KEY));
+const HomeCardList = ({ inProgressMeetingData }: { inProgressMeetingData: RecommendMeetingListQueryResponse }) => {
+  const { data: recommendMeetings1 } = useGetRecommendMeetingListQuery({ meetingIds: [456, 458, 469] });
+  const { data: recommendMeetings2 } = useGetRecommendMeetingListQuery({ meetingIds: [459, 460, 471] });
+  const { data: recommendMeetings3 } = useGetRecommendMeetingListQuery({ meetingIds: [466, 475, 448] });
 
   return (
     <SWrapper>
       <SGradationRight />
-      {property?.map((prop: { title: string; meetingIds: number[] }, idx: number) => (
-        <CardList key={idx} label={prop.title} meetingIds={prop.meetingIds} />
-      ))}
+      {recommendMeetings1 && (
+        <CardList label="🔥 36기, 지금 가장 HOT한 모임 모아보기" data={recommendMeetings1.slice(0, 3)} />
+      )}
+      {/* <CardList label="🔥 지금 모집중인 모임" data={inProgressMeetingData.slice(0, 3)} /> */}
+      {recommendMeetings2 && (
+        <CardList label="✴️ SOPT의 뿌리 깊은 시그니처 모임" data={recommendMeetings2.slice(0, 3)} />
+      )}
+      {recommendMeetings3 && <CardList label="💥 SOPT와 함께하는 취미생활" data={recommendMeetings3.slice(0, 3)} />}
     </SWrapper>
   );
 };
