@@ -20,5 +20,6 @@ export const TooltipClose = ({ icon }: TooltipCloseProps) => {
 const STooltipClose = styled('button', {
   width: '$20',
   height: '$20',
+
   color: '$white',
 });
