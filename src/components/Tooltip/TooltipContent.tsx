@@ -42,46 +42,49 @@ const STooltipHeader = styled('div', {
 });
 
 const STitleDiv = styled('div', {
-  ...fontsObject.TITLE_7_14_SB,
-
   display: 'flex',
-  alignItems: 'center',
   flexDirection: 'row',
+  alignItems: 'center',
   gap: '4px',
+
   color: '$gray30',
+  ...fontsObject.TITLE_7_14_SB,
 });
 
 const STooltipDiv = styled('div', {
-  width: '252px',
-  height: '162px',
+  position: 'absolute',
+  top: '$42',
+  right: '$0',
+  zIndex: 1,
+  isolate: 'isolation',
+
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-end',
 
-  position: 'absolute',
-  top: '$42',
-  right: '$0',
-  isolate: 'isolation',
+  width: '252px',
+  height: '162px',
 });
 
 const SPointDiv = styled('div', {
   display: 'inline-flex',
-  padding: '1px 16px 0 0',
   flexDirection: 'column',
   alignItems: 'flex-start',
+
+  padding: '1px 16px 0 0',
 });
 
 const STextDiv = styled('div', {
-  ...fontsObject.BODY_4_13_M,
-
-  padding: '16px',
-  width: '255px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
 
+  width: '255px',
+  padding: '16px',
+
   borderRadius: '12px',
   backgroundColor: '$gray600',
-
   color: '$gray50',
+
+  ...fontsObject.BODY_4_13_M,
 });
