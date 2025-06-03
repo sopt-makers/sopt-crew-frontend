@@ -302,8 +302,11 @@ const stitches = createStitches({
     tablet: '(max-width: 840px)',
     desktop: '(min-width: 1024px) and (max-width: 1259px)',
     laptop: '(max-width: 1259px)',
-    large_desktop: '(min-width: 1260px)',
-    // default is desktop
+
+    newMobile: '(max-width: 767px)',
+    newTablet: '(max-width: 1023px)',
+    newLaptop: '(max-width: 1259px)',
+    newDesktop: '(min-width: 1024px)', // default is desktop
   },
   utils: {
     size: (value: number) => ({

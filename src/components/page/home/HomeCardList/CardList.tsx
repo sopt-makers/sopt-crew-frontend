@@ -4,6 +4,7 @@ import MobileCard from '@components/page/home/HomeCardList/MobileCard';
 import { useDisplay } from '@hooks/useDisplay';
 import { fontsObject } from '@sopt-makers/fonts';
 import { styled } from 'stitches.config';
+import mobile from '@components/page/list/Filter/Search/Mobile';
 
 type HomeCardProps = {
   label: string;
@@ -75,7 +76,7 @@ const SCardListWrapper = styled('section', {
 
   overflow: 'hidden',
 
-  '@tablet': {
+  '@newTablet': {
     paddingBottom: '$40',
   },
 });
@@ -87,6 +88,10 @@ const STitleWrapper = styled('div', {
 
   width: '100%',
   paddingBottom: '$20',
+
+  '@newMobile': {
+    paddingBottom: '$16',
+  },
 });
 
 const STitleStyle = styled('p', {
@@ -95,7 +100,7 @@ const STitleStyle = styled('p', {
   fontStyle: 'H1',
   color: '$white',
 
-  '@mobile': {
+  '@newMobile': {
     ...fontsObject.TITLE_6_16_SB,
   },
 });
@@ -109,7 +114,7 @@ const SCardWrapper = styled('div', {
   display: 'flex',
   gap: '20px',
 
-  '@tablet': {
+  '@newTablet': {
     flexDirection: 'column',
     width: '100%',
   },
