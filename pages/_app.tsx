@@ -149,13 +149,13 @@ const Layout = styled('div', {
   marginTop: '128px',
   width: '1200px',
 
-  '@laptop': {
+  '@newLaptop': {
     width: '790px',
   },
-  '@tablet': {
+  '@newTablet': {
     width: '709px',
   },
-  '@mobile': {
+  '@newMobile': {
     width: 'calc(100vw - 64px)',
     marginTop: '70px',
   },
