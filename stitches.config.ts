@@ -298,10 +298,15 @@ const stitches = createStitches({
   },
   media: {
     small_mobile: '(max-width: 375px)',
-    mobile: '(max-width: 767px)',
-    tablet: '(max-width: 1023px)',
+    mobile: '(max-width: 430px)',
+    tablet: '(max-width: 840px)',
+    desktop: '(min-width: 1024px) and (max-width: 1259px)',
     laptop: '(max-width: 1259px)',
-    desktop: '(min-width: 1024px)', // default is desktop
+
+    newMobile: '(max-width: 767px)',
+    newTablet: '(max-width: 1023px)',
+    newLaptop: '(max-width: 1259px)',
+    newDesktop: '(min-width: 1024px)', // default is desktop
   },
   utils: {
     size: (value: number) => ({
