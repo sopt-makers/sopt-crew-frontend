@@ -81,12 +81,12 @@ const SCarousel = styled('div', {
     maxWidth: '1328px',
     width: '100vw',
 
-    '@newLaptop': {
+    '@laptop': {
       width: '100%',
 
       left: '-27px',
     },
-    '@newTablet': {
+    '@tablet': {
       width: 'calc(100vw - 30px)',
       minWidth: 'calc(100vw - 30px)',
 
@@ -102,7 +102,7 @@ const SCarousel = styled('div', {
       flexType: 'center',
     },
 
-    '@newLaptop': {
+    '@laptop': {
       width: '732px',
       minWidth: '732px',
 
@@ -126,7 +126,7 @@ const SCarousel = styled('div', {
   '.slick-next': {
     transform: 'rotate(180deg)',
     mr: '17px',
-    '@newLaptop': {
+    '@laptop': {
       mr: '0px',
     },
   },

@@ -20,7 +20,7 @@ import GuideButton from '@components/GuideButton';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const Home: NextPage = () => {
-  const { isNewLaptop, isNewTablet, isNewMobile } = useDisplay();
+  const { isLaptop, isTablet, isMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -40,9 +40,8 @@ const Home: NextPage = () => {
       <CrewTab>
         <GuideButton />
       </CrewTab>
-      {isLoading &&
-        (isNewTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isNewMobile ? (
+      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
+      {isMobile ? (
         <>
           <SContentTitle>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
@@ -57,7 +56,7 @@ const Home: NextPage = () => {
           </GroupBrowsingCarouselContainer>
         </>
       )}
-      {isNewLaptop ? (
+      {isLaptop ? (
         <Flex direction="column" justify="center" align="center">
           <QuickMenuWrapper>
             <QuickMenu />
@@ -75,7 +74,7 @@ const Home: NextPage = () => {
         </>
       )}
 
-      {isFetchingNextPage && isNewTablet && <MobileFeedListSkeleton count={3} />}
+      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
       {!isFetchingNextPage && hasNextPage ? (
         <div ref={ref} style={{ height: '1px' }} />
       ) : (
@@ -99,15 +98,15 @@ const SContentTitle = styled('div', {
   width: '1200px',
   marginTop: '45px',
 
-  '@newMobile': {
+  '@mobile': {
     marginTop: '30px',
   },
 
-  '@newLaptop': {
+  '@laptop': {
     width: '790px',
   },
 
-  '@newTablet': {
+  '@tablet': {
     ...fontsObject.HEADING_4_24_B,
     display: 'flex',
     width: '100%',
@@ -126,7 +125,7 @@ const QuickMenuWrapper = styled('div', {
 
   margin: '$60 0 $72',
 
-  '@newTablet': {
+  '@tablet': {
     margin: '$40 0',
   },
 });

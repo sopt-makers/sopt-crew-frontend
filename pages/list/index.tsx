@@ -47,10 +47,10 @@ export default Home;
 const SFilterWrapper = styled('div', {
   mt: '$45',
   mb: '$40',
-  '@newTablet': {
+  '@tablet': {
     mt: '$30',
   },
-  '@newMobile': {
+  '@mobile': {
     mb: '$28',
   },
 });

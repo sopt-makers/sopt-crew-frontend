@@ -23,7 +23,7 @@ const SGuideButton = styled('a', {
   padding: '$8 $6 0 0',
   fontAg: '18_semibold_100',
 
-  '@newTablet': {
+  '@tablet': {
     padding: '0',
     fontAg: '14_semibold_100',
   },

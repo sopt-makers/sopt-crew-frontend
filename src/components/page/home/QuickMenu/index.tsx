@@ -39,16 +39,16 @@ const SContainer = styled('section', {
   flexDirection: 'column',
   gap: '40px',
 
-  '@newLaptop': {
+  '@laptop': {
     flexDirection: 'row',
     gap: '40px',
 
     paddingLeft: '0',
   },
-  '@newTablet': {
+  '@tablet': {
     gap: '20px',
   },
-  '@newMobile': {
+  '@mobile': {
     gap: '16px',
   },
 });
@@ -61,7 +61,7 @@ const SMenuBtn = styled('button', {
   borderRadius: '28px',
   background: '$gray900',
 
-  '@newTablet': {
+  '@tablet': {
     padding: '8px',
     borderRadius: '14.667px',
   },
@@ -78,7 +78,7 @@ const SItem = styled('div', {
 
   cursor: 'pointer',
 
-  '@newLaptop': {
+  '@laptop': {
     flexDirection: 'column',
     gap: '12px',
   },
@@ -90,13 +90,13 @@ const SItemLabel = styled('h3', {
   color: '$white',
   textAlign: 'center',
 
-  '@newLaptop': {
+  '@laptop': {
     flexDirection: 'column',
 
     fontStyle: 'H4',
   },
 
-  '@newTablet': {
+  '@tablet': {
     fontStyle: 'H4',
     flexDirection: 'column',
 

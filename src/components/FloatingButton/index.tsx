@@ -94,7 +94,7 @@ const Container = styled('div', {
     },
   },
 
-  '@newMobile': {
+  '@mobile': {
     width: '48px',
     height: '48px',
     borderRadius: '18px',
@@ -135,7 +135,7 @@ const Icon = styled(Plus, {
       },
     },
   },
-  '@newMobile': {
+  '@mobile': {
     width: '24px',
     height: '24px',
   },
@@ -159,7 +159,7 @@ const SMakeMeetingButton = styled('button', {
     fontAg: '18_bold_100',
     color: '$gray950',
   },
-  '@newMobile': {
+  '@mobile': {
     display: 'none',
   },
 });
@@ -173,7 +173,7 @@ const ButtonWrapper = styled('button', {
   flexDirection: 'column',
   alignItems: 'flex-end',
   gap: '$20',
-  '@newMobile': {
+  '@mobile': {
     gap: '$16',
   },
 });
