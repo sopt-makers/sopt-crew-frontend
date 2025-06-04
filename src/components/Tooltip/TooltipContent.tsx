@@ -1,8 +1,8 @@
-import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 import { ReactNode } from 'react';
 import { styled } from '../../../stitches.config';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import { fontsObject } from '@sopt-makers/fonts';
+import { useTooltipContext } from '@components/ToolTip/TooltipContext';
 
 interface TooltipContentProps {
   children: ReactNode;
@@ -53,7 +53,7 @@ const STitleDiv = styled('div', {
 
 const STooltipDiv = styled('div', {
   position: 'absolute',
-  top: '$42',
+  top: '$38',
   right: '$0',
   zIndex: 1,
   isolate: 'isolation',

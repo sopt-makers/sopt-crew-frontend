@@ -1,8 +1,8 @@
 import { ReactNode, useState } from 'react';
 import { TooltipContext } from './TooltipContext';
-import { TooltipTrigger } from '@components/Tooltip/TooltipTrigger';
-import { TooltipContent } from '@components/Tooltip/TooltipContent';
-import { TooltipClose } from '@components/Tooltip/TooltipClose';
+import { TooltipTrigger } from '@components/ToolTip/TooltipTrigger';
+import { TooltipContent } from '@components/ToolTip/TooltipContent';
+import { TooltipClose } from '@components/ToolTip/TooltipClose';
 
 interface TooltipProps {
   children: ReactNode;
