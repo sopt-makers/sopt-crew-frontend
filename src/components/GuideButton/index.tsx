@@ -31,7 +31,7 @@ const SGuideButton = styled('a', {
   path: {
     stroke: '$gray10',
   },
-  '@media (max-width: 359px)': {
+  '@small_mobile': {
     display: 'none',
   },
 });
