@@ -12,6 +12,30 @@ const GuideButton = () => {
       <ArrowRightCircleIcon />
     </SGuideButton>
   );
+
+  // // @TODO 다음 PR 에서 바로 적용 예정
+  // const [isOpen, setIsOpen] = useState(true);
+  // return (
+  //   <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
+  //     <Tooltip.Trigger>
+  //       <SGuideButton>
+  //         모임 신청 가이드
+  //         <ArrowRightCircleIcon />
+  //       </SGuideButton>
+  //     </Tooltip.Trigger>
+  //     <Tooltip.Content
+  //       ToolTipClose={<Tooltip.Close icon={<IconXClose />} />}
+  //       title={'키워드 알림'}
+  //       titleRightIcon={
+  //         <Tag variant="primary" size="sm">
+  //           NEW
+  //         </Tag>
+  //       }
+  //     >
+  //       이거 툴팁이다잉
+  //     </Tooltip.Content>
+  //   </Tooltip.Root>
+  // );
 };
 
 export default GuideButton;

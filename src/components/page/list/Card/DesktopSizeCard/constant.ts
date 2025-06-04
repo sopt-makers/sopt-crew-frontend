@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 export const MeetingInformation = (meetingData: MeetingListResponse['meetings'][number]) => [
   {
-    label: '활동 기간',
+    label: '모집 기간',
     value: () =>
       `${dayjs(meetingData.startDate).format('YY.MM.DD')} - ${dayjs(meetingData.endDate).format('YY.MM.DD')}`,
   },
