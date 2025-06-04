@@ -4,20 +4,37 @@ import { useState } from 'react';
 import { Tag } from '@sopt-makers/ui';
 import { useDisplay } from '@hooks/useDisplay';
 import { IconBell, IconChevronRight } from '@sopt-makers/icons';
+import AlarmSettingModal from '@components/modal/AlarmSettingModal';
+import { useOverlay } from '@hooks/useOverlay/Index';
 
 const GuideButton = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { isLaptop } = useDisplay();
+
+  const overlay = useOverlay();
+
+  const handleSettingClick = () => {
+    overlay.open(({ isOpen, close }) => (
+      <AlarmSettingModal
+        isOpen={isOpen}
+        close={close}
+        onSuccess={() => {
+          close();
+        }}
+      />
+    ));
+  };
+
   return (
     <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
       <Tooltip.Trigger>
         {isLaptop ? (
-          <SSettingButton>
+          <SSettingButton onClick={handleSettingClick}>
             키워드 알림 설정
             <IconBell style={{ width: '20px', height: '20px' }} />
           </SSettingButton>
         ) : (
-          <SSettingButton>
+          <SSettingButton onClick={handleSettingClick}>
             <IconBell style={{ width: '20px', height: '20px' }} />
             키워드 알림 설정
             <IconChevronRight style={{ width: '20px', height: '20px' }} />
