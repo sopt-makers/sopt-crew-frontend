@@ -14,15 +14,7 @@ const GuideButton = () => {
   const overlay = useOverlay();
 
   const handleSettingClick = () => {
-    overlay.open(({ isOpen, close }) => (
-      <AlarmSettingModal
-        isOpen={isOpen}
-        close={close}
-        onSuccess={() => {
-          close();
-        }}
-      />
-    ));
+    overlay.open(({ isOpen, close }) => <AlarmSettingModal isOpen={isOpen} close={close} />);
   };
 
   return (
