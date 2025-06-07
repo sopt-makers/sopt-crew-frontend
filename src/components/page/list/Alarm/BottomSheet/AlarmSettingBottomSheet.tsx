@@ -8,9 +8,10 @@ import { useState } from 'react';
 interface props {
   isOpen: boolean;
   close: () => void;
+  onChipSubmit: (keywords: string[]) => void;
 }
 
-const AlarmSettingBottomSheet = ({ isOpen, close }: props) => {
+const AlarmSettingBottomSheet = ({ isOpen, close, onChipSubmit }: props) => {
   const [selectedAlarm, setSelectedAlarm] = useState<string[]>([]);
 
   const handleKeywordClick = (value: string) => {
@@ -19,7 +20,7 @@ const AlarmSettingBottomSheet = ({ isOpen, close }: props) => {
       : [...selectedAlarm, value];
 
     setSelectedAlarm(nextSelectedAlarm);
-    // onChipSubmit(nextSelectedAlarm);
+    onChipSubmit(nextSelectedAlarm);
   };
 
   return (
