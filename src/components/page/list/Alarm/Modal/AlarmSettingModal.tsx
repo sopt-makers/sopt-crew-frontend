@@ -9,18 +9,25 @@ import { useState } from 'react';
 interface props {
   isOpen: boolean;
   close: () => void;
+  onChipSubmit: (keywords: string[]) => void;
 }
 
 /** * AlarmSettingModal 컴포넌트는 사용자가 키워드 알림을 설정할 수 있는 모달입니다. */
 
-const AlarmSettingModal = ({ isOpen, close }: props) => {
+const AlarmSettingModal = ({ isOpen, close, onChipSubmit }: props) => {
   const [selectedAlarm, setSelectedAlarm] = useState<string[]>([]);
 
   const handleRefreshClick = () => {
     setSelectedAlarm([]);
+    onChipSubmit([]);
   };
   const handleChipClick = (value: string) => {
-    setSelectedAlarm(prev => (prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]));
+    const nextSelectedAlarm = selectedAlarm.includes(value)
+      ? selectedAlarm.filter(v => v !== value)
+      : [...selectedAlarm, value];
+
+    setSelectedAlarm(nextSelectedAlarm);
+    onChipSubmit(nextSelectedAlarm);
   };
 
   return (
