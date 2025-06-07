@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { styled } from '../../../stitches.config';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useTooltipContext } from '@components/ToolTip/TooltipContext';
+import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 
 interface TooltipContentProps {
   children: ReactNode;
