@@ -1,6 +1,6 @@
 import DefaultModal from '@components/modal/DefaultModal';
 import { Chip } from '@sopt-makers/ui';
-import { keywordOptions } from '@data/options';
+import { keywordSettiongOptions } from '@data/options';
 import { styled } from 'stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconRefresh } from '@sopt-makers/icons';
@@ -48,7 +48,7 @@ const AlarmSettingModal = ({ isOpen, close, onChipSubmit }: props) => {
           <SModalSubTitle>선택한 키워드의 신규 모임이 생기면 푸시 알림을 보내드려요.</SModalSubTitle>
         </SModalContentTitle>
         <SModalChipWrap>
-          {keywordOptions.map((keyword, index) => {
+          {keywordSettiongOptions.map((keyword, index) => {
             return (
               <Chip
                 key={index}

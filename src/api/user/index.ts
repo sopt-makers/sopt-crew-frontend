@@ -26,3 +26,8 @@ export const postInterestedKeywards = async (keywords: string[]) => {
   const { data } = await api.post('/user/v2/interestedKeywords', { keywords });
   return data;
 };
+
+export const getInterestedKeywords = async () => {
+  const { data } = await api.get('/user/v2/interestedKeywords');
+  return data;
+};

@@ -9,12 +9,16 @@ import { useOverlay } from '@hooks/useOverlay/Index';
 import { useMutationInterestedKeywards } from '@api/post/hooks';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
+import { useQueryGetInterestedKeywords } from '@api/user/hooks';
 
 const GuideButton = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { isLaptop, isTablet } = useDisplay();
+  const { isTablet } = useDisplay();
   const overlay = useOverlay();
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
+  const { data: userInterested } = useQueryGetInterestedKeywords();
+
+  console.log('userInterested', userInterested);
 
   const handleChipSubmit = (keywords: string[]) => {
     mutateUserInterested(keywords);
@@ -23,7 +27,7 @@ const GuideButton = () => {
   const handleSettingClick = () => {
     overlay.open(({ isOpen, close }) =>
       isTablet ? (
-        <AlarmSettingBottomSheet isOpen={isOpen} close={close} />
+        <AlarmSettingBottomSheet isOpen={isOpen} close={close} onChipSubmit={handleChipSubmit} />
       ) : (
         <AlarmSettingModal isOpen={isOpen} close={close} onChipSubmit={handleChipSubmit} />
       )

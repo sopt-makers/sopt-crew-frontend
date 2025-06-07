@@ -1,5 +1,5 @@
 import BottomSheetDialog from '@components/form/Select/BottomSheetSelect/BottomSheetDialog';
-import { keywordOptions } from '@data/options';
+import { keywordSettiongOptions } from '@data/options';
 import { IconCheck } from '@sopt-makers/icons';
 import { styled } from '../../../../../../stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
@@ -26,7 +26,7 @@ const AlarmSettingBottomSheet = ({ isOpen, close, onChipSubmit }: props) => {
   return (
     <BottomSheetDialog isOpen={isOpen} label="필터" handleClose={close}>
       <SFilterWrapper>
-        {keywordOptions.map((keyword, index) => (
+        {keywordSettiongOptions.map((keyword, index) => (
           <SList key={keyword.label} onClick={() => handleKeywordClick(keyword.value)}>
             <SListTitle>{keyword.label}</SListTitle>
             {selectedAlarm.includes(keyword.value) && <IconCheck />}
