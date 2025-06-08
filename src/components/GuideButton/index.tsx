@@ -1,11 +1,10 @@
 import { styled } from 'stitches.config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tooltip } from '@components/Tooltip/Tooltip';
 
 import { Tag } from '@sopt-makers/ui';
 import { useDisplay } from '@hooks/useDisplay';
 import { IconBell, IconChevronRight } from '@sopt-makers/icons';
-import { useOverlay } from '@hooks/useOverlay/Index';
 import { useMutationInterestedKeywards } from '@api/post/hooks';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
@@ -13,56 +12,80 @@ import { useQueryGetInterestedKeywords } from '@api/user/hooks';
 
 const GuideButton = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { isTablet } = useDisplay();
-  const overlay = useOverlay();
+  const { isDesktop } = useDisplay();
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
   const { data: userInterested } = useQueryGetInterestedKeywords();
+  const [selectedAlarm, setSelectedAlarm] = useState<string[]>(() => userInterested?.keywords ?? []);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
 
-  console.log('userInterested', userInterested);
+  const isModalOpened = isSettingOpen && isDesktop;
+  const isBottomSheetOpen = isSettingOpen && !isDesktop;
 
-  const handleChipSubmit = (keywords: string[]) => {
-    mutateUserInterested(keywords);
+  const handleKeywordClick = (value: string) => {
+    setSelectedAlarm(prev => {
+      const next = prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value];
+      mutateUserInterested(next);
+      return next;
+    });
+  };
+
+  const handleReset = () => {
+    setSelectedAlarm([]);
+    mutateUserInterested([]);
   };
 
   const handleSettingClick = () => {
-    overlay.open(({ isOpen, close }) =>
-      isTablet ? (
-        <AlarmSettingBottomSheet isOpen={isOpen} close={close} onChipSubmit={handleChipSubmit} />
-      ) : (
-        <AlarmSettingModal isOpen={isOpen} close={close} onChipSubmit={handleChipSubmit} />
-      )
-    );
+    setIsSettingOpen(true);
   };
 
   return (
-    <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
-      <Tooltip.Trigger>
-        {isTablet ? (
-          <SSettingButton onClick={handleSettingClick}>
-            키워드 알림 설정
-            <IconBell style={{ width: '20px', height: '20px' }} />
-          </SSettingButton>
-        ) : (
-          <SSettingButton onClick={handleSettingClick}>
-            <IconBell style={{ width: '20px', height: '20px' }} />
-            키워드 알림 설정
-            <IconChevronRight style={{ width: '20px', height: '20px' }} />
-          </SSettingButton>
-        )}
-      </Tooltip.Trigger>
-      <Tooltip.Content
-        TooltipClose={<Tooltip.Close />}
-        title={'키워드 알림'}
-        titleRightIcon={
-          <Tag variant="primary" size="sm">
-            NEW
-          </Tag>
-        }
-      >
-        관심 키워드 설정하고 <br />
-        신규 모임 개설 알림을 받아보세요
-      </Tooltip.Content>
-    </Tooltip.Root>
+    <>
+      <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
+        <Tooltip.Trigger>
+          {isDesktop ? (
+            <SSettingButton onClick={handleSettingClick}>
+              <IconBell style={{ width: '20px', height: '20px' }} />
+              키워드 알림 설정
+              <IconChevronRight style={{ width: '20px', height: '20px' }} />
+            </SSettingButton>
+          ) : (
+            <SSettingButton onClick={handleSettingClick}>
+              키워드 알림 설정
+              <IconBell style={{ width: '20px', height: '20px' }} />
+            </SSettingButton>
+          )}
+        </Tooltip.Trigger>
+        <Tooltip.Content
+          TooltipClose={<Tooltip.Close />}
+          title={'키워드 알림'}
+          titleRightIcon={
+            <Tag variant="primary" size="sm">
+              NEW
+            </Tag>
+          }
+        >
+          관심 키워드 설정하고 <br />
+          신규 모임 개설 알림을 받아보세요
+        </Tooltip.Content>
+      </Tooltip.Root>
+      {isModalOpened && (
+        <AlarmSettingModal
+          isOpen={isModalOpened}
+          close={() => setIsSettingOpen(false)}
+          selectedAlarm={selectedAlarm}
+          onKeywordClick={handleKeywordClick}
+          onReset={handleReset}
+        />
+      )}
+      {isBottomSheetOpen && (
+        <AlarmSettingBottomSheet
+          isOpen={isBottomSheetOpen}
+          close={() => setIsSettingOpen(false)}
+          selectedAlarm={selectedAlarm}
+          onKeywordClick={handleKeywordClick}
+        />
+      )}
+    </>
   );
 };
 

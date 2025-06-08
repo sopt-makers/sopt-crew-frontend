@@ -3,31 +3,21 @@ import { keywordSettiongOptions } from '@data/options';
 import { IconCheck } from '@sopt-makers/icons';
 import { styled } from '../../../../../../stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface props {
   isOpen: boolean;
   close: () => void;
-  onChipSubmit: (keywords: string[]) => void;
+  selectedAlarm: string[];
+  onKeywordClick: (value: string) => void;
 }
 
-const AlarmSettingBottomSheet = ({ isOpen, close, onChipSubmit }: props) => {
-  const [selectedAlarm, setSelectedAlarm] = useState<string[]>([]);
-
-  const handleKeywordClick = (value: string) => {
-    const nextSelectedAlarm = selectedAlarm.includes(value)
-      ? selectedAlarm.filter(v => v !== value)
-      : [...selectedAlarm, value];
-
-    setSelectedAlarm(nextSelectedAlarm);
-    onChipSubmit(nextSelectedAlarm);
-  };
-
+const AlarmSettingBottomSheet = ({ isOpen, close, selectedAlarm, onKeywordClick }: props) => {
   return (
     <BottomSheetDialog isOpen={isOpen} label="필터" handleClose={close}>
       <SFilterWrapper>
         {keywordSettiongOptions.map((keyword, index) => (
-          <SList key={keyword.label} onClick={() => handleKeywordClick(keyword.value)}>
+          <SList key={keyword.label} onClick={() => onKeywordClick(keyword.value)}>
             <SListTitle>{keyword.label}</SListTitle>
             {selectedAlarm.includes(keyword.value) && <IconCheck />}
           </SList>

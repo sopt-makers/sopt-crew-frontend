@@ -4,36 +4,23 @@ import { keywordSettiongOptions } from '@data/options';
 import { styled } from 'stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconRefresh } from '@sopt-makers/icons';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface props {
   isOpen: boolean;
   close: () => void;
-  onChipSubmit: (keywords: string[]) => void;
+  selectedAlarm: string[];
+  onKeywordClick: (value: string) => void;
+  onReset: () => void;
 }
 
 /** * AlarmSettingModal 컴포넌트는 사용자가 키워드 알림을 설정할 수 있는 모달입니다. */
 
-const AlarmSettingModal = ({ isOpen, close, onChipSubmit }: props) => {
-  const [selectedAlarm, setSelectedAlarm] = useState<string[]>([]);
-
-  const handleRefreshClick = () => {
-    setSelectedAlarm([]);
-    onChipSubmit([]);
-  };
-  const handleChipClick = (value: string) => {
-    const nextSelectedAlarm = selectedAlarm.includes(value)
-      ? selectedAlarm.filter(v => v !== value)
-      : [...selectedAlarm, value];
-
-    setSelectedAlarm(nextSelectedAlarm);
-    onChipSubmit(nextSelectedAlarm);
-  };
-
+const AlarmSettingModal = ({ isOpen, close, selectedAlarm, onKeywordClick, onReset }: props) => {
   return (
     <DefaultModal
       titleLeft={
-        <SRefreshButton onClick={handleRefreshClick}>
+        <SRefreshButton onClick={onReset}>
           <IconRefresh />
         </SRefreshButton>
       }
@@ -53,7 +40,7 @@ const AlarmSettingModal = ({ isOpen, close, onChipSubmit }: props) => {
               <Chip
                 key={index}
                 onClick={() => {
-                  handleChipClick(keyword.value);
+                  onKeywordClick(keyword.value);
                 }}
                 active={selectedAlarm.includes(keyword.value)}
               >
