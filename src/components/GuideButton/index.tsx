@@ -9,10 +9,11 @@ import { useMutationInterestedKeywards } from '@api/post/hooks';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
 import { useQueryGetInterestedKeywords } from '@api/user/hooks';
+import { fontsObject } from '@sopt-makers/fonts';
 
 const GuideButton = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { isDesktop } = useDisplay();
+  const { isDesktop, isTablet } = useDisplay();
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
   const { data: userInterested } = useQueryGetInterestedKeywords();
   const [selectedAlarm, setSelectedAlarm] = useState<string[]>(() => userInterested?.keywords ?? []);
@@ -42,16 +43,17 @@ const GuideButton = () => {
     <>
       <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
         <Tooltip.Trigger>
-          {isDesktop ? (
+          {isTablet ? (
             <SSettingButton onClick={handleSettingClick}>
-              <IconBell style={{ width: '20px', height: '20px' }} />
               키워드 알림 설정
-              <IconChevronRight style={{ width: '20px', height: '20px' }} />
+              <IconBell style={{ width: '20px', height: '20px' }} />
             </SSettingButton>
           ) : (
             <SSettingButton onClick={handleSettingClick}>
-              키워드 알림 설정
               <IconBell style={{ width: '20px', height: '20px' }} />
+              키워드 알림 설정
+              {selectedAlarm.length > 0 && <SSelectedAlarm>{selectedAlarm.join(', ')}</SSelectedAlarm>}
+              <IconChevronRight style={{ width: '20px', height: '20px' }} />
             </SSettingButton>
           )}
         </Tooltip.Trigger>
@@ -90,6 +92,11 @@ const GuideButton = () => {
 };
 
 export default GuideButton;
+
+const SSelectedAlarm = styled('span', {
+  ...fontsObject.BODY_3_14_M,
+  color: '$blue400',
+});
 
 const SSettingButton = styled('a', {
   flexType: 'verticalCenter',
