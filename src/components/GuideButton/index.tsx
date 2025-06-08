@@ -14,8 +14,10 @@ import { fontsObject } from '@sopt-makers/fonts';
 const GuideButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop, isTablet } = useDisplay();
+
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
   const { data: userInterested } = useQueryGetInterestedKeywords();
+
   const [selectedAlarm, setSelectedAlarm] = useState<string[]>(() => userInterested?.keywords ?? []);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 

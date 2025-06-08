@@ -3,6 +3,7 @@ import { TooltipContext } from './TooltipContext';
 import { TooltipTrigger } from '@components/Tooltip/TooltipTrigger';
 import { TooltipContent } from '@components/Tooltip/TooltipContent';
 import { TooltipClose } from '@components/Tooltip/TooltipClose';
+import { styled } from '@stitches/react';
 
 interface TooltipProps {
   children: ReactNode;
@@ -24,9 +25,7 @@ export const TooltipRoot = ({ children, isTooltipOpen, onTooltipToggle }: Toolti
 
   return (
     <TooltipContext.Provider value={{ isOpen, setIsOpen }}>
-      <div style={{ position: 'relative', zIndex: 1 }} role="tooltip">
-        {children}
-      </div>
+      <TooltipWrap role="tooltip">{children}</TooltipWrap>
     </TooltipContext.Provider>
   );
 };
@@ -37,3 +36,11 @@ export const Tooltip = {
   Content: TooltipContent,
   Close: TooltipClose,
 };
+
+const TooltipWrap = styled('div', {
+  position: 'relative',
+  zIndex: 1,
+  '@media (max-width: 359px)': {
+    display: 'none',
+  },
+});

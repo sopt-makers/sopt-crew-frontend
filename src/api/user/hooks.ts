@@ -12,7 +12,6 @@ export const useQueryGetMentionUsers = () => {
 export const useQueryGetInterestedKeywords = () => {
   return useQuery({
     queryKey: ['getInterestedKeywords'],
-    staleTime: Infinity,
     queryFn: () => getInterestedKeywords(),
   });
 };
