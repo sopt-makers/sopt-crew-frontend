@@ -12,7 +12,7 @@ import { useQueryGetInterestedKeywords } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 
 const GuideButton = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop, isTablet } = useDisplay();
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
   const { data: userInterested } = useQueryGetInterestedKeywords();
@@ -41,7 +41,7 @@ const GuideButton = () => {
 
   return (
     <>
-      <Tooltip.Root isTooltipOpen={isOpen} onTooltipToggle={setIsOpen}>
+      <Tooltip.Root isTooltipOpen={isTooltipOpen} onTooltipToggle={setIsTooltipOpen}>
         <Tooltip.Trigger>
           {isTablet ? (
             <SSettingButton onClick={handleSettingClick}>
@@ -72,7 +72,7 @@ const GuideButton = () => {
       </Tooltip.Root>
       {isModalOpened && (
         <AlarmSettingModal
-          isOpen={isModalOpened}
+          isOpen={isSettingOpen && isDesktop}
           close={() => setIsSettingOpen(false)}
           selectedAlarm={selectedAlarm}
           onKeywordClick={handleKeywordClick}
