@@ -17,7 +17,7 @@ const AlarmSettingBottomSheet = ({ isOpen, close, selectedAlarm, onKeywordClick 
     <BottomSheetDialog isOpen={isOpen} label="필터" handleClose={close}>
       <SFilterWrapper>
         {keywordSettiongOptions.map(keyword => (
-          <SList key={keyword} onClick={() => onKeywordClick(keyword)}>
+          <SList role="checkbox" key={keyword} onClick={() => onKeywordClick(keyword)}>
             <SListTitle>{keyword}</SListTitle>
             {selectedAlarm.includes(keyword) && <IconCheck />}
           </SList>
