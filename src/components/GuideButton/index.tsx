@@ -1,5 +1,5 @@
 import { styled } from 'stitches.config';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Tooltip } from '@components/Tooltip/Tooltip';
 
 import { Tag } from '@sopt-makers/ui';
@@ -11,7 +11,7 @@ import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingMod
 import { useQueryGetInterestedKeywords } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 
-const GuideButton = () => {
+const KeywordsSettingButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop, isTablet } = useDisplay();
 
@@ -48,14 +48,14 @@ const GuideButton = () => {
           {isTablet ? (
             <SSettingButton onClick={handleSettingClick}>
               키워드 알림 설정
-              <IconBell style={{ width: '20px', height: '20px' }} />
+              <SIconBell />
             </SSettingButton>
           ) : (
             <SSettingButton onClick={handleSettingClick}>
-              <IconBell style={{ width: '20px', height: '20px' }} />
+              <SIconBell />
               키워드 알림 설정
               {selectedAlarm.length > 0 && <SSelectedAlarm>{selectedAlarm.join(', ')}</SSelectedAlarm>}
-              <IconChevronRight style={{ width: '20px', height: '20px' }} />
+              <SIconChevronRight />
             </SSettingButton>
           )}
         </Tooltip.Trigger>
@@ -93,7 +93,17 @@ const GuideButton = () => {
   );
 };
 
-export default GuideButton;
+export default KeywordsSettingButton;
+
+const SIconBell = styled(IconBell, {
+  width: '20px',
+  height: '20px',
+});
+
+const SIconChevronRight = styled(IconChevronRight, {
+  width: '20px',
+  height: '20px',
+});
 
 const SSelectedAlarm = styled('span', {
   ...fontsObject.BODY_3_14_M,

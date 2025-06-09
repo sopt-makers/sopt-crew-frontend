@@ -8,7 +8,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 
 import FloatingButton from '@components/FloatingButton';
-import GuideButton from '@components/GuideButton';
+import KeywordsSettingButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   return (
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       <div>
         {/*크루 탭 - 홈, 전체 모임, 내모임, 모임 신청 가이드 */}
         <CrewTab>
-          <GuideButton />
+          <KeywordsSettingButton />
         </CrewTab>
 
         {/*필터 - 드롭다운, 모임 검색*/}
