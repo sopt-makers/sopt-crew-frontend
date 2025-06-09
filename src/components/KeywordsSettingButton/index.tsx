@@ -2,7 +2,7 @@ import { styled } from 'stitches.config';
 import { useState } from 'react';
 import { Tooltip } from '@components/Tooltip/Tooltip';
 
-import { Tag, useDialog } from '@sopt-makers/ui';
+import { Tag } from '@sopt-makers/ui';
 import { useDisplay } from '@hooks/useDisplay';
 import { IconBell, IconChevronRight } from '@sopt-makers/icons';
 import { useMutationInterestedKeywards } from '@api/post/hooks';
