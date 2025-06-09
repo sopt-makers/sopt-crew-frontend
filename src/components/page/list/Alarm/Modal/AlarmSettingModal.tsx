@@ -4,13 +4,13 @@ import { keywordSettiongOptions } from '@data/options';
 import { styled } from 'stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconRefresh } from '@sopt-makers/icons';
-import { useMemo, useState } from 'react';
+import { KeywordSettingOptionType } from '@api/user';
 
 interface props {
   isOpen: boolean;
   close: () => void;
   selectedAlarm: string[];
-  onKeywordClick: (value: string) => void;
+  onKeywordClick: (value: KeywordSettingOptionType) => void;
   onReset: () => void;
 }
 
@@ -35,16 +35,16 @@ const AlarmSettingModal = ({ isOpen, close, selectedAlarm, onKeywordClick, onRes
           <SModalSubTitle>선택한 키워드의 신규 모임이 생기면 푸시 알림을 보내드려요.</SModalSubTitle>
         </SModalContentTitle>
         <SModalChipWrap>
-          {keywordSettiongOptions.map((keyword, index) => {
+          {keywordSettiongOptions.map(keyword => {
             return (
               <Chip
-                key={index}
+                key={keyword}
                 onClick={() => {
-                  onKeywordClick(keyword.value);
+                  onKeywordClick(keyword);
                 }}
-                active={selectedAlarm.includes(keyword.value)}
+                active={selectedAlarm.includes(keyword)}
               >
-                {keyword.label}
+                {keyword}
               </Chip>
             );
           })}

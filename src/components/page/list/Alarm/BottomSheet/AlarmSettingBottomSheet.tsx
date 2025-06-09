@@ -3,23 +3,23 @@ import { keywordSettiongOptions } from '@data/options';
 import { IconCheck } from '@sopt-makers/icons';
 import { styled } from '../../../../../../stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useMemo, useState } from 'react';
+import { KeywordSettingOptionType } from '@api/user';
 
 interface props {
   isOpen: boolean;
   close: () => void;
-  selectedAlarm: string[];
-  onKeywordClick: (value: string) => void;
+  selectedAlarm: KeywordSettingOptionType[];
+  onKeywordClick: (value: KeywordSettingOptionType) => void;
 }
 
 const AlarmSettingBottomSheet = ({ isOpen, close, selectedAlarm, onKeywordClick }: props) => {
   return (
     <BottomSheetDialog isOpen={isOpen} label="필터" handleClose={close}>
       <SFilterWrapper>
-        {keywordSettiongOptions.map((keyword, index) => (
-          <SList key={keyword.label} onClick={() => onKeywordClick(keyword.value)}>
-            <SListTitle>{keyword.label}</SListTitle>
-            {selectedAlarm.includes(keyword.value) && <IconCheck />}
+        {keywordSettiongOptions.map(keyword => (
+          <SList key={keyword} onClick={() => onKeywordClick(keyword)}>
+            <SListTitle>{keyword}</SListTitle>
+            {selectedAlarm.includes(keyword) && <IconCheck />}
           </SList>
         ))}
       </SFilterWrapper>

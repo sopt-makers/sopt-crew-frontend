@@ -10,6 +10,7 @@ import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/Ala
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
 import { useQueryGetInterestedKeywords } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
+import { KeywordSettingOptionType } from '@api/user';
 
 const KeywordsSettingButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
@@ -18,13 +19,13 @@ const KeywordsSettingButton = () => {
   const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
   const { data: userInterested } = useQueryGetInterestedKeywords();
 
-  const [selectedAlarm, setSelectedAlarm] = useState<string[]>(() => userInterested?.keywords ?? []);
+  const [selectedAlarm, setSelectedAlarm] = useState<KeywordSettingOptionType[]>(() => userInterested?.keywords ?? []);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const isModalOpened = isSettingOpen && isDesktop;
   const isBottomSheetOpen = isSettingOpen && !isDesktop;
 
-  const handleKeywordClick = (value: string) => {
+  const handleKeywordClick = (value: KeywordSettingOptionType) => {
     setSelectedAlarm(prev => {
       const next = prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value];
       mutateUserInterested(next);

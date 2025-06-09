@@ -1,5 +1,4 @@
 import { api } from '..';
-import { FormCreateType } from '@components/feed/Modal/feedSchema';
 
 interface ActivityResponse {
   part: string;
@@ -22,7 +21,9 @@ export const getMentionUsers = async () => {
   return data;
 };
 
-export const postInterestedKeywards = async (keywords: string[]) => {
+export type KeywordSettingOptionType = '학습' | '취미' | '먹방' | '운동' | '자기계발' | '네트워킹';
+
+export const postInterestedKeywards = async (keywords: KeywordSettingOptionType[]) => {
   const { data } = await api.post('/user/v2/interestedKeywords', { keywords });
   return data;
 };

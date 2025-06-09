@@ -2,7 +2,7 @@ import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient }
 import { produce } from 'immer';
 import { deleteComment, deletePost, getPost, getPosts, postLike } from '.';
 import { paths } from '@/__generated__/schema2';
-import { postInterestedKeywards } from '@api/user';
+import { KeywordSettingOptionType, postInterestedKeywards } from '@api/user';
 
 export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
@@ -118,7 +118,7 @@ export const useMutationInterestedKeywards = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (keywords: string[]) => postInterestedKeywards(keywords),
+    mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywards(keywords),
     onSuccess: () => {
       queryClient.invalidateQueries(['getInterestedKeywords']);
     },
