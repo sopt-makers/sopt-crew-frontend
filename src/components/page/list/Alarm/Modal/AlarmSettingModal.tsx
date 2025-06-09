@@ -6,7 +6,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { IconRefresh } from '@sopt-makers/icons';
 import { KeywordSettingOptionType } from '@api/user';
 
-interface props {
+interface AlarmSettingModalType {
   isOpen: boolean;
   close: () => void;
   selectedAlarm: string[];
@@ -16,11 +16,11 @@ interface props {
 
 /** * AlarmSettingModal 컴포넌트는 사용자가 키워드 알림을 설정할 수 있는 모달입니다. */
 
-const AlarmSettingModal = ({ isOpen, close, selectedAlarm, onKeywordClick, onReset }: props) => {
+const AlarmSettingModal = ({ isOpen, close, selectedAlarm, onKeywordClick, onReset }: AlarmSettingModalType) => {
   return (
     <DefaultModal
       titleLeft={
-        <SRefreshButton onClick={onReset}>
+        <SRefreshButton onClick={onReset} aria-label="알림 설정 새로고침">
           <IconRefresh />
         </SRefreshButton>
       }

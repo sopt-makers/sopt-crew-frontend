@@ -5,14 +5,14 @@ import { styled } from '../../../../../../stitches.config';
 import { fontsObject } from '@sopt-makers/fonts';
 import { KeywordSettingOptionType } from '@api/user';
 
-interface props {
+interface AlarmSettingBottomSheetType {
   isOpen: boolean;
   close: () => void;
   selectedAlarm: KeywordSettingOptionType[];
   onKeywordClick: (value: KeywordSettingOptionType) => void;
 }
 
-const AlarmSettingBottomSheet = ({ isOpen, close, selectedAlarm, onKeywordClick }: props) => {
+const AlarmSettingBottomSheet = ({ isOpen, close, selectedAlarm, onKeywordClick }: AlarmSettingBottomSheetType) => {
   return (
     <BottomSheetDialog isOpen={isOpen} label="필터" handleClose={close}>
       <SFilterWrapper>
