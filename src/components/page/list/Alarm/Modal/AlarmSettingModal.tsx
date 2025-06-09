@@ -54,7 +54,7 @@ const AlarmSettingModal = ({ isOpen, close, selectedAlarm, onKeywordClick, onRes
   );
 };
 
-const SRefreshButton = styled('div', {
+const SRefreshButton = styled('button', {
   '& > svg': {
     width: '$20',
     height: '$20',
