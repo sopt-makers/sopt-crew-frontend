@@ -114,7 +114,7 @@ export const useDeleteComment = (queryId: string) => {
   });
 };
 
-export const useMutationInterestedKeywards = () => {
+export const useMutationInterestedKeywords = () => {
   const queryClient = useQueryClient();
 
   return useMutation({

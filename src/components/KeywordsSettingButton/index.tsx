@@ -5,7 +5,7 @@ import { Tooltip } from '@components/Tooltip/Tooltip';
 import { Tag } from '@sopt-makers/ui';
 import { useDisplay } from '@hooks/useDisplay';
 import { IconBell, IconChevronRight } from '@sopt-makers/icons';
-import { useMutationInterestedKeywards } from '@api/post/hooks';
+import { useMutationInterestedKeywords } from '@api/post/hooks';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
 import { useQueryGetInterestedKeywords } from '@api/user/hooks';
@@ -16,7 +16,7 @@ const KeywordsSettingButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop, isTablet } = useDisplay();
 
-  const { mutate: mutateUserInterested } = useMutationInterestedKeywards();
+  const { mutate: mutateUserInterested } = useMutationInterestedKeywords();
   const { data: userInterested } = useQueryGetInterestedKeywords();
 
   const [selectedAlarm, setSelectedAlarm] = useState<KeywordSettingOptionType[]>(() => userInterested?.keywords ?? []);
