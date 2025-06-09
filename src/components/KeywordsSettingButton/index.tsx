@@ -1,5 +1,5 @@
 import { styled } from 'stitches.config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tooltip } from '@components/Tooltip/Tooltip';
 
 import { Tag } from '@sopt-makers/ui';
@@ -41,6 +41,13 @@ const KeywordsSettingButton = () => {
   const handleSettingClick = () => {
     setIsSettingOpen(true);
   };
+
+  useEffect(() => {
+    // 모달이 열릴 시점, 그리고 데이터가 로드 된 시점에 "이미 선택된 키워드" 세팅
+    if (isSettingOpen && userInterested?.keywords) {
+      setSelectedAlarm(userInterested.keywords);
+    }
+  }, [isSettingOpen, userInterested]);
 
   return (
     <>
