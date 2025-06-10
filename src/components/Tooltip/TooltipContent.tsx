@@ -47,8 +47,8 @@ const STitleDiv = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '4px',
-  marginBottom: '8px',
+  gap: '$4',
+  marginBottom: '$8',
 
   color: '$gray30',
   ...fontsObject.TITLE_7_14_SB,
@@ -65,8 +65,12 @@ const STooltipDiv = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-end',
 
-  width: '252px',
-  height: '162px',
+  maxWidth: '$252',
+  width: '100%',
+  height: '$162',
+  '@mobile': {
+    top: '$25',
+  },
 });
 
 const SPointDiv = styled('div', {
@@ -74,7 +78,10 @@ const SPointDiv = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-start',
 
-  padding: '1px 16px 0 0',
+  padding: '$1 $16 0 0',
+  '@mobile': {
+    padding: '$1 $100 0 0',
+  },
 });
 
 const STextDiv = styled('div', {
@@ -82,11 +89,14 @@ const STextDiv = styled('div', {
   flexDirection: 'column',
 
   width: '255px',
-  padding: '16px',
+  padding: '$16',
 
-  borderRadius: '12px',
+  borderRadius: '$12',
   backgroundColor: '$gray600',
   color: '$gray50',
 
   ...fontsObject.BODY_4_13_M,
+  '@mobile': {
+    width: '204px',
+  },
 });
