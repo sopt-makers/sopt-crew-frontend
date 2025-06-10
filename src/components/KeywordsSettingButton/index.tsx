@@ -42,11 +42,11 @@ const KeywordsSettingButton = () => {
   };
 
   useEffect(() => {
-    // 모달이 열릴 시점, 그리고 데이터가 로드 된 시점에 "이미 선택된 키워드" 세팅
-    if (isSettingOpen && userInterested?.keywords) {
+    // 데이터가 로드 된 시점에 "이미 선택된 키워드" 세팅
+    if (userInterested?.keywords) {
       setSelectedAlarm(userInterested.keywords);
     }
-  }, [isSettingOpen, userInterested]);
+  }, [userInterested]);
 
   return (
     <>
