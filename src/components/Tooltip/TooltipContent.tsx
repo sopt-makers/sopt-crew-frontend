@@ -23,10 +23,12 @@ export const TooltipContent = ({ children, title, titleRightIcon, TooltipClose }
       </SPointDiv>
       <STextDiv>
         <STooltipHeader>
-          <STitleDiv>
-            {title}
-            {titleRightIcon && titleRightIcon}
-          </STitleDiv>
+          {(title || titleRightIcon) && (
+            <STitleDiv>
+              {title}
+              {titleRightIcon && titleRightIcon}
+            </STitleDiv>
+          )}
           {TooltipClose && TooltipClose}
         </STooltipHeader>
         {children}
@@ -46,6 +48,7 @@ const STitleDiv = styled('div', {
   flexDirection: 'row',
   alignItems: 'center',
   gap: '4px',
+  marginBottom: '8px',
 
   color: '$gray30',
   ...fontsObject.TITLE_7_14_SB,
@@ -77,7 +80,6 @@ const SPointDiv = styled('div', {
 const STextDiv = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
 
   width: '255px',
   padding: '16px',
