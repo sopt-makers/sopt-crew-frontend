@@ -1,3 +1,5 @@
+import { KeywordSettingOptionType } from '@api/user';
+
 export const numberOptionListDefault = { label: '10명씩 보기', value: '10' };
 
 export const numberOptionList = [
@@ -60,4 +62,13 @@ export const keywordOptions = [
   { label: '자기계발', value: '자기계발' },
   { label: '네트워킹', value: '네트워킹' },
   { label: '기타', value: '기타' },
+];
+
+export const keywordSettiongOptions: KeywordSettingOptionType[] = [
+  '학습',
+  '취미',
+  '먹방',
+  '운동',
+  '자기계발',
+  '네트워킹',
 ];

@@ -2,6 +2,7 @@ import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient }
 import { produce } from 'immer';
 import { deleteComment, deletePost, getPost, getPosts, postLike } from '.';
 import { paths } from '@/__generated__/schema2';
+import { KeywordSettingOptionType, postInterestedKeywards } from '@api/user';
 
 export const useInfinitePosts = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
