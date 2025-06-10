@@ -8,7 +8,7 @@ import { styled } from 'stitches.config';
 import CrewTab from '@components/CrewTab';
 
 import FloatingButton from '@components/FloatingButton';
-import KeywordsSettingButton from 'src/components/KeywordsSettingButton';
+import KeywordsSettingButton from '@components/KeywordsSettingButton';
 
 const Home: NextPage = () => {
   return (
