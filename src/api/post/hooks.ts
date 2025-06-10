@@ -113,14 +113,3 @@ export const useDeleteComment = (queryId: string) => {
     },
   });
 };
-
-export const useMutationInterestedKeywords = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywards(keywords),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getInterestedKeywords']);
-    },
-  });
-};

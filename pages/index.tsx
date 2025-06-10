@@ -4,7 +4,6 @@ import CrewTab from '@components/CrewTab';
 import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
-import GuideButton from 'src/components/KeywordsSettingButton';
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import HomeCardList from '@components/page/home/HomeCardList';

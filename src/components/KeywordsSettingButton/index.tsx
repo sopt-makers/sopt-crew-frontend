@@ -5,10 +5,9 @@ import { Tooltip } from '@components/Tooltip/Tooltip';
 import { Tag } from '@sopt-makers/ui';
 import { useDisplay } from '@hooks/useDisplay';
 import { IconBell, IconChevronRight } from '@sopt-makers/icons';
-import { useMutationInterestedKeywords } from '@api/post/hooks';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
-import { useQueryGetInterestedKeywords } from '@api/user/hooks';
+import { useMutationInterestedKeywords, useQueryGetInterestedKeywords } from '@api/user/hooks';
 import { fontsObject } from '@sopt-makers/fonts';
 import { KeywordSettingOptionType } from '@api/user';
 
