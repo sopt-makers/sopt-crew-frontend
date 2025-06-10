@@ -40,7 +40,7 @@ export const Tooltip = {
 const TooltipWrap = styled('div', {
   position: 'relative',
   zIndex: 1,
-  '@media (max-width: 359px)': {
+  '@media (max-width: 320px)': {
     display: 'none',
   },
 });

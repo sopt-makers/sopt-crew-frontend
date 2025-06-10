@@ -13,7 +13,7 @@ import { KeywordSettingOptionType } from '@api/user';
 
 const KeywordsSettingButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
-  const { isDesktop, isTablet } = useDisplay();
+  const { isDesktop, isTablet, isMobile } = useDisplay();
 
   const { mutate: mutateUserInterested } = useMutationInterestedKeywords();
   const { data: userInterested } = useQueryGetInterestedKeywords();
@@ -52,7 +52,12 @@ const KeywordsSettingButton = () => {
     <>
       <Tooltip.Root isTooltipOpen={isTooltipOpen} onTooltipToggle={setIsTooltipOpen}>
         <Tooltip.Trigger>
-          {isTablet ? (
+          {isMobile ? (
+            <SSettingButton onClick={handleSettingClick}>
+              <SIconBell />
+              키워드 알림 설정
+            </SSettingButton>
+          ) : isTablet ? (
             <SSettingButton onClick={handleSettingClick}>
               키워드 알림 설정
               <SIconBell />
@@ -66,18 +71,25 @@ const KeywordsSettingButton = () => {
             </SSettingButton>
           )}
         </Tooltip.Trigger>
-        <Tooltip.Content
-          TooltipClose={<Tooltip.Close />}
-          title={'키워드 알림'}
-          titleRightIcon={
-            <Tag variant="primary" size="sm">
-              NEW
-            </Tag>
-          }
-        >
-          관심 키워드 설정하고 <br />
-          신규 모임 개설 알림을 받아보세요
-        </Tooltip.Content>
+        {isMobile ? (
+          <Tooltip.Content>
+            관심 키워드 설정하고 <br />
+            신규 모임 개설 알림을 받아보세요
+          </Tooltip.Content>
+        ) : (
+          <Tooltip.Content
+            TooltipClose={<Tooltip.Close />}
+            title={'키워드 알림'}
+            titleRightIcon={
+              <Tag variant="primary" size="sm">
+                NEW
+              </Tag>
+            }
+          >
+            관심 키워드 설정하고 <br />
+            신규 모임 개설 알림을 받아보세요
+          </Tooltip.Content>
+        )}
       </Tooltip.Root>
       {isModalOpened && (
         <AlarmSettingModal
@@ -105,6 +117,10 @@ export default KeywordsSettingButton;
 const SIconBell = styled(IconBell, {
   width: '20px',
   height: '20px',
+  '@mobile': {
+    width: '16px',
+    height: '16px',
+  },
 });
 
 const SIconChevronRight = styled(IconChevronRight, {
@@ -121,7 +137,6 @@ const SSettingButton = styled('a', {
   flexType: 'verticalCenter',
   gap: '$8',
   color: '$gray10',
-  padding: '$8 $6 0 0',
   fontAg: '18_semibold_100',
 
   '@tablet': {
@@ -132,7 +147,7 @@ const SSettingButton = styled('a', {
   path: {
     stroke: '$gray10',
   },
-  '@media (max-width: 359px)': {
+  '@media (max-width: 320px)': {
     display: 'none',
   },
 });
