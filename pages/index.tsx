@@ -15,7 +15,7 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import KeywordsSettingButton from '@components/KeywordsSettingButton';
+import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet, isMobile } = useDisplay();
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
   return (
     <>
       <CrewTab>
-        <KeywordsSettingButton />
+        <GuideButton />
       </CrewTab>
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isMobile ? (
