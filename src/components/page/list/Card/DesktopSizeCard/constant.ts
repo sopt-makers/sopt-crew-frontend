@@ -7,6 +7,7 @@ export const MeetingInformation = (meetingData: MeetingListResponse['meetings'][
     label: '모집 기간',
     value: () =>
       `${dayjs(meetingData.startDate).format('YY.MM.DD')} - ${dayjs(meetingData.endDate).format('YY.MM.DD')}`,
+    isValid: meetingData.startDate && meetingData.endDate,
   },
   {
     label: '모집 대상',
@@ -22,10 +23,12 @@ export const MeetingInformation = (meetingData: MeetingListResponse['meetings'][
         meetingData.targetActiveGeneration ? `${meetingData.targetActiveGeneration}기` : '전체 기수'
       } / ${part}`;
     },
+    isValid: meetingData.targetActiveGeneration || meetingData.joinableParts,
   },
   {
     label: '환영 태그',
     value: () => meetingData.welcomeMessageTypes?.map(message => `#${message}`).join(' '),
+    isValid: meetingData.welcomeMessageTypes?.length,
   },
 ];
 
@@ -40,13 +43,16 @@ export const FlashInformation = (flashData: GetFlashByIdResponse) => [
 
       return `${startDate} - ${endDate} / 협의 후 결정`;
     },
+    isValid: flashData.activityStartDate && flashData.activityEndDate,
   },
   {
     label: '활동 장소',
     value: () => flashData.flashPlace ?? '협의 후 결정',
+    isValid: flashData.flashPlace,
   },
   {
     label: '환영 태그',
     value: () => flashData.welcomeMessageTypes?.map(message => `#${message}`).join(' '),
+    isValid: flashData.welcomeMessageTypes?.length,
   },
 ];

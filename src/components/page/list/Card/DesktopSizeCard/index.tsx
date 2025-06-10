@@ -15,6 +15,7 @@ interface CardProps {
   flashDetailInfo?: {
     label: string;
     value: () => string;
+    isValid: boolean;
   }[];
   flashCount?: string;
 }
@@ -54,10 +55,14 @@ function DesktopSizeCard({ meetingData, isFlash = false, flashDetailInfo, flashC
         </SProfileWrapper>
         <SName>{meetingData.user.name}</SName>
       </Flex>
-      {detailInfo.map(({ label, value }) => (
+      {detailInfo.map(({ label, value, isValid }) => (
         <SInfoRow key={label}>
-          <SKey>{label}</SKey>
-          <SValue>{value()}</SValue>
+          {isValid ? (
+            <>
+              <SKey>{label}</SKey>
+              <SValue>{value()}</SValue>
+            </>
+          ) : null}
         </SInfoRow>
       ))}
     </div>
