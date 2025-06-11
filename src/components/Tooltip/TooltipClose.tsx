@@ -1,7 +1,7 @@
 import { styled } from '../../../stitches.config';
-import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 import { IconXClose } from '@sopt-makers/icons';
 import React from 'react';
+import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 
 interface TooltipCloseProps {
   icon?: React.ReactNode;

@@ -20,3 +20,15 @@ export const getMentionUsers = async () => {
   const { data } = await api.get('/user/v2');
   return data;
 };
+
+export type KeywordSettingOptionType = '학습' | '취미' | '먹방' | '운동' | '자기계발' | '네트워킹';
+
+export const postInterestedKeywards = async (keywords: KeywordSettingOptionType[]) => {
+  const { data } = await api.post('/user/v2/interestedKeywords', { keywords });
+  return data;
+};
+
+export const getInterestedKeywords = async () => {
+  const { data } = await api.get('/user/v2/interestedKeywords');
+  return data;
+};

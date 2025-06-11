@@ -17,7 +17,7 @@ const CrewTab = ({ children }: { children?: ReactNode }) => {
   const lastSegment = (path.split('/').at(-1) || 'group') as keyof typeof tabText;
 
   return (
-    <Flex align="start" justify="between">
+    <Flex align="center" justify="between">
       <TabList text={tabText[lastSegment]} size="big">
         <Link href="/" onClick={() => ampli.clickNavbarGroup({ menu: '피드' })}>
           <TabList.Item text="feedAll">홈</TabList.Item>

@@ -1,8 +1,8 @@
-import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 import { ReactNode } from 'react';
 import { styled } from '../../../stitches.config';
 import BubblePointIcon from '@assets/svg/bubble_point.svg';
 import { fontsObject } from '@sopt-makers/fonts';
+import { useTooltipContext } from '@components/Tooltip/TooltipContext';
 
 interface TooltipContentProps {
   children: ReactNode;
@@ -23,10 +23,12 @@ export const TooltipContent = ({ children, title, titleRightIcon, TooltipClose }
       </SPointDiv>
       <STextDiv>
         <STooltipHeader>
-          <STitleDiv>
-            {title}
-            {titleRightIcon && titleRightIcon}
-          </STitleDiv>
+          {(title || titleRightIcon) && (
+            <STitleDiv>
+              {title}
+              {titleRightIcon && titleRightIcon}
+            </STitleDiv>
+          )}
           {TooltipClose && TooltipClose}
         </STooltipHeader>
         {children}
@@ -45,7 +47,8 @@ const STitleDiv = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '4px',
+  gap: '$4',
+  marginBottom: '$8',
 
   color: '$gray30',
   ...fontsObject.TITLE_7_14_SB,
@@ -53,7 +56,7 @@ const STitleDiv = styled('div', {
 
 const STooltipDiv = styled('div', {
   position: 'absolute',
-  top: '$42',
+  top: '$38',
   right: '$0',
   zIndex: 1,
   isolate: 'isolation',
@@ -62,8 +65,12 @@ const STooltipDiv = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-end',
 
-  width: '252px',
-  height: '162px',
+  maxWidth: '$252',
+  width: '100%',
+  height: '$162',
+  '@mobile': {
+    top: '$25',
+  },
 });
 
 const SPointDiv = styled('div', {
@@ -71,20 +78,25 @@ const SPointDiv = styled('div', {
   flexDirection: 'column',
   alignItems: 'flex-start',
 
-  padding: '1px 16px 0 0',
+  padding: '$1 $16 0 0',
+  '@mobile': {
+    padding: '$1 $100 0 0',
+  },
 });
 
 const STextDiv = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
 
   width: '255px',
-  padding: '16px',
+  padding: '$16',
 
-  borderRadius: '12px',
+  borderRadius: '$12',
   backgroundColor: '$gray600',
   color: '$gray50',
 
   ...fontsObject.BODY_4_13_M,
+  '@mobile': {
+    width: '204px',
+  },
 });
