@@ -7,6 +7,7 @@ import { keywordOptions } from '@data/options';
 import { Chip } from '@sopt-makers/ui';
 import { useCallback } from 'react';
 import { styled } from 'stitches.config';
+import { ampli } from '@/ampli';
 
 const MAX_KEYWORD_COUNT = 2;
 
@@ -15,13 +16,23 @@ const KeywordField = () => {
     if (!option.value) return;
 
     let updatedKeywords = [...value];
-    if (updatedKeywords.includes(option.value)) {
+    const isAdding = !updatedKeywords.includes(option.value);
+
+    if (!isAdding) {
       updatedKeywords = updatedKeywords.filter(keyword => keyword !== option.value);
     } else {
       updatedKeywords.push(option.value);
     }
 
     if (updatedKeywords.length > MAX_KEYWORD_COUNT) return;
+
+    if (isAdding) {
+      if (updatedKeywords.length === 1) {
+        ampli.createGathering({ 'Group-keyword-primary': option.value });
+      } else if (updatedKeywords.length === 2) {
+        ampli.createGathering({ 'Group-keyword-secondary': option.value });
+      }
+    }
 
     onChange(updatedKeywords);
   }, []);
