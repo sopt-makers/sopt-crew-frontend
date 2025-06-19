@@ -1156,6 +1156,10 @@ export class CompletedRegisterGroup implements BaseEvent {
   }
 }
 
+export class CreateGathering implements BaseEvent {
+  event_type = 'create-gathering';
+}
+
 export class FilterListOptionManagement implements BaseEvent {
   event_type = 'Filter-listOptionManagement';
 
@@ -2036,6 +2040,21 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new CompletedRegisterGroup(properties), options);
+  }
+
+  /**
+   * create-gathering
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/create-gathering)
+   *
+   * 모임 개설
+   *
+   * @param options Amplitude event options.
+   */
+  createGathering(
+    options?: EventOptions,
+  ) {
+    return this.track(new CreateGathering(), options);
   }
 
   /**
