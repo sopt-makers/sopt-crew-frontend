@@ -137,6 +137,29 @@ export interface ActiveScreenWidthProperties {
   user_id?: number;
 }
 
+export interface ApplyMultiplefilterProperties {
+  /**
+   * 유저가 선택한 카테고리를 의미합니다.
+   */
+  "Applied-category"?: string;
+  /**
+   * 유저의 활동 기수 선택 여부를 파악합니다.
+   */
+  "Applied-generation"?: boolean;
+  /**
+   * 유저가 선택한 키워드를 의미합니다.
+   */
+  "Applied-keyword"?: string;
+  /**
+   * 유저가 선택한 대상 파트를 의미합니다.
+   */
+  "Applied-part"?: string;
+  /**
+   * 유저가 선택한 모집 상태를 의미합니다.
+   */
+  "Applied-status"?: string;
+}
+
 export interface AttachFeedPhotoProperties {
   /**
    * 어떤 플랫폼으로 접속했는지를 의미합니다.
@@ -731,6 +754,16 @@ export class ActiveScreenWidth implements BaseEvent {
   }
 }
 
+export class ApplyMultiplefilter implements BaseEvent {
+  event_type = 'Apply-multiplefilter';
+
+  constructor(
+    public event_properties?: ApplyMultiplefilterProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
 export class AttachFeedPhoto implements BaseEvent {
   event_type = 'Attach-feedPhoto';
 
@@ -1295,6 +1328,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ActiveScreenWidth(properties), options);
+  }
+
+  /**
+   * Apply-multiplefilter
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Apply-multiplefilter)
+   *
+   * 사용자가 필터 내 하위 항목 선택=모임을 조회
+   *
+   * @param properties The event's properties (e.g. Applied-category)
+   * @param options Amplitude event options.
+   */
+  applyMultiplefilter(
+    properties?: ApplyMultiplefilterProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ApplyMultiplefilter(properties), options);
   }
 
   /**
