@@ -4,7 +4,7 @@ import { useMultiQueryString } from '@hooks/queryString';
 import useDebounce from '@hooks/useDebounce';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { styled } from 'stitches.config';
 
 interface DropDownFilterProps {
@@ -42,6 +42,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
       return deleteKey();
     }
     setRawSelected(values);
+    handleAmpliLog(values);
   };
 
   const handleAmpliLog = (value: string[]) => {
@@ -69,7 +70,6 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
   useEffect(() => {
     if (debounceValue && rawSelected?.length > 0) {
       setValue(debounceValue);
-      handleAmpliLog(debounceValue);
     }
   }, [debounceValue]);
 
