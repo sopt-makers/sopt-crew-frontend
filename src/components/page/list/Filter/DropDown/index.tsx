@@ -4,7 +4,7 @@ import { useMultiQueryString } from '@hooks/queryString';
 import useDebounce from '@hooks/useDebounce';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { styled } from 'stitches.config';
 
 interface DropDownFilterProps {
@@ -42,6 +42,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
       return deleteKey();
     }
     setRawSelected(values);
+    handleAmpliLog(values);
   };
 
   const handleAmpliLog = (value: string[]) => {
@@ -49,15 +50,19 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
 
     switch (subject) {
       case 'category':
-        ampli.clickFilterCategory({ group_category: joined });
+        ampli.applyMultiplefilter({ 'Applied-category': joined });
         break;
       case 'status':
-        ampli.clickFilterStatus({ group_status: joined });
+        ampli.applyMultiplefilter({ 'Applied-status': joined });
         break;
       case 'part':
-        ampli.clickFilterPart({ group_part: joined });
+        ampli.applyMultiplefilter({ 'Applied-part': joined });
         break;
-      default:
+      case 'keyword':
+        ampli.applyMultiplefilter({ 'Applied-keyword': joined });
+        break;
+      case 'isOnlyActiveGeneration':
+        ampli.applyMultiplefilter({ 'Applied-generation': joined === '36기만' });
         break;
     }
   };
@@ -65,7 +70,6 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
   useEffect(() => {
     if (debounceValue && rawSelected?.length > 0) {
       setValue(debounceValue);
-      handleAmpliLog(debounceValue);
     }
   }, [debounceValue]);
 
