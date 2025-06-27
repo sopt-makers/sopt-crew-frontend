@@ -2,7 +2,9 @@ import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { api, apiV2 } from '@api/index';
+import { useGetCommentQuery, usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/hook';
+import { GetCommentListResponse } from '@api/comment/type';
+import { api } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import {
@@ -24,8 +26,6 @@ import { MentionContext } from '@components/feed/Mention/MentionContext';
 import FeedItem from '@components/page/detail/Feed/FeedItem';
 import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { TAKE_COUNT } from '@constants/feed';
-import useComment from '@hooks/useComment/useComment';
-import useCommentMutation from '@hooks/useComment/useCommentMutation';
 import { useDisplay } from '@hooks/useDisplay';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
@@ -44,32 +44,20 @@ export default function PostPage() {
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
-  const { POST } = apiV2.get();
 
   const { data: me } = useQueryMyProfile();
 
   const { data: post } = useGetPostDetailQuery(query.id as string);
 
-  const commentQuery = useComment();
+  const commentQuery = useGetCommentQuery();
 
   const { parentComment } = useContext(MentionContext);
 
-  const { mutateAsync, isLoading: isCreatingComment } = useMutation({
-    mutationKey: ['/comment/v1'],
-    mutationFn: (comment: string) =>
-      POST('/comment/v2', {
-        body: {
-          postId: post?.id,
-          contents: comment,
-          isParent: parentComment.parentComment,
-          parentCommentId: parentComment.parentComment ? null : parentComment.parentCommentId,
-        },
-      }),
-  });
+  const { mutateAsync, isLoading: isCreatingComment } = usePostCommentMutation();
 
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 
-  const { mutate: toggleCommentLike } = useCommentMutation();
+  const { mutate: toggleCommentLike } = usePostCommentLikeMutation();
   const handleClickCommentLike = (commentId: number) => {
     ampli.clickCommentLike({ crew_status: meeting?.approved });
     toggleCommentLike(commentId);
@@ -93,7 +81,12 @@ export default function PostPage() {
     });
 
     //todo: try-catch 문 사용하기
-    await mutateAsync(req.content);
+    await mutateAsync({
+      postId: post?.id ?? 0,
+      contents: req.content,
+      isParent: parentComment.parentComment,
+      parentCommentId: parentComment.parentComment ? undefined : parentComment.parentCommentId,
+    });
     mutatePostCommentWithMention(req);
     commentQuery.refetch();
   };
@@ -151,10 +144,8 @@ export default function PostPage() {
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
 
-  const comments = commentQuery.data?.data?.comments?.filter(
-    (
-      comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]
-    ): comment is paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number] =>
+  const comments = commentQuery.data?.comments?.filter(
+    (comment: GetCommentListResponse['comments'][number]): comment is GetCommentListResponse['comments'][number] =>
       !!comment
   );
 
@@ -215,7 +206,7 @@ export default function PostPage() {
         CommentLikeSection={
           <FeedCommentLikeSection
             isLiked={post.isLiked}
-            commentCount={commentQuery.data?.data?.comments.length || 0}
+            commentCount={commentQuery.data?.comments.length || 0}
             likeCount={post.likeCount || 0}
             onClickComment={handleClickComment}
             onClickLike={handleClickPostLike}
@@ -223,21 +214,17 @@ export default function PostPage() {
         }
         CommentList={
           <>
-            {comments?.map(
-              (
-                comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]
-              ) => (
-                <FeedCommentContainer
-                  key={comment.id}
-                  comment={comment}
-                  isMine={comment.user.id === me?.id}
-                  postUserId={post.user.id}
-                  onClickLike={handleClickCommentLike}
-                  handleCreateComment={handleCreateComment}
-                  isCreatingComment={isCreatingComment}
-                />
-              )
-            )}
+            {comments?.map((comment: GetCommentListResponse['comments'][number]) => (
+              <FeedCommentContainer
+                key={comment.id}
+                comment={comment}
+                isMine={comment.user.id === me?.id}
+                postUserId={post.user.id}
+                onClickLike={handleClickCommentLike}
+                handleCreateComment={handleCreateComment}
+                isCreatingComment={isCreatingComment}
+              />
+            ))}
             <div ref={setTarget} />
           </>
         }

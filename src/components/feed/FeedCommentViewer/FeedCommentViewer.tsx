@@ -1,4 +1,4 @@
-import { paths } from '@/__generated__/schema2';
+import { GetCommentListResponse } from '@api/comment/type';
 import LikeHoverIcon from '@assets/svg/like_hover_in_comment.svg';
 import MessageIcon from '@assets/svg/message-dots.svg';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
@@ -18,9 +18,7 @@ import { MentionContext } from '../Mention/MentionContext';
 
 interface FeedCommentViewerProps {
   // TODO: API 응답을 바로 interface에 꽂지 말고 모델 만들어서 사용하자
-  comment:
-    | paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]
-    | paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number]['replies'][number];
+  comment: GetCommentListResponse['comments'][number] | GetCommentListResponse['comments'][number]['replies'][number];
   commentParentId?: number; // 부모가 댓글이라면 commentParentId 로 부모 댓글의 Id 를 넘겨줍니다.
   isMine?: boolean;
   isPosterComment: boolean;

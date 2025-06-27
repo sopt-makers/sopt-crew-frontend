@@ -2,7 +2,7 @@ import PostQueryKey from '@api/post/PostQueryKey';
 import { GetPostDetailResponse, GetPostListResponse } from '@api/post/type';
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
-import { deleteComment, deletePost, getPostDetail, getPostList, postPostLike } from '.';
+import { deletePost, getPostDetail, getPostList, postPostLike } from '.';
 
 export const useGetPostListInfiniteQuery = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
@@ -100,16 +100,6 @@ export const useMutationPostLike = (queryId: string) => {
       });
 
       queryClient.setQueryData(PostQueryKey.mutate(queryId), data);
-    },
-  });
-};
-
-export const useDeleteComment = (queryId: string) => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (commentId: number) => deleteComment(commentId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/comment/v1', queryId] });
     },
   });
 };
