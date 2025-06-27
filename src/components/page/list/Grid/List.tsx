@@ -1,11 +1,12 @@
 import { ampli } from '@/ampli';
-import { useGetMeetingAds } from '@api/advertisement/hook';
+import { useGetAdvertisementQuery } from '@api/advertisement/hook';
 import { MeetingListResponse } from '@api/API_LEGACY/meeting';
 import { useQueryMeetingListOfAll } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine, useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
@@ -20,7 +21,7 @@ export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
   const { data: meetingListData, isLoading } = useQueryMeetingListOfAll(); //쿼리 파라미터 값을 사용하여 서버에 요청 보내서 필터링 된 모임 리스트 받아옴
-  const { data: meetingAds } = useGetMeetingAds();
+  const { data: meetingAds } = useGetAdvertisementQuery(AdvertisementCategory.MEETING);
 
   useScrollRestorationAfterLoading(isLoading);
   const { data: me } = useQueryMyProfile();

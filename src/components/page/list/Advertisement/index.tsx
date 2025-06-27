@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useGetPostAds } from '@api/advertisement/hook';
+import { useGetAdvertisementQuery } from '@api/advertisement/hook';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useGetPostListInfiniteQuery, useMutationUpdateLike } from '@api/post/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
@@ -15,6 +15,7 @@ import { TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
+import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -43,7 +44,7 @@ const RenderPostsWithAds = () => {
       mutateCb(postId);
     };
 
-  const { data: postAds } = useGetPostAds();
+  const { data: postAds } = useGetAdvertisementQuery(AdvertisementCategory.POST);
 
   const OPTIONS = { loop: true };
 

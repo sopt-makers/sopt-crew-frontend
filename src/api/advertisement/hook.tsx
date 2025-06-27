@@ -1,18 +1,11 @@
+import AdvertisementQueryKey from '@api/advertisement/AdvertisementQueryKey';
 import { useQuery } from '@tanstack/react-query';
-import { getMeetingAds, getPostAds } from '.';
+import { AdvertisementCategoryType } from '@type/advertisement';
+import { getAdvertisementList } from '.';
 
-export const useGetPostAds = () => {
+export const useGetAdvertisementQuery = (category: AdvertisementCategoryType) => {
   return useQuery({
-    queryKey: ['getPostAds'],
-    queryFn: () => getPostAds(),
-    select: res => res,
-  });
-};
-
-export const useGetMeetingAds = () => {
-  return useQuery({
-    queryKey: ['getMeetingAds'],
-    queryFn: () => getMeetingAds(),
-    select: res => res,
+    queryKey: AdvertisementQueryKey.list(category),
+    queryFn: () => getAdvertisementList(category),
   });
 };
