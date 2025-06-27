@@ -1,8 +1,8 @@
 import { apiV2 } from '@api/index';
+import PostQueryKey from '@api/post/PostQueryKey';
 import ModalContainer from '@components/modal/ModalContainer';
 import { Dialog } from '@headlessui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
 import { styled } from 'stitches.config';
 
 interface PostDeleteModalProps {
@@ -20,7 +20,7 @@ const PostDeleteModal = ({ isOpen, close, postId }: PostDeleteModalProps) => {
 
   const { mutate: mutateDeletePost } = useMutation({
     mutationFn: () => DELETE('/post/v2/{postId}', { params: { path: { postId: postId } } }),
-    onSuccess: () => queryClient.invalidateQueries(['getPosts']),
+    onSuccess: () => queryClient.invalidateQueries(PostQueryKey.all()),
     //todo: 지금은 getPosts 로 시작하는 모든 query 가 invalidate 됨.
   });
   return (

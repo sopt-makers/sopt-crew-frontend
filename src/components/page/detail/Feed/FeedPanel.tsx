@@ -1,14 +1,21 @@
+import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
+import { api, apiV2 } from '@/api';
 import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useInfinitePosts, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useGetPostListInfiniteQuery, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
+import ContentBlocker from '@components/blocker/ContentBlocker';
+import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import { useToast } from '@sopt-makers/ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -17,19 +24,6 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import ContentBlocker from '@components/blocker/ContentBlocker';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api, apiV2 } from '@/api';
-import { AxiosError } from 'axios';
-import { paths } from '@/__generated__/schema2';
-import { useToast } from '@sopt-makers/ui';
-import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -52,7 +46,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfinitePosts(TAKE_COUNT, Number(meetingId), !!meetingId);
+  } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
 
   const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });

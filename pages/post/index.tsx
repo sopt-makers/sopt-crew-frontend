@@ -6,20 +6,21 @@ import { api, apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import {
-  useInfinitePosts,
+  useGetPostDetailQuery,
+  useGetPostListInfiniteQuery,
   useMutationDeletePost,
   useMutationPostLike,
   useMutationUpdateLike,
-  useQueryGetPost,
 } from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
+import Loader from '@components/@common/loader/Loader';
 import ContentBlocker from '@components/blocker/ContentBlocker';
+import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 import FeedCommentContainer from '@components/feed/FeedCommentContainer/FeedCommentContainer';
 import FeedCommentInput from '@components/feed/FeedCommentInput/FeedCommentInput';
 import FeedCommentLikeSection from '@components/feed/FeedCommentLikeSection/FeedCommentLikeSection';
 import FeedPostViewer from '@components/feed/FeedPostViewer/FeedPostViewer';
 import { MentionContext } from '@components/feed/Mention/MentionContext';
-import Loader from '@components/@common/loader/Loader';
 import FeedItem from '@components/page/detail/Feed/FeedItem';
 import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
 import { TAKE_COUNT } from '@constants/feed';
@@ -30,12 +31,11 @@ import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useToast } from '@sopt-makers/ui';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from 'stitches.config';
-import { AxiosError } from 'axios';
-import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -48,7 +48,7 @@ export default function PostPage() {
 
   const { data: me } = useQueryMyProfile();
 
-  const { data: post } = useQueryGetPost(query.id as string);
+  const { data: post } = useGetPostDetailQuery(query.id as string);
 
   const commentQuery = useComment();
 
@@ -171,7 +171,7 @@ export default function PostPage() {
   };
 
   const meetingId = meeting?.id;
-  const { data: posts } = useInfinitePosts(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
+  const { data: posts } = useGetPostListInfiniteQuery(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
   const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
 
@@ -184,7 +184,7 @@ export default function PostPage() {
 
   // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
-  const { data: allPosts, hasNextPage, fetchNextPage } = useInfinitePosts(TAKE_COUNT);
+  const { data: allPosts, hasNextPage, fetchNextPage } = useGetPostListInfiniteQuery(TAKE_COUNT);
   const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
   // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.
   useEffect(() => {
