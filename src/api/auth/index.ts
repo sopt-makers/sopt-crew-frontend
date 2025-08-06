@@ -2,14 +2,14 @@ import { paths } from '@/__generated__/schema2';
 import { baseApi } from '@api/index';
 import { redirectToLoginPage } from '@components/util/auth';
 
-export const validatePlaygroundToken = async (playgroundToken: string) => {
+export const validateAuthToken = async (authToken: string) => {
   try {
     await baseApi.post<paths['/auth/v2']['post']['responses']['201']['content']['application/json;charset=UTF-8']>(
       '/auth/v2',
       {},
       {
         headers: {
-          Authorization: `Bearer ${playgroundToken}`,
+          Authorization: `Bearer ${authToken}`,
         },
       }
     );

@@ -1,5 +1,5 @@
-import { playgroundToken } from '@/stores/tokenStore';
-import { validatePlaygroundToken } from '@api/auth';
+import { authToken } from '@/stores/tokenStore';
+import { validateAuthToken } from '@api/auth';
 import { playgroundLink } from '@sopt-makers/playground-common';
 
 export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
@@ -9,24 +9,24 @@ export const redirectToLoginPage = () => {
   window.location.href = `${playgroundLink.login()}`;
 };
 
-export const getPlaygroundToken = () => {
+export const getAuthToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 };
 
 export const setAccessTokens = async () => {
   // NOTE: development 환경에서는 테스트 토큰을 사용한다.
   if (process.env.NODE_ENV === 'development') {
-    playgroundToken.set(process.env.NEXT_PUBLIC_PLAYGROUND_TOKEN);
+    authToken.set(process.env.NEXT_PUBLIC_PLAYGROUND_TOKEN);
     return;
   }
 
-  const _playgroundToken = getPlaygroundToken();
-  if (!_playgroundToken) {
+  const _authToken = getAuthToken();
+  if (!_authToken) {
     return redirectToLoginPage();
   }
 
-  const isValid = await validatePlaygroundToken(_playgroundToken);
+  const isValid = await validateAuthToken(_authToken);
   if (isValid) {
-    playgroundToken.set(_playgroundToken);
+    authToken.set(_authToken);
   }
 };

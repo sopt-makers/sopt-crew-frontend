@@ -1,4 +1,4 @@
-import { playgroundToken } from '@/stores/tokenStore';
+import { authToken } from '@/stores/tokenStore';
 import { fetchMyProfile } from '@api/API_LEGACY/user';
 import Loader from '@components/@common/loader/Loader';
 import { MentionProvider } from '@components/feed/Mention/MentionContext';
@@ -36,14 +36,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       })
   );
   const router = useRouter();
-  const _playgroundToken = useStore(playgroundToken);
+  const _authToken = useStore(authToken);
 
   // 렌더링에 관여하는 IsServiceReady 인 경우, useEffect + setState 를 사용해 렌더링 시점을 뒤로 옮기기
   const [isServiceReady, setIsServiceReady] = useState(false);
 
   useEffect(() => {
-    setIsServiceReady(Boolean(_playgroundToken));
-  }, [_playgroundToken]);
+    setIsServiceReady(Boolean(_authToken));
+  }, [_authToken]);
 
   useScrollRestoration();
 
