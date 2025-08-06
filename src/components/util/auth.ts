@@ -16,7 +16,7 @@ export const getAuthToken = () => {
 export const setAccessTokens = async () => {
   // NOTE: development 환경에서는 테스트 토큰을 사용한다.
   if (process.env.NODE_ENV === 'development') {
-    authToken.set(process.env.NEXT_PUBLIC_PLAYGROUND_TOKEN);
+    authToken.set(process.env.NEXT_PUBLIC_AUTH_TOKEN);
     return;
   }
 
