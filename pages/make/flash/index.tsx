@@ -1,11 +1,10 @@
 import { ampli } from '@/ampli';
-import { createFlash } from '@api/flash';
+import { usePostFlashMutation } from '@api/flash/hook';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useMutation } from '@tanstack/react-query';
 import { FlashFormType, flashSchema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -23,12 +22,7 @@ const Flash = () => {
     resolver: zodResolver(flashSchema),
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-  const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FlashFormType) => createFlash(formData),
-    onError: () => {
-      alert('번쩍을 개설하지 못했습니다.');
-    },
-  });
+  const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = usePostFlashMutation();
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();

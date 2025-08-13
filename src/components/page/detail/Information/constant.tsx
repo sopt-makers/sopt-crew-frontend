@@ -1,4 +1,4 @@
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
 import { GetMeeting } from '@api/meeting/type';
 import CalendarIcon from '@assets/svg/calendar.svg?rect';
 import { parseTextToLink } from '@components/util/parseTextToLink';
@@ -82,7 +82,7 @@ export const MeetingDetailList = (detailData: GetMeeting['response']) => [
   },
 ];
 
-export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
+export const FlashDetailList = (detailData: GetFlash['response']) => {
   return [
     {
       key: '모임 소개',

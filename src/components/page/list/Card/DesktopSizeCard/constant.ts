@@ -1,5 +1,5 @@
 import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
 import { MeetingData } from '@api/meeting/type';
 import dayjs from 'dayjs';
 
@@ -36,7 +36,7 @@ export const MeetingInformation = (
 ];
 
 export const FlashInformation = (
-  flashData: GetFlashByIdResponse
+  flashData: GetFlash['response']
 ): { label: string; value: () => string; isValid: boolean }[] => [
   {
     label: '진행 일자',

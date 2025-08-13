@@ -1,4 +1,4 @@
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
 import { GetMeeting } from '@api/meeting/type';
 import Loader from '@components/@common/loader/Loader';
 import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
@@ -11,7 +11,7 @@ import { Fragment, useState } from 'react';
 import { styled } from 'stitches.config';
 
 type CommonDetailProps = {
-  detailData: GetMeeting['response'] | GetFlashByIdResponse;
+  detailData: GetMeeting['response'] | GetFlash['response'];
 };
 
 const enum SelectedTab {

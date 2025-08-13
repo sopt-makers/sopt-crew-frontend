@@ -1,4 +1,4 @@
-import { useFlashByIdQuery } from '@api/flash/hook';
+import { useFlashQuery } from '@api/flash/hook';
 import { MeetingData } from '@api/meeting/type';
 import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/@common/avatar/Avatar';
@@ -15,7 +15,7 @@ import { keyframes, styled } from 'stitches.config';
 dayjs.extend(isBetween);
 
 const GroupBrowsingCard: FC<MeetingData> = ({ id, title, user, imageURL }) => {
-  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
+  const { data: flashData } = useFlashQuery({ meetingId: +id });
 
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
 

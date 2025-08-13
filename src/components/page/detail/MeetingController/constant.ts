@@ -1,7 +1,7 @@
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
 import { GetMeeting } from '@api/meeting/type';
 
-export const CAPACITY = (detailData: GetMeeting['response'] | GetFlashByIdResponse) => {
+export const CAPACITY = (detailData: GetMeeting['response'] | GetFlash['response']) => {
   if ('capacity' in detailData) {
     return `${detailData.approvedApplyCount}/${detailData.capacity}명`;
   }

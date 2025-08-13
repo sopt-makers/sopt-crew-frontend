@@ -1,27 +1,40 @@
-import { getFlashById, GetFlashByIdResponse, getFlashList } from '@api/flash';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { getFlash, getFlashList, postFlash, putFlash } from '@api/flash';
+import FlashQueryKey from '@api/flash/FlashQueryKey';
+import { serializeFlashFormData } from '@api/flash/serialize';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { FlashFormType } from '@type/form';
 
-type UseFlashByIdQueryProps = {
-  meetingId: number;
-};
-export const useFlashByIdQuery = ({ meetingId }: UseFlashByIdQueryProps): UseQueryResult<GetFlashByIdResponse> => {
+export const useFlashQuery = ({ meetingId }: { meetingId: number }) => {
   return useQuery({
-    queryKey: ['getFlash', meetingId],
-    queryFn: async () => {
-      try {
-        return await getFlashById(meetingId);
-      } catch (error) {
-        if (error instanceof AxiosError && error.response?.status === 404) return null;
-        throw error;
-      }
-    },
+    queryKey: FlashQueryKey.detail(meetingId),
+    queryFn: () => getFlash(meetingId),
   });
 };
 
 export const useFlashListQuery = () => {
   return useQuery({
-    queryKey: ['flashList'],
-    queryFn: () => getFlashList(),
+    queryKey: FlashQueryKey.list(),
+    queryFn: getFlashList,
+  });
+};
+
+export const usePutFlashMutation = ({ meetingId }: { meetingId: number }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) =>
+      putFlash(id, serializeFlashFormData(formData)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: FlashQueryKey.detail(meetingId) });
+    },
+  });
+};
+
+export const usePostFlashMutation = () => {
+  return useMutation({
+    mutationFn: (formData: FlashFormType) => postFlash(serializeFlashFormData(formData)),
+    onError: () => {
+      alert('번쩍을 개설하지 못했습니다.');
+    },
   });
 };

@@ -1,49 +1,16 @@
-import { paths } from '@/__generated__/schema2';
+import { GetFlash, PostFlash, PutFlash } from '@api/flash/type';
 import { api } from '@api/index';
 import { getMeetingList } from '@api/meeting';
 import { GetMeetingList } from '@api/meeting/type';
-import { FlashFormType } from '@type/form';
 
-export const createFlash = async (formData: FlashFormType) => {
-  const {
-    data: { meetingId },
-  } = await api.post<{ meetingId: number }>('/flash/v2', filterFlashFormData(formData));
-  return meetingId;
+export const postFlash = async (formData: PutFlash['request']) => {
+  return (await api.post<PostFlash['response']>('/flash/v2', formData)).data;
 };
 
-const filterFlashFormData = (formData: FlashFormType) => {
-  const convertedEndDate =
-    formData.timeInfo.time.value === '당일' ? formData.timeInfo.dateRange[0] : formData.timeInfo.dateRange[1];
-  const convertedFlashPlace = formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
-  const data = {
-    flashBody: {
-      title: formData.title,
-      desc: formData.desc,
-      flashTimingType: formData.timeInfo.time.value,
-      activityStartDate: formData.timeInfo.dateRange[0],
-      activityEndDate: convertedEndDate,
-      flashPlaceType: formData.placeInfo.place.value,
-      flashPlace: convertedFlashPlace,
-      minimumCapacity: formData.capacityInfo.minCapacity,
-      maximumCapacity: formData.capacityInfo.maxCapacity,
-      files: formData.files,
-    },
-    meetingKeywordTypes: formData.meetingKeywordTypes,
-    welcomeMessageTypes: formData.welcomeMessageTypes,
-  };
-  return data;
+export const getFlash = async (meetingId: number): Promise<GetFlash['response']> => {
+  return (await api.get<GetFlash['response']>(`/flash/v2/${meetingId}`)).data;
 };
 
-export type GetFlashByIdResponse =
-  paths['/flash/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
-
-export const getFlashById = async (meetingId: number): Promise<GetFlashByIdResponse> => {
-  return (await api.get<GetFlashByIdResponse>(`/flash/v2/${meetingId}`)).data;
-};
-
-export type GetFlashListRequest = paths['/meeting/v2']['get']['parameters']['query'];
-export type GetMeetingListResponse =
-  paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 export const getFlashList = async () => {
   const params: Omit<NonNullable<GetMeetingList['request']>, 'joinableParts'> & { joinableParts?: string } = {
     page: 1,
@@ -57,9 +24,6 @@ export const getFlashList = async () => {
   return await getMeetingList(params as GetMeetingList['request']);
 };
 
-export const updateFlashById = async ({ id, formData }: { id: number; formData: FlashFormType }) => {
-  const {
-    data: { meetingId },
-  } = await api.put(`/flash/v2/${id}`, filterFlashFormData(formData));
-  return meetingId;
+export const putFlash = async (meetingId: number, formData: PutFlash['request']) => {
+  return (await api.put<PutFlash['response']>(`/flash/v2/${meetingId}`, formData)).data;
 };

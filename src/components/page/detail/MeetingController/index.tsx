@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
 import {
   useDeleteMeetingApplicationMutation,
   useDeleteMeetingMutation,
@@ -29,7 +29,7 @@ import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 
 interface DetailHeaderProps {
-  detailData: GetMeeting['response'] | GetFlashByIdResponse;
+  detailData: GetMeeting['response'] | GetFlash['response'];
 }
 
 interface DialogOptionType {
@@ -240,7 +240,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
     <>
       <SPanelWrapper>
         {isFlash ? (
-          <FlashAbout detailData={detailData as GetFlashByIdResponse} />
+          <FlashAbout detailData={detailData as GetFlash['response']} />
         ) : (
           <MeetingAbout detailData={detailData as GetMeeting['response']} />
         )}
