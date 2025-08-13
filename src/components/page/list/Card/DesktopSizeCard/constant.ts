@@ -1,9 +1,10 @@
-import { MeetingListResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
+import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { GetFlashByIdResponse } from '@api/flash';
+import { MeetingData } from '@api/meeting/type';
 import dayjs from 'dayjs';
 
 export const MeetingInformation = (
-  meetingData: MeetingListResponse['meetings'][number]
+  meetingData: MeetingData
 ): { label: string; value: () => string; isValid: boolean }[] => [
   {
     label: '모집 기간',

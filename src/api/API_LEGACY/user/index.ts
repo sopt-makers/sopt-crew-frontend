@@ -1,7 +1,7 @@
 import { paths } from '@/__generated__/schema2';
 import { api } from '@api/index';
+import { GetMeeting } from '@api/meeting/type';
 import { GroupInfo } from '@components/feed/Modal/FeedFormPresentation';
-import { GetMeetingResponse } from '../meeting';
 
 /**
  * @deprecated
@@ -38,7 +38,7 @@ export interface ApplyResponse {
   id: number;
   content: string;
   status: ApplicationStatusType;
-  meeting: GetMeetingResponse;
+  meeting: GetMeeting['response'];
   user: UserResponse;
 }
 

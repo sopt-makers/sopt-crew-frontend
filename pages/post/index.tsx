@@ -1,10 +1,10 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useGetCommentQuery, usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/hook';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
+import { useMeetingQuery } from '@api/meeting/hook';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
 import {
@@ -142,7 +142,7 @@ export default function PostPage() {
       }
     };
 
-  const { data: meeting } = useQueryGetMeeting({ params: { id: post?.meeting.id ? String(post.meeting.id) : '' } });
+  const { data: meeting } = useMeetingQuery({ meetingId: post?.meeting.id ? Number(post.meeting.id) : 0 });
 
   const comments = commentQuery.data?.comments?.filter(
     (comment: GetCommentListResponse['comments'][number]): comment is GetCommentListResponse['comments'][number] =>

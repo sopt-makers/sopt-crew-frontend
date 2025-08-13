@@ -1,5 +1,7 @@
 import { paths } from '@/__generated__/schema2';
 import { api } from '@api/index';
+import { getMeetingList } from '@api/meeting';
+import { GetMeetingList } from '@api/meeting/type';
 import { FlashFormType } from '@type/form';
 
 export const createFlash = async (formData: FlashFormType) => {
@@ -43,7 +45,7 @@ export type GetFlashListRequest = paths['/meeting/v2']['get']['parameters']['que
 export type GetMeetingListResponse =
   paths['/meeting/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
 export const getFlashList = async () => {
-  const params = {
+  const params: Omit<NonNullable<GetMeetingList['request']>, 'joinableParts'> & { joinableParts?: string } = {
     page: 1,
     take: 12,
     category: '번쩍',
@@ -51,7 +53,8 @@ export const getFlashList = async () => {
     isOnlyActiveGeneration: false,
     paginationType: 'DEFAULT',
   };
-  return (await api.get<GetMeetingListResponse>('/meeting/v2', { params })).data;
+
+  return await getMeetingList(params as GetMeetingList['request']);
 };
 
 export const updateFlashById = async ({ id, formData }: { id: number; formData: FlashFormType }) => {

@@ -1,11 +1,12 @@
+import { returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
+import { MeetingData } from '@api/meeting/type';
+import { ACTION_STATUS } from '@constants/option';
+import { getResizedImage } from '@utils/image';
+import Link from 'next/link';
 import { FC } from 'react';
 import { styled } from 'stitches.config';
-import { getResizedImage } from '@utils/image';
-import { ACTION_STATUS } from '@constants/option';
-import Link from 'next/link';
-import { GroupBrowsingCardItem, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
 
-const MobileSizeCard: FC<GroupBrowsingCardItem> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
+const MobileSizeCard: FC<MeetingData> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
   const isGroupActive = returnIsGroupActive(mStartDate, mEndDate);
   const newStatus = returnNewStatus(status, mStartDate, isGroupActive);
 

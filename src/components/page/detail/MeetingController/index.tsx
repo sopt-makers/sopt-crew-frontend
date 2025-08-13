@@ -1,8 +1,13 @@
 import { ampli } from '@/ampli';
-import { GetMeetingResponse, PostApplicationRequest } from '@api/API_LEGACY/meeting';
-import { useMutationPostEventApplication } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { GetFlashByIdResponse } from '@api/flash';
+import {
+  useDeleteMeetingApplicationMutation,
+  useDeleteMeetingMutation,
+  usePostEventApplicationMutation,
+  usePostMeetingApplicationMutation,
+} from '@api/meeting/hook';
+import { GetMeeting } from '@api/meeting/type';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import DefaultModal from '@components/modal/DefaultModal';
@@ -13,7 +18,7 @@ import { ERecruitmentStatus } from '@constants/option';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { useDialog } from '@sopt-makers/ui';
-import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,28 +29,7 @@ import ApplicationModalContent from './Modal/Content/ApplicationModalContent';
 import RecruitmentStatusModalContent from './Modal/Content/RecruitmentStatusModalContent';
 
 interface DetailHeaderProps {
-  detailData: GetMeetingResponse | GetFlashByIdResponse;
-  mutateMeetingDeletion: UseMutateFunction<
-    {
-      statusCode: number;
-    },
-    AxiosError,
-    number
-  >;
-  mutateApplication: UseMutateFunction<
-    {
-      statusCode: number;
-    },
-    AxiosError,
-    PostApplicationRequest
-  >;
-  mutateApplicationDeletion: UseMutateFunction<
-    {
-      statusCode: number;
-    },
-    AxiosError,
-    number
-  >;
+  detailData: GetMeeting['response'] | GetFlashByIdResponse;
 }
 
 interface DialogOptionType {
@@ -61,12 +45,12 @@ interface TypeOptionsProp {
   buttonFunction?: () => void;
 }
 
-const MeetingController = ({
-  detailData,
-  mutateMeetingDeletion,
-  mutateApplication,
-  mutateApplicationDeletion,
-}: DetailHeaderProps) => {
+const MeetingController = ({ detailData }: DetailHeaderProps) => {
+  const { mutate: mutateMeetingDeletion } = useDeleteMeetingMutation();
+  const { mutate: mutateApplication } = usePostMeetingApplicationMutation();
+  const { mutate: mutateApplicationDeletion } = useDeleteMeetingApplicationMutation();
+  const { mutate: mutateEventApplication } = usePostEventApplicationMutation();
+
   const isFlash = detailData.category === '번쩍';
   const { status, category, appliedInfo, approved, host: isHost, apply: isApplied, id: meetingId } = detailData;
 
@@ -75,7 +59,6 @@ const MeetingController = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;
-  const { mutate: mutateEventApplication } = useMutationPostEventApplication({});
   const {
     isModalOpened: isProfileModalOpened,
     handleModalOpen: handleProfileModalOpen,
@@ -164,19 +147,21 @@ const MeetingController = ({
             setIsSubmitting(false);
             handleDefaultModalClose();
           },
-          onError: async (error: AxiosError) => {
-            await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId + ''],
-            });
-            const errorResponse = error.response as AxiosResponse;
-            dialogOpen({
-              title: errorResponse.data.errorCode,
-              description: '',
-              type: 'single',
-              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
-            });
-            setIsSubmitting(false);
-            handleDefaultModalClose();
+          onError: async (error: unknown) => {
+            if (error instanceof AxiosError) {
+              await queryClient.refetchQueries({
+                queryKey: ['getMeeting', meetingId + ''],
+              });
+              const errorResponse = error.response as AxiosResponse;
+              dialogOpen({
+                title: errorResponse.data.errorCode,
+                description: '',
+                type: 'single',
+                typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+              });
+              setIsSubmitting(false);
+              handleDefaultModalClose();
+            }
           },
         }
       );
@@ -201,20 +186,22 @@ const MeetingController = ({
             setIsSubmitting(false);
             handleDefaultModalClose();
           },
-          onError: async (error: AxiosError) => {
-            await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId + ''],
-            });
-            await queryClient.refetchQueries({
-              queryKey: ['getFlash', meetingId],
-            });
-            const errorResponse = error.response as AxiosResponse;
-            dialogOpen({
-              title: errorResponse.data.errorCode,
-              description: '',
-              type: 'single',
-              typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
-            });
+          onError: async (error: unknown) => {
+            if (error instanceof AxiosError) {
+              await queryClient.refetchQueries({
+                queryKey: ['getMeeting', meetingId + ''],
+              });
+              await queryClient.refetchQueries({
+                queryKey: ['getFlash', meetingId],
+              });
+              const errorResponse = error.response as AxiosResponse;
+              dialogOpen({
+                title: errorResponse.data.errorCode,
+                description: '',
+                type: 'single',
+                typeOptions: { approveButtonText: '확인', buttonFunction: dialogClose },
+              });
+            }
             setIsSubmitting(false);
             handleDefaultModalClose();
           },
@@ -236,13 +223,15 @@ const MeetingController = ({
         alert('신청이 취소됐습니다!');
         setIsSubmitting(false);
       },
-      onError: async (error: AxiosError) => {
-        await queryClient.refetchQueries({
-          queryKey: ['getMeeting', meetingId + ''],
-        });
-        const errorResponse = error.response as AxiosResponse;
-        alert(errorResponse.data.errorCode);
-        setIsSubmitting(false);
+      onError: async (error: unknown) => {
+        if (error instanceof AxiosError) {
+          await queryClient.refetchQueries({
+            queryKey: ['getMeeting', meetingId + ''],
+          });
+          const errorResponse = error.response as AxiosResponse;
+          alert(errorResponse.data.errorCode);
+          setIsSubmitting(false);
+        }
       },
     });
   };
@@ -253,7 +242,7 @@ const MeetingController = ({
         {isFlash ? (
           <FlashAbout detailData={detailData as GetFlashByIdResponse} />
         ) : (
-          <MeetingAbout detailData={detailData as GetMeetingResponse} />
+          <MeetingAbout detailData={detailData as GetMeeting['response']} />
         )}
         <div>
           <SStatusButton onClick={handleRecruitmentStatusModal}>

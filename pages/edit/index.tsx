@@ -1,12 +1,10 @@
-import { updateMeeting } from '@api/API_LEGACY/meeting';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
+import { useMeetingQuery, usePutMeetingMutation } from '@api/meeting/hook';
 import CheckIcon from '@assets/svg/check.svg';
 import Loader from '@components/@common/loader/Loader';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
 import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormType, schema } from '@type/form';
 import { formatCalendarDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
@@ -14,22 +12,17 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
+
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
 });
 
 const EditPage = () => {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data: formData } = useQueryGetMeeting({ params: { id } });
-  const { mutateAsync, isLoading: isSubmitting } = useMutation({
-    mutationFn: ({ id, formData }: { id: string; formData: FormType }) => updateMeeting(id, formData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['meeting', id] });
-    },
-  });
+  const { data: formData } = useMeetingQuery({ meetingId: Number(id) });
+  const { mutateAsync, isLoading: isSubmitting } = usePutMeetingMutation(Number(id));
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',
@@ -44,12 +37,10 @@ const EditPage = () => {
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
     try {
-      await mutateAsync({ id, formData });
-      // TODO: handle success
+      await mutateAsync(formData);
       alert('모임을 수정했습니다.');
       router.push(`/detail?id=${id}`);
     } catch (error) {
-      // TODO: handle error
       alert('모임을 수정하지 못했습니다.');
     }
   };

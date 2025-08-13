@@ -49,6 +49,12 @@ export interface paths {
     /** 모임 게시글 댓글 삭제 */
     delete: operations["deleteComment"];
   };
+  "/user/v2/interestedKeywords": {
+    /** 유저 관심 키워드 조회 */
+    get: operations["getUserInterestedKeyword"];
+    /** 유저 관심 키워드 설정 */
+    post: operations["updateUserInterestedKeyword"];
+  };
   "/post/v2": {
     /** 모임 게시글 목록 조회 */
     get: operations["getPosts"];
@@ -85,6 +91,25 @@ export interface paths {
   "/meeting/v2/apply": {
     /** 일반 모임 지원 */
     post: operations["applyGeneralMeeting"];
+  };
+  "/internal/post/{orgId}": {
+    /**
+     * [Internal] 피드 전체 조회
+     * @description 플그 모임 탭에서의 모임 피드를 보여주기 위한 조회 api
+     */
+    get: operations["getPosts_1"];
+    /**
+     * [Internal] 피드 생성
+     * @description 플그 모임 탭에서 피드를 생성하기 위한 api
+     */
+    post: operations["createPost_1"];
+  };
+  "/internal/meeting/stats/likes": {
+    /**
+     * [Internal] Playground '좋아요'수 동기화
+     * @description Playground '좋아요'수를 동기화합니다. 이미 좋아요가 되어 있으면 취소하고, 없으면 추가합니다.
+     */
+    post: operations["switchPostLike_1"];
   };
   "/flash/v2": {
     /** 번쩍 모임 생성 */
@@ -140,15 +165,12 @@ export interface paths {
     get: operations["getAppliedMeetingByUser"];
   };
   "/property/v2": {
+    /** 키 값을 통한 단 건 조회(키 값이 없다면 전체 조회를 진행합니다.) */
     get: operations["getProperty"];
   };
   "/property/v2/home": {
     /** 프로퍼티/홈 컨텐츠 조회 */
     get: operations["getHomeProperty"];
-  };
-  "/property/v2/all": {
-    /** 프로퍼티/조회 */
-    get: operations["allProperties"];
   };
   "/post/v2/count": {
     /** 모임 게시글 개수 조회 */
@@ -196,6 +218,13 @@ export interface paths {
      * @description 모임 전체 조회/검색/필터링
      */
     get: operations["getMeetings_1"];
+  };
+  "/internal/meetings/post": {
+    /**
+     * [Internal] 모임 전체 조회
+     * @description 플그 피드 작성시 크루 모임 전체 조회를 위한 api
+     */
+    get: operations["getMeetingsForWritingPost"];
   };
   "/internal/meeting/stats/studies": {
     /**
@@ -515,6 +544,9 @@ export interface components {
        */
       updateDate: string;
     };
+    UpdateUserInterestKeywordRequestDto: {
+      keywords?: string[];
+    };
     /** @description 게시물 생성 request body dto */
     PostV2CreatePostBodyDto: {
       /**
@@ -534,7 +566,7 @@ export interface components {
        *   "https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/12/7bd87736-b557-4b26-a0d5-9b09f1f1d7df"
        * ]
        */
-      images: string[];
+      images?: string[];
       /**
        * @description 게시글 내용
        * @example api 가 터졌다고? 깃이 터졌다고?
@@ -638,6 +670,47 @@ export interface components {
        */
       applyId: number;
     };
+    /** @description internal 게시물 생성 request body dto */
+    InternalPostCreateRequestDto: {
+      /**
+       * Format: int32
+       * @description 모임 id
+       * @example 1
+       */
+      meetingId: number;
+      /**
+       * @description 모임 제목
+       * @example 알고보면 쓸데있는 개발 프로세스
+       */
+      title: string;
+      /**
+       * @description 게시글 이미지 리스트
+       * @example [
+       *   "https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/04/12/7bd87736-b557-4b26-a0d5-9b09f1f1d7df"
+       * ]
+       */
+      images?: string[];
+      /**
+       * @description 게시글 내용
+       * @example api 가 터졌다고? 깃이 터졌다고?
+       */
+      contents: string;
+    };
+    /** @description 게시글 생성 응답 Dto */
+    InternalPostCreateResponseDto: {
+      /**
+       * Format: int32
+       * @description 게시글 id
+       * @example 1
+       */
+      postId: number;
+    };
+    InternalPostLikeRequestDto: {
+      /** Format: int32 */
+      orgId: number;
+      /** Format: int32 */
+      postId: number;
+    };
     /** @description 번쩍 모임 생성 응답 Dto */
     FlashV2CreateResponseDto: {
       /**
@@ -727,21 +800,13 @@ export interface components {
        */
       content: string;
     };
-    /** @description 인증 관련 request body dto */
-    AuthV2RequestDto: {
-      /**
-       * @description 플레이그라운드 토큰
-       * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOCIsImV4cCI6MTY3OTYwOTk3OH0.9D_Tc14J3S0VDmQgT5lUJ5i3KJZob3NKVmSS3fPjHAo
-       */
-      authToken: string;
-    };
     /** @description 인증 관련 response dto */
     AuthV2ResponseDto: {
       /**
-       * @description 크루 토큰
-       * @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi7Iah66-86recIiwiaWQiOjI4MywiaWF0IjoxNzI0MjYxMDg3LCJleHAiOjE3NjAyNjEwODd9.r2ScFqhSdt6pyl7gUvx0qFXHIknhtrXQVGjJavbAVRY
+       * Format: int32
+       * @example 1
        */
-      accessToken: string;
+      userId: number;
     };
     /** @description 전체 사용자 조회 응답 Dto */
     UserV2GetAllUserDto: {
@@ -1030,6 +1095,9 @@ export interface components {
        */
       category: string;
     };
+    UserV2GetInterestedKeywordsResponseDto: {
+      keywords?: string[];
+    };
     /** @description 내가 신청한 모임 Dto */
     ApplyV2GetAppliedMeetingByUserResponseDto: {
       /**
@@ -1063,12 +1131,6 @@ export interface components {
     MainPageContentVo: {
       title?: string;
       meetingIds?: number[];
-    };
-    PropertyResponse: {
-      key?: string;
-      value?: {
-        [key: string]: Record<string, never> | undefined;
-      };
     };
     /** @description 페이지 메타 정보 */
     PageMetaDto: {
@@ -1319,30 +1381,6 @@ export interface components {
        * @description 공지 생성 시각
        */
       createdDate: string;
-    };
-    MeetingV2GetAllMeetingQueryDto: {
-      /**
-       * Format: int32
-       * @description 각 페이지
-       * @default 1
-       * @example 1
-       */
-      page?: number;
-      /**
-       * Format: int32
-       * @description 가져올 데이터 개수
-       * @default 12
-       * @example 12
-       */
-      take?: number;
-      category?: string[];
-      keyword?: string[];
-      status?: string[];
-      isOnlyActiveGeneration: boolean;
-      joinableParts?: ("PM" | "DESIGN" | "IOS" | "ANDROID" | "SERVER" | "WEB")[];
-      query?: string;
-      /** @enum {string} */
-      paginationType?: "ADVERTISEMENT" | "DEFAULT";
     };
     /** @description 모임 Dto */
     MeetingResponseDto: {
@@ -1709,24 +1747,6 @@ export interface components {
       /** @description 모임 키워드 타입 목록 */
       meetingKeywordTypes: string[];
     };
-    MeetingGetAppliesQueryDto: {
-      /**
-       * Format: int32
-       * @description 각 페이지
-       * @default 1
-       * @example 1
-       */
-      page?: number;
-      /**
-       * Format: int32
-       * @description 가져올 데이터 개수
-       * @default 12
-       * @example 12
-       */
-      take?: number;
-      status?: ("WAITING" | "APPROVE" | "REJECT")[];
-      date?: string;
-    };
     /** @description 모임 신청자 객체 Dto */
     ApplicantDto: {
       /**
@@ -2019,6 +2039,97 @@ export interface components {
        */
       profileImage?: string;
     };
+    InternalPostGetAllResponseDto: {
+      posts?: components["schemas"]["InternalPostResponseDto"][];
+      pageMeta?: components["schemas"]["PageMetaDto"];
+    };
+    InternalPostResponseDto: {
+      /**
+       * Format: int32
+       * @description 피드 id
+       * @example 1
+       */
+      id: number;
+      /**
+       * @description 피드 제목
+       * @example 피드 제목입니다.
+       */
+      title: string;
+      /**
+       * @description 피드 내용
+       * @example 피드 내용입니다.
+       */
+      contents: string;
+      /**
+       * Format: date-time
+       * @description 피드 생성일자
+       */
+      createdDate: string;
+      /**
+       * @description 피드 이미지
+       * @example [
+       *   "url1",
+       *   "url2"
+       * ]
+       */
+      images: string[];
+      user: components["schemas"]["InternalPostWriterDetailInfoDto"];
+      /**
+       * Format: int32
+       * @description 피드 좋아요 갯수
+       * @example 20
+       */
+      likeCount: number;
+      /**
+       * @description 피드 좋아요 여부
+       * @example true
+       */
+      isLiked: boolean;
+      /**
+       * Format: int32
+       * @description 피드 조회수
+       * @example 30
+       */
+      viewCount: number;
+      /**
+       * Format: int32
+       * @description 피드 댓글 수
+       * @example 5
+       */
+      commentCount: number;
+      /**
+       * Format: int32
+       * @description 해당 피드와 연결된 모임 Id
+       * @example 5
+       */
+      meetingId: number;
+    };
+    /** @description 피드 작성자 객체 */
+    InternalPostWriterDetailInfoDto: {
+      /**
+       * Format: int32
+       * @description 작성자 id, 크루에서 사용하는 userId
+       * @example 1
+       */
+      id?: number;
+      /**
+       * Format: int32
+       * @description 작성자 org id, 메이커스 프로덕트에서 범용적으로 사용하는 userId
+       * @example 1
+       */
+      orgId?: number;
+      /**
+       * @description 작성자 이름
+       * @example 홍길동
+       */
+      name?: string;
+      /**
+       * @description 작성자 프로필 사진
+       * @example [url] 형식
+       */
+      profileImage?: string;
+      partInfo?: components["schemas"]["UserActivityVO"];
+    };
     /** @description [Internal] 모임 목록 조회 응답 Dto */
     InternalMeetingGetAllMeetingDto: {
       /** @description 모임 객체 목록 */
@@ -2069,6 +2180,34 @@ export interface components {
        * @example false
        */
       isBlockedMeeting?: boolean;
+    };
+    /** @description [Internal] 모임 피드 작성시 모임 전체 조회 응답 Dto */
+    InternalMeetingForWritingPostDto: {
+      /**
+       * @description 모임 제목
+       * @example 오늘 21시 강남 스터디
+       */
+      title?: string;
+      /**
+       * @description 모임 분류, [스터디 or 행사 or 세미나 or 번쩍 or 강연]
+       * @example 스터디
+       * @enum {string}
+       */
+      category?: "STUDY" | "LECTURE" | "FLASH" | "EVENT" | "SEMINAR" | "스터디" | "행사" | "세미나" | "번쩍" | "강연";
+      /**
+       * @description 모임 이미지
+       * @example [url 형식]
+       */
+      imageUrl?: string;
+      /**
+       * @description 모임 설명
+       * @example 해당 모임은 이런 모임이에요~~
+       */
+      description?: string;
+    };
+    InternalMeetingGetAllWritingPostResponseDto: {
+      meetings?: components["schemas"]["InternalMeetingForWritingPostDto"][];
+      pageMetaData?: components["schemas"]["PageMetaDto"];
     };
     /** @description 가장 빠르게 신청한 모임 DTO */
     TopFastestAppliedMeetingResponseDto: {
@@ -2584,6 +2723,29 @@ export interface operations {
       204: never;
     };
   };
+  /** 유저 관심 키워드 조회 */
+  getUserInterestedKeyword: {
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["UserV2GetInterestedKeywordsResponseDto"];
+        };
+      };
+    };
+  };
+  /** 유저 관심 키워드 설정 */
+  updateUserInterestedKeyword: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["UpdateUserInterestKeywordRequestDto"];
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: never;
+    };
+  };
   /** 모임 게시글 목록 조회 */
   getPosts: {
     parameters: {
@@ -2711,8 +2873,7 @@ export interface operations {
    */
   getMeetings: {
     parameters: {
-      query: {
-        queryCommand: components["schemas"]["MeetingV2GetAllMeetingQueryDto"];
+      query?: {
         /**
          * @description 페이지, default = 1
          * @example 1
@@ -2803,6 +2964,90 @@ export interface operations {
       };
       /** @description "모임이 없습니다" or "기수/파트를 설정해주세요" or "정원이 꽉찼습니다" or "활동 기수가 아닙니다" or "지원 가능한 파트가 아닙니다" or "지원 가능한 기간이 아닙니다" */
       400: never;
+    };
+  };
+  /**
+   * [Internal] 피드 전체 조회
+   * @description 플그 모임 탭에서의 모임 피드를 보여주기 위한 조회 api
+   */
+  getPosts_1: {
+    parameters: {
+      query: {
+        /**
+         * @description 페이지
+         * @example 1
+         */
+        page: number;
+        /**
+         * @description 가져올 데이터 개수
+         * @example 10
+         */
+        take: number;
+      };
+      path: {
+        /**
+         * @description 플레이그라운드 유저 ID(orgId)
+         * @example 1
+         */
+        orgId: number;
+      };
+    };
+    responses: {
+      /** @description 모임 목록 조회 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["InternalPostGetAllResponseDto"];
+        };
+      };
+    };
+  };
+  /**
+   * [Internal] 피드 생성
+   * @description 플그 모임 탭에서 피드를 생성하기 위한 api
+   */
+  createPost_1: {
+    parameters: {
+      path: {
+        orgId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["InternalPostCreateRequestDto"];
+      };
+    };
+    responses: {
+      /** @description 피드 생성 성공 */
+      201: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["InternalPostCreateResponseDto"];
+        };
+      };
+    };
+  };
+  /**
+   * [Internal] Playground '좋아요'수 동기화
+   * @description Playground '좋아요'수를 동기화합니다. 이미 좋아요가 되어 있으면 취소하고, 없으면 추가합니다.
+   */
+  switchPostLike_1: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["InternalPostLikeRequestDto"];
+      };
+    };
+    responses: {
+      /** @description 좋아요 수 동기화 성공 */
+      201: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description 존재하지 않는 유저입니다. */
+      404: {
+        content: {
+          "application/json": unknown;
+        };
+      };
     };
   };
   /** 번쩍 모임 생성 */
@@ -2915,11 +3160,6 @@ export interface operations {
   };
   /** 로그인/회원가입 */
   loginUser: {
-    requestBody: {
-      content: {
-        "application/json;charset=UTF-8": components["schemas"]["AuthV2RequestDto"];
-      };
-    };
     responses: {
       /** @description 성공 */
       201: {
@@ -3006,21 +3246,22 @@ export interface operations {
       };
     };
   };
+  /** 키 값을 통한 단 건 조회(키 값이 없다면 전체 조회를 진행합니다.) */
   getProperty: {
     parameters: {
-      query: {
-        key: string;
+      query?: {
+        key?: string;
       };
     };
     responses: {
-      /** @description OK */
+      /** @description 성공 */
       200: {
         content: {
-          "application/json;charset=UTF-8": {
-            [key: string]: Record<string, never> | undefined;
-          };
+          "application/json;charset=UTF-8": Record<string, never>;
         };
       };
+      /** @description 유효하지 않는 토큰입니다. */
+      401: never;
     };
   };
   /** 프로퍼티/홈 컨텐츠 조회 */
@@ -3030,19 +3271,6 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["HomePropertyResponse"];
-        };
-      };
-      /** @description 유효하지 않는 토큰입니다. */
-      401: never;
-    };
-  };
-  /** 프로퍼티/조회 */
-  allProperties: {
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["PropertyResponse"][];
         };
       };
       /** @description 유효하지 않는 토큰입니다. */
@@ -3073,8 +3301,27 @@ export interface operations {
    */
   findApplyList: {
     parameters: {
-      query: {
-        queryCommand: components["schemas"]["MeetingGetAppliesQueryDto"];
+      query?: {
+        /**
+         * @description 페이지, default = 1
+         * @example 1
+         */
+        page?: number;
+        /**
+         * @description 가져올 데이터 개수(10명씩, 30명씩, 50명씩 보기)
+         * @example 10
+         */
+        take?: number;
+        /**
+         * @description 지원 상태 (다중 선택 가능, 값을 전달하지 않으면 기본적으로 모든 상태가 선택)
+         * @example WAITING,APPROVE,REJECT
+         */
+        status?: string;
+        /**
+         * @description 날짜 정렬 (desc: 내림차순, asc: 오름차순)
+         * @example desc
+         */
+        date?: "desc" | "asc";
       };
       path: {
         meetingId: number;
@@ -3253,6 +3500,34 @@ export interface operations {
       200: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["InternalMeetingGetAllMeetingDto"];
+        };
+      };
+    };
+  };
+  /**
+   * [Internal] 모임 전체 조회
+   * @description 플그 피드 작성시 크루 모임 전체 조회를 위한 api
+   */
+  getMeetingsForWritingPost: {
+    parameters: {
+      query: {
+        /**
+         * @description 페이지
+         * @example 1
+         */
+        page: number;
+        /**
+         * @description 가져올 데이터 개수
+         * @example 10
+         */
+        take: number;
+      };
+    };
+    responses: {
+      /** @description 모임 목록 조회 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["InternalMeetingGetAllWritingPostResponseDto"];
         };
       };
     };

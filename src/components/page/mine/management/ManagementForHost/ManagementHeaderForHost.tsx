@@ -1,5 +1,5 @@
 import { components } from '@/__generated__/schema2';
-import { useMutationDownloadMeetingMemberCSV } from '@api/API_LEGACY/meeting/hooks';
+import { useDownloadMeetingMemberCSVMutation } from '@api/meeting/hook';
 import DownloadIcon from '@assets/svg/download.svg';
 import { styled } from 'stitches.config';
 
@@ -13,7 +13,7 @@ type ManagementHeaderForHostProps = {
 };
 
 const ManagementHeaderForHost = ({ id, isMeetingDataLoading, management }: ManagementHeaderForHostProps) => {
-  const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useMutationDownloadMeetingMemberCSV();
+  const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useDownloadMeetingMemberCSVMutation();
 
   const handleCSVDownload = () => {
     downloadCSVMutate(id);

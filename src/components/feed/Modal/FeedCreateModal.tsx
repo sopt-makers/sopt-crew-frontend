@@ -1,6 +1,6 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useMeetingQuery } from '@api/meeting/hook';
 import { useMutationPostPostWithMention } from '@api/mention/hooks';
 import { postPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
@@ -33,7 +33,7 @@ interface CreateModalProps extends ModalContainerProps {
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
+  const { data: detailData } = useMeetingQuery({ meetingId: Number(meetingId) });
   const { data: me } = useQueryMyProfile();
   const exitModal = useModal();
   const { open } = useToast();

@@ -1,8 +1,8 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { api, apiV2 } from '@/api';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
+import { api } from '@/api';
 import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useMeetingQuery } from '@api/meeting/hook';
 import { useGetPostListInfiniteQuery, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
@@ -14,7 +14,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -34,8 +34,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
   const { ref, inView } = useInView();
-  const { DELETE } = apiV2.get();
-  const queryClient = useQueryClient();
   const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
@@ -49,7 +47,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
 
-  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
+  const { data: meeting } = useMeetingQuery({ meetingId: Number(meetingId) });
   const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
   const { mutate: mutateDeletePost } = useMutationDeletePost();
 
@@ -147,7 +145,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
               onClick={() =>
                 ampli.clickFeedCard({
                   feed_id: post.id,
-                  feed_upload: post.updatedDate,
                   feed_title: post.title,
                   feed_image_total: post.images ? post.images.length : 0,
                   feed_comment_total: post.commentCount,

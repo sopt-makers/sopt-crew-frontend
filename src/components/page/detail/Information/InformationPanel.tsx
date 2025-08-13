@@ -1,12 +1,12 @@
+import { GetFlashByIdResponse } from '@api/flash';
+import { GetMeeting } from '@api/meeting/type';
 import { TabList } from '@components/@common/tabList/TabList';
-import { styled } from 'stitches.config';
+import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
 import { useDisplay } from '@hooks/useDisplay';
 import { useCallback, useRef, useState } from 'react';
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
-import { GetFlashByIdResponse } from '@api/flash';
+import { styled } from 'stitches.config';
 
-type DetailDataType = GetMeetingResponse | GetFlashByIdResponse;
+type DetailDataType = GetMeeting['response'] | GetFlashByIdResponse;
 
 interface InformationPanelProps {
   detailData: DetailDataType;
@@ -22,7 +22,7 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
 
   const detailList = isFlash(detailData)
     ? FlashDetailList(detailData as GetFlashByIdResponse)
-    : MeetingDetailList(detailData as GetMeetingResponse);
+    : MeetingDetailList(detailData as GetMeeting['response']);
   const [selectedTab, setSelectedTab] = useState(detailList[0]?.key);
 
   const handleChange = useCallback((text: string) => {
