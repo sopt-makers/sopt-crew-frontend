@@ -14,7 +14,7 @@ interface mentionableDataType {
   userName: string;
   recentPart: string;
   recentGeneration: number;
-  profileImageUrl: string;
+  profileImageUrl?: string;
 }
 
 interface SearchMentionProps {
