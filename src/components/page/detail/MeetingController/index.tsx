@@ -1,5 +1,7 @@
 import { ampli } from '@/ampli';
+import FlashQueryKey from '@api/flash/FlashQueryKey';
 import { GetFlash } from '@api/flash/type';
+import MeetingQueryKey from '@api/meeting/MeetingQueryKey';
 import {
   useDeleteMeetingApplicationMutation,
   useDeleteMeetingMutation,
@@ -93,7 +95,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
   };
 
   const handleDeleteMeeting = () => {
-    queryClient.invalidateQueries({ queryKey: ['fetchMeetingList'] });
+    queryClient.invalidateQueries({ queryKey: MeetingQueryKey.list() });
     mutateMeetingDeletion(Number(meetingId), {
       onSuccess: () => {
         dialogClose();
@@ -135,7 +137,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
         {
           onSuccess: async () => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId + ''],
+              queryKey: MeetingQueryKey.detail(meetingId),
             });
             dialogOpen({
               title: '신청 완료 되었습니다',
@@ -150,7 +152,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
           onError: async (error: unknown) => {
             if (error instanceof AxiosError) {
               await queryClient.refetchQueries({
-                queryKey: ['getMeeting', meetingId + ''],
+                queryKey: MeetingQueryKey.detail(meetingId),
               });
               const errorResponse = error.response as AxiosResponse;
               dialogOpen({
@@ -171,10 +173,10 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
         {
           onSuccess: async () => {
             await queryClient.refetchQueries({
-              queryKey: ['getMeeting', meetingId + ''],
+              queryKey: MeetingQueryKey.detail(meetingId),
             });
             await queryClient.refetchQueries({
-              queryKey: ['getFlash', meetingId],
+              queryKey: FlashQueryKey.detail(meetingId),
             });
             dialogOpen({
               title: '신청 완료 되었습니다',
@@ -189,10 +191,10 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
           onError: async (error: unknown) => {
             if (error instanceof AxiosError) {
               await queryClient.refetchQueries({
-                queryKey: ['getMeeting', meetingId + ''],
+                queryKey: MeetingQueryKey.detail(meetingId),
               });
               await queryClient.refetchQueries({
-                queryKey: ['getFlash', meetingId],
+                queryKey: FlashQueryKey.detail(meetingId),
               });
               const errorResponse = error.response as AxiosResponse;
               dialogOpen({
@@ -215,10 +217,10 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
     mutateApplicationDeletion(Number(meetingId), {
       onSuccess: async () => {
         await queryClient.refetchQueries({
-          queryKey: ['getMeeting', meetingId + ''],
+          queryKey: MeetingQueryKey.detail(meetingId),
         });
         await queryClient.refetchQueries({
-          queryKey: ['getFlash', meetingId],
+          queryKey: FlashQueryKey.detail(meetingId),
         });
         alert('신청이 취소됐습니다!');
         setIsSubmitting(false);
@@ -226,7 +228,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
       onError: async (error: unknown) => {
         if (error instanceof AxiosError) {
           await queryClient.refetchQueries({
-            queryKey: ['getMeeting', meetingId + ''],
+            queryKey: MeetingQueryKey.detail(meetingId),
           });
           const errorResponse = error.response as AxiosResponse;
           alert(errorResponse.data.errorCode);

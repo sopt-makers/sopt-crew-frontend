@@ -49,32 +49,35 @@ export function usePostCommentLikeMutation() {
     mutationKey: ['/comment/v1/{commentId}/like'],
     mutationFn: (commentId: number) => postCommentLike(commentId),
     onMutate: async commentId => {
-      await queryClient.cancelQueries({ queryKey: ['/comment/v1', query.id] });
+      await queryClient.cancelQueries({ queryKey: CommentQueryKey.list(Number(query.id)) });
 
-      const previousComments = queryClient.getQueryData(['/comment/v1', query.id]);
+      const previousComments = queryClient.getQueryData(CommentQueryKey.list(Number(query.id)));
 
       type Comments = GetCommentListResponse['comments'];
-      queryClient.setQueryData<InfiniteData<{ comments: Comments }>>(['/comment/v1', query.id], oldData => {
-        const newData = produce(oldData, draft => {
-          //todo: pages 제거 작업 필요
-          draft?.pages?.forEach(page => {
-            page.comments.forEach(comment => {
-              if (comment.id === commentId) {
-                comment.isLiked = !comment.isLiked;
-                comment.likeCount = comment.isLiked ? comment.likeCount + 1 : comment.likeCount - 1;
-              }
+      queryClient.setQueryData<InfiniteData<{ comments: Comments }>>(
+        CommentQueryKey.list(Number(query.id)),
+        oldData => {
+          const newData = produce(oldData, draft => {
+            //todo: pages 제거 작업 필요
+            draft?.pages?.forEach(page => {
+              page.comments.forEach(comment => {
+                if (comment.id === commentId) {
+                  comment.isLiked = !comment.isLiked;
+                  comment.likeCount = comment.isLiked ? comment.likeCount + 1 : comment.likeCount - 1;
+                }
+              });
             });
           });
-        });
-        return newData;
-      });
+          return newData;
+        }
+      );
       return { previousComments };
     },
-    onError: (err, commentId, context) => {
-      queryClient.setQueryData(['/comment/v1', query.id], context?.previousComments);
+    onError: (_, __, context) => {
+      queryClient.setQueryData(CommentQueryKey.list(Number(query.id)), context?.previousComments);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['/comment/v1', query.id] });
+      queryClient.invalidateQueries({ queryKey: CommentQueryKey.list(Number(query.id)) });
     },
   });
 }
@@ -105,7 +108,7 @@ export const useDeleteCommentMutation = (queryId: string) => {
   return useMutation({
     mutationFn: (commentId: number) => deleteComment(commentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/comment/v1', queryId] });
+      queryClient.invalidateQueries({ queryKey: CommentQueryKey.list(Number(queryId)) });
     },
   });
 };
