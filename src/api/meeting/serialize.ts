@@ -1,24 +1,5 @@
-import { parseStatusToNumber } from '@api/meeting/util';
-import { APPROVAL_STATUS, APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
 import { FormType } from '@type/form';
-import { GetMeetingMemberList, PostMeeting } from './type';
-
-export const serializeMeetingMemberListParams = (
-  params: GetMeetingMemberList['request']
-): GetMeetingMemberList['request'] => {
-  const status = params?.status
-    ?.split(',')
-    .map(item => APPROVAL_STATUS_KOREAN_TO_ENGLISH[item])
-    .filter((item): item is string => item !== null && item !== undefined)
-    .map(item => parseStatusToNumber(item, APPROVAL_STATUS))
-    .filter(item => item !== null)
-    .join(',');
-
-  return {
-    ...params,
-    status,
-  };
-};
+import { PostMeeting } from './type';
 
 export const serializeMeetingData = (formData: FormType): PostMeeting['request'] => {
   const refinedParts = formData.detail.joinableParts

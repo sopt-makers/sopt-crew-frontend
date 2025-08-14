@@ -29,7 +29,7 @@ import {
   putMeeting,
   updateMeetingApplication,
 } from '.';
-import { serializeMeetingData, serializeMeetingMemberListParams } from './serialize';
+import { serializeMeetingData } from './serialize';
 
 export const useMeetingListQuery = () => {
   const { value: category } = useCategoryParams();
@@ -93,10 +93,12 @@ export const useMeetingMemberListQuery = ({
   params: GetMeetingMemberList['request'];
   meetingId: string;
 }): UseQueryResult<GetMeetingMemberList['response']> => {
+  delete params?.status;
+
   return useQuery<GetMeetingMemberList['response']>({
-    queryKey: MeetingQueryKey.memberList(params),
+    queryKey: MeetingQueryKey.memberList(),
     queryFn: () => {
-      return getMeetingMemberList({ params: serializeMeetingMemberListParams(params), meetingId });
+      return getMeetingMemberList({ params, meetingId });
     },
     enabled: !!meetingId,
   });

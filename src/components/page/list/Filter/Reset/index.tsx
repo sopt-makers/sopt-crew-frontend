@@ -1,13 +1,12 @@
-import { IconRefresh } from '@sopt-makers/icons';
-import { styled } from '../../../../../../stitches.config';
 import {
   useCategoryParams,
   useIsOnlyActiveGenerationParams,
   useKeywordParams,
   usePartParams,
-  useSearchParams,
   useStatusParams,
 } from '@hooks/queryString/custom';
+import { IconRefresh } from '@sopt-makers/icons';
+import { styled } from 'stitches.config';
 
 const FilterResetButton = () => {
   const { deleteKey: deleteCategory } = useCategoryParams();
