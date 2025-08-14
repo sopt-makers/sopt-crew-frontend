@@ -1,5 +1,5 @@
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { GetMeetingMemberList } from '@api/meeting/type';
+import { useUserProfileQuery } from '@api/user/hooks';
 import { Option } from '@components/form/Select/OptionItem';
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
 import { styled } from 'stitches.config';
@@ -24,7 +24,7 @@ const ManagementForGuest = ({
   convertedNumberTake,
   setTake,
 }: ManagementForGuestProps) => {
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   return (
     <>

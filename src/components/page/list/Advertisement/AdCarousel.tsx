@@ -1,7 +1,7 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useGetAdvertisementQuery } from '@api/advertisement/hook';
+import { useUserProfileQuery } from '@api/user/hooks';
 import { useDisplay } from '@hooks/useDisplay';
 import { AdvertisementCategory } from '@type/advertisement';
 import { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
@@ -61,7 +61,7 @@ const AdCarousel: React.FC<PropType> = props => {
     onNavButtonClick
   );
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   useEffect(() => {
     ampli.impressionBanner({

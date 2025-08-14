@@ -1,9 +1,8 @@
 import { ampli } from '@/ampli';
-import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useMutationPostPostWithMention } from '@api/mention/hooks';
 import { postPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
+import { useUserMeetingAllQuery, useUserProfileQuery } from '@api/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
@@ -11,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
 import useThrottle from '@hooks/useThrottle';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -31,12 +30,9 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
   const queryClient = useQueryClient();
   const { open } = useToast();
   const router = useRouter();
-  const { data: attendMeetingList, isLoading: isFetchAttendMeetingLoading } = useQuery(
-    ['fetchMeetingList', 'all'],
-    fetchMeetingListOfUserAttend
-  );
+  const { data: attendMeetingList, isLoading: isFetchAttendMeetingLoading } = useUserMeetingAllQuery();
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
   const exitModal = useModal();
   const submitModal = useModal();
   const platform = window.innerWidth > 768 ? 'PC' : 'MO';
@@ -48,7 +44,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
 
   const { isValid } = formMethods.formState;
   const meetingType = formMethods.getValues('meetingId')
-    ? attendMeetingList?.data.filter(item => item.id == formMethods.getValues('meetingId'))[0]?.category
+    ? attendMeetingList?.filter(item => item.id == formMethods.getValues('meetingId'))[0]?.category
     : '';
 
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -118,7 +114,7 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
           {!isFetchAttendMeetingLoading && (
             <FeedFormPresentation
               userId={Number(me?.orgId)}
-              attendGroupsInfo={attendMeetingList?.data}
+              attendGroupsInfo={attendMeetingList}
               title="피드 작성"
               handleDeleteImage={handleDeleteImage}
               handleModalClose={handleModalClose}

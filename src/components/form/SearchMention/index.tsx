@@ -17,17 +17,6 @@ interface mentionableDataType {
   profileImageUrl: string;
 }
 
-const defaultMentionableDataType = {
-  id: 0,
-  display: '',
-  orgId: 0,
-  userId: 0,
-  userName: '',
-  recentPart: '',
-  recentGeneration: 0,
-  profileImageUrl: '',
-};
-
 interface SearchMentionProps {
   mentionUserList: mentionableDataType[];
   inputRef: React.RefObject<HTMLTextAreaElement>;

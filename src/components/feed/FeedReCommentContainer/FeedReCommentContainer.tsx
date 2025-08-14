@@ -1,9 +1,8 @@
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/hook';
 import { GetCommentListResponse } from '@api/comment/type';
-import { apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import RecommentPointIcon from '@assets/svg/recomment_point_icon.svg';
@@ -11,8 +10,6 @@ import TrashIcon from '@assets/svg/trash.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useOverlay } from '@hooks/useOverlay/Index';
-import { useToast } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import FeedActionButton from '../FeedActionButton/FeedActionButton';
@@ -27,14 +24,10 @@ interface FeedReCommentContainerProps {
 }
 
 const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: FeedReCommentContainerProps) => {
-  const queryClient = useQueryClient();
-  const { PUT } = apiV2.get();
   const { query } = useRouter();
-  const { open } = useToast();
-
   const overlay = useOverlay();
   const [replyEditMode, setReplyEditMode] = useState(false);
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
   const { mutate: mutateDeleteComment } = useDeleteCommentMutation(query.id as string);
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
   const { mutate: mutateReportComment } = usePostCommentReportMutation();

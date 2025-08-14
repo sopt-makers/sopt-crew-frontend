@@ -1,14 +1,11 @@
-import { styled } from 'stitches.config';
-import React, { useEffect, useRef, useState } from 'react';
-import { IconPlus } from '@sopt-makers/icons';
-import SearchMention from '@components/form/SearchMention';
+import { useUserProfileQuery, useUserQuery } from '@api/user/hooks';
+import { GetUser } from '@api/user/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
-import { IconSearch } from '@sopt-makers/icons';
-import { IconXCircle } from '@sopt-makers/icons';
-import { useQueryGetMentionUsers } from '@api/user/hooks';
+import SearchMention from '@components/form/SearchMention';
 import { fontsObject } from '@sopt-makers/fonts';
-import { IconXClose } from '@sopt-makers/icons';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { IconPlus, IconSearch, IconXCircle, IconXClose } from '@sopt-makers/icons';
+import { useEffect, useRef, useState } from 'react';
+import { styled } from 'stitches.config';
 
 interface CoLeaderFieldProps {
   value: mentionableDataType[];
@@ -28,21 +25,19 @@ interface mentionableDataType {
   userprofileImage?: string;
 }
 
-interface metionUserType {
-  userId: number;
-  orgId: number;
-  userName: string;
-  recentPart: string;
-  recentGeneration: number;
-  profileImageUrl: string;
-}
-
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
-  const { data: user } = useQueryMyProfile();
-  const { data: mentionUserList } = useQueryGetMentionUsers();
+  const { data: me } = useUserProfileQuery();
+  const { data: mentionUserList } = useUserQuery();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const filteredMeList = mentionUserList?.filter((mentionUser: metionUserType) => mentionUser.userId !== user?.id);
+  const filteredMeList =
+    mentionUserList
+      ?.filter((mentionUser: GetUser[number]) => mentionUser.userId !== me?.id)
+      .map((mentionUser: GetUser[number]) => ({
+        ...mentionUser,
+        id: mentionUser.orgId,
+        display: mentionUser.userName,
+      })) ?? [];
 
   const handleUserSelect = (user: mentionableDataType) => {
     if (coLeaders.length < 3 && !coLeaders.some(leader => leader.id === user.id)) {

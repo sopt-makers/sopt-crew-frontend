@@ -1,9 +1,9 @@
+import { useUserProfileQuery } from '@api/user/hooks';
+import { ACCESS_TOKEN_KEY } from '@components/util/auth';
+import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 import { styled } from 'stitches.config';
-import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
-import { ACCESS_TOKEN_KEY } from '@components/util/auth';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 
 // TODO: playground 팀에서 type export하면 제거할 예정
 type LinkRendererParams = {
@@ -12,7 +12,7 @@ type LinkRendererParams = {
 };
 
 const Header: FC = () => {
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
   const user = me ? { id: `${me.orgId}`, name: me.name, image: me.profileImage ?? undefined } : null;
 
   const logout = () => {

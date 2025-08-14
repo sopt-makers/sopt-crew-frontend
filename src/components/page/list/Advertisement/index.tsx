@@ -1,7 +1,7 @@
 import { ampli } from '@/ampli';
 import { useGetAdvertisementQuery } from '@api/advertisement/hook';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useGetPostListInfiniteQuery, useMutationUpdateLike } from '@api/post/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
@@ -33,7 +33,7 @@ const RenderPostsWithAds = () => {
 
   const router = useRouter();
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   const overlay = useOverlay();
 

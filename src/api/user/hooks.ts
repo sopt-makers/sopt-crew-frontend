@@ -1,17 +1,34 @@
+import UserQueryKey from '@api/user/UserQueryKey';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getInterestedKeywords, getMentionUsers, KeywordSettingOptionType, postInterestedKeywards } from '.';
+import {
+  getInterestedKeywords,
+  getUser,
+  getUserApplication,
+  getUserMeetingAll,
+  getUserMeetingList,
+  getUserProfile,
+  KeywordSettingOptionType,
+  postInterestedKeywords,
+} from '.';
 
-export const useQueryGetMentionUsers = () => {
+export const useUserQuery = () => {
   return useQuery({
-    queryKey: ['getMentionUsers'],
+    queryFn: getUser,
+    queryKey: UserQueryKey.list(),
     staleTime: Infinity,
-    queryFn: () => getMentionUsers(),
+  });
+};
+
+export const useUserApplicationQuery = () => {
+  return useQuery({
+    queryFn: getUserApplication,
+    queryKey: UserQueryKey.application(),
   });
 };
 
 export const useQueryGetInterestedKeywords = () => {
   return useQuery({
-    queryKey: ['getInterestedKeywords'],
+    queryKey: UserQueryKey.interestedKeywords(),
     queryFn: () => getInterestedKeywords(),
   });
 };
@@ -20,9 +37,30 @@ export const useMutationInterestedKeywords = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywards(keywords),
+    mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywords(keywords),
     onSuccess: () => {
       queryClient.invalidateQueries(['getInterestedKeywords']);
     },
+  });
+};
+
+export const useUserMeetingListQuery = () => {
+  return useQuery({
+    queryKey: UserQueryKey.meetingList(),
+    queryFn: getUserMeetingList,
+  });
+};
+
+export const useUserMeetingAllQuery = () => {
+  return useQuery({
+    queryKey: UserQueryKey.meetingAll(),
+    queryFn: getUserMeetingAll,
+  });
+};
+
+export const useUserProfileQuery = () => {
+  return useQuery({
+    queryKey: UserQueryKey.profile(),
+    queryFn: getUserProfile,
   });
 };

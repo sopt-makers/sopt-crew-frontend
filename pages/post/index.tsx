@@ -1,6 +1,5 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useGetCommentQuery, usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/hook';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
@@ -14,6 +13,7 @@ import {
   useMutationPostLike,
   useMutationUpdateLike,
 } from '@api/post/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';
 import ContentBlocker from '@components/blocker/ContentBlocker';
@@ -45,7 +45,7 @@ export default function PostPage() {
   const { isMobile } = useDisplay();
   const query = router.query;
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   const { data: post } = useGetPostDetailQuery(query.id as string);
 

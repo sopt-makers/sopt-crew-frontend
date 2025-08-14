@@ -1,5 +1,4 @@
 import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { GetFlash } from '@api/flash/type';
 import {
   useDeleteMeetingApplicationMutation,
@@ -8,6 +7,7 @@ import {
   usePostMeetingApplicationMutation,
 } from '@api/meeting/hook';
 import { GetMeeting } from '@api/meeting/type';
+import { useUserProfileQuery } from '@api/user/hooks';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import DefaultModal from '@components/modal/DefaultModal';
@@ -55,7 +55,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
   const { status, category, appliedInfo, approved, host: isHost, apply: isApplied, id: meetingId } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
   const queryClient = useQueryClient();
   const router = useRouter();
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;

@@ -1,9 +1,9 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { api } from '@/api';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import { useMeetingQuery } from '@api/meeting/hook';
 import { useGetPostListInfiniteQuery, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionsContainer from '@components/feed/FeedActionsContainer';
@@ -37,7 +37,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
   const {
     data: postsData,
     fetchNextPage,

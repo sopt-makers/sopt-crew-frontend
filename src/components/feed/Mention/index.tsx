@@ -1,4 +1,5 @@
-import { useQueryGetMentionUsers } from '@api/user/hooks';
+import { useUserQuery } from '@api/user/hooks';
+import { GetUser } from '@api/user/type';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
@@ -15,7 +16,7 @@ interface mentionableDataType {
   userName: string;
   recentPart: string;
   recentGeneration: number;
-  profileImageUrl: string;
+  profileImageUrl?: string;
 }
 
 interface CommonMentionProps {
@@ -41,7 +42,7 @@ const CommonMention = ({
   commentId,
   onClick,
 }: CommonMentionProps) => {
-  const { data: mentionUserList } = useQueryGetMentionUsers();
+  const { data: mentionUserList } = useUserQuery();
 
   const { parentComment, user, isReCommentClicked } = useContext(MentionContext);
 
@@ -58,7 +59,7 @@ const CommonMention = ({
         setValue(`-~!@#@${user.userName}[${user.userId}]%^&*+`);
       }
     }
-  }, [isReCommentClicked, inputRef, setValue, user]);
+  }, [isReCommentClicked, inputRef, setValue, user, parentComment.parentCommentId, commentId]);
 
   //다시 답글 달기 안누른 상태로 돌려주는 코드
   // useEffect(() => {
@@ -156,7 +157,7 @@ const CommonMention = ({
         data={search => {
           const data = getFilteredAndRandomUsers(
             search,
-            mentionUserList?.map((v: mentionableDataType) => ({ ...v, id: v.orgId, display: v.userName }))
+            (mentionUserList ?? []).map((v: GetUser[number]) => ({ ...v, id: v.orgId, display: v.userName }))
           );
           return data;
         }}
