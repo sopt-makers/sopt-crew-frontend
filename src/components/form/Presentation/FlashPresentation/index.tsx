@@ -1,4 +1,4 @@
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import { getPresignedUrl, uploadImage } from '@api/image';
 import CancelIcon from '@assets/svg/x.svg';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { imageS3Bucket } from '@constants/url';
@@ -103,7 +103,7 @@ function FlashPresentation({
 
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension ?? '');
+    const { url, fields } = await getPresignedUrl({ contentType: extension ?? '' });
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;

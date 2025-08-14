@@ -1,4 +1,4 @@
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import { getPresignedUrl, uploadImage } from '@api/image';
 import { imageS3Bucket } from '@constants/url';
 import { MAX_FILE_SIZE } from '@type/form';
 import { ChangeEvent } from 'react';
@@ -16,7 +16,7 @@ type useImageHandlerProps = {
 const useImageHandler = ({ onChangeImage, onDeleteImage }: useImageHandlerProps) => {
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension ?? '');
+    const { url, fields } = await getPresignedUrl({ contentType: extension ?? '' });
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;

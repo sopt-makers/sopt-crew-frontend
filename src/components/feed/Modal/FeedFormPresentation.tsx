@@ -2,7 +2,7 @@ import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@type/form';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import { getPresignedUrl, uploadImage } from '@api/image';
 import CameraIcon from '@assets/svg/camera.svg';
 import CancelIcon from '@assets/svg/x_big_gray.svg';
 import FormController from '@components/form/FormController';
@@ -12,10 +12,10 @@ import { imageS3Bucket } from '@constants/url';
 import { useToast } from '@sopt-makers/ui';
 import { getResizedImage } from '@utils/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import CommonMention from '../Mention';
 import ImagePreview from './ImagePreview';
 import SelectMeeting from './SelectMeeting';
 import { ERROR_MESSAGE } from './feedSchema';
-import CommonMention from '../Mention';
 
 export interface GroupInfo {
   id?: number;
@@ -127,7 +127,7 @@ function FeedFormPresentation({
 
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension ?? '');
+    const { url, fields } = await getPresignedUrl({ contentType: extension ?? '' });
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;

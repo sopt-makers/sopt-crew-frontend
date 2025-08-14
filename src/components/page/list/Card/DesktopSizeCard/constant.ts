@@ -1,7 +1,13 @@
-import { parsePartValueToLabel } from '@api/API_LEGACY/meeting';
 import { GetFlash } from '@api/flash/type';
 import { MeetingData } from '@api/meeting/type';
+import { PART_OPTIONS, PART_VALUES } from '@constants/option';
 import dayjs from 'dayjs';
+
+const parsePartValueToLabel = (part: string) => {
+  const partIdx = PART_VALUES.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_OPTIONS[partIdx];
+  return null;
+};
 
 export const MeetingInformation = (
   meetingData: MeetingData
