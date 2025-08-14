@@ -26,7 +26,6 @@
       {
         "endOfLine": "auto"
       }
-    ],
-    "import/no-unused-modules": [1, { "unusedExports": true }]
+    ]
   }
 }
