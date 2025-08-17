@@ -6,7 +6,7 @@ export const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
 export const redirectToLoginPage = () => {
   sessionStorage.setItem('lastUnauthorizedPath', window.location.href);
-  window.location.href = `${playgroundLink.login()}`;
+  window.location.href = `${playgroundLink.accounts()}`;
 };
 
 export const getAuthToken = () => {
