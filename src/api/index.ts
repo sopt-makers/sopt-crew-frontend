@@ -3,6 +3,7 @@ import { authToken } from '@/stores/tokenStore';
 import axios from 'axios';
 import { computed } from 'nanostores';
 import createClient from 'openapi-fetch';
+import { checkToken, refreshToken } from './interceptor';
 
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
@@ -46,3 +47,7 @@ export const apiV2 = computed(authToken, currentToken =>
     headers: currentToken ? { Authorization: `Bearer ${currentToken}` } : {},
   })
 );
+
+api.interceptors.request.use(checkToken, err => err);
+
+api.interceptors.response.use(res => res, refreshToken);
