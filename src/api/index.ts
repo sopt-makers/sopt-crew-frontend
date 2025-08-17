@@ -10,6 +10,8 @@ export type Data<T> = PromiseResponse<T>;
 const baseURL =
   process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 'https://crew.api.prod.sopt.org' : 'https://crew.api.dev.sopt.org';
 
+const authBaseURL = 'https://auth.api.dev.sopt.org';
+
 const playgroundBaseURL =
   process.env.NEXT_PUBLIC_APP_ENV === 'production'
     ? 'https://playground.api.sopt.org/'
@@ -19,6 +21,11 @@ export const baseApi = axios.create({ baseURL });
 
 export const api = axios.create({
   baseURL,
+});
+
+export const authApi = axios.create({
+  baseURL: authBaseURL,
+  withCredentials: true,
 });
 
 authToken.subscribe(newToken => {
