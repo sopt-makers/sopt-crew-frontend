@@ -1,13 +1,13 @@
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
-import { useFlashByIdQuery } from '@api/flash/hook';
+import { useFlashQuery } from '@api/flash/hook';
+import { MeetingData } from '@api/meeting/type';
 import DesktopSizeCard from '@components/page/list/Card/DesktopSizeCard';
 import { FlashInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
 
 type DesktopSizeFlashCardProps = {
-  meetingData: MeetingListResponse['meetings'][number];
+  meetingData: MeetingData;
 };
 const DesktopSizeFlashCard = ({ meetingData }: DesktopSizeFlashCardProps) => {
-  const { data: flashData } = useFlashByIdQuery({ meetingId: +meetingData.id });
+  const { data: flashData } = useFlashQuery({ meetingId: +meetingData.id });
 
   if (!flashData) return null;
 

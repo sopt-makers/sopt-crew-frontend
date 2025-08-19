@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
-import { DotButton, useDotButton } from './AdCarouselDotBtn';
-import { PrevButton, NextButton, usePrevNextButtons } from './AdCarouselArrowBtn';
+import { paths } from '@/__generated__/schema2';
+import { ampli } from '@/ampli';
+import { useGetAdvertisementQuery } from '@api/advertisement/hook';
+import { useUserProfileQuery } from '@api/user/hooks';
+import { useDisplay } from '@hooks/useDisplay';
+import { AdvertisementCategory } from '@type/advertisement';
+import { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
-import { styled } from 'stitches.config';
-import { paths } from '@/__generated__/schema2';
 import Link from 'next/link';
-import { useDisplay } from '@hooks/useDisplay';
-import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { useGetMeetingAds } from '@api/advertisement/hook';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { styled } from 'stitches.config';
+import { NextButton, PrevButton, usePrevNextButtons } from './AdCarouselArrowBtn';
+import { DotButton, useDotButton } from './AdCarouselDotBtn';
 
 type PropType = {
   slides: paths['/advertisement/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['advertisements'];
@@ -42,7 +43,7 @@ const AdCarousel: React.FC<PropType> = props => {
 
   const { isDesktop } = useDisplay();
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
-  const { data: meetingAds } = useGetMeetingAds();
+  const { data: meetingAds } = useGetAdvertisementQuery(AdvertisementCategory.MEETING);
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
@@ -60,7 +61,7 @@ const AdCarousel: React.FC<PropType> = props => {
     onNavButtonClick
   );
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   useEffect(() => {
     ampli.impressionBanner({

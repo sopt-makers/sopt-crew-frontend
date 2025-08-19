@@ -1,5 +1,5 @@
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { MeetingPeopleResponse } from '@api/meeting';
+import { GetMeetingMemberList } from '@api/meeting/type';
+import { useUserProfileQuery } from '@api/user/hooks';
 import { Option } from '@components/form/Select/OptionItem';
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
 import { styled } from 'stitches.config';
@@ -8,7 +8,7 @@ import ManagementListItemForGuest from './ManagementListItemForGuest';
 
 type ManagementForGuestProps = {
   isManagementDataLoading: boolean;
-  management: MeetingPeopleResponse;
+  management: GetMeetingMemberList['response'];
   onChangeSelectOption: (
     setValue: (value: string | number) => void,
     optionList: Option[]
@@ -24,7 +24,7 @@ const ManagementForGuest = ({
   convertedNumberTake,
   setTake,
 }: ManagementForGuestProps) => {
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   return (
     <>

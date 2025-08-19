@@ -1,4 +1,4 @@
-import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
+import { useRecommendMeetingListQuery } from '@api/meeting/hook';
 import DesktopCard from '@components/page/home/HomeCardList/DesktopCard';
 import MobileCard from '@components/page/home/HomeCardList/MobileCard';
 import { useDisplay } from '@hooks/useDisplay';
@@ -14,7 +14,7 @@ type HomeCardProps = {
 
 const CardList = ({ label, isMore = false, onMoreClick = () => {}, meetingIds }: HomeCardProps) => {
   const { isTablet } = useDisplay();
-  const { data } = useGetRecommendMeetingListQuery({ meetingIds });
+  const data = useRecommendMeetingListQuery({ meetingIds }).data?.meetings;
 
   if (!data) return null;
   return (

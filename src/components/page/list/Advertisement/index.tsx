@@ -1,38 +1,39 @@
 import { ampli } from '@/ampli';
-import { useInfinitePosts, useMutationUpdateLike } from '@api/post/hooks';
-import { TAKE_COUNT } from '@constants/feed';
-import React from 'react';
-import Link from 'next/link';
-import FeedItem from '@components/page/detail/Feed/FeedItem';
-import LikeButton from '@components/@common/button/LikeButton';
-import { useRouter } from 'next/router';
-import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
-import { useDisplay } from '@hooks/useDisplay';
-import { styled } from 'stitches.config';
-import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
-import { useGetPostAds } from '@api/advertisement/hook';
-import AdCarousel from './AdCarousel';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
-import { useOverlay } from '@hooks/useOverlay/Index';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import { useGetAdvertisementQuery } from '@api/advertisement/hook';
+import { useGetPostListInfiniteQuery, useMutationUpdateLike } from '@api/post/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import PostDeleteModal from './PostDeleteModal';
-import PostAlertModal from './PostAlertModal';
+import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
+import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
+import FeedEditModal from '@components/feed/Modal/FeedEditModal';
+import FeedItem from '@components/page/detail/Feed/FeedItem';
+import MeetingInfo from '@components/page/detail/Feed/FeedItem/MeetingInfo';
+import { TAKE_COUNT } from '@constants/feed';
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
+import { useDisplay } from '@hooks/useDisplay';
+import { useOverlay } from '@hooks/useOverlay/Index';
+import { AdvertisementCategory } from '@type/advertisement';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { styled } from 'stitches.config';
+import AdCarousel from './AdCarousel';
+import PostAlertModal from './PostAlertModal';
+import PostDeleteModal from './PostDeleteModal';
 
 const RenderPostsWithAds = () => {
   const { isMobile, isTablet } = useDisplay();
 
-  const { data: postsData } = useInfinitePosts(TAKE_COUNT);
+  const { data: postsData } = useGetPostListInfiniteQuery(TAKE_COUNT);
 
   const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
 
   const router = useRouter();
 
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   const overlay = useOverlay();
 
@@ -43,7 +44,7 @@ const RenderPostsWithAds = () => {
       mutateCb(postId);
     };
 
-  const { data: postAds } = useGetPostAds();
+  const { data: postAds } = useGetAdvertisementQuery(AdvertisementCategory.POST);
 
   const OPTIONS = { loop: true };
 
@@ -75,7 +76,6 @@ const RenderPostsWithAds = () => {
                       onClick={() =>
                         ampli.clickFeedCard({
                           feed_id: post.id,
-                          feed_upload: post.updatedDate,
                           feed_title: post.title,
                           feed_image_total: post.images ? post.images.length : 0,
                           feed_comment_total: post.commentCount,
@@ -160,7 +160,6 @@ const RenderPostsWithAds = () => {
                       onClick={() =>
                         ampli.clickFeedCard({
                           feed_id: post.id,
-                          feed_upload: post.updatedDate,
                           feed_title: post.title,
                           feed_image_total: post.images ? post.images.length : 0,
                           feed_comment_total: post.commentCount,
@@ -248,7 +247,6 @@ const RenderPostsWithAds = () => {
                       onClick={() =>
                         ampli.clickFeedCard({
                           feed_id: post.id,
-                          feed_upload: post.updatedDate,
                           feed_title: post.title,
                           feed_image_total: post.images ? post.images.length : 0,
                           feed_comment_total: post.commentCount,
@@ -333,7 +331,6 @@ const RenderPostsWithAds = () => {
                       onClick={() =>
                         ampli.clickFeedCard({
                           feed_id: post.id,
-                          feed_upload: post.updatedDate,
                           feed_title: post.title,
                           feed_image_total: post.images ? post.images.length : 0,
                           feed_comment_total: post.commentCount,

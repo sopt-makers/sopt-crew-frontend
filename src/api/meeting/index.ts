@@ -1,70 +1,87 @@
-import { paths } from '@/__generated__/schema2';
-import { APPROVAL_STATUS_KOREAN_TO_ENGLISH } from '@constants/option';
-import { FlashFormType } from '@type/form';
+import {
+  GetMeeting,
+  GetMeetingList,
+  GetMeetingMemberCSV,
+  GetMeetingMemberList,
+  GetRecommendMeetingList,
+  PostMeeting,
+  PostMeetingApplication,
+  UpdateMeetingApplication,
+} from '@api/meeting/type';
 import { api } from '..';
 
-interface OptionData {
-  id: string;
-  page: number;
-  take: number;
-  status: string[];
-  date: string;
-}
+export const getMeetingList = async (params: GetMeetingList['request']) => {
+  return (await api.get<GetMeetingList['response']>('/meeting/v2', { params })).data;
+};
 
-export type MeetingPeopleResponse =
-  paths['/meeting/v2/{meetingId}/list']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+export const postMeeting = async (body: PostMeeting['request']): Promise<PostMeeting['response']> => {
+  return (await api.post<PostMeeting['response']>(`/meeting/v2`, body)).data;
+};
 
-export const getMeetingPeopleList = async ({ id, ...rest }: OptionData): Promise<MeetingPeopleResponse> => {
-  const { status } = rest;
+export const getMeeting = async ({ meetingId }: GetMeeting['request']): Promise<GetMeeting['response']> => {
+  return (await api.get<GetMeeting['response']>(`/meeting/v2/${meetingId}`)).data;
+};
 
+export const putMeeting = async (meetingId: number, body: PostMeeting['request']): Promise<PostMeeting['response']> => {
+  return (await api.put<PostMeeting['response']>(`/meeting/v2/${meetingId}`, body)).data;
+};
+
+export const deleteMeeting = async (id: number) => {
+  return (await api.delete(`/meeting/v2/${id}`)).data;
+};
+
+export const deleteMeetingApplication = async (meetingId: number) => {
+  return (await api.delete(`/meeting/v2/${meetingId}/apply`)).data;
+};
+
+export const updateMeetingApplication = async ({
+  meetingId,
+  body,
+}: {
+  meetingId: number;
+  body: UpdateMeetingApplication['request'];
+}) => {
+  return (await api.put(`/meeting/v2/${meetingId}/apply/status`, body)).data;
+};
+
+export const getMeetingMemberList = async ({
+  params,
+  meetingId,
+}: {
+  params: GetMeetingMemberList['request'];
+  meetingId: string;
+}): Promise<GetMeetingMemberList['response']> => {
   return (
-    await api.get<MeetingPeopleResponse>(`/meeting/v2/${id}/list`, {
-      params: {
-        ...rest,
-        ...(status.length && {
-          status: status
-            .map(item => APPROVAL_STATUS_KOREAN_TO_ENGLISH[item])
-            .filter(item => item !== null)
-            .join(','),
-        }),
-      },
+    await api.get<GetMeetingMemberList['response']>(`/meeting/v2/${meetingId}/list`, {
+      params,
     })
   ).data;
 };
 
-type RecommendMeetingListResponse =
-  paths['/meeting/v2/recommend']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+export const getMeetingMemberCSV = async (meetingId: string) => {
+  // status를 1로 박아 놓은 이유 : 승인된 신청자만 보기 위해
+  // type을 0,1로 둔 이유 : 지원, 초대 둘다 보기 위해 (지금은 초대가 없지만...)
+  return await api.get<GetMeetingMemberCSV['response']>(
+    `/meeting/v2/${meetingId}/list/csv?status=1&type=0,1&order=desc`
+  );
+};
+
+export const postMeetingApplication = async (
+  body: PostMeetingApplication['request']
+): Promise<PostMeetingApplication['response']> => {
+  return (await api.post<PostMeetingApplication['response']>(`/meeting/v2/apply`, body)).data;
+};
+
+export const postEventApplication = async (
+  body: PostMeetingApplication['request']
+): Promise<PostMeetingApplication['response']> => {
+  return (await api.post<PostMeetingApplication['response']>(`/meeting/v2/apply/undefined`, body)).data;
+};
+
 export const getRecommendMeetingList = async ({ meetingIds = [] }: { meetingIds: number[] }) => {
   const meetingIdsParams = meetingIds.reduce((acc, id, idx) => {
     return acc + (idx === 0 ? '?' : '&') + `meetingIds=${id}`;
   }, '');
-  return (await api.get<RecommendMeetingListResponse>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data.meetings;
-};
 
-export const createFlash = async (formData: FlashFormType) => {
-  const {
-    data: { meetingId },
-  } = await api.post<{ meetingId: number }>('/flash/v2', filterFlashFormData(formData));
-  return meetingId;
-};
-
-const filterFlashFormData = (formData: FlashFormType) => {
-  const convertedEndDate =
-    formData.timeInfo.time.value === '당일' ? formData.timeInfo.dateRange[0] : formData.timeInfo.dateRange[1];
-  const convertedFlashPlace = formData.placeInfo.place.value === '협의 후 결정' ? null : formData.placeInfo.placeDetail;
-  const data = {
-    flashBody: {
-      title: formData.title,
-      desc: formData.desc,
-      flashTimingType: formData.timeInfo.time.value,
-      activityStartDate: formData.timeInfo.dateRange[0],
-      activityEndDate: convertedEndDate,
-      flashPlaceType: formData.placeInfo.place.value,
-      flashPlace: convertedFlashPlace,
-      minimumCapacity: formData.capacityInfo.minCapacity,
-      maximumCapacity: formData.capacityInfo.maxCapacity,
-      files: formData.files,
-    },
-  };
-  return data;
+  return (await api.get<GetRecommendMeetingList['response']>(`/meeting/v2/recommend${meetingIdsParams}`, {})).data;
 };

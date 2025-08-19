@@ -1,12 +1,11 @@
 import { ampli } from '@/ampli';
-import { createMeeting } from '@api/API_LEGACY/meeting';
+import { usePostMeetingMutation } from '@api/meeting/hook';
 import PlusIcon from '@assets/svg/plus.svg';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useMutation } from '@tanstack/react-query';
 import { FormType, schema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -30,12 +29,7 @@ const MakePage = () => {
     },
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormType) => createMeeting(formData),
-    onError: () => {
-      alert('모임을 개설하지 못했습니다.');
-    },
-  });
+  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = usePostMeetingMutation();
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();

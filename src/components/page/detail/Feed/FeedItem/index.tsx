@@ -3,24 +3,24 @@ import { Flex } from '@components/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
-import { UserResponse } from '@api/API_LEGACY/user';
+import { GetUser } from '@api/user/type';
+import ClickedMenuIcon from '@assets/svg/clicked-menu-icon.svg';
+import MenuIcon from '@assets/svg/menu_icon.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import Avatar from '@components/@common/avatar/Avatar';
 import { AVATAR_MAX_LENGTH, CARD_TITLE_MAX_LENGTH } from '@constants/feed';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { colors } from '@sopt-makers/colors';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { fromNow } from '@utils/dayjs';
 import truncateText from '@utils/truncateText';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { colors } from '@sopt-makers/colors';
-import MenuIcon from '@assets/svg/menu_icon.svg';
-import ClickedMenuIcon from '@assets/svg/clicked-menu-icon.svg';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useRouter } from 'next/router';
 
 interface PostProps {
   id: number;
-  user: UserResponse;
+  user: GetUser[number];
   title: string;
   contents: string;
   images?: string[];
@@ -88,9 +88,9 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick, Actions }: FeedIte
             }}
           >
             <SProfileImageWrapper>
-              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
+              {user.profileImageUrl ? <SProfileImage src={user.profileImageUrl} alt="" /> : <ProfileDefaultIcon />}
             </SProfileImageWrapper>
-            <SName>{user.name}</SName>
+            <SName>{user.userName}</SName>
           </SProfileButton>
           <STime>{fromNow(createdDate)}</STime>
         </Flex>

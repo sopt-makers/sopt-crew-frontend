@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { fetchMeetingListOfUserAttend } from '@api/API_LEGACY/user';
+import { getUserMeetingAll } from '@api/user';
 import PlusIcon from '@assets/svg/plus.svg';
 import Plus from '@assets/svg/plus.svg?rect';
 import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
@@ -20,12 +20,12 @@ function FloatingButton() {
   const { modal } = router.query;
   const overlay = useOverlay();
   const queryClient = useQueryClient();
-  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(fetchMeetingListOfUserAttend, {
+  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(getUserMeetingAll, {
     onSuccess: data => {
       setIsActive(false);
       router.push('/', undefined, { shallow: true });
       queryClient.setQueryData(['fetchMeetingList', 'all'], data);
-      if (data.data.length === 0) {
+      if (data.length === 0) {
         overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
       } else {
         overlay.open(({ isOpen, close }) => (

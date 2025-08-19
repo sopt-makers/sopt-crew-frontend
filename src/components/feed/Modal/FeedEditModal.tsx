@@ -1,6 +1,7 @@
-import { editPost } from '@api/post';
-import { useQueryGetPost } from '@api/post/hooks';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { putPost } from '@api/post';
+import { useGetPostDetailQuery } from '@api/post/hooks';
+import PostQueryKey from '@api/post/PostQueryKey';
+import { useUserProfileQuery } from '@api/user/hooks';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
@@ -24,10 +25,10 @@ interface EditModal extends ModalContainerProps {
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const queryClient = useQueryClient();
-  const { data: postData } = useQueryGetPost(String(postId));
+  const { data: postData } = useGetPostDetailQuery(String(postId));
   const exitModal = useModal();
   const submitModal = useModal();
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   const formMethods = useForm<FormEditType>({
     mode: 'onChange',
@@ -37,10 +38,10 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const { isValid } = formMethods.formState;
 
   const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormEditType) => editPost(postId, formData),
+    mutationFn: (formData: FormEditType) => putPost(postId, formData),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getPost', postId]);
-      queryClient.invalidateQueries(['getPosts']);
+      queryClient.invalidateQueries(PostQueryKey.detail(postId));
+      queryClient.invalidateQueries(PostQueryKey.all());
       alert('피드를 수정했습니다.');
       submitModal.handleModalClose();
       handleModalClose();

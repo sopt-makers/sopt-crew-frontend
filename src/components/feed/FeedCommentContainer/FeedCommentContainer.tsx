@@ -1,18 +1,23 @@
-import { paths } from '@/__generated__/schema';
-import { api, apiV2 } from '@api/index';
+import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/hook';
+import { GetCommentListResponse, GetCommentReplyResponse } from '@api/comment/type';
+import { apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import { useDeleteComment } from '@api/post/hooks';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
+import AlertIcon from '@assets/svg/alert-triangle.svg';
+import ReWriteIcon from '@assets/svg/comment-write.svg';
 import MessageIcon from '@assets/svg/message-dots.svg?v2';
 import ReplyPointIcon from '@assets/svg/recomment_point_icon.svg';
+import TrashIcon from '@assets/svg/trash.svg';
 import Avatar from '@components/@common/avatar/Avatar';
+import CommentBlocker from '@components/blocker/CommentBlocker';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
@@ -20,16 +25,10 @@ import FeedActionButton from '../FeedActionButton/FeedActionButton';
 import FeedCommentEditor from '../FeedCommentEditor/FeedCommentEditor';
 import FeedCommentViewer from '../FeedCommentViewer/FeedCommentViewer';
 import FeedReCommentContainer from '../FeedReCommentContainer/FeedReCommentContainer';
-import { replyType } from '../FeedReCommentContainer/FeedReCommentType';
 import FeedReCommentInput from '../FeedReCommentInput/FeedReCommentInput';
 import { MentionContext } from '../Mention/MentionContext';
-import { useToast } from '@sopt-makers/ui';
-import CommentBlocker from '@components/blocker/CommentBlocker';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
 interface FeedCommentContainerProps {
-  comment: paths['/comment/v2']['get']['responses']['200']['content']['application/json;charset=UTF-8']['comments'][number];
+  comment: GetCommentListResponse['comments'][number];
   isMine: boolean;
   postUserId: number;
   onClickLike: (commentId: number) => void;
@@ -58,38 +57,16 @@ export default function FeedCommentContainer({
 
   const { parentComment } = useContext(MentionContext);
 
-  const { mutate: mutateDeleteComment } = useDeleteComment(query.id as string);
+  const { mutate: mutateDeleteComment } = useDeleteCommentMutation(query.id as string);
 
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 
-  const { mutateAsync: mutateEditComment } = useMutation({
-    mutationFn: (contents: string) =>
-      PUT('/comment/v2/{commentId}', { params: { path: { commentId: comment.id } }, body: { contents } }),
-    onSuccess: () => queryClient.invalidateQueries(['/comment/v1', query.id]),
-  });
+  const { mutateAsync: mutateEditComment } = usePutCommentMutation(Number(query.id));
 
-  const { mutate: mutateReportComment } = useMutation({
-    mutationFn: (commentId: number) =>
-      api.post<paths['/comment/v2/{commentId}/report']['post']['responses']['201']['content']['application/json']>(
-        `/comment/v2/${comment.id}/report`,
-        {}
-      ),
-    onSuccess: () => {
-      open({
-        icon: 'success',
-        content: '댓글을 신고했습니다.',
-      });
-    },
-    onError: () => {
-      open({
-        icon: 'error',
-        content: '이미 신고한 댓글입니다.',
-      });
-    },
-  });
+  const { mutate: mutateReportComment } = usePostCommentReportMutation();
 
   const handleSubmitComment = async (req: PostCommentWithMentionRequest) => {
-    await mutateEditComment(req.content);
+    await mutateEditComment({ commentId: comment.id, contents: req.content });
     mutatePostCommentWithMention(req);
     setEditMode(false);
   };
@@ -177,11 +154,13 @@ export default function FeedCommentContainer({
         <LoadMoreReCommentsButton onClick={() => setShowMoreReComments(!showMoreReComments)}>
           <ReplyPointIcon style={{ marginRight: '12px' }} />
           <Avatar
-            src={comment.replies[comment?.replies?.length - 1].user.profileImage || ''}
+            src={comment?.replies?.[comment?.replies?.length - 1]?.user.profileImage || ''}
             alt={comment.user.name}
             sx={{ width: 28, height: 28 }}
           />
-          <SReplyButton>{comment.replies[comment?.replies?.length - 1].user.name}님이 답글을 달았습니다</SReplyButton>
+          <SReplyButton>
+            {comment?.replies?.[comment?.replies?.length - 1]?.user.name}님이 답글을 달았습니다
+          </SReplyButton>
           <MessageIconWrapper>
             <SMessageIcon />
             <SMessageHoverIcon />
@@ -190,7 +169,7 @@ export default function FeedCommentContainer({
         </LoadMoreReCommentsButton>
       ) : (
         <>
-          {comment?.replies?.map((reply: replyType) => {
+          {comment?.replies?.map((reply: GetCommentReplyResponse) => {
             return reply.isBlockedComment ? (
               <CommentBlocker variant="secondary" />
             ) : (

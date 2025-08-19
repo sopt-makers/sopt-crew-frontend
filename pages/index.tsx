@@ -1,9 +1,10 @@
 import { useFlashListQuery } from '@api/flash/hook';
-import { useInfinitePosts } from '@api/post/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/hooks';
 import CrewTab from '@components/CrewTab';
 import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
+import GuideButton from '@components/GuideButton';
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import HomeCardList from '@components/page/home/HomeCardList';
@@ -15,14 +16,13 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet, isMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useGetPostListInfiniteQuery(TAKE_COUNT);
 
   const flashList = useFlashListQuery().data?.meetings;
 

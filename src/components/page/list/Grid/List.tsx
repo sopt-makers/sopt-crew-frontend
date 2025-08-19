@@ -1,11 +1,12 @@
 import { ampli } from '@/ampli';
-import { useGetMeetingAds } from '@api/advertisement/hook';
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
-import { useQueryMeetingListOfAll } from '@api/API_LEGACY/meeting/hooks';
-import { useQueryMeetingListOfApplied, useQueryMeetingListOfMine, useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useGetAdvertisementQuery } from '@api/advertisement/hook';
+import { useMeetingListQuery } from '@api/meeting/hook';
+import { MeetingData } from '@api/meeting/type';
+import { useUserApplicationQuery, useUserMeetingListQuery, useUserProfileQuery } from '@api/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
@@ -19,11 +20,11 @@ import GridLayout from './Layout';
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
-  const { data: meetingListData, isLoading } = useQueryMeetingListOfAll(); //쿼리 파라미터 값을 사용하여 서버에 요청 보내서 필터링 된 모임 리스트 받아옴
-  const { data: meetingAds } = useGetMeetingAds();
+  const { data: meetingListData, isLoading } = useMeetingListQuery();
+  const { data: meetingAds } = useGetAdvertisementQuery(AdvertisementCategory.MEETING);
 
   useScrollRestorationAfterLoading(isLoading);
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   useEffect(() => {
     ampli.impressionBanner({
@@ -41,7 +42,7 @@ export function MeetingListOfAll() {
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout mobileType="list">
-            {meetingListData?.meetings.slice(0, 2).map(meetingData => (
+            {meetingListData?.meetings.slice(0, 2).map((meetingData: MeetingData) => (
               <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
             ))}
 
@@ -95,7 +96,7 @@ const PaginationWrapper = styled('div', {
 });
 
 export function MeetingListOfMine() {
-  const { data: mineData, isLoading } = useQueryMeetingListOfMine();
+  const { data: mineData, isLoading } = useUserMeetingListQuery();
   useScrollRestorationAfterLoading(isLoading);
   return (
     <main style={{ marginBottom: '20%' }}>
@@ -106,7 +107,7 @@ export function MeetingListOfMine() {
             <Card
               key={meetingData.id}
               // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes 가 현재 없지만, 곧 서버에서 내려줄 예정
-              meetingData={meetingData as unknown as MeetingListResponse['meetings'][number]}
+              meetingData={meetingData as unknown as MeetingData}
               mobileType="card"
               bottom={
                 meetingData?.isCoLeader ? (
@@ -126,7 +127,7 @@ export function MeetingListOfMine() {
 }
 
 export function MeetingListOfApplied() {
-  const { data: applyData, isLoading } = useQueryMeetingListOfApplied();
+  const { data: applyData, isLoading } = useUserApplicationQuery();
   useScrollRestorationAfterLoading(isLoading);
 
   return (
@@ -138,7 +139,7 @@ export function MeetingListOfApplied() {
             <Card
               key={applyData.id}
               // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes 가 현재 없지만, 곧 서버에서 내려줄 예정
-              meetingData={applyData.meeting as unknown as MeetingListResponse['meetings'][number]}
+              meetingData={applyData.meeting as unknown as MeetingData}
               mobileType="card"
               bottom={<Status status={applyData.status} />}
             />

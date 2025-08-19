@@ -1,5 +1,5 @@
 import { authToken } from '@/stores/tokenStore';
-import { fetchMyProfile } from '@api/API_LEGACY/user';
+import { getUserProfile } from '@api/user';
 import Loader from '@components/@common/loader/Loader';
 import { MentionProvider } from '@components/feed/Mention/MentionContext';
 import { SearchMentionProvider } from '@components/form/SearchMention/SearchMentionContext';
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             },
           },
         }).promise;
-        const { data: user } = await fetchMyProfile();
+        const user = await getUserProfile();
         ampli.identify(user.orgId + '');
       }
     })();

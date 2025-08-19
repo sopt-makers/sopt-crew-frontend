@@ -20,7 +20,6 @@ export const APPROVAL_STATUS_KOREAN_TO_ENGLISH: StringKeyObject = {
   승인: 'APPROVE',
   거절: 'REJECT',
 };
-export const APPLICATION_TYPE = ['신청', '초대'];
 export const CATEGORY_OPTIONS = ['번쩍', '스터디', '세미나', '행사'];
 export const KEYWORD_OPTIONS = ['학습', '취미', '먹방', '운동', '자기계발', '네트워킹', '기타'];
 export const PART_OPTIONS = ['기획', '디자인', 'Android', 'iOS', '웹', '서버'];

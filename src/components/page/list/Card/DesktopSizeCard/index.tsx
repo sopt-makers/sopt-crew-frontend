@@ -1,4 +1,4 @@
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
+import { MeetingData } from '@api/meeting/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { CategoryChip } from '@components/page/list/Card/DesktopSizeCard/CategoryChip';
 import { MeetingInformation } from '@components/page/list/Card/DesktopSizeCard/constant';
@@ -8,9 +8,8 @@ import { CategoryKoType } from '@constants/option';
 import { Tag } from '@sopt-makers/ui';
 import { getResizedImage } from '@utils/image';
 import { styled } from 'stitches.config';
-
 interface CardProps {
-  meetingData: MeetingListResponse['meetings'][number];
+  meetingData: MeetingData;
   isFlash?: boolean;
   flashDetailInfo?: {
     label: string;

@@ -1,22 +1,17 @@
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import {
-  useMutationDeleteMeeting,
-  useMutationPostApplication,
-  useMutationDeleteApplication,
-} from '@api/API_LEGACY/meeting/hooks';
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
+import { GetMeeting } from '@api/meeting/type';
 import Loader from '@components/@common/loader/Loader';
 import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
+import Carousel from '@components/page/detail/Carousel';
 import FeedPanel from '@components/page/detail/Feed/FeedPanel';
 import InformationPanel from '@components/page/detail/Information/InformationPanel';
 import MeetingController from '@components/page/detail/MeetingController';
 import { Tab } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { styled } from 'stitches.config';
-import Carousel from '@components/page/detail/Carousel';
 
 type CommonDetailProps = {
-  detailData: GetMeetingResponse | GetFlashByIdResponse;
+  detailData: GetMeeting['response'] | GetFlash['response'];
 };
 
 const enum SelectedTab {
@@ -26,9 +21,6 @@ const enum SelectedTab {
 
 // /detail 과 /detail/flash 에서 공통적으로 사용하는 컴포넌트
 const CommonDetail = ({ detailData }: CommonDetailProps) => {
-  const { mutate: mutateDeleteMeeting } = useMutationDeleteMeeting({});
-  const { mutate: mutatePostApplication } = useMutationPostApplication({});
-  const { mutate: mutateDeleteApplication } = useMutationDeleteApplication({});
   const [selectedIndex, setSelectedIndex] = useState(SelectedTab.INFORMATION);
 
   if (!detailData) {
@@ -46,12 +38,7 @@ const CommonDetail = ({ detailData }: CommonDetailProps) => {
     <>
       <SDetailPage>
         <Carousel imageList={detailData?.imageURL} />
-        <MeetingController
-          detailData={detailData}
-          mutateMeetingDeletion={mutateDeleteMeeting}
-          mutateApplication={mutatePostApplication}
-          mutateApplicationDeletion={mutateDeleteApplication}
-        />
+        <MeetingController detailData={detailData} />
         <Tab.Group selectedIndex={selectedIndex} onChange={index => setSelectedIndex(index)}>
           <STabList>
             <Tab as={Fragment}>

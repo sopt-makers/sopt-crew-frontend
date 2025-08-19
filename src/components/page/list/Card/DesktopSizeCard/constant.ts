@@ -1,9 +1,16 @@
-import { MeetingListResponse, parsePartValueToLabel } from '@api/API_LEGACY/meeting';
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
+import { MeetingData } from '@api/meeting/type';
+import { PART_OPTIONS, PART_VALUES } from '@constants/option';
 import dayjs from 'dayjs';
 
+const parsePartValueToLabel = (part: string) => {
+  const partIdx = PART_VALUES.findIndex(option => option === part);
+  if (partIdx >= 0) return PART_OPTIONS[partIdx];
+  return null;
+};
+
 export const MeetingInformation = (
-  meetingData: MeetingListResponse['meetings'][number]
+  meetingData: MeetingData
 ): { label: string; value: () => string; isValid: boolean }[] => [
   {
     label: '모집 기간',
@@ -35,7 +42,7 @@ export const MeetingInformation = (
 ];
 
 export const FlashInformation = (
-  flashData: GetFlashByIdResponse
+  flashData: GetFlash['response']
 ): { label: string; value: () => string; isValid: boolean }[] => [
   {
     label: '진행 일자',

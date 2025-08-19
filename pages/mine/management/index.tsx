@@ -1,6 +1,5 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useQueryGetMeetingPeopleList } from '@api/meeting/hook';
+import { useMeetingMemberListQuery, useMeetingQuery } from '@api/meeting/hook';
 import CrewTab from '@components/CrewTab';
 import { Option } from '@components/form/Select/OptionItem';
 import Pagination from '@components/page/list/Pagination';
@@ -22,20 +21,20 @@ const ManagementPage = () => {
   const { value: take, setValue: setTake } = useTakeParams();
   const { value: sortByDate, setValue: setSort } = useSortByDateParams();
 
-  const { isLoading: isMeetingDataLoading, data: meetingData } = useQueryGetMeeting({
-    params: { id },
+  const { isLoading: isMeetingDataLoading, data: meetingData } = useMeetingQuery({
+    meetingId: Number(id),
   });
 
   const convertedNumberTake = numberOptionList[Number(take)] ?? numberOptionListDefault;
   const convertedSortTake = sortOptionList[Number(sortByDate)] ?? sortOptionListDefault;
 
-  const { isLoading: isManagementDataLoading, data: management } = useQueryGetMeetingPeopleList({
+  const { isLoading: isManagementDataLoading, data: management } = useMeetingMemberListQuery({
+    meetingId: id,
     params: {
-      id,
-      page: (page || 0) as number,
+      page: Number(page),
       take: Number(convertedNumberTake.value),
-      status,
-      date: sortOptionList[Number(sortByDate) || 1]?.value as string,
+      status: status.join(','),
+      date: sortOptionList[Number(sortByDate) || 1]?.value as 'desc' | 'asc',
     },
   });
 

@@ -1,5 +1,5 @@
 import { paths } from '@/__generated__/schema2';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useUserProfileQuery } from '@api/user/hooks';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
 import { styled } from 'stitches.config';
@@ -9,7 +9,7 @@ interface RecruitmentStatusProps {
 }
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useUserProfileQuery();
 
   return (
     <SRecruitmentStatusListWrapper>

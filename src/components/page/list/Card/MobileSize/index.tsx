@@ -1,9 +1,9 @@
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
+import { MeetingData } from '@api/meeting/type';
 import CardType from './CardType';
 import ListType from './ListType';
 
 export interface MobileSizeCardProps {
-  meetingData: MeetingListResponse['meetings'][0];
+  meetingData: MeetingData;
   mobileType: 'list' | 'card';
 }
 
