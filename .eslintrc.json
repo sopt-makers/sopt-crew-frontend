@@ -26,6 +26,8 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "import/no-unused-modules": [1, { "unusedExports": true }],
+    "react/no-unstable-nested-components": "off"
   }
 }
