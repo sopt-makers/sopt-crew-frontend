@@ -6491,9 +6491,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/playground-common@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "@sopt-makers/playground-common@npm:1.7.2"
+"@sopt-makers/playground-common@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@sopt-makers/playground-common@npm:1.7.3"
   dependencies:
     "@emotion/react": "npm:^11.9.0"
     "@emotion/styled": "npm:^11.8.1"
@@ -6504,7 +6504,7 @@ __metadata:
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
-  checksum: 10c0/fb6075ad84663dea0b97de1687cd908222bbd6cf9cef6345576badd7bfe2b28bdbb8be8752f8d0acd1b3514d309e73a77d1dc75bff1e2dadcca959df06b928ad
+  checksum: 10c0/6dec2b38e8102fe5a468e1ad4a38c807c5ab57226f128b18869b175083222906132f6e2fd065105d9dd6ae8b2dd06ebbb57cfb8978f5597dcbd8be9ca6206101
   languageName: node
   linkType: hard
 
@@ -20189,7 +20189,7 @@ __metadata:
     "@sopt-makers/colors": "npm:^3.0.3"
     "@sopt-makers/fonts": "npm:^2.0.2"
     "@sopt-makers/icons": "npm:^1.1.0"
-    "@sopt-makers/playground-common": "npm:^1.7.2"
+    "@sopt-makers/playground-common": "npm:^1.7.3"
     "@sopt-makers/ui": "npm:^2.8.12"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
