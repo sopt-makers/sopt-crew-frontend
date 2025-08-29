@@ -7,13 +7,8 @@ import { api } from '@api/index';
 import { useMeetingQuery } from '@api/meeting/hook';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
-import {
-  useGetPostDetailQuery,
-  useGetPostListInfiniteQuery,
-  useMutationDeletePost,
-  useMutationPostLike,
-  useMutationUpdateLike,
-} from '@api/post/hooks';
+import { useGetPostDetailQuery, useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useMutationDeletePost, useMutationPostLike, useMutationUpdateLike } from '@api/post/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';

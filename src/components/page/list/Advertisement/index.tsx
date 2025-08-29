@@ -1,6 +1,7 @@
 import { ampli } from '@/ampli';
 import { useGetAdvertisementQuery } from '@api/advertisement/hook';
-import { useGetPostListInfiniteQuery, useMutationUpdateLike } from '@api/post/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useMutationUpdateLike } from '@api/post/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
