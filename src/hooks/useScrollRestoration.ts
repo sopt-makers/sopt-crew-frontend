@@ -1,4 +1,4 @@
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const blacklist = ['/post', '/make'];
@@ -22,7 +22,7 @@ export default function useScrollRestoration() {
     };
 
     const onRouteChangeComplete = () => {
-      restoreScrollPosition(router);
+      restoreScrollPosition();
     };
 
     router.events.on('routeChangeStart', onRouteChangeStart);
@@ -35,8 +35,7 @@ export default function useScrollRestoration() {
   }, [router]);
 }
 
-export const restoreScrollPosition = (router: NextRouter) => {
-  //const scrollPos = JSON.parse(sessionStorage.getItem(router.asPath) || '{"x": 0, "y": 0}');
+const restoreScrollPosition = () => {
   const scrollPos = JSON.parse('{"x": 0, "y": 0}'); // router.asPath 가 기록된 경우, 페이지 재진입 시 scroll 이 아래쪽으로 기억되어 있는 문제가 발생
 
   window.scroll(scrollPos.x, scrollPos.y);
@@ -47,7 +46,7 @@ export const useScrollRestorationAfterLoading = (isLoading: boolean) => {
 
   useEffect(() => {
     if (!isLoading) {
-      restoreScrollPosition(router);
+      restoreScrollPosition();
     }
   }, [router, isLoading]);
 };

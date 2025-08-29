@@ -1,4 +1,4 @@
-import { Ref, useImperativeHandle, forwardRef, useEffect, useState, useCallback } from 'react';
+import { forwardRef, Ref, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
 import { CreateOverlayElement } from './types';
 
@@ -19,7 +19,7 @@ export const OverlayController = forwardRef(function OverlayController(
 
   const handleClose = useCallback(() => {
     setIsOpen(false), onExit();
-  }, []);
+  }, [onExit]);
 
   useImperativeHandle(
     ref,

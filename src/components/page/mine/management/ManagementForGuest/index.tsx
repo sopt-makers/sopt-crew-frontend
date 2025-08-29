@@ -74,37 +74,6 @@ const SListHeader = styled('div', {
   },
 });
 
-const SSelectWrapper = styled('div', {
-  '& button': {
-    borderRadius: '14px',
-    border: '1px solid $gray600',
-    backgroundColor: '$gray950',
-
-    '@mobile': {
-      borderRadius: '8px',
-      minWidth: '$96',
-      height: '$36',
-      padding: '$12 $10',
-      fontAg: '12_semibold_100',
-    },
-  },
-
-  '& ul': {
-    background: '$gray950',
-    position: 'absolute',
-    top: '$50',
-    minWidth: '$147',
-  },
-
-  '& div': {
-    background: '$gray950',
-  },
-
-  '& + &': {
-    marginLeft: '12px',
-  },
-});
-
 const SEmptyView = styled('div', {
   flexType: 'center',
   height: '$820',

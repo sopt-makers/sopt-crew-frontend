@@ -1,15 +1,15 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
-import { styled } from 'stitches.config';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import dayjs from 'dayjs';
-import ErrorMessage from '../ErrorMessage';
 import { useDisplay } from '@hooks/useDisplay';
-import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconCalendar } from '@sopt-makers/icons';
-import { formatCalendarDate } from '@utils/dayjs';
 import { formatDateInput, MAX_DATE_INPUT_LENGTH, WEEKDAYS } from '@utils/date';
+import { formatCalendarDate } from '@utils/dayjs';
+import dayjs from 'dayjs';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { styled } from 'stitches.config';
+import ErrorMessage from '../ErrorMessage';
+import BottomSheetDialog from '../Select/BottomSheetSelect/BottomSheetDialog';
 
 /**
  * CalendarInputForm
@@ -135,7 +135,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         document.removeEventListener('mousedown', handleOutsideClick);
       };
     }
-  }, [isDesktop, containerRef, setIsOpen, handleOutsideClick]);
+  }, [isDesktop, containerRef, setIsOpen, handleOutsideClick, isMobile, isTablet]);
 
   const isRange = dateType !== 'singleSelect';
 
@@ -154,7 +154,7 @@ const CalendarInputForm = ({ selectedDate, setSelectedDate, error, dateType, sel
         minDetail="month"
         maxDetail="month"
         calendarType="gregory"
-        tileContent={({ date, view }) => {
+        tileContent={({ date }) => {
           if (selectedDate?.includes(formatCalendarDate(date))) {
             return (
               <SDotWrapper>

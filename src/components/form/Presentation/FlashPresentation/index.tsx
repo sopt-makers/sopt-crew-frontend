@@ -335,7 +335,7 @@ function FlashPresentation({
             <SPeopleWrapper>
               <FormController
                 name="capacityInfo.minCapacity"
-                render={({ field, fieldState: { error } }) => (
+                render={({ field }) => (
                   <TextInput
                     type="number"
                     placeholder="최소 인원"
@@ -355,7 +355,7 @@ function FlashPresentation({
               ></FormController>
               <FormController
                 name="capacityInfo.maxCapacity"
-                render={({ field, fieldState: { error } }) => (
+                render={({ field }) => (
                   <TextInput
                     type="number"
                     placeholder="최대 인원"
