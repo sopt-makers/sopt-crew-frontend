@@ -1,7 +1,7 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useGetCommentQuery } from '@api/comment/hook';
 import { usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/mutation';
+import { useGetCommentQueryOption } from '@api/comment/query';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
 import { useMeetingQuery } from '@api/meeting/hook';
@@ -26,7 +26,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -45,7 +45,7 @@ export default function PostPage() {
 
   const { data: post } = useGetPostDetailQuery(query.id as string);
 
-  const commentQuery = useGetCommentQuery();
+  const commentQuery = useQuery(useGetCommentQueryOption());
 
   const { parentComment } = useContext(MentionContext);
 
