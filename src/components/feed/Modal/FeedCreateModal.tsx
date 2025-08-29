@@ -1,9 +1,9 @@
 import { ampli } from '@/ampli';
-import { useMeetingQuery } from '@api/meeting/hook';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import { useMutationPostPostWithMention } from '@api/mention/mutation';
 import { postPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
 import useThrottle from '@hooks/useThrottle';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -33,8 +33,8 @@ interface CreateModalProps extends ModalContainerProps {
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data: detailData } = useMeetingQuery({ meetingId: Number(meetingId) });
-  const { data: me } = useUserProfileQuery();
+  const { data: detailData } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const exitModal = useModal();
   const { open } = useToast();
   const submitModal = useModal();

@@ -1,11 +1,12 @@
-import { useMeetingQuery } from '@api/meeting/hook';
 import { usePutMeetingMutation } from '@api/meeting/mutation';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import CheckIcon from '@assets/svg/check.svg';
 import Loader from '@components/@common/loader/Loader';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
 import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { FormType, schema } from '@type/form';
 import { formatCalendarDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
@@ -22,7 +23,7 @@ const EditPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data: formData } = useMeetingQuery({ meetingId: Number(id) });
+  const { data: formData } = useQuery(useMeetingQueryOption({ meetingId: Number(id) }));
   const { mutateAsync, isPending: isSubmitting } = usePutMeetingMutation(Number(id));
 
   const formMethods = useForm<FormType>({

@@ -1,15 +1,15 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useGetCommentQuery } from '@api/comment/hook';
 import { usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/mutation';
+import { useGetCommentQueryOption } from '@api/comment/query';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
-import { useMeetingQuery } from '@api/meeting/hook';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
-import { useGetPostDetailQuery, useGetPostListInfiniteQuery } from '@api/post/hooks';
 import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
+import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';
 import ContentBlocker from '@components/blocker/ContentBlocker';
@@ -26,7 +26,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -41,11 +41,11 @@ export default function PostPage() {
   const { isMobile } = useDisplay();
   const query = router.query;
 
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
-  const { data: post } = useGetPostDetailQuery(query.id as string);
+  const { data: post } = useQuery(useGetPostDetailQueryOption(query.id as string));
 
-  const commentQuery = useGetCommentQuery();
+  const commentQuery = useQuery(useGetCommentQueryOption());
 
   const { parentComment } = useContext(MentionContext);
 
@@ -138,7 +138,9 @@ export default function PostPage() {
       }
     };
 
-  const { data: meeting } = useMeetingQuery({ meetingId: post?.meeting.id ? Number(post.meeting.id) : 0 });
+  const { data: meeting } = useQuery(
+    useMeetingQueryOption({ meetingId: post?.meeting.id ? Number(post.meeting.id) : 0 })
+  );
 
   const comments = commentQuery.data?.comments?.filter(
     (comment: GetCommentListResponse['comments'][number]): comment is GetCommentListResponse['comments'][number] =>

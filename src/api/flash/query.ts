@@ -1,16 +1,16 @@
 import { getFlash, getFlashList } from '@api/flash';
 import FlashQueryKey from '@api/flash/FlashQueryKey';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-export const useFlashQuery = ({ meetingId }: { meetingId: number }) => {
-  return useQuery({
+export const useFlashQueryOption = ({ meetingId }: { meetingId: number }) => {
+  return queryOptions({
     queryKey: FlashQueryKey.detail(meetingId),
     queryFn: () => getFlash(meetingId),
   });
 };
 
-export const useFlashListQuery = () => {
-  return useQuery({
+export const useFlashListQueryOption = () => {
+  return queryOptions({
     queryKey: FlashQueryKey.list(),
     queryFn: getFlashList,
   });

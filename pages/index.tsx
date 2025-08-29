@@ -1,5 +1,5 @@
-import { useFlashListQuery } from '@api/flash/hook';
-import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useFlashListQueryOption } from '@api/flash/query';
+import { useGetPostListInfiniteQuery } from '@api/post/query';
 import CrewTab from '@components/CrewTab';
 import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
@@ -12,6 +12,7 @@ import QuickMenu from '@components/page/home/QuickMenu';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
+import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useGetPostListInfiniteQuery(TAKE_COUNT);
 
-  const flashList = useFlashListQuery().data?.meetings;
+  const flashList = useQuery(useFlashListQueryOption()).data?.meetings;
 
   useEffect(() => {
     if (inView && hasNextPage) {

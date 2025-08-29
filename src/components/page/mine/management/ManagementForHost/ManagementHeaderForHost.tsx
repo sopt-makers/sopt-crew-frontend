@@ -13,7 +13,7 @@ type ManagementHeaderForHostProps = {
 };
 
 const ManagementHeaderForHost = ({ id, isMeetingDataLoading, management }: ManagementHeaderForHostProps) => {
-  const { mutate: downloadCSVMutate, isLoading: isDownloadCSVLoading } = useDownloadMeetingMemberCSVMutation();
+  const { mutate: downloadCSVMutate, isPending: isDownloadCSVLoading } = useDownloadMeetingMemberCSVMutation();
 
   const handleCSVDownload = () => {
     downloadCSVMutate(id);

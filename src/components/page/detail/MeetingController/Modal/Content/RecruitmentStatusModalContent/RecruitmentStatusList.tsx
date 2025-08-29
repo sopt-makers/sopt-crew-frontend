@@ -1,7 +1,8 @@
 import { paths } from '@/__generated__/schema2';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import { APPROVAL_STATUS, EApprovalStatus } from '@constants/option';
+import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
 interface RecruitmentStatusProps {
@@ -9,7 +10,7 @@ interface RecruitmentStatusProps {
 }
 
 const RecruitmentStatusList = ({ recruitmentStatusList }: RecruitmentStatusProps) => {
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   return (
     <SRecruitmentStatusListWrapper>

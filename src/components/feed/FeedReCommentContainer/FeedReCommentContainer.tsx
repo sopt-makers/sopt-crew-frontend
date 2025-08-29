@@ -2,7 +2,7 @@ import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMu
 import { GetCommentListResponse } from '@api/comment/type';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
 import RecommentPointIcon from '@assets/svg/recomment_point_icon.svg';
@@ -10,6 +10,7 @@ import TrashIcon from '@assets/svg/trash.svg';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useOverlay } from '@hooks/useOverlay/Index';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import FeedActionButton from '../FeedActionButton/FeedActionButton';
@@ -27,7 +28,7 @@ const FeedReCommentContainer = ({ comment, reply, postUserId, onClickLike }: Fee
   const { query } = useRouter();
   const overlay = useOverlay();
   const [replyEditMode, setReplyEditMode] = useState(false);
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const { mutate: mutateDeleteComment } = useDeleteCommentMutation(query.id as string);
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
   const { mutate: mutateReportComment } = usePostCommentReportMutation();

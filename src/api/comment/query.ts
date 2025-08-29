@@ -1,17 +1,15 @@
 import { getCommentList } from '@api/comment';
 import CommentQueryKey from '@api/comment/CommentQueryKey';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-export function useGetCommentQuery() {
+export function useGetCommentQueryOption() {
   const { query } = useRouter();
   const postId = Number(query.id);
 
-  const commentQuery = useQuery({
+  return queryOptions({
     queryKey: CommentQueryKey.list(postId),
     queryFn: () => getCommentList(postId),
     enabled: !!query.id,
   });
-
-  return commentQuery;
 }

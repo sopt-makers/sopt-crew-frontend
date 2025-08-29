@@ -1,7 +1,8 @@
 import { GetMeetingMemberList } from '@api/meeting/type';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import { Option } from '@components/form/Select/OptionItem';
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
+import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import ManagementHeaderForGuest from './ManagementHeaderForGuest';
 import ManagementListItemForGuest from './ManagementListItemForGuest';
@@ -24,7 +25,7 @@ const ManagementForGuest = ({
   convertedNumberTake,
   setTake,
 }: ManagementForGuestProps) => {
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   return (
     <>

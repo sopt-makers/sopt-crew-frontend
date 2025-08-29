@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useMeetingMemberListQuery, useMeetingQuery } from '@api/meeting/hook';
+import { useMeetingMemberListQueryOption, useMeetingQueryOption } from '@api/meeting/query';
 import CrewTab from '@components/CrewTab';
 import { Option } from '@components/form/Select/OptionItem';
 import Pagination from '@components/page/list/Pagination';
@@ -9,6 +9,7 @@ import MeetingInformation from '@components/page/mine/management/MeetingInformat
 import MeetingInformationSkeleton from '@components/page/mine/management/Skeleton/MeetingInformationSkeleton';
 import { numberOptionList, numberOptionListDefault, sortOptionList, sortOptionListDefault } from '@data/options';
 import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hooks/queryString/custom';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
 
@@ -21,22 +22,26 @@ const ManagementPage = () => {
   const { value: take, setValue: setTake } = useTakeParams();
   const { value: sortByDate, setValue: setSort } = useSortByDateParams();
 
-  const { isLoading: isMeetingDataLoading, data: meetingData } = useMeetingQuery({
-    meetingId: Number(id),
-  });
+  const { isLoading: isMeetingDataLoading, data: meetingData } = useQuery(
+    useMeetingQueryOption({
+      meetingId: Number(id),
+    })
+  );
 
   const convertedNumberTake = numberOptionList[Number(take)] ?? numberOptionListDefault;
   const convertedSortTake = sortOptionList[Number(sortByDate)] ?? sortOptionListDefault;
 
-  const { isLoading: isManagementDataLoading, data: management } = useMeetingMemberListQuery({
-    meetingId: id,
-    params: {
-      page: Number(page),
-      take: Number(convertedNumberTake.value),
-      status: status.join(','),
-      date: sortOptionList[Number(sortByDate) || 1]?.value as 'desc' | 'asc',
-    },
-  });
+  const { isLoading: isManagementDataLoading, data: management } = useQuery(
+    useMeetingMemberListQueryOption({
+      meetingId: id,
+      params: {
+        page: Number(page),
+        take: Number(convertedNumberTake.value),
+        status: status.join(','),
+        date: sortOptionList[Number(sortByDate) || 1]?.value as 'desc' | 'asc',
+      },
+    })
+  );
 
   const isHost = meetingData?.host ?? false;
 

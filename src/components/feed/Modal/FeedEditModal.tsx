@@ -1,13 +1,13 @@
 import { putPost } from '@api/post';
-import { useGetPostDetailQuery } from '@api/post/hooks';
 import PostQueryKey from '@api/post/PostQueryKey';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useGetPostDetailQueryOption } from '@api/post/query';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -25,10 +25,10 @@ interface EditModal extends ModalContainerProps {
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const queryClient = useQueryClient();
-  const { data: postData } = useGetPostDetailQuery(String(postId));
+  const { data: postData } = useQuery(useGetPostDetailQueryOption(String(postId)));
   const exitModal = useModal();
   const submitModal = useModal();
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   const formMethods = useForm<FormEditType>({
     mode: 'onChange',

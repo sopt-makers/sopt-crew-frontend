@@ -1,11 +1,16 @@
 import { ampli } from '@/ampli';
-import { useGetAdvertisementQuery } from '@api/advertisement/hook';
-import { useMeetingListQuery } from '@api/meeting/hook';
+import { useGetAdvertisementQueryOption } from '@api/advertisement/query';
+import { useMeetingListQueryOption } from '@api/meeting/query';
 import { MeetingData } from '@api/meeting/type';
-import { useUserApplicationQuery, useUserMeetingListQuery, useUserProfileQuery } from '@api/user/hooks';
+import {
+  useUserApplicationQueryOption,
+  useUserMeetingListQueryOption,
+  useUserProfileQueryOption,
+} from '@api/user/query';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -20,11 +25,11 @@ import GridLayout from './Layout';
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
-  const { data: meetingListData, isLoading } = useMeetingListQuery();
-  const { data: meetingAds } = useGetAdvertisementQuery(AdvertisementCategory.MEETING);
+  const { data: meetingListData, isLoading } = useSuspenseQuery(useMeetingListQueryOption());
+  const { data: meetingAds } = useQuery(useGetAdvertisementQueryOption(AdvertisementCategory.MEETING));
 
   useScrollRestorationAfterLoading(isLoading);
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   useEffect(() => {
     ampli.impressionBanner({
@@ -42,7 +47,7 @@ export function MeetingListOfAll() {
       {meetingListData?.meetings.length ? (
         <>
           <GridLayout mobileType="list">
-            {meetingListData?.meetings.slice(0, 2).map((meetingData: MeetingData) => (
+            {meetingListData.meetings.slice(0, 2).map((meetingData: MeetingData) => (
               <Card key={meetingData.id} meetingData={meetingData} mobileType="list" />
             ))}
 
@@ -96,7 +101,7 @@ const PaginationWrapper = styled('div', {
 });
 
 export function MeetingListOfMine() {
-  const { data: mineData, isLoading } = useUserMeetingListQuery();
+  const { data: mineData, isLoading } = useQuery(useUserMeetingListQueryOption());
   useScrollRestorationAfterLoading(isLoading);
   return (
     <main style={{ marginBottom: '20%' }}>
@@ -127,7 +132,7 @@ export function MeetingListOfMine() {
 }
 
 export function MeetingListOfApplied() {
-  const { data: applyData, isLoading } = useUserApplicationQuery();
+  const { data: applyData, isLoading } = useQuery(useUserApplicationQueryOption());
   useScrollRestorationAfterLoading(isLoading);
 
   return (

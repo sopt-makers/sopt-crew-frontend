@@ -1,10 +1,10 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { api } from '@/api';
-import { useMeetingQuery } from '@api/meeting/hook';
-import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import { useDeletePostMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/query';
+import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionsContainer from '@components/feed/FeedActionsContainer';
@@ -15,7 +15,7 @@ import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,7 +38,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const {
     data: postsData,
     fetchNextPage,
@@ -48,7 +48,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
 
-  const { data: meeting } = useMeetingQuery({ meetingId: Number(meetingId) });
+  const { data: meeting } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
   const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
   const { mutate: mutateDeletePost } = useDeletePostMutation();
 
