@@ -4,7 +4,7 @@ import { api } from '@/api';
 import { useMeetingQueryOption } from '@api/meeting/query';
 import { useDeletePostMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
 import { useGetPostListInfiniteQuery } from '@api/post/query';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
 import FeedActionsContainer from '@components/feed/FeedActionsContainer';
@@ -38,7 +38,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const {
     data: postsData,
     fetchNextPage,

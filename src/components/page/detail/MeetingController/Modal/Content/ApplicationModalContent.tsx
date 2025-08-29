@@ -1,7 +1,8 @@
 import { ampli } from '@/ampli';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import Loader from '@components/@common/loader/Loader';
 import Textarea from '@components/form/Textarea';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 
@@ -12,7 +13,7 @@ interface ApplicationModalContentProps {
 
 const ApplicationModalContent = ({ handleApplicationButton, disabled }: ApplicationModalContentProps) => {
   const [textareaValue, setTextareaValue] = useState('');
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   const handleClick = () => {
     ampli.completedRegisterGroup({ user_id: Number(me?.orgId), submit_promise: textareaValue ? true : false });

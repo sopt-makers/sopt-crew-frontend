@@ -9,7 +9,7 @@ import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
 import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';
 import ContentBlocker from '@components/blocker/ContentBlocker';
@@ -41,7 +41,7 @@ export default function PostPage() {
   const { isMobile } = useDisplay();
   const query = router.query;
 
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   const { data: post } = useQuery(useGetPostDetailQueryOption(query.id as string));
 

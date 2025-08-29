@@ -2,7 +2,11 @@ import { ampli } from '@/ampli';
 import { useGetAdvertisementQueryOption } from '@api/advertisement/query';
 import { useMeetingListQueryOption } from '@api/meeting/query';
 import { MeetingData } from '@api/meeting/type';
-import { useUserApplicationQuery, useUserMeetingListQuery, useUserProfileQuery } from '@api/user/hooks';
+import {
+  useUserApplicationQueryOption,
+  useUserMeetingListQueryOption,
+  useUserProfileQueryOption,
+} from '@api/user/query';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
@@ -25,7 +29,7 @@ export function MeetingListOfAll() {
   const { data: meetingAds } = useQuery(useGetAdvertisementQueryOption(AdvertisementCategory.MEETING));
 
   useScrollRestorationAfterLoading(isLoading);
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   useEffect(() => {
     ampli.impressionBanner({
@@ -97,7 +101,7 @@ const PaginationWrapper = styled('div', {
 });
 
 export function MeetingListOfMine() {
-  const { data: mineData, isLoading } = useUserMeetingListQuery();
+  const { data: mineData, isLoading } = useQuery(useUserMeetingListQueryOption());
   useScrollRestorationAfterLoading(isLoading);
   return (
     <main style={{ marginBottom: '20%' }}>
@@ -128,7 +132,7 @@ export function MeetingListOfMine() {
 }
 
 export function MeetingListOfApplied() {
-  const { data: applyData, isLoading } = useUserApplicationQuery();
+  const { data: applyData, isLoading } = useQuery(useUserApplicationQueryOption());
   useScrollRestorationAfterLoading(isLoading);
 
   return (

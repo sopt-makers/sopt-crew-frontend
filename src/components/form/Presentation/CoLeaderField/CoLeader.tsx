@@ -1,9 +1,10 @@
-import { useUserProfileQuery, useUserQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption, useUserQueryOption } from '@api/user/query';
 import { GetUser } from '@api/user/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import SearchMention from '@components/form/SearchMention';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconPlus, IconSearch, IconXCircle, IconXClose } from '@sopt-makers/icons';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
@@ -26,8 +27,8 @@ interface mentionableDataType {
 }
 
 const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps) => {
-  const { data: me } = useUserProfileQuery();
-  const { data: mentionUserList } = useUserQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
+  const { data: mentionUserList } = useQuery(useUserQueryOption());
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const filteredMeList =

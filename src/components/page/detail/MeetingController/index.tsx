@@ -9,7 +9,7 @@ import {
   usePostMeetingApplicationMutation,
 } from '@api/meeting/mutation';
 import { GetMeeting } from '@api/meeting/type';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
 import ButtonLoader from '@components/@common/loader/ButtonLoader';
 import DefaultModal from '@components/modal/DefaultModal';
@@ -20,7 +20,7 @@ import { ERecruitmentStatus } from '@constants/option';
 import useModal from '@hooks/useModal';
 import { playgroundLink } from '@sopt-makers/playground-common';
 import { useDialog } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -57,7 +57,7 @@ const MeetingController = ({ detailData }: DetailHeaderProps) => {
   const { status, category, appliedInfo, approved, host: isHost, apply: isApplied, id: meetingId } = detailData;
 
   const { open: dialogOpen, close: dialogClose } = useDialog();
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const queryClient = useQueryClient();
   const router = useRouter();
   const isRecruiting = status === ERecruitmentStatus.RECRUITING;

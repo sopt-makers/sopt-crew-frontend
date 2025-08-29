@@ -1,7 +1,7 @@
 import { putPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
 import { useGetPostDetailQueryOption } from '@api/post/query';
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
@@ -28,7 +28,7 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const { data: postData } = useQuery(useGetPostDetailQueryOption(String(postId)));
   const exitModal = useModal();
   const submitModal = useModal();
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   const formMethods = useForm<FormEditType>({
     mode: 'onChange',

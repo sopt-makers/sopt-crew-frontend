@@ -1,5 +1,5 @@
 import UserQueryKey from '@api/user/UserQueryKey';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import {
   getInterestedKeywords,
   getUser,
@@ -9,44 +9,44 @@ import {
   getUserProfile,
 } from '.';
 
-export const useUserQuery = () => {
-  return useQuery({
+export const useUserQueryOption = () => {
+  return queryOptions({
     queryFn: getUser,
     queryKey: UserQueryKey.list(),
     staleTime: Infinity,
   });
 };
 
-export const useUserApplicationQuery = () => {
-  return useQuery({
+export const useUserApplicationQueryOption = () => {
+  return queryOptions({
     queryFn: getUserApplication,
     queryKey: UserQueryKey.application(),
   });
 };
 
-export const useQueryGetInterestedKeywords = () => {
-  return useQuery({
+export const useGetInterestedKeywordsQueryOption = () => {
+  return queryOptions({
     queryKey: UserQueryKey.interestedKeywords(),
     queryFn: () => getInterestedKeywords(),
   });
 };
 
-export const useUserMeetingListQuery = () => {
-  return useQuery({
+export const useUserMeetingListQueryOption = () => {
+  return queryOptions({
     queryKey: UserQueryKey.meetingList(),
     queryFn: getUserMeetingList,
   });
 };
 
-export const useUserMeetingAllQuery = () => {
-  return useQuery({
+export const useUserMeetingAllQueryOption = () => {
+  return queryOptions({
     queryKey: UserQueryKey.meetingAll(),
     queryFn: getUserMeetingAll,
   });
 };
 
-export const useUserProfileQuery = () => {
-  return useQuery({
+export const useUserProfileQueryOption = () => {
+  return queryOptions({
     queryKey: UserQueryKey.profile(),
     queryFn: getUserProfile,
   });

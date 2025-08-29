@@ -1,6 +1,7 @@
-import { useUserProfileQuery } from '@api/user/hooks';
+import { useUserProfileQueryOption } from '@api/user/query';
 import { ACCESS_TOKEN_KEY } from '@components/util/auth';
 import { DesktopHeader, MobileHeader, playgroundLink } from '@sopt-makers/playground-common';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 import { styled } from 'stitches.config';
@@ -12,7 +13,7 @@ type LinkRendererParams = {
 };
 
 const Header: FC = () => {
-  const { data: me } = useUserProfileQuery();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const user = me ? { id: `${me.orgId}`, name: me.name, image: me.profileImage ?? undefined } : null;
 
   const logout = () => {
