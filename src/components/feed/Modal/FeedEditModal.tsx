@@ -37,11 +37,11 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
+  const { mutateAsync: mutateEditFeed, isPending: isSubmitting } = useMutation({
     mutationFn: (formData: FormEditType) => putPost(postId, formData),
     onSuccess: () => {
-      queryClient.invalidateQueries(PostQueryKey.detail(postId));
-      queryClient.invalidateQueries(PostQueryKey.all());
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
       alert('피드를 수정했습니다.');
       submitModal.handleModalClose();
       handleModalClose();

@@ -8,7 +8,7 @@ export const useMutationInterestedKeywords = () => {
   return useMutation({
     mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywords(keywords),
     onSuccess: () => {
-      queryClient.invalidateQueries(UserQueryKey.interestedKeywords());
+      queryClient.invalidateQueries({ queryKey: UserQueryKey.interestedKeywords() });
     },
   });
 };
