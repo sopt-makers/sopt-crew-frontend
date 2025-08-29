@@ -1,12 +1,12 @@
 import { ampli } from '@/ampli';
 import { useGetAdvertisementQueryOption } from '@api/advertisement/query';
-import { useMeetingListQuery } from '@api/meeting/hook';
+import { useMeetingListQueryOption } from '@api/meeting/query';
 import { MeetingData } from '@api/meeting/type';
 import { useUserApplicationQuery, useUserMeetingListQuery, useUserProfileQuery } from '@api/user/hooks';
 import { usePageParams } from '@hooks/queryString/custom';
 import { useDisplay } from '@hooks/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -21,7 +21,7 @@ import GridLayout from './Layout';
 export function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
-  const { data: meetingListData, isLoading } = useMeetingListQuery();
+  const { data: meetingListData, isLoading } = useSuspenseQuery(useMeetingListQueryOption());
   const { data: meetingAds } = useQuery(useGetAdvertisementQueryOption(AdvertisementCategory.MEETING));
 
   useScrollRestorationAfterLoading(isLoading);

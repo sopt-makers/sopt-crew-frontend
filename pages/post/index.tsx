@@ -4,7 +4,7 @@ import { usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment
 import { useGetCommentQueryOption } from '@api/comment/query';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
-import { useMeetingQuery } from '@api/meeting/hook';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import { useGetPostDetailQuery, useGetPostListInfiniteQuery } from '@api/post/hooks';
@@ -138,7 +138,9 @@ export default function PostPage() {
       }
     };
 
-  const { data: meeting } = useMeetingQuery({ meetingId: post?.meeting.id ? Number(post.meeting.id) : 0 });
+  const { data: meeting } = useQuery(
+    useMeetingQueryOption({ meetingId: post?.meeting.id ? Number(post.meeting.id) : 0 })
+  );
 
   const comments = commentQuery.data?.comments?.filter(
     (comment: GetCommentListResponse['comments'][number]): comment is GetCommentListResponse['comments'][number] =>

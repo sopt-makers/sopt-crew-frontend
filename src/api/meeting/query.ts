@@ -11,10 +11,10 @@ import {
   useSearchParams,
   useStatusParams,
 } from '@hooks/queryString/custom';
-import { UseQueryResult, useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import { getMeeting, getMeetingList, getMeetingMemberList, getRecommendMeetingList } from '.';
 
-export const useMeetingListQuery = () => {
+export const useMeetingListQueryOption = () => {
   const { value: category } = useCategoryParams();
   const { value: status } = useStatusParams();
   const { value: search } = useSearchParams();
@@ -54,30 +54,30 @@ export const useMeetingListQuery = () => {
     params.query = search;
   }
 
-  return useSuspenseQuery({
+  return queryOptions({
     queryKey: MeetingQueryKey.list(params as GetMeetingList['request']),
     queryFn: () => getMeetingList(params as GetMeetingList['request']),
   });
 };
 
-export const useMeetingQuery = ({ meetingId }: { meetingId: number }) => {
-  return useQuery<GetMeeting['response']>({
+export const useMeetingQueryOption = ({ meetingId }: { meetingId: number }) => {
+  return queryOptions<GetMeeting['response']>({
     queryKey: MeetingQueryKey.detail(meetingId),
     queryFn: () => getMeeting({ meetingId }),
     enabled: !!meetingId,
   });
 };
 
-export const useMeetingMemberListQuery = ({
+export const useMeetingMemberListQueryOption = ({
   params,
   meetingId,
 }: {
   params: GetMeetingMemberList['request'];
   meetingId: string;
-}): UseQueryResult<GetMeetingMemberList['response']> => {
+}) => {
   delete params?.status;
 
-  return useQuery<GetMeetingMemberList['response']>({
+  return queryOptions<GetMeetingMemberList['response']>({
     queryKey: MeetingQueryKey.memberList(),
     queryFn: () => {
       return getMeetingMemberList({ params, meetingId });
@@ -87,7 +87,7 @@ export const useMeetingMemberListQuery = ({
 };
 
 export const useRecommendMeetingListQuery = ({ meetingIds = [] }: { meetingIds: number[] }) => {
-  return useQuery<GetRecommendMeetingList['response']>({
+  return queryOptions<GetRecommendMeetingList['response']>({
     queryKey: MeetingQueryKey.recommendList(meetingIds),
     queryFn: () => getRecommendMeetingList({ meetingIds }),
   });

@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useMeetingQuery } from '@api/meeting/hook';
+import { useMeetingQueryOption } from '@api/meeting/query';
 import { useMutationPostPostWithMention } from '@api/mention/mutation';
 import { postPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
 import useThrottle from '@hooks/useThrottle';
 import { useToast } from '@sopt-makers/ui';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -33,7 +33,7 @@ interface CreateModalProps extends ModalContainerProps {
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data: detailData } = useMeetingQuery({ meetingId: Number(meetingId) });
+  const { data: detailData } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
   const { data: me } = useUserProfileQuery();
   const exitModal = useModal();
   const { open } = useToast();
