@@ -1,4 +1,4 @@
-import { useUpdateMeetingApplicationMutation } from '@api/meeting/hook';
+import { useUpdateMeetingApplicationMutation } from '@api/meeting/mutation';
 import { GetMeetingMemberList } from '@api/meeting/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import {

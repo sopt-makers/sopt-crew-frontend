@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { usePostMeetingMutation } from '@api/meeting/hook';
+import { usePostMeetingMutation } from '@api/meeting/mutation';
 import PlusIcon from '@assets/svg/plus.svg';
 import Presentation from '@components/form/Presentation';
 import TableOfContents from '@components/form/TableOfContents';
