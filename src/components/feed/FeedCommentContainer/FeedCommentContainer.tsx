@@ -1,4 +1,4 @@
-import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/hook';
+import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/mutation';
 import { GetCommentListResponse, GetCommentReplyResponse } from '@api/comment/type';
 import { apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';

@@ -1,6 +1,7 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useGetCommentQuery, usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/hook';
+import { useGetCommentQuery } from '@api/comment/hook';
+import { usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/mutation';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
 import { useMeetingQuery } from '@api/meeting/hook';
