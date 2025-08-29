@@ -1,8 +1,8 @@
+import SelectRadioItem from '@components/filter/MultiSelect/SelectRadioItem';
 import { Listbox } from '@headlessui/react';
 import { CSSType } from 'stitches.config';
-import SelectRadioItem from '@components/filter/MultiSelect/SelectRadioItem';
 
-export interface Option {
+interface Option {
   label: string;
   // NOTE: null 은 placeholder
   value: string | null;
