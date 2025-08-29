@@ -5,7 +5,8 @@ import { getPostDetail, getPostList } from '.';
 export const useGetPostListInfiniteQuery = (take: number, meetingId?: number, enabled?: boolean) => {
   return useInfiniteQuery({
     queryKey: PostQueryKey.list(take, meetingId),
-    queryFn: ({ pageParam = 1 }) => getPostList(pageParam, take, meetingId),
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) => getPostList(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
       const posts = lastPage?.posts;
       if (!posts || posts.length === 0) {
