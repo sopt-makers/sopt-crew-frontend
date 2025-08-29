@@ -1,9 +1,10 @@
-import { useFlashQuery } from '@api/flash/hook';
 import { usePutFlashMutation } from '@api/flash/mutation';
+import { useFlashQueryOption } from '@api/flash/query';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import Loader from '@components/@common/loader/Loader';
 import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { FlashFormType, flashSchema } from '@type/form';
 import { formatCalendarDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
@@ -20,7 +21,7 @@ const FlashEditPage = () => {
   const router = useRouter();
   const id = +(router.query.id || 0);
 
-  const { data: formData } = useFlashQuery({ meetingId: id });
+  const { data: formData } = useQuery(useFlashQueryOption({ meetingId: id }));
   const { mutateAsync, isPending: isSubmitting } = usePutFlashMutation({ meetingId: id });
 
   const formMethods = useForm<FlashFormType>({
