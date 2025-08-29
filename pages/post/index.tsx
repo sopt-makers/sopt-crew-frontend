@@ -7,8 +7,8 @@ import { api } from '@api/index';
 import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
-import { useGetPostDetailQuery, useGetPostListInfiniteQuery } from '@api/post/hooks';
 import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
+import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
 import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';
@@ -43,7 +43,7 @@ export default function PostPage() {
 
   const { data: me } = useUserProfileQuery();
 
-  const { data: post } = useGetPostDetailQuery(query.id as string);
+  const { data: post } = useQuery(useGetPostDetailQueryOption(query.id as string));
 
   const commentQuery = useQuery(useGetCommentQueryOption());
 

@@ -1,5 +1,5 @@
 import { useFlashListQueryOption } from '@api/flash/query';
-import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/query';
 import CrewTab from '@components/CrewTab';
 import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
