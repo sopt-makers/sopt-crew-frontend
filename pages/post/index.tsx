@@ -1,18 +1,14 @@
 import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useGetCommentQuery, usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/hook';
+import { useGetCommentQuery } from '@api/comment/hook';
+import { usePostCommentLikeMutation, usePostCommentMutation } from '@api/comment/mutation';
 import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
 import { useMeetingQuery } from '@api/meeting/hook';
 import { PostCommentWithMentionRequest } from '@api/mention';
-import { useMutationPostCommentWithMention } from '@api/mention/hooks';
-import {
-  useGetPostDetailQuery,
-  useGetPostListInfiniteQuery,
-  useMutationDeletePost,
-  useMutationPostLike,
-  useMutationUpdateLike,
-} from '@api/post/hooks';
+import { useMutationPostCommentWithMention } from '@api/mention/mutation';
+import { useGetPostDetailQuery, useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import Loader from '@components/@common/loader/Loader';
@@ -91,8 +87,8 @@ export default function PostPage() {
     commentQuery.refetch();
   };
 
-  const { mutate: togglePostLike } = useMutationPostLike(query.id as string);
-  const { mutate: mutateDeletePost } = useMutationDeletePost();
+  const { mutate: togglePostLike } = usePostLikeMutation(query.id as string);
+  const { mutate: mutateDeletePost } = useDeletePostMutation();
 
   const handleDeleteSubPost = (postId: number) => {
     mutateDeletePost(postId, {
@@ -164,7 +160,7 @@ export default function PostPage() {
   const meetingId = meeting?.id;
   const { data: posts } = useGetPostListInfiniteQuery(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
   const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
-  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
+  const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -174,7 +170,7 @@ export default function PostPage() {
     };
 
   // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
-  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+  const { mutate: mutateLikeInAllPost } = useUpdatePostLikeMutation(TAKE_COUNT);
   const { data: allPosts, hasNextPage, fetchNextPage } = useGetPostListInfiniteQuery(TAKE_COUNT);
   const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
   // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.

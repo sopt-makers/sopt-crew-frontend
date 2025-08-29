@@ -2,7 +2,8 @@ import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
 import { api } from '@/api';
 import { useMeetingQuery } from '@api/meeting/hook';
-import { useGetPostListInfiniteQuery, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useDeletePostMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import LikeButton from '@components/@common/button/LikeButton';
 import ContentBlocker from '@components/blocker/ContentBlocker';
@@ -48,8 +49,8 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   useScrollRestorationAfterLoading(isLoading);
 
   const { data: meeting } = useMeetingQuery({ meetingId: Number(meetingId) });
-  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
-  const { mutate: mutateDeletePost } = useMutationDeletePost();
+  const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
+  const { mutate: mutateDeletePost } = useDeletePostMutation();
 
   const handleDeletePost = (postId: number) => {
     mutateDeletePost(postId, {

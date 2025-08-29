@@ -1,6 +1,7 @@
 import { ampli } from '@/ampli';
 import { useGetAdvertisementQuery } from '@api/advertisement/hook';
-import { useGetPostListInfiniteQuery, useMutationUpdateLike } from '@api/post/hooks';
+import { useGetPostListInfiniteQuery } from '@api/post/hooks';
+import { useUpdatePostLikeMutation } from '@api/post/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';
@@ -29,7 +30,7 @@ const RenderPostsWithAds = () => {
 
   const { data: postsData } = useGetPostListInfiniteQuery(TAKE_COUNT);
 
-  const { mutate: mutateLikeInAllPost } = useMutationUpdateLike(TAKE_COUNT);
+  const { mutate: mutateLikeInAllPost } = useUpdatePostLikeMutation(TAKE_COUNT);
 
   const router = useRouter();
 

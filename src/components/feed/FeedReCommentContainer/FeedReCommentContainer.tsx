@@ -1,7 +1,7 @@
-import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/hook';
+import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/mutation';
 import { GetCommentListResponse } from '@api/comment/type';
 import { PostCommentWithMentionRequest } from '@api/mention';
-import { useMutationPostCommentWithMention } from '@api/mention/hooks';
+import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import { useUserProfileQuery } from '@api/user/hooks';
 import AlertIcon from '@assets/svg/alert-triangle.svg';
 import ReWriteIcon from '@assets/svg/comment-write.svg';

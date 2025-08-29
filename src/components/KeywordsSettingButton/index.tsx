@@ -1,5 +1,6 @@
 import { KeywordSettingOptionType } from '@api/user';
-import { useMutationInterestedKeywords, useQueryGetInterestedKeywords } from '@api/user/hooks';
+import { useQueryGetInterestedKeywords } from '@api/user/hooks';
+import { useMutationInterestedKeywords } from '@api/user/mutation';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
 import SettingButton from '@components/page/list/AlarmSetting/SettingButton/SettingButton';

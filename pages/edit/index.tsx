@@ -1,4 +1,5 @@
-import { useMeetingQuery, usePutMeetingMutation } from '@api/meeting/hook';
+import { useMeetingQuery } from '@api/meeting/hook';
+import { usePutMeetingMutation } from '@api/meeting/mutation';
 import CheckIcon from '@assets/svg/check.svg';
 import Loader from '@components/@common/loader/Loader';
 import Presentation from '@components/form/Presentation';

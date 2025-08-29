@@ -7,7 +7,7 @@ import {
   useDeleteMeetingMutation,
   usePostEventApplicationMutation,
   usePostMeetingApplicationMutation,
-} from '@api/meeting/hook';
+} from '@api/meeting/mutation';
 import { GetMeeting } from '@api/meeting/type';
 import { useUserProfileQuery } from '@api/user/hooks';
 import ArrowSmallRightIcon from '@assets/svg/arrow_small_right.svg';
