@@ -22,7 +22,7 @@ const Flash = () => {
     resolver: zodResolver(flashSchema),
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-  const { mutateAsync: mutateCreateFlash, isLoading: isSubmitting } = usePostFlashMutation();
+  const { mutateAsync: mutateCreateFlash, isPending: isSubmitting } = usePostFlashMutation();
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();

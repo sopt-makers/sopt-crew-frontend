@@ -49,7 +49,7 @@ export default function PostPage() {
 
   const { parentComment } = useContext(MentionContext);
 
-  const { mutateAsync, isLoading: isCreatingComment } = usePostCommentMutation();
+  const { mutateAsync, isPending: isCreatingComment } = usePostCommentMutation();
 
   const { mutate: mutatePostCommentWithMention } = useMutationPostCommentWithMention({});
 

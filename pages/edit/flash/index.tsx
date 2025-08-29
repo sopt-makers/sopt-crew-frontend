@@ -21,7 +21,7 @@ const FlashEditPage = () => {
   const id = +(router.query.id || 0);
 
   const { data: formData } = useFlashQuery({ meetingId: id });
-  const { mutateAsync, isLoading: isSubmitting } = usePutFlashMutation({ meetingId: id });
+  const { mutateAsync, isPending: isSubmitting } = usePutFlashMutation({ meetingId: id });
 
   const formMethods = useForm<FlashFormType>({
     mode: 'onChange',
