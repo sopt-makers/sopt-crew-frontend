@@ -1,10 +1,10 @@
 import AdvertisementQueryKey from '@api/advertisement/AdvertisementQueryKey';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 import { AdvertisementCategoryType } from '@type/advertisement';
 import { getAdvertisementList } from '.';
 
-export const useGetAdvertisementQuery = (category: AdvertisementCategoryType) => {
-  return useQuery({
+export const useGetAdvertisementQueryOption = (category: AdvertisementCategoryType) => {
+  return queryOptions({
     queryKey: AdvertisementQueryKey.list(category),
     queryFn: () => getAdvertisementList(category),
   });
