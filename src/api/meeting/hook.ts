@@ -11,7 +11,7 @@ import {
   useSearchParams,
   useStatusParams,
 } from '@hooks/queryString/custom';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { getMeeting, getMeetingList, getMeetingMemberList, getRecommendMeetingList } from '.';
 
 export const useMeetingListQuery = () => {
@@ -54,10 +54,9 @@ export const useMeetingListQuery = () => {
     params.query = search;
   }
 
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: MeetingQueryKey.list(params as GetMeetingList['request']),
     queryFn: () => getMeetingList(params as GetMeetingList['request']),
-    suspense: true,
   });
 };
 
