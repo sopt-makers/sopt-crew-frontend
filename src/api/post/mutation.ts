@@ -4,7 +4,7 @@ import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query
 import { produce } from 'immer';
 import { deletePost, postPostLike } from '.';
 
-export const useMutationDeletePost = () => {
+export const useDeletePostMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -15,7 +15,7 @@ export const useMutationDeletePost = () => {
   });
 };
 
-export const useMutationUpdateLike = (take: number, meetingId?: number) => {
+export const useUpdatePostLikeMutation = (take: number, meetingId?: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -52,7 +52,7 @@ export const useMutationUpdateLike = (take: number, meetingId?: number) => {
   });
 };
 
-export const useMutationPostLike = (queryId: string) => {
+export const usePostLikeMutation = (queryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
