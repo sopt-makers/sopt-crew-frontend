@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { useMutationPostPostWithMention } from '@api/mention/hooks';
+import { useMutationPostPostWithMention } from '@api/mention/mutation';
 import { postPost } from '@api/post';
 import PostQueryKey from '@api/post/PostQueryKey';
 import { useUserMeetingAllQuery, useUserProfileQuery } from '@api/user/hooks';

@@ -6,7 +6,7 @@ import { GetCommentListResponse } from '@api/comment/type';
 import { api } from '@api/index';
 import { useMeetingQuery } from '@api/meeting/hook';
 import { PostCommentWithMentionRequest } from '@api/mention';
-import { useMutationPostCommentWithMention } from '@api/mention/hooks';
+import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import {
   useGetPostDetailQuery,
   useGetPostListInfiniteQuery,
