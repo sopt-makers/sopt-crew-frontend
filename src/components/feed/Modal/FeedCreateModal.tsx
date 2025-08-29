@@ -57,10 +57,10 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     basePath = 'https://playground.sopt.org';
   }
 
-  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
+  const { mutateAsync: mutateCreateFeed, isPending: isSubmitting } = useMutation({
     mutationFn: (formData: FormCreateType) => postPost(formData),
     onSuccess: res => {
-      queryClient.invalidateQueries(PostQueryKey.all());
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
       alert('피드를 작성했습니다.');
       const mentionedOrgIds = parseMentionedUserIds(formMethods.getValues().contents);
       if (mentionedOrgIds.length > 0) {

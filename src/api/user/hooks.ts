@@ -1,5 +1,5 @@
 import UserQueryKey from '@api/user/UserQueryKey';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import {
   getInterestedKeywords,
   getUser,
@@ -7,8 +7,6 @@ import {
   getUserMeetingAll,
   getUserMeetingList,
   getUserProfile,
-  KeywordSettingOptionType,
-  postInterestedKeywords,
 } from '.';
 
 export const useUserQuery = () => {
@@ -30,17 +28,6 @@ export const useQueryGetInterestedKeywords = () => {
   return useQuery({
     queryKey: UserQueryKey.interestedKeywords(),
     queryFn: () => getInterestedKeywords(),
-  });
-};
-
-export const useMutationInterestedKeywords = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (keywords: KeywordSettingOptionType[]) => postInterestedKeywords(keywords),
-    onSuccess: () => {
-      queryClient.invalidateQueries(UserQueryKey.interestedKeywords());
-    },
   });
 };
 

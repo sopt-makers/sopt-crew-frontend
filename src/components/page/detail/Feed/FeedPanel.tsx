@@ -76,7 +76,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const postCount = postsData?.total;
-  const formattedPostCount = postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
+  const formattedPostCount = postCount && postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
 
   const handleModalOpen = () => {
     if (me?.orgId) {
@@ -178,7 +178,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SContainer>
       )}
 
-      {postCount > 0 && (
+      {postCount && postCount > 0 && (
         <SHeader>
           <p>
             🔥 지금까지 쌓인 피드 <SCount>{formattedPostCount}</SCount>개

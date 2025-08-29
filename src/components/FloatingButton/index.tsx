@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { getUserMeetingAll } from '@api/user';
+import { useUserMeetingListMutation } from '@api/user/mutation';
 import PlusIcon from '@assets/svg/plus.svg';
 import Plus from '@assets/svg/plus.svg?rect';
 import FeedCreateWithSelectMeetingModal from '@components/feed/Modal/FeedCreateWithSelectMeetingModal';
@@ -8,7 +8,6 @@ import FloatingButtonModal from '@components/modal/FloatingButtonModal';
 import NoJoinedGroupModal from '@components/modal/NoJoinedGroupModal';
 import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
@@ -19,21 +18,7 @@ function FloatingButton() {
   const router = useRouter();
   const { modal } = router.query;
   const overlay = useOverlay();
-  const queryClient = useQueryClient();
-  const { mutate: fetchUserAttendMeetingListMutate } = useMutation(getUserMeetingAll, {
-    onSuccess: data => {
-      setIsActive(false);
-      router.push('/', undefined, { shallow: true });
-      queryClient.setQueryData(['fetchMeetingList', 'all'], data);
-      if (data.length === 0) {
-        overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
-      } else {
-        overlay.open(({ isOpen, close }) => (
-          <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
-        ));
-      }
-    },
-  });
+  const { mutate: fetchUserAttendMeetingListMutate } = useUserMeetingListMutation();
 
   const handleButtonClick = () => {
     if (!isActive) {
@@ -44,9 +29,21 @@ function FloatingButton() {
 
   useEffect(() => {
     if (modal === 'create-feed') {
-      fetchUserAttendMeetingListMutate();
+      fetchUserAttendMeetingListMutate(undefined, {
+        onSuccess: data => {
+          setIsActive(false);
+          router.push('/', undefined, { shallow: true });
+          if (data.length === 0) {
+            overlay.open(({ isOpen, close }) => <NoJoinedGroupModal isModalOpened={isOpen} handleModalClose={close} />);
+          } else {
+            overlay.open(({ isOpen, close }) => (
+              <FeedCreateWithSelectMeetingModal isModalOpened={isOpen} handleModalClose={close} />
+            ));
+          }
+        },
+      });
     }
-  }, [modal, fetchUserAttendMeetingListMutate]);
+  }, [modal, fetchUserAttendMeetingListMutate, router, overlay]);
 
   return (
     <>

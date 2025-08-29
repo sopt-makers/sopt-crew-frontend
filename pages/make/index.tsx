@@ -29,7 +29,7 @@ const MakePage = () => {
     },
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-  const { mutateAsync: mutateCreateMeeting, isLoading: isSubmitting } = usePostMeetingMutation();
+  const { mutateAsync: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();

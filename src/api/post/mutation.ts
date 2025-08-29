@@ -10,7 +10,7 @@ export const useDeletePostMutation = () => {
   return useMutation({
     mutationFn: (postId: number) => deletePost(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries(PostQueryKey.all());
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
     },
   });
 };
@@ -21,7 +21,7 @@ export const useUpdatePostLikeMutation = (take: number, meetingId?: number) => {
   return useMutation({
     mutationFn: (postId: number) => postPostLike(postId),
     onMutate: async postId => {
-      await queryClient.cancelQueries(PostQueryKey.list(take, meetingId));
+      await queryClient.cancelQueries({ queryKey: PostQueryKey.list(take, meetingId) });
 
       const previousPosts = queryClient.getQueryData(PostQueryKey.list(take, meetingId));
 
@@ -47,7 +47,7 @@ export const useUpdatePostLikeMutation = (take: number, meetingId?: number) => {
       queryClient.setQueryData(PostQueryKey.list(take, meetingId), context?.previousPosts);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(PostQueryKey.all());
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
     },
   });
 };

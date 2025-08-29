@@ -23,7 +23,7 @@ const EditPage = () => {
   const id = router.query.id as string;
 
   const { data: formData } = useMeetingQuery({ meetingId: Number(id) });
-  const { mutateAsync, isLoading: isSubmitting } = usePutMeetingMutation(Number(id));
+  const { mutateAsync, isPending: isSubmitting } = usePutMeetingMutation(Number(id));
 
   const formMethods = useForm<FormType>({
     mode: 'onChange',

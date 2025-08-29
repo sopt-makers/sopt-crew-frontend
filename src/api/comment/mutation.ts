@@ -18,7 +18,7 @@ export function usePutCommentMutation(postId: number) {
 
   return useMutation({
     mutationFn: ({ commentId, contents }: { commentId: number; contents: string }) => putComment(commentId, contents),
-    onSuccess: () => queryClient.invalidateQueries(CommentQueryKey.list(postId)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: CommentQueryKey.list(postId) }),
   });
 }
 export function usePostCommentLikeMutation() {
