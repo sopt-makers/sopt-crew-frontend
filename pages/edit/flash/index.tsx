@@ -1,4 +1,5 @@
-import { useFlashQuery, usePutFlashMutation } from '@api/flash/hook';
+import { useFlashQuery } from '@api/flash/hook';
+import { usePutFlashMutation } from '@api/flash/mutation';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import Loader from '@components/@common/loader/Loader';
 import FlashPresentation from '@components/form/Presentation/FlashPresentation';

@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { usePostFlashMutation } from '@api/flash/hook';
+import { usePostFlashMutation } from '@api/flash/mutation';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
