@@ -4,7 +4,7 @@ import { useMultiQueryString } from '@hooks/queryString';
 import useDebounce from '@hooks/useDebounce';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { styled } from 'stitches.config';
 
 interface DropDownFilterProps {
@@ -71,6 +71,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
     if (debounceValue && rawSelected?.length > 0) {
       setValue(debounceValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
 
   return (

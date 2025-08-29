@@ -36,7 +36,7 @@ import { styled } from 'stitches.config';
 export default function PostPage() {
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const overlay = useOverlay();
-  const { open, close } = useToast();
+  const { open } = useToast();
   const router = useRouter();
   const { isMobile } = useDisplay();
   const query = router.query;
@@ -118,7 +118,7 @@ export default function PostPage() {
   });
 
   const handleConfirmReportPost =
-    ({ postId, callback }: { postId: number; callback: () => void }) =>
+    ({ postId }: { postId: number }) =>
     async () => {
       try {
         await mutateReportPost(postId);
@@ -198,7 +198,7 @@ export default function PostPage() {
             mutateDeletePost(post.id);
             router.replace(`/detail?id=${post.meeting.id}`);
           },
-          handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+          handleReport: handleConfirmReportPost({ postId: post.id }),
           overlay: overlay,
         })}
         CommentLikeSection={
@@ -277,7 +277,7 @@ export default function PostPage() {
                             postId: post.id,
                             isMine: isMyFeed,
                             handleDelete: () => handleDeleteSubPost(post.id),
-                            handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+                            handleReport: handleConfirmReportPost({ postId: post.id }),
                             overlay: overlay,
                           })}
                         />
@@ -320,7 +320,7 @@ export default function PostPage() {
                           postId: post.id,
                           isMine: isMyFeed,
                           handleDelete: () => handleDeleteSubPost(post.id),
-                          handleReport: handleConfirmReportPost({ postId: post.id, callback: close }),
+                          handleReport: handleConfirmReportPost({ postId: post.id }),
                           overlay: overlay,
                         })}
                       />

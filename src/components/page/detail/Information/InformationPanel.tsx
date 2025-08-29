@@ -25,10 +25,13 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
     : MeetingDetailList(detailData as GetMeeting['response']);
   const [selectedTab, setSelectedTab] = useState(detailList[0]?.key);
 
-  const handleChange = useCallback((text: string) => {
-    setSelectedTab(text);
-    tabRef.current[detailList.findIndex(item => item.key === text)]?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  const handleChange = useCallback(
+    (text: string) => {
+      setSelectedTab(text);
+      tabRef.current[detailList.findIndex(item => item.key === text)]?.scrollIntoView({ behavior: 'smooth' });
+    },
+    [detailList]
+  );
 
   return (
     <SInformationPanel>

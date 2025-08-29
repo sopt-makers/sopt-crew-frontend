@@ -1,6 +1,6 @@
+import CautionIcon from '@assets/svg/caution.svg';
 import { useEffect } from 'react';
 import { styled } from 'stitches.config';
-import CautionIcon from '@assets/svg/caution.svg';
 
 type ToastType = 'error' | 'info';
 
@@ -18,7 +18,7 @@ function Toast({ isOpen, close, type, message }: ToastProps) {
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [close]);
 
   return (
     <ToastContainer isOpen={isOpen}>

@@ -12,7 +12,7 @@ const MemberCountField = () => {
       <div style={{ width: '119px' }}>
         <FormController
           name="capacity"
-          render={({ field, fieldState: { error } }) => (
+          render={({ field }) => (
             <TextInput
               type="number"
               placeholder="총 인원 수"

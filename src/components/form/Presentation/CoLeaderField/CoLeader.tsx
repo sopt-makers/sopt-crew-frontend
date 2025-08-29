@@ -51,8 +51,6 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
   const [showInput, setShowInput] = useState(false);
   const [comment, setComment] = useState('');
 
-  const [isFocused, setIsFocused] = useState(false);
-  const [userId, setUserId] = useState<number | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -111,8 +109,6 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
                           value={comment}
                           setValue={setComment}
                           placeholder={`멤버 검색`}
-                          setIsFocused={setIsFocused}
-                          setUserId={setUserId}
                           onUserSelect={handleUserSelect}
                         />
                         {comment ? (
@@ -136,8 +132,6 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
                         value={comment}
                         setValue={setComment}
                         placeholder={`멤버 검색`}
-                        setIsFocused={setIsFocused}
-                        setUserId={setUserId}
                         onUserSelect={handleUserSelect}
                       />
                       {comment ? (

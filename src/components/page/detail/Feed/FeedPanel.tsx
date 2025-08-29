@@ -125,7 +125,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;

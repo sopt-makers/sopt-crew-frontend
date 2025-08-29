@@ -2,9 +2,8 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
-import { SearchMentionContext } from './SearchMentionContext';
 
 interface mentionableDataType {
   id: number;
@@ -23,8 +22,6 @@ interface SearchMentionProps {
   value: string;
   setValue: (val: string) => void;
   placeholder?: string;
-  setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
   onClick?: () => void;
   onUserSelect: (user: mentionableDataType) => void;
 }
@@ -35,18 +32,16 @@ const SearchMention = ({
   value,
   setValue,
   placeholder,
-  setIsFocused,
-  setUserId,
   onClick,
   onUserSelect,
 }: SearchMentionProps) => {
-  //전역 상태 - 혹시 필요하면 context 적절히 조작하여 사용
-  const { user } = useContext(SearchMentionContext);
-
-  const handleUserClick = (user: mentionableDataType) => {
-    onUserSelect(user);
-    setValue('');
-  };
+  const handleUserClick = useCallback(
+    (user: mentionableDataType) => {
+      onUserSelect(user);
+      setValue('');
+    },
+    [onUserSelect, setValue]
+  );
 
   const filterUsersBySearchTerm = (searchTerm: string, users: mentionableDataType[]) => {
     return users?.filter((v: mentionableDataType) => v.userName.includes(searchTerm));
@@ -78,41 +73,44 @@ const SearchMention = ({
   };
 
   //인물 하나 하나의 모습
-  const renderSuggestion = useCallback((suggestion: SuggestionDataItem) => {
-    return (
-      <>
-        <SRenderSuggestion
-          key={suggestion.id}
-          onClick={() => {
-            handleUserClick(suggestion as mentionableDataType);
-          }}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            //엔터 누르면 간편히 설정되도록 하고 싶은데,
-            //위에 react-mention의 li(aria-selected 속성 사용)를 조작해야할 것 같아서.. 아직은 구현 못함
-            if (e.key === 'Enter') {
+  const renderSuggestion = useCallback(
+    (suggestion: SuggestionDataItem) => {
+      return (
+        <>
+          <SRenderSuggestion
+            key={suggestion.id}
+            onClick={() => {
               handleUserClick(suggestion as mentionableDataType);
-            }
-          }}
-        >
-          {(suggestion as mentionableDataType).profileImageUrl ? (
-            <SImageWrapper>
-              <img src={(suggestion as mentionableDataType).profileImageUrl} alt="Img" />
-            </SImageWrapper>
-          ) : (
-            <DefaultProfile />
-          )}
+            }}
+            onKeyDown={(e: React.KeyboardEvent) => {
+              //엔터 누르면 간편히 설정되도록 하고 싶은데,
+              //위에 react-mention의 li(aria-selected 속성 사용)를 조작해야할 것 같아서.. 아직은 구현 못함
+              if (e.key === 'Enter') {
+                handleUserClick(suggestion as mentionableDataType);
+              }
+            }}
+          >
+            {(suggestion as mentionableDataType).profileImageUrl ? (
+              <SImageWrapper>
+                <img src={(suggestion as mentionableDataType).profileImageUrl} alt="Img" />
+              </SImageWrapper>
+            ) : (
+              <DefaultProfile />
+            )}
 
-          <div>
-            <div>{suggestion.display}</div>
-            <p>
-              {(suggestion as mentionableDataType).recentGeneration}기{` `}
-              {(suggestion as mentionableDataType).recentPart}
-            </p>
-          </div>
-        </SRenderSuggestion>
-      </>
-    );
-  }, []);
+            <div>
+              <div>{suggestion.display}</div>
+              <p>
+                {(suggestion as mentionableDataType).recentGeneration}기{` `}
+                {(suggestion as mentionableDataType).recentPart}
+              </p>
+            </div>
+          </SRenderSuggestion>
+        </>
+      );
+    },
+    [handleUserClick]
+  );
 
   useEffect(() => {
     if (inputRef.current) {
@@ -125,7 +123,6 @@ const SearchMention = ({
       inputRef={inputRef}
       value={value}
       onChange={(e, newValue) => {
-        setUserId(user.userId); //필요한 경우가 있을까봐 설정해둠
         if (!inputRef.current) {
           setValue(newValue);
           return;
@@ -138,7 +135,6 @@ const SearchMention = ({
         setValue(newValue);
       }}
       placeholder={placeholder}
-      onFocus={() => setIsFocused(true)}
       customSuggestionsContainer={customSuggestionsContainer}
       style={FeedModalMentionStyle}
       forceSuggestionsAboveCursor={isMobile}

@@ -37,7 +37,7 @@ export function MeetingListOfAll() {
       banner_url: meetingAds?.advertisements[0]?.advertisementLink,
       banner_timestamp: meetingAds?.advertisements[0]?.advertisementStartDate,
     });
-  }, []);
+  }, [meetingAds]);
 
   return (
     <main>

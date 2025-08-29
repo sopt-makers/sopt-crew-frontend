@@ -111,7 +111,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   //고치기
   useEffect(() => {
     formMethods.reset({ meetingId: Number(meetingId) });
-  }, [formMethods, isModalOpened]);
+  }, [formMethods, isModalOpened, meetingId]);
 
   useEffect(() => {
     return () => {

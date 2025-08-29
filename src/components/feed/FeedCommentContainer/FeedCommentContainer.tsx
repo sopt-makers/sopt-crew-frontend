@@ -1,6 +1,5 @@
 import { useDeleteCommentMutation, usePostCommentReportMutation, usePutCommentMutation } from '@api/comment/mutation';
 import { GetCommentListResponse, GetCommentReplyResponse } from '@api/comment/type';
-import { apiV2 } from '@api/index';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import ReCommentHoverIcon from '@assets/svg/Recomment_Hover_Icon.svg';
@@ -16,8 +15,6 @@ import { parseTextToLink } from '@components/util/parseTextToLink';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
-import { useToast } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { styled } from 'stitches.config';
@@ -46,9 +43,6 @@ export default function FeedCommentContainer({
   handleCreateComment,
   isCreatingComment,
 }: FeedCommentContainerProps) {
-  const queryClient = useQueryClient();
-  const { PUT } = apiV2.get();
-  const { open } = useToast();
   const { query } = useRouter();
   const overlay = useOverlay();
   const [editMode, setEditMode] = useState(false);
