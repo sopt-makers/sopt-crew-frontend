@@ -1,14 +1,22 @@
+import { paths } from '@/__generated__/schema2';
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { useInfinitePosts, useMutationDeletePost, useMutationUpdateLike } from '@api/post/hooks';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { api } from '@/api';
+import { useMeetingQueryOption } from '@api/meeting/query';
+import { useDeletePostMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
+import { useGetPostListInfiniteQuery } from '@api/post/query';
+import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@components/@common/button/LikeButton';
+import ContentBlocker from '@components/blocker/ContentBlocker';
+import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 import FeedCreateModal from '@components/feed/Modal/FeedCreateModal';
 import { POST_MAX_COUNT, TAKE_COUNT } from '@constants/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hooks/useDisplay';
 import { useOverlay } from '@hooks/useOverlay/Index';
 import { useScrollRestorationAfterLoading } from '@hooks/useScrollRestoration';
+import { useToast } from '@sopt-makers/ui';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -17,19 +25,6 @@ import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
 import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
-import ContentBlocker from '@components/blocker/ContentBlocker';
-import FeedActionButton from '@components/feed/FeedActionButton/FeedActionButton';
-import FeedEditModal from '@components/feed/Modal/FeedEditModal';
-import ReWriteIcon from '@assets/svg/comment-write.svg';
-import ConfirmModal from '@components/modal/ConfirmModal';
-import TrashIcon from '@assets/svg/trash.svg';
-import AlertIcon from '@assets/svg/alert-triangle.svg';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api, apiV2 } from '@/api';
-import { AxiosError } from 'axios';
-import { paths } from '@/__generated__/schema2';
-import { useToast } from '@sopt-makers/ui';
-import FeedActionsContainer from '@components/feed/FeedActionsContainer';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -40,24 +35,22 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   const meetingId = router.query.id as string;
   const feedCreateOverlay = useOverlay();
   const { ref, inView } = useInView();
-  const { DELETE } = apiV2.get();
-  const queryClient = useQueryClient();
   const { open } = useToast();
 
   const { isMobile, isTablet } = useDisplay();
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const {
     data: postsData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfinitePosts(TAKE_COUNT, Number(meetingId), !!meetingId);
+  } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId), !!meetingId);
   useScrollRestorationAfterLoading(isLoading);
 
-  const { data: meeting } = useQueryGetMeeting({ params: { id: meetingId } });
-  const { mutate: mutateLike } = useMutationUpdateLike(TAKE_COUNT, Number(meetingId));
-  const { mutate: mutateDeletePost } = useMutationDeletePost();
+  const { data: meeting } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
+  const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
+  const { mutate: mutateDeletePost } = useDeletePostMutation();
 
   const handleDeletePost = (postId: number) => {
     mutateDeletePost(postId, {
@@ -83,7 +76,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const postCount = postsData?.total;
-  const formattedPostCount = postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
+  const formattedPostCount = postCount && postCount > POST_MAX_COUNT ? `${POST_MAX_COUNT}+` : postCount;
 
   const handleModalOpen = () => {
     if (me?.orgId) {
@@ -132,7 +125,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const renderedPosts = postsData?.pages.map(post => {
     if (!post) return;
@@ -153,7 +146,6 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
               onClick={() =>
                 ampli.clickFeedCard({
                   feed_id: post.id,
-                  feed_upload: post.updatedDate,
                   feed_title: post.title,
                   feed_image_total: post.images ? post.images.length : 0,
                   feed_comment_total: post.commentCount,
@@ -186,7 +178,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
         </SContainer>
       )}
 
-      {postCount > 0 && (
+      {postCount && postCount > 0 && (
         <SHeader>
           <p>
             🔥 지금까지 쌓인 피드 <SCount>{formattedPostCount}</SCount>개

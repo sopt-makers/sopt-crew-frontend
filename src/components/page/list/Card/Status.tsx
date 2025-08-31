@@ -1,10 +1,9 @@
 import { Flex } from '@components/util/layout/Flex';
 import { APPROVAL_STATUS } from '@constants/option';
-import { ApplicationStatusType } from '@api/API_LEGACY/user';
 import { styled } from 'stitches.config';
 
 interface StatusProps {
-  status: ApplicationStatusType;
+  status: 0 | 1 | 2;
 }
 
 function Status({ status }: StatusProps) {

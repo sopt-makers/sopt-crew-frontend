@@ -1,9 +1,10 @@
-import { useFlashListQuery } from '@api/flash/hook';
-import { useInfinitePosts } from '@api/post/hooks';
+import { useFlashListQueryOption } from '@api/flash/query';
+import { useGetPostListInfiniteQuery } from '@api/post/query';
 import CrewTab from '@components/CrewTab';
 import FloatingButton from '@components/FloatingButton';
 import Carousel from '@components/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@components/groupBrowsingSlider/groupBrowsingSlider';
+import GuideButton from '@components/GuideButton';
 import DesktopFeedListSkeleton from '@components/page/detail/Feed/Skeleton/DesktopFeedListSkeleton';
 import MobileFeedListSkeleton from '@components/page/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import HomeCardList from '@components/page/home/HomeCardList';
@@ -11,20 +12,20 @@ import QuickMenu from '@components/page/home/QuickMenu';
 import { Flex } from '@components/util/layout/Flex';
 import { TAKE_COUNT } from '@constants/feed';
 import { useDisplay } from '@hooks/useDisplay';
+import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
-import GuideButton from '@components/GuideButton';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet, isMobile } = useDisplay();
 
   const { ref, inView } = useInView();
 
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfinitePosts(TAKE_COUNT);
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useGetPostListInfiniteQuery(TAKE_COUNT);
 
-  const flashList = useFlashListQuery().data?.meetings;
+  const flashList = useQuery(useFlashListQueryOption()).data?.meetings;
 
   useEffect(() => {
     if (inView && hasNextPage) {

@@ -1,25 +1,26 @@
 import { ampli } from '@/ampli';
-import { useQueryGetMeeting } from '@api/API_LEGACY/meeting/hooks';
-import { createPost } from '@api/post';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { useMeetingQueryOption } from '@api/meeting/query';
+import { useMutationPostPostWithMention } from '@api/mention/mutation';
+import { postPost } from '@api/post';
+import PostQueryKey from '@api/post/PostQueryKey';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
+import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useThrottle from '@hooks/useThrottle';
+import { useToast } from '@sopt-makers/ui';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { formatDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import FeedFormPresentation from './FeedFormPresentation';
 import { FormCreateType, feedCreateSchema } from './feedSchema';
-import { useToast } from '@sopt-makers/ui';
-import { useRouter } from 'next/router';
-import useThrottle from '@hooks/useThrottle';
-import { useMutationPostPostWithMention } from '@api/mention/hooks';
-import { parseMentionedUserIds } from '@components/util/parseMentionedUserIds';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -32,8 +33,8 @@ interface CreateModalProps extends ModalContainerProps {
 function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateModalProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data: detailData } = useQueryGetMeeting({ params: { id: meetingId } });
-  const { data: me } = useQueryMyProfile();
+  const { data: detailData } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
+  const { data: me } = useQuery(useUserProfileQueryOption());
   const exitModal = useModal();
   const { open } = useToast();
   const submitModal = useModal();
@@ -56,10 +57,10 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
     basePath = 'https://playground.sopt.org';
   }
 
-  const { mutateAsync: mutateCreateFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormCreateType) => createPost(formData),
+  const { mutateAsync: mutateCreateFeed, isPending: isSubmitting } = useMutation({
+    mutationFn: (formData: FormCreateType) => postPost(formData),
     onSuccess: res => {
-      queryClient.invalidateQueries(['getPosts']);
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
       alert('피드를 작성했습니다.');
       const mentionedOrgIds = parseMentionedUserIds(formMethods.getValues().contents);
       if (mentionedOrgIds.length > 0) {
@@ -110,7 +111,7 @@ function FeedCreateModal({ isModalOpened, meetingId, handleModalClose }: CreateM
   //고치기
   useEffect(() => {
     formMethods.reset({ meetingId: Number(meetingId) });
-  }, [formMethods, isModalOpened]);
+  }, [formMethods, isModalOpened, meetingId]);
 
   useEffect(() => {
     return () => {

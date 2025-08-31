@@ -1,5 +1,5 @@
-import { useMutationUpdateApplication } from '@api/API_LEGACY/meeting/hooks';
-import { MeetingPeopleResponse } from '@api/meeting';
+import { useUpdateMeetingApplicationMutation } from '@api/meeting/mutation';
+import { GetMeetingMemberList } from '@api/meeting/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
 import {
   navigateToUserProfileWithTracking,
@@ -20,7 +20,7 @@ import { styled } from 'stitches.config';
 
 type ManagementListItemForHostProps = {
   meetingId: number;
-  application: MeetingPeopleResponse['apply'][number];
+  application: GetMeetingMemberList['response']['apply'][number];
 };
 
 const ManagementListItemForHost = ({ meetingId, application }: ManagementListItemForHostProps) => {
@@ -28,16 +28,18 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
-  const { mutate: mutateUpdateApplication } = useMutationUpdateApplication({});
+  const { mutate: mutateUpdateApplication } = useUpdateMeetingApplicationMutation();
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
   const handleChangeApplicationStatus = (status: number) => () => {
     setIsMutateLoading(true);
     mutateUpdateApplication(
       {
-        id: meetingId,
-        applyId: application.id,
-        status,
+        meetingId,
+        body: {
+          applyId: application.id,
+          status,
+        },
       },
       {
         onSuccess: () => {

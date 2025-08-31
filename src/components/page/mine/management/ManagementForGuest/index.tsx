@@ -1,14 +1,15 @@
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
-import { MeetingPeopleResponse } from '@api/meeting';
+import { GetMeetingMemberList } from '@api/meeting/type';
+import { useUserProfileQueryOption } from '@api/user/query';
 import { Option } from '@components/form/Select/OptionItem';
 import ManagementListSkeleton from '@components/page/mine/management/Skeleton/ManagementListSkeleton';
+import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import ManagementHeaderForGuest from './ManagementHeaderForGuest';
 import ManagementListItemForGuest from './ManagementListItemForGuest';
 
 type ManagementForGuestProps = {
   isManagementDataLoading: boolean;
-  management: MeetingPeopleResponse;
+  management: GetMeetingMemberList['response'];
   onChangeSelectOption: (
     setValue: (value: string | number) => void,
     optionList: Option[]
@@ -24,7 +25,7 @@ const ManagementForGuest = ({
   convertedNumberTake,
   setTake,
 }: ManagementForGuestProps) => {
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   return (
     <>
@@ -70,37 +71,6 @@ const SListHeader = styled('div', {
   '@mobile': {
     mt: '$40',
     mb: '$24',
-  },
-});
-
-const SSelectWrapper = styled('div', {
-  '& button': {
-    borderRadius: '14px',
-    border: '1px solid $gray600',
-    backgroundColor: '$gray950',
-
-    '@mobile': {
-      borderRadius: '8px',
-      minWidth: '$96',
-      height: '$36',
-      padding: '$12 $10',
-      fontAg: '12_semibold_100',
-    },
-  },
-
-  '& ul': {
-    background: '$gray950',
-    position: 'absolute',
-    top: '$50',
-    minWidth: '$147',
-  },
-
-  '& div': {
-    background: '$gray950',
-  },
-
-  '& + &': {
-    marginLeft: '12px',
   },
 });
 

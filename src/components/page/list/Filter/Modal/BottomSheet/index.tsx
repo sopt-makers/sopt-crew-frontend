@@ -1,9 +1,9 @@
 import BottomSheetDialog from '@components/form/Select/BottomSheetSelect/BottomSheetDialog';
 import { CATEGORY_FILTER, PART_FILTER, STATUS_FILTER } from '@constants/option';
 import { styled } from 'stitches.config';
-import InitializationButton from '../../Result/InitializationButton';
 import Chip from '../Chip';
 import Toggle from '../Toggle';
+import InitializationButton from './InitializationButton';
 interface BottomSheetDialogProps {
   isOpen: boolean;
   handleClose: () => void;

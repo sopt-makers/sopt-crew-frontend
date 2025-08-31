@@ -1,5 +1,5 @@
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { GetFlashByIdResponse } from '@api/flash';
+import { GetFlash } from '@api/flash/type';
+import { GetMeeting } from '@api/meeting/type';
 import CalendarIcon from '@assets/svg/calendar.svg?rect';
 import { parseTextToLink } from '@components/util/parseTextToLink';
 import { PART_NAME } from '@constants/option';
@@ -10,7 +10,7 @@ import 'dayjs/locale/ko';
 import { styled } from 'stitches.config';
 dayjs.locale('ko');
 
-export const MeetingDetailList = (detailData: GetMeetingResponse) => [
+export const MeetingDetailList = (detailData: GetMeeting['response']) => [
   {
     key: '모임 소개',
     Title: () => <STitle>모임 소개</STitle>,
@@ -82,7 +82,7 @@ export const MeetingDetailList = (detailData: GetMeetingResponse) => [
   },
 ];
 
-export const FlashDetailList = (detailData: GetFlashByIdResponse) => {
+export const FlashDetailList = (detailData: GetFlash['response']) => {
   return [
     {
       key: '모임 소개',

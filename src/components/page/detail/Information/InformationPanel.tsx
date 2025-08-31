@@ -1,12 +1,12 @@
+import { GetFlash } from '@api/flash/type';
+import { GetMeeting } from '@api/meeting/type';
 import { TabList } from '@components/@common/tabList/TabList';
-import { styled } from 'stitches.config';
+import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
 import { useDisplay } from '@hooks/useDisplay';
 import { useCallback, useRef, useState } from 'react';
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import { FlashDetailList, MeetingDetailList } from '@components/page/detail/Information/constant';
-import { GetFlashByIdResponse } from '@api/flash';
+import { styled } from 'stitches.config';
 
-type DetailDataType = GetMeetingResponse | GetFlashByIdResponse;
+type DetailDataType = GetMeeting['response'] | GetFlash['response'];
 
 interface InformationPanelProps {
   detailData: DetailDataType;
@@ -16,19 +16,22 @@ const InformationPanel = ({ detailData }: InformationPanelProps) => {
   const { isMobile } = useDisplay();
   const tabRef = useRef<HTMLElement[]>([]);
 
-  function isFlash(detailData: DetailDataType): detailData is GetFlashByIdResponse {
-    return detailData.category === '번쩍' && (detailData as GetFlashByIdResponse).welcomeMessageTypes !== undefined;
+  function isFlash(detailData: DetailDataType): detailData is GetFlash['response'] {
+    return detailData.category === '번쩍' && (detailData as GetFlash['response']).welcomeMessageTypes !== undefined;
   }
 
   const detailList = isFlash(detailData)
-    ? FlashDetailList(detailData as GetFlashByIdResponse)
-    : MeetingDetailList(detailData as GetMeetingResponse);
+    ? FlashDetailList(detailData as GetFlash['response'])
+    : MeetingDetailList(detailData as GetMeeting['response']);
   const [selectedTab, setSelectedTab] = useState(detailList[0]?.key);
 
-  const handleChange = useCallback((text: string) => {
-    setSelectedTab(text);
-    tabRef.current[detailList.findIndex(item => item.key === text)]?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  const handleChange = useCallback(
+    (text: string) => {
+      setSelectedTab(text);
+      tabRef.current[detailList.findIndex(item => item.key === text)]?.scrollIntoView({ behavior: 'smooth' });
+    },
+    [detailList]
+  );
 
   return (
     <SInformationPanel>

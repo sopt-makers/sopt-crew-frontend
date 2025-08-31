@@ -1,34 +1,42 @@
-import { api } from '..';
-
-interface ActivityResponse {
-  part: string;
-  generation: number;
-}
-export interface UserResponse {
-  id: number;
-  name: string;
-  orgId: string;
-  recentActivity: ActivityResponse;
-  phone: string;
-  profileImage: string;
-}
+import { api } from '@api/index';
+import {
+  GetUser,
+  GetUserApplication,
+  GetUserInterestedKeywords,
+  GetUserMeetingAll,
+  GetUserMeetingList,
+  GetUserProfile,
+  PostUserInterestedKeywords,
+} from '@api/user/type';
 
 export type ApplicationStatusType = 'WAITING' | 'APPROVE' | 'REJECT';
 
-export const getMentionUsers = async () => {
-  //타입 지정하지 않은 이유: Suggestion의 id, display 를 사용해야하기 때문
-  const { data } = await api.get('/user/v2');
-  return data;
+export const getUser = async () => {
+  return (await api.get<GetUser>('/user/v2')).data;
 };
 
-export type KeywordSettingOptionType = '학습' | '취미' | '먹방' | '운동' | '자기계발' | '네트워킹';
-
-export const postInterestedKeywards = async (keywords: KeywordSettingOptionType[]) => {
-  const { data } = await api.post('/user/v2/interestedKeywords', { keywords });
-  return data;
+export const getUserApplication = async () => {
+  return (await api.get<GetUserApplication>('/user/v2/apply')).data;
 };
 
 export const getInterestedKeywords = async () => {
-  const { data } = await api.get('/user/v2/interestedKeywords');
-  return data;
+  return (await api.get<GetUserInterestedKeywords>('/user/v2/interestedKeywords')).data;
 };
+
+export const postInterestedKeywords = async (keywords: KeywordSettingOptionType[]) => {
+  return (await api.post<PostUserInterestedKeywords>('/user/v2/interestedKeywords', { keywords })).data;
+};
+
+export const getUserMeetingList = async () => {
+  return (await api.get<GetUserMeetingList>('/user/v2/meeting')).data;
+};
+
+export const getUserMeetingAll = async () => {
+  return (await api.get<GetUserMeetingAll>('/user/v2/meeting/all')).data;
+};
+
+export const getUserProfile = async () => {
+  return (await api.get<GetUserProfile>('/user/v2/profile/me')).data;
+};
+
+export type KeywordSettingOptionType = '학습' | '취미' | '먹방' | '운동' | '자기계발' | '네트워킹';

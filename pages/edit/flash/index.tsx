@@ -1,10 +1,10 @@
-import { updateFlashById } from '@api/flash';
-import { useFlashByIdQuery } from '@api/flash/hook';
+import { usePutFlashMutation } from '@api/flash/mutation';
+import { useFlashQueryOption } from '@api/flash/query';
 import BungaeIcon from '@assets/svg/bungae.svg';
 import Loader from '@components/@common/loader/Loader';
 import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { FlashFormType, flashSchema } from '@type/form';
 import { formatCalendarDate } from '@utils/dayjs';
 import dynamic from 'next/dynamic';
@@ -18,17 +18,11 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 });
 
 const FlashEditPage = () => {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const id = +(router.query.id || 0);
 
-  const { data: formData } = useFlashByIdQuery({ meetingId: id });
-  const { mutateAsync, isLoading: isSubmitting } = useMutation({
-    mutationFn: ({ id, formData }: { id: number; formData: FlashFormType }) => updateFlashById({ id, formData }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getFlash', id] });
-    },
-  });
+  const { data: formData } = useQuery(useFlashQueryOption({ meetingId: id }));
+  const { mutateAsync, isPending: isSubmitting } = usePutFlashMutation({ meetingId: id });
 
   const formMethods = useForm<FlashFormType>({
     mode: 'onChange',
@@ -40,11 +34,9 @@ const FlashEditPage = () => {
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     try {
       await mutateAsync({ id, formData });
-      // TODO: handle success
       alert('모임을 수정했습니다.');
       router.push(`/detail?id=${id}`);
     } catch (error) {
-      // TODO: handle error
       alert('모임을 수정하지 못했습니다.');
     }
   };

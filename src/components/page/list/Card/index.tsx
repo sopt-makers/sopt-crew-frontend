@@ -1,5 +1,5 @@
 import { ampli } from '@/ampli';
-import { MeetingListResponse } from '@api/API_LEGACY/meeting';
+import { MeetingData } from '@api/meeting/type';
 import DesktopSizeFlashCard from '@components/page/list/Card/DesktopSizeCard/DesktopSizeFlashCard';
 import { PART_OPTIONS, PART_VALUES, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import MobileSizeCard from './MobileSize';
 
 interface CardProps {
   bottom?: ReactNode;
-  meetingData: MeetingListResponse['meetings'][number];
+  meetingData: MeetingData;
   mobileType: 'list' | 'card';
 }
 

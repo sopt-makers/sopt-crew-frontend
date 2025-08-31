@@ -1,15 +1,12 @@
 import { ampli } from '@/ampli';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
 import BoltIcon from '@assets/svg/bolt_md.svg';
 import KakaoLogoIcon from '@assets/svg/logo_kakao.svg';
 import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
-import FeedIcon from '../../../public/assets/svg/floating_button_feed_icon.svg';
 import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 
 const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
   const router = useRouter();
-  const { data: me } = useQueryMyProfile();
 
   const handleGroupCreateButtonClick = () => {
     ampli.clickMakeGroup({ location: router.pathname });
@@ -20,13 +17,6 @@ const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
     //todo: 번쩍 개설을 위한 정보를 넘겨주면서 라우팅하기
     ampli.clickMakeGroup({ location: router.pathname });
     router.push('/make/flash');
-  };
-
-  const handleFeedCreateButtonClick = () => {
-    if (me?.orgId) {
-      ampli.clickFeedPosting({ user_id: Number(me?.orgId), location: router.pathname });
-    }
-    router.push('?modal=create-feed', undefined, { shallow: true });
   };
 
   return (
@@ -52,10 +42,6 @@ const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
         <Button onClick={handleGroupCreateButtonClick}>
           <GroupIcon style={{ marginRight: '4px' }} />
           모임 개설
-        </Button>
-        <Button onClick={handleFeedCreateButtonClick}>
-          <FeedIcon style={{ marginRight: '4px' }} />
-          피드 작성
         </Button>
       </Container>
     </Wrapper>

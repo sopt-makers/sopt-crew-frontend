@@ -1,12 +1,11 @@
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
-import React from 'react';
-import { styled } from 'stitches.config';
-import dayjs from 'dayjs';
+import { GetMeeting } from '@api/meeting/type';
 import MentorTooltip from '@components/page/detail/MeetingController/MentorTooltip';
 import ProfileAnchor from '@components/page/detail/MeetingController/ProfileAnchor';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
+import dayjs from 'dayjs';
+import { styled } from 'stitches.config';
 
-const MeetingAbout = ({ detailData }: { detailData: GetMeetingResponse }) => {
+const MeetingAbout = ({ detailData }: { detailData: GetMeeting['response'] }) => {
   const {
     title,
     status,

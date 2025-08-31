@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
-import { styled } from 'stitches.config';
+import { GetMeeting } from '@api/meeting/type';
 import ArrowMediumRightGrayIcon from '@assets/svg/arrow_medium_right_gray.svg';
-import { GetMeetingResponse } from '@api/API_LEGACY/meeting';
 import { ERecruitmentStatus, RECRUITMENT_STATUS } from '@constants/option';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { styled } from 'stitches.config';
 
 interface MeetingInformationProps {
-  meetingData: GetMeetingResponse;
+  meetingData: GetMeeting['response'];
 }
 
 const MeetingInformation = ({ meetingData }: MeetingInformationProps) => {

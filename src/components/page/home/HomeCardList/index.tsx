@@ -1,4 +1,4 @@
-import { useGetPropertyQueryOption } from '@api/property/hooks';
+import { usePropertyQueryOption } from '@api/property/hooks';
 import CardList from '@components/page/home/HomeCardList/CardList';
 import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
@@ -6,7 +6,7 @@ import { styled } from 'stitches.config';
 const HOME_PROPERTY_KEY = 'home';
 
 const HomeCardList = () => {
-  const { data: property } = useQuery(useGetPropertyQueryOption(HOME_PROPERTY_KEY));
+  const { data: property } = useQuery(usePropertyQueryOption(HOME_PROPERTY_KEY));
 
   return (
     <SWrapper>

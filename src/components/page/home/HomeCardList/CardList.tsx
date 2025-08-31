@@ -1,8 +1,9 @@
-import { useGetRecommendMeetingListQuery } from '@api/meeting/hook';
+import { useRecommendMeetingListQuery } from '@api/meeting/query';
 import DesktopCard from '@components/page/home/HomeCardList/DesktopCard';
 import MobileCard from '@components/page/home/HomeCardList/MobileCard';
 import { useDisplay } from '@hooks/useDisplay';
 import { fontsObject } from '@sopt-makers/fonts';
+import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
 type HomeCardProps = {
@@ -14,7 +15,7 @@ type HomeCardProps = {
 
 const CardList = ({ label, isMore = false, onMoreClick = () => {}, meetingIds }: HomeCardProps) => {
   const { isTablet } = useDisplay();
-  const { data } = useGetRecommendMeetingListQuery({ meetingIds });
+  const data = useQuery(useRecommendMeetingListQuery({ meetingIds })).data?.meetings;
 
   if (!data) return null;
   return (

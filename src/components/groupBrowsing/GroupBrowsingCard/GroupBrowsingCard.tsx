@@ -1,21 +1,22 @@
-import React, { FC } from 'react';
-import { keyframes, styled } from 'stitches.config';
+import { useFlashQueryOption } from '@api/flash/query';
+import { MeetingData } from '@api/meeting/type';
 import CalendarIcon from '@assets/svg/calendar.svg';
 import Avatar from '@components/@common/avatar/Avatar';
 import { Flex } from '@components/util/layout/Flex';
-import { GroupBrowsingCardItem } from '@api/API_LEGACY/meeting';
+import { fontsObject } from '@sopt-makers/fonts';
+import { IconLocation } from '@sopt-makers/icons';
+import { Tag } from '@sopt-makers/ui';
+import { useQuery } from '@tanstack/react-query';
+import { getResizedImage } from '@utils/image';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-dayjs.extend(isBetween);
 import Link from 'next/link';
-import { getResizedImage } from '@utils/image';
-import { fontsObject } from '@sopt-makers/fonts';
-import { Tag } from '@sopt-makers/ui';
-import { IconLocation } from '@sopt-makers/icons';
-import { useFlashByIdQuery } from '@api/flash/hook';
+import { FC } from 'react';
+import { keyframes, styled } from 'stitches.config';
+dayjs.extend(isBetween);
 
-const GroupBrowsingCard: FC<GroupBrowsingCardItem> = ({ id, title, user, imageURL }) => {
-  const { data: flashData } = useFlashByIdQuery({ meetingId: +id });
+const GroupBrowsingCard: FC<MeetingData> = ({ id, title, user, imageURL }) => {
+  const { data: flashData } = useQuery(useFlashQueryOption({ meetingId: +id }));
 
   const imgSrc = imageURL[0]?.url && getResizedImage(imageURL[0].url, 285);
 

@@ -1,13 +1,31 @@
+import { MeetingData } from '@api/meeting/type';
+import { ACTION_STATUS } from '@constants/option';
+import { getResizedImage } from '@utils/image';
+import dayjs from 'dayjs';
+import Link from 'next/link';
 import { FC } from 'react';
 import { styled } from 'stitches.config';
-import { getResizedImage } from '@utils/image';
-import { ACTION_STATUS } from '@constants/option';
-import Link from 'next/link';
-import { GroupBrowsingCardItem, returnIsGroupActive, returnNewStatus } from '@api/API_LEGACY/meeting';
 
-const MobileSizeCard: FC<GroupBrowsingCardItem> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
-  const isGroupActive = returnIsGroupActive(mStartDate, mEndDate);
-  const newStatus = returnNewStatus(status, mStartDate, isGroupActive);
+const getNewStatus = (status: number, mstartDate: string, isGroupActive: boolean) => {
+  if (status === 0 || status === 1) {
+    return status;
+  }
+  if (new Date(mstartDate) > new Date()) {
+    return 2;
+  }
+  if (isGroupActive) {
+    return 3;
+  }
+  return 4;
+};
+
+const getIsGroupActive = (mstartDate: string, mendDate: string) => {
+  return dayjs().isBetween(dayjs(mstartDate), dayjs(mendDate), 'day', '[]');
+};
+
+const MobileSizeCard: FC<MeetingData> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
+  const isGroupActive = getIsGroupActive(mStartDate, mEndDate);
+  const newStatus = getNewStatus(status, mStartDate, isGroupActive);
 
   return (
     <Link href={`/detail?id=${id}`}>

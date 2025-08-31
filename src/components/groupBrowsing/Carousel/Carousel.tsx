@@ -1,13 +1,13 @@
-import Slider from 'react-slick';
-import { styled } from 'stitches.config';
-import NextArrow from './NextArrow';
-import { GroupBrowsingCardResponse } from '@api/API_LEGACY/meeting';
-import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
-import 'slick-carousel/slick/slick.css';
+import { GetMeetingList } from '@api/meeting/type';
 import { useEffect, useRef, useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import { styled } from 'stitches.config';
+import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
+import NextArrow from './NextArrow';
 
 interface CarouselProps {
-  cardList: GroupBrowsingCardResponse;
+  cardList: GetMeetingList['response']['meetings'];
 }
 
 const Carousel = ({ cardList }: CarouselProps) => {

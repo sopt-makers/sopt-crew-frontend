@@ -1,11 +1,10 @@
-import React from 'react';
-import { styled } from 'stitches.config';
-import dayjs from 'dayjs';
+import { GetFlash } from '@api/flash/type';
 import ProfileAnchor from '@components/page/detail/MeetingController/ProfileAnchor';
-import { GetFlashByIdResponse } from '@api/flash';
 import RecruitmentStatusTag from '@components/Tag/RecruitmentStatusTag';
+import dayjs from 'dayjs';
+import { styled } from 'stitches.config';
 
-const FlashAbout = ({ detailData }: { detailData: GetFlashByIdResponse }) => {
+const FlashAbout = ({ detailData }: { detailData: GetFlash['response'] }) => {
   const {
     title,
     status,

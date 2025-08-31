@@ -1,12 +1,13 @@
-import { editPost } from '@api/post';
-import { useQueryGetPost } from '@api/post/hooks';
-import { useQueryMyProfile } from '@api/API_LEGACY/user/hooks';
+import { putPost } from '@api/post';
+import PostQueryKey from '@api/post/PostQueryKey';
+import { useGetPostDetailQueryOption } from '@api/post/query';
+import { useUserProfileQueryOption } from '@api/user/query';
 import ConfirmModal from '@components/modal/ConfirmModal';
 import ModalContainer, { ModalContainerProps } from '@components/modal/ModalContainer';
 import { THUMBNAIL_IMAGE_INDEX } from '@constants/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useModal from '@hooks/useModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -24,10 +25,10 @@ interface EditModal extends ModalContainerProps {
 
 function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
   const queryClient = useQueryClient();
-  const { data: postData } = useQueryGetPost(String(postId));
+  const { data: postData } = useQuery(useGetPostDetailQueryOption(String(postId)));
   const exitModal = useModal();
   const submitModal = useModal();
-  const { data: me } = useQueryMyProfile();
+  const { data: me } = useQuery(useUserProfileQueryOption());
 
   const formMethods = useForm<FormEditType>({
     mode: 'onChange',
@@ -36,11 +37,11 @@ function FeedEditModal({ isModalOpened, postId, handleModalClose }: EditModal) {
 
   const { isValid } = formMethods.formState;
 
-  const { mutateAsync: mutateEditFeed, isLoading: isSubmitting } = useMutation({
-    mutationFn: (formData: FormEditType) => editPost(postId, formData),
+  const { mutateAsync: mutateEditFeed, isPending: isSubmitting } = useMutation({
+    mutationFn: (formData: FormEditType) => putPost(postId, formData),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getPost', postId]);
-      queryClient.invalidateQueries(['getPosts']);
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });
       alert('피드를 수정했습니다.');
       submitModal.handleModalClose();
       handleModalClose();

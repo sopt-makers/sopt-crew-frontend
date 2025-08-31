@@ -1,10 +1,10 @@
-import { Fragment } from 'react';
-import { Listbox } from '@headlessui/react';
-import { styled } from 'stitches.config';
 import CheckSelectedIcon from '@assets/svg/checkBox/selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/unselected.svg';
+import { Listbox } from '@headlessui/react';
+import { Fragment } from 'react';
+import { styled } from 'stitches.config';
 
-export interface Option {
+interface Option {
   label: string;
   // NOTE: null 은 placeholder
   value: string | null;

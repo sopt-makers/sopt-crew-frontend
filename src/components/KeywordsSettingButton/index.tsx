@@ -1,21 +1,23 @@
 import { KeywordSettingOptionType } from '@api/user';
-import { useMutationInterestedKeywords, useQueryGetInterestedKeywords } from '@api/user/hooks';
+import { useMutationInterestedKeywords } from '@api/user/mutation';
+import { useGetInterestedKeywordsQueryOption } from '@api/user/query';
 import AlarmSettingBottomSheet from '@components/page/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@components/page/list/Alarm/Modal/AlarmSettingModal';
+import SettingButton from '@components/page/list/AlarmSetting/SettingButton/SettingButton';
+import { TooltipContent } from '@components/page/list/AlarmSetting/TooltipContent/TooltipContent';
 import { Tooltip } from '@components/Tooltip/Tooltip';
 import { useDisplay } from '@hooks/useDisplay';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { TooltipContent } from '@components/page/list/AlarmSetting/TooltipContent/TooltipContent';
-import SettingButton from '@components/page/list/AlarmSetting/SettingButton/SettingButton';
 
 const KeywordsSettingButton = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop } = useDisplay();
 
   const { mutate: mutateUserInterested } = useMutationInterestedKeywords();
-  const { data: userInterested } = useQueryGetInterestedKeywords();
+  const { data: userInterested } = useQuery(useGetInterestedKeywordsQueryOption());
 
-  const [selectedAlarm, setSelectedAlarm] = useState<KeywordSettingOptionType[]>(() => userInterested?.keywords ?? []);
+  const [selectedAlarm, setSelectedAlarm] = useState<KeywordSettingOptionType[]>([]);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const handleKeywordClick = (value: KeywordSettingOptionType) => {
@@ -34,7 +36,7 @@ const KeywordsSettingButton = () => {
   useEffect(() => {
     // 데이터가 로드 된 시점에 "이미 선택된 키워드" 세팅
     if (userInterested?.keywords) {
-      setSelectedAlarm(userInterested.keywords);
+      setSelectedAlarm(userInterested.keywords as KeywordSettingOptionType[]);
     }
   }, [userInterested]);
 

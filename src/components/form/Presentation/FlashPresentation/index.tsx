@@ -1,4 +1,4 @@
-import { getPresignedUrl, uploadImage } from '@api/API_LEGACY/meeting';
+import { getPresignedUrl, uploadImage } from '@api/image';
 import CancelIcon from '@assets/svg/x.svg';
 import WelcomeMessageField from '@components/form/Presentation/WelcomeMessageField';
 import { imageS3Bucket } from '@constants/url';
@@ -103,7 +103,7 @@ function FlashPresentation({
 
   const uploadFile = async (file: File) => {
     const extension = file.type.split('/')[1];
-    const { url, fields } = await getPresignedUrl(extension ?? '');
+    const { url, fields } = await getPresignedUrl({ contentType: extension ?? '' });
     await uploadImage(file, url, fields);
     const imageUrls = imageS3Bucket + fields.key;
     return imageUrls;
@@ -335,7 +335,7 @@ function FlashPresentation({
             <SPeopleWrapper>
               <FormController
                 name="capacityInfo.minCapacity"
-                render={({ field, fieldState: { error } }) => (
+                render={({ field }) => (
                   <TextInput
                     type="number"
                     placeholder="최소 인원"
@@ -355,7 +355,7 @@ function FlashPresentation({
               ></FormController>
               <FormController
                 name="capacityInfo.maxCapacity"
-                render={({ field, fieldState: { error } }) => (
+                render={({ field }) => (
                   <TextInput
                     type="number"
                     placeholder="최대 인원"
