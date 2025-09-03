@@ -29,7 +29,7 @@ const MakePage = () => {
     },
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-  const { mutateAsync: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
+  const { mutate: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();
@@ -44,10 +44,13 @@ const MakePage = () => {
   };
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    const meetingId = await mutateCreateMeeting(formData);
-    ampli.completedMakeGroup();
-    alert('모임을 개설했습니다.');
-    router.push(`/detail?id=${meetingId}`);
+    mutateCreateMeeting(formData, {
+      onSuccess: data => {
+        ampli.completedMakeGroup();
+        alert('모임을 개설했습니다.');
+        router.push(`/detail?id=${data.meetingId}`);
+      },
+    });
   };
 
   return (
