@@ -1,14 +1,14 @@
-import CardSkeleton from '@components/page/list/Card/Skeleton';
-import Filter from '@components/page/list/Filter';
-import GridLayout from '@components/page/list/Grid/Layout';
-import { MeetingListOfAll } from '@components/page/list/Grid/List';
-import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import CardSkeleton from '@domain/list/Card/Skeleton';
+import Filter from '@domain/list/Filter';
+import GridLayout from '@domain/list/Grid/Layout';
+import { MeetingListOfAll } from '@domain/list/Grid/List';
+import CrewTab from '@shared/CrewTab';
+import { SSRSafeSuspense } from '@shared/util/SSRSafeSuspense';
 import type { NextPage } from 'next';
 import { styled } from 'stitches.config';
-import CrewTab from '@components/CrewTab';
 
-import FloatingButton from '@components/FloatingButton';
-import KeywordsSettingButton from '@components/KeywordsSettingButton';
+import FloatingButton from '@shared/FloatingButton';
+import KeywordsSettingButton from '@shared/KeywordsSettingButton';
 
 const Home: NextPage = () => {
   return (

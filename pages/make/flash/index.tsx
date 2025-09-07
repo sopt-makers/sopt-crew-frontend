@@ -1,8 +1,8 @@
 import { ampli } from '@/ampli';
 import { usePostFlashMutation } from '@api/flash/mutation';
 import BungaeIcon from '@assets/svg/bungae.svg';
-import FlashPresentation from '@components/form/Presentation/FlashPresentation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import FlashPresentation from '@shared/form/Presentation/FlashPresentation';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { FlashFormType, flashSchema } from '@type/form';

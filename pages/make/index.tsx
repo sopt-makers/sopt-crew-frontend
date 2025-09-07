@@ -1,9 +1,9 @@
 import { ampli } from '@/ampli';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
 import PlusIcon from '@assets/svg/plus.svg';
-import Presentation from '@components/form/Presentation';
-import TableOfContents from '@components/form/TableOfContents';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Presentation from '@shared/form/Presentation';
+import TableOfContents from '@shared/form/TableOfContents';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { FormType, schema } from '@type/form';

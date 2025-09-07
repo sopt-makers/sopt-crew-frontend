@@ -1,17 +1,17 @@
 import type { NextPage } from 'next';
 
 import { Tab } from '@headlessui/react';
-import useSessionStorage from '@hooks/useSessionStorage';
+import useSessionStorage from '@hook/useSessionStorage';
 import { Fragment } from 'react';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import CrewTab from '@components/CrewTab';
-import KakaoFloatingButton from '@components/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
-import CardSkeleton from '@components/page/list/Card/Skeleton';
-import GridLayout from '@components/page/list/Grid/Layout';
-import { MeetingListOfApplied, MeetingListOfMine } from '@components/page/list/Grid/List';
-import { SSRSafeSuspense } from '@components/util/SSRSafeSuspense';
+import CardSkeleton from '@domain/list/Card/Skeleton';
+import GridLayout from '@domain/list/Grid/Layout';
+import { MeetingListOfApplied, MeetingListOfMine } from '@domain/list/Grid/List';
+import CrewTab from '@shared/CrewTab';
+import KakaoFloatingButton from '@shared/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
+import { SSRSafeSuspense } from '@shared/util/SSRSafeSuspense';
 
 const enum MeetingType {
   APPLIED,

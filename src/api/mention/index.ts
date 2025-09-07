@@ -1,4 +1,4 @@
-import { parseMention } from '@components/util/parseMention';
+import { parseMention } from '@shared/util/parseMention';
 import { api } from '..';
 
 export interface PostCommentWithMentionRequest {
