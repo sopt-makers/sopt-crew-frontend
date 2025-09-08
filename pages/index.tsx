@@ -63,7 +63,7 @@ const Home: NextPage = () => {
         </Flex>
       ) : (
         <>
-          <Flex justify="center" style={{ marginTop: '72px' }}>
+          <Flex justify="between" style={{ marginTop: '72px' }}>
             <HomeCardList />
             <div style={{ paddingLeft: '106px' }}>
               <QuickMenu />
