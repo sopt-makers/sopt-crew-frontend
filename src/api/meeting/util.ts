@@ -1,4 +1,4 @@
-import { PART_OPTIONS, PART_VALUES } from '@constants/option';
+import { PART_OPTIONS, PART_VALUES } from '@constant/option';
 
 export function parseStatusToNumber(status: string, statusArray: string[]) {
   const statusIdx = statusArray.findIndex(item => item === status);

@@ -1,14 +1,14 @@
 import { usePutMeetingMutation } from '@api/meeting/mutation';
 import { useMeetingQueryOption } from '@api/meeting/query';
 import CheckIcon from '@assets/svg/check.svg';
-import Loader from '@components/@common/loader/Loader';
-import Presentation from '@components/form/Presentation';
-import TableOfContents from '@components/form/TableOfContents';
+import Loader from '@common/loader/Loader';
 import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Presentation from '@shared/form/Presentation';
+import TableOfContents from '@shared/form/TableOfContents';
 import { useQuery } from '@tanstack/react-query';
 import { FormType, schema } from '@type/form';
-import { formatCalendarDate } from '@utils/dayjs';
+import { formatCalendarDate } from '@util/dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

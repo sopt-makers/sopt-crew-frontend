@@ -1,7 +1,7 @@
 import MeetingQueryKey from '@api/meeting/MeetingQueryKey';
 import { GetMeeting, GetMeetingList, GetMeetingMemberList, GetRecommendMeetingList } from '@api/meeting/type';
 import { parsePartLabelToValue, parseStatusToNumber } from '@api/meeting/util';
-import { RECRUITMENT_STATUS } from '@constants/option';
+import { RECRUITMENT_STATUS } from '@constant/option';
 import {
   useCategoryParams,
   useIsOnlyActiveGenerationParams,
@@ -10,7 +10,7 @@ import {
   usePartParams,
   useSearchParams,
   useStatusParams,
-} from '@hooks/queryString/custom';
+} from '@hook/queryString/custom';
 import { queryOptions } from '@tanstack/react-query';
 import { getMeeting, getMeetingList, getMeetingMemberList, getRecommendMeetingList } from '.';
 

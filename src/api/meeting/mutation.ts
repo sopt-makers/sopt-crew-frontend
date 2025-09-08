@@ -1,7 +1,7 @@
 import MeetingQueryKey from '@api/meeting/MeetingQueryKey';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormType } from '@type/form';
-import alertErrorMessage from '@utils/alertErrorMessage';
+import alertErrorMessage from '@util/alertErrorMessage';
 import { AxiosError } from 'axios';
 import {
   deleteMeeting,

@@ -1,6 +1,6 @@
 import { useFlashQueryOption } from '@api/flash/query';
 import { GetFlash } from '@api/flash/type';
-import CommonDetail from '@components/page/detail';
+import CommonDetail from '@domain/detail';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';

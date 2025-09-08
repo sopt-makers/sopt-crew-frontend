@@ -1,6 +1,6 @@
 import { paths } from '@/__generated__/schema2';
 import { baseApi } from '@api/index';
-import { redirectToLoginPage } from '@components/util/auth';
+import { redirectToLoginPage } from '@shared/util/auth';
 
 export const validateAuthToken = async (authToken: string) => {
   try {

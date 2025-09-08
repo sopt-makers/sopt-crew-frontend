@@ -1,6 +1,6 @@
 import { useMeetingQueryOption } from '@api/meeting/query';
 import { GetMeeting } from '@api/meeting/type';
-import CommonDetail from '@components/page/detail';
+import CommonDetail from '@domain/detail';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
