@@ -3,7 +3,7 @@ import { Flex } from '@shared/util/layout/Flex';
 import { styled } from 'stitches.config';
 // import MoreIcon from '@assets/svg/more.svg';
 import { ampli } from '@/ampli';
-import { GetUser } from '@api/user/type';
+import { GetPostListResponse } from '@api/post/type';
 import ClickedMenuIcon from '@assets/svg/clicked-menu-icon.svg';
 import MenuIcon from '@assets/svg/menu_icon.svg';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
@@ -18,21 +18,8 @@ import truncateText from '@util/truncateText';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-interface PostProps {
-  id: number;
-  user: GetUser[number];
-  title: string;
-  contents: string;
-  images?: string[];
-  createdDate: string;
-  commenterThumbnails?: string[];
-  commentCount: number;
-  likeCount: number;
-  isLiked: boolean;
-}
-
 interface FeedItemProps {
-  post: PostProps;
+  post: GetPostListResponse['posts'][number];
   HeaderSection?: React.ReactNode;
   LikeButton?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -88,9 +75,9 @@ const FeedItem = ({ post, HeaderSection, LikeButton, onClick, Actions }: FeedIte
             }}
           >
             <SProfileImageWrapper>
-              {user.profileImageUrl ? <SProfileImage src={user.profileImageUrl} alt="" /> : <ProfileDefaultIcon />}
+              {user.profileImage ? <SProfileImage src={user.profileImage} alt="" /> : <ProfileDefaultIcon />}
             </SProfileImageWrapper>
-            <SName>{user.userName}</SName>
+            <SName>{user.name}</SName>
           </SProfileButton>
           <STime>{fromNow(createdDate)}</STime>
         </Flex>
