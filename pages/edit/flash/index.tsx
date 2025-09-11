@@ -1,12 +1,12 @@
 import { usePutFlashMutation } from '@api/flash/mutation';
 import { useFlashQueryOption } from '@api/flash/query';
 import BungaeIcon from '@assets/svg/bungae.svg';
-import Loader from '@components/@common/loader/Loader';
-import FlashPresentation from '@components/form/Presentation/FlashPresentation';
+import Loader from '@common/loader/Loader';
 import { zodResolver } from '@hookform/resolvers/zod';
+import FlashPresentation from '@shared/form/Presentation/FlashPresentation';
 import { useQuery } from '@tanstack/react-query';
 import { FlashFormType, flashSchema } from '@type/form';
-import { formatCalendarDate } from '@utils/dayjs';
+import { formatCalendarDate } from '@util/dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

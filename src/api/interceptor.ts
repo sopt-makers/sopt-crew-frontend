@@ -1,5 +1,5 @@
 import { authToken } from '@/stores/tokenStore';
-import { ACCESS_TOKEN_KEY, getAuthToken, redirectToLoginPage } from '@components/util/auth';
+import { ACCESS_TOKEN_KEY, getAuthToken, redirectToLoginPage } from '@shared/util/auth';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { authApi, api as crewAxiosInstance } from './index';
 
