@@ -19,7 +19,7 @@ import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
-  const { isLaptop, isTablet, isMobile } = useDisplay();
+  const { isLaptop, isTablet } = useDisplay();
 
   const { ref, inView } = useInView();
 
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
         <GuideButton />
       </CrewTab>
       {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
-      {isMobile ? (
+      {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
@@ -93,15 +93,10 @@ const SContentTitle = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '1200px',
-
-  '@laptop': {
-    width: '790px',
-  },
+  width: '100%',
 
   '@mobile': {
     display: 'flex',
-    width: '100%',
     fontSize: '16px',
   },
 });
