@@ -7543,6 +7543,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@suspensive/react@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react@npm:3.10.1"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/a6901424aac081130152db1a90d032ec109ea64e43858ea045af6219f137f2e0a868bee3f93697edde4e71158a04557072774a46ee92332c7ba6ef62b68c7e08
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:^6.5.1":
   version: 6.5.1
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:6.5.1"
@@ -20191,6 +20200,7 @@ __metadata:
     "@storybook/nextjs": "npm:^8.1.11"
     "@storybook/react": "npm:^8.1.11"
     "@storybook/testing-library": "npm:^0.0.14-next.2"
+    "@suspensive/react": "npm:^3.10.1"
     "@svgr/webpack": "npm:^6.5.0"
     "@tanstack/react-query": "npm:^5"
     "@types/autosize": "npm:^4.0.3"
