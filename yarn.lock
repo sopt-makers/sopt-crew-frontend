@@ -7543,6 +7543,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@suspensive/react-dom@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react-dom@npm:3.10.1"
+  peerDependencies:
+    react: ^18 || ^19
+    react-dom: ^18 || ^19
+  checksum: 10c0/ceb9c0233d6badfd628137c202580f7f902718afa2d436de0f0f265c2d767ebedad3e1fb371360328c87f4464ade3c8cebd5bb3d2c2b5abfe3c081be97047d51
+  languageName: node
+  linkType: hard
+
 "@suspensive/react@npm:^3.10.1":
   version: 3.10.1
   resolution: "@suspensive/react@npm:3.10.1"
@@ -20201,6 +20211,7 @@ __metadata:
     "@storybook/react": "npm:^8.1.11"
     "@storybook/testing-library": "npm:^0.0.14-next.2"
     "@suspensive/react": "npm:^3.10.1"
+    "@suspensive/react-dom": "npm:^3.10.1"
     "@svgr/webpack": "npm:^6.5.0"
     "@tanstack/react-query": "npm:^5"
     "@types/autosize": "npm:^4.0.3"
