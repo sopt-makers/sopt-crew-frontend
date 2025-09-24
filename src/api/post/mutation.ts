@@ -59,7 +59,7 @@ export const usePostLikeMutation = (queryId: string) => {
     mutationKey: PostQueryKey.mutate(queryId),
     mutationFn: () => postPostLike(+queryId),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(PostQueryKey.mutate(queryId)) as GetPostDetailResponse;
+      const previousPost = queryClient.getQueryData(PostQueryKey.detail(+queryId)) as GetPostDetailResponse;
 
       const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
 
@@ -68,7 +68,7 @@ export const usePostLikeMutation = (queryId: string) => {
         draft.likeCount = newLikeCount;
       });
 
-      queryClient.setQueryData(PostQueryKey.mutate(queryId), data);
+      queryClient.setQueryData(PostQueryKey.detail(+queryId), data);
     },
   });
 };
