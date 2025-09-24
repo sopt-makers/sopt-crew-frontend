@@ -58,16 +58,28 @@ export const usePostLikeMutation = (queryId: string) => {
   return useMutation({
     mutationFn: () => postPostLike(+queryId),
     onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: PostQueryKey.detail(+queryId) });
+
       const previousPost = queryClient.getQueryData(PostQueryKey.detail(+queryId)) as GetPostDetailResponse;
 
-      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
+      queryClient.setQueryData(PostQueryKey.detail(+queryId), (oldData: GetPostDetailResponse | undefined) => {
+        if (!oldData) return;
 
-      const data = produce(previousPost, (draft: GetPostDetailResponse) => {
-        draft.isLiked = !previousPost.isLiked;
-        draft.likeCount = newLikeCount;
+        return produce(oldData, draft => {
+          draft.isLiked = !oldData.isLiked;
+          draft.likeCount = oldData.isLiked ? oldData.likeCount - 1 : oldData.likeCount + 1;
+        });
       });
 
-      queryClient.setQueryData(PostQueryKey.detail(+queryId), data);
+      return { previousPost };
     },
+
+    onError: (err, _, context) => {
+      queryClient.setQueryData(PostQueryKey.detail(+queryId), context?.previousPost);
+    },
+
+    // onSettled: () => {
+    //   queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(+queryId) });
+    // },
   });
 };
