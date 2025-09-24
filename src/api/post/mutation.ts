@@ -56,7 +56,6 @@ export const usePostLikeMutation = (queryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: PostQueryKey.mutate(queryId),
     mutationFn: () => postPostLike(+queryId),
     onMutate: async () => {
       const previousPost = queryClient.getQueryData(PostQueryKey.detail(+queryId)) as GetPostDetailResponse;
