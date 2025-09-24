@@ -35,6 +35,7 @@
     "@stitches/react": "^1.2.8",
     "@suspensive/react": "^3.10.1",
     "@suspensive/react-dom": "^3.10.1",
+    "@suspensive/react-query": "^3.10.1",
     "@tanstack/react-query": "^5",
     "@types/autosize": "^4.0.3",
     "autosize": "^6.0.1",
