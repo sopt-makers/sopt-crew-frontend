@@ -77,9 +77,5 @@ export const usePostLikeMutation = (queryId: string) => {
     onError: (err, _, context) => {
       queryClient.setQueryData(PostQueryKey.detail(+queryId), context?.previousPost);
     },
-
-    // onSettled: () => {
-    //   queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(+queryId) });
-    // },
   });
 };
