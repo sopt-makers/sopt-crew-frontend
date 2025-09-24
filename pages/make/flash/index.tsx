@@ -40,7 +40,7 @@ const Flash = () => {
     mutateCreateFlash(formData, {
       onSuccess: data => {
         ampli.completedMakeGroup();
-        router.push(`/detail?id=${data}`);
+        router.push(`/detail/flash?id=${data.meetingId}`);
       },
     });
   };
