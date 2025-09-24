@@ -1,6 +1,7 @@
 import MeetingQueryKey from '@api/meeting/MeetingQueryKey';
 import { GetMeeting, GetMeetingList, GetMeetingMemberList, GetRecommendMeetingList } from '@api/meeting/type';
 import { parsePartLabelToValue, parseStatusToNumber } from '@api/meeting/util';
+import { ACTIVE_GENERATION } from '@constant/activeGeneration';
 import { RECRUITMENT_STATUS } from '@constant/option';
 import {
   useCategoryParams,
@@ -24,7 +25,7 @@ export const useMeetingListQueryOption = () => {
   const { value: part } = usePartParams();
 
   const params: Omit<NonNullable<GetMeetingList['request']>, 'joinableParts'> & { joinableParts?: string } = {
-    isOnlyActiveGeneration: isOnlyActiveGeneration === '36기만' ? true : false,
+    isOnlyActiveGeneration: isOnlyActiveGeneration === `${ACTIVE_GENERATION}기만` ? true : false,
     page: Number(page),
   };
 

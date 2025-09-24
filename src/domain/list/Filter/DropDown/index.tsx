@@ -1,4 +1,5 @@
 import { ampli } from '@/ampli';
+import { ACTIVE_GENERATION } from '@constant/activeGeneration';
 import { FilterType } from '@constant/option';
 import { useMultiQueryString } from '@hook/queryString';
 import useDebounce from '@hook/useDebounce';
@@ -62,7 +63,7 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
         ampli.applyMultiplefilter({ 'Applied-keyword': joined });
         break;
       case 'isOnlyActiveGeneration':
-        ampli.applyMultiplefilter({ 'Applied-generation': joined === '36기만' });
+        ampli.applyMultiplefilter({ 'Applied-generation': joined === `${ACTIVE_GENERATION}기만` });
         break;
     }
   };

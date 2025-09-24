@@ -1,3 +1,5 @@
+import { ACTIVE_GENERATION } from '@constant/activeGeneration';
+
 export const PART_NAME: Record<string, string> = {
   PM: '기획',
   DESIGN: '디자인',
@@ -27,7 +29,7 @@ export const PART_VALUES = ['PM', 'DESIGN', 'ANDROID', 'IOS', 'WEB', 'SERVER'];
 export const ACTION_STATUS = ['모집 전', '모집 중', '모집 마감', '활동 중', '활동 종료'];
 
 //todo: 서버 API 만들어지면 자동으로 기수가져와서 옵션에 넣기.
-export const GENERATION_OPTION = ['37기만'];
+export const GENERATION_OPTION = [`${ACTIVE_GENERATION}기만`];
 
 export const enum ERecruitmentStatus {
   BEFORE,
