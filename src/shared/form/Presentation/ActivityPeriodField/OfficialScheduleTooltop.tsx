@@ -68,12 +68,12 @@ const OfficialScheduleTooltip = () => {
             <BubblePointIcon />
           </PointDiv>
           <TextDiv>
-            <TextStyle>• 1~8차 세미나: 2025.04.05 ~ 2025.06.21</TextStyle>
-            <TextStyle>• 솝커톤: 2025.05.17 ~ 2025.05.18</TextStyle>
-            <TextStyle>• 네트워킹 행사: 2025.05.31</TextStyle>
-            <TextStyle>• 기획 경선: 2025.06.07</TextStyle>
-            <TextStyle>• 앱잼: 2025.06.14 ~ 2025.07.19</TextStyle>
-            <TextStyle>• 종무식: 2025.07.26</TextStyle>
+            <TextStyle>• 1~8차 세미나: 2025.10.11 ~ 2025.12.27</TextStyle>
+            <TextStyle>• 솝커톤: 2025.11.22 ~ 2025.11.23</TextStyle>
+            <TextStyle>• 네트워킹 행사: 2025.12.06</TextStyle>
+            <TextStyle>• 기획 경선: 2025.12.13</TextStyle>
+            <TextStyle>• 앱잼: 2025.12.20 ~ 2025.01.24</TextStyle>
+            <TextStyle>• 종무식: 2025.01.31</TextStyle>
           </TextDiv>
         </ToolTipDiv>
       )}
