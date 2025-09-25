@@ -60,7 +60,7 @@ export const usePostLikeMutation = (queryId: string) => {
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: PostQueryKey.detail(+queryId) });
 
-      const previousPost = queryClient.getQueryData(PostQueryKey.detail(+queryId)) as GetPostDetailResponse;
+      const previousPost = queryClient.getQueryData<GetPostDetailResponse>(PostQueryKey.detail(+queryId));
 
       queryClient.setQueryData(PostQueryKey.detail(+queryId), (oldData: GetPostDetailResponse | undefined) => {
         if (!oldData) return;
