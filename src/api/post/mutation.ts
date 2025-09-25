@@ -75,7 +75,9 @@ export const usePostLikeMutation = (queryId: string) => {
     },
 
     onError: (err, _, context) => {
-      queryClient.setQueryData(PostQueryKey.detail(+queryId), context?.previousPost);
+      if (context?.previousPost) {
+        queryClient.setQueryData(PostQueryKey.detail(+queryId), context?.previousPost);
+      }
     },
   });
 };
