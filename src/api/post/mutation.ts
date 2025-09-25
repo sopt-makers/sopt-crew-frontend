@@ -62,9 +62,11 @@ export const usePostLikeMutation = (queryId: string) => {
 
       const previousPost = queryClient.getQueryData<GetPostDetailResponse>(PostQueryKey.detail(+queryId));
 
-      queryClient.setQueryData(PostQueryKey.detail(+queryId), (oldData: GetPostDetailResponse | undefined) => {
-        if (!oldData) return;
+      if (!previousPost) {
+        return { previousPost: null };
+      }
 
+      queryClient.setQueryData(PostQueryKey.detail(+queryId), (oldData: GetPostDetailResponse) => {
         return produce(oldData, draft => {
           draft.isLiked = !oldData.isLiked;
           draft.likeCount = oldData.isLiked ? oldData.likeCount - 1 : oldData.likeCount + 1;
