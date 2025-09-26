@@ -29,6 +29,9 @@ const DesktopCard = ({
   canJoinOnlyActiveGeneration,
   joinableParts,
 }: DesktopCardProps) => {
+  const isAllParts = joinableParts.length === 6 || joinableParts === null;
+  const displayParts = isAllParts ? '전체 파트' : joinableParts.map(part => PART_NAME[part]).join(', ');
+
   return (
     <Link href={`/detail?id=${id}`}>
       <SCardWrapper>
@@ -45,9 +48,7 @@ const DesktopCard = ({
         <SMetaWrapper>
           <UserIcon />
           <SInfoStyle>{`${approvedCount}/${capacity}명`}</SInfoStyle>
-          <SInfoStyle>{`${canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수'} / ${joinableParts.map(
-            part => PART_NAME[part]
-          )}`}</SInfoStyle>
+          <SInfoStyle>{`${canJoinOnlyActiveGeneration ? '활동 기수' : '전체 기수'} / ${displayParts}`}</SInfoStyle>
         </SMetaWrapper>
       </SCardWrapper>
     </Link>
