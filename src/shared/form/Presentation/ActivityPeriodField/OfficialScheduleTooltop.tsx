@@ -72,8 +72,8 @@ const OfficialScheduleTooltip = () => {
             <TextStyle>• 솝커톤: 2025.11.22 ~ 2025.11.23</TextStyle>
             <TextStyle>• 네트워킹 행사: 2025.12.06</TextStyle>
             <TextStyle>• 기획 경선: 2025.12.13</TextStyle>
-            <TextStyle>• 앱잼: 2025.12.20 ~ 2025.01.24</TextStyle>
-            <TextStyle>• 종무식: 2025.01.31</TextStyle>
+            <TextStyle>• 앱잼: 2025.12.20 ~ 2026.01.24</TextStyle>
+            <TextStyle>• 종무식: 2026.01.31</TextStyle>
           </TextDiv>
         </ToolTipDiv>
       )}
