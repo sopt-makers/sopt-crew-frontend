@@ -56,19 +56,33 @@ export const usePostLikeMutation = (queryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: PostQueryKey.mutate(queryId),
     mutationFn: () => postPostLike(+queryId),
     onMutate: async () => {
-      const previousPost = queryClient.getQueryData(PostQueryKey.mutate(queryId)) as GetPostDetailResponse;
+      await queryClient.cancelQueries({ queryKey: PostQueryKey.detail(+queryId) });
 
-      const newLikeCount = previousPost.isLiked ? previousPost.likeCount - 1 : previousPost.likeCount + 1;
+      const previousPost = queryClient.getQueryData<GetPostDetailResponse>(PostQueryKey.detail(+queryId));
 
-      const data = produce(previousPost, (draft: GetPostDetailResponse) => {
-        draft.isLiked = !previousPost.isLiked;
-        draft.likeCount = newLikeCount;
+      if (!previousPost) {
+        return { previousPost: null };
+      }
+
+      queryClient.setQueryData(PostQueryKey.detail(+queryId), (oldData: GetPostDetailResponse) => {
+        return produce(oldData, draft => {
+          draft.isLiked = !oldData.isLiked;
+          draft.likeCount = oldData.isLiked ? oldData.likeCount - 1 : oldData.likeCount + 1;
+        });
       });
 
-      queryClient.setQueryData(PostQueryKey.mutate(queryId), data);
+      return { previousPost };
+    },
+
+    onError: (err, _, context) => {
+      if (context?.previousPost) {
+        queryClient.setQueryData(PostQueryKey.detail(+queryId), context?.previousPost);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(+queryId) });
     },
   });
 };
