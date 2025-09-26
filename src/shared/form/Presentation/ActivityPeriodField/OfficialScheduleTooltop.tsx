@@ -8,17 +8,17 @@ import { styled } from 'stitches.config';
 const schedule: React.ReactNode = (
   <>
     • 1~8차 세미나 <br />
-    &nbsp;&nbsp;&nbsp;2025.04.05 ~ 2025.06.21 <br />
+    &nbsp;&nbsp;&nbsp;2025.10.11 ~ 2025.12.27 <br />
     • 솝커톤 <br />
-    &nbsp;&nbsp;&nbsp;2025.05.17 ~ 2025.05.18 <br />
+    &nbsp;&nbsp;&nbsp;2025.11.22 ~ 2025.11.23 <br />
     • 네트워킹 행사 <br />
-    &nbsp;&nbsp;&nbsp;2025.05.31 <br />
+    &nbsp;&nbsp;&nbsp;2025.12.06 <br />
     • 기획 경선 <br />
-    &nbsp;&nbsp;&nbsp;2025.06.07 <br />
+    &nbsp;&nbsp;&nbsp;2025.12.13 <br />
     • 앱잼 <br />
-    &nbsp;&nbsp;&nbsp;2025.06.14 ~ 2025.07.19 <br />
+    &nbsp;&nbsp;&nbsp;2025.12.20 ~ 2026.01.24 <br />
     • 종무식 <br />
-    &nbsp;&nbsp;&nbsp;2025.07.26
+    &nbsp;&nbsp;&nbsp;2026.01.31
   </>
 );
 
