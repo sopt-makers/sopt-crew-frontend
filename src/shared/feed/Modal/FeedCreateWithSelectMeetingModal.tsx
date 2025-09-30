@@ -69,17 +69,6 @@ function FeedCreateWithSelectMeetingModal({ isModalOpened, handleModalClose }: C
       });
       submitModal.handleModalClose();
       handleModalClose();
-      open({
-        icon: 'success',
-        content: `${meetingType}에서 새로 배웠거나 좋았던 점을 SOPT 회원들에게 공유해보세요.`,
-        action: {
-          name: '공유하러 가기',
-          onClick: () => {
-            ampli.clickFeedShard();
-            router.push(`${basePath}/feed/upload`);
-          },
-        },
-      });
     },
     onError: () => alert('피드 작성에 실패했습니다.'),
   });
