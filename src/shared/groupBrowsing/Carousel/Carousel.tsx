@@ -121,14 +121,14 @@ const SCarousel = styled('div', {
 
   '.slick-prev': {
     '@laptop': {
-      left: '-64px',
+      left: '-10px',
     },
   },
 
   '.slick-next': {
     transform: 'rotate(180deg)',
     '@laptop': {
-      right: '-64px',
+      right: '-10px',
     },
   },
 });
