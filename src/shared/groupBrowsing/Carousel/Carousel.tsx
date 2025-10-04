@@ -86,12 +86,6 @@ const SCarousel = styled('div', {
 
       left: '-27px',
     },
-    '@tablet': {
-      width: 'calc(100vw - 30px)',
-      minWidth: 'calc(100vw - 30px)',
-
-      left: '20px',
-    },
   },
 
   '.slick-list': {
