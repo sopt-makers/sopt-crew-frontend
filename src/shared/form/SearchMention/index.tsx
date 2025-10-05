@@ -302,6 +302,7 @@ const SCustomSuggestionsContainer = styled('div', {
 });
 
 const SRenderSuggestion = styled('button', {
+  width: '100%',
   boxSizing: 'border-box',
   padding: '8px 12px',
   gap: '12px',
