@@ -102,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <MentionProvider>
         <QueryClientProvider client={queryClient}>
           <SEO />
-          {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
+          <ReactQueryDevtools initialIsOpen={false} />
           <Script
             id="gtag-base"
             strategy="afterInteractive"

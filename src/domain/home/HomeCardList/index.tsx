@@ -1,4 +1,5 @@
 import { usePropertyQueryOption } from '@api/property/hooks';
+import { isProduction } from '@constant/environment';
 import CardList from '@domain/home/HomeCardList/CardList';
 import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
@@ -12,7 +13,7 @@ const HomeCardList = () => {
     <SWrapper>
       <SGradationRight />
       {property?.map((prop: { title: string; meetingIds: number[] }, idx: number) => (
-        <CardList key={idx} label={prop.title} meetingIds={prop.meetingIds} />
+        <CardList key={idx} label={prop.title} meetingIds={isProduction ? prop.meetingIds : [540, 667, 645]} />
       ))}
     </SWrapper>
   );
