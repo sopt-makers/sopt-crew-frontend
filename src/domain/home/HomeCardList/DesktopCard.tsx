@@ -63,7 +63,7 @@ const SCardWrapper = styled('article', {
   flexDirection: 'column',
 
   width: '285px',
-  height: '266px',
+  height: '270px',
 });
 
 const SThumbnailImage = styled('img', {

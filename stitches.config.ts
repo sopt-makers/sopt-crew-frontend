@@ -454,6 +454,14 @@ const stitches = createStitches({
         },
       },
     }),
+    hideScrollbar: (value: boolean) =>
+      value
+        ? {
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+          }
+        : {},
   },
 });
 
