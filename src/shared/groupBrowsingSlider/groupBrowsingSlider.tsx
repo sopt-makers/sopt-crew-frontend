@@ -21,5 +21,5 @@ export default GroupBrowsingSlider;
 const SSlider = styled('div', {
   display: 'flex',
   gap: '$12',
-  overflowX: 'auto',
+  overflow: 'auto hidden',
 });

@@ -86,17 +86,11 @@ const SCarousel = styled('div', {
 
       left: '-27px',
     },
-    '@tablet': {
-      width: 'calc(100vw - 30px)',
-      minWidth: 'calc(100vw - 30px)',
-
-      left: '20px',
-    },
   },
 
   '.slick-list': {
-    width: '1220px',
-    minWidth: '1220px',
+    width: '1200px',
+    minWidth: '1200px',
 
     '& a': {
       flexType: 'center',
@@ -120,14 +114,15 @@ const SCarousel = styled('div', {
   },
 
   '.slick-prev': {
-    mr: '24px',
+    '@laptop': {
+      left: '-10px',
+    },
   },
 
   '.slick-next': {
     transform: 'rotate(180deg)',
-    mr: '17px',
     '@laptop': {
-      mr: '0px',
+      right: '-10px',
     },
   },
 });
