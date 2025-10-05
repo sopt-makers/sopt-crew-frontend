@@ -1,8 +1,4 @@
 import { useFlashListQueryOption } from '@api/flash/query';
-import { useGetPostListInfiniteQuery } from '@api/post/query';
-import { TAKE_COUNT } from '@constant/feed';
-import DesktopFeedListSkeleton from '@domain/detail/Feed/Skeleton/DesktopFeedListSkeleton';
-import MobileFeedListSkeleton from '@domain/detail/Feed/Skeleton/MobileFeedListSkeleton';
 import HomeCardList from '@domain/home/HomeCardList';
 import QuickMenu from '@domain/home/QuickMenu';
 import { useDisplay } from '@hook/useDisplay';
@@ -14,31 +10,17 @@ import GuideButton from '@shared/GuideButton';
 import { Flex } from '@shared/util/layout/Flex';
 import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
-
-  const { ref, inView } = useInView();
-
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useGetPostListInfiniteQuery(TAKE_COUNT);
-
   const flashList = useQuery(useFlashListQueryOption()).data?.meetings;
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
     <>
       <CrewTab>
         <GuideButton />
       </CrewTab>
-      {isLoading && (isTablet ? <MobileFeedListSkeleton count={3} /> : <DesktopFeedListSkeleton row={3} column={3} />)}
       {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
@@ -70,13 +52,6 @@ const Home: NextPage = () => {
             </div>
           </Flex>
         </>
-      )}
-
-      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
-      {!isFetchingNextPage && hasNextPage ? (
-        <div ref={ref} style={{ height: '1px' }} />
-      ) : (
-        <div style={{ height: '1px' }} />
       )}
 
       <FloatingButton />
