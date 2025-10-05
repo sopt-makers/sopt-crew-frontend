@@ -11,8 +11,8 @@ export const numberOptionList = [
 export const sortOptionListDefault = { label: '오래된 순', value: 'asc' };
 
 export const sortOptionList = [
-  { label: '최신순', value: 'desc' },
   { label: '오래된 순', value: 'asc' },
+  { label: '최신순', value: 'desc' },
 ];
 
 export const generationOptions = [
