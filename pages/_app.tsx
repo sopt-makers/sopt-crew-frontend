@@ -12,6 +12,7 @@ import { setAccessTokens } from '@shared/util/auth';
 import { DialogProvider, ToastProvider } from '@sopt-makers/ui';
 import '@sopt-makers/ui/dist/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { GTM_ID, pageview } from '@util/gtm';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -101,6 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <MentionProvider>
         <QueryClientProvider client={queryClient}>
           <SEO />
+          {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
           <Script
             id="gtag-base"
             strategy="afterInteractive"

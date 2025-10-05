@@ -1,6 +1,7 @@
 import UserIcon from '@assets/svg/user.svg?rect';
 import Avatar from '@common/avatar/Avatar';
 import { PART_NAME } from '@constant/option';
+import { fontsObject } from '@sopt-makers/fonts';
 import { getResizedImage } from '@util/image';
 import Link from 'next/link';
 import { styled } from 'stitches.config';
@@ -78,7 +79,7 @@ const SThumbnailImage = styled('img', {
 const STitleStyle = styled('h3', {
   padding: '$4 0 $8',
 
-  textStyle: 'H4',
+  ...fontsObject.HEADING_6_18_B,
 });
 
 const SMetaWrapper = styled('div', {
