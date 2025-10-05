@@ -2,7 +2,8 @@ import MeetingQueryKey from '@api/meeting/MeetingQueryKey';
 import { GetMeeting, GetMeetingList, GetMeetingMemberList, GetRecommendMeetingList } from '@api/meeting/type';
 import { parsePartLabelToValue, parseStatusToNumber } from '@api/meeting/util';
 import { ACTIVE_GENERATION } from '@constant/activeGeneration';
-import { RECRUITMENT_STATUS } from '@constant/option';
+import { APPROVAL_STATUS_ENGLISH, APPROVAL_STATUS_KOREAN_TO_ENGLISH, RECRUITMENT_STATUS } from '@constant/option';
+import { numberOptionList, numberOptionListDefault, sortOptionList, sortOptionListDefault } from '@data/options';
 import {
   useCategoryParams,
   useIsOnlyActiveGenerationParams,
@@ -10,7 +11,9 @@ import {
   usePageParams,
   usePartParams,
   useSearchParams,
+  useSortByDateParams,
   useStatusParams,
+  useTakeParams,
 } from '@hook/queryString/custom';
 import { queryOptions } from '@tanstack/react-query';
 import { getMeeting, getMeetingList, getMeetingMemberList, getRecommendMeetingList } from '.';
@@ -69,14 +72,23 @@ export const useMeetingQueryOption = ({ meetingId }: { meetingId: number }) => {
   });
 };
 
-export const useMeetingMemberListQueryOption = ({
-  params,
-  meetingId,
-}: {
-  params: GetMeetingMemberList['request'];
-  meetingId: string;
-}) => {
-  delete params?.status;
+export const useMeetingMemberListQueryOption = ({ meetingId }: { meetingId: string }) => {
+  const { value: page } = usePageParams();
+  const { value: status } = useStatusParams();
+  const { value: take } = useTakeParams();
+  const { value: sortByDate } = useSortByDateParams();
+
+  const convertedNumberTake = numberOptionList[Number(take)] ?? numberOptionListDefault;
+  const convertedSortTake = sortOptionList[Number(sortByDate)] ?? sortOptionListDefault;
+  const DEFAULT_STATUS = APPROVAL_STATUS_ENGLISH.join(',');
+
+  const params: GetMeetingMemberList['request'] = {
+    page: Number(page),
+    take: Number(convertedNumberTake.value),
+    status:
+      status?.length === 0 ? DEFAULT_STATUS : status.map(item => APPROVAL_STATUS_KOREAN_TO_ENGLISH[item]).join(','),
+    date: convertedSortTake.value as 'desc' | 'asc',
+  };
 
   return queryOptions<GetMeetingMemberList['response']>({
     queryKey: MeetingQueryKey.memberList(meetingId, params),
