@@ -28,7 +28,7 @@ const ManagementListItemForHost = ({ meetingId, application }: ManagementListIte
   const date = dayjs(appliedDate).format('YY.MM.DD');
   const time = dayjs(appliedDate).format('HH:mm:ss');
 
-  const { mutate: mutateUpdateApplication } = useUpdateMeetingApplicationMutation();
+  const { mutate: mutateUpdateApplication } = useUpdateMeetingApplicationMutation(meetingId);
   const [isMutateLoading, setIsMutateLoading] = useState(false);
 
   const handleChangeApplicationStatus = (status: number) => () => {

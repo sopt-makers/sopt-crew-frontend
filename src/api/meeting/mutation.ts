@@ -53,14 +53,14 @@ export const useDeleteMeetingApplicationMutation = () => {
   });
 };
 
-export const useUpdateMeetingApplicationMutation = () => {
+export const useUpdateMeetingApplicationMutation = (meetingId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: updateMeetingApplication,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: MeetingQueryKey.memberList(),
+        queryKey: MeetingQueryKey.memberList(meetingId),
       });
     },
     onError: (error: unknown) => {
