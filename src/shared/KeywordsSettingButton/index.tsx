@@ -4,14 +4,11 @@ import { useGetInterestedKeywordsQueryOption } from '@api/user/query';
 import AlarmSettingBottomSheet from '@domain/list/Alarm/BottomSheet/AlarmSettingBottomSheet';
 import AlarmSettingModal from '@domain/list/Alarm/Modal/AlarmSettingModal';
 import SettingButton from '@domain/list/AlarmSetting/SettingButton/SettingButton';
-import { TooltipContent } from '@domain/list/AlarmSetting/TooltipContent/TooltipContent';
 import { useDisplay } from '@hook/useDisplay';
-import { Tooltip } from '@shared/Tooltip/Tooltip';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 const KeywordsSettingButton = () => {
-  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
   const { isDesktop } = useDisplay();
 
   const { mutate: mutateUserInterested } = useMutationInterestedKeywords();
@@ -42,12 +39,8 @@ const KeywordsSettingButton = () => {
 
   return (
     <>
-      <Tooltip.Root isTooltipOpen={isTooltipOpen} onTooltipToggle={setIsTooltipOpen}>
-        <Tooltip.Trigger>
-          <SettingButton onClick={() => setIsSettingOpen(true)} selectedKeywords={selectedAlarm} />
-        </Tooltip.Trigger>
-        <TooltipContent />
-      </Tooltip.Root>
+      <SettingButton onClick={() => setIsSettingOpen(true)} selectedKeywords={selectedAlarm} />
+
       <AlarmSettingModal
         isOpen={isSettingOpen && isDesktop}
         close={() => setIsSettingOpen(false)}
