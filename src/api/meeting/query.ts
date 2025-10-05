@@ -79,7 +79,7 @@ export const useMeetingMemberListQueryOption = ({
   delete params?.status;
 
   return queryOptions<GetMeetingMemberList['response']>({
-    queryKey: MeetingQueryKey.memberList(),
+    queryKey: MeetingQueryKey.memberList(meetingId, params),
     queryFn: () => {
       return getMeetingMemberList({ params, meetingId });
     },
