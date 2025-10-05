@@ -6,7 +6,7 @@ import ManagementForGuest from '@domain/mine/management/ManagementForGuest';
 import ManagementForHost from '@domain/mine/management/ManagementForHost';
 import MeetingInformation from '@domain/mine/management/MeetingInformation';
 import MeetingInformationSkeleton from '@domain/mine/management/Skeleton/MeetingInformationSkeleton';
-import { usePageParams, useSortByDateParams, useStatusParams, useTakeParams } from '@hook/queryString/custom';
+import { usePageParams, useSortByDateParams, useTakeParams } from '@hook/queryString/custom';
 import CrewTab from '@shared/CrewTab';
 import { Option } from '@shared/form/Select/OptionItem';
 import { useQuery } from '@tanstack/react-query';
@@ -18,7 +18,6 @@ const ManagementPage = () => {
   const id = router.query.id as string;
 
   const { value: page, setValue: setPage } = usePageParams();
-  const { value: status } = useStatusParams();
   const { value: take, setValue: setTake } = useTakeParams();
   const { value: sortByDate, setValue: setSort } = useSortByDateParams();
 
@@ -34,12 +33,6 @@ const ManagementPage = () => {
   const { isLoading: isManagementDataLoading, data: management } = useQuery(
     useMeetingMemberListQueryOption({
       meetingId: id,
-      params: {
-        page: Number(page),
-        take: Number(convertedNumberTake.value),
-        status: status.join(','),
-        date: sortOptionList[Number(sortByDate) || 1]?.value as 'desc' | 'asc',
-      },
     })
   );
 
@@ -69,7 +62,7 @@ const ManagementPage = () => {
       ) : (
         meetingData && <MeetingInformation meetingData={meetingData} />
       )}
-      {management && management.meta?.pageCount > 0 && (
+      {management && (
         <>
           {isHost ? (
             <ManagementForHost
