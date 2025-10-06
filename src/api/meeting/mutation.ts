@@ -60,7 +60,9 @@ export const useUpdateMeetingApplicationMutation = (meetingId: string) => {
     mutationFn: updateMeetingApplication,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: MeetingQueryKey.memberList(meetingId),
+        // TODO: queryKey 타입 문제 해결 후 주석 해제
+        // queryKey: MeetingQueryKey.memberList(meetingId),
+        queryKey: ['meeting', 'memberList', meetingId],
       });
     },
     onError: (error: unknown) => {
