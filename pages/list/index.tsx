@@ -1,7 +1,7 @@
 import CardSkeleton from '@domain/list/Card/Skeleton';
 import Filter from '@domain/list/Filter';
 import GridLayout from '@domain/list/Grid/Layout';
-import { MeetingListOfAll } from '@domain/list/Grid/List';
+import { MeetingListOfAll } from '@domain/list/Meeting/MeetingListOfAll';
 import CrewTab from '@shared/CrewTab';
 import { SSRSafeSuspense } from '@shared/util/SSRSafeSuspense';
 import type { NextPage } from 'next';
