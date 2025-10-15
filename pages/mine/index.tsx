@@ -50,17 +50,7 @@ const MinePage: NextPage = () => {
 
         <Tab.Panels>
           <Tab.Panel>
-            <SSRSafeSuspense
-              fallback={
-                <GridLayout mobileType="card">
-                  {new Array(4).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} mobileType="card" />
-                  ))}
-                </GridLayout>
-              }
-            >
-              <MeetingListOfApplied />
-            </SSRSafeSuspense>
+            <MeetingListOfApplied />
           </Tab.Panel>
 
           <Tab.Panel>

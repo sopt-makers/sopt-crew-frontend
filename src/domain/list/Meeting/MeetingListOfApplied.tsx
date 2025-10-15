@@ -1,14 +1,16 @@
 import { MeetingData } from '@api/meeting/type';
 import { useUserApplicationQueryOption } from '@api/user/query';
 import { useScrollRestorationAfterLoading } from '@hook/useScrollRestoration';
+import { Suspense } from '@suspensive/react';
 import { useQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import Card from '../Card';
+import CardSkeleton from '../Card/Skeleton';
 import Status from '../Card/Status';
 import EmptyView from '../EmptyView';
 import GridLayout from '../Grid/Layout';
 
-export function MeetingListOfApplied() {
+function MeetingListOfApplied() {
   const { data: applyData, isLoading } = useQuery(useUserApplicationQueryOption());
   useScrollRestorationAfterLoading(isLoading);
 
@@ -33,6 +35,22 @@ export function MeetingListOfApplied() {
     </main>
   );
 }
+
+export default () => {
+  return (
+    <Suspense
+      fallback={
+        <GridLayout mobileType="card">
+          {new Array(4).fill(null).map((_, index) => (
+            <CardSkeleton key={index} mobileType="card" />
+          ))}
+        </GridLayout>
+      }
+    >
+      <MeetingListOfApplied />
+    </Suspense>
+  );
+};
 
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
