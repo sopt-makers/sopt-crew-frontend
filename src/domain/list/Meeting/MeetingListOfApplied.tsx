@@ -22,7 +22,7 @@ function MeetingListOfApplied() {
           {applyData?.apply.map(applyData => (
             <Card
               key={applyData.id}
-              // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes 가 현재 없지만, 곧 서버에서 내려줄 예정
+              // TODO: mine meetingData 에 welcomeMessageTypes, meetingKeywordTypes가 현재 없지만, 곧 서버에서 내려줄 예정
               meetingData={applyData.meeting as unknown as MeetingData}
               mobileType="card"
               bottom={<Status status={applyData.status} />}
