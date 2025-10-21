@@ -47,4 +47,7 @@ export const apiV2 = computed(authToken, currentToken =>
 
 api.interceptors.request.use(checkToken, err => err);
 
-api.interceptors.response.use(res => res, refreshToken);
+api.interceptors.response.use(
+  res => res,
+  async err => refreshToken(err)
+);
