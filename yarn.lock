@@ -3365,6 +3365,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@commander-js/extra-typings@npm:^13.0.0":
+  version: 13.1.0
+  resolution: "@commander-js/extra-typings@npm:13.1.0"
+  peerDependencies:
+    commander: ~13.1.0
+  checksum: 10c0/ff799f0641f68855aa73c976912a607c25d564df34fd8e262927a80b19f6cccd882fe7ce098a0e072a497fd0020cbd19fd1e4d5cc98a461cd6623abf8ed5f4e7
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
@@ -7543,6 +7552,64 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@suspensive/react-dom@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react-dom@npm:3.10.1"
+  peerDependencies:
+    react: ^18 || ^19
+    react-dom: ^18 || ^19
+  checksum: 10c0/ceb9c0233d6badfd628137c202580f7f902718afa2d436de0f0f265c2d767ebedad3e1fb371360328c87f4464ade3c8cebd5bb3d2c2b5abfe3c081be97047d51
+  languageName: node
+  linkType: hard
+
+"@suspensive/react-query-4@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react-query-4@npm:3.10.1"
+  peerDependencies:
+    "@tanstack/react-query": "*"
+    react: ^18 || ^19
+  checksum: 10c0/1f2122e702c6454aa7740fee2342e00c67a753a4c253ac884ccdc8480d652a97ea84ade4c017438412f212efe68b2a16d312e1b9370ec593361c21ed87405642
+  languageName: node
+  linkType: hard
+
+"@suspensive/react-query-5@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react-query-5@npm:3.10.1"
+  peerDependencies:
+    "@tanstack/react-query": "*"
+    react: ^18 || ^19
+  checksum: 10c0/40758c9119883cbd0b0ad9f0c268fd512bb5f61e5ed4450037d29a4c159550ef99473ffab5a2ff15d1498421fc0cc93cff2fab710ae43ba1956a989a23ca92ed
+  languageName: node
+  linkType: hard
+
+"@suspensive/react-query@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react-query@npm:3.10.1"
+  dependencies:
+    "@commander-js/extra-typings": "npm:^13.0.0"
+    "@suspensive/react-query-4": "npm:^3.10.1"
+    "@suspensive/react-query-5": "npm:^3.10.1"
+    cli-table3: "npm:^0.6.5"
+    commander: "npm:^13.0.0"
+  peerDependencies:
+    "@tanstack/react-query": ^4.41.0 || ^5.82.0
+    react: ^18 || ^19
+  bin:
+    srq: dist/bin/cli.cjs
+    suspensive-react-query: dist/bin/cli.cjs
+  checksum: 10c0/752302125015d0d3ed6d6ac7dbc50c8638ed2169888569d3d201791d0c7cf91e2be28afa71783ef54d9a25b18a07c05bc378aac533dd23771bdf461240e90be4
+  languageName: node
+  linkType: hard
+
+"@suspensive/react@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@suspensive/react@npm:3.10.1"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/a6901424aac081130152db1a90d032ec109ea64e43858ea045af6219f137f2e0a868bee3f93697edde4e71158a04557072774a46ee92332c7ba6ef62b68c7e08
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:^6.5.1":
   version: 6.5.1
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:6.5.1"
@@ -10663,6 +10730,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cli-table3@npm:^0.6.5":
+  version: 0.6.5
+  resolution: "cli-table3@npm:0.6.5"
+  dependencies:
+    "@colors/colors": "npm:1.5.0"
+    string-width: "npm:^4.2.0"
+  dependenciesMeta:
+    "@colors/colors":
+      optional: true
+  checksum: 10c0/d7cc9ed12212ae68241cc7a3133c52b844113b17856e11f4f81308acc3febcea7cc9fd298e70933e294dd642866b29fd5d113c2c098948701d0c35f09455de78
+  languageName: node
+  linkType: hard
+
 "cli-ux@npm:^5.2.1, cli-ux@npm:^5.5.1":
   version: 5.6.7
   resolution: "cli-ux@npm:5.6.7"
@@ -10836,6 +10916,13 @@ __metadata:
   dependencies:
     delayed-stream: "npm:~1.0.0"
   checksum: 10c0/0dbb829577e1b1e839fa82b40c07ffaf7de8a09b935cadd355a73652ae70a88b4320db322f6634a4ad93424292fa80973ac6480986247f1734a1137debf271d5
+  languageName: node
+  linkType: hard
+
+"commander@npm:^13.0.0":
+  version: 13.1.0
+  resolution: "commander@npm:13.1.0"
+  checksum: 10c0/7b8c5544bba704fbe84b7cab2e043df8586d5c114a4c5b607f83ae5060708940ed0b5bd5838cf8ce27539cde265c1cbd59ce3c8c6b017ed3eec8943e3a415164
   languageName: node
   linkType: hard
 
@@ -20210,6 +20297,9 @@ __metadata:
     "@storybook/nextjs": "npm:^8.1.11"
     "@storybook/react": "npm:^8.1.11"
     "@storybook/testing-library": "npm:^0.0.14-next.2"
+    "@suspensive/react": "npm:^3.10.1"
+    "@suspensive/react-dom": "npm:^3.10.1"
+    "@suspensive/react-query": "npm:^3.10.1"
     "@svgr/webpack": "npm:^6.5.0"
     "@tanstack/react-query": "npm:^5"
     "@tanstack/react-query-devtools": "npm:^5"

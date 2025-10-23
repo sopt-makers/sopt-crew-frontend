@@ -6,12 +6,11 @@ import { Fragment } from 'react';
 import { styled } from 'stitches.config';
 
 import { ampli } from '@/ampli';
-import CardSkeleton from '@domain/list/Card/Skeleton';
-import GridLayout from '@domain/list/Grid/Layout';
-import { MeetingListOfApplied, MeetingListOfMine } from '@domain/list/Grid/List';
+import MeetingListOfApplied from '@domain/list/Meeting/MeetingListOfApplied';
+import MeetingListOfMine from '@domain/list/Meeting/MeetingListOfMine';
 import CrewTab from '@shared/CrewTab';
+
 import KakaoFloatingButton from '@shared/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
-import { SSRSafeSuspense } from '@shared/util/SSRSafeSuspense';
 
 const enum MeetingType {
   APPLIED,
@@ -49,31 +48,11 @@ const MinePage: NextPage = () => {
 
         <Tab.Panels>
           <Tab.Panel>
-            <SSRSafeSuspense
-              fallback={
-                <GridLayout mobileType="card">
-                  {new Array(4).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} mobileType="card" />
-                  ))}
-                </GridLayout>
-              }
-            >
-              <MeetingListOfApplied />
-            </SSRSafeSuspense>
+            <MeetingListOfApplied />
           </Tab.Panel>
 
           <Tab.Panel>
-            <SSRSafeSuspense
-              fallback={
-                <GridLayout mobileType="card">
-                  {new Array(6).fill(null).map((_, index) => (
-                    <CardSkeleton key={index} mobileType="card" />
-                  ))}
-                </GridLayout>
-              }
-            >
-              <MeetingListOfMine />
-            </SSRSafeSuspense>
+            <MeetingListOfMine />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
