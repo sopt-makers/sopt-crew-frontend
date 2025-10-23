@@ -1,16 +1,19 @@
 import { MeetingData } from '@api/meeting/type';
 import { useUserMeetingListQueryOption } from '@api/user/query';
 import { useScrollRestorationAfterLoading } from '@hook/useScrollRestoration';
-import { useQuery } from '@tanstack/react-query';
+import { Suspense } from '@suspensive/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 import Card from '../Card';
 import ManagementButton from '../Card/ManagementButton';
+import CardSkeleton from '../Card/Skeleton';
 import EmptyView from '../EmptyView';
 import GridLayout from '../Grid/Layout';
 
-export function MeetingListOfMine() {
-  const { data: mineData, isLoading } = useQuery(useUserMeetingListQueryOption());
+function MeetingListOfMine() {
+  const { data: mineData, isLoading } = useSuspenseQuery(useUserMeetingListQueryOption());
   useScrollRestorationAfterLoading(isLoading);
+
   return (
     <main style={{ marginBottom: '20%' }}>
       <SMeetingCount>{mineData?.meetings.length}개의 모임</SMeetingCount>
@@ -38,6 +41,22 @@ export function MeetingListOfMine() {
     </main>
   );
 }
+
+export default () => {
+  return (
+    <Suspense
+      fallback={
+        <GridLayout mobileType="card">
+          {new Array(6).fill(null).map((_, index) => (
+            <CardSkeleton key={index} mobileType="card" />
+          ))}
+        </GridLayout>
+      }
+    >
+      <MeetingListOfMine />
+    </Suspense>
+  );
+};
 
 const SMeetingCount = styled('p', {
   fontStyle: 'H3',
