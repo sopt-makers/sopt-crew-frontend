@@ -36,6 +36,7 @@ export const refreshToken = async (error: AxiosError<unknown>) => {
       }
       originRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
       localStorage.setItem(ACCESS_TOKEN_KEY, data.data.accessToken);
+      crewAxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.data.accessToken}`;
 
       return crewAxiosInstance(originRequest);
     } catch (error) {
