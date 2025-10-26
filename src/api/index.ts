@@ -51,3 +51,8 @@ api.interceptors.response.use(
   res => res,
   async err => refreshToken(err)
 );
+
+baseApi.interceptors.response.use(
+  res => res,
+  async err => refreshToken(err, baseApi)
+);

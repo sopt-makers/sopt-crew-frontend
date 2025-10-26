@@ -1,6 +1,6 @@
 import { authToken } from '@/stores/tokenStore';
 import { ACCESS_TOKEN_KEY, getAuthToken, redirectToLoginPage } from '@shared/util/auth';
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { authApi, api as crewAxiosInstance } from './index';
 
 export const checkToken = (config: AxiosRequestConfig) => {
@@ -16,7 +16,7 @@ export const checkToken = (config: AxiosRequestConfig) => {
   return config;
 };
 
-export const refreshToken = async (error: AxiosError<unknown>) => {
+export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosInstance = crewAxiosInstance) => {
   const originRequest = error.config;
 
   if (!error.response || !originRequest) throw new Error('에러가 발생했습니다.');
@@ -36,9 +36,9 @@ export const refreshToken = async (error: AxiosError<unknown>) => {
       }
       originRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
       localStorage.setItem(ACCESS_TOKEN_KEY, data.data.accessToken);
-      crewAxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.data.accessToken}`;
+      instance.defaults.headers.common['Authorization'] = `Bearer ${data.data.accessToken}`;
 
-      return crewAxiosInstance(originRequest);
+      return instance(originRequest);
     } catch (error) {
       console.error(error);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
