@@ -16,6 +16,14 @@ export const checkToken = (config: AxiosRequestConfig) => {
   return config;
 };
 
+let lock = false;
+
+const checkLock = () => lock;
+
+const setLock = (value: boolean) => {
+  lock = value;
+};
+
 export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosInstance = crewAxiosInstance) => {
   const originRequest = error.config;
 
@@ -24,6 +32,9 @@ export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosIn
   const { status } = error.response;
 
   if (status === 401) {
+    if (checkLock()) return instance(originRequest);
+    setLock(true);
+
     const currentToken = getAuthToken();
     try {
       const { data } = await authApi.post<{ data: { accessToken: string } }>(`/api/v1/auth/refresh/web`, null, {
@@ -45,6 +56,8 @@ export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosIn
       redirectToLoginPage();
 
       throw new Error('토큰 갱신에 실패하였습니다.');
+    } finally {
+      setLock(false);
     }
   }
 
