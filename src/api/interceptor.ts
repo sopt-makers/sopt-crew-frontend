@@ -1,7 +1,7 @@
 import { authToken } from '@/stores/tokenStore';
 import { ACCESS_TOKEN_KEY, getAuthToken, redirectToLoginPage } from '@shared/util/auth';
 import { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { authApi, api as crewAxiosInstance } from './index';
+import { authApi } from './index';
 
 export const checkToken = (config: AxiosRequestConfig) => {
   const token = getAuthToken();
@@ -24,7 +24,7 @@ const setLock = (value: boolean) => {
   lock = value;
 };
 
-export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosInstance = crewAxiosInstance) => {
+export const refreshToken = async (error: AxiosError<unknown>, instance: AxiosInstance) => {
   const originRequest = error.config;
 
   if (!error.response || !originRequest) throw new Error('에러가 발생했습니다.');
