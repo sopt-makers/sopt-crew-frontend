@@ -49,5 +49,10 @@ api.interceptors.request.use(checkToken, err => err);
 
 api.interceptors.response.use(
   res => res,
-  async err => refreshToken(err)
+  async err => refreshToken(err, api)
+);
+
+baseApi.interceptors.response.use(
+  res => res,
+  async err => refreshToken(err, baseApi)
 );
