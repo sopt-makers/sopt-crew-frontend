@@ -15,8 +15,8 @@ function TableOfContents({ label }: TableOfContentsProps) {
   } = useFormContext<FormType>();
   const form = useWatch({ control });
   const isTitleValid = form.title && !errors.title;
-
   const isCategoryValid = form.category?.value && !errors.category;
+  const isKeywordValid = form.meetingKeywordTypes && form.meetingKeywordTypes.length > 0 && !errors.meetingKeywordTypes;
   const isImageValid = form.files && form.files.length > 0;
   const isDescriptionValid = form.detail && form.detail.desc && !errors.detail;
   const isApplicationDateValid =
@@ -31,6 +31,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
   const isActivationDateValid =
     form.detail && form.detail.mDateRange && form.detail.mDateRange[0] && form.detail.mDateRange[1];
   const isProcessDesc = form.detail?.processDesc;
+
   return (
     <SContainer>
       <SListHeader>
@@ -38,10 +39,20 @@ function TableOfContents({ label }: TableOfContentsProps) {
       </SListHeader>
       <SItemList>
         <SItem>
-          {isTitleValid && isCategoryValid && isImageValid && isDescriptionValid ? <CheckedIcon /> : <UncheckedIcon />}
+          {isTitleValid &&
+          isCategoryValid &&
+          isKeywordValid &&
+          isImageValid &&
+          isDescriptionValid &&
+          isApplicationDateValid &&
+          isTargetValid ? (
+            <CheckedIcon />
+          ) : (
+            <UncheckedIcon />
+          )}
           <SItemLabel>1. 모임 정보</SItemLabel>
         </SItem>
-        <SGap />
+        {/* <SGap />
         <SItem>
           {isActivationDateValid && isProcessDesc ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>2. 활동 정보</SItemLabel>
@@ -50,7 +61,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
         <SItem>
           {isApplicationDateValid && isTargetValid ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>3. 모집 정보</SItemLabel>
-        </SItem>
+        </SItem> */}
         <SGap />
         <SItem>
           {isTitleValid &&
@@ -58,14 +69,14 @@ function TableOfContents({ label }: TableOfContentsProps) {
           isImageValid &&
           isDescriptionValid &&
           isActivationDateValid &&
-          isProcessDesc &&
-          isApplicationDateValid &&
-          isTargetValid ? (
+          isProcessDesc ? (
+            // isApplicationDateValid &&
+            // isTargetValid
             <CheckedIcon />
           ) : (
             <UncheckedIcon />
           )}
-          <SItemLabel>4. 추가 정보</SItemLabel>
+          <SItemLabel>2. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>
     </SContainer>
@@ -75,7 +86,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
 export default TableOfContents;
 
 const SContainer = styled('div', {
-  width: '341px',
+  width: '300px',
   height: 'fit-content',
   padding: '50px 40px 60px',
   border: '1px solid $gray700',
@@ -83,7 +94,8 @@ const SContainer = styled('div', {
   position: 'sticky',
   top: '$80',
 
-  '@media (max-width: 768px)': {
+  // '@media (max-width: 768px)': {
+  '@media (max-width: 1024px)': {
     display: 'none',
   },
 });
@@ -111,7 +123,7 @@ const SItemList = styled('ul', {
 });
 
 const SGap = styled('div', {
-  height: '53px',
+  height: '51px',
   margin: '-1px 7px',
   borderLeft: '1px solid $gray600',
 });
