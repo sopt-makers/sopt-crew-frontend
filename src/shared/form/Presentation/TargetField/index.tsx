@@ -51,7 +51,7 @@ const STargetFieldWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$16',
-  marginBottom: '16px',
+  // marginBottom: '16px',
 });
 
 const STargetChipContainer = styled('div', {

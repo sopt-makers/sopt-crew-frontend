@@ -1,8 +1,5 @@
-import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
-import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
 import FormController from '@shared/form/FormController';
 import TextInput from '@shared/form/TextInput';
-import { fontsObject } from '@sopt-makers/fonts';
 import { ChangeEvent } from 'react';
 import { styled } from 'stitches.config';
 
@@ -25,29 +22,29 @@ const MemberCountField = () => {
           )}
         ></FormController>
       </div>
-      <OnlyActiveGenerationField />
+      {/* <OnlyActiveGenerationField /> */}
     </SMemberCountWrapper>
   );
 };
 
-const OnlyActiveGenerationField = () => {
-  return (
-    <FormController
-      name="detail.canJoinOnlyActiveGeneration"
-      defaultValue={false}
-      render={({ field: { value, onChange } }) => (
-        <SFormCheckBox active={value} onClick={() => onChange(!value)}>
-          {value ? (
-            <CheckSelectedIcon style={{ marginRight: '8px' }} />
-          ) : (
-            <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-          )}
-          활동 기수만
-        </SFormCheckBox>
-      )}
-    ></FormController>
-  );
-};
+// const OnlyActiveGenerationField = () => {
+//   return (
+//     <FormController
+//       name="detail.canJoinOnlyActiveGeneration"
+//       defaultValue={false}
+//       render={({ field: { value, onChange } }) => (
+//         <SFormCheckBox active={value} onClick={() => onChange(!value)}>
+//           {value ? (
+//             <CheckSelectedIcon style={{ marginRight: '8px' }} />
+//           ) : (
+//             <CheckUnselectedIcon style={{ marginRight: '8px' }} />
+//           )}
+//           활동 기수만
+//         </SFormCheckBox>
+//       )}
+//     ></FormController>
+//   );
+// };
 
 export default MemberCountField;
 
@@ -59,15 +56,15 @@ const SMemberCountWrapper = styled('div', {
   height: '48px',
 });
 
-const SFormCheckBox = styled('div', {
-  ...fontsObject.BODY_3_14_R,
-  display: 'flex',
-  alignItems: 'center',
-  color: '$gray300',
-  variants: {
-    active: {
-      true: { color: '$gray10' },
-    },
-  },
-  cursor: 'pointer',
-});
+// const SFormCheckBox = styled('div', {
+//   ...fontsObject.BODY_3_14_R,
+//   display: 'flex',
+//   alignItems: 'center',
+//   color: '$gray300',
+//   variants: {
+//     active: {
+//       true: { color: '$gray10' },
+//     },
+//   },
+//   cursor: 'pointer',
+// });
