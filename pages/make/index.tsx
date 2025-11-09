@@ -1,6 +1,5 @@
 import { ampli } from '@/ampli';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
-import PlusIcon from '@assets/svg/plus.svg';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
 import TableOfContents from '@shared/form/TableOfContents';
@@ -57,15 +56,10 @@ const MakePage = () => {
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 개설하기</SFormName>
+          <SFormName>모임 정보입력</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
           <Presentation
-            submitButtonLabel={
-              <>
-                <PlusIcon />
-                모임 개설하기
-              </>
-            }
+            submitButtonLabel={<>개설하기</>}
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
