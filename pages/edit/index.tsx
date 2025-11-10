@@ -1,6 +1,5 @@
 import { usePutMeetingMutation } from '@api/meeting/mutation';
 import { useMeetingQueryOption } from '@api/meeting/query';
-import CheckIcon from '@assets/svg/check.svg';
 import Loader from '@common/loader/Loader';
 import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -110,12 +109,7 @@ const EditPage = () => {
           <SFormName>모임 정보 수정</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
           <Presentation
-            submitButtonLabel={
-              <>
-                <CheckIcon />
-                정보 수정하기
-              </>
-            }
+            submitButtonLabel={<>정보 수정하기</>}
             cancelButtonLabel="수정 취소하기"
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}

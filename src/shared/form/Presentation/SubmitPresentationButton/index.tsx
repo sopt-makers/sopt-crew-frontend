@@ -1,4 +1,3 @@
-import CancelIcon from '@assets/svg/x.svg';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
@@ -34,7 +33,6 @@ const SubmitPresentationButton = ({ cancelButtonLabel, submitButtonLabel, disabl
     <ButtonContainer>
       {cancelButtonLabel && (
         <Button type="button" onClick={() => router.back()}>
-          <CancelIcon />
           {cancelButtonLabel}
         </Button>
       )}
