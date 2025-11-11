@@ -6,9 +6,13 @@ import { styled } from 'stitches.config';
 
 interface TableOfContentsProps {
   label: string;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
 }
 
-function TableOfContents({ label }: TableOfContentsProps) {
+function TableOfContents({ label, onSubmit }: TableOfContentsProps) {
+  // TODO: 제출 버튼 제작 후 onSubmit 연결
+  console.log(onSubmit);
+
   const {
     control,
     formState: { errors },
