@@ -60,6 +60,10 @@ const EditPage = () => {
     formMethods.setValue('files', files);
   };
 
+  const handleSubmit = () => {
+    formMethods.handleSubmit(onSubmit);
+  };
+
   //고치기
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
@@ -109,11 +113,11 @@ const EditPage = () => {
             cancelButtonLabel="수정 취소하기"
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
             disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
-        <TableOfContents label="모임 수정" onSubmit={formMethods.handleSubmit(onSubmit)} />
+        <TableOfContents label="모임 수정" onSubmit={handleSubmit} />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
