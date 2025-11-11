@@ -54,20 +54,6 @@ function Presentation({
         </div>
       </div>
 
-      {/* <SFormSectionDivider>2. 활동 정보</SFormSectionDivider>
-        <SectionLine /> */}
-      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}> */}
-      {/* <ActivityPeriodField />
-          <ProcessIntroductionField /> */}
-      {/* <div> */}
-      {/* <SFormSectionDivider>3. 모집 정보</SFormSectionDivider>
-            <SectionLine /> */}
-      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-              <ApplicationPeriodField />
-              <TargetField />
-            </div> */}
-      {/* </div> */}
-
       <div>
         <SFormSectionDivider>
           2. 추가 정보
@@ -80,8 +66,6 @@ function Presentation({
           <WelcomeMessageField />
         </div>
       </div>
-      {/* <NoticeField /> */}
-      {/* </div> */}
 
       <SubmitPresentationButton
         cancelButtonLabel={cancelButtonLabel}

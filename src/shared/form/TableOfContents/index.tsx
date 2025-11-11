@@ -52,16 +52,7 @@ function TableOfContents({ label }: TableOfContentsProps) {
           )}
           <SItemLabel>1. 모임 정보</SItemLabel>
         </SItem>
-        {/* <SGap />
-        <SItem>
-          {isActivationDateValid && isProcessDesc ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>2. 활동 정보</SItemLabel>
-        </SItem>
-        <SGap />
-        <SItem>
-          {isApplicationDateValid && isTargetValid ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>3. 모집 정보</SItemLabel>
-        </SItem> */}
+
         <SGap />
         <SItem>
           {isTitleValid &&
