@@ -147,18 +147,16 @@ const SFormContainer = styled('div', {
     background: '$gray950',
   },
 });
+
 const SFormName = styled('h1', {
-  fontAg: '24_bold_100',
+  ...fontsObject.HEADING_2_32_B,
   color: '$gray10',
-  marginBottom: '90px',
+  marginBottom: '20px',
 
   '@media (max-width: 768px)': {
-    margin: 0,
-    paddingBottom: '40px',
-    borderBottom: '1px solid $gray700',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
-
 const SFormCaution = styled('div', {
   ...fontsObject.BODY_4_13_M,
   padding: '14px 18px',

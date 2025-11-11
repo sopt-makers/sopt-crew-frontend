@@ -59,7 +59,7 @@ const MakePage = () => {
           <SFormName>모임 정보입력</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
           <Presentation
-            submitButtonLabel={<>개설하기</>}
+            submitButtonLabel={<>모임 개설하기</>}
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={formMethods.handleSubmit(onSubmit)}
@@ -97,14 +97,12 @@ const SFormContainer = styled('div', {
   },
 });
 const SFormName = styled('h1', {
-  fontAg: '24_bold_100',
+  ...fontsObject.HEADING_2_32_B,
   color: '$gray10',
   marginBottom: '20px',
 
   '@media (max-width: 768px)': {
-    margin: 0,
-    paddingBottom: '40px',
-    borderBottom: '1px solid $gray700',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
 

@@ -43,7 +43,7 @@ function Presentation({
       <div>
         <SFormSectionDivider>1. 필수 정보</SFormSectionDivider>
         <SectionLine />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
+        <SFormSectionContainer>
           <TitleField />
           <CategoryField />
           <KeywordField />
@@ -51,7 +51,7 @@ function Presentation({
           <DescriptionField />
           <ApplicationPeriodField />
           <TargetField />
-        </div>
+        </SFormSectionContainer>
       </div>
 
       <div>
@@ -60,11 +60,11 @@ function Presentation({
           <SFormSectionDividerOptionText>(선택)</SFormSectionDividerOptionText>
         </SFormSectionDivider>
         <SectionLine />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '60px' }}>
+        <SFormSectionContainer>
           <CoLeaderField />
           <LeaderDescriptionField />
           <WelcomeMessageField />
-        </div>
+        </SFormSectionContainer>
       </div>
 
       <SubmitPresentationButton
@@ -94,11 +94,29 @@ const SFormSectionDivider = styled('div', {
   display: 'flex',
   gap: '8px',
   alignItems: 'center',
+
+  '@media (max-width: 768px)': {
+    ...fontsObject.HEADING_5_20_B,
+  },
+});
+
+const SFormSectionContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '60px',
+
+  '@media (max-width: 768px)': {
+    gap: '56px',
+  },
 });
 
 const SFormSectionDividerOptionText = styled('p', {
   ...fontsObject.HEADING_4_24_B,
   color: `${colors.gray400}`,
+
+  '@media (max-width: 768px)': {
+    ...fontsObject.HEADING_5_20_B,
+  },
 });
 
 const SectionLine = styled('div', {

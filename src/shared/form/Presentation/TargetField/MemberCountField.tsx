@@ -22,29 +22,9 @@ const MemberCountField = () => {
           )}
         ></FormController>
       </div>
-      {/* <OnlyActiveGenerationField /> */}
     </SMemberCountWrapper>
   );
 };
-
-// const OnlyActiveGenerationField = () => {
-//   return (
-//     <FormController
-//       name="detail.canJoinOnlyActiveGeneration"
-//       defaultValue={false}
-//       render={({ field: { value, onChange } }) => (
-//         <SFormCheckBox active={value} onClick={() => onChange(!value)}>
-//           {value ? (
-//             <CheckSelectedIcon style={{ marginRight: '8px' }} />
-//           ) : (
-//             <CheckUnselectedIcon style={{ marginRight: '8px' }} />
-//           )}
-//           활동 기수만
-//         </SFormCheckBox>
-//       )}
-//     ></FormController>
-//   );
-// };
 
 export default MemberCountField;
 
@@ -55,16 +35,3 @@ const SMemberCountWrapper = styled('div', {
   width: '227px',
   height: '48px',
 });
-
-// const SFormCheckBox = styled('div', {
-//   ...fontsObject.BODY_3_14_R,
-//   display: 'flex',
-//   alignItems: 'center',
-//   color: '$gray300',
-//   variants: {
-//     active: {
-//       true: { color: '$gray10' },
-//     },
-//   },
-//   cursor: 'pointer',
-// });

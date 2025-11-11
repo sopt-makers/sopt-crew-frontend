@@ -1,3 +1,4 @@
+import { fontsObject } from '@sopt-makers/fonts';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { styled } from 'stitches.config';
@@ -52,35 +53,40 @@ const SubmitPresentationButton = ({ cancelButtonLabel, submitButtonLabel, disabl
 export default SubmitPresentationButton;
 
 const ButtonContainer = styled('div', {
-  display: 'flex',
-  gap: '20px',
-  alignSelf: 'flex-end',
+  display: 'none',
+
+  '@media (max-width: 1024px)': {
+    display: 'flex',
+    gap: '20px',
+    alignSelf: 'flex-end',
+  },
 
   '@media (max-width: 768px)': {
-    flexDirection: 'column-reverse',
     width: '100%',
     marginBottom: '20px',
-    gap: '16px',
+    gap: '10px',
   },
 });
 
 const Button = styled('button', {
-  padding: '16px 20px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '12px',
-  background: '$gray600',
-  borderRadius: '10px',
-  fontAg: '18_bold_100',
-  color: '$gray10',
+  '@media (max-width: 1024px)': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...fontsObject.LABEL_2_16_SB,
+
+    background: '$gray600',
+    borderRadius: '10px',
+    color: '$gray10',
+    padding: '12px 20px',
+  },
 
   '@media (max-width: 768px)': {
-    gap: '10px',
     width: '100%',
-    fontAg: '16_bold_100',
+    ...fontsObject.LABEL_1_18_SB,
   },
 });
+
 const SubmitButton = styled(Button, {
   background: '$gray10',
   color: '$gray950',
