@@ -66,7 +66,7 @@ const MakePage = () => {
             disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
-        <TableOfContents label="모임 개설" />
+        <TableOfContents label="모임 개설" onSubmit={formMethods.handleSubmit(onSubmit)} />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}

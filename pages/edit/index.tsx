@@ -83,13 +83,9 @@ const EditPage = () => {
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
-          processDesc: formData?.processDesc,
-          mDateRange: [formatCalendarDate(formData?.mStartDate), formatCalendarDate(formData?.mEndDate)],
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
-          canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
-          note: formData?.note ?? '',
           coLeader: formData?.coMeetingLeaders,
         },
       });
@@ -117,7 +113,7 @@ const EditPage = () => {
             disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
-        <TableOfContents label="모임 수정" />
+        <TableOfContents label="모임 수정" onSubmit={formMethods.handleSubmit(onSubmit)} />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
