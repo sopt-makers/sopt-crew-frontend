@@ -28,9 +28,22 @@ function TableOfContents({ label }: TableOfContentsProps) {
     form.capacity &&
     !errors.capacity &&
     !errors.detail;
-  const isActivationDateValid =
-    form.detail && form.detail.mDateRange && form.detail.mDateRange[0] && form.detail.mDateRange[1];
-  const isProcessDesc = form.detail?.processDesc;
+
+  const hasCoLeader = form.detail?.coLeader && form.detail.coLeader.length > 0;
+  const hasLeaderDesc = form.detail?.leaderDesc && form.detail.leaderDesc.length > 0;
+  const hasWelcomeMessageTypes =
+    form.welcomeMessageTypes && form.welcomeMessageTypes.length > 0 && !errors.welcomeMessageTypes;
+
+  const isRequiredInfoChecked =
+    isTitleValid &&
+    isCategoryValid &&
+    isKeywordValid &&
+    isImageValid &&
+    isDescriptionValid &&
+    isApplicationDateValid &&
+    isTargetValid;
+
+  const isOptionalInfoChecked = hasCoLeader || hasLeaderDesc || hasWelcomeMessageTypes;
 
   return (
     <SContainer>
@@ -39,34 +52,13 @@ function TableOfContents({ label }: TableOfContentsProps) {
       </SListHeader>
       <SItemList>
         <SItem>
-          {isTitleValid &&
-          isCategoryValid &&
-          isKeywordValid &&
-          isImageValid &&
-          isDescriptionValid &&
-          isApplicationDateValid &&
-          isTargetValid ? (
-            <CheckedIcon />
-          ) : (
-            <UncheckedIcon />
-          )}
+          {isRequiredInfoChecked ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>1. 모임 정보</SItemLabel>
         </SItem>
 
         <SGap />
         <SItem>
-          {isTitleValid &&
-          isCategoryValid &&
-          isImageValid &&
-          isDescriptionValid &&
-          isActivationDateValid &&
-          isProcessDesc ? (
-            // isApplicationDateValid &&
-            // isTargetValid
-            <CheckedIcon />
-          ) : (
-            <UncheckedIcon />
-          )}
+          {isOptionalInfoChecked ? <CheckedIcon /> : <UncheckedIcon />}
           <SItemLabel>2. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>
