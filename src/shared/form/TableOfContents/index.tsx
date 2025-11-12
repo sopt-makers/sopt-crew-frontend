@@ -1,5 +1,6 @@
 import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
 import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
+import { Button } from '@sopt-makers/ui';
 import { FormType } from '@type/form';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -7,9 +8,11 @@ import { styled } from 'stitches.config';
 interface TableOfContentsProps {
   label: string;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
+  cancelButtonLabel?: React.ReactNode;
+  submitButtonLabel: React.ReactNode;
 }
 
-function TableOfContents({ label, onSubmit }: TableOfContentsProps) {
+function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel }: TableOfContentsProps) {
   // TODO: 제출 버튼 제작 후 onSubmit 연결
   console.log(onSubmit);
 
@@ -66,6 +69,11 @@ function TableOfContents({ label, onSubmit }: TableOfContentsProps) {
           <SItemLabel>2. 추가 정보</SItemLabel>
         </SItem>
       </SItemList>
+
+      <SButtonContainer>
+        <Button>{submitButtonLabel}</Button>
+        {cancelButtonLabel && <Button>{cancelButtonLabel}</Button>}
+      </SButtonContainer>
     </SContainer>
   );
 }
@@ -125,4 +133,11 @@ const SItemLabel = styled('span', {
   display: 'inline-block',
   fontAg: '16_medium_100',
   color: '$gray10',
+});
+
+const SButtonContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '18px',
+  marginTop: '48px',
 });
