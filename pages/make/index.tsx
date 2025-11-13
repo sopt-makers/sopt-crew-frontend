@@ -70,7 +70,12 @@ const MakePage = () => {
             disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
-        <TableOfContents label="모임 개설" onSubmit={handleSubmit} submitButtonLabel="정보 수정하기" />
+        <TableOfContents
+          label="모임 개설"
+          onSubmit={handleSubmit}
+          submitButtonLabel="정보 수정하기"
+          disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+        />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}

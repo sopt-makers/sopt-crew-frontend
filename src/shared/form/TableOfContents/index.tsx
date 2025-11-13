@@ -1,21 +1,36 @@
 import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
 import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
-import { Button } from '@sopt-makers/ui';
+import { Button, DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { FormType } from '@type/form';
+import { useRouter } from 'next/router';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
 interface TableOfContentsProps {
   label: string;
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  // onSubmit: React.FormEventHandler<HTMLFormElement>;
+  // onSubmit: React.MouseEventHandler<HTMLButtonElement>;
+  onSubmit: () => void;
   cancelButtonLabel?: React.ReactNode;
   submitButtonLabel: React.ReactNode;
+  disabled: boolean;
 }
 
-function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel }: TableOfContentsProps) {
-  // TODO: 제출 버튼 제작 후 onSubmit 연결
-  console.log(onSubmit);
+function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel, disabled }: TableOfContentsProps) {
+  const router = useRouter();
+  const isEdit = router.asPath.includes('/edit');
 
+  const { open } = useDialog();
+  const dialogOption: DialogOptionType = {
+    title: `모임을 ${isEdit ? '수정' : '개설'}하시겠습니까?`,
+    description: '모임에 대한 설명이 충분히 작성되었는지 확인해 주세요',
+    type: 'default',
+    typeOptions: {
+      cancelButtonText: '취소',
+      approveButtonText: `${isEdit ? '수정' : '개설'}하기`,
+      buttonFunction: onSubmit,
+    },
+  };
   const {
     control,
     formState: { errors },
@@ -71,8 +86,19 @@ function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel
       </SItemList>
 
       <SButtonContainer>
-        <Button>{submitButtonLabel}</Button>
-        {cancelButtonLabel && <Button>{cancelButtonLabel}</Button>}
+        <Button
+          onClick={() => {
+            open(dialogOption);
+          }}
+          disabled={disabled}
+        >
+          {submitButtonLabel}
+        </Button>
+        {cancelButtonLabel && (
+          <Button type="button" onClick={() => router.back()}>
+            {cancelButtonLabel}
+          </Button>
+        )}
       </SButtonContainer>
     </SContainer>
   );

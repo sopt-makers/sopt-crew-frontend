@@ -122,6 +122,7 @@ const EditPage = () => {
           onSubmit={handleSubmit}
           cancelButtonLabel="수정 취소하기"
           submitButtonLabel="정보 수정하기"
+          disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
         />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
