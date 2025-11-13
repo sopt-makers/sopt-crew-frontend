@@ -8,11 +8,11 @@ import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
-import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
+import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery, useGetPostListQueryOption } from '@api/post/query';
 import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@common/button/LikeButton';
 import Loader from '@common/loader/Loader';
-import { TAKE_COUNT } from '@constant/feed';
+import { START_PAGE, TAKE_COUNT } from '@constant/feed';
 import FeedItem from '@domain/detail/Feed/FeedItem';
 import MeetingInfo from '@domain/detail/Feed/FeedItem/MeetingInfo';
 import { useDisplay } from '@hook/useDisplay';
@@ -160,8 +160,8 @@ export default function PostPage() {
   };
 
   const meetingId = meeting?.id;
-  const { data: posts } = useGetPostListInfiniteQuery(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
-  const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
+  const { data: posts } = useQuery(useGetPostListQueryOption(START_PAGE, TAKE_COUNT, meetingId));
+  const postsInMeeting = posts?.posts.filter(_post => _post?.id !== post?.id).slice(0, 3);
   const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
 
   const handleClickLike =
