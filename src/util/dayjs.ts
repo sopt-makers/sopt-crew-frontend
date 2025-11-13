@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import 'dayjs/locale/ko';
 const localeList = dayjs.Ls;
 
 dayjs.extend(relativeTime);
@@ -22,3 +22,5 @@ export const fromNow = (date: string) => dayjs(date).subtract(1, 's').fromNow();
 export const formatDate = (date?: string) => dayjs(date).format('YYYY-MM-DD HH:mm:ss');
 
 export const formatCalendarDate = (date?: string | Date) => dayjs(date).format('YYYY.MM.DD');
+
+export const formatDateTime = (timestamp: number) => dayjs(timestamp).format('YYYY년 M월 D일 HH시 mm분');

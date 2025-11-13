@@ -31,7 +31,7 @@
     "@sopt-makers/fonts": "^2.0.2",
     "@sopt-makers/icons": "^1.1.0",
     "@sopt-makers/playground-common": "^1.7.3",
-    "@sopt-makers/ui": "^2.8.12",
+    "@sopt-makers/ui": "^2.9.0",
     "@stitches/react": "^1.2.8",
     "@suspensive/react": "^3.10.1",
     "@suspensive/react-dom": "^3.10.1",

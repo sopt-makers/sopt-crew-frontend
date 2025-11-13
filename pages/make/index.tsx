@@ -1,6 +1,9 @@
 import { ampli } from '@/ampli';
+import LocalStorage from '@/store/localStorage/LocalStorage';
+import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
 import PlusIcon from '@assets/svg/plus.svg';
+import useDraftCreateMeeting from '@domain/meeting/DraftCreateMeetingModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
 import TableOfContents from '@shared/form/TableOfContents';
@@ -9,6 +12,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { FormType, schema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
@@ -18,6 +22,7 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 const MakePage = () => {
   const router = useRouter();
+  const { draftFormValues } = useDraftCreateMeeting();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -52,6 +57,23 @@ const MakePage = () => {
       },
     });
   };
+
+  useEffect(() => {
+    return () => {
+      if (isDirty) {
+        LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
+          dateTime: Date.now(),
+          formValues: formMethods.getValues(),
+        });
+      }
+    };
+  }, [formMethods, isDirty]);
+
+  useEffect(() => {
+    if (draftFormValues) {
+      formMethods.reset(draftFormValues);
+    }
+  }, [draftFormValues]);
 
   return (
     <FormProvider {...formMethods}>
