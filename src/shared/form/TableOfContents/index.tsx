@@ -76,7 +76,7 @@ function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel
       <SItemList>
         <SItem>
           {isRequiredInfoChecked ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>1. 모임 정보</SItemLabel>
+          <SItemLabel>1. 필수 정보</SItemLabel>
         </SItem>
 
         <SGap />
