@@ -52,9 +52,7 @@ const MakePage = () => {
     });
   };
 
-  const handleSubmit = () => {
-    formMethods.handleSubmit(onSubmit);
-  };
+  const handleSubmit = formMethods.handleSubmit(onSubmit);
 
   return (
     <FormProvider {...formMethods}>
