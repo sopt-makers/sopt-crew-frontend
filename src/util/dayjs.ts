@@ -23,4 +23,4 @@ export const formatDate = (date?: string) => dayjs(date).format('YYYY-MM-DD HH:m
 
 export const formatCalendarDate = (date?: string | Date) => dayjs(date).format('YYYY.MM.DD');
 
-export const formatDateTime = (timestamp: number) => dayjs(timestamp).format('YYYY년 M월 D일 HH시 mm분');
+export default dayjs;

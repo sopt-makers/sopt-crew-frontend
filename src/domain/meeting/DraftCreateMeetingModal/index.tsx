@@ -2,8 +2,12 @@ import LocalStorage from '@/store/localStorage/LocalStorage';
 import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { useDialog } from '@sopt-makers/ui';
 import { FormType } from '@type/form';
-import { formatDateTime } from '@util/dayjs';
+import dayjs from '@util/dayjs';
 import { useEffect, useState } from 'react';
+
+const formatDateTime = (dateTime: number) => {
+  return dayjs(dateTime).format('YYYY년 M월 D일 HH시 mm분');
+};
 
 const useDraftCreateMeeting = () => {
   const { open: openDialog, close: closeDialog } = useDialog();
