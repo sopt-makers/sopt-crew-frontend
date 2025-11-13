@@ -1,4 +1,7 @@
-import { GetMeetingList } from '@api/meeting/type';
+import { useFlashListQueryOption } from '@api/flash/query';
+import Loader from '@common/loader/Loader';
+import { Suspense } from '@suspensive/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -6,11 +9,8 @@ import { styled } from 'stitches.config';
 import GroupBrowsingCard from '../GroupBrowsingCard/GroupBrowsingCard';
 import NextArrow from './NextArrow';
 
-interface CarouselProps {
-  cardList: GetMeetingList['response']['meetings'];
-}
-
-const Carousel = ({ cardList }: CarouselProps) => {
+const Carousel = () => {
+  const cardList = useSuspenseQuery(useFlashListQueryOption()).data?.meetings;
   const cardListLength = cardList.length;
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -70,7 +70,13 @@ const Carousel = ({ cardList }: CarouselProps) => {
   );
 };
 
-export default Carousel;
+export default () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Carousel />
+    </Suspense>
+  );
+};
 
 const SCarousel = styled('div', {
   position: 'relative',
