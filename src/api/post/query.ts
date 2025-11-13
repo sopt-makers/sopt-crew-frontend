@@ -4,7 +4,7 @@ import { getPostDetail, getPostList } from '.';
 
 export const useGetPostListInfiniteQuery = (take: number, meetingId?: number) => {
   return useSuspenseInfiniteQuery({
-    queryKey: PostQueryKey.list(take, meetingId),
+    queryKey: PostQueryKey.infiniteList(take, meetingId),
     initialPageParam: 1,
     queryFn: ({ pageParam }) => getPostList(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
@@ -21,6 +21,14 @@ export const useGetPostListInfiniteQuery = (take: number, meetingId?: number) =>
         total: data.pages[0]?.meta.itemCount,
       };
     },
+  });
+};
+
+export const useGetPostListQueryOption = (page: number, take: number, meetingId?: number) => {
+  return queryOptions({
+    queryKey: PostQueryKey.list(meetingId),
+    queryFn: () => getPostList(page, take, meetingId),
+    enabled: !!meetingId,
   });
 };
 
