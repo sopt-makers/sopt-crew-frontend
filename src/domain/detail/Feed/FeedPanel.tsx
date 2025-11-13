@@ -10,11 +10,11 @@ import { POST_MAX_COUNT, TAKE_COUNT } from '@constant/feed';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import { useDisplay } from '@hook/useDisplay';
 import { useOverlay } from '@hook/useOverlay/Index';
-import { useScrollRestorationAfterLoading } from '@hook/useScrollRestoration';
 import ContentBlocker from '@shared/blocker/ContentBlocker';
 import FeedActionsContainer from '@shared/feed/FeedActionsContainer';
 import FeedCreateModal from '@shared/feed/Modal/FeedCreateModal';
 import { useToast } from '@sopt-makers/ui';
+import { Suspense } from '@suspensive/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ import { useInView } from 'react-intersection-observer';
 import { styled } from 'stitches.config';
 import EmptyView from './EmptyView';
 import FeedItem from './FeedItem';
-import MobileFeedListSkeleton from './Skeleton/MobileFeedListSkeleton';
+import FeedListSkeleton from './Skeleton/FeedListSkeleton';
 
 interface FeedPanelProps {
   isMember: boolean;
@@ -44,9 +44,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
-  } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId), !!meetingId);
-  useScrollRestorationAfterLoading(isLoading);
+  } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId));
 
   const { data: meeting } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
   const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
@@ -199,12 +197,17 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
       ) : (
         <div style={{ height: '1px' }} />
       )}
-      {isFetchingNextPage && isTablet && <MobileFeedListSkeleton count={3} />}
     </>
   );
 };
 
-export default FeedPanel;
+export default ({ isMember }: FeedPanelProps) => {
+  return (
+    <Suspense fallback={<FeedListSkeleton count={3} />}>
+      <FeedPanel isMember={isMember} />
+    </Suspense>
+  );
+};
 
 const SContainer = styled('div', {
   flexType: 'center',
