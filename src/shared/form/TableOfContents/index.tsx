@@ -1,5 +1,6 @@
 import CheckedIcon from '@assets/svg/icon_progress_checked.svg';
 import UncheckedIcon from '@assets/svg/icon_progress_unchecked.svg';
+import { fontsObject } from '@sopt-makers/fonts';
 import { Button, DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { FormType } from '@type/form';
 import { useRouter } from 'next/router';
@@ -81,12 +82,16 @@ function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel
         <SGap />
         <SItem>
           {isOptionalInfoChecked ? <CheckedIcon /> : <UncheckedIcon />}
-          <SItemLabel>2. 추가 정보</SItemLabel>
+          <SItemContainer>
+            <SItemLabel>2. 추가 정보</SItemLabel>
+            <SItemLabelOptional>(선택)</SItemLabelOptional>
+          </SItemContainer>
         </SItem>
       </SItemList>
 
       <SButtonContainer>
         <Button
+          size="lg"
           onClick={() => {
             open(dialogOption);
           }}
@@ -95,7 +100,7 @@ function TableOfContents({ label, onSubmit, cancelButtonLabel, submitButtonLabel
           {submitButtonLabel}
         </Button>
         {cancelButtonLabel && (
-          <Button type="button" onClick={() => router.back()}>
+          <Button size="lg" theme="black" type="button" onClick={() => router.back()}>
             {cancelButtonLabel}
           </Button>
         )}
@@ -108,6 +113,7 @@ export default TableOfContents;
 
 const SContainer = styled('div', {
   width: '300px',
+  flexShrink: 0,
   height: 'fit-content',
   padding: '50px 40px 60px',
   border: '1px solid $gray700',
@@ -132,9 +138,7 @@ const SListHeader = styled('div', {
 });
 
 const SLabel = styled('h2', {
-  fontWeight: '700',
-  fontSize: '24px',
-  lineHeight: '100%',
+  ...fontsObject.HEADING_4_24_B,
   color: '$gray10',
 });
 
@@ -155,10 +159,21 @@ const SItem = styled('li', {
   gap: '28px',
 });
 
+const SItemContainer = styled('div', {
+  display: 'flex',
+  gap: '4px',
+  alignItems: 'center',
+});
+
 const SItemLabel = styled('span', {
   display: 'inline-block',
   fontAg: '16_medium_100',
   color: '$gray10',
+});
+
+const SItemLabelOptional = styled('span', {
+  ...fontsObject.BODY_2_16_M,
+  color: '$gray400',
 });
 
 const SButtonContainer = styled('div', {

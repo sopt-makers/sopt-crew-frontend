@@ -117,7 +117,7 @@ const EditPage = () => {
           />
         </SFormContainer>
         <TableOfContents
-          label="모임 수정"
+          label="작성 항목"
           onSubmit={handleSubmit}
           cancelButtonLabel="수정 취소하기"
           submitButtonLabel="정보 수정하기"
