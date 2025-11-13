@@ -90,6 +90,7 @@ export const schema = z.object({
       .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
     leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),
+    canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
     joinableParts: z
       .array(
         z.object({
