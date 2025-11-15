@@ -71,7 +71,7 @@ const MakePage = () => {
         <TableOfContents
           label="작성 항목"
           onSubmit={handleSubmit}
-          submitButtonLabel="정보 수정하기"
+          submitButtonLabel="개설하기"
           disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
         />
       </SContainer>

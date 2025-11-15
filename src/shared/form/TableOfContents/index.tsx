@@ -167,7 +167,7 @@ const SItemContainer = styled('div', {
 
 const SItemLabel = styled('span', {
   display: 'inline-block',
-  fontAg: '16_medium_100',
+  ...fontsObject.BODY_2_16_M,
   color: '$gray10',
 });
 
