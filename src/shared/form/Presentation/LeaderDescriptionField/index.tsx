@@ -38,8 +38,7 @@ const SNeedMentorFieldWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
 
-  '@media(max-width: 385px)': {
+  '@media(max-width: 430px)': {
     flexDirection: 'column',
-    marginBottom: '$18',
   },
 });

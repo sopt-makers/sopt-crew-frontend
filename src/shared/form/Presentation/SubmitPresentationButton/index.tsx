@@ -58,13 +58,15 @@ const ButtonContainer = styled('div', {
   '@media (max-width: 1024px)': {
     display: 'flex',
     gap: '20px',
-    alignSelf: 'flex-end',
+    justifySelf: 'flex-end',
+    marginTop: '62px',
   },
 
   '@media (max-width: 768px)': {
     width: '100%',
-    marginBottom: '20px',
+    marginBottom: '34px',
     gap: '10px',
+    marginTop: '40px',
   },
 });
 

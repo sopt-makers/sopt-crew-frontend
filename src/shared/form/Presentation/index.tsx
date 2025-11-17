@@ -65,14 +65,13 @@ function Presentation({
           <LeaderDescriptionField />
           <WelcomeMessageField />
         </SFormSectionContainer>
+        <SubmitPresentationButton
+          cancelButtonLabel={cancelButtonLabel}
+          submitButtonLabel={submitButtonLabel}
+          disabled={disabled}
+          formRef={formRef}
+        />
       </div>
-
-      <SubmitPresentationButton
-        cancelButtonLabel={cancelButtonLabel}
-        submitButtonLabel={submitButtonLabel}
-        disabled={disabled}
-        formRef={formRef}
-      />
     </SForm>
   );
 }

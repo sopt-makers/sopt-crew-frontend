@@ -26,12 +26,14 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         <SInput type={type || 'text'} ref={ref} {...props} />
         {props.right}
       </SInputWrapper>
-      {error && <SErrorMessage>{error}</SErrorMessage>}
-      {props.maxLength && (
-        <STextCount overflow={(props.value + '').length > props.maxLength}>
-          {(props.value + '').length} / {props.maxLength}
-        </STextCount>
-      )}
+      <SHelperTextContainer>
+        {error && <SErrorMessage>{error}</SErrorMessage>}
+        {props.maxLength && (
+          <STextCount overflow={(props.value + '').length > props.maxLength}>
+            {(props.value + '').length} / {props.maxLength}
+          </STextCount>
+        )}
+      </SHelperTextContainer>
     </SContainer>
   )
 );
@@ -65,11 +67,12 @@ const SInput = styled('input', {
   },
 });
 const STextCount = styled('span', {
-  width: '100%',
-  marginTop: '$8',
   textAlign: 'right',
   fontAg: '12_medium_100',
   color: '$gray300',
+  marginLeft: 'auto',
+  marginTop: '$8',
+
   variants: {
     overflow: {
       true: {
@@ -78,6 +81,12 @@ const STextCount = styled('span', {
     },
   },
 });
+
 const SErrorMessage = styled(ErrorMessage, {
-  marginTop: '12px',
+  marginTop: '$8',
+});
+
+const SHelperTextContainer = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
 });
