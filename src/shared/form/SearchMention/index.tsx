@@ -191,7 +191,6 @@ const FeedModalMentionStyle = {
       //요 부분이 textArea!
       color: colors.gray50,
       innerHeight: '0',
-      borderRadius: '10px',
       border: 'none',
       padding: '0',
       margin: '0',
@@ -240,17 +239,11 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
-// 위로 올라가는 애니메이션
-const fadeInUp = keyframes({
-  '0%': { opacity: 0, transform: 'translateY(0px)' },
-  '100%': { opacity: 1, transform: 'translateY(-10px)' },
-});
-
 const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
-  width: '170px',
-  height: '230px',
+  width: '240px',
+  height: '202px',
   padding: '8px',
   background: '#17181c',
   position: 'absolute',
@@ -260,44 +253,22 @@ const SCustomSuggestionsContainer = styled('div', {
 
   animation: `${fadeIn} 0.5s forwards`,
 
-  maxHeight: '230px',
-
   overflowY: 'scroll',
   overflowX: 'hidden',
 
   // 스크롤 스타일
-  '&::-webkit-scrollbar': {
-    width: '4px',
-  },
   '&::-webkit-scrollbar-thumb': {
     backgroundColor: colors.gray600,
-    borderRadius: '10px',
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderTopWidth: '3px',
+    borderBottomWidth: '3px',
+    boxShadow: `inset -3px 0 0 #17181c`,
+    borderRadius: '16px',
   },
+
   '&::-webkit-scrollbar-track': {
     backgroundColor: 'transparent',
-  },
-
-  '@media (max-width: 768px)': {
-    position: 'absolute',
-    left: '0',
-    bottom: '120px',
-    maxHeight: '418px',
-    border: 'none',
-    borderRadius: '20px',
-  },
-
-  //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
-  '@media (max-width: 414px)': {
-    position: 'fixed',
-    top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
-    bottom: '66px', //8 + 48 + 10
-    left: '0',
-    right: '0',
-    width: '328px',
-    maxHeight: '210px',
-    margin: '0 auto',
-
-    animation: `${fadeInUp} 0.5s forwards`,
   },
 });
 
@@ -309,14 +280,10 @@ const SRenderSuggestion = styled('button', {
   display: 'flex',
   alignItems: 'center',
   borderRadius: '8px',
-  marginBottom: '6px',
   ...fontsObject.BODY_2_16_M,
   color: colors.gray10,
   '& > div > p': {
     ...fontsObject.BODY_4_13_R,
     color: colors.gray100,
-  },
-  '@media (max-width: 768px)': {
-    padding: '16px 12px',
   },
 });
