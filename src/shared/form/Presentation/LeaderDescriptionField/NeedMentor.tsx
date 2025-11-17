@@ -1,7 +1,8 @@
-import { styled } from 'stitches.config';
-import { forwardRef } from 'react';
 import CheckSelectedIcon from '@assets/svg/checkBox/form_selected.svg';
 import CheckUnselectedIcon from '@assets/svg/checkBox/form_unselected.svg';
+import { fontsObject } from '@sopt-makers/fonts';
+import { forwardRef } from 'react';
+import { styled } from 'stitches.config';
 
 interface NeedMentorProps extends React.HTMLAttributes<HTMLInputElement> {
   name: string;
@@ -31,7 +32,9 @@ const SNeedMentorField = styled('label', {
 });
 
 const SNeedMentorLabel = styled('span', {
-  fontAg: '12_medium_100',
+  // fontAg: '12_medium_100',
+  ...fontsObject.BODY_3_14_R,
+
   lineHeight: '180%',
   color: '$gray300',
   variants: {

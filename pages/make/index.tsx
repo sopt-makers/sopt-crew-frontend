@@ -2,7 +2,6 @@ import { ampli } from '@/ampli';
 import LocalStorage from '@/store/localStorage/LocalStorage';
 import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
-import PlusIcon from '@assets/svg/plus.svg';
 import useDraftCreateMeeting from '@domain/meeting/DraftCreateMeetingModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
@@ -75,26 +74,28 @@ const MakePage = () => {
     }
   }, [draftFormValues]);
 
+  const handleSubmit = formMethods.handleSubmit(onSubmit);
+
   return (
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 개설하기</SFormName>
+          <SFormName>모임 정보입력</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
           <Presentation
-            submitButtonLabel={
-              <>
-                <PlusIcon />
-                모임 개설하기
-              </>
-            }
+            submitButtonLabel={<>모임 개설하기</>}
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
             disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
           />
         </SFormContainer>
-        <TableOfContents label="모임 개설" />
+        <TableOfContents
+          label="작성 항목"
+          onSubmit={handleSubmit}
+          submitButtonLabel="개설하기"
+          disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+        />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
@@ -125,14 +126,12 @@ const SFormContainer = styled('div', {
   },
 });
 const SFormName = styled('h1', {
-  fontAg: '24_bold_100',
+  ...fontsObject.HEADING_2_32_B,
   color: '$gray10',
   marginBottom: '20px',
 
   '@media (max-width: 768px)': {
-    margin: 0,
-    paddingBottom: '40px',
-    borderBottom: '1px solid $gray700',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
 
