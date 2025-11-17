@@ -19,7 +19,7 @@ const ImageField = ({ onChangeFile, onDeleteFile, onAddFiles }: ImageFieldProps)
       <Label required={true}>소개 이미지</Label>
       <HelpMessage>
         6개까지 첨부 가능하며 5MB 이내로 <br />
-        가로는 716px, 세로는453px 사이즈를 권장해요
+        가로는 760px, 세로는520px 사이즈를 권장해요
       </HelpMessage>
       <SFileInputWrapper>
         <FormController

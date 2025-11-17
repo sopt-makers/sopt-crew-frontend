@@ -1,6 +1,6 @@
+import CancelIcon from '@assets/svg/x.svg';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
-import CancelIcon from '@assets/svg/x.svg';
 
 interface ImagePreviewProps {
   url: string;
@@ -29,8 +29,8 @@ const SContainer = styled('div', {
   position: 'relative',
   width: '100%',
   height: '100%',
-  maxHeight: '176px',
-  aspectRatio: '40 / 27',
+  maxHeight: '178px',
+  aspectRatio: '760 / 520',
   borderRadius: '10px',
   overflow: 'hidden',
 });
