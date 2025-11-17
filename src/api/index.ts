@@ -1,5 +1,5 @@
 import { paths } from '@/__generated__/schema';
-import { authToken } from '@/stores/tokenStore';
+import { authToken } from '@/store/tokenStore';
 import { isProduction } from '@constant/environment';
 import axios from 'axios';
 import { computed } from 'nanostores';

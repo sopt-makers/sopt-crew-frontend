@@ -3,9 +3,11 @@ import { useGetAdvertisementQueryOption } from '@api/advertisement/query';
 import { useMeetingListQueryOption } from '@api/meeting/query';
 import { MeetingData } from '@api/meeting/type';
 import { useUserProfileQueryOption } from '@api/user/query';
+import CardSkeleton from '@domain/list/Card/Skeleton';
 import { usePageParams } from '@hook/queryString/custom';
 import { useDisplay } from '@hook/useDisplay';
 import { useScrollRestorationAfterLoading } from '@hook/useScrollRestoration';
+import { Suspense } from '@suspensive/react';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { AdvertisementCategory } from '@type/advertisement';
 import Link from 'next/link';
@@ -16,11 +18,11 @@ import EmptyView from '../EmptyView';
 import GridLayout from '../Grid/Layout';
 import Pagination from '../Pagination';
 
-export function MeetingListOfAll() {
+function MeetingListOfAll() {
   const { value: page, setValue: setPage } = usePageParams();
   const { isDesktop } = useDisplay();
   const { data: meetingListData, isLoading } = useSuspenseQuery(useMeetingListQueryOption());
-  const { data: meetingAds } = useQuery(useGetAdvertisementQueryOption(AdvertisementCategory.MEETING));
+  const { data: meetingAds } = useSuspenseQuery(useGetAdvertisementQueryOption(AdvertisementCategory.MEETING));
 
   useScrollRestorationAfterLoading(isLoading);
   const { data: me } = useQuery(useUserProfileQueryOption());
@@ -90,6 +92,22 @@ export function MeetingListOfAll() {
     </main>
   );
 }
+
+export default () => {
+  return (
+    <Suspense
+      fallback={
+        <GridLayout mobileType="list">
+          {new Array(6).fill(null).map((_, index) => (
+            <CardSkeleton key={index} mobileType="list" />
+          ))}
+        </GridLayout>
+      }
+    >
+      <MeetingListOfAll />
+    </Suspense>
+  );
+};
 
 const PaginationWrapper = styled('div', {
   my: '$80',

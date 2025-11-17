@@ -1,4 +1,4 @@
-import { authToken } from '@/stores/tokenStore';
+import { authToken } from '@/store/tokenStore';
 import { getUserProfile } from '@api/user';
 import Loader from '@common/loader/Loader';
 import { OverlayProvider } from '@hook/useOverlay/OverlayProvider';

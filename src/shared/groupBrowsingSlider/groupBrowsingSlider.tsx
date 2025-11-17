@@ -1,12 +1,13 @@
-import { GetMeetingList } from '@api/meeting/type';
+import { useFlashListQueryOption } from '@api/flash/query';
+import Loader from '@common/loader/Loader';
 import MobileSizeCard from '@shared/groupBrowsing/GroupBrowsingCard/GroupBrowsingCard';
+import { Suspense } from '@suspensive/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
-interface CarouselProps {
-  cardList: GetMeetingList['response']['meetings'];
-}
+const GroupBrowsingSlider = () => {
+  const cardList = useSuspenseQuery(useFlashListQueryOption()).data?.meetings;
 
-const GroupBrowsingSlider = ({ cardList }: CarouselProps) => {
   return (
     <SSlider>
       {cardList.map(card => (
@@ -16,7 +17,13 @@ const GroupBrowsingSlider = ({ cardList }: CarouselProps) => {
   );
 };
 
-export default GroupBrowsingSlider;
+export default () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <GroupBrowsingSlider />
+    </Suspense>
+  );
+};
 
 const SSlider = styled('div', {
   display: 'flex',
