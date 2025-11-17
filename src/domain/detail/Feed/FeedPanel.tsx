@@ -47,7 +47,7 @@ const FeedPanel = ({ isMember }: FeedPanelProps) => {
   } = useGetPostListInfiniteQuery(TAKE_COUNT, Number(meetingId));
 
   const { data: meeting } = useQuery(useMeetingQueryOption({ meetingId: Number(meetingId) }));
-  const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
+  const { mutate: mutateLike } = useUpdatePostLikeMutation(Number(meetingId));
   const { mutate: mutateDeletePost } = useDeletePostMutation();
 
   const handleDeletePost = (postId: number) => {
