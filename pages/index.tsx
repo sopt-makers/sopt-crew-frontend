@@ -1,4 +1,3 @@
-import { useFlashListQueryOption } from '@api/flash/query';
 import HomeCardList from '@domain/home/HomeCardList';
 import QuickMenu from '@domain/home/QuickMenu';
 import { useDisplay } from '@hook/useDisplay';
@@ -8,13 +7,11 @@ import Carousel from '@shared/groupBrowsing/Carousel/Carousel';
 import GroupBrowsingSlider from '@shared/groupBrowsingSlider/groupBrowsingSlider';
 import GuideButton from '@shared/GuideButton';
 import { Flex } from '@shared/util/layout/Flex';
-import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 import { styled } from 'stitches.config';
 
 const Home: NextPage = () => {
   const { isLaptop, isTablet } = useDisplay();
-  const flashList = useQuery(useFlashListQueryOption()).data?.meetings;
 
   return (
     <>
@@ -24,7 +21,7 @@ const Home: NextPage = () => {
       {isTablet ? (
         <>
           <SContentTitle style={{ marginTop: '16px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
-          {flashList && <GroupBrowsingSlider cardList={flashList}></GroupBrowsingSlider>}
+          <GroupBrowsingSlider />
         </>
       ) : (
         <>
@@ -32,7 +29,7 @@ const Home: NextPage = () => {
             <SContentTitle style={{ marginTop: '54px' }}>⚡ 솝트만의 일회성 모임, 번쩍</SContentTitle>
           </Flex>
           <GroupBrowsingCarouselContainer>
-            {flashList && <Carousel cardList={flashList} />}
+            <Carousel />
           </GroupBrowsingCarouselContainer>
         </>
       )}
