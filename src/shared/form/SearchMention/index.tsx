@@ -112,12 +112,6 @@ const SearchMention = ({
     [handleUserClick]
   );
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef]);
-
   return (
     <MentionsInput
       inputRef={inputRef}
