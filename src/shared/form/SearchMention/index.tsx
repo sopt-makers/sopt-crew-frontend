@@ -1,8 +1,9 @@
+import { useDisplay } from '@hook/useDisplay';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 
 interface mentionableDataType {
@@ -35,6 +36,7 @@ const SearchMention = ({
   onClick,
   onUserSelect,
 }: SearchMentionProps) => {
+  const { isMobile } = useDisplay();
   const handleUserClick = useCallback(
     (user: mentionableDataType) => {
       onUserSelect(user);
@@ -52,15 +54,6 @@ const SearchMention = ({
     const shuffled = users.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 30);
   };
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      setIsMobile(true);
-    }
-  }, []);
 
   const getFilteredAndRandomUsers = (searchTerm: string, users: mentionableDataType[]) => {
     const filteredUsers = filterUsersBySearchTerm(searchTerm, users);
