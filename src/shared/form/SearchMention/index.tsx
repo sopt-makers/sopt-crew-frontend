@@ -229,7 +229,7 @@ const fadeIn = keyframes({
 const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
-  width: '240px',
+  width: '210px',
   height: '202px',
   padding: '8px',
   background: '#17181c',
