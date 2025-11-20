@@ -8,11 +8,11 @@ import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
 import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
-import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
+import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery, useGetPostListQueryOption } from '@api/post/query';
 import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@common/button/LikeButton';
 import Loader from '@common/loader/Loader';
-import { TAKE_COUNT } from '@constant/feed';
+import { START_PAGE, TAKE_COUNT } from '@constant/feed';
 import FeedItem from '@domain/detail/Feed/FeedItem';
 import MeetingInfo from '@domain/detail/Feed/FeedItem/MeetingInfo';
 import { useDisplay } from '@hook/useDisplay';
@@ -160,9 +160,9 @@ export default function PostPage() {
   };
 
   const meetingId = meeting?.id;
-  const { data: posts } = useGetPostListInfiniteQuery(TAKE_COUNT, meetingId as number); // meetingId가 undefined 일 때는 enabled되지 않음
-  const postsInMeeting = posts?.pages.filter(_post => _post?.id !== post?.id).slice(0, 3);
-  const { mutate: mutateLike } = useUpdatePostLikeMutation(TAKE_COUNT, Number(meetingId));
+  const { data: posts } = useQuery(useGetPostListQueryOption(START_PAGE, TAKE_COUNT, meetingId));
+  const postsInMeeting = posts?.posts.filter(_post => _post?.id !== post?.id).slice(0, 3);
+  const { mutate: mutateLike } = useUpdatePostLikeMutation(Number(meetingId));
 
   const handleClickLike =
     (postId: number) => (mutateCb: (postId: number) => void) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -172,7 +172,7 @@ export default function PostPage() {
     };
 
   // NOTE: 전체 피드 게시글 조회 & 좋아요의 경우 meetingId가 없고, 캐시 키로 meetingId를 사용하지 않기 때문에 optimistic update가 정상 동작하도록 별도 mutation을 사용한다.
-  const { mutate: mutateLikeInAllPost } = useUpdatePostLikeMutation(TAKE_COUNT);
+  const { mutate: mutateLikeInAllPost } = useUpdatePostLikeMutation();
   const { data: allPosts, hasNextPage, fetchNextPage } = useGetPostListInfiniteQuery(TAKE_COUNT);
   const allMeetingPosts = allPosts?.pages.filter(_post => _post?.meeting.id !== meetingId).slice(0, 5); // 현재 조회하는 게시글이 속한 모임의 게시글은 제외한다
   // 현재 모임의 게시글을 제외했는데 모임 게시글이 없다면 다음 페이지를 불러온다.
