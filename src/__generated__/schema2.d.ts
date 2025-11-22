@@ -55,11 +55,23 @@ export interface paths {
     /** 유저 관심 키워드 설정 */
     post: operations["updateUserInterestedKeyword"];
   };
+  "/slack/emoji": {
+    /** 이모지 이벤트 생성 */
+    post: operations["addEmoji"];
+    /** 이모지 이벤트 삭제 */
+    delete: operations["deleteEmoji"];
+    /** 이모지 이벤트 업데이트 */
+    patch: operations["updateEmoji"];
+  };
   "/post/v2": {
     /** 모임 게시글 목록 조회 */
     get: operations["getPosts"];
     /** 모임 게시글 작성 */
     post: operations["createPost"];
+  };
+  "/post/v2/{postId}/views": {
+    /** 모임 게시글 조회수 증가 */
+    post: operations["addViewCount"];
   };
   "/post/v2/{postId}/report": {
     /** 모임 게시글 신고 */
@@ -361,17 +373,17 @@ export interface components {
        * @description 진행 방식 소개
        * @example 소요 시간 : 1시간 예상
        */
-      processDesc: string;
+      processDesc?: string;
       /**
        * @description 모임 활동 시작 날짜
        * @example 2022.10.29
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * @description 모임 활동 종료 날짜
        * @example 2022.10.30
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * @description 개설자 소개
        * @example 안녕하세요 기획 파트 000입니다
@@ -547,6 +559,16 @@ export interface components {
     UpdateUserInterestKeywordRequestDto: {
       keywords?: string[];
     };
+    SlackEmojiEventRequestDto: {
+      identifiedPwd?: string;
+      callEmoji?: string;
+      username?: string;
+      userSlackId?: string;
+      team?: string;
+      /** Format: int32 */
+      generation?: number;
+      templateCd?: string;
+    };
     /** @description 게시물 생성 request body dto */
     PostV2CreatePostBodyDto: {
       /**
@@ -581,6 +603,15 @@ export interface components {
        * @example 1
        */
       postId: number;
+    };
+    /** @description 게시글 조회수 증가용 api 응답 Dto */
+    PostViewCountResponseDto: {
+      /**
+       * Format: int32
+       * @description 게시글 조회수
+       * @example 30
+       */
+      viewCount: number;
     };
     /** @description 게시글 신고 응답 Dto */
     PostV2ReportResponseDto: {
@@ -807,6 +838,11 @@ export interface components {
        * @example 1
        */
       userId: number;
+    };
+    SlackUpdateEmojiEventRequestDto: {
+      identifiedPwd?: string;
+      originalCallEmoji?: string;
+      updateCallEmoji?: string;
     };
     /** @description 전체 사용자 조회 응답 Dto */
     UserV2GetAllUserDto: {
@@ -1450,12 +1486,12 @@ export interface components {
        * Format: date-time
        * @description 모임 활동 시작일
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료일
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * Format: int32
        * @description 모집 인원
@@ -1649,17 +1685,17 @@ export interface components {
        * @description 진행방식 소개
        * @example 진행방식 설명입니다.
        */
-      processDesc: string;
+      processDesc?: string;
       /**
        * Format: date-time
        * @description 모임 활동 시작 시간
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료 시간
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * @description 개설자 소개
        * @example 개설자 소개 입니다.
@@ -1669,7 +1705,7 @@ export interface components {
        * @description 유의사항
        * @example 유의사항입니다.
        */
-      note: string;
+      note?: string;
       /**
        * @description 멘토 필요 여부
        * @example true
@@ -2103,6 +2139,16 @@ export interface components {
        * @example 5
        */
       meetingId: number;
+      /**
+       * @description 피드와 연결된 모임 제목
+       * @example 어서와요
+       */
+      meetingTitle: string;
+      /**
+       * @description 해당 피드와 연결된 모임 category
+       * @example 스터디
+       */
+      category?: string;
     };
     /** @description 피드 작성자 객체 */
     InternalPostWriterDetailInfoDto: {
@@ -2506,6 +2552,10 @@ export interface components {
       /** @description 광고 구좌 이미지 리스트 */
       advertisements: components["schemas"]["AdvertisementGetDto"][];
     };
+    SlackEmojiEventDeleteRequestDto: {
+      identifiedPwd?: string;
+      callEmoji?: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -2746,6 +2796,54 @@ export interface operations {
       200: never;
     };
   };
+  /** 이모지 이벤트 생성 */
+  addEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackEmojiEventRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
+    };
+  };
+  /** 이모지 이벤트 삭제 */
+  deleteEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackEmojiEventDeleteRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
+    };
+  };
+  /** 이모지 이벤트 업데이트 */
+  updateEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackUpdateEmojiEventRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
+    };
+  };
   /** 모임 게시글 목록 조회 */
   getPosts: {
     parameters: {
@@ -2796,6 +2894,22 @@ export interface operations {
       400: never;
       /** @description 권한이 없습니다. */
       403: never;
+    };
+  };
+  /** 모임 게시글 조회수 증가 */
+  addViewCount: {
+    parameters: {
+      path: {
+        postId: number;
+      };
+    };
+    responses: {
+      /** @description 성공, 응답 : 조회수 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["PostViewCountResponseDto"];
+        };
+      };
     };
   };
   /** 모임 게시글 신고 */
