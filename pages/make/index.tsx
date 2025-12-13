@@ -11,7 +11,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { FormType, schema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
@@ -21,7 +21,7 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 const MakePage = () => {
   const router = useRouter();
-  const { draftFormValues } = useDraftCreateMeeting();
+  const { draftFormValues, removeDraftCreateMeeting } = useDraftCreateMeeting();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -34,6 +34,7 @@ const MakePage = () => {
   });
   const { isValid, errors, isDirty } = formMethods.formState;
   const { mutate: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
+  const submittedRef = useRef(false);
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();
@@ -51,6 +52,8 @@ const MakePage = () => {
     mutateCreateMeeting(formData, {
       onSuccess: data => {
         ampli.completedMakeGroup();
+        submittedRef.current = true;
+        removeDraftCreateMeeting();
         alert('모임을 개설했습니다.');
         router.push(`/detail?id=${data.meetingId}`);
       },
@@ -59,7 +62,7 @@ const MakePage = () => {
 
   useEffect(() => {
     return () => {
-      if (isDirty) {
+      if (isDirty && !submittedRef.current) {
         LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
           dateTime: Date.now(),
           formValues: formMethods.getValues(),
@@ -72,7 +75,7 @@ const MakePage = () => {
     if (draftFormValues) {
       formMethods.reset(draftFormValues);
     }
-  }, [draftFormValues]);
+  }, [draftFormValues, formMethods]);
 
   const handleSubmit = formMethods.handleSubmit(onSubmit);
 
