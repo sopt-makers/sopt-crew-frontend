@@ -61,7 +61,7 @@ const MakePage = () => {
   };
 
   useEffect(() => {
-    const handler = () => {
+    const persistDraft = () => {
       if (isDirty && !submittedRef.current) {
         LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
           dateTime: Date.now(),
@@ -70,11 +70,13 @@ const MakePage = () => {
       }
     };
 
-    window.addEventListener('beforeunload', handler);
-    window.addEventListener('pagehide', handler);
+    window.addEventListener('beforeunload', persistDraft);
+    window.addEventListener('pagehide', persistDraft);
+
     return () => {
-      window.removeEventListener('beforeunload', handler);
-      window.removeEventListener('pagehide', handler);
+      window.removeEventListener('beforeunload', persistDraft);
+      window.removeEventListener('pagehide', persistDraft);
+      persistDraft();
     };
   }, [formMethods, isDirty]);
 
