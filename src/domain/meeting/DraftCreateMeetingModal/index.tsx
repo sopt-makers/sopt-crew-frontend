@@ -39,6 +39,10 @@ const useDraftCreateMeeting = () => {
         },
       });
     }
+
+    return () => {
+      closeDialog();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
