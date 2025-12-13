@@ -61,13 +61,20 @@ const MakePage = () => {
   };
 
   useEffect(() => {
-    return () => {
+    const handler = () => {
       if (isDirty && !submittedRef.current) {
         LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
           dateTime: Date.now(),
           formValues: formMethods.getValues(),
         });
       }
+    };
+
+    window.addEventListener('beforeunload', handler);
+    window.addEventListener('pagehide', handler);
+    return () => {
+      window.removeEventListener('beforeunload', handler);
+      window.removeEventListener('pagehide', handler);
     };
   }, [formMethods, isDirty]);
 
