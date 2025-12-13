@@ -11,7 +11,7 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { FormType, schema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 
@@ -35,6 +35,7 @@ const MakePage = () => {
   const { isValid, errors, isDirty } = formMethods.formState;
   const { mutate: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
   const submittedRef = useRef(false);
+  const [hasDraftLoaded, setHasDraftLoaded] = useState(false);
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();
@@ -83,10 +84,12 @@ const MakePage = () => {
   useEffect(() => {
     if (draftFormValues) {
       formMethods.reset(draftFormValues);
+      setHasDraftLoaded(true);
     }
   }, [draftFormValues, formMethods]);
 
   const handleSubmit = formMethods.handleSubmit(onSubmit);
+  const isSubmitDisabled = isSubmitting || !isValid || Object.keys(errors).length > 0 || (!isDirty && !hasDraftLoaded);
 
   return (
     <FormProvider {...formMethods}>
@@ -99,14 +102,14 @@ const MakePage = () => {
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
             onSubmit={handleSubmit}
-            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+            disabled={isSubmitDisabled}
           />
         </SFormContainer>
         <TableOfContents
           label="작성 항목"
           onSubmit={handleSubmit}
           submitButtonLabel="개설하기"
-          disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+          disabled={isSubmitDisabled}
         />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
