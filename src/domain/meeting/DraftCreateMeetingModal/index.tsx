@@ -3,7 +3,7 @@ import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { useDialog } from '@sopt-makers/ui';
 import { FormType } from '@type/form';
 import dayjs from '@util/dayjs';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const formatDateTime = (dateTime: number) => {
   return dayjs(dateTime).format('YYYY년 M월 D일 HH시 mm분');
@@ -12,6 +12,10 @@ const formatDateTime = (dateTime: number) => {
 const useDraftCreateMeeting = () => {
   const { open: openDialog, close: closeDialog } = useDialog();
   const [draftFormValues, setDraftFormValues] = useState<FormType | null>(null);
+  const removeDraftCreateMeeting = useCallback(() => {
+    LocalStorage.removeItem(LocalStorageKey.DraftCreateMeeting);
+    setDraftFormValues(null);
+  }, []);
 
   useEffect(() => {
     const draftCreateMeeting = LocalStorage.getItem(LocalStorageKey.DraftCreateMeeting);
@@ -25,8 +29,7 @@ const useDraftCreateMeeting = () => {
           cancelButtonText: '새로 쓰기',
           approveButtonText: '이어서 쓰기',
           onCancel: () => {
-            setDraftFormValues(null);
-            LocalStorage.removeItem(LocalStorageKey.DraftCreateMeeting);
+            removeDraftCreateMeeting();
             closeDialog();
           },
           onApprove: () => {
@@ -36,10 +39,14 @@ const useDraftCreateMeeting = () => {
         },
       });
     }
+
+    return () => {
+      closeDialog();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { draftFormValues };
+  return { draftFormValues, removeDraftCreateMeeting };
 };
 
 export default useDraftCreateMeeting;
