@@ -12,6 +12,7 @@ const CrewTab = ({ children }: { children?: ReactNode }) => {
     list: 'groupAll',
     mine: 'mine',
     management: 'mine',
+    map: 'map',
   };
 
   const lastSegment = (path.split('/').at(-1) || 'group') as keyof typeof tabText;
@@ -27,6 +28,9 @@ const CrewTab = ({ children }: { children?: ReactNode }) => {
         </Link>
         <Link href="/mine" onClick={() => ampli.clickNavbarGroup({ menu: '내 모임' })}>
           <TabList.Item text="mine">내 모임</TabList.Item>
+        </Link>
+        <Link href="/map" onClick={() => ampli.clickNavbarGroup({ menu: '솝맵' })}>
+          <TabList.Item text="map">솝맵</TabList.Item>
         </Link>
       </TabList>
       {children}
