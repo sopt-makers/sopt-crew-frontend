@@ -88,51 +88,6 @@ export const schema = z.object({
         message: '모임 소개를 입력해주세요.',
       })
       .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
-    processDesc: z
-      .string()
-      .min(1, {
-        message: '진행 방식 소개를 입력해주세요.',
-      })
-      .max(1000, { message: '1000자 까지 입력 가능합니다.' }),
-    mDateRange: z
-      .array(z.string())
-      .min(1, { message: '활동 기간을 입력해주세요.' })
-      .max(2, { message: '시작일과 종료일만 입력해주세요.' })
-      .superRefine((dates, ctx) => {
-        let hasInvalid = false;
-
-        dates.forEach((date, index) => {
-          if (!date) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '기간을 입력해주세요.',
-              path: [index],
-            });
-            hasInvalid = true;
-            return;
-          }
-
-          if (!isValidDate(date)) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: '유효한 날짜가 아닙니다.',
-              path: [index],
-            });
-            hasInvalid = true;
-            return;
-          }
-        });
-
-        if (hasInvalid) return;
-
-        if (isOverOneYear(dates[0], dates[1])) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: '기간은 1년을 초과할 수 없습니다.',
-            path: [1],
-          });
-        }
-      }),
     leaderDesc: z.string().optional().nullable(),
     isMentorNeeded: z.boolean().optional().nullable(),
     canJoinOnlyActiveGeneration: z.boolean().optional().nullable(),
@@ -144,7 +99,6 @@ export const schema = z.object({
         })
       )
       .min(1, { message: '대상 파트를 선택해주세요.' }),
-    note: z.string().max(1000, { message: '1000자 까지 입력 가능합니다.' }).optional().nullable(),
     coLeader: z.array(z.any()).optional(),
   }),
 });

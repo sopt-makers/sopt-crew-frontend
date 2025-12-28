@@ -1,6 +1,8 @@
 import { ampli } from '@/ampli';
+import LocalStorage from '@/store/localStorage/LocalStorage';
+import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
-import PlusIcon from '@assets/svg/plus.svg';
+import useDraftCreateMeeting from '@domain/meeting/DraftCreateMeetingModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
 import TableOfContents from '@shared/form/TableOfContents';
@@ -9,8 +11,10 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { FormType, schema } from '@type/form';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
+import useThrottle from '@hook/useThrottle';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -18,6 +22,7 @@ const DevTool = dynamic(() => import('@hookform/devtools').then(module => module
 
 const MakePage = () => {
   const router = useRouter();
+  const { draftFormValues, removeDraftCreateMeeting } = useDraftCreateMeeting();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -29,7 +34,10 @@ const MakePage = () => {
     },
   });
   const { isValid, errors, isDirty } = formMethods.formState;
+  const { watch } = formMethods;
   const { mutate: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
+  const submittedRef = useRef(false);
+  const [hasDraftLoaded, setHasDraftLoaded] = useState(false);
 
   const handleChangeImage = (index: number, url: string) => {
     const files = formMethods.getValues().files.slice();
@@ -47,32 +55,81 @@ const MakePage = () => {
     mutateCreateMeeting(formData, {
       onSuccess: data => {
         ampli.completedMakeGroup();
+        submittedRef.current = true;
+        removeDraftCreateMeeting();
         alert('모임을 개설했습니다.');
         router.push(`/detail?id=${data.meetingId}`);
       },
     });
   };
 
+  const throttledPersistDraft = useThrottle(() => {
+    if (submittedRef.current || !formMethods.formState.isDirty) return;
+
+    LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
+      dateTime: Date.now(),
+      formValues: formMethods.getValues(),
+    });
+  }, 1000);
+
+  useEffect(() => {
+    const subscription = watch(() => {
+      throttledPersistDraft();
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, throttledPersistDraft]);
+
+  useEffect(() => {
+    const persistDraft = () => {
+      if (isDirty && !submittedRef.current) {
+        LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
+          dateTime: Date.now(),
+          formValues: formMethods.getValues(),
+        });
+      }
+    };
+
+    window.addEventListener('beforeunload', persistDraft);
+    window.addEventListener('pagehide', persistDraft);
+
+    return () => {
+      window.removeEventListener('beforeunload', persistDraft);
+      window.removeEventListener('pagehide', persistDraft);
+      persistDraft();
+    };
+  }, [formMethods, isDirty]);
+
+  useEffect(() => {
+    if (draftFormValues) {
+      formMethods.reset(draftFormValues);
+      setHasDraftLoaded(true);
+    }
+  }, [draftFormValues, formMethods]);
+
+  const handleSubmit = formMethods.handleSubmit(onSubmit);
+  const isSubmitDisabled = isSubmitting || !isValid || Object.keys(errors).length > 0 || (!isDirty && !hasDraftLoaded);
+
   return (
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 개설하기</SFormName>
+          <SFormName>모임 정보입력</SFormName>
           <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
           <Presentation
-            submitButtonLabel={
-              <>
-                <PlusIcon />
-                모임 개설하기
-              </>
-            }
+            submitButtonLabel={<>모임 개설하기</>}
             handleChangeImage={handleChangeImage}
             handleDeleteImage={handleDeleteImage}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+            onSubmit={handleSubmit}
+            disabled={isSubmitDisabled}
           />
         </SFormContainer>
-        <TableOfContents label="모임 개설" />
+        <TableOfContents
+          label="작성 항목"
+          onSubmit={handleSubmit}
+          submitButtonLabel="개설하기"
+          disabled={isSubmitDisabled}
+        />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
@@ -103,14 +160,12 @@ const SFormContainer = styled('div', {
   },
 });
 const SFormName = styled('h1', {
-  fontAg: '24_bold_100',
+  ...fontsObject.HEADING_2_32_B,
   color: '$gray10',
   marginBottom: '20px',
 
   '@media (max-width: 768px)': {
-    margin: 0,
-    paddingBottom: '40px',
-    borderBottom: '1px solid $gray700',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
 

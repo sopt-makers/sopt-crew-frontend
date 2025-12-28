@@ -6517,9 +6517,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/ui@npm:^2.8.12":
-  version: 2.8.12
-  resolution: "@sopt-makers/ui@npm:2.8.12"
+"@sopt-makers/ui@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "@sopt-makers/ui@npm:2.9.0"
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-switch": "npm:^1.0.3"
@@ -6528,10 +6528,11 @@ __metadata:
     "@sopt-makers/icons": "npm:^1.1.0"
     "@vanilla-extract/css": "npm:^1.14.0"
     "@vanilla-extract/sprinkles": "npm:^1.6.1"
+    clsx: "npm:^2.1.1"
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 10c0/a8b604801493c38077de8fc85d652734568ae4c21cc0617496bc6d81050af16510179f6120a64d9875451c4cbb0e1e3674958f494bef924a83d70466b7b7965d
+  checksum: 10c0/675e350ef81f294bab19a5c0fe72baa631376d814f0f91bf82515a5815cb83ce929416a94313e058ae7469fd7f99f7e80df7e21c64f50d7112b43556325d40fa
   languageName: node
   linkType: hard
 
@@ -10828,7 +10829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^2.0.0":
+"clsx@npm:^2.0.0, clsx@npm:^2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
@@ -20288,7 +20289,7 @@ __metadata:
     "@sopt-makers/fonts": "npm:^2.0.2"
     "@sopt-makers/icons": "npm:^1.1.0"
     "@sopt-makers/playground-common": "npm:^1.7.3"
-    "@sopt-makers/ui": "npm:^2.8.12"
+    "@sopt-makers/ui": "npm:^2.9.0"
     "@stitches/react": "npm:^1.2.8"
     "@storybook/addon-essentials": "npm:^8.1.11"
     "@storybook/addon-interactions": "npm:^8.1.11"

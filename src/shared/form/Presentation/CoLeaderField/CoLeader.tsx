@@ -1,11 +1,11 @@
-import SearchMention from '@shared/form/SearchMention';
 import { useUserProfileQueryOption, useUserQueryOption } from '@api/user/query';
 import { GetUser } from '@api/user/type';
 import ProfileDefaultIcon from '@assets/svg/profile_default.svg?rect';
+import SearchMention from '@shared/form/SearchMention';
 import { fontsObject } from '@sopt-makers/fonts';
-import { IconPlus, IconSearch, IconXCircle, IconXClose } from '@sopt-makers/icons';
+import { IconSearch, IconXCircle, IconXClose } from '@sopt-makers/icons';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { styled } from 'stitches.config';
 
 interface CoLeaderFieldProps {
@@ -45,36 +45,11 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
       onChange([...coLeaders, user]); // 선택한 유저 객체 추가
     }
     setComment('');
-    setShowInput(false);
   };
 
-  const [showInput, setShowInput] = useState(false);
   const [comment, setComment] = useState('');
 
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 414);
-    };
-    window.addEventListener('resize', handleResize);
-
-    const handleClickOutSide = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) setShowInput(false);
-    };
-
-    handleResize(); // Initial check
-    document.addEventListener('mousedown', handleClickOutSide);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      document.removeEventListener('mousedown', handleClickOutSide);
-    };
-  }, []);
-
-  const handleBackdropClick = () => {
-    setShowInput(false);
-  };
 
   const handleDeleteLeader = (index: number) => {
     const updatedLeaders = coLeaders.filter((_, i) => i !== index);
@@ -86,69 +61,25 @@ const CoLeader = ({ value: coLeaders = [], onChange, error }: CoLeaderFieldProps
       <LeadersContainer>
         {/*추가 버튼과 멘션 인풋 */}
         {coLeaders.length < 3 && (
-          <AddLeader>
-            <AddButton
-              type={'button'}
-              onClick={() => {
-                setShowInput(prev => !prev);
-                setComment('');
-              }}
-              isActive={showInput}
-            >
-              <StyledIconPlus />
-            </AddButton>
-            {showInput && (
-              <>
-                {isMobile ? (
-                  <Backdrop onClick={handleBackdropClick}>
-                    <CommentInput onClick={e => e.stopPropagation()}>
-                      <InputBox isActive={comment !== ''}>
-                        <SearchMention
-                          mentionUserList={filteredMeList}
-                          inputRef={inputRef}
-                          value={comment}
-                          setValue={setComment}
-                          placeholder={`멤버 검색`}
-                          onUserSelect={handleUserSelect}
-                        />
-                        {comment ? (
-                          <StyledIconXCircle
-                            onClick={() => {
-                              setComment('');
-                            }}
-                          />
-                        ) : (
-                          <StyledIconSearch />
-                        )}
-                      </InputBox>
-                    </CommentInput>
-                  </Backdrop>
-                ) : (
-                  <CommentInput onClick={e => e.stopPropagation()}>
-                    <InputBox isActive={comment !== ''}>
-                      <SearchMention
-                        mentionUserList={filteredMeList}
-                        inputRef={inputRef}
-                        value={comment}
-                        setValue={setComment}
-                        placeholder={`멤버 검색`}
-                        onUserSelect={handleUserSelect}
-                      />
-                      {comment ? (
-                        <StyledIconXCircle
-                          onClick={() => {
-                            setComment('');
-                          }}
-                        />
-                      ) : (
-                        <StyledIconSearch />
-                      )}
-                    </InputBox>
-                  </CommentInput>
-                )}
-              </>
+          <InputBox isActive={comment !== ''}>
+            <SearchMention
+              mentionUserList={filteredMeList}
+              inputRef={inputRef}
+              value={comment}
+              setValue={setComment}
+              placeholder={`멤버 검색`}
+              onUserSelect={handleUserSelect}
+            />
+            {comment ? (
+              <StyledIconXCircle
+                onClick={() => {
+                  setComment('');
+                }}
+              />
+            ) : (
+              <StyledIconSearch />
             )}
-          </AddLeader>
+          </InputBox>
         )}
 
         {/*추가된 공동 모임장 프로필 렌더링 */}
@@ -185,24 +116,13 @@ const Container = styled('div', {
   //디자인적인 건 x (에러메세지도 담아두기 위한 Container)
 });
 
-const Backdrop = styled('div', {
-  position: 'fixed',
-  width: '100vw',
-  height: '100vh',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  zIndex: 10,
-});
-
 const LeadersContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
-  '@media (max-width: 414px)': {
-    gap: '10px',
+  gap: '8px',
+  '@media (max-width: 430px)': {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
 });
 
@@ -211,8 +131,10 @@ const LeadersWrapper = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '10px',
-  '@media (max-width: 414px)': {
+  '@media (max-width: 430px)': {
     gap: '8px',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
   },
 });
 
@@ -233,12 +155,11 @@ const Leader = styled('div', {
   color: '$white',
   position: 'relative',
 
-  '@media (max-width: 414px)': {
-    width: '89px',
-    height: '30px',
-    padding: '5px 8px',
-    gap: '6px',
-    borderRadius: '6.25px',
+  '@media (max-width: 430px)': {
+    width: '113px',
+    height: '40px',
+    padding: '8px 10px',
+    gap: '8px',
   },
 });
 
@@ -247,8 +168,8 @@ const LeaderName = styled('span', {
   ...fontsObject.BODY_2_16_M,
   whiteSpace: 'nowrap',
 
-  '@media (max-width: 414px)': {
-    ...fontsObject.LABEL_5_11_SB,
+  '@media (max-width: 430px)': {
+    ...fontsObject.BODY_3_14_M,
   },
 });
 
@@ -263,55 +184,12 @@ const DeleteButton = styled('button', {
   borderRadius: '50px',
   background: '$gray700',
   cursor: 'pointer',
-  '@media (max-width: 414px)': {
-    width: '12px',
-    height: '12px',
-  },
-});
-
-const AddLeader = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  position: 'relative',
-});
-
-const CommentInput = styled('div', {
-  position: 'absolute',
-  top: '44px', //32 + 12
-  display: 'inline-flex',
-  padding: '8px',
-  alignItems: 'flex-start',
-  borderRadius: '13px',
-  border: '1px solid $gray700',
-  background: '$gray900',
-  width: '170px',
-  height: '64px',
-
-  '@media (max-width: 414px)': {
-    position: 'fixed',
-    //부모 요소 : transform, perspective, 또는 position: fixed 등의 속성
-    //자식 요소의 fixed 위치가 의도대로 표시되지 않음 -> 따라서 top 속성을 unset으로 제거해줘야 함
-    top: 'unset',
-    bottom: '0',
-    left: '0',
-    right: '0',
-
-    width: '100%', // 좌우 16px 간격
-    height: '66px', //18 + 48
-    paddingTop: '10px',
-    paddingBottom: '8px',
-    bg: 'rgba(0, 0, 0, 0.7)',
-    border: 'none',
-    br: '0',
-
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 const InputBox = styled('div', {
-  width: '100%',
+  // width: '100%',
+  flexShrink: 0,
+  width: '160px',
   height: '100%',
   display: 'flex',
   padding: '11px 16px',
@@ -328,39 +206,6 @@ const InputBox = styled('div', {
         border: '1px solid transparent',
       },
     },
-  },
-  '@media (max-width: 414px)': {
-    width: '328px',
-    height: '48px',
-  },
-});
-
-const AddButton = styled('button', {
-  type: 'button',
-  backgroundColor: '$gray700',
-  borderRadius: '100px',
-  cursor: 'pointer',
-  display: 'flex',
-  width: '32px',
-  height: '32px',
-  padding: '5px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  '&:hover': {
-    backgroundColor: '$gray500',
-  },
-  variants: {
-    isActive: {
-      true: {
-        backgroundColor: '$gray500',
-      },
-    },
-  },
-  '@media (max-width: 414px)': {
-    width: '24px',
-    height: '24px',
-    padding: '3.75px',
-    br: '75px',
   },
 });
 
@@ -380,13 +225,10 @@ const SProfile = styled('a', {
     borderRadius: '50%',
     objectFit: 'cover',
     background: '$gray700',
-    '@media (max-width: 768px)': {
-      width: '$32',
-      height: '$32',
-    },
-    '@media (max-width: 414px)': {
-      width: '$20',
-      height: '$20',
+
+    '@media (max-width: 430px)': {
+      width: '$24',
+      height: '$24',
     },
   },
 });
@@ -403,33 +245,19 @@ const StyledIconSearch = styled(IconSearch, {
   //모바일에선 input에 다른 뷰 필요 (현재는 구현 x)
 });
 
-const StyledIconPlus = styled(IconPlus, {
-  width: '22px',
-  height: '22px',
-  color: 'white',
-  cursor: 'pointer',
-  '@media (max-width: 414px)': {
-    width: '16.5px',
-    height: '16.5px',
-  },
-});
-
 const StyledIconXClose = styled(IconXClose, {
-  width: '12px',
-  height: '12px',
-  '@media (max-width: 414px)': {
-    width: '8px',
-    height: '8px',
-  },
+  width: '16px',
+  height: '16px',
   color: '#9D9DA4',
   strokeWidth: '1.5',
+  cursor: 'pointer',
 });
 
 const StyledProfileDefaultIcon = styled(ProfileDefaultIcon, {
   width: '32px',
   height: '32px',
-  '@media (max-width: 414px)': {
-    width: '20px',
-    height: '20px',
+  '@media (max-width: 430px)': {
+    width: '24px',
+    height: '24px',
   },
 });

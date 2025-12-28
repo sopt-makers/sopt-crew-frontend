@@ -24,8 +24,8 @@ const getIsGroupActive = (mstartDate: string, mendDate: string) => {
 };
 
 const MobileSizeCard: FC<MeetingData> = ({ id, title, category, mStartDate, mEndDate, status, imageURL }) => {
-  const isGroupActive = getIsGroupActive(mStartDate, mEndDate);
-  const newStatus = getNewStatus(status, mStartDate, isGroupActive);
+  const isGroupActive = getIsGroupActive(mStartDate ?? '', mEndDate ?? '');
+  const newStatus = getNewStatus(status, mStartDate ?? '', isGroupActive);
 
   return (
     <Link href={`/detail?id=${id}`}>

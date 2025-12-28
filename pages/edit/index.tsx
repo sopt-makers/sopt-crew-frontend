@@ -1,11 +1,12 @@
 import { usePutMeetingMutation } from '@api/meeting/mutation';
 import { useMeetingQueryOption } from '@api/meeting/query';
-import CheckIcon from '@assets/svg/check.svg';
 import Loader from '@common/loader/Loader';
 import { parts } from '@data/options';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
 import TableOfContents from '@shared/form/TableOfContents';
+import { colors } from '@sopt-makers/colors';
+import { fontsObject } from '@sopt-makers/fonts';
 import { useQuery } from '@tanstack/react-query';
 import { FormType, schema } from '@type/form';
 import { formatCalendarDate } from '@util/dayjs';
@@ -59,6 +60,8 @@ const EditPage = () => {
     formMethods.setValue('files', files);
   };
 
+  const handleSubmit = formMethods.handleSubmit(onSubmit);
+
   //고치기
   // NOTE: formData를 불러와 데이터가 존재하면 RHF의 값을 채워준다.
   useEffect(() => {
@@ -82,13 +85,10 @@ const EditPage = () => {
         // TODO: 불필요한 재정의 피할 수 있도록 API server 랑 싱크 맞추는 거 필요할 듯
         detail: {
           desc: formData?.desc,
-          processDesc: formData?.processDesc,
-          mDateRange: [formatCalendarDate(formData?.mStartDate), formatCalendarDate(formData?.mEndDate)],
           leaderDesc: formData?.leaderDesc,
           isMentorNeeded: formData?.isMentorNeeded,
           joinableParts,
           canJoinOnlyActiveGeneration: formData?.canJoinOnlyActiveGeneration,
-          note: formData?.note ?? '',
           coLeader: formData?.coMeetingLeaders,
         },
       });
@@ -105,24 +105,24 @@ const EditPage = () => {
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SFormName>모임 수정하기</SFormName>
-          <SFormWrapper>
-            <Presentation
-              submitButtonLabel={
-                <>
-                  <CheckIcon />
-                  모임 수정하기
-                </>
-              }
-              cancelButtonLabel="수정 취소하기"
-              handleChangeImage={handleChangeImage}
-              handleDeleteImage={handleDeleteImage}
-              onSubmit={formMethods.handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
-            />
-          </SFormWrapper>
+          <SFormName>모임 정보 수정</SFormName>
+          <SFormCaution>모임 개설에 필요한 필수 항목이 모두 입력 되었는지 꼼꼼하게 확인해주세요!</SFormCaution>
+          <Presentation
+            submitButtonLabel={<>정보 수정하기</>}
+            cancelButtonLabel="수정 취소하기"
+            handleChangeImage={handleChangeImage}
+            handleDeleteImage={handleDeleteImage}
+            onSubmit={handleSubmit}
+            disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+          />
         </SFormContainer>
-        <TableOfContents label="모임 수정" />
+        <TableOfContents
+          label="작성 항목"
+          onSubmit={handleSubmit}
+          cancelButtonLabel="수정 취소하기"
+          submitButtonLabel="정보 수정하기"
+          disabled={isSubmitting || !isValid || Object.keys(errors).length > 0 || !isDirty}
+        />
       </SContainer>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
@@ -152,19 +152,21 @@ const SFormContainer = styled('div', {
     background: '$gray950',
   },
 });
+
 const SFormName = styled('h1', {
-  fontAg: '24_bold_100',
+  ...fontsObject.HEADING_2_32_B,
   color: '$gray10',
-  marginBottom: '90px',
+  marginBottom: '20px',
 
   '@media (max-width: 768px)': {
-    margin: 0,
-    paddingBottom: '40px',
-    borderBottom: '1px solid $gray700',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
-const SFormWrapper = styled('div', {
-  '@media (max-width: 768px)': {
-    paddingTop: '40px',
-  },
+const SFormCaution = styled('div', {
+  ...fontsObject.BODY_4_13_M,
+  padding: '14px 18px',
+  marginBottom: '60px',
+  borderRadius: '10px',
+  border: `1px solid ${colors.blue600}`,
+  background: 'var(--blue-alpha-100, rgba(52, 111, 250, 0.10))',
 });

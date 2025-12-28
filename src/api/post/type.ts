@@ -14,3 +14,6 @@ export type PutPostResponse =
 
 export type PostPostLikeResponse =
   paths['/post/v2/{postId}/like']['post']['responses']['201']['content']['application/json;charset=UTF-8'];
+
+export type PostViewsResponse =
+  paths['/post/v2/{postId}/views']['post']['responses']['200']['content']['application/json;charset=UTF-8'];
