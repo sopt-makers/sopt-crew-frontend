@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
+import useThrottle from '@hook/useThrottle';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -33,6 +34,7 @@ const MakePage = () => {
     },
   });
   const { isValid, errors, isDirty } = formMethods.formState;
+  const { watch } = formMethods;
   const { mutate: mutateCreateMeeting, isPending: isSubmitting } = usePostMeetingMutation();
   const submittedRef = useRef(false);
   const [hasDraftLoaded, setHasDraftLoaded] = useState(false);
@@ -60,6 +62,23 @@ const MakePage = () => {
       },
     });
   };
+
+  const throttledPersistDraft = useThrottle(() => {
+    if (submittedRef.current || !formMethods.formState.isDirty) return;
+
+    LocalStorage.setItem(LocalStorageKey.DraftCreateMeeting, {
+      dateTime: Date.now(),
+      formValues: formMethods.getValues(),
+    });
+  }, 1000);
+
+  useEffect(() => {
+    const subscription = watch(() => {
+      throttledPersistDraft();
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, throttledPersistDraft]);
 
   useEffect(() => {
     const persistDraft = () => {
