@@ -1,6 +1,7 @@
 import { ampli } from '@/ampli';
 import { TabList } from '@common/tabList/TabList';
 import { Flex } from '@shared/util/layout/Flex';
+import { Tag } from '@sopt-makers/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
@@ -30,7 +31,15 @@ const CrewTab = ({ children }: { children?: ReactNode }) => {
           <TabList.Item text="mine">내 모임</TabList.Item>
         </Link>
         <Link href="/map" onClick={() => ampli.clickNavbarGroup({ menu: '솝맵' })}>
-          <TabList.Item text="map">솝맵</TabList.Item>
+          <TabList.Item text="map">
+            {/* 홍보 이후 New 키워드 제거 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              솝맵
+              <Tag size="md" shape="pill" variant="primary">
+                New
+              </Tag>
+            </div>
+          </TabList.Item>
         </Link>
       </TabList>
       {children}
