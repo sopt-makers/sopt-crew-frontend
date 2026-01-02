@@ -25,6 +25,10 @@ const MapCard = () => {
     close();
   };
 
+  const handleRecommendClick = () => {
+    console.log('추천 클릭');
+  };
+
   const handleDeleteModalOpen = () => {
     const dialogOption: DialogOptionType = {
       title: '등록한 장소를 삭제할까요?',
@@ -58,9 +62,17 @@ const MapCard = () => {
   return (
     <CardWrapper>
       {isDesktop ? (
-        <DesktopMapCard onDelete={handleDeleteModalOpen} onLink={handleLinkModalOpen} />
+        <DesktopMapCard
+          onDelete={handleDeleteModalOpen}
+          onLinkClick={handleLinkModalOpen}
+          onRecommendClick={handleRecommendClick}
+        />
       ) : (
-        <MobileMapCard onDelete={handleDeleteModalOpen} onLink={handleLinkModalOpen} />
+        <MobileMapCard
+          onDelete={handleDeleteModalOpen}
+          onLinkClick={handleLinkModalOpen}
+          onRecommendClick={handleRecommendClick}
+        />
       )}
     </CardWrapper>
   );

@@ -1,13 +1,15 @@
+import UtilityButton from '@common/button/UtilityButton';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
 interface MobileMapCardProps {
   onDelete: () => void;
-  onLink: () => void;
+  onLinkClick: () => void;
+  onRecommendClick: () => void;
 }
 
-const MobileMapCard = ({ onDelete, onLink }: MobileMapCardProps) => {
+const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick }: MobileMapCardProps) => {
   const isMine = true;
 
   return (
@@ -34,17 +36,21 @@ const MobileMapCard = ({ onDelete, onLink }: MobileMapCardProps) => {
         {isMine && (
           <SEditButtonWrapper>
             {/* TODO: mds varient 추가시 옵션 변경 */}
-            <Button size="sm" rounded="lg" theme="black" onClick={onDelete}>
+            <SCustomButton size="sm" rounded="lg" theme="black" onClick={onDelete}>
               삭제
-            </Button>
-            <Button size="sm" rounded="lg">
+            </SCustomButton>
+            <SCustomButton size="sm" rounded="lg">
               수정
-            </Button>
+            </SCustomButton>
           </SEditButtonWrapper>
         )}
         <SRecommendButtonWrapper>
-          <Button variant="outlined">나도 추천해요</Button>
-          <Button onClick={onLink}>바로가기</Button>
+          <UtilityButton iconType="thumb" size="xs" onClick={onRecommendClick}>
+            나도 추천해요
+          </UtilityButton>
+          <UtilityButton iconType="link" onClick={onLinkClick} size="xs">
+            바로가기
+          </UtilityButton>
         </SRecommendButtonWrapper>
       </SButtonWrapper>
     </SContainer>
@@ -145,6 +151,11 @@ const SButtonWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+});
+
+const SCustomButton = styled(Button, {
+  width: '$45',
+  height: '$32',
 });
 
 export default MobileMapCard;

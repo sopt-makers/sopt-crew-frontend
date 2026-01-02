@@ -1,3 +1,4 @@
+import UtilityButton from '@common/button/UtilityButton';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag } from '@sopt-makers/ui';
@@ -5,9 +6,10 @@ import { styled } from 'stitches.config';
 
 interface DesktopMapCardProps {
   onDelete: () => void;
-  onLink: () => void;
+  onLinkClick: () => void;
+  onRecommendClick: () => void;
 }
-const DesktopMapCard = ({ onDelete, onLink }: DesktopMapCardProps) => {
+const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick }: DesktopMapCardProps) => {
   const isMine = true;
 
   return (
@@ -26,8 +28,12 @@ const DesktopMapCard = ({ onDelete, onLink }: DesktopMapCardProps) => {
           </SPlaceWrapper>
 
           <SRecommendButtonWrapper>
-            <Button variant="outlined">나도 추천해요</Button>
-            <Button onClick={onLink}>바로가기</Button>
+            <UtilityButton iconType="thumb" onClick={onRecommendClick}>
+              나도 추천해요
+            </UtilityButton>
+            <UtilityButton iconType="link" onClick={onLinkClick}>
+              바로가기
+            </UtilityButton>
           </SRecommendButtonWrapper>
         </Flex>
 
