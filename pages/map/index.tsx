@@ -1,8 +1,9 @@
-import DropDownFilter from '@domain/list/Filter/DropDown';
+import MapDropDownFilter from '@domain/map/Filter/DropDown';
 import MapList from '@domain/map/MapList';
-import OrderFilter from '@domain/map/OrderFilter';
-import { ORDER_OPTIONS } from '@domain/map/OrderFilter/constant';
-import Search from '@domain/map/Search';
+import OrderFilter from '@domain/map/Filter/OrderFilter';
+import { ORDER_OPTIONS } from '@domain/map/Filter/OrderFilter/constant';
+import FilterResetButton from '@domain/map/Filter/Reset';
+import Search from '@domain/map/Filter/Search';
 import { useSortTypeParams } from '@hook/queryString/custom';
 import { useDisplay } from '@hook/useDisplay';
 import CrewTab from '@shared/CrewTab';
@@ -32,6 +33,7 @@ const MapPage = () => {
       setSortType(selectedOption.value);
     }
   };
+
   return (
     <div>
       <CrewTab />
@@ -39,7 +41,8 @@ const MapPage = () => {
         <>
           <SSearchWrapper>
             <Search />
-            <DropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
+            <MapDropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
+            <FilterResetButton />
           </SSearchWrapper>
 
           <SFilterWrapper>
@@ -52,7 +55,7 @@ const MapPage = () => {
           <Search />
           <SMeetingCount>{999}개의 장소</SMeetingCount>
           <Flex align="center" justify="between" style={{ marginTop: '20px' }}>
-            <DropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
+            <MapDropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
             <OrderFilter value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
           </Flex>
         </>
