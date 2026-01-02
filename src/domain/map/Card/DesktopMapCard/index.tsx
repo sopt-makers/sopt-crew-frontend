@@ -3,6 +3,7 @@ import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
+import { getTagVariant } from '../util';
 
 interface DesktopMapCardProps {
   onDelete: () => void;
@@ -19,7 +20,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick }: DesktopMapC
         <Flex align="center" justify="between">
           <SPlaceWrapper>
             <STagWrapper>
-              <Tag size="md" variant="primary">
+              <Tag size="md" variant={getTagVariant('CAFE')}>
                 카페
               </Tag>
               <SPlaceName>카페온더플랜</SPlaceName>

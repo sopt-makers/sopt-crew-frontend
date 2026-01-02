@@ -2,6 +2,7 @@ import UtilityButton from '@common/button/UtilityButton';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
+import { getTagVariant } from '../util';
 
 interface MobileMapCardProps {
   onDelete: () => void;
@@ -16,7 +17,7 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick }: MobileMapCar
     <SContainer>
       <STagWrapper>
         <SPlaceNum>999</SPlaceNum>
-        <Tag size="sm" variant="primary">
+        <Tag size="sm" variant={getTagVariant('CAFE')}>
           카페
         </Tag>
         <SPlaceName>카페온더플랜</SPlaceName>
