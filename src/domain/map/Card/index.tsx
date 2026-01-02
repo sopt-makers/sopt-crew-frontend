@@ -1,5 +1,6 @@
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
+import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
 import DesktopMapCard from './DesktopMapCard';
@@ -8,6 +9,21 @@ import MobileMapCard from './MobileMapCard';
 const MapCard = () => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
+  const selectedLinkRef = useRef('');
+
+  const handleLinkSelect = (link: string) => {
+    selectedLinkRef.current = link;
+  };
+
+  const handleMove = () => {
+    const currentLink = selectedLinkRef.current;
+
+    if (!currentLink) {
+      return;
+    }
+
+    close();
+  };
 
   const handleDeleteModalOpen = () => {
     const dialogOption: DialogOptionType = {
@@ -28,12 +44,12 @@ const MapCard = () => {
 
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
-      description: <LinkModalContent />,
+      description: <LinkModalContent onSelect={handleLinkSelect} />,
       type: 'default',
       typeOptions: {
         cancelButtonText: '취소',
         approveButtonText: '이동하기',
-        onApprove: close,
+        onApprove: handleMove,
       },
     };
     open(dialogOption);
