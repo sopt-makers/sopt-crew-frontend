@@ -21,23 +21,22 @@ const UtilityButton = ({
   activeNumber,
   ...props
 }: UtilityButtonProps) => {
+  const isThumbActive = iconType === 'thumb' && isActive;
+
   const renderIcon = () => {
-    switch (iconType) {
-      case 'thumb':
-        return isActive ? <IconThumbsUpFilled /> : <IconThumbsUp />;
-      case 'link':
-        return <IconLink />;
-      default:
-        return null;
-    }
+    if (iconType === 'link') return <IconLink />;
+    if (iconType === 'thumb') return isThumbActive ? <IconThumbsUpFilled /> : <IconThumbsUp />;
+    return null;
   };
+
+  const showActiveNumber = typeof activeNumber === 'number' && activeNumber > 0;
 
   return (
     <SButton className={className} size={size} isActive={isActive} type="button" {...props}>
       {renderIcon()}
       <SLabel>{children}</SLabel>
 
-      {activeNumber && activeNumber > 0 && <SActiveNumber>{activeNumber}</SActiveNumber>}
+      {showActiveNumber && <SActiveNumber>{activeNumber}</SActiveNumber>}
     </SButton>
   );
 };
