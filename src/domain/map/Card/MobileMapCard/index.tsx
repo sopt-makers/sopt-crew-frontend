@@ -2,7 +2,11 @@ import { fontsObject } from '@sopt-makers/fonts';
 import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
-const MobileMapCard = () => {
+interface MobileMapCardProps {
+  onDelete: () => void;
+}
+
+const MobileMapCard = ({ onDelete }: MobileMapCardProps) => {
   const isMine = true;
 
   return (
@@ -29,7 +33,7 @@ const MobileMapCard = () => {
         {isMine && (
           <SEditButtonWrapper>
             {/* TODO: mds varient 추가시 옵션 변경 */}
-            <Button size="sm" rounded="lg" theme="black">
+            <Button size="sm" rounded="lg" theme="black" onClick={onDelete}>
               삭제
             </Button>
             <Button size="sm" rounded="lg">

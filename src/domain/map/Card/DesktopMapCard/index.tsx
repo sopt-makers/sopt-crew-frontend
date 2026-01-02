@@ -1,25 +1,13 @@
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button, DialogOptionType, Tag, useDialog } from '@sopt-makers/ui';
+import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 
-const DesktopMapCard = () => {
-  const { open, close } = useDialog();
+interface DesktopMapCardProps {
+  onDelete: () => void;
+}
+const DesktopMapCard = ({ onDelete }: DesktopMapCardProps) => {
   const isMine = true;
-
-  const handleDeleteModalOpen = () => {
-    const dialogOption: DialogOptionType = {
-      title: '등록한 장소를 삭제할까요?',
-      description: '삭제 시 복구할 수 없습니다.',
-      type: 'danger',
-      typeOptions: {
-        cancelButtonText: '취소',
-        approveButtonText: '삭제하기',
-        onApprove: close,
-      },
-    };
-    open(dialogOption);
-  };
 
   return (
     <SContainer>
@@ -57,14 +45,7 @@ const DesktopMapCard = () => {
           {isMine && (
             <SEditButtonWrapper>
               {/* TODO: mds varient 추가시 옵션 변경 */}
-              <Button
-                size="sm"
-                theme="black"
-                rounded="lg"
-                onClick={() => {
-                  handleDeleteModalOpen();
-                }}
-              >
+              <Button size="sm" theme="black" rounded="lg" onClick={onDelete}>
                 삭제
               </Button>
               <Button size="sm" rounded="lg">
