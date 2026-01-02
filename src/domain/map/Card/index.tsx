@@ -1,6 +1,7 @@
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
+import LinkModalContent from '../Filter/Modal/LinkModalContent';
 import DesktopMapCard from './DesktopMapCard';
 import MobileMapCard from './MobileMapCard';
 
@@ -22,20 +23,12 @@ const MapCard = () => {
     open(dialogOption);
   };
 
-  const linkModalContent = () => {
-    return (
-      <div>
-        <p>등록자가 입력한 외부 링크로 이동합니다.</p>
-        <button>네이버 지도</button>
-        <button>카카오 맵</button>
-      </div>
-    );
-  };
-
   const handleLinkModalOpen = () => {
+    // TODO: 외부 링크 2개일때만 모달 오픈하도록 분기 처리
+
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
-      description: linkModalContent(),
+      description: <LinkModalContent />,
       type: 'default',
       typeOptions: {
         cancelButtonText: '취소',
