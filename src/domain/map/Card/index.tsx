@@ -22,12 +22,36 @@ const MapCard = () => {
     open(dialogOption);
   };
 
+  const linkModalContent = () => {
+    return (
+      <div>
+        <p>등록자가 입력한 외부 링크로 이동합니다.</p>
+        <button>네이버 지도</button>
+        <button>카카오 맵</button>
+      </div>
+    );
+  };
+
+  const handleLinkModalOpen = () => {
+    const dialogOption: DialogOptionType = {
+      title: '어떤 링크로 이동할까요?',
+      description: linkModalContent(),
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '취소',
+        approveButtonText: '이동하기',
+        onApprove: close,
+      },
+    };
+    open(dialogOption);
+  };
+
   return (
     <CardWrapper>
       {isDesktop ? (
-        <DesktopMapCard onDelete={handleDeleteModalOpen} />
+        <DesktopMapCard onDelete={handleDeleteModalOpen} onLink={handleLinkModalOpen} />
       ) : (
-        <MobileMapCard onDelete={handleDeleteModalOpen} />
+        <MobileMapCard onDelete={handleDeleteModalOpen} onLink={handleLinkModalOpen} />
       )}
     </CardWrapper>
   );

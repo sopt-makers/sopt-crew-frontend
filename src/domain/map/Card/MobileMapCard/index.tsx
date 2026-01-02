@@ -4,9 +4,10 @@ import { styled } from 'stitches.config';
 
 interface MobileMapCardProps {
   onDelete: () => void;
+  onLink: () => void;
 }
 
-const MobileMapCard = ({ onDelete }: MobileMapCardProps) => {
+const MobileMapCard = ({ onDelete, onLink }: MobileMapCardProps) => {
   const isMine = true;
 
   return (
@@ -43,7 +44,7 @@ const MobileMapCard = ({ onDelete }: MobileMapCardProps) => {
         )}
         <SRecommendButtonWrapper>
           <Button variant="outlined">나도 추천해요</Button>
-          <Button>바로가기</Button>
+          <Button onClick={onLink}>바로가기</Button>
         </SRecommendButtonWrapper>
       </SButtonWrapper>
     </SContainer>

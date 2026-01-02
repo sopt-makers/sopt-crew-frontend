@@ -5,8 +5,9 @@ import { styled } from 'stitches.config';
 
 interface DesktopMapCardProps {
   onDelete: () => void;
+  onLink: () => void;
 }
-const DesktopMapCard = ({ onDelete }: DesktopMapCardProps) => {
+const DesktopMapCard = ({ onDelete, onLink }: DesktopMapCardProps) => {
   const isMine = true;
 
   return (
@@ -26,7 +27,7 @@ const DesktopMapCard = ({ onDelete }: DesktopMapCardProps) => {
 
           <SRecommendButtonWrapper>
             <Button variant="outlined">나도 추천해요</Button>
-            <Button>바로가기</Button>
+            <Button onClick={onLink}>바로가기</Button>
           </SRecommendButtonWrapper>
         </Flex>
 
