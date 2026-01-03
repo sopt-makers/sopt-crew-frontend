@@ -1,10 +1,11 @@
 import MapDropDownFilter from '@domain/map/Filter/DropDown';
-import MapList from '@domain/map/MapList';
 import OrderFilter from '@domain/map/Filter/OrderFilter';
 import { ORDER_OPTIONS } from '@domain/map/Filter/OrderFilter/constant';
 import FilterResetButton from '@domain/map/Filter/Reset';
 import Search from '@domain/map/Filter/Search';
-import { useSortTypeParams } from '@hook/queryString/custom';
+import MapList from '@domain/map/MapList';
+import Pagination from '@domain/map/Pagination';
+import { usePageParams, useSortTypeParams } from '@hook/queryString/custom';
 import { useDisplay } from '@hook/useDisplay';
 import CrewTab from '@shared/CrewTab';
 import { Flex } from '@shared/util/layout/Flex';
@@ -24,6 +25,7 @@ const MapPage = () => {
   const { isDesktop } = useDisplay();
   const [orderBy, setOrderBy] = useState(ORDER_OPTIONS[0]);
   const { setValue: setSortType } = useSortTypeParams();
+  const { value: page, setValue: setPage } = usePageParams();
 
   const handleSelectOrderBy = (newValue: string) => {
     const selectedOption = ORDER_OPTIONS.find(opt => opt.value === newValue);
@@ -44,11 +46,16 @@ const MapPage = () => {
             <MapDropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
             <FilterResetButton />
           </SSearchWrapper>
-
           <SFilterWrapper>
             <SMeetingCount>{999}개의 장소</SMeetingCount>
             <OrderFilter value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
           </SFilterWrapper>
+
+          <MapList />
+
+          <SPageWrapper>
+            <Pagination totalPageLength={100} currentPage={Number(page)} onPageChange={setPage} />
+          </SPageWrapper>
         </>
       ) : (
         <>
@@ -58,10 +65,10 @@ const MapPage = () => {
             <MapDropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
             <OrderFilter value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
           </Flex>
+
+          <MapList />
         </>
       )}
-
-      <MapList />
     </div>
   );
 };
@@ -91,6 +98,15 @@ const SMeetingCount = styled('p', {
 
   '@mobile': {
     ...fontsObject.HEADING_7_16_B,
+  },
+});
+
+const SPageWrapper = styled('div', {
+  mt: '$120',
+  mb: '$80',
+
+  '@mobile': {
+    mb: '$60',
   },
 });
 
