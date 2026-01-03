@@ -21,6 +21,7 @@ const SCardWrapper = styled('div', {
 
   '@mobile': {
     mt: '$16',
+    mb: '$40',
   },
 });
 
