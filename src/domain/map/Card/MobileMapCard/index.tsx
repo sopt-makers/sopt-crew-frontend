@@ -1,5 +1,7 @@
 import UtilityButton from '@common/button/UtilityButton';
+import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
+import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button, Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 import { getTagVariant } from '../util';
@@ -15,13 +17,16 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick }: MobileMapCar
 
   return (
     <SContainer>
-      <STagWrapper>
-        <SPlaceNum>999</SPlaceNum>
-        <Tag size="sm" variant={getTagVariant('CAFE')}>
-          카페
-        </Tag>
-        <SPlaceName>카페온더플랜</SPlaceName>
-      </STagWrapper>
+      <Flex align="center" justify="between">
+        <STagWrapper>
+          <SPlaceNum>999</SPlaceNum>
+          <Tag size="sm" variant={getTagVariant('CAFE')}>
+            카페
+          </Tag>
+          <SPlaceName>카페온더플랜</SPlaceName>
+        </STagWrapper>
+        {isMine && <SMoreButton />}
+      </Flex>
       <SSubwayStation>건대입구역, 어린이대공원역</SSubwayStation>
 
       <SInfoWrapper>
@@ -33,27 +38,14 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick }: MobileMapCar
         </SDescription>
       </SInfoWrapper>
 
-      <SButtonWrapper>
-        {isMine && (
-          <SEditButtonWrapper>
-            {/* TODO: mds varient 추가시 옵션 변경 */}
-            <SCustomButton size="sm" rounded="lg" theme="black" onClick={onDelete}>
-              삭제
-            </SCustomButton>
-            <SCustomButton size="sm" rounded="lg">
-              수정
-            </SCustomButton>
-          </SEditButtonWrapper>
-        )}
-        <SRecommendButtonWrapper>
-          <UtilityButton iconType="thumb" size="xs" onClick={onRecommendClick}>
-            나도 추천해요
-          </UtilityButton>
-          <UtilityButton iconType="link" onClick={onLinkClick} size="xs">
-            바로가기
-          </UtilityButton>
-        </SRecommendButtonWrapper>
-      </SButtonWrapper>
+      <SRecommendButtonWrapper>
+        <UtilityButton iconType="thumb" size="xs" onClick={onRecommendClick}>
+          나도 추천해요
+        </UtilityButton>
+        <UtilityButton iconType="link" onClick={onLinkClick} size="xs">
+          바로가기
+        </UtilityButton>
+      </SRecommendButtonWrapper>
     </SContainer>
   );
 };
@@ -157,6 +149,12 @@ const SButtonWrapper = styled('div', {
 const SCustomButton = styled(Button, {
   width: '$45',
   height: '$32',
+});
+
+const SMoreButton = styled(IconDotsVertical, {
+  width: '$24',
+  height: '$24',
+  cursor: 'pointer',
 });
 
 export default MobileMapCard;
