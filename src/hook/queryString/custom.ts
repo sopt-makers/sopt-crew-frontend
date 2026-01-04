@@ -7,6 +7,7 @@ export const useTakeParams = () => useQueryString('take', '0', true);
 export const useSortByDateParams = () => useQueryString('sort', '0', true);
 export const useSortTypeParams = () => useQueryString('sortType', 'LATEST', true);
 export const useIsOnlyActiveGenerationParams = () => useQueryString('isOnlyActiveGeneration', 'false', true);
+export const useStationKeywordParams = () => useQueryString('stationKeyword', '', true);
 
 export const useCategoryParams = () => useMultiQueryString('category', true);
 export const useStatusParams = () => useMultiQueryString('status', true);

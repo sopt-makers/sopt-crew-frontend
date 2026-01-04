@@ -1,11 +1,11 @@
-import { useSearchParams } from '@hook/queryString/custom';
+import { useStationKeywordParams } from '@hook/queryString/custom';
 import { SearchField } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 
 function Search() {
-  const { setValue: setSearch, deleteKey } = useSearchParams();
+  const { setValue: setStationKeyword, deleteKey } = useStationKeywordParams();
   const router = useRouter();
   const searchQuery = String(router.query.search || '');
   const [inputValue, setInputValue] = useState(searchQuery);
@@ -22,7 +22,7 @@ function Search() {
         setInputValue(e.target.value);
       }}
       onSubmit={() => {
-        setSearch(inputValue);
+        setStationKeyword(inputValue);
         setInputValue(inputValue);
       }}
       onReset={() => {
