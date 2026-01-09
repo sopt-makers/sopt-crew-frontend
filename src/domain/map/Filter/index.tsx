@@ -1,14 +1,14 @@
+import { CATEGORY_FILTER } from '@domain/map/Filter/constants';
+import MapDropDownFilter from '@domain/map/Filter/DropDown';
+import OrderFilter from '@domain/map/Filter/OrderFilter';
+import { ORDER_OPTIONS } from '@domain/map/Filter/OrderFilter/constant';
+import FilterResetButton from '@domain/map/Filter/Reset';
+import Search from '@domain/map/Filter/Search';
 import { useSortTypeParams } from '@hook/queryString/custom';
 import { useDisplay } from '@hook/useDisplay';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { styled } from 'stitches.config';
-import MapDropDownFilter from './DropDown';
-import OrderFilter from './OrderFilter';
-import { ORDER_OPTIONS } from './OrderFilter/constant';
-import FilterResetButton from './Reset';
-import Search from './Search';
-import { CATEGORY_FILTER } from './constants';
 
 const Filter = () => {
   const { isDesktop } = useDisplay();
