@@ -22,12 +22,9 @@ function MapDropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useMultiQueryString(subject);
 
-  console.log('selectedValue: ', selectedValue);
   const [rawSelected, setRawSelected] = useState<string[]>([]);
   const debounceValue = useDebounce(rawSelected, 800);
   const defaultValue = useMemo(() => selectedValue.map((opt: string) => ({ label: opt, value: opt })), [selectedValue]);
-
-  console.log('defaultValue: ', defaultValue);
 
   const resolvedLabel = useMemo(() => {
     const selected = rawSelected.length > 0 ? rawSelected : selectedValue;
@@ -57,7 +54,14 @@ function MapDropDownFilter({ filter, width }: DropDownFilterProps) {
   }, [debounceValue]);
 
   return (
-    <SelectV2.Root type="text" visibleOptions={6} defaultValue={defaultValue} onChange={setPartQuery} multiple={true}>
+    <SelectV2.Root
+      key={selectedValue.join(',')} // 이 부분 추가!
+      type="text"
+      visibleOptions={6}
+      defaultValue={defaultValue}
+      onChange={setPartQuery}
+      multiple={true}
+    >
       <SelectV2.Trigger>
         <SelectV2.TriggerContent className={getAutoClass(width)()} placeholder={label} label={resolvedLabel} />
       </SelectV2.Trigger>
