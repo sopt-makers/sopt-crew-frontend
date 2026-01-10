@@ -1,9 +1,10 @@
 import { ampli } from '@/ampli';
 import BoltIcon from '@assets/svg/bolt_md.svg';
+import GroupIcon from '@assets/svg/floating_button_group_icon.svg';
+import MapIcon from '@assets/svg/floating_button_map_icon.svg';
 import KakaoLogoIcon from '@assets/svg/logo_kakao.svg';
 import { useRouter } from 'next/router';
 import { keyframes, styled } from 'stitches.config';
-import GroupIcon from '../../../public/assets/svg/floating_button_group_icon.svg';
 
 const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
   const router = useRouter();
@@ -17,6 +18,10 @@ const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
     //todo: 번쩍 개설을 위한 정보를 넘겨주면서 라우팅하기
     ampli.clickMakeGroup({ location: router.pathname });
     router.push('/make/flash');
+  };
+
+  const handleMapRegisterButtonClick = () => {
+    // TODO: 솝맵 등록 페이지 라우팅 & ampli 이벤트 추가
   };
 
   return (
@@ -42,6 +47,10 @@ const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
         <Button onClick={handleGroupCreateButtonClick}>
           <GroupIcon style={{ marginRight: '4px' }} />
           모임 개설
+        </Button>
+        <Button onClick={handleMapRegisterButtonClick}>
+          <MapIcon style={{ marginRight: '4px' }} />
+          솝맵 등록
         </Button>
       </Container>
     </Wrapper>
