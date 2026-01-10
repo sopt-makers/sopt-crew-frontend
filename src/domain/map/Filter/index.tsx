@@ -1,3 +1,4 @@
+import { CATEGORY_FILTER } from '@domain/map/Filter/constants';
 import MapDropDownFilter from '@domain/map/Filter/DropDown';
 import OrderFilter from '@domain/map/Filter/OrderFilter';
 import { ORDER_OPTIONS } from '@domain/map/Filter/OrderFilter/constant';
@@ -8,9 +9,11 @@ import { useDisplay } from '@hook/useDisplay';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { styled } from 'stitches.config';
-import { CATEGORY_FILTER } from '@domain/map/Filter/constants';
+interface FilterProps {
+  placeCount?: number;
+}
 
-const Filter = () => {
+const Filter = ({ placeCount }: FilterProps) => {
   const { isDesktop } = useDisplay();
   const { value: sortType, setValue: setSortType } = useSortTypeParams();
 
@@ -28,14 +31,14 @@ const Filter = () => {
         <FilterResetButton />
       </SSearchWrapper>
       <SFilterWrapper>
-        <SMeetingCount>{999}개의 장소</SMeetingCount>
+        <SMeetingCount>{placeCount}개의 장소</SMeetingCount>
         <OrderFilter value={selectedOption} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
       </SFilterWrapper>
     </>
   ) : (
     <>
       <Search />
-      <SMeetingCount>{999}개의 장소</SMeetingCount>
+      <SMeetingCount>{placeCount}개의 장소</SMeetingCount>
       <Flex align="center" justify="between" style={{ marginTop: '20px' }}>
         <MapDropDownFilter filter={CATEGORY_FILTER} width={'160px'} />
         <OrderFilter value={selectedOption} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />

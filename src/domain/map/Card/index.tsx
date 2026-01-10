@@ -1,3 +1,4 @@
+import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useRef } from 'react';
@@ -6,7 +7,11 @@ import LinkModalContent from '../Filter/Modal/LinkModalContent';
 import DesktopMapCard from './DesktopMapCard';
 import MobileMapCard from './MobileMapCard';
 
-const MapCard = () => {
+interface MapCardProps {
+  mapData?: mapData;
+}
+
+const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
   const selectedLinkRef = useRef('');
@@ -63,12 +68,14 @@ const MapCard = () => {
     <CardWrapper>
       {isDesktop ? (
         <DesktopMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
         />
       ) : (
         <MobileMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}

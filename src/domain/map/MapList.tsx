@@ -1,24 +1,30 @@
+import { GetMapList } from '@api/map/type';
 import MapCard from '@domain/map/Card/index';
 import { usePageParams } from '@hook/queryString/custom';
 import { useDisplay } from '@hook/useDisplay';
 import { styled } from 'stitches.config';
 import Pagination from './Pagination';
 
-const MapList = () => {
+interface MapListProps {
+  mapList: GetMapList['response'];
+}
+
+const MapList = ({ mapList }: MapListProps) => {
   const { isDesktop } = useDisplay();
   const { value: page, setValue: setPage } = usePageParams();
+
   return (
     <>
       <main>
         <SCardWrapper>
-          {[...Array(10)].map((_, index) => (
-            <MapCard key={index} />
+          {mapList?.soptMaps.map(mapData => (
+            <MapCard key={mapData.id} mapData={mapData} />
           ))}
         </SCardWrapper>
       </main>
       {isDesktop && (
         <SPageWrapper>
-          <Pagination totalPageLength={100} currentPage={Number(page)} onPageChange={setPage} />
+          <Pagination totalPageLength={mapList.meta.pageCount} currentPage={Number(page)} onPageChange={setPage} />
         </SPageWrapper>
       )}
     </>
