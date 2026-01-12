@@ -9,3 +9,8 @@ export const deleteMap = async (mapId: number) => {
   const { data } = await api.delete(`/api/v2/map/${mapId}`);
   return data;
 };
+
+export const putMapRecommendation = async (mapId: number) => {
+  const { data } = await api.put(`/api/v2/map/toggle/recommend/${mapId}`);
+  return data;
+};
