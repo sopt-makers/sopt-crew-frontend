@@ -15,8 +15,6 @@ interface MobileMapCardProps {
 }
 
 const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: MobileMapCardProps) => {
-  const isMine = true;
-
   return (
     <SContainer>
       <Flex align="center" justify="between">
@@ -27,7 +25,7 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: Mob
           </Tag>
           <SPlaceName>{mapData?.placeName}</SPlaceName>
         </STagWrapper>
-        {isMine && <SMoreButton />}
+        {mapData?.isCreator && <SMoreButton />}
       </Flex>
       <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
       <SInfoWrapper>

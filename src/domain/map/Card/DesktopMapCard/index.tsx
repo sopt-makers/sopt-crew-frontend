@@ -13,8 +13,6 @@ interface DesktopMapCardProps {
   mapData?: mapData;
 }
 const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: DesktopMapCardProps) => {
-  const isMine = true;
-
   return (
     <SContainer>
       <SPlaceNum>{mapData?.id}</SPlaceNum>
@@ -49,7 +47,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
 
         <Flex align="center" justify="between">
           <Flex align="center" css={{ gap: '8px', flex: 1, minWidth: 0 }}>
-            {isMine && (
+            {mapData?.isCreator && (
               <Tag variant="default" size="md">
                 내가 등록한 장소
               </Tag>
@@ -61,7 +59,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
             </SInfoWrapper>
           </Flex>
 
-          {isMine && (
+          {mapData?.isCreator && (
             <SEditButtonWrapper>
               {/* TODO: mds varient 추가시 옵션 변경 */}
               <Button size="sm" theme="black" rounded="lg" onClick={onDelete}>
