@@ -2742,6 +2742,16 @@ export interface components {
        * @example https://~~~
        */
       naverLink?: string;
+      /**
+       * @description 장소 등록한 사람의 이름
+       * @example 김효준
+       */
+      creatorName?: string;
+      /**
+       * @description 내가 등록했는지
+       * @example false
+       */
+      isCreator?: boolean;
     };
     SearchSubwayStationResponse: {
       stations?: components["schemas"]["SubwayStationDto"][];
@@ -3598,9 +3608,9 @@ export interface operations {
       query?: {
         /**
          * @description 필터링할 카테고리 (null: 전체)
-         * @example FOOD
+         * @example FOOD, CAFE
          */
-        category?: "FOOD" | "CAFE" | "ETC";
+        categories?: ("FOOD" | "CAFE" | "ETC")[];
         /**
          * @description 정렬 타입
          * @example LATEST
