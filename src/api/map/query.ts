@@ -15,10 +15,8 @@ export const useMapListQueryOption = () => {
   const params: MapListRequest = {
     page: Number(page) || 1,
     take: 10,
-
     sortType: (sortType as MapListRequest['sortType']) ?? 'LATEST',
-
-    category: category?.length ? (category.join(',') as unknown as MapListRequest['category']) : undefined,
+    categories: category?.length ? (category as MapListRequest['categories']) : undefined,
     stationKeyword: stationKeyword as MapListRequest['stationKeyword'],
   };
 
