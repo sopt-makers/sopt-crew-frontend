@@ -29,7 +29,7 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: Mob
       </Flex>
       <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
       <SInfoWrapper>
-        <p>이길동</p>
+        <p>{mapData?.creatorName}</p>
         <SSeparator>∙</SSeparator>
         <SDescription>{mapData?.description}</SDescription>
       </SInfoWrapper>

@@ -53,7 +53,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
               </Tag>
             )}
             <SInfoWrapper>
-              <p>이길동</p>
+              <p>{mapData?.creatorName}</p>
               <SSeparator>∙</SSeparator>
               <SDescription>{mapData?.description}</SDescription>
             </SInfoWrapper>
