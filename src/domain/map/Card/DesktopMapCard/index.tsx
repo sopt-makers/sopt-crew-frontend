@@ -20,9 +20,11 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
         <Flex align="center" justify="between">
           <SPlaceWrapper>
             <STagWrapper>
-              <Tag size="md" variant={getTagVariant('CAFE')}>
-                {mapData?.mapTags}
-              </Tag>
+              {mapData?.mapTags?.map((tag, index) => (
+                <Tag key={index} size="md" variant={getTagVariant(tag)}>
+                  {tag}
+                </Tag>
+              ))}
               <SPlaceName>{mapData?.placeName}</SPlaceName>
             </STagWrapper>
             <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
