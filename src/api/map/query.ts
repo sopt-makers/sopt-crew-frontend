@@ -56,7 +56,7 @@ export const useMapListInfiniteQueryOption = () => {
   };
 
   return infiniteQueryOptions<GetMapList['response']>({
-    queryKey: [...MapQueryKey.list({ ...baseParams, page: 1 }), 'infinite'],
+    queryKey: MapQueryKey.infiniteList(baseParams),
     initialPageParam: 1,
     queryFn: ({ pageParam }) => {
       return getMapList({ ...baseParams, page: pageParam as number });
