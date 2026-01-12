@@ -1,4 +1,4 @@
-import { useDeleteMapMutation } from '@api/map/mutation';
+import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
@@ -17,6 +17,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
   const { mutate: deleteMap } = useDeleteMapMutation();
+  const { mutate: recommendMap } = useRecommendMapMutation();
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
   const handleLinkSelect = (link: MapLinkKey | null) => {
@@ -40,8 +41,8 @@ const MapCard = ({ mapData }: MapCardProps) => {
     close();
   };
 
-  const handleRecommendClick = () => {
-    console.log('추천 클릭');
+  const handleRecommendClick = (mapId: number) => {
+    recommendMap(mapId);
   };
 
   const handleDeleteModalOpen = () => {
