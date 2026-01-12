@@ -10,6 +10,7 @@ export const useIsOnlyActiveGenerationParams = () => useQueryString('isOnlyActiv
 export const useStationKeywordParams = () => useQueryString('stationKeyword', '', true);
 
 export const useCategoryParams = () => useMultiQueryString('category', true);
+export const useCategoriesParams = () => useMultiQueryString('categories', true);
 export const useStatusParams = () => useMultiQueryString('status', true);
 export const useTypeParams = () => useMultiQueryString('type', true);
 export const usePartParams = () => useMultiQueryString('part', true);

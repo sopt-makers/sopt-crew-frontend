@@ -1,3 +1,4 @@
+import { mapData } from '@api/map/type';
 import UtilityButton from '@common/button/UtilityButton';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
@@ -9,27 +10,33 @@ interface DesktopMapCardProps {
   onDelete: () => void;
   onLinkClick: () => void;
   onRecommendClick: () => void;
+  mapData?: mapData;
 }
-const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick }: DesktopMapCardProps) => {
-  const isMine = true;
-
+const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: DesktopMapCardProps) => {
   return (
     <SContainer>
-      <SPlaceNum>999</SPlaceNum>
+      <SPlaceNum>{mapData?.id}</SPlaceNum>
       <SContentWrapper>
         <Flex align="center" justify="between">
           <SPlaceWrapper>
             <STagWrapper>
-              <Tag size="md" variant={getTagVariant('CAFE')}>
-                카페
-              </Tag>
-              <SPlaceName>카페온더플랜</SPlaceName>
+              {mapData?.mapTags?.map((tag, index) => (
+                <Tag key={index} size="md" variant={getTagVariant(tag)}>
+                  {tag}
+                </Tag>
+              ))}
+              <SPlaceName>{mapData?.placeName}</SPlaceName>
             </STagWrapper>
-            <SSubwayStation>건대입구역, 어린이대공원역</SSubwayStation>
+            <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
           </SPlaceWrapper>
 
           <SRecommendButtonWrapper>
-            <UtilityButton iconType="thumb" onClick={onRecommendClick}>
+            <UtilityButton
+              iconType="thumb"
+              onClick={onRecommendClick}
+              isActive={mapData?.isRecommended}
+              activeNumber={mapData?.recommendCount}
+            >
               나도 추천해요
             </UtilityButton>
             <UtilityButton iconType="link" onClick={onLinkClick}>
@@ -42,22 +49,19 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick }: DesktopMapC
 
         <Flex align="center" justify="between">
           <Flex align="center" css={{ gap: '8px', flex: 1, minWidth: 0 }}>
-            {isMine && (
+            {mapData?.isCreator && (
               <Tag variant="default" size="md">
                 내가 등록한 장소
               </Tag>
             )}
             <SInfoWrapper>
-              <p>이길동</p>
+              <p>{mapData?.creatorName}</p>
               <SSeparator>∙</SSeparator>
-              <SDescription>
-                바다를 바라보며 천천히 걷다 보면 마음속 잔잔한 파도가 조용히 일렁인다. 이 순간 모든 걱정이 사라지고 숨이
-                편안해진다. 정말 행복하다 웃으며.
-              </SDescription>
+              <SDescription>{mapData?.description}</SDescription>
             </SInfoWrapper>
           </Flex>
 
-          {isMine && (
+          {mapData?.isCreator && (
             <SEditButtonWrapper>
               {/* TODO: mds varient 추가시 옵션 변경 */}
               <Button size="sm" theme="black" rounded="lg" onClick={onDelete}>

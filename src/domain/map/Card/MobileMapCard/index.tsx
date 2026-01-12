@@ -1,3 +1,4 @@
+import { mapData } from '@api/map/type';
 import UtilityButton from '@common/button/UtilityButton';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
@@ -10,36 +11,40 @@ interface MobileMapCardProps {
   onDelete: () => void;
   onLinkClick: () => void;
   onRecommendClick: () => void;
+  mapData?: mapData;
 }
 
-const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick }: MobileMapCardProps) => {
-  const isMine = true;
-
+const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: MobileMapCardProps) => {
   return (
     <SContainer>
       <Flex align="center" justify="between">
         <STagWrapper>
-          <SPlaceNum>999</SPlaceNum>
-          <Tag size="sm" variant={getTagVariant('CAFE')}>
-            카페
-          </Tag>
-          <SPlaceName>카페온더플랜</SPlaceName>
-        </STagWrapper>
-        {isMine && <SMoreButton />}
-      </Flex>
-      <SSubwayStation>건대입구역, 어린이대공원역</SSubwayStation>
+          <SPlaceNum>{mapData?.id}</SPlaceNum>
+          {mapData?.mapTags?.map((tag, index) => (
+            <Tag key={index} size="sm" variant={getTagVariant(tag)}>
+              {tag}
+            </Tag>
+          ))}
 
+          <SPlaceName>{mapData?.placeName}</SPlaceName>
+        </STagWrapper>
+        {mapData?.isCreator && <SMoreButton />}
+      </Flex>
+      <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
       <SInfoWrapper>
-        <p>이길동</p>
+        <p>{mapData?.creatorName}</p>
         <SSeparator>∙</SSeparator>
-        <SDescription>
-          바다를 바라보며 천천히 걷다 보면 마음속 잔잔한 파도가 조용히 일렁인다. 이 순간 모든 걱정이 사라지고 숨이
-          편안해진다. 정말 행복하다 웃으며.
-        </SDescription>
+        <SDescription>{mapData?.description}</SDescription>
       </SInfoWrapper>
 
       <SRecommendButtonWrapper>
-        <UtilityButton iconType="thumb" size="xs" onClick={onRecommendClick}>
+        <UtilityButton
+          iconType="thumb"
+          size="xs"
+          onClick={onRecommendClick}
+          isActive={mapData?.isRecommended}
+          activeNumber={mapData?.recommendCount}
+        >
           나도 추천해요
         </UtilityButton>
         <UtilityButton iconType="link" onClick={onLinkClick} size="xs">

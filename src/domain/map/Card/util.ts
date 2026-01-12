@@ -1,10 +1,14 @@
-export const getTagVariant = (tagName: string) => {
+import type { mapData } from '@api/map/type';
+
+export type MapTagType = NonNullable<mapData['mapTags']>[number];
+
+export const getTagVariant = (tagName: MapTagType) => {
   switch (tagName) {
     case 'CAFE':
       return 'primary';
-    case '기타':
+    case 'ETC':
       return 'secondary';
-    case '음식점':
+    case 'FOOD':
       return 'default';
     default:
       return 'primary';

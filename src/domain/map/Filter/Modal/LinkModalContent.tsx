@@ -1,20 +1,20 @@
-import KakaoMapIcon from '@assets/svg/ic_kakao_map.svg';
-import NaverMapIcon from '@assets/svg/ic_naver_map.svg';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconCheck } from '@sopt-makers/icons';
 import { useState } from 'react';
 import { styled } from 'stitches.config';
+import { LINK_OPTIONS } from './constant';
+import { MapLinkKey } from './type';
 interface LinkModalContentProps {
-  onSelect: (link: string) => void;
+  onSelect: (link: MapLinkKey | null) => void;
 }
 
 const LinkModalContent = ({ onSelect }: LinkModalContentProps) => {
-  const [localSelected, setLocalSelected] = useState<string>('');
+  const [localSelected, setLocalSelected] = useState<MapLinkKey | null>(null);
 
-  const handleClick = (link: string) => {
+  const handleClick = (link: MapLinkKey) => {
     if (localSelected === link) {
-      setLocalSelected('');
-      onSelect('');
+      setLocalSelected(null);
+      onSelect(null);
       return;
     }
 
@@ -26,15 +26,13 @@ const LinkModalContent = ({ onSelect }: LinkModalContentProps) => {
     <Container>
       <p>등록자가 입력한 외부 링크로 이동합니다.</p>
       <div>
-        <LinkButton type="button" onClick={() => handleClick('naver')}>
-          <NaverMapIcon />
-          네이버 지도
-          {localSelected === 'naver' && <CheckIcon />}
-        </LinkButton>
-        <LinkButton type="button" onClick={() => handleClick('kakao')}>
-          <KakaoMapIcon />
-          카카오 맵{localSelected === 'kakao' && <CheckIcon />}
-        </LinkButton>
+        {LINK_OPTIONS.map(({ key, label, Icon }) => (
+          <LinkButton key={key} type="button" onClick={() => handleClick(key)} data-selected={localSelected === key}>
+            <Icon />
+            {label}
+            {localSelected === key && <CheckIcon />}
+          </LinkButton>
+        ))}
       </div>
     </Container>
   );

@@ -1,25 +1,38 @@
+import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
+import { MapLinkKey } from '../Filter/Modal/type';
 import DesktopMapCard from './DesktopMapCard';
 import MobileMapCard from './MobileMapCard';
 
-const MapCard = () => {
+interface MapCardProps {
+  mapData?: mapData;
+}
+
+const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
-  const selectedLinkRef = useRef('');
+  const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
-  const handleLinkSelect = (link: string) => {
+  const handleLinkSelect = (link: MapLinkKey | null) => {
     selectedLinkRef.current = link;
   };
 
-  const handleMove = () => {
-    const currentLink = selectedLinkRef.current;
+  const handleLinkMove = () => {
+    const selectedKey = selectedLinkRef.current;
 
-    if (!currentLink) {
+    if (!selectedKey || !mapData) {
+      close();
       return;
+    }
+
+    const targetUrl = mapData[selectedKey];
+
+    if (targetUrl) {
+      window.open(targetUrl, '_blank');
     }
 
     close();
@@ -44,7 +57,13 @@ const MapCard = () => {
   };
 
   const handleLinkModalOpen = () => {
-    // TODO: 외부 링크 2개일때만 모달 오픈하도록 분기 처리
+    const isLinkModalOpen = mapData?.naverLink && mapData?.kakaoLink;
+
+    if (!isLinkModalOpen) {
+      return;
+    }
+
+    selectedLinkRef.current = null;
 
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
@@ -53,7 +72,7 @@ const MapCard = () => {
       typeOptions: {
         cancelButtonText: '취소',
         approveButtonText: '이동하기',
-        onApprove: handleMove,
+        onApprove: handleLinkMove,
       },
     };
     open(dialogOption);
@@ -63,12 +82,14 @@ const MapCard = () => {
     <CardWrapper>
       {isDesktop ? (
         <DesktopMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
         />
       ) : (
         <MobileMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
