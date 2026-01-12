@@ -1,3 +1,4 @@
+import { useDeleteMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
@@ -9,12 +10,13 @@ import DesktopMapCard from './DesktopMapCard';
 import MobileMapCard from './MobileMapCard';
 
 interface MapCardProps {
-  mapData?: mapData;
+  mapData: mapData;
 }
 
 const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
+  const { mutate: deleteMap } = useDeleteMapMutation();
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
   const handleLinkSelect = (link: MapLinkKey | null) => {
@@ -50,7 +52,15 @@ const MapCard = ({ mapData }: MapCardProps) => {
       typeOptions: {
         cancelButtonText: '취소',
         approveButtonText: '삭제하기',
-        onApprove: close,
+        onApprove: () => {
+          if (!mapData?.id) {
+            close();
+            return;
+          }
+
+          deleteMap(mapData.id);
+          close();
+        },
       },
     };
     open(dialogOption);
