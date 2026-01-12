@@ -1,17 +1,17 @@
-import { useMapListQueryOption } from '@api/map/query';
-import Filter from '@domain/map/Filter';
-import MapList from '@domain/map/MapList';
+import Loader from '@common/loader/Loader';
+import DesktopMapContainer from '@domain/map/List/DesktopMapContainer';
+import MobileMapContainer from '@domain/map/List/MobileMapContainer';
+import { useDisplay } from '@hook/useDisplay';
 import CrewTab from '@shared/CrewTab';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
 const MapPage = () => {
-  const { data: mapList } = useSuspenseQuery(useMapListQueryOption());
+  const { isDesktop } = useDisplay();
 
   return (
     <div>
       <CrewTab />
-      <Filter placeCount={mapList?.meta.itemCount} />
-      <MapList mapList={mapList} />
+      <Suspense fallback={<Loader />}>{isDesktop ? <DesktopMapContainer /> : <MobileMapContainer />}</Suspense>
     </div>
   );
 };
