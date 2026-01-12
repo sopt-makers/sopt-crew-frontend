@@ -3,6 +3,7 @@ import { produce } from 'immer';
 import { deleteMap, putMapRecommendation } from '.';
 import MapQueryKey from './MapQueryKey';
 import { GetMapList } from './type';
+import { visitMapCache } from './util';
 
 export const useDeleteMapMutation = () => {
   const queryClient = useQueryClient();
@@ -13,6 +14,8 @@ export const useDeleteMapMutation = () => {
     },
   });
 };
+
+type MapCacheData = InfiniteData<GetMapList['response']> | GetMapList['response'];
 
 export const useRecommendMapMutation = () => {
   const queryClient = useQueryClient();
@@ -25,32 +28,17 @@ export const useRecommendMapMutation = () => {
 
       const previousData = queryClient.getQueriesData({ queryKey: MapQueryKey.all() });
 
-      queryClient.setQueriesData<InfiniteData<GetMapList['response']>>(
-        { queryKey: [MapQueryKey.infiniteList()] },
-        oldData => {
-          if (!oldData) return undefined;
-
-          return produce(oldData, draft => {
-            draft.pages.forEach(page => {
-              const target = page.soptMaps.find(map => map.id === targetMapId);
-              if (target) {
-                target.isRecommended = !target.isRecommended;
-                target.recommendCount = (target.recommendCount ?? 0) + (target.isRecommended ? 1 : -1);
-              }
-            });
-          });
-        }
-      );
-
-      queryClient.setQueriesData<GetMapList['response']>({ queryKey: MapQueryKey.list() }, oldData => {
+      queryClient.setQueriesData<MapCacheData>({ queryKey: MapQueryKey.all() }, oldData => {
         if (!oldData) return undefined;
 
         return produce(oldData, draft => {
-          const target = draft.soptMaps.find(map => map.id === targetMapId);
-          if (target) {
-            target.isRecommended = !target.isRecommended;
-            target.recommendCount = (target.recommendCount ?? 0) + (target.isRecommended ? 1 : -1);
-          }
+          visitMapCache(draft, soptMaps => {
+            const target = soptMaps.find(map => map.id === targetMapId);
+            if (target) {
+              target.isRecommended = !target.isRecommended;
+              target.recommendCount = (target.recommendCount ?? 0) + (target.isRecommended ? 1 : -1);
+            }
+          });
         });
       });
 
@@ -65,8 +53,6 @@ export const useRecommendMapMutation = () => {
       }
     },
 
-    // onSettled: () => {
-    //   queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
-    // },
+    // UX 개선을 위해 onSettled 제거
   });
 };
