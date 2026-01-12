@@ -20,9 +20,12 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: Mob
       <Flex align="center" justify="between">
         <STagWrapper>
           <SPlaceNum>{mapData?.id}</SPlaceNum>
-          <Tag size="sm" variant={getTagVariant('CAFE')}>
-            {mapData?.mapTags}
-          </Tag>
+          {mapData?.mapTags?.map((tag, index) => (
+            <Tag key={index} size="sm" variant={getTagVariant(tag)}>
+              {tag}
+            </Tag>
+          ))}
+
           <SPlaceName>{mapData?.placeName}</SPlaceName>
         </STagWrapper>
         {mapData?.isCreator && <SMoreButton />}
