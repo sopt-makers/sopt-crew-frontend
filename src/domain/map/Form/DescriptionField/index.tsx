@@ -7,7 +7,7 @@ const DescriptionField = () => {
     <div>
       <Label required={true}>한줄 소개</Label>
       <FormController
-        name="detail.desc"
+        name="description"
         render={({ field, fieldState: { error } }) => (
           <Textarea
             placeholder={`ex.\n• 모든 자리에 콘센트가 있어요.\n• 화장실이 깨끗해요.`}

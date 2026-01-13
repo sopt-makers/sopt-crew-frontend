@@ -1,64 +1,51 @@
-import { locationKeywordOptions } from '@data/options';
 import ErrorMessage from '@shared/form/ErrorMessage';
 import FormController from '@shared/form/FormController';
 import HelpMessage from '@shared/form/HelpMessage';
 import Label from '@shared/form/Label';
-import { Option } from '@shared/form/Select/OptionItem';
 import { Chip } from '@sopt-makers/ui';
-import { useCallback } from 'react';
 import { styled } from 'stitches.config';
 
-const MAX_KEYWORD_COUNT = 2;
+const mapCategories = [
+  { label: '카페', value: '카페' },
+  { label: '음식점', value: '음식점' },
+  { label: '기타', value: '기타' },
+];
 
-const KeywordField = () => {
-  const handleClick = useCallback((option: Option, value: string[], onChange: (value: string[]) => void) => {
-    if (!option.value) return;
-
-    let updatedKeywords = [...value];
-    if (updatedKeywords.includes(option.value)) {
-      updatedKeywords = updatedKeywords.filter(keyword => keyword !== option.value);
-    } else {
-      updatedKeywords.push(option.value);
-    }
-
-    if (updatedKeywords.length > MAX_KEYWORD_COUNT) return;
-
-    onChange(updatedKeywords);
-  }, []);
-
+const LocationKeywordField = () => {
   return (
     <div>
       <Label required={true}>장소 태그</Label>
-      <HelpMessage>최대 {MAX_KEYWORD_COUNT}개까지 선택할 수 있어요</HelpMessage>
+      <HelpMessage>장소의 카테고리를 선택해주세요</HelpMessage>
       <FormController
-        name="locationKeywordTypes"
-        defaultValue={[]}
-        render={({ field: { value, onChange }, fieldState: { error: keywordError } }) => (
-          <>
-            <SChipContainer>
-              {locationKeywordOptions.map(option => {
-                const isSelected = value.includes(option.value);
-                return (
-                  <Chip
-                    disabled={value.length >= MAX_KEYWORD_COUNT && !isSelected}
-                    key={option.value}
-                    active={isSelected}
-                    onClick={() => handleClick(option, value, onChange)}
-                  >
-                    {option.label}
-                  </Chip>
-                );
-              })}
-            </SChipContainer>
-            {keywordError && <ErrorMessage style={{ marginTop: '12px' }}>{keywordError.message}</ErrorMessage>}
-          </>
-        )}
+        name="category"
+        defaultValue={{ label: '', value: '' }}
+        render={({ field: { value, onChange }, fieldState: { error } }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const categoryError = error as any;
+          return (
+            <>
+              <SChipContainer>
+                {mapCategories.map(option => {
+                  const isSelected = value.value === option.value;
+                  return (
+                    <Chip key={option.value} active={isSelected} onClick={() => onChange(option)}>
+                      {option.label}
+                    </Chip>
+                  );
+                })}
+              </SChipContainer>
+              {categoryError?.value && (
+                <ErrorMessage style={{ marginTop: '12px' }}>{categoryError.value.message}</ErrorMessage>
+              )}
+            </>
+          );
+        }}
       ></FormController>
     </div>
   );
 };
 
-export default KeywordField;
+export default LocationKeywordField;
 
 const SChipContainer = styled('div', {
   display: 'flex',

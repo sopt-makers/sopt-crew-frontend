@@ -1,42 +1,63 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
-import { FormType, schema } from '@type/form';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import DescriptionField from './Form/DescriptionField';
 import LinkField from './Form/LinkField';
 import LocationKeywordField from './Form/LocationKeywordField';
 import NameField from './Form/NameField';
 import SubwayField from './Form/SubwayField';
+import { FormType, formSchema } from './Form/type';
 
-const RegisterForm = ({ disabled = true }) => {
+const RegisterForm = () => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      detail: {
-        coLeader: [],
+      name: '',
+      subwayStations: [],
+      description: '',
+      category: {
+        label: '',
+        value: '',
+      },
+      links: {
+        naverMapLink: '',
+        kakaoMapLink: '',
       },
     },
   });
-  const { isValid, errors, isDirty } = formMethods.formState;
-  const { watch } = formMethods;
+  const { isValid, errors } = formMethods.formState;
+
+  const onSubmit: SubmitHandler<FormType> = async formData => {
+    // TODO: API 연결 후 구현
+    console.log('Form Data:', formData);
+    // mutateCreateMap(formData, {
+    //   onSuccess: data => {
+    //     alert('장소를 등록했습니다.');
+    //     router.push(`/map?id=${data.mapId}`);
+    //   },
+    // });
+  };
+
+  const handleSubmit = formMethods.handleSubmit(onSubmit);
+  const isSubmitDisabled = !isValid || Object.keys(errors).length > 0;
 
   return (
     <FormProvider {...formMethods}>
       <SContainer>
         <SFormContainer>
-          <SForm>
-            <SFormName>솝맵 등록</SFormName>
+          <SFormName>솝맵 등록</SFormName>
+          <SForm onSubmit={handleSubmit}>
             <NameField />
             <SubwayField />
             <DescriptionField />
             <LocationKeywordField />
             <LinkField />
             <ButtonContainer>
-              <Button size="lg" disabled={disabled}>
+              <Button type="submit" size="lg" disabled={isSubmitDisabled}>
                 등록하기
               </Button>
             </ButtonContainer>
@@ -65,6 +86,7 @@ const SContainer = styled('div', {
     margin: 0,
   },
 });
+
 const SFormContainer = styled('div', {
   width: '100%',
   padding: '36px 40px 56px',
@@ -75,6 +97,7 @@ const SFormContainer = styled('div', {
     background: '$gray950',
   },
 });
+
 const SFormName = styled('h1', {
   ...fontsObject.HEADING_2_32_B,
   color: '$gray10',

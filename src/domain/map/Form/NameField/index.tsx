@@ -6,7 +6,7 @@ const NameField = () => {
   return (
     <STitleField>
       <FormController
-        name="title"
+        name="name"
         render={({ field, fieldState: { error } }) => (
           <TextInput
             label="장소 이름"

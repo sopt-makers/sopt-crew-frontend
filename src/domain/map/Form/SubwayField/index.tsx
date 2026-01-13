@@ -11,7 +11,7 @@ const SubwayField = () => {
       </Label>
       <HelpMessage>가까운 지하철역을 작성해주세요. 최대 3개까지 선택할 수 있어요. </HelpMessage>
       <FormController
-        name="detail.coLeader"
+        name="subwayStations"
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           return (
             <div>
