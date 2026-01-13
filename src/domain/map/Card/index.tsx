@@ -45,12 +45,20 @@ const MapCard = ({ mapData }: MapCardProps) => {
   };
 
   const handleLinkModalOpen = () => {
-    const isLinkModalOpen = mapData?.naverLink && mapData?.kakaoLink;
+    const hasNaverLink = !!mapData?.naverLink;
+    const hasKakaoLink = !!mapData?.kakaoLink;
 
-    if (!isLinkModalOpen) {
+    if (!hasNaverLink && !hasKakaoLink) {
       return;
     }
 
+    // 링크 1개: 바로 연결
+    if (hasNaverLink !== hasKakaoLink) {
+      window.open(mapData.naverLink || mapData.kakaoLink, '_blank');
+      return;
+    }
+
+    // 링크 2개: 모달 오픈
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
       description: (
