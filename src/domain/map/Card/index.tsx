@@ -2,6 +2,7 @@ import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation
 import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
+import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
 import { MapLinkKey } from '../Filter/Modal/type';
@@ -17,9 +18,31 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const { open, close } = useDialog();
   const { mutate: deleteMap } = useDeleteMapMutation();
   const { mutate: recommendMap } = useRecommendMapMutation();
+  const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
   const handleRecommendClick = (mapId: number) => {
     recommendMap(mapId);
+  };
+
+  const handleLinkSelect = (link: MapLinkKey | null) => {
+    selectedLinkRef.current = link;
+  };
+
+  const handleLinkMove = () => {
+    const selectedKey = selectedLinkRef.current;
+
+    if (!selectedKey || !mapData) {
+      close();
+      return;
+    }
+
+    const targetUrl = mapData[selectedKey];
+
+    if (targetUrl) {
+      window.open(targetUrl, '_blank');
+    }
+
+    close();
   };
 
   const handleDeleteModalOpen = () => {
@@ -52,27 +75,21 @@ const MapCard = ({ mapData }: MapCardProps) => {
       return;
     }
 
-    // 링크 1개: 바로 연결
+    selectedLinkRef.current = null;
+
     if (hasNaverLink !== hasKakaoLink) {
       window.open(mapData.naverLink || mapData.kakaoLink, '_blank');
       return;
     }
-
-    // 링크 2개: 모달 오픈
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
-      description: (
-        <LinkModalContent
-          onClose={close}
-          onConfirm={(key: MapLinkKey) => {
-            const targetUrl = mapData[key];
-            if (targetUrl) {
-              window.open(targetUrl, '_blank');
-            }
-            close();
-          }}
-        />
-      ),
+      description: <LinkModalContent onSelect={handleLinkSelect} />,
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '취소',
+        approveButtonText: '이동하기',
+        onApprove: handleLinkMove,
+      },
     };
     open(dialogOption);
   };

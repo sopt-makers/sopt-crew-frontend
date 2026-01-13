@@ -1,63 +1,40 @@
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconCheck } from '@sopt-makers/icons';
-import { Button } from '@sopt-makers/ui'; // Button 컴포넌트 import (경로 확인 필요)
 import { useState } from 'react';
 import { styled } from 'stitches.config';
 import { LINK_OPTIONS } from './constant';
 import { MapLinkKey } from './type';
 
 interface LinkModalContentProps {
-  onClose: () => void;
-  onConfirm: (link: MapLinkKey) => void;
+  onSelect: (link: MapLinkKey | null) => void;
 }
 
-const LinkModalContent = ({ onClose, onConfirm }: LinkModalContentProps) => {
+const LinkModalContent = ({ onSelect }: LinkModalContentProps) => {
   const [localSelected, setLocalSelected] = useState<MapLinkKey | null>(null);
 
   const handleClick = (link: MapLinkKey) => {
     if (localSelected === link) {
       setLocalSelected(null);
+      onSelect(null);
       return;
     }
-    setLocalSelected(link);
-  };
 
-  const handleConfirmClick = () => {
-    if (localSelected) {
-      onConfirm(localSelected);
-    }
+    setLocalSelected(link);
+    onSelect(link);
   };
 
   return (
     <Container>
-      <ContentWrapper>
-        <Description>등록자가 입력한 외부 링크로 이동합니다.</Description>
-        <div>
-          {LINK_OPTIONS.map(({ key, label, Icon }) => (
-            <LinkButton key={key} type="button" onClick={() => handleClick(key)} data-selected={localSelected === key}>
-              <Icon />
-              {label}
-              {localSelected === key && <CheckIcon />}
-            </LinkButton>
-          ))}
-        </div>
-      </ContentWrapper>
-
-      <ButtonWrapper>
-        <Button theme="black" size="md" rounded="md" onClick={onClose} style={{ flex: 1 }}>
-          취소
-        </Button>
-        <Button
-          theme="white"
-          size="md"
-          rounded="md"
-          onClick={handleConfirmClick}
-          disabled={!localSelected}
-          style={{ flex: 1 }}
-        >
-          이동하기
-        </Button>
-      </ButtonWrapper>
+      <p>등록자가 입력한 외부 링크로 이동합니다.</p>
+      <div>
+        {LINK_OPTIONS.map(({ key, label, Icon }) => (
+          <LinkButton key={key} type="button" onClick={() => handleClick(key)} data-selected={localSelected === key}>
+            <Icon />
+            {label}
+            {localSelected === key && <CheckIcon />}
+          </LinkButton>
+        ))}
+      </div>
     </Container>
   );
 };
@@ -67,17 +44,7 @@ export default LinkModalContent;
 const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-});
-
-const ContentWrapper = styled('div', {
-  flex: 1,
-  minHeight: '$24',
-  overflow: 'auto',
-});
-
-const Description = styled('p', {
-  marginBottom: '$24',
-  ...fontsObject.BODY_3_14_R,
+  gap: '$24',
 });
 
 const LinkButton = styled('button', {
@@ -96,11 +63,4 @@ const CheckIcon = styled(IconCheck, {
   marginLeft: 'auto',
 
   color: '$success',
-});
-
-const ButtonWrapper = styled('div', {
-  display: 'flex',
-  gap: '$9',
-  width: '100%',
-  marginTop: '$32',
 });
