@@ -20,6 +20,10 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const { mutate: recommendMap } = useRecommendMapMutation();
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
+  const handleRecommendClick = (mapId: number) => {
+    recommendMap(mapId);
+  };
+
   const handleLinkSelect = (link: MapLinkKey | null) => {
     selectedLinkRef.current = link;
   };
@@ -39,10 +43,6 @@ const MapCard = ({ mapData }: MapCardProps) => {
     }
 
     close();
-  };
-
-  const handleRecommendClick = (mapId: number) => {
-    recommendMap(mapId);
   };
 
   const handleDeleteModalOpen = () => {
@@ -68,14 +68,19 @@ const MapCard = ({ mapData }: MapCardProps) => {
   };
 
   const handleLinkModalOpen = () => {
-    const isLinkModalOpen = mapData?.naverLink && mapData?.kakaoLink;
+    const hasNaverLink = !!mapData?.naverLink;
+    const hasKakaoLink = !!mapData?.kakaoLink;
 
-    if (!isLinkModalOpen) {
+    if (!hasNaverLink && !hasKakaoLink) {
       return;
     }
 
     selectedLinkRef.current = null;
 
+    if (hasNaverLink !== hasKakaoLink) {
+      window.open(mapData.naverLink || mapData.kakaoLink, '_blank');
+      return;
+    }
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
       description: <LinkModalContent onSelect={handleLinkSelect} />,

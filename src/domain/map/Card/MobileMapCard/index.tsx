@@ -1,9 +1,11 @@
 import { mapData } from '@api/map/type';
 import UtilityButton from '@common/button/UtilityButton';
+import MobileBottomSheet from '@domain/map/BottomSheet';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconDotsVertical } from '@sopt-makers/icons';
-import { Button, Tag } from '@sopt-makers/ui';
+import { Tag } from '@sopt-makers/ui';
+import { useState } from 'react';
 import { styled } from 'stitches.config';
 import { getTagVariant } from '../util';
 
@@ -15,43 +17,72 @@ interface MobileMapCardProps {
 }
 
 const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: MobileMapCardProps) => {
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
+  const handleMoreClick = () => {
+    setIsBottomSheetOpen(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setIsBottomSheetOpen(false);
+  };
+
+  const handleEdit = () => {
+    // TODO: 라우팅 처리
+    setIsBottomSheetOpen(false);
+  };
+
+  const handleDelete = () => {
+    setIsBottomSheetOpen(false);
+    onDelete();
+  };
+
   return (
-    <SContainer>
-      <Flex align="center" justify="between">
-        <STagWrapper>
-          <SPlaceNum>{mapData?.id}</SPlaceNum>
-          {mapData?.mapTags?.map((tag, index) => (
-            <Tag key={index} size="sm" variant={getTagVariant(tag)}>
-              {tag}
-            </Tag>
-          ))}
+    <>
+      <SContainer>
+        <Flex align="center" justify="between">
+          <STagWrapper>
+            <SPlaceNum>{mapData?.id}</SPlaceNum>
+            {mapData?.mapTags?.map((tag, index) => (
+              <Tag key={index} size="sm" variant={getTagVariant(tag)}>
+                {tag}
+              </Tag>
+            ))}
 
-          <SPlaceName>{mapData?.placeName}</SPlaceName>
-        </STagWrapper>
-        {mapData?.isCreator && <SMoreButton />}
-      </Flex>
-      <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
-      <SInfoWrapper>
-        <p>{mapData?.creatorName}</p>
-        <SSeparator>∙</SSeparator>
-        <SDescription>{mapData?.description}</SDescription>
-      </SInfoWrapper>
+            <SPlaceName>{mapData?.placeName}</SPlaceName>
+          </STagWrapper>
+          {mapData?.isCreator && <SMoreButton onClick={handleMoreClick} />}
+        </Flex>
+        <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
+        <SInfoWrapper>
+          <p>{mapData?.creatorName}</p>
+          <SSeparator>∙</SSeparator>
+          <SDescription>{mapData?.description}</SDescription>
+        </SInfoWrapper>
 
-      <SRecommendButtonWrapper>
-        <UtilityButton
-          iconType="thumb"
-          size="xs"
-          onClick={() => onRecommendClick(mapData?.id ?? 0)}
-          isActive={mapData?.isRecommended}
-          activeNumber={mapData?.recommendCount}
-        >
-          나도 추천해요
-        </UtilityButton>
-        <UtilityButton iconType="link" onClick={onLinkClick} size="xs">
-          바로가기
-        </UtilityButton>
-      </SRecommendButtonWrapper>
-    </SContainer>
+        <SRecommendButtonWrapper>
+          <UtilityButton
+            iconType="thumb"
+            size="xs"
+            onClick={() => onRecommendClick(mapData?.id ?? 0)}
+            isActive={mapData?.isRecommended}
+            activeNumber={mapData?.recommendCount}
+          >
+            나도 추천해요
+          </UtilityButton>
+          <UtilityButton iconType="link" onClick={onLinkClick} size="xs">
+            바로가기
+          </UtilityButton>
+        </SRecommendButtonWrapper>
+      </SContainer>
+
+      <MobileBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={handleCloseBottomSheet}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+    </>
   );
 };
 
@@ -137,23 +168,6 @@ const SDescription = styled('p', {
 
   flex: 1,
   minWidth: 0,
-});
-
-const SEditButtonWrapper = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-});
-
-const SButtonWrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-});
-
-const SCustomButton = styled(Button, {
-  width: '$45',
-  height: '$32',
 });
 
 const SMoreButton = styled(IconDotsVertical, {

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { styled } from 'stitches.config';
 import { LINK_OPTIONS } from './constant';
 import { MapLinkKey } from './type';
+
 interface LinkModalContentProps {
   onSelect: (link: MapLinkKey | null) => void;
 }
@@ -38,6 +39,8 @@ const LinkModalContent = ({ onSelect }: LinkModalContentProps) => {
   );
 };
 
+export default LinkModalContent;
+
 const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
@@ -61,5 +64,3 @@ const CheckIcon = styled(IconCheck, {
 
   color: '$success',
 });
-
-export default LinkModalContent;
