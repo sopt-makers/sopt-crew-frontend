@@ -3,7 +3,7 @@ import UtilityButton from '@common/button/UtilityButton';
 import { Flex } from '@shared/util/layout/Flex';
 import { fontsObject } from '@sopt-makers/fonts';
 import { IconDotsVertical } from '@sopt-makers/icons';
-import { Button, Tag } from '@sopt-makers/ui';
+import { Tag } from '@sopt-makers/ui';
 import { styled } from 'stitches.config';
 import { getTagVariant } from '../util';
 
@@ -137,23 +137,6 @@ const SDescription = styled('p', {
 
   flex: 1,
   minWidth: 0,
-});
-
-const SEditButtonWrapper = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-});
-
-const SButtonWrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-});
-
-const SCustomButton = styled(Button, {
-  width: '$45',
-  height: '$32',
 });
 
 const SMoreButton = styled(IconDotsVertical, {
