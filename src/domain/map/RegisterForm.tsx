@@ -1,6 +1,8 @@
+import { usePostSoptMapMutation } from '@api/map/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import DescriptionField from './Form/DescriptionField';
@@ -31,15 +33,15 @@ const RegisterForm = () => {
   });
   const { isValid, errors } = formMethods.formState;
 
+  const { mutate: mutateCreateMap } = usePostSoptMapMutation();
+
   const onSubmit: SubmitHandler<FormType> = async formData => {
-    // TODO: API 연결 후 구현
-    console.log('Form Data:', formData);
-    // mutateCreateMap(formData, {
-    //   onSuccess: data => {
-    //     alert('장소를 등록했습니다.');
-    //     router.push(`/map?id=${data.mapId}`);
-    //   },
-    // });
+    mutateCreateMap(formData, {
+      onSuccess: data => {
+        alert('장소를 등록했습니다.');
+        router.push(`/map?id=${data.id}`);
+      },
+    });
   };
 
   const handleSubmit = formMethods.handleSubmit(onSubmit);
