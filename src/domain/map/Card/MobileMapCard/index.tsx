@@ -10,7 +10,7 @@ import { getTagVariant } from '../util';
 interface MobileMapCardProps {
   onDelete: () => void;
   onLinkClick: () => void;
-  onRecommendClick: () => void;
+  onRecommendClick: (mapId: number) => void;
   mapData?: mapData;
 }
 
@@ -41,7 +41,7 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: Mob
         <UtilityButton
           iconType="thumb"
           size="xs"
-          onClick={onRecommendClick}
+          onClick={() => onRecommendClick(mapData?.id ?? 0)}
           isActive={mapData?.isRecommended}
           activeNumber={mapData?.recommendCount}
         >

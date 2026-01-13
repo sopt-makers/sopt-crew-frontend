@@ -9,7 +9,7 @@ import { getTagVariant } from '../util';
 interface DesktopMapCardProps {
   onDelete: () => void;
   onLinkClick: () => void;
-  onRecommendClick: () => void;
+  onRecommendClick: (mapId: number) => void;
   mapData?: mapData;
 }
 const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: DesktopMapCardProps) => {
@@ -33,7 +33,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
           <SRecommendButtonWrapper>
             <UtilityButton
               iconType="thumb"
-              onClick={onRecommendClick}
+              onClick={() => onRecommendClick(mapData?.id ?? 0)}
               isActive={mapData?.isRecommended}
               activeNumber={mapData?.recommendCount}
             >
