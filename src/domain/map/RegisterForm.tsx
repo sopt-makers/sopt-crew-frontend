@@ -74,7 +74,7 @@ const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '60px',
-  '@media (max-width: 768px)': {
+  '@tablet': {
     gap: '56px',
   },
 });
@@ -84,7 +84,7 @@ const SContainer = styled('div', {
   display: 'flex',
   gap: '30px',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     margin: 0,
   },
 });
@@ -94,8 +94,8 @@ const SFormContainer = styled('div', {
   padding: '36px 40px 56px',
   borderRadius: '15px',
 
-  '@media (max-width: 768px)': {
-    padding: '40px 0 0 0',
+  '@tablet': {
+    padding: '40px 0',
     background: '$gray950',
   },
 });
@@ -105,7 +105,7 @@ const SFormName = styled('h1', {
   color: '$gray10',
   marginBottom: '20px',
 
-  '@media (max-width: 768px)': {
+  '@tablet': {
     ...fontsObject.HEADING_4_24_B,
   },
 });
@@ -113,6 +113,15 @@ const SFormName = styled('h1', {
 const ButtonContainer = styled('div', {
   display: 'flex',
   justifyContent: 'end',
+  '& button': {
+    width: '220px',
+  },
+  '@tablet': {
+    width: '100%',
+    '& button': {
+      width: '100%',
+    },
+  },
 });
 
 export default RegisterForm;
