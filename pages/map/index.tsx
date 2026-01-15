@@ -1,4 +1,5 @@
 import Loader from '@common/loader/Loader';
+import FirstRegisterEvent from '@domain/map/FirstRegisterEvent';
 import DesktopMapContainer from '@domain/map/List/DesktopMapContainer';
 import MobileMapContainer from '@domain/map/List/MobileMapContainer';
 import { useDisplay } from '@hook/useDisplay';
@@ -8,6 +9,11 @@ import { Suspense } from 'react';
 const MapPage = () => {
   const { isDesktop } = useDisplay();
 
+  return (
+    <>
+      <FirstRegisterEvent />
+    </>
+  );
   return (
     <div>
       <CrewTab />
