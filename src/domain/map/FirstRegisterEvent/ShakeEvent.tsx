@@ -17,12 +17,7 @@ function ShakeEventContent({ onEndShake }: ShakeEventProps) {
   return (
     <SContainer>
       <SShakeTitle>두구두구두구...</SShakeTitle>
-      <img
-        src="/group/assets/images/mapEvent/crew_event_shake_final.gif"
-        alt="첫 솝맵 등록 축하 선물"
-        width={440}
-        height={440}
-      />
+      <SImage src="/group/assets/images/mapEvent/crew_event_shake_final.gif" alt="첫 솝맵 등록 축하 선물" />
     </SContainer>
   );
 }
@@ -47,12 +42,7 @@ function ShakeEvent({ onEndShake }: ShakeEventProps) {
         <STitle>{`첫 솝맵 등록\n축하 선물이 도착했어요 💝`}</STitle>
         <SDescription>랜덤으로 15명에세 CU 기프티콘을 드려요</SDescription>
       </STitleContainer>
-      <img
-        src="/group/assets/images/mapEvent/crew_event_shake_final.png"
-        alt="첫 솝맵 등록 축하 선물"
-        width={440}
-        height={440}
-      />
+      <SImage src="/group/assets/images/mapEvent/crew_event_shake_final.png" alt="첫 솝맵 등록 축하 선물" />
       <SButton onClick={() => setIsShaking(true)} size="lg" variant="fill" color="primary">
         선물 확인하기
       </SButton>
@@ -102,6 +92,10 @@ const SDescription = styled('p', {
 
 const SButton = styled(Button, {
   width: '560px',
+
+  '@mobile': {
+    width: '320px',
+  },
 });
 
 const SShakeTitle = styled('h1', {
@@ -111,4 +105,14 @@ const SShakeTitle = styled('h1', {
   fontWeight: '700',
   lineHeight: '42px',
   letterSpacing: '-0.56px',
+});
+
+const SImage = styled('img', {
+  width: '440px',
+  height: '440px',
+
+  '@mobile': {
+    width: '360px',
+    height: '360px',
+  },
 });

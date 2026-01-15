@@ -14,3 +14,10 @@ export const putMapRecommendation = async (mapId: number) => {
   const { data } = await api.put(`/api/v2/map/toggle/recommend/${mapId}`);
   return data;
 };
+
+export const postMapEvent = async (soptMapId: number) => {
+  const { data } = await api.post(`/api/v2/map/event`, {
+    soptMapId,
+  });
+  return data;
+};

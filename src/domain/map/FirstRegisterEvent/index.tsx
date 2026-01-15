@@ -10,13 +10,16 @@ enum FirstRegisterEventStep {
 function FirstRegisterEvent() {
   const [step, setStep] = useState<FirstRegisterEventStep>(FirstRegisterEventStep.Shake);
 
+  //TODO(@jnary): API 연결
+  const isWinLottery = true;
+
   const handleEndShake = () => setStep(FirstRegisterEventStep.Result);
 
   switch (step) {
     case FirstRegisterEventStep.Shake:
       return <ShakeEvent onEndShake={handleEndShake} />;
     case FirstRegisterEventStep.Result:
-      return <ResultEvent />;
+      return <ResultEvent isWinLottery={isWinLottery} />;
   }
 }
 
