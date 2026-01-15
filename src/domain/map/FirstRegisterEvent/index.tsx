@@ -11,7 +11,7 @@ function FirstRegisterEvent() {
   const [step, setStep] = useState<FirstRegisterEventStep>(FirstRegisterEventStep.Shake);
 
   //TODO(@jnary): API 연결
-  const isWinLottery = true;
+  const isWinLottery = false;
 
   const handleEndShake = () => setStep(FirstRegisterEventStep.Result);
 

@@ -1,4 +1,6 @@
+import { useUserProfileQueryOption } from '@api/user/query';
 import { Button } from '@sopt-makers/ui';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import router from 'next/router';
 import { styled } from 'stitches.config';
 
@@ -6,12 +8,14 @@ interface ResultEventProps {
   isWinLottery: boolean;
 }
 function ResultEvent({ isWinLottery }: ResultEventProps) {
+  const { data: me } = useSuspenseQuery(useUserProfileQueryOption());
+
   const isWinLotteryConfig = {
     true: {
       title: () => (
         <STitleContainer>
           <STitle>
-            축하해요, <span>user</span>님!
+            축하해요, <span>{me.name}</span>님!
             <br />
             CU 기프티콘에 당첨됐어요 🎉
           </STitle>
@@ -65,6 +69,10 @@ const SContainer = styled('section', {
 
   margin: '80px auto',
   width: '100%',
+
+  '@mobile': {
+    margin: '48px auto',
+  },
 });
 
 const STitleContainer = styled('div', {

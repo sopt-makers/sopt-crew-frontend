@@ -10,6 +10,7 @@ import MeetingListOfApplied from '@domain/list/Meeting/MeetingListOfApplied';
 import MeetingListOfMine from '@domain/list/Meeting/MeetingListOfMine';
 import CrewTab from '@shared/CrewTab';
 
+import FirstRegisterEvent from '@domain/map/FirstRegisterEvent';
 import KakaoFloatingButton from '@shared/FloatingButton/kakaoFloatingButton/KakaoFloatingButton';
 
 const enum MeetingType {
@@ -22,6 +23,8 @@ const MinePage: NextPage = () => {
     'meetingType',
     MeetingType.APPLIED
   );
+
+  return <FirstRegisterEvent />;
 
   return (
     <div>

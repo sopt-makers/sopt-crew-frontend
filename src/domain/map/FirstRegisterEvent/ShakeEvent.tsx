@@ -60,6 +60,10 @@ const SContainer = styled('section', {
 
   margin: '80px auto',
   width: '100%',
+
+  '@mobile': {
+    margin: '48px auto',
+  },
 });
 
 const STitleContainer = styled('div', {
