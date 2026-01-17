@@ -35,7 +35,7 @@ const CrewTab = ({ children }: { children?: ReactNode }) => {
             {/* 홍보 이후 New 키워드 제거 */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               솝맵
-              <Tag size="md" shape="pill" variant="primary">
+              <Tag size="md" shape="rect" variant="primary">
                 New
               </Tag>
             </div>
