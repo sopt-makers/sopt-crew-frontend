@@ -8,15 +8,16 @@ const TAG_LABEL_MAP: Record<string, string> = {
 };
 
 export const deserializeSoptMapData = (data: GetMapDetail['response']): FormType => {
-  const categoryLabel = data.tags?.[0] ?? TAG_LABEL_MAP[data.tags?.[0] ?? ''] ?? '';
+  const code = data.tags?.[0];
+  const label = code ? TAG_LABEL_MAP[code] ?? '' : '';
 
   return {
     name: data.placeName ?? '',
     subwayStations: data.stationNames?.map(station => ({ name: station })) ?? [],
     description: data.description ?? '',
     category: {
-      label: categoryLabel,
-      value: categoryLabel,
+      label,
+      value: label,
     },
     links: {
       naverMapLink: data.naverLink ?? '',
