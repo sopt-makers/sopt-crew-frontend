@@ -12,7 +12,10 @@ import NameField from './Form/NameField';
 import SubwayField from './Form/SubwayField';
 import { FormType, formSchema } from './Form/type';
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+  onFirstRegistered: (id?: number) => void;
+}
+const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -39,6 +42,12 @@ const RegisterForm = () => {
     mutateCreateMap(formData, {
       onSuccess: data => {
         alert('장소를 등록했습니다.');
+
+        if (data.firstRegistered) {
+          onFirstRegistered(data.id);
+          return;
+        }
+
         router.push(`/map?id=${data.id}`);
       },
     });

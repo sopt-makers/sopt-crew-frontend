@@ -14,3 +14,13 @@ export type GetMapList = {
 };
 
 export type mapData = GetMapList['response']['soptMaps'][number];
+
+export type GetMapEvent = {
+  request: paths['/api/v2/map/event/{soptMapId}']['get']['parameters']['path'];
+  response: paths['/api/v2/map/event/{soptMapId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+};
+
+export type GetMapEventGift = {
+  request: paths['/api/v2/map/gift/{soptMapId}']['get']['parameters']['path'];
+  response: paths['/api/v2/map/gift/{soptMapId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+};
