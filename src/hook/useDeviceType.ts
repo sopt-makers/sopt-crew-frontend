@@ -9,7 +9,9 @@ export const useDeviceType = () => {
   useEffect(() => {
     const ua = navigator.userAgent;
 
-    const mobileRegex = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    const mobileRegex =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone|Kindle|Silk|Mobile/i;
+
     const isMobileUserAgent = mobileRegex.test(ua);
 
     const isIpadOS = ua.includes('Macintosh') && navigator.maxTouchPoints > 1;
