@@ -1,6 +1,7 @@
 import MapQueryKey from '@api/map/MapQueryKey';
 import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
+import { useDeviceType } from '@hook/useDeviceType';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,11 +17,15 @@ interface MapCardProps {
   mapData: mapData;
 }
 
+const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
+
 const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
   const { mutate: deleteMap } = useDeleteMapMutation();
   const { mutate: recommendMap } = useRecommendMapMutation();
+  const { isMobile } = useDeviceType();
+
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
   const queryClient = useQueryClient();
 
@@ -32,6 +37,18 @@ const MapCard = ({ mapData }: MapCardProps) => {
     selectedLinkRef.current = link;
   };
 
+  const handleOpenUrl = (url: string | undefined) => {
+    if (!url) return;
+
+    let targetUrl = url;
+
+    if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+      targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
+    }
+
+    window.open(targetUrl, '_blank');
+  };
+
   const handleLinkMove = () => {
     const selectedKey = selectedLinkRef.current;
 
@@ -40,12 +57,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
       return;
     }
 
-    const targetUrl = mapData[selectedKey];
-
-    if (targetUrl) {
-      window.open(targetUrl, '_blank');
-    }
-
+    handleOpenUrl(mapData[selectedKey]);
     close();
   };
 
@@ -87,9 +99,10 @@ const MapCard = ({ mapData }: MapCardProps) => {
     selectedLinkRef.current = null;
 
     if (hasNaverLink !== hasKakaoLink) {
-      window.open(mapData.naverLink || mapData.kakaoLink, '_blank');
+      handleOpenUrl(mapData.naverLink || mapData.kakaoLink);
       return;
     }
+
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
       description: <LinkModalContent onSelect={handleLinkSelect} />,
