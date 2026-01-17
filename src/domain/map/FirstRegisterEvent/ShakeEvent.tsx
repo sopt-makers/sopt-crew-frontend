@@ -40,7 +40,7 @@ function ShakeEvent({ onEndShake }: ShakeEventProps) {
     <SContainer>
       <STitleContainer>
         <STitle>{`첫 솝맵 등록\n축하 선물이 도착했어요 💝`}</STitle>
-        <SDescription>랜덤으로 15명에세 CU 기프티콘을 드려요</SDescription>
+        <SDescription>랜덤으로 15명에게 CU 기프티콘을 드려요</SDescription>
       </STitleContainer>
       <SImage src="/group/assets/images/mapEvent/crew_event_shake_final.png" alt="첫 솝맵 등록 축하 선물" />
       <SButton onClick={() => setIsShaking(true)} size="lg" variant="fill" color="primary">
