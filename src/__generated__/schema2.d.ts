@@ -50,6 +50,8 @@ export interface paths {
     delete: operations["deleteComment"];
   };
   "/api/v2/map/{soptMapId}": {
+    /** 솝맵 상세 조회 api */
+    get: operations["getSoptMapDetail"];
     /** 솝맵 수정 api */
     put: operations["updateSoptMap"];
     /** 솝맵 삭제 api */
@@ -2746,6 +2748,72 @@ export interface components {
        */
       isCreator?: boolean;
     };
+    /** @description 솝맵 상세조회 응답 Dto */
+    SoptMapDetailResponseDto: {
+      /**
+       * Format: int64
+       * @description 솝맵 ID
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description 장소 이름
+       * @example 온더플랜
+       */
+      placeName?: string;
+      /**
+       * @description 한줄 소개
+       * @example 장소 너무 좋아요
+       */
+      description?: string;
+      /**
+       * @description 장소 태그
+       * @example [
+       *   "FOOD",
+       *   "CAFE"
+       * ]
+       */
+      tags?: ("FOOD" | "CAFE" | "ETC")[];
+      /**
+       * @description 주변 지하철역 이름
+       * @example [
+       *   "강남역",
+       *   "건대입구역"
+       * ]
+       */
+      stationNames?: string[];
+      /**
+       * Format: int64
+       * @description 추천 수
+       * @example 5
+       */
+      recommendCount?: number;
+      /**
+       * @description 현재 유저의 추천 여부
+       * @example true
+       */
+      isRecommended?: boolean;
+      /**
+       * @description kakao 맵 링크
+       * @example https://~~~
+       */
+      kakaoLink?: string;
+      /**
+       * @description naver 맵 링크
+       * @example https://~~~
+       */
+      naverLink?: string;
+      /**
+       * @description 장소 등록한 사람의 이름
+       * @example 김효준
+       */
+      creatorName?: string;
+      /**
+       * @description 내가 등록했는지
+       * @example false
+       */
+      isCreator?: boolean;
+    };
     SearchSubwayStationResponse: {
       stations?: components["schemas"]["SubwayStationDto"][];
     };
@@ -3022,6 +3090,32 @@ export interface operations {
     responses: {
       /** @description 성공 */
       204: never;
+    };
+  };
+  /** 솝맵 상세 조회 api */
+  getSoptMapDetail: {
+    parameters: {
+      path: {
+        /**
+         * @description 솝맵 ID
+         * @example 1
+         */
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapDetailResponseDto"];
+        };
+      };
+      /** @description 솝맵을 찾을 수 없음 */
+      404: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapDetailResponseDto"];
+        };
+      };
     };
   };
   /** 솝맵 수정 api */

@@ -1,5 +1,13 @@
 import { api } from '@api/index';
-import { GetMapEvent, GetMapEventGift, GetMapList, GetSearchSubwayResponse, PostSoptMap } from '@api/map/type';
+import {
+  GetMapDetail,
+  GetMapEvent,
+  GetMapEventGift,
+  GetMapList,
+  GetSearchSubwayResponse,
+  PostSoptMap,
+  PutSoptMap,
+} from '@api/map/type';
 
 export const getSearchSubway = async (query: string) => {
   return (
@@ -11,6 +19,10 @@ export const getSearchSubway = async (query: string) => {
 
 export const postSoptMap = async (body: PostSoptMap['request']): Promise<PostSoptMap['response']> => {
   return (await api.post<PostSoptMap['response']>('/api/v2/map', body)).data;
+};
+
+export const putSoptMap = async (body: PutSoptMap['request'], soptMapId: number): Promise<PutSoptMap['response']> => {
+  return (await api.put<PutSoptMap['response']>(`/api/v2/map/${soptMapId}`, body)).data;
 };
 
 export const getMapList = async (params: GetMapList['request']) => {
@@ -34,5 +46,10 @@ export const getMapEvent = async ({ soptMapId }: GetMapEvent['request']) => {
 
 export const getMapEventGift = async ({ soptMapId }: GetMapEventGift['request']) => {
   const { data } = await api.get<GetMapEventGift['response']>(`/api/v2/map/gift/${soptMapId}`);
+  return data;
+};
+
+export const getMapDetail = async ({ soptMapId }: GetMapDetail['request']) => {
+  const { data } = await api.get<GetMapDetail['response']>(`/api/v2/map/${soptMapId}`);
   return data;
 };
