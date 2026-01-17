@@ -3,6 +3,7 @@ import LocalStorage from '@/store/localStorage/LocalStorage';
 import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { usePostMeetingMutation } from '@api/meeting/mutation';
 import useDraftCreateMeeting from '@domain/meeting/DraftCreateMeetingModal';
+import useThrottle from '@hook/useThrottle';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Presentation from '@shared/form/Presentation';
 import TableOfContents from '@shared/form/TableOfContents';
@@ -14,7 +15,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
-import useThrottle from '@hook/useThrottle';
 
 const DevTool = dynamic(() => import('@hookform/devtools').then(module => module.DevTool), {
   ssr: false,
@@ -54,7 +54,7 @@ const MakePage = () => {
   const onSubmit: SubmitHandler<FormType> = async formData => {
     mutateCreateMeeting(formData, {
       onSuccess: data => {
-        ampli.completedMakeGroup();
+        ampli.completedMakeGroup({ from_resume: false });
         submittedRef.current = true;
         removeDraftCreateMeeting();
         alert('모임을 개설했습니다.');

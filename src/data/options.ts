@@ -72,3 +72,9 @@ export const keywordSettiongOptions: KeywordSettingOptionType[] = [
   '자기계발',
   '네트워킹',
 ];
+
+export const locationKeywordOptions = [
+  { label: '맛집', value: '맛집' },
+  { label: '카페', value: '카페' },
+  { label: '기타', value: '기타' },
+];

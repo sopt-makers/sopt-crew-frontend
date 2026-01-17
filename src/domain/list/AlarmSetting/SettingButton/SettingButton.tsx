@@ -18,7 +18,6 @@ const SettingButton = ({ onClick, selectedKeywords }: SettingButtonProps) => {
     return (
       <SSettingButton onClick={onClick}>
         <SIconBell />
-        키워드 알림 설정
       </SSettingButton>
     );
   }
@@ -26,7 +25,6 @@ const SettingButton = ({ onClick, selectedKeywords }: SettingButtonProps) => {
   if (isTablet) {
     return (
       <SSettingButton onClick={onClick}>
-        키워드 알림 설정
         <SIconBell />
       </SSettingButton>
     );

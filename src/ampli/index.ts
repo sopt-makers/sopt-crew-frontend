@@ -145,7 +145,7 @@ export interface ApplyMultiplefilterProperties {
   /**
    * 유저의 활동 기수 선택 여부를 파악합니다.
    */
-  "Applied-generation"?: boolean;
+  "Applied-generation": boolean;
   /**
    * 유저가 선택한 키워드를 의미합니다.
    */
@@ -158,6 +158,21 @@ export interface ApplyMultiplefilterProperties {
    * 유저가 선택한 모집 상태를 의미합니다.
    */
   "Applied-status"?: string;
+}
+
+export interface ApplySoptmapFilterProperties {
+  /**
+   * 솝맵에서 유저가 선택한 카테고리 필터값을 의미
+   */
+  soptmap_category?: string;
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
 }
 
 export interface AttachFeedPhotoProperties {
@@ -212,6 +227,21 @@ export interface ClickCommentLikeProperties {
    * 모임의 소속 구성원 여부를 의미합니다.
    */
   crew_status?: boolean;
+}
+
+export interface ClickDraftDialogProperties {
+  /**
+   * 임시저장 다이얼로그가 노출되었을 때 사용자가 어떤 버튼을 선택했는지를 의미합니다.
+   *
+   * * \[새로 쓰기\] 버튼 클릭 시 **new**
+   *
+   * * \[이어서 쓰기\] 버튼 클릭 시 **resume**
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | new, resume |
+   */
+  dialog_action: "new" | "resume";
 }
 
 export interface ClickFeedCardProperties {
@@ -672,6 +702,10 @@ export interface CompletedFeedPostingCanceledProperties {
 
 export interface CompletedMakeGroupProperties {
   /**
+   * 사용자가 ‘이어서 쓰기’를 통해 모임 개설하기 페이지에 진입했는지를 의미합니다.
+   */
+  from_resume: boolean;
+  /**
    * | Rule | Value |
    * |---|---|
    * | Regex |  |
@@ -692,6 +726,13 @@ export interface CompletedRegisterGroupProperties {
    * | Type | integer |
    */
   user_id?: number;
+}
+
+export interface CreateGatheringProperties {
+  /**
+   * 익명화 ON/OFF 여부
+   */
+  "is-anonymous-toggle-on": boolean;
 }
 
 export interface FilterListOptionManagementProperties {
@@ -734,6 +775,17 @@ export interface StartGroupProperties {
   screen_width: number;
 }
 
+export interface ViewSoptmapTabProperties {
+  /**
+   * 플레이그라운드 DB 기반 유저의 고유한 ID를 의미합니다.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  user_id?: number;
+}
+
 export class Identify implements BaseEvent {
   event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
@@ -758,7 +810,17 @@ export class ApplyMultiplefilter implements BaseEvent {
   event_type = 'Apply-multiplefilter';
 
   constructor(
-    public event_properties?: ApplyMultiplefilterProperties,
+    public event_properties: ApplyMultiplefilterProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ApplySoptmapFilter implements BaseEvent {
+  event_type = 'Apply-soptmapFilter';
+
+  constructor(
+    public event_properties?: ApplySoptmapFilterProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -799,6 +861,16 @@ export class ClickCommentLike implements BaseEvent {
 
   constructor(
     public event_properties?: ClickCommentLikeProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ClickDraftDialog implements BaseEvent {
+  event_type = 'Click-draft-dialog';
+
+  constructor(
+    public event_properties: ClickDraftDialogProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1140,7 +1212,7 @@ export class CompletedMakeGroup implements BaseEvent {
   event_type = 'Completed-makeGroup';
 
   constructor(
-    public event_properties?: CompletedMakeGroupProperties,
+    public event_properties: CompletedMakeGroupProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1151,6 +1223,16 @@ export class CompletedRegisterGroup implements BaseEvent {
 
   constructor(
     public event_properties?: CompletedRegisterGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CreateGathering implements BaseEvent {
+  event_type = 'Create-gathering';
+
+  constructor(
+    public event_properties: CreateGatheringProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1191,6 +1273,16 @@ export class StartGroup implements BaseEvent {
 
   constructor(
     public event_properties: StartGroupProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ViewSoptmapTab implements BaseEvent {
+  event_type = 'View-soptmapTab';
+
+  constructor(
+    public event_properties?: ViewSoptmapTabProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -1341,10 +1433,27 @@ export class Ampli {
    * @param options Amplitude event options.
    */
   applyMultiplefilter(
-    properties?: ApplyMultiplefilterProperties,
+    properties: ApplyMultiplefilterProperties,
     options?: EventOptions,
   ) {
     return this.track(new ApplyMultiplefilter(properties), options);
+  }
+
+  /**
+   * Apply-soptmapFilter
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Apply-soptmapFilter)
+   *
+   * 솝맵 내에서 카테고리 필터 적용 시 발생하는 이벤트
+   *
+   * @param properties The event's properties (e.g. soptmap_category)
+   * @param options Amplitude event options.
+   */
+  applySoptmapFilter(
+    properties?: ApplySoptmapFilterProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ApplySoptmapFilter(properties), options);
   }
 
   /**
@@ -1413,6 +1522,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new ClickCommentLike(properties), options);
+  }
+
+  /**
+   * Click-draft-dialog
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Click-draft-dialog)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. dialog_action)
+   * @param options Amplitude event options.
+   */
+  clickDraftDialog(
+    properties: ClickDraftDialogProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ClickDraftDialog(properties), options);
   }
 
   /**
@@ -2011,11 +2137,11 @@ export class Ampli {
    *
    * 모임 개설이 완료된 케이스
    *
-   * @param properties The event's properties (e.g. url)
+   * @param properties The event's properties (e.g. from_resume)
    * @param options Amplitude event options.
    */
   completedMakeGroup(
-    properties?: CompletedMakeGroupProperties,
+    properties: CompletedMakeGroupProperties,
     options?: EventOptions,
   ) {
     return this.track(new CompletedMakeGroup(properties), options);
@@ -2036,6 +2162,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new CompletedRegisterGroup(properties), options);
+  }
+
+  /**
+   * Create-gathering
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/Create-gathering)
+   *
+   * 모임 개설
+   *
+   * @param properties The event's properties (e.g. is-anonymous-toggle-on)
+   * @param options Amplitude event options.
+   */
+  createGathering(
+    properties: CreateGatheringProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CreateGathering(properties), options);
   }
 
   /**
@@ -2104,6 +2247,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new StartGroup(properties), options);
+  }
+
+  /**
+   * View-soptmapTab
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/sopt-makers/sopt-makers-crew/events/main/latest/View-soptmapTab)
+   *
+   * 사용자가 '솝맵' 탭에 진입 시 발생하는 이벤트
+   *
+   * @param properties The event's properties (e.g. user_id)
+   * @param options Amplitude event options.
+   */
+  viewSoptmapTab(
+    properties?: ViewSoptmapTabProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ViewSoptmapTab(properties), options);
   }
 }
 

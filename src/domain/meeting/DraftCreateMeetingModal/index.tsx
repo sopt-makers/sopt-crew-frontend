@@ -1,3 +1,4 @@
+import { ampli } from '@/ampli';
 import LocalStorage from '@/store/localStorage/LocalStorage';
 import LocalStorageKey from '@/store/localStorage/LocalStorageKey';
 import { useDialog } from '@sopt-makers/ui';
@@ -29,10 +30,12 @@ const useDraftCreateMeeting = () => {
           cancelButtonText: '새로 쓰기',
           approveButtonText: '이어서 쓰기',
           onCancel: () => {
+            ampli.clickDraftDialog({ dialog_action: 'new' });
             removeDraftCreateMeeting();
             closeDialog();
           },
           onApprove: () => {
+            ampli.clickDraftDialog({ dialog_action: 'resume' });
             setDraftFormValues(formValues);
             closeDialog();
           },
