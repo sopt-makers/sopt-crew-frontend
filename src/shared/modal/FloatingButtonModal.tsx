@@ -21,7 +21,9 @@ const FloatingButtonModal = ({ isActive }: { isActive: boolean }) => {
   };
 
   const handleMapRegisterButtonClick = () => {
-    // TODO: 솝맵 등록 페이지 라우팅 & ampli 이벤트 추가
+    // TODO: 솝맵 등록 페이지 ampli 이벤트 추가
+    // ampli.clickMapRegister({ location: router.pathname });
+    router.push('/map/register');
   };
 
   return (

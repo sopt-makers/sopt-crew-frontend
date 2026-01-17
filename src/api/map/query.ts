@@ -5,10 +5,17 @@ import {
   useStationKeywordParams,
 } from '@hook/queryString/custom';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
-import { getMapList } from '.';
+import { getMapList, getSearchSubway } from '.';
 import { SERVER_CATEGORY_MAP } from './constant';
 import MapQueryKey from './MapQueryKey';
 import { GetMapList } from './type';
+
+export const useSearchSubwayQueryOption = (query: string) => {
+  return queryOptions({
+    queryKey: MapQueryKey.searchSubway(query),
+    queryFn: () => getSearchSubway(query),
+  });
+};
 
 type MapListRequest = NonNullable<GetMapList['request']>;
 

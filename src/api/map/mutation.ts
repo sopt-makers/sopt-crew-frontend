@@ -1,9 +1,20 @@
+import { FormType } from '@domain/map/Form/type';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
-import { deleteMap, putMapRecommendation } from '.';
+import { deleteMap, postSoptMap, putMapRecommendation } from '.';
 import MapQueryKey from './MapQueryKey';
+import { serializeSoptMapData } from './serialize';
 import { GetMapList } from './type';
 import { visitMapCache } from './util';
+
+export const usePostSoptMapMutation = () => {
+  return useMutation({
+    mutationFn: (formData: FormType) => postSoptMap(serializeSoptMapData(formData)),
+    onError: () => {
+      alert('솝맵을 등록하지 못했습니다.');
+    },
+  });
+};
 
 export const useDeleteMapMutation = () => {
   const queryClient = useQueryClient();
