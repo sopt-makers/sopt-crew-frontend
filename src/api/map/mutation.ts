@@ -11,7 +11,7 @@ export const usePostSoptMapMutation = () => {
   return useMutation({
     mutationFn: (formData: FormType) => postSoptMap(serializeSoptMapData(formData)),
     onError: () => {
-      alert('솝맵을 등록하지 못했습니다.');
+      alert('이미 등록된 장소가 있습니다');
     },
   });
 };
