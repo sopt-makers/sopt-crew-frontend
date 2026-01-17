@@ -1,6 +1,6 @@
 import { useMapEventGiftQueryOption, useMapEventQueryOption } from '@api/map/query';
 import { Suspense } from '@suspensive/react';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import ResultEvent from './ResultEvent';
 import ShakeEvent from './ShakeEvent';
@@ -17,8 +17,11 @@ interface FirstRegisterEventProps {
 function FirstRegisterEvent({ mapId }: FirstRegisterEventProps) {
   const [step, setStep] = useState<FirstRegisterEventStep>(FirstRegisterEventStep.Shake);
 
-  const [{ data: mapEvent }, { data: mapEventGift }] = useSuspenseQueries({
-    queries: [useMapEventQueryOption(mapId), useMapEventGiftQueryOption(mapId)],
+  const { data: mapEvent } = useSuspenseQuery(useMapEventQueryOption(mapId));
+  const { data: mapEventGift } = useQuery({
+    ...useMapEventGiftQueryOption(mapId),
+    enabled: !!mapEvent.isWinLottery,
+    initialData: { giftId: undefined, giftUrl: undefined },
   });
 
   const isWinLottery = mapEvent.isWinLottery ?? false;
