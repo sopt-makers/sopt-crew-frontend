@@ -5,10 +5,10 @@ import {
   useStationKeywordParams,
 } from '@hook/queryString/custom';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
-import { getMapList, getSearchSubway } from '.';
+import { getMapEvent, getMapEventGift, getMapList, getSearchSubway } from '.';
 import { SERVER_CATEGORY_MAP } from './constant';
 import MapQueryKey from './MapQueryKey';
-import { GetMapList } from './type';
+import { GetMapEvent, GetMapEventGift, GetMapList } from './type';
 
 export const useSearchSubwayQueryOption = (query: string) => {
   return queryOptions({
@@ -72,5 +72,19 @@ export const useMapListInfiniteQueryOption = () => {
       const isLastPage = lastPage.soptMaps.length < TAKES_PER_PAGE;
       return isLastPage ? undefined : allPages.length + 1;
     },
+  });
+};
+
+export const useMapEventQueryOption = (soptMapId: number) => {
+  return queryOptions<GetMapEvent['response']>({
+    queryKey: MapQueryKey.event(soptMapId),
+    queryFn: () => getMapEvent({ soptMapId }),
+  });
+};
+
+export const useMapEventGiftQueryOption = (soptMapId: number) => {
+  return queryOptions<GetMapEventGift['response']>({
+    queryKey: MapQueryKey.eventGift(soptMapId),
+    queryFn: () => getMapEventGift({ soptMapId }),
   });
 };

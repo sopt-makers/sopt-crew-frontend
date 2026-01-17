@@ -1,5 +1,5 @@
 import { api } from '@api/index';
-import { GetMapList, GetSearchSubwayResponse, PostSoptMap } from '@api/map/type';
+import { GetMapEvent, GetMapEventGift, GetMapList, GetSearchSubwayResponse, PostSoptMap } from '@api/map/type';
 
 export const getSearchSubway = async (query: string) => {
   return (
@@ -27,9 +27,12 @@ export const putMapRecommendation = async (mapId: number) => {
   return data;
 };
 
-export const postMapEvent = async (soptMapId: number) => {
-  const { data } = await api.post(`/api/v2/map/event`, {
-    soptMapId,
-  });
+export const getMapEvent = async ({ soptMapId }: GetMapEvent['request']) => {
+  const { data } = await api.get<GetMapEvent['response']>(`/api/v2/map/event/${soptMapId}`);
+  return data;
+};
+
+export const getMapEventGift = async ({ soptMapId }: GetMapEventGift['request']) => {
+  const { data } = await api.get<GetMapEventGift['response']>(`/api/v2/map/gift/${soptMapId}`);
   return data;
 };

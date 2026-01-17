@@ -142,11 +142,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 
 const Layout = styled('div', {
-  minHeight: '100vh',
   color: theme.colors.white,
   mx: '$auto',
   marginTop: '128px',
   width: '1200px',
+  height: '100%',
 
   '@laptop': {
     width: '790px',

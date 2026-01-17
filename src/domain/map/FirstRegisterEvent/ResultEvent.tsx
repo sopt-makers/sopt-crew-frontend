@@ -6,8 +6,9 @@ import { styled } from 'stitches.config';
 
 interface ResultEventProps {
   isWinLottery: boolean;
+  giftUrl?: string;
 }
-function ResultEvent({ isWinLottery }: ResultEventProps) {
+function ResultEvent({ isWinLottery, giftUrl }: ResultEventProps) {
   const { data: me } = useSuspenseQuery(useUserProfileQueryOption());
 
   const isWinLotteryConfig = {
@@ -26,7 +27,7 @@ function ResultEvent({ isWinLottery }: ResultEventProps) {
       alt: '첫 솝맵 등록 축하 선물 당첨 성공',
       buttonText: '선물 받으러 가기  >',
       onButtonClick: () => {
-        window.open('https://kakaopay.com/send', '_blank');
+        window.open(giftUrl, '_blank');
       },
     },
     false: {
