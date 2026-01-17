@@ -165,10 +165,6 @@ export interface paths {
     /** 솝맵 등록 api */
     post: operations["createSoptMap"];
   };
-  "/api/v2/map/event": {
-    /** 이벤트 당첨 여부 확인 */
-    post: operations["eventSoptMap"];
-  };
   "/user/v2": {
     /** 전체 사용자 조회 */
     get: operations["getAllUser"];
@@ -289,6 +285,14 @@ export interface paths {
   "/api/v2/map/search/subway": {
     /** 지하철역 검색 api */
     get: operations["findSubwayStations"];
+  };
+  "/api/v2/map/gift/{soptMapId}": {
+    /** 이벤트 선물 지급 여부 확인 */
+    get: operations["giftedSoptMap"];
+  };
+  "/api/v2/map/event/{soptMapId}": {
+    /** 이벤트 당첨 여부 확인 */
+    get: operations["eventSoptMap"];
   };
   "/advertisement/v2": {
     /**
@@ -955,17 +959,6 @@ export interface components {
        * @example https://map~~~~
        */
       kakaoLink?: string;
-    };
-    CheckEventWinningRequest: {
-      /**
-       * Format: int64
-       * @description 이벤트 대상 솝맵 id
-       * @example 1
-       */
-      soptMapId: number;
-    };
-    SoptMapEventResponse: {
-      isWinLottery?: boolean;
     };
     SlackUpdateEmojiEventRequestDto: {
       identifiedPwd?: string;
@@ -2768,6 +2761,14 @@ export interface components {
        */
       subwayLines?: string[];
     };
+    SoptMapGiftResponse: {
+      /** Format: int64 */
+      giftId?: number;
+      giftUrl?: string;
+    };
+    SoptMapEventResponse: {
+      isWinLottery?: boolean;
+    };
     /** @description 광고 구좌 이미지 Dto */
     AdvertisementGetDto: {
       /**
@@ -3658,22 +3659,6 @@ export interface operations {
       };
     };
   };
-  /** 이벤트 당첨 여부 확인 */
-  eventSoptMap: {
-    requestBody: {
-      content: {
-        "application/json;charset=UTF-8": components["schemas"]["CheckEventWinningRequest"];
-      };
-    };
-    responses: {
-      /** @description 성공 */
-      200: {
-        content: {
-          "application/json;charset=UTF-8": components["schemas"]["SoptMapEventResponse"];
-        };
-      };
-    };
-  };
   /** 전체 사용자 조회 */
   getAllUser: {
     responses: {
@@ -4167,6 +4152,38 @@ export interface operations {
       404: {
         content: {
           "application/json;charset=UTF-8": components["schemas"]["SearchSubwayStationResponse"];
+        };
+      };
+    };
+  };
+  /** 이벤트 선물 지급 여부 확인 */
+  giftedSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapGiftResponse"];
+        };
+      };
+    };
+  };
+  /** 이벤트 당첨 여부 확인 */
+  eventSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapEventResponse"];
         };
       };
     };
