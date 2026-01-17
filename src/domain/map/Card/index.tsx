@@ -1,32 +1,48 @@
+import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
+import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
+import { MapLinkKey } from '../Filter/Modal/type';
 import DesktopMapCard from './DesktopMapCard';
 import MobileMapCard from './MobileMapCard';
 
-const MapCard = () => {
+interface MapCardProps {
+  mapData: mapData;
+}
+
+const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
-  const selectedLinkRef = useRef('');
+  const { mutate: deleteMap } = useDeleteMapMutation();
+  const { mutate: recommendMap } = useRecommendMapMutation();
+  const selectedLinkRef = useRef<MapLinkKey | null>(null);
 
-  const handleLinkSelect = (link: string) => {
+  const handleRecommendClick = (mapId: number) => {
+    recommendMap(mapId);
+  };
+
+  const handleLinkSelect = (link: MapLinkKey | null) => {
     selectedLinkRef.current = link;
   };
 
-  const handleMove = () => {
-    const currentLink = selectedLinkRef.current;
+  const handleLinkMove = () => {
+    const selectedKey = selectedLinkRef.current;
 
-    if (!currentLink) {
+    if (!selectedKey || !mapData) {
+      close();
       return;
     }
 
-    close();
-  };
+    const targetUrl = mapData[selectedKey];
 
-  const handleRecommendClick = () => {
-    console.log('추천 클릭');
+    if (targetUrl) {
+      window.open(targetUrl, '_blank');
+    }
+
+    close();
   };
 
   const handleDeleteModalOpen = () => {
@@ -37,15 +53,34 @@ const MapCard = () => {
       typeOptions: {
         cancelButtonText: '취소',
         approveButtonText: '삭제하기',
-        onApprove: close,
+        onApprove: () => {
+          if (!mapData?.id) {
+            close();
+            return;
+          }
+
+          deleteMap(mapData.id);
+          close();
+        },
       },
     };
     open(dialogOption);
   };
 
   const handleLinkModalOpen = () => {
-    // TODO: 외부 링크 2개일때만 모달 오픈하도록 분기 처리
+    const hasNaverLink = !!mapData?.naverLink;
+    const hasKakaoLink = !!mapData?.kakaoLink;
 
+    if (!hasNaverLink && !hasKakaoLink) {
+      return;
+    }
+
+    selectedLinkRef.current = null;
+
+    if (hasNaverLink !== hasKakaoLink) {
+      window.open(mapData.naverLink || mapData.kakaoLink, '_blank');
+      return;
+    }
     const dialogOption: DialogOptionType = {
       title: '어떤 링크로 이동할까요?',
       description: <LinkModalContent onSelect={handleLinkSelect} />,
@@ -53,7 +88,7 @@ const MapCard = () => {
       typeOptions: {
         cancelButtonText: '취소',
         approveButtonText: '이동하기',
-        onApprove: handleMove,
+        onApprove: handleLinkMove,
       },
     };
     open(dialogOption);
@@ -63,12 +98,14 @@ const MapCard = () => {
     <CardWrapper>
       {isDesktop ? (
         <DesktopMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
         />
       ) : (
         <MobileMapCard
+          mapData={mapData}
           onDelete={handleDeleteModalOpen}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
