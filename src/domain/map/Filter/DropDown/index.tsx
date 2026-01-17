@@ -1,8 +1,11 @@
+import { ampli } from '@/ampli';
+import { useUserProfileQueryOption } from '@api/user/query';
 import { FilterType } from '@constant/option';
 import { useMultiQueryString } from '@hook/queryString';
 import useDebounce from '@hook/useDebounce';
 import { SelectV2 } from '@sopt-makers/ui';
 import { css } from '@stitches/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
 interface DropDownFilterProps {
@@ -21,6 +24,7 @@ const getAutoClass = (width?: string) =>
 function MapDropDownFilter({ filter, width }: DropDownFilterProps) {
   const { subject, options, label } = filter;
   const { value: selectedValue, setValue, deleteKey } = useMultiQueryString(subject);
+  const { data: user } = useSuspenseQuery(useUserProfileQueryOption());
 
   const [rawSelected, setRawSelected] = useState<string[]>([]);
   const debounceValue = useDebounce(rawSelected, 800);
@@ -41,10 +45,8 @@ function MapDropDownFilter({ filter, width }: DropDownFilterProps) {
       return deleteKey();
     }
     setRawSelected(values);
-    handleAmpliLog(values);
+    ampli.applySoptmapFilter({ soptmap_category: values.join(','), user_id: user.id });
   };
-
-  const handleAmpliLog = (value: string[]) => {};
 
   useEffect(() => {
     if (debounceValue && rawSelected?.length > 0) {
