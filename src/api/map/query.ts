@@ -5,7 +5,7 @@ import {
   useStationKeywordParams,
 } from '@hook/queryString/custom';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
-import { getSearchSubway, getMapList } from '.';
+import { getMapList, getSearchSubway } from '.';
 import { SERVER_CATEGORY_MAP } from './constant';
 import MapQueryKey from './MapQueryKey';
 import { GetMapList } from './type';
