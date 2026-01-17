@@ -48,7 +48,7 @@ const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
           return;
         }
 
-        router.push(`/map?id=${data.id}`);
+        router.push('/map');
       },
     });
   };
