@@ -1,3 +1,4 @@
+import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 import { styled } from 'stitches.config';
@@ -63,6 +64,7 @@ const SContainer = styled('section', {
 
   '@mobile': {
     margin: '48px auto',
+    marginTop: '104px',
   },
 });
 
@@ -77,8 +79,11 @@ const STitle = styled('h1', {
   whiteSpace: 'pre-line',
   textAlign: 'center',
 
-  fontSize: '28px',
-  fontWeight: '700',
+  ...fontsObject.HEADING_3_28_B,
+
+  '@mobile': {
+    ...fontsObject.HEADING_4_24_B,
+  },
   lineHeight: '42px',
   letterSpacing: '-0.56px',
 
@@ -86,8 +91,12 @@ const STitle = styled('h1', {
 });
 
 const SDescription = styled('p', {
-  fontSize: '18px',
-  fontWeight: '500',
+  ...fontsObject.BODY_1_18_M,
+
+  '@mobile': {
+    ...fontsObject.BODY_2_16_M,
+  },
+
   lineHeight: '30px',
   letterSpacing: '-0.27px',
 

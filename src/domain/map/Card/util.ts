@@ -7,9 +7,9 @@ export const getTagVariant = (tagName: MapTagType) => {
     case 'CAFE':
       return 'primary';
     case 'ETC':
-      return 'secondary';
-    case 'FOOD':
       return 'default';
+    case 'FOOD':
+      return 'secondary';
     default:
       return 'primary';
   }

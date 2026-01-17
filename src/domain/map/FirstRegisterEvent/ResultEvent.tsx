@@ -1,4 +1,5 @@
 import { useUserProfileQueryOption } from '@api/user/query';
+import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import router from 'next/router';
@@ -86,13 +87,19 @@ const STitleContainer = styled('div', {
 const STitle = styled('h1', {
   textAlign: 'center',
 
-  fontSize: '28px',
-  fontWeight: '700',
+  ...fontsObject.HEADING_3_28_B,
   lineHeight: '42px',
   letterSpacing: '-0.56px',
 
   '& span': {
     color: '$secondary',
+  },
+
+  mt: '$30',
+
+  '@mobile': {
+    mt: '$104',
+    ...fontsObject.HEADING_4_24_B,
   },
 });
 
