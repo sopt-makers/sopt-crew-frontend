@@ -1,7 +1,7 @@
 import { usePostSoptMapMutation, usePutSoptMapMutation } from '@api/map/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button, useToast } from '@sopt-makers/ui';
+import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -39,8 +39,6 @@ const RegisterForm = ({
   onFirstRegistered,
   edit: { isEdit = false, defaultValues = undefined, soptMapId = 0 } = {},
 }: RegisterFormProps) => {
-  const queryClient = useQueryClient();
-
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -48,8 +46,6 @@ const RegisterForm = ({
     defaultValues: defaultValues || emptyValues,
   });
   const { isValid, errors, isDirty } = formMethods.formState;
-
-  const { open } = useToast();
 
   const { mutate: mutateCreateMap } = usePostSoptMapMutation();
   const { mutate: mutateUpdateMap } = usePutSoptMapMutation(soptMapId);
@@ -62,12 +58,6 @@ const RegisterForm = ({
 
     mutateCreateMap(formData, {
       onSuccess: data => {
-        open({
-          icon: 'success',
-          content: '장소를 등록했습니다.',
-        });
-        queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
-
         if (data.firstRegistered) {
           onFirstRegistered?.(data.id);
           return;

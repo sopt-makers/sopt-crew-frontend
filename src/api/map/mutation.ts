@@ -1,4 +1,5 @@
 import { FormType } from '@domain/map/Form/type';
+import { useToast } from '@sopt-makers/ui';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
 import router from 'next/router';
@@ -10,10 +11,15 @@ import { visitMapCache } from './util';
 
 export const usePostSoptMapMutation = () => {
   const queryClient = useQueryClient();
+  const { open } = useToast();
 
   return useMutation({
     mutationFn: (formData: FormType) => postSoptMap(serializeSoptMapData(formData)),
     onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '장소를 등록했습니다.',
+      });
       queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
     },
     onError: () => {
@@ -24,12 +30,16 @@ export const usePostSoptMapMutation = () => {
 
 export const usePutSoptMapMutation = (soptMapId: number) => {
   const queryClient = useQueryClient();
+  const { open } = useToast();
 
   return useMutation({
     mutationFn: (formData: FormType) => putSoptMap(serializeSoptMapData(formData), soptMapId),
     onSuccess: () => {
+      open({
+        icon: 'success',
+        content: '장소를 수정했습니다.',
+      });
       queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
-      alert('장소를 수정했습니다.');
       router.push(`/map`);
     },
     onError: () => {
