@@ -21,7 +21,7 @@ export const useDeleteMapMutation = () => {
   return useMutation({
     mutationFn: (mapId: number) => deleteMap(mapId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: MapQueryKey.list() });
+      queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
     },
   });
 };

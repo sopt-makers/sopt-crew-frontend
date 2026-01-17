@@ -1,7 +1,9 @@
+import MapQueryKey from '@api/map/MapQueryKey';
 import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
@@ -19,6 +21,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const { mutate: deleteMap } = useDeleteMapMutation();
   const { mutate: recommendMap } = useRecommendMapMutation();
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
+  const queryClient = useQueryClient();
 
   const handleRecommendClick = (mapId: number) => {
     recommendMap(mapId);
@@ -55,6 +58,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
         approveButtonText: '삭제하기',
         onApprove: () => {
           if (!mapData?.id) {
+            queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
             close();
             return;
           }

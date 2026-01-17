@@ -1,7 +1,9 @@
+import MapQueryKey from '@api/map/MapQueryKey';
 import { usePostSoptMapMutation } from '@api/map/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fontsObject } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -16,6 +18,7 @@ interface RegisterFormProps {
   onFirstRegistered: (id?: number) => void;
 }
 const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
+  const queryClient = useQueryClient();
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -42,6 +45,7 @@ const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
     mutateCreateMap(formData, {
       onSuccess: data => {
         alert('장소를 등록했습니다.');
+        queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
 
         if (data.firstRegistered) {
           onFirstRegistered(data.id);
