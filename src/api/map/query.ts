@@ -1,3 +1,4 @@
+import { FormType } from '@domain/map/Form/type';
 import {
   useCategoriesParams,
   usePageParams,
@@ -5,10 +6,11 @@ import {
   useStationKeywordParams,
 } from '@hook/queryString/custom';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
-import { getMapEvent, getMapEventGift, getMapList, getSearchSubway } from '.';
+import { getMapDetail, getMapEvent, getMapEventGift, getMapList, getSearchSubway } from '.';
 import { SERVER_CATEGORY_MAP } from './constant';
+import { deserializeSoptMapData } from './deserialize';
 import MapQueryKey from './MapQueryKey';
-import { GetMapEvent, GetMapEventGift, GetMapList } from './type';
+import { GetMapDetail, GetMapEvent, GetMapEventGift, GetMapList } from './type';
 
 export const useSearchSubwayQueryOption = (query: string) => {
   return queryOptions({
@@ -86,5 +88,13 @@ export const useMapEventGiftQueryOption = (soptMapId: number) => {
   return queryOptions<GetMapEventGift['response']>({
     queryKey: MapQueryKey.eventGift(soptMapId),
     queryFn: () => getMapEventGift({ soptMapId }),
+  });
+};
+
+export const useMapDetailQueryOption = (soptMapId: number) => {
+  return queryOptions<GetMapDetail['response'], Error, FormType>({
+    queryKey: MapQueryKey.detail(soptMapId),
+    queryFn: () => getMapDetail({ soptMapId }),
+    select: res => deserializeSoptMapData(res),
   });
 };

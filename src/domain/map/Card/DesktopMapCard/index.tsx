@@ -8,11 +8,12 @@ import { getTagVariant } from '../util';
 
 interface DesktopMapCardProps {
   onDelete: () => void;
+  onEdit: () => void;
   onLinkClick: () => void;
   onRecommendClick: (mapId: number) => void;
   mapData?: mapData;
 }
-const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: DesktopMapCardProps) => {
+const DesktopMapCard = ({ onDelete, onEdit, onLinkClick, onRecommendClick, mapData }: DesktopMapCardProps) => {
   return (
     <SContainer>
       <SPlaceNum>{mapData?.id}</SPlaceNum>
@@ -67,7 +68,7 @@ const DesktopMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: De
               <Button size="sm" theme="black" rounded="lg" onClick={onDelete}>
                 삭제
               </Button>
-              <Button size="sm" rounded="lg">
+              <Button size="sm" rounded="lg" onClick={onEdit}>
                 수정
               </Button>
             </SEditButtonWrapper>

@@ -11,12 +11,13 @@ import { getTagVariant } from '../util';
 
 interface MobileMapCardProps {
   onDelete: () => void;
+  onEdit: () => void;
   onLinkClick: () => void;
   onRecommendClick: (mapId: number) => void;
   mapData?: mapData;
 }
 
-const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: MobileMapCardProps) => {
+const MobileMapCard = ({ onDelete, onEdit, onLinkClick, onRecommendClick, mapData }: MobileMapCardProps) => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const handleMoreClick = () => {
@@ -28,8 +29,8 @@ const MobileMapCard = ({ onDelete, onLinkClick, onRecommendClick, mapData }: Mob
   };
 
   const handleEdit = () => {
-    // TODO: 라우팅 처리
     setIsBottomSheetOpen(false);
+    onEdit();
   };
 
   const handleDelete = () => {

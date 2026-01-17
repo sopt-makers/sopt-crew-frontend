@@ -4,6 +4,7 @@ import { mapData } from '@api/map/type';
 import { useDisplay } from '@hook/useDisplay';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
+import router from 'next/router';
 import { useRef } from 'react';
 import { styled } from 'stitches.config';
 import LinkModalContent from '../Filter/Modal/LinkModalContent';
@@ -71,6 +72,10 @@ const MapCard = ({ mapData }: MapCardProps) => {
     open(dialogOption);
   };
 
+  const handleEdit = () => {
+    router.push(`/map/edit?id=${mapData.id}`);
+  };
+
   const handleLinkModalOpen = () => {
     const hasNaverLink = !!mapData?.naverLink;
     const hasKakaoLink = !!mapData?.kakaoLink;
@@ -104,6 +109,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
         <DesktopMapCard
           mapData={mapData}
           onDelete={handleDeleteModalOpen}
+          onEdit={handleEdit}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
         />
@@ -111,6 +117,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
         <MobileMapCard
           mapData={mapData}
           onDelete={handleDeleteModalOpen}
+          onEdit={handleEdit}
           onLinkClick={handleLinkModalOpen}
           onRecommendClick={handleRecommendClick}
         />

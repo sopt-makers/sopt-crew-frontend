@@ -1,9 +1,7 @@
-import MapQueryKey from '@api/map/MapQueryKey';
-import { usePostSoptMapMutation } from '@api/map/mutation';
+import { usePostSoptMapMutation, usePutSoptMapMutation } from '@api/map/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fontsObject } from '@sopt-makers/fonts';
-import { Button, useToast } from '@sopt-makers/ui';
-import { useQueryClient } from '@tanstack/react-query';
+import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
@@ -14,45 +12,54 @@ import NameField from './Form/NameField';
 import SubwayField from './Form/SubwayField';
 import { FormType, formSchema } from './Form/type';
 
+const emptyValues: FormType = {
+  name: '',
+  subwayStations: [],
+  description: '',
+  category: {
+    label: '',
+    value: '',
+  },
+  links: {
+    naverMapLink: '',
+    kakaoMapLink: '',
+  },
+};
+
 interface RegisterFormProps {
-  onFirstRegistered: (id?: number) => void;
+  onFirstRegistered?: (id?: number) => void;
+  edit?: {
+    isEdit?: boolean;
+    defaultValues?: FormType;
+    soptMapId?: number;
+  };
 }
-const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
-  const queryClient = useQueryClient();
-  const { open } = useToast();
+
+const RegisterForm = ({
+  onFirstRegistered,
+  edit: { isEdit = false, defaultValues = undefined, soptMapId = 0 } = {},
+}: RegisterFormProps) => {
   const formMethods = useForm<FormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      subwayStations: [],
-      description: '',
-      category: {
-        label: '',
-        value: '',
-      },
-      links: {
-        naverMapLink: '',
-        kakaoMapLink: '',
-      },
-    },
+    defaultValues: defaultValues || emptyValues,
   });
-  const { isValid, errors } = formMethods.formState;
+  const { isValid, errors, isDirty } = formMethods.formState;
 
   const { mutate: mutateCreateMap } = usePostSoptMapMutation();
+  const { mutate: mutateUpdateMap } = usePutSoptMapMutation(soptMapId);
 
   const onSubmit: SubmitHandler<FormType> = async formData => {
+    if (isEdit) {
+      mutateUpdateMap(formData);
+      return;
+    }
+
     mutateCreateMap(formData, {
       onSuccess: data => {
-        open({
-          icon: 'success',
-          content: '장소를 등록했습니다.',
-        });
-        queryClient.invalidateQueries({ queryKey: MapQueryKey.all() });
-
         if (data.firstRegistered) {
-          onFirstRegistered(data.id);
+          onFirstRegistered?.(data.id);
           return;
         }
 
@@ -62,7 +69,7 @@ const RegisterForm = ({ onFirstRegistered }: RegisterFormProps) => {
   };
 
   const handleSubmit = formMethods.handleSubmit(onSubmit);
-  const isSubmitDisabled = !isValid || Object.keys(errors).length > 0;
+  const isSubmitDisabled = !isValid || Object.keys(errors).length > 0 || !isDirty;
 
   return (
     <FormProvider {...formMethods}>
