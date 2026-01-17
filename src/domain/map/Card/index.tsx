@@ -17,6 +17,8 @@ interface MapCardProps {
   mapData: mapData;
 }
 
+const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
+
 const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
@@ -40,8 +42,8 @@ const MapCard = ({ mapData }: MapCardProps) => {
 
     let targetUrl = url;
 
-    if (!isMobile && targetUrl.startsWith('nmap://')) {
-      targetUrl = targetUrl.replace('nmap://', 'https://');
+    if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+      targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
     }
 
     window.open(targetUrl, '_blank');
