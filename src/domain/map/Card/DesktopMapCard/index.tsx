@@ -92,6 +92,7 @@ const SContainer = styled('div', {
 });
 
 const SPlaceNum = styled('p', {
+  width: '$26',
   ...fontsObject.BODY_3_14_M,
 });
 
