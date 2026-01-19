@@ -9,7 +9,7 @@ import { checkToken, refreshToken } from './interceptor';
 export type PromiseResponse<T> = { data: T; statusCode: number };
 export type Data<T> = PromiseResponse<T>;
 
-const baseURL = isProduction ? 'https://crew.api.prod.sopt.org' : 'https://crew.api.dev.sopt.org';
+const baseURL = isProduction ? 'https://crew.api.prod.sopt.org' : 'https://crew-dev.sopt.org';
 
 const authBaseURL = isProduction ? 'https://auth.api.sopt.org' : 'https://auth.api.dev.sopt.org';
 

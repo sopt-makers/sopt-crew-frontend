@@ -1,8 +1,8 @@
 import MapQueryKey from '@api/map/MapQueryKey';
 import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
-import { useDeviceType } from '@hook/useDeviceType';
 import { useDisplay } from '@hook/useDisplay';
+import { usePlatform } from '@hook/usePlatform';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import router from 'next/router';
@@ -24,7 +24,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const { open, close } = useDialog();
   const { mutate: deleteMap } = useDeleteMapMutation();
   const { mutate: recommendMap } = useRecommendMapMutation();
-  const { isMobile } = useDeviceType();
+  const { isMobileOS } = usePlatform();
 
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
   const queryClient = useQueryClient();
@@ -42,11 +42,15 @@ const MapCard = ({ mapData }: MapCardProps) => {
 
     let targetUrl = url;
 
-    if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+    if (!isMobileOS) {
       targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
+      window.open(targetUrl, '_blank');
+      return;
     }
 
-    window.open(targetUrl, '_blank');
+    if (isMobileOS) {
+      window.location.href = targetUrl;
+    }
   };
 
   const handleLinkMove = () => {
