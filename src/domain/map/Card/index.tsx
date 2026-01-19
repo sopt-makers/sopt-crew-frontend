@@ -40,13 +40,20 @@ const MapCard = ({ mapData }: MapCardProps) => {
   const handleOpenUrl = (url: string | undefined) => {
     if (!url) return;
 
+    // 임시 디버깅용
+    alert(`UA: ${navigator.userAgent}\nisMobile: ${isMobile}`);
+
     let targetUrl = url;
 
     if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
       targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
+      window.open(targetUrl, '_blank');
+      return;
     }
 
-    window.open(targetUrl, '_blank');
+    if (isMobile) {
+      window.location.href = targetUrl;
+    }
   };
 
   const handleLinkMove = () => {
