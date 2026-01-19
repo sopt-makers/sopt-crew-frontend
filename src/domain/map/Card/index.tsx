@@ -42,7 +42,7 @@ const MapCard = ({ mapData }: MapCardProps) => {
 
     let targetUrl = url;
 
-    if (!isMobileOS && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+    if (!isMobileOS) {
       targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
       window.open(targetUrl, '_blank');
       return;
