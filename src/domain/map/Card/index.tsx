@@ -17,7 +17,7 @@ interface MapCardProps {
   mapData: mapData;
 }
 
-const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
+// const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
 
 const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
@@ -38,22 +38,22 @@ const MapCard = ({ mapData }: MapCardProps) => {
   };
 
   const handleOpenUrl = (url: string | undefined) => {
-    if (!url) return;
+    // if (!url) return;
 
     // 임시 디버깅용
     alert(`UA: ${navigator.userAgent}\nisMobile: ${isMobile}`);
 
-    let targetUrl = url;
+    // let targetUrl = url;
 
-    if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
-      targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
-      window.open(targetUrl, '_blank');
-      return;
-    }
+    // if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+    //   targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
+    //   window.open(targetUrl, '_blank');
+    //   return;
+    // }
 
-    if (isMobile) {
-      window.location.href = targetUrl;
-    }
+    // if (isMobile) {
+    //   window.location.href = targetUrl;
+    // }
   };
 
   const handleLinkMove = () => {
@@ -142,6 +142,9 @@ const MapCard = ({ mapData }: MapCardProps) => {
           onRecommendClick={handleRecommendClick}
         />
       )}
+      {/* logging */}
+      <div>{'userAgent: ' + navigator.userAgent}</div>
+      <div>{'isMobile: ' + isMobile}</div>
     </CardWrapper>
   );
 };
