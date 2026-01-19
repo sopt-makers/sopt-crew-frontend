@@ -1,8 +1,8 @@
 import MapQueryKey from '@api/map/MapQueryKey';
 import { useDeleteMapMutation, useRecommendMapMutation } from '@api/map/mutation';
 import { mapData } from '@api/map/type';
-import { useDeviceType } from '@hook/useDeviceType';
 import { useDisplay } from '@hook/useDisplay';
+import { usePlatform } from '@hook/usePlatform';
 import { DialogOptionType, useDialog } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import router from 'next/router';
@@ -17,14 +17,14 @@ interface MapCardProps {
   mapData: mapData;
 }
 
-// const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
+const NAVER_MAP_APP_URL_PREFIX = 'nmap://';
 
 const MapCard = ({ mapData }: MapCardProps) => {
   const { isDesktop } = useDisplay();
   const { open, close } = useDialog();
   const { mutate: deleteMap } = useDeleteMapMutation();
   const { mutate: recommendMap } = useRecommendMapMutation();
-  const { isMobile } = useDeviceType();
+  const { isMobileOS } = usePlatform();
 
   const selectedLinkRef = useRef<MapLinkKey | null>(null);
   const queryClient = useQueryClient();
@@ -38,22 +38,19 @@ const MapCard = ({ mapData }: MapCardProps) => {
   };
 
   const handleOpenUrl = (url: string | undefined) => {
-    // if (!url) return;
+    if (!url) return;
 
-    // 임시 디버깅용
-    alert(`UA: ${navigator.userAgent}\nisMobile: ${isMobile}`);
+    let targetUrl = url;
 
-    // let targetUrl = url;
+    if (!isMobileOS && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
+      targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
+      window.open(targetUrl, '_blank');
+      return;
+    }
 
-    // if (!isMobile && targetUrl.startsWith(NAVER_MAP_APP_URL_PREFIX)) {
-    //   targetUrl = targetUrl.replace(NAVER_MAP_APP_URL_PREFIX, 'https://');
-    //   window.open(targetUrl, '_blank');
-    //   return;
-    // }
-
-    // if (isMobile) {
-    //   window.location.href = targetUrl;
-    // }
+    if (isMobileOS) {
+      window.location.href = targetUrl;
+    }
   };
 
   const handleLinkMove = () => {
@@ -142,9 +139,6 @@ const MapCard = ({ mapData }: MapCardProps) => {
           onRecommendClick={handleRecommendClick}
         />
       )}
-      {/* logging */}
-      <div>{'userAgent: ' + navigator.userAgent}</div>
-      <div>{'isMobile: ' + isMobile}</div>
     </CardWrapper>
   );
 };
