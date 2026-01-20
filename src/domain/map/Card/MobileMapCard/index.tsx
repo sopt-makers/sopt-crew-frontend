@@ -56,7 +56,7 @@ const MobileMapCard = ({ onDelete, onEdit, onLinkClick, onRecommendClick, mapDat
         </Flex>
         <SSubwayStation>{mapData?.subwayStationNames?.join(', ')}</SSubwayStation>
         <SInfoWrapper>
-          <p>{mapData?.creatorName}</p>
+          <SCreatorName>{mapData?.creatorName}</SCreatorName>
           <SSeparator>∙</SSeparator>
           <SDescription>{mapData?.description}</SDescription>
         </SInfoWrapper>
@@ -141,7 +141,6 @@ const SInfoWrapper = styled('div', {
   ...fontsObject.BODY_4_13_M,
 
   '& p': {
-    whiteSpace: 'nowrap',
     flexShrink: 0,
   },
 
@@ -156,20 +155,23 @@ const SInfoWrapper = styled('div', {
   },
 });
 
+const SCreatorName = styled('p', {
+  alignSelf: 'flex-start',
+});
+
 const SSeparator = styled('span', {
   color: '$gray300',
+  alignSelf: 'flex-start',
   flexShrink: 0,
 });
 
 const SDescription = styled('p', {
   color: '$gray300',
 
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-
   flex: 1,
   minWidth: 0,
+
+  wordBreak: 'break-all',
 });
 
 const SMoreButton = styled(IconDotsVertical, {

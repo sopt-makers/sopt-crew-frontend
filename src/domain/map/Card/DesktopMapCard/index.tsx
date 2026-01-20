@@ -49,7 +49,7 @@ const DesktopMapCard = ({ onDelete, onEdit, onLinkClick, onRecommendClick, mapDa
         <SDivider />
 
         <Flex align="center" justify="between">
-          <Flex align="center" css={{ gap: '8px', flex: 1, minWidth: 0 }}>
+          <Flex align="start" css={{ gap: '8px', flex: 1, minWidth: 0 }}>
             {mapData?.isCreator && (
               <Tag variant="default" size="md">
                 내가 등록한 장소
@@ -141,13 +141,12 @@ const SDivider = styled('div', {
 
 const SInfoWrapper = styled('div', {
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'start',
   gap: '2px',
   ...fontsObject.BODY_3_14_L,
   flex: 1,
   minWidth: 0,
   '& p': {
-    whiteSpace: 'nowrap',
     flexShrink: 0,
   },
 });
@@ -160,12 +159,10 @@ const SSeparator = styled('span', {
 const SDescription = styled('p', {
   color: '$gray300',
 
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-
   flex: 1,
   minWidth: 0,
+
+  wordBreak: 'break-all',
 });
 
 const SEditButtonWrapper = styled('div', {
