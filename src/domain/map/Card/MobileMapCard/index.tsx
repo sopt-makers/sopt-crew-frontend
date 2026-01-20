@@ -171,7 +171,7 @@ const SDescription = styled('p', {
   flex: 1,
   minWidth: 0,
 
-  wordBreak: 'break-word',
+  wordBreak: 'break-all',
 });
 
 const SMoreButton = styled(IconDotsVertical, {
