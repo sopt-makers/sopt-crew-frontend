@@ -3,6 +3,7 @@ import {
   GetPostListResponse,
   PostPostLikeResponse,
   PostPostResponse,
+  PostViewsResponse,
   PutPostResponse,
 } from '@api/post/type';
 import { FormCreateType, FormEditType } from '@shared/feed/Modal/feedSchema';
@@ -40,5 +41,10 @@ export const deleteComment = async (commentId: number) => {
 
 export const deletePost = async (postId: number) => {
   const { data } = await api.delete(`/post/v2/${postId}`);
+  return data;
+};
+
+export const postViews = async (postId: number) => {
+  const { data } = await api.post<PostViewsResponse>(`/post/v2/${postId}/views`);
   return data;
 };

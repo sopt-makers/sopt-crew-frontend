@@ -1,4 +1,4 @@
-import { authToken } from '@/stores/tokenStore';
+import { authToken } from '@/store/tokenStore';
 import { getUserProfile } from '@api/user';
 import Loader from '@common/loader/Loader';
 import { OverlayProvider } from '@hook/useOverlay/OverlayProvider';
@@ -142,11 +142,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 
 const Layout = styled('div', {
-  minHeight: '100vh',
   color: theme.colors.white,
   mx: '$auto',
   marginTop: '128px',
   width: '1200px',
+  height: '100%',
 
   '@laptop': {
     width: '790px',

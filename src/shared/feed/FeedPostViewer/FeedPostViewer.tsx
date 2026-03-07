@@ -23,6 +23,7 @@ dayjs.locale('ko');
 
 interface FeedPostViewerProps {
   post: paths['/post/v2/{postId}']['get']['responses']['200']['content']['application/json;charset=UTF-8'];
+  viewCount: number;
   Actions: React.ReactNode[];
   CommentLikeSection: React.ReactNode;
   CommentList: React.ReactNode;
@@ -33,6 +34,7 @@ interface FeedPostViewerProps {
 
 export default function FeedPostViewer({
   post,
+  viewCount,
   Actions,
   CommentLikeSection,
   CommentList,
@@ -115,7 +117,7 @@ export default function FeedPostViewer({
               )}
             </ImageSection>
           )}
-          <ViewCount>조회 {post.viewCount}회</ViewCount>
+          <ViewCount>조회 {viewCount}회</ViewCount>
         </ContentBody>
         <Link href={`/detail?id=${post.meeting.id}`} passHref legacyBehavior>
           <GroupButton>

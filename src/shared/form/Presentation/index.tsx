@@ -5,7 +5,6 @@ import ImageField from '@shared/form/Presentation/ImageField';
 import useImageHandler from '@shared/form/Presentation/ImageField/useImageHandler';
 import KeywordField from '@shared/form/Presentation/KeywordField';
 import LeaderDescriptionField from '@shared/form/Presentation/LeaderDescriptionField';
-import NoticeField from '@shared/form/Presentation/NoticeField';
 import SubmitPresentationButton from '@shared/form/Presentation/SubmitPresentationButton';
 import TargetField from '@shared/form/Presentation/TargetField';
 import TitleField from '@shared/form/Presentation/TitleField';
@@ -14,9 +13,7 @@ import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import React, { useRef } from 'react';
 import { styled } from 'stitches.config';
-import ActivityPeriodField from './ActivityPeriodField';
 import DescriptionField from './DescriptionField';
-import ProcessIntroductionField from './ProcessIntroductionField';
 interface PresentationProps {
   submitButtonLabel: React.ReactNode;
   cancelButtonLabel?: React.ReactNode;
@@ -44,46 +41,37 @@ function Presentation({
   return (
     <SForm onSubmit={onSubmit} ref={formRef}>
       <div>
-        <SFormSectionDivider>1. 모임 정보</SFormSectionDivider>
+        <SFormSectionDivider>1. 필수 정보</SFormSectionDivider>
         <SectionLine />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
+        <SFormSectionContainer>
           <TitleField />
           <CategoryField />
           <KeywordField />
           <ImageField onChangeFile={handleChangeFile} onDeleteFile={handleDeleteFile} onAddFiles={handleAddFiles} />
           <DescriptionField />
-        </div>
+          <ApplicationPeriodField />
+          <TargetField />
+        </SFormSectionContainer>
       </div>
+
       <div>
-        <SFormSectionDivider>2. 활동 정보</SFormSectionDivider>
+        <SFormSectionDivider>
+          2. 추가 정보
+          <SFormSectionDividerOptionText>(선택)</SFormSectionDividerOptionText>
+        </SFormSectionDivider>
         <SectionLine />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-          <ActivityPeriodField />
-          <ProcessIntroductionField />
-          <div>
-            <SFormSectionDivider>3. 모집 정보</SFormSectionDivider>
-            <SectionLine />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '52px' }}>
-              <ApplicationPeriodField />
-              <TargetField />
-            </div>
-          </div>
-          <div>
-            <SFormSectionDivider>4. 추가 정보</SFormSectionDivider>
-            <SectionLine />
-            <CoLeaderField />
-          </div>
+        <SFormSectionContainer>
+          <CoLeaderField />
           <LeaderDescriptionField />
           <WelcomeMessageField />
-          <NoticeField />
-        </div>
+        </SFormSectionContainer>
+        <SubmitPresentationButton
+          cancelButtonLabel={cancelButtonLabel}
+          submitButtonLabel={submitButtonLabel}
+          disabled={disabled}
+          formRef={formRef}
+        />
       </div>
-      <SubmitPresentationButton
-        cancelButtonLabel={cancelButtonLabel}
-        submitButtonLabel={submitButtonLabel}
-        disabled={disabled}
-        formRef={formRef}
-      />
     </SForm>
   );
 }
@@ -93,9 +81,9 @@ export default Presentation;
 const SForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '60px',
-  '@media (max-width: 768px)': {
-    gap: '56px',
+  gap: '120px',
+  '@media (max-width: 430px)': {
+    gap: '40px',
   },
 });
 
@@ -103,7 +91,31 @@ const SFormSectionDivider = styled('div', {
   ...fontsObject.HEADING_4_24_B,
   paddingBottom: '12px',
   display: 'flex',
+  gap: '8px',
   alignItems: 'center',
+
+  '@media (max-width: 768px)': {
+    ...fontsObject.HEADING_5_20_B,
+  },
+});
+
+const SFormSectionContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '60px',
+
+  '@media (max-width: 768px)': {
+    gap: '56px',
+  },
+});
+
+const SFormSectionDividerOptionText = styled('p', {
+  ...fontsObject.HEADING_4_24_B,
+  color: `${colors.gray400}`,
+
+  '@media (max-width: 768px)': {
+    ...fontsObject.HEADING_5_20_B,
+  },
 });
 
 const SectionLine = styled('div', {

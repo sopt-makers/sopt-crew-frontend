@@ -7,7 +7,12 @@ import { api } from '@api/index';
 import { useMeetingQueryOption } from '@api/meeting/query';
 import { PostCommentWithMentionRequest } from '@api/mention';
 import { useMutationPostCommentWithMention } from '@api/mention/mutation';
-import { useDeletePostMutation, usePostLikeMutation, useUpdatePostLikeMutation } from '@api/post/mutation';
+import {
+  useDeletePostMutation,
+  usePostLikeMutation,
+  usePostViewsMutation,
+  useUpdatePostLikeMutation,
+} from '@api/post/mutation';
 import { useGetPostDetailQueryOption, useGetPostListInfiniteQuery } from '@api/post/query';
 import { useUserProfileQueryOption } from '@api/user/query';
 import LikeButton from '@common/button/LikeButton';
@@ -58,6 +63,8 @@ export default function PostPage() {
     ampli.clickCommentLike({ crew_status: meeting?.approved });
     toggleCommentLike(commentId);
   };
+
+  const { mutate: mutatePostViews, data: viewCount } = usePostViewsMutation(query.id as string);
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: entries => {
@@ -182,8 +189,14 @@ export default function PostPage() {
     if (allMeetingPosts?.length !== 5) fetchNextPage();
   }, [hasNextPage, allMeetingPosts, fetchNextPage]);
 
+  useEffect(() => {
+    if (query.id) {
+      mutatePostViews();
+    }
+  }, [query.id, mutatePostViews]);
+
   // TODO: loading 스켈레톤 UI가 있으면 좋을 듯
-  if (!post) return <Loader />;
+  if (!post || !viewCount) return <Loader />;
 
   const isMine = post.user.id === me?.id;
 
@@ -191,6 +204,7 @@ export default function PostPage() {
     <Container>
       <FeedPostViewer
         post={post}
+        viewCount={viewCount.viewCount}
         Actions={FeedActionsContainer({
           postId: post.id,
           isMine: isMine,

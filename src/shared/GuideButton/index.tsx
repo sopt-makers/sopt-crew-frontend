@@ -1,15 +1,24 @@
-import { styled } from 'stitches.config';
 import ArrowRightCircleIcon from '@assets/svg/arrow_right_circle.svg';
+import { useDisplay } from '@hook/useDisplay';
+import { IconInfoCircle } from '@sopt-makers/icons';
+import { styled } from 'stitches.config';
 
 const GuideButton = () => {
+  const { isTablet } = useDisplay();
   return (
     <SGuideButton
       target="_blank"
       href="https://www.notion.so/sopt-makers/eec46a4562ec48f0b0220153bb6ea68e"
       rel="noreferrer noopener"
     >
-      모임 신청 가이드
-      <ArrowRightCircleIcon />
+      {isTablet ? (
+        <InfoIcon />
+      ) : (
+        <>
+          모임 신청 가이드
+          <ArrowRightCircleIcon />
+        </>
+      )}
     </SGuideButton>
   );
 };
@@ -32,5 +41,13 @@ const SGuideButton = styled('a', {
   },
   '@media (max-width: 320px)': {
     display: 'none',
+  },
+});
+
+const InfoIcon = styled(IconInfoCircle, {
+  width: '24px',
+  height: '24px',
+  '& path': {
+    stroke: '$gray100',
   },
 });

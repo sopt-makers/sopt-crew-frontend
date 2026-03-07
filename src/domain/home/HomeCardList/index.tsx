@@ -1,13 +1,15 @@
 import { usePropertyQueryOption } from '@api/property/hooks';
+import Loader from '@common/loader/Loader';
 import { isProduction } from '@constant/environment';
 import CardList from '@domain/home/HomeCardList/CardList';
-import { useQuery } from '@tanstack/react-query';
+import { Suspense } from '@suspensive/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { styled } from 'stitches.config';
 
 const HOME_PROPERTY_KEY = 'home';
 
 const HomeCardList = () => {
-  const { data: property } = useQuery(usePropertyQueryOption(HOME_PROPERTY_KEY));
+  const { data: property } = useSuspenseQuery(usePropertyQueryOption(HOME_PROPERTY_KEY));
 
   return (
     <SWrapper>
@@ -18,7 +20,13 @@ const HomeCardList = () => {
   );
 };
 
-export default HomeCardList;
+export default () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <HomeCardList />
+    </Suspense>
+  );
+};
 
 const SWrapper = styled('div', {
   position: 'relative',

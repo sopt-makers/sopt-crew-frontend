@@ -39,7 +39,7 @@ const Flash = () => {
   const onSubmit: SubmitHandler<FlashFormType> = async formData => {
     mutateCreateFlash(formData, {
       onSuccess: data => {
-        ampli.completedMakeGroup();
+        ampli.completedMakeGroup({ from_resume: false });
         router.push(`/detail/flash?id=${data.meetingId}`);
       },
     });

@@ -2,7 +2,7 @@ import PostQueryKey from '@api/post/PostQueryKey';
 import { GetPostDetailResponse, GetPostListResponse } from '@api/post/type';
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
-import { deletePost, postPostLike } from '.';
+import { deletePost, postPostLike, postViews } from '.';
 
 export const useDeletePostMutation = () => {
   const queryClient = useQueryClient();
@@ -84,5 +84,11 @@ export const usePostLikeMutation = (queryId: string) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: PostQueryKey.detail(+queryId) });
     },
+  });
+};
+
+export const usePostViewsMutation = (queryId: string) => {
+  return useMutation({
+    mutationFn: () => postViews(+queryId),
   });
 };

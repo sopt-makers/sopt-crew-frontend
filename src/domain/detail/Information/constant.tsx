@@ -48,7 +48,7 @@ export const MeetingDetailList = (detailData: GetMeeting['response']) => [
   {
     key: '진행 방식',
     Title: () => <STitle>진행 방식</STitle>,
-    Content: () => <SDescription>{parseTextToLink(detailData?.processDesc)}</SDescription>,
+    Content: () => <SDescription>{parseTextToLink(detailData?.processDesc ?? '')}</SDescription>,
     isValid: detailData?.processDesc,
   },
   {
@@ -77,7 +77,7 @@ export const MeetingDetailList = (detailData: GetMeeting['response']) => [
   {
     key: '유의사항',
     Title: () => <STitle>유의 사항</STitle>,
-    Content: () => <SDescription>{parseTextToLink(detailData?.note)}</SDescription>,
+    Content: () => <SDescription>{parseTextToLink(detailData?.note ?? '')}</SDescription>,
     isValid: detailData?.note,
   },
 ];
