@@ -50,8 +50,10 @@ const SLabelCheckboxWrapper = styled('div', {
 const STargetFieldWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$16',
-  marginBottom: '16px',
+  gap: '$12',
+  '@mobile': {
+    gap: '$16',
+  },
 });
 
 const STargetChipContainer = styled('div', {

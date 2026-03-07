@@ -1,9 +1,6 @@
-import CardSkeleton from '@domain/list/Card/Skeleton';
 import Filter from '@domain/list/Filter';
-import GridLayout from '@domain/list/Grid/Layout';
-import { MeetingListOfAll } from '@domain/list/Meeting/MeetingListOfAll';
+import MeetingListOfAll from '@domain/list/Meeting/MeetingListOfAll';
 import CrewTab from '@shared/CrewTab';
-import { SSRSafeSuspense } from '@shared/util/SSRSafeSuspense';
 import type { NextPage } from 'next';
 import { styled } from 'stitches.config';
 
@@ -25,17 +22,7 @@ const Home: NextPage = () => {
         </SFilterWrapper>
 
         {/*모임 목록들 - MeetingListOfAll : 내부적으로 쿼리 파라미터 이용하여 필터링 적용*/}
-        <SSRSafeSuspense
-          fallback={
-            <GridLayout mobileType="list">
-              {new Array(6).fill(null).map((_, index) => (
-                <CardSkeleton key={index} mobileType="list" />
-              ))}
-            </GridLayout>
-          }
-        >
-          <MeetingListOfAll />
-        </SSRSafeSuspense>
+        <MeetingListOfAll />
       </div>
       <FloatingButton />
     </>

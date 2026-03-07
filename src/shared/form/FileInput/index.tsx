@@ -1,10 +1,10 @@
-import { HTMLAttributes } from 'react';
-import { styled } from 'stitches.config';
-import HelpMessage from '../HelpMessage';
-import Label from '../Label';
 import PictureIcon from '@assets/svg/icon-interaction-plus.svg';
 import { ACCEPTED_IMAGE_TYPES } from '@type/form';
+import { HTMLAttributes } from 'react';
+import { styled } from 'stitches.config';
 import ErrorMessage from '../ErrorMessage';
+import HelpMessage from '../HelpMessage';
+import Label from '../Label';
 
 interface FileInputProps extends HTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -37,7 +37,7 @@ const SInputWrapper = styled('label', {
   alignItems: 'center',
   width: '100%',
   height: '100%',
-  maxHeight: '176px',
+  maxHeight: '178px',
   aspectRatio: '40 / 27',
   background: '$gray700',
   color: '$gray400',

@@ -51,16 +51,16 @@ function DropDownFilter({ filter, width }: DropDownFilterProps) {
 
     switch (subject) {
       case 'category':
-        ampli.applyMultiplefilter({ 'Applied-category': joined });
+        ampli.applyMultiplefilter({ 'Applied-category': joined, 'Applied-generation': false });
         break;
       case 'status':
-        ampli.applyMultiplefilter({ 'Applied-status': joined });
+        ampli.applyMultiplefilter({ 'Applied-status': joined, 'Applied-generation': false });
         break;
       case 'part':
-        ampli.applyMultiplefilter({ 'Applied-part': joined });
+        ampli.applyMultiplefilter({ 'Applied-part': joined, 'Applied-generation': false });
         break;
       case 'keyword':
-        ampli.applyMultiplefilter({ 'Applied-keyword': joined });
+        ampli.applyMultiplefilter({ 'Applied-keyword': joined, 'Applied-generation': false });
         break;
       case 'isOnlyActiveGeneration':
         ampli.applyMultiplefilter({ 'Applied-generation': joined === `${ACTIVE_GENERATION}기만` });

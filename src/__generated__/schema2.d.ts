@@ -49,17 +49,41 @@ export interface paths {
     /** 모임 게시글 댓글 삭제 */
     delete: operations["deleteComment"];
   };
+  "/api/v2/map/{soptMapId}": {
+    /** 솝맵 상세 조회 api */
+    get: operations["getSoptMapDetail"];
+    /** 솝맵 수정 api */
+    put: operations["updateSoptMap"];
+    /** 솝맵 삭제 api */
+    delete: operations["deleteSoptMap"];
+  };
+  "/api/v2/map/toggle/recommend/{soptMapId}": {
+    /** 솝맵 추천하기 api */
+    put: operations["recommendSoptMap"];
+  };
   "/user/v2/interestedKeywords": {
     /** 유저 관심 키워드 조회 */
     get: operations["getUserInterestedKeyword"];
     /** 유저 관심 키워드 설정 */
     post: operations["updateUserInterestedKeyword"];
   };
+  "/slack/emoji": {
+    /** 이모지 이벤트 생성 */
+    post: operations["addEmoji"];
+    /** 이모지 이벤트 삭제 */
+    delete: operations["deleteEmoji"];
+    /** 이모지 이벤트 업데이트 */
+    patch: operations["updateEmoji"];
+  };
   "/post/v2": {
     /** 모임 게시글 목록 조회 */
     get: operations["getPosts"];
     /** 모임 게시글 작성 */
     post: operations["createPost"];
+  };
+  "/post/v2/{postId}/views": {
+    /** 모임 게시글 조회수 증가 */
+    post: operations["addViewCount"];
   };
   "/post/v2/{postId}/report": {
     /** 모임 게시글 신고 */
@@ -136,6 +160,12 @@ export interface paths {
   "/auth/v2": {
     /** 로그인/회원가입 */
     post: operations["loginUser"];
+  };
+  "/api/v2/map": {
+    /** 솝맵 목록 조회/검색/필터링 api */
+    get: operations["getSoptMapList"];
+    /** 솝맵 등록 api */
+    post: operations["createSoptMap"];
   };
   "/user/v2": {
     /** 전체 사용자 조회 */
@@ -219,6 +249,13 @@ export interface paths {
      */
     get: operations["getMeetings_1"];
   };
+  "/internal/meetings/{userId}": {
+    /**
+     * [Internal] 모임 정보 조회
+     * @description 플그 요청에 따른 맴버에 따라 크루 모임 조회를 위한 api
+     */
+    get: operations["getAppliedMeetingInfo"];
+  };
   "/internal/meetings/post": {
     /**
      * [Internal] 모임 전체 조회
@@ -246,6 +283,18 @@ export interface paths {
      * @description 특정 유저의 승인된 스터디 수를 조회하는 API입니다.
      */
     get: operations["getApprovedStudyCountByOrgId"];
+  };
+  "/api/v2/map/search/subway": {
+    /** 지하철역 검색 api */
+    get: operations["findSubwayStations"];
+  };
+  "/api/v2/map/gift/{soptMapId}": {
+    /** 이벤트 선물 지급 여부 확인 */
+    get: operations["giftedSoptMap"];
+  };
+  "/api/v2/map/event/{soptMapId}": {
+    /** 이벤트 당첨 여부 확인 */
+    get: operations["eventSoptMap"];
   };
   "/advertisement/v2": {
     /**
@@ -361,17 +410,17 @@ export interface components {
        * @description 진행 방식 소개
        * @example 소요 시간 : 1시간 예상
        */
-      processDesc: string;
+      processDesc?: string;
       /**
        * @description 모임 활동 시작 날짜
        * @example 2022.10.29
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * @description 모임 활동 종료 날짜
        * @example 2022.10.30
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * @description 개설자 소개
        * @example 안녕하세요 기획 파트 000입니다
@@ -544,8 +593,66 @@ export interface components {
        */
       updateDate: string;
     };
+    SoptMapUpdateRequest: {
+      /**
+       * @description 장소 이름
+       * @example 온더플랜
+       */
+      placeName: string;
+      /**
+       * @description 주변 역 이름들
+       * @example [
+       *   "강남역",
+       *   "건대입구역"
+       * ]
+       */
+      stationNames: string[];
+      /**
+       * @description 한줄 소개
+       * @example 장소 너무 좋아요
+       */
+      description: string;
+      /**
+       * @description 장소 태그
+       * @example [
+       *   "FOOD",
+       *   "CAFE"
+       * ]
+       */
+      tags: ("FOOD" | "CAFE" | "ETC")[];
+      /**
+       * @description 네이버 지도 링크
+       * @example https://map~~~~
+       */
+      naverLink?: string;
+      /**
+       * @description 카카오맵 링크 태그
+       * @example https://map~~~~
+       */
+      kakaoLink?: string;
+    };
+    CreateSoptMapResponse: {
+      /** Format: int64 */
+      id?: number;
+      firstRegistered?: boolean;
+    };
+    ToggleSoptMapResponse: {
+      /** Format: int64 */
+      soptMapId?: number;
+      toggleStatus?: boolean;
+    };
     UpdateUserInterestKeywordRequestDto: {
       keywords?: string[];
+    };
+    SlackEmojiEventRequestDto: {
+      identifiedPwd?: string;
+      callEmoji?: string;
+      username?: string;
+      userSlackId?: string;
+      team?: string;
+      /** Format: int32 */
+      generation?: number;
+      templateCd?: string;
     };
     /** @description 게시물 생성 request body dto */
     PostV2CreatePostBodyDto: {
@@ -581,6 +688,15 @@ export interface components {
        * @example 1
        */
       postId: number;
+    };
+    /** @description 게시글 조회수 증가용 api 응답 Dto */
+    PostViewCountResponseDto: {
+      /**
+       * Format: int32
+       * @description 게시글 조회수
+       * @example 30
+       */
+      viewCount: number;
     };
     /** @description 게시글 신고 응답 Dto */
     PostV2ReportResponseDto: {
@@ -807,6 +923,49 @@ export interface components {
        * @example 1
        */
       userId: number;
+    };
+    CreateSoptMapRequest: {
+      /**
+       * @description 장소 이름
+       * @example 온더플랜
+       */
+      placeName: string;
+      /**
+       * @description 주변 역 이름들
+       * @example [
+       *   "강남역",
+       *   "건대입구역"
+       * ]
+       */
+      stationNames: string[];
+      /**
+       * @description 한줄 소개
+       * @example 장소 너무 좋아요
+       */
+      description: string;
+      /**
+       * @description 장소 태그
+       * @example [
+       *   "FOOD",
+       *   "CAFE"
+       * ]
+       */
+      tags: ("FOOD" | "CAFE" | "ETC")[];
+      /**
+       * @description 네이버 지도 링크
+       * @example https://map~~~~
+       */
+      naverLink?: string;
+      /**
+       * @description 카카오맵 링크 태그
+       * @example https://map~~~~
+       */
+      kakaoLink?: string;
+    };
+    SlackUpdateEmojiEventRequestDto: {
+      identifiedPwd?: string;
+      originalCallEmoji?: string;
+      updateCallEmoji?: string;
     };
     /** @description 전체 사용자 조회 응답 Dto */
     UserV2GetAllUserDto: {
@@ -1450,12 +1609,12 @@ export interface components {
        * Format: date-time
        * @description 모임 활동 시작일
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료일
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * Format: int32
        * @description 모집 인원
@@ -1649,17 +1808,17 @@ export interface components {
        * @description 진행방식 소개
        * @example 진행방식 설명입니다.
        */
-      processDesc: string;
+      processDesc?: string;
       /**
        * Format: date-time
        * @description 모임 활동 시작 시간
        */
-      mStartDate: string;
+      mStartDate?: string;
       /**
        * Format: date-time
        * @description 모임 활동 종료 시간
        */
-      mEndDate: string;
+      mEndDate?: string;
       /**
        * @description 개설자 소개
        * @example 개설자 소개 입니다.
@@ -1669,7 +1828,7 @@ export interface components {
        * @description 유의사항
        * @example 유의사항입니다.
        */
-      note: string;
+      note?: string;
       /**
        * @description 멘토 필요 여부
        * @example true
@@ -2103,6 +2262,16 @@ export interface components {
        * @example 5
        */
       meetingId: number;
+      /**
+       * @description 피드와 연결된 모임 제목
+       * @example 어서와요
+       */
+      meetingTitle: string;
+      /**
+       * @description 해당 피드와 연결된 모임 category
+       * @example 스터디
+       */
+      category?: string;
     };
     /** @description 피드 작성자 객체 */
     InternalPostWriterDetailInfoDto: {
@@ -2180,6 +2349,41 @@ export interface components {
        * @example false
        */
       isBlockedMeeting?: boolean;
+    };
+    InternalUserAppliedMeetingResponseDto: {
+      userAppliedMeetings?: components["schemas"]["UserAppliedMeetingDto"][];
+    };
+    UserAppliedMeetingDto: {
+      /**
+       * Format: int32
+       * @description 모임id
+       * @example 13
+       */
+      meetingId?: number;
+      /**
+       * @description 모임 분류, [스터디 or 행사 or 세미나 or 번쩍 or 강연]
+       * @example 스터디
+       */
+      meetingCategory?: string;
+      /**
+       * @description 모임 제목
+       * @example 오늘 21시 강남 스터디
+       */
+      meetingTitle?: string;
+      /**
+       * Format: date-time
+       * @description 모임 시작 기간
+       */
+      mStartTime?: string;
+      /**
+       * Format: date-time
+       * @description 모임 종료 기간
+       */
+      mEndTime?: string;
+      /** @description 스장 여부 (공동 스장도 true입니다) */
+      isLeader?: boolean;
+      /** @description 모임 이미지 url */
+      imgUrl?: string;
     };
     /** @description [Internal] 모임 피드 작성시 모임 전체 조회 응답 Dto */
     InternalMeetingForWritingPostDto: {
@@ -2472,6 +2676,167 @@ export interface components {
        */
       isBlockedComment: boolean;
     };
+    /** @description 솝맵 목록 조회 응답 Dto */
+    SoptMapGetAllDto: {
+      /** @description 솝맵 목록 */
+      soptMaps: components["schemas"]["SoptMapListResponseDto"][];
+      meta: components["schemas"]["PageMetaDto"];
+    };
+    /** @description 솝맵 목록 */
+    SoptMapListResponseDto: {
+      /**
+       * Format: int64
+       * @description 솝맵 ID
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description 장소 이름
+       * @example 온더플랜
+       */
+      placeName?: string;
+      /**
+       * @description 한줄 소개
+       * @example 장소 너무 좋아요
+       */
+      description?: string;
+      /**
+       * @description 장소 태그
+       * @example [
+       *   "FOOD",
+       *   "CAFE"
+       * ]
+       */
+      mapTags?: ("FOOD" | "CAFE" | "ETC")[];
+      /**
+       * @description 주변 지하철역 이름
+       * @example [
+       *   "강남역",
+       *   "건대입구역"
+       * ]
+       */
+      subwayStationNames?: string[];
+      /**
+       * Format: int64
+       * @description 추천 수
+       * @example 5
+       */
+      recommendCount?: number;
+      /**
+       * @description 현재 유저의 추천 여부
+       * @example true
+       */
+      isRecommended?: boolean;
+      /**
+       * @description kakao 맵 링크
+       * @example https://~~~
+       */
+      kakaoLink?: string;
+      /**
+       * @description naver 맵 링크
+       * @example https://~~~
+       */
+      naverLink?: string;
+      /**
+       * @description 장소 등록한 사람의 이름
+       * @example 김효준
+       */
+      creatorName?: string;
+      /**
+       * @description 내가 등록했는지
+       * @example false
+       */
+      isCreator?: boolean;
+    };
+    /** @description 솝맵 상세조회 응답 Dto */
+    SoptMapDetailResponseDto: {
+      /**
+       * Format: int64
+       * @description 솝맵 ID
+       * @example 1
+       */
+      id?: number;
+      /**
+       * @description 장소 이름
+       * @example 온더플랜
+       */
+      placeName?: string;
+      /**
+       * @description 한줄 소개
+       * @example 장소 너무 좋아요
+       */
+      description?: string;
+      /**
+       * @description 장소 태그
+       * @example [
+       *   "FOOD",
+       *   "CAFE"
+       * ]
+       */
+      tags?: ("FOOD" | "CAFE" | "ETC")[];
+      /**
+       * @description 주변 지하철역 이름
+       * @example [
+       *   "강남역",
+       *   "건대입구역"
+       * ]
+       */
+      stationNames?: string[];
+      /**
+       * Format: int64
+       * @description 추천 수
+       * @example 5
+       */
+      recommendCount?: number;
+      /**
+       * @description 현재 유저의 추천 여부
+       * @example true
+       */
+      isRecommended?: boolean;
+      /**
+       * @description kakao 맵 링크
+       * @example https://~~~
+       */
+      kakaoLink?: string;
+      /**
+       * @description naver 맵 링크
+       * @example https://~~~
+       */
+      naverLink?: string;
+      /**
+       * @description 장소 등록한 사람의 이름
+       * @example 김효준
+       */
+      creatorName?: string;
+      /**
+       * @description 내가 등록했는지
+       * @example false
+       */
+      isCreator?: boolean;
+    };
+    SearchSubwayStationResponse: {
+      stations?: components["schemas"]["SubwayStationDto"][];
+    };
+    SubwayStationDto: {
+      /**
+       * @description 지하철역
+       * @example 강남역
+       */
+      name?: string;
+      /**
+       * @description 호선
+       * @example [1호선, 2호선]
+       */
+      subwayLines?: string[];
+    };
+    SoptMapGiftResponse: {
+      /** Format: int64 */
+      giftId?: number;
+      giftUrl?: string;
+    };
+    SoptMapEventResponse: {
+      isWinLottery?: boolean;
+    };
     /** @description 광고 구좌 이미지 Dto */
     AdvertisementGetDto: {
       /**
@@ -2505,6 +2870,10 @@ export interface components {
     AdvertisementsGetResponseDto: {
       /** @description 광고 구좌 이미지 리스트 */
       advertisements: components["schemas"]["AdvertisementGetDto"][];
+    };
+    SlackEmojiEventDeleteRequestDto: {
+      identifiedPwd?: string;
+      callEmoji?: string;
     };
   };
   responses: never;
@@ -2723,6 +3092,97 @@ export interface operations {
       204: never;
     };
   };
+  /** 솝맵 상세 조회 api */
+  getSoptMapDetail: {
+    parameters: {
+      path: {
+        /**
+         * @description 솝맵 ID
+         * @example 1
+         */
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapDetailResponseDto"];
+        };
+      };
+      /** @description 솝맵을 찾을 수 없음 */
+      404: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapDetailResponseDto"];
+        };
+      };
+    };
+  };
+  /** 솝맵 수정 api */
+  updateSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SoptMapUpdateRequest"];
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["CreateSoptMapResponse"];
+        };
+      };
+      /** @description 권한 없음 */
+      403: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["CreateSoptMapResponse"];
+        };
+      };
+      /** @description 솝맵을 찾을 수 없음 */
+      404: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["CreateSoptMapResponse"];
+        };
+      };
+    };
+  };
+  /** 솝맵 삭제 api */
+  deleteSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      204: never;
+      /** @description 권한 없음 */
+      403: never;
+      /** @description 솝맵을 찾을 수 없음 */
+      404: never;
+    };
+  };
+  /** 솝맵 추천하기 api */
+  recommendSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["ToggleSoptMapResponse"];
+        };
+      };
+    };
+  };
   /** 유저 관심 키워드 조회 */
   getUserInterestedKeyword: {
     responses: {
@@ -2744,6 +3204,54 @@ export interface operations {
     responses: {
       /** @description 성공 */
       200: never;
+    };
+  };
+  /** 이모지 이벤트 생성 */
+  addEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackEmojiEventRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
+    };
+  };
+  /** 이모지 이벤트 삭제 */
+  deleteEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackEmojiEventDeleteRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
+    };
+  };
+  /** 이모지 이벤트 업데이트 */
+  updateEmoji: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["SlackUpdateEmojiEventRequestDto"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": string;
+        };
+      };
     };
   };
   /** 모임 게시글 목록 조회 */
@@ -2796,6 +3304,22 @@ export interface operations {
       400: never;
       /** @description 권한이 없습니다. */
       403: never;
+    };
+  };
+  /** 모임 게시글 조회수 증가 */
+  addViewCount: {
+    parameters: {
+      path: {
+        postId: number;
+      };
+    };
+    responses: {
+      /** @description 성공, 응답 : 조회수 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["PostViewCountResponseDto"];
+        };
+      };
     };
   };
   /** 모임 게시글 신고 */
@@ -3173,6 +3697,62 @@ export interface operations {
       500: never;
     };
   };
+  /** 솝맵 목록 조회/검색/필터링 api */
+  getSoptMapList: {
+    parameters: {
+      query?: {
+        /**
+         * @description 필터링할 카테고리 (null: 전체)
+         * @example FOOD, CAFE
+         */
+        categories?: ("FOOD" | "CAFE" | "ETC")[];
+        /**
+         * @description 정렬 타입
+         * @example LATEST
+         */
+        sortType?: "LATEST" | "POPULAR";
+        /**
+         * @description 지하철역 검색어 (유사도 기반)
+         * @example 강남
+         */
+        stationKeyword?: string;
+        /**
+         * @description 페이지 번호 (1부터 시작)
+         * @example 1
+         */
+        page?: number;
+        /**
+         * @description 가져올 데이터 개수
+         * @example 10
+         */
+        take?: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapGetAllDto"];
+        };
+      };
+    };
+  };
+  /** 솝맵 등록 api */
+  createSoptMap: {
+    requestBody: {
+      content: {
+        "application/json;charset=UTF-8": components["schemas"]["CreateSoptMapRequest"];
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["CreateSoptMapResponse"];
+        };
+      };
+    };
+  };
   /** 전체 사용자 조회 */
   getAllUser: {
     responses: {
@@ -3505,6 +4085,29 @@ export interface operations {
     };
   };
   /**
+   * [Internal] 모임 정보 조회
+   * @description 플그 요청에 따른 맴버에 따라 크루 모임 조회를 위한 api
+   */
+  getAppliedMeetingInfo: {
+    parameters: {
+      path: {
+        /**
+         * @description 찾고자 하는 userId
+         * @example 10
+         */
+        userId: number;
+      };
+    };
+    responses: {
+      /** @description 모임 목록 조회 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["InternalUserAppliedMeetingResponseDto"];
+        };
+      };
+    };
+  };
+  /**
    * [Internal] 모임 전체 조회
    * @description 플그 피드 작성시 크루 모임 전체 조회를 위한 api
    */
@@ -3615,6 +4218,66 @@ export interface operations {
       404: {
         content: {
           "application/json": unknown;
+        };
+      };
+    };
+  };
+  /** 지하철역 검색 api */
+  findSubwayStations: {
+    parameters: {
+      query?: {
+        keyword?: string;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SearchSubwayStationResponse"];
+        };
+      };
+      /** @description 권한 없음 */
+      403: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SearchSubwayStationResponse"];
+        };
+      };
+      /** @description 솝맵을 찾을 수 없음 */
+      404: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SearchSubwayStationResponse"];
+        };
+      };
+    };
+  };
+  /** 이벤트 선물 지급 여부 확인 */
+  giftedSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapGiftResponse"];
+        };
+      };
+    };
+  };
+  /** 이벤트 당첨 여부 확인 */
+  eventSoptMap: {
+    parameters: {
+      path: {
+        soptMapId: number;
+      };
+    };
+    responses: {
+      /** @description 성공 */
+      200: {
+        content: {
+          "application/json;charset=UTF-8": components["schemas"]["SoptMapEventResponse"];
         };
       };
     };

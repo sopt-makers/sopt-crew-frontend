@@ -1,8 +1,9 @@
+import { useDisplay } from '@hook/useDisplay';
 import { colors } from '@sopt-makers/colors';
 import { fontsObject } from '@sopt-makers/fonts';
 import { keyframes, styled } from '@stitches/react';
 import DefaultProfile from 'public/assets/svg/mention_profile_default.svg';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 
 interface mentionableDataType {
@@ -35,6 +36,7 @@ const SearchMention = ({
   onClick,
   onUserSelect,
 }: SearchMentionProps) => {
+  const { isMobile } = useDisplay();
   const handleUserClick = useCallback(
     (user: mentionableDataType) => {
       onUserSelect(user);
@@ -52,15 +54,6 @@ const SearchMention = ({
     const shuffled = users.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 30);
   };
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      setIsMobile(true);
-    }
-  }, []);
 
   const getFilteredAndRandomUsers = (searchTerm: string, users: mentionableDataType[]) => {
     const filteredUsers = filterUsersBySearchTerm(searchTerm, users);
@@ -111,12 +104,6 @@ const SearchMention = ({
     },
     [handleUserClick]
   );
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef]);
 
   return (
     <MentionsInput
@@ -191,7 +178,6 @@ const FeedModalMentionStyle = {
       //요 부분이 textArea!
       color: colors.gray50,
       innerHeight: '0',
-      borderRadius: '10px',
       border: 'none',
       padding: '0',
       margin: '0',
@@ -240,17 +226,11 @@ const fadeIn = keyframes({
   '100%': { opacity: 1, transform: 'translateY(10px)' },
 });
 
-// 위로 올라가는 애니메이션
-const fadeInUp = keyframes({
-  '0%': { opacity: 0, transform: 'translateY(0px)' },
-  '100%': { opacity: 1, transform: 'translateY(-10px)' },
-});
-
 const SCustomSuggestionsContainer = styled('div', {
   borderRadius: '13px',
   boxSizing: 'border-box',
-  width: '170px',
-  height: '230px',
+  width: '210px',
+  height: '202px',
   padding: '8px',
   background: '#17181c',
   position: 'absolute',
@@ -260,44 +240,22 @@ const SCustomSuggestionsContainer = styled('div', {
 
   animation: `${fadeIn} 0.5s forwards`,
 
-  maxHeight: '230px',
-
   overflowY: 'scroll',
   overflowX: 'hidden',
 
   // 스크롤 스타일
-  '&::-webkit-scrollbar': {
-    width: '4px',
-  },
   '&::-webkit-scrollbar-thumb': {
     backgroundColor: colors.gray600,
-    borderRadius: '10px',
+    backgroundClip: 'padding-box',
+    border: '2px solid transparent',
+    borderTopWidth: '3px',
+    borderBottomWidth: '3px',
+    boxShadow: `inset -3px 0 0 #17181c`,
+    borderRadius: '16px',
   },
+
   '&::-webkit-scrollbar-track': {
     backgroundColor: 'transparent',
-  },
-
-  '@media (max-width: 768px)': {
-    position: 'absolute',
-    left: '0',
-    bottom: '120px',
-    maxHeight: '418px',
-    border: 'none',
-    borderRadius: '20px',
-  },
-
-  //@mobile alias 사용 불가 (react-mention 에서 렌더링하기 때문)
-  '@media (max-width: 414px)': {
-    position: 'fixed',
-    top: 'unset', //부모 요소 - transform, perspective, fixed 일 경우 필요
-    bottom: '66px', //8 + 48 + 10
-    left: '0',
-    right: '0',
-    width: '328px',
-    maxHeight: '210px',
-    margin: '0 auto',
-
-    animation: `${fadeInUp} 0.5s forwards`,
   },
 });
 
@@ -309,14 +267,10 @@ const SRenderSuggestion = styled('button', {
   display: 'flex',
   alignItems: 'center',
   borderRadius: '8px',
-  marginBottom: '6px',
   ...fontsObject.BODY_2_16_M,
   color: colors.gray10,
   '& > div > p': {
     ...fontsObject.BODY_4_13_R,
     color: colors.gray100,
-  },
-  '@media (max-width: 768px)': {
-    padding: '16px 12px',
   },
 });

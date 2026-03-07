@@ -1,4 +1,4 @@
-import { authToken } from '@/stores/tokenStore';
+import { authToken } from '@/store/tokenStore';
 import { validateAuthToken } from '@api/auth';
 import { playgroundLink } from '@sopt-makers/playground-common';
 
