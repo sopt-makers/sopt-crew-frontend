@@ -1,8 +1,8 @@
+import { paths } from '@/__generated__/schema2';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
 import { styled } from 'stitches.config';
 import NextArrow from './NextArrow';
-import 'slick-carousel/slick/slick.css';
-import { paths } from '@/__generated__/schema2';
 
 interface CarouselProps {
   imageList: paths['/meeting/v2/{meetingId}']['get']['responses']['200']['content']['application/json;charset=UTF-8']['imageURL'];
@@ -45,11 +45,17 @@ const SCarousel = styled('div', {
     mt: '$60',
     mb: '$80',
 
+    '@tablet': {
+      mt: '$0',
+      mb: '$32',
+      display: 'block',
+    },
+
     '@mobile': {
       mt: '0',
       mb: '$32',
       width: 'calc(100% + 40px)',
-      height: '$256',
+      height: '$246',
       marginLeft: '-20px',
       display: 'block',
     },
@@ -72,11 +78,37 @@ const SCarousel = styled('div', {
 
   '.slick-prev': {
     mr: '94px',
+
+    svg: {
+      width: '72px',
+      height: '72px',
+    },
+
+    '@laptop': {
+      mr: '0',
+    },
+
+    '@tablet': {
+      display: 'none',
+    },
   },
 
   '.slick-next': {
     transform: 'rotate(180deg)',
     ml: '93px',
+
+    svg: {
+      width: '72px',
+      height: '72px',
+    },
+
+    '@laptop': {
+      ml: '0',
+    },
+
+    '@tablet': {
+      display: 'none',
+    },
   },
 
   '.slick-dots': {
@@ -133,8 +165,13 @@ const SImageWrapper = styled('div', {
     height: '$594',
     margin: '0 auto',
 
+    '@laptop': {
+      height: 'auto',
+      aspectRatio: '760/520',
+    },
+
     '@mobile': {
-      height: '$256',
+      height: '246px',
     },
   },
 });
