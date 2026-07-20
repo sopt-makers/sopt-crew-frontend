@@ -15,18 +15,18 @@ export const useDeletePostMutation = () => {
   });
 };
 
-export const useUpdatePostLikeMutation = (take: number, meetingId?: number) => {
+export const useUpdatePostLikeMutation = (meetingId?: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (postId: number) => postPostLike(postId),
     onMutate: async postId => {
-      await queryClient.cancelQueries({ queryKey: PostQueryKey.list(take, meetingId) });
+      await queryClient.cancelQueries({ queryKey: PostQueryKey.list(meetingId) });
 
-      const previousPosts = queryClient.getQueryData(PostQueryKey.list(take, meetingId));
+      const previousPosts = queryClient.getQueryData(PostQueryKey.list(meetingId));
 
       queryClient.setQueryData<InfiniteData<{ posts: GetPostListResponse['posts'] }>>(
-        PostQueryKey.list(take, meetingId),
+        PostQueryKey.list(meetingId),
         oldData => {
           const newData = produce(oldData, draft => {
             draft?.pages.forEach(page => {
@@ -44,7 +44,7 @@ export const useUpdatePostLikeMutation = (take: number, meetingId?: number) => {
       return { previousPosts };
     },
     onError: (err, _, context) => {
-      queryClient.setQueryData(PostQueryKey.list(take, meetingId), context?.previousPosts);
+      queryClient.setQueryData(PostQueryKey.list(meetingId), context?.previousPosts);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PostQueryKey.all() });

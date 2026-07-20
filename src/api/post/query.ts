@@ -1,10 +1,10 @@
 import PostQueryKey from '@api/post/PostQueryKey';
-import { queryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { getPostDetail, getPostList } from '.';
 
-export const useGetPostListInfiniteQuery = (take: number, meetingId?: number, enabled?: boolean) => {
-  return useInfiniteQuery({
-    queryKey: PostQueryKey.list(take, meetingId),
+export const useGetPostListInfiniteQuery = (take: number, meetingId?: number) => {
+  return useSuspenseInfiniteQuery({
+    queryKey: PostQueryKey.infiniteList(take, meetingId),
     initialPageParam: 1,
     queryFn: ({ pageParam }) => getPostList(pageParam, take, meetingId),
     getNextPageParam: (lastPage, allPages) => {
@@ -14,7 +14,6 @@ export const useGetPostListInfiniteQuery = (take: number, meetingId?: number, en
       }
       return allPages.length + 1;
     },
-    enabled: enabled,
     select: data => {
       return {
         pages: data.pages.flatMap(page => page?.posts),
@@ -22,6 +21,14 @@ export const useGetPostListInfiniteQuery = (take: number, meetingId?: number, en
         total: data.pages[0]?.meta.itemCount,
       };
     },
+  });
+};
+
+export const useGetPostListQueryOption = (page: number, take: number, meetingId?: number) => {
+  return queryOptions({
+    queryKey: PostQueryKey.list(meetingId),
+    queryFn: () => getPostList(page, take, meetingId),
+    enabled: !!meetingId,
   });
 };
 
